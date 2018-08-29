@@ -61,6 +61,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Fee\Script\Deleter\Config.cs" />
+    <Compile Include="Assets\Fee\Script\Deleter\Deleter.cs" />
+    <Compile Include="Assets\Fee\Script\Deleter\Item_Base.cs" />
+    <Compile Include="Assets\Fee\Script\Deleter\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Config.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\InputField2D.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\InputField2D_Param.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\InputField2D_Rect.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\LayerItem.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\LayerList.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\MaterialList.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\MonoBehaviour_Camera_GL.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\MonoBehaviour_Camera_UI.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\MonoBehaviour_PreDraw.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Pos2D.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Rect2D.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Render2D.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Screen.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Size2D.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Sprite2D.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Sprite2D_Param.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Sprite2D_Rect.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Sprite2D_Rotate.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\State2D.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Text2D.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Text2D_Param.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Text2D_Rect.cs" />
+    <Compile Include="Assets\Fee\Script\Render2D\Tool.cs" />
     <Compile Include="Assets\TestScript\main.cs" />
     <Compile Include="Assets\TestScript\test01.cs" />
     <Compile Include="Assets\TestScript\test02.cs" />
@@ -72,6 +100,11 @@
     <Compile Include="Assets\TestScript\test08.cs" />
     <Compile Include="Assets\TestScript\test09.cs" />
     <Compile Include="Assets\TestScript\test10.cs" />
+    <None Include="Assets\Fee\Resources\Shader\Render2D\Text.shader" />
+    <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha_Clip.shader" />
+    <None Include="Assets\Fee\Resources\Shader\Render2D\Normal.shader" />
+    <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha.shader" />
+    <None Include="Assets\Fee\Resources\Shader\Render2D\Add.shader" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/work/github/fee/fee/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
