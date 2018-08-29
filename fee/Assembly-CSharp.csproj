@@ -65,6 +65,17 @@
     <Compile Include="Assets\Fee\Script\Deleter\Deleter.cs" />
     <Compile Include="Assets\Fee\Script\Deleter\Item_Base.cs" />
     <Compile Include="Assets\Fee\Script\Deleter\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\JsonItem\Config.cs" />
+    <Compile Include="Assets\Fee\Script\JsonItem\FromJson.cs" />
+    <Compile Include="Assets\Fee\Script\JsonItem\FromJson_ToSystemObject.cs" />
+    <Compile Include="Assets\Fee\Script\JsonItem\FromJson_Work.cs" />
+    <Compile Include="Assets\Fee\Script\JsonItem\Impl.cs" />
+    <Compile Include="Assets\Fee\Script\JsonItem\JsonItem.cs" />
+    <Compile Include="Assets\Fee\Script\JsonItem\ToJson.cs" />
+    <Compile Include="Assets\Fee\Script\JsonItem\ToJson_Work.cs" />
+    <Compile Include="Assets\Fee\Script\JsonItem\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\JsonItem\Value.cs" />
+    <Compile Include="Assets\Fee\Script\JsonItem\ValueType.cs" />
     <Compile Include="Assets\Fee\Script\Render2D\Config.cs" />
     <Compile Include="Assets\Fee\Script\Render2D\InputField2D.cs" />
     <Compile Include="Assets\Fee\Script\Render2D\InputField2D_Param.cs" />
