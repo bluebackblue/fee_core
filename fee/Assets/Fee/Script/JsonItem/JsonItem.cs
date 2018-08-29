@@ -70,9 +70,16 @@ namespace NJsonItem
 
 		/** constructor
 		*/
-		public JsonItem(Value_Integer a_value)
+		public JsonItem(Value_Int a_value)
 		{
-			this.SetInteger(a_value.value);
+			this.SetInt(a_value.value);
+		}
+
+		/** constructor
+		*/
+		public JsonItem(Value_Long a_value)
+		{
+			this.SetLong(a_value.value);
 		}
 
 		/** constructor
@@ -80,6 +87,13 @@ namespace NJsonItem
 		public JsonItem(Value_Float a_value)
 		{
 			this.SetFloat(a_value.value);
+		}
+
+		/** constructor
+		*/
+		public JsonItem(Value_Double a_value)
+		{
+			this.SetDouble(a_value.value);
 		}
 
 		/** constructor
@@ -116,7 +130,7 @@ namespace NJsonItem
 				case ValueType.IndexArray:
 				case ValueType.BinaryData:
 				case ValueType.IntegerNumber:
-				case ValueType.FloatNumber:
+				case ValueType.FloatingNumber:
 					{
 						this.jsonstring = a_jsonstring;
 						this.valuetype = t_valuetype;
@@ -132,7 +146,7 @@ namespace NJsonItem
 							return;
 						}else{
 							this.jsonstring = a_jsonstring;
-							this.valuetype = ValueType.FloatNumber;
+							this.valuetype = ValueType.FloatingNumber;
 							this.value.Reset();
 							return;
 						}
@@ -244,9 +258,9 @@ namespace NJsonItem
 						this.value.integer_number = long.Parse(t_jsonstring_temp);
 						return;
 					}//break;
-				case ValueType.FloatNumber:
+				case ValueType.FloatingNumber:
 					{
-						this.value.float_number = float.Parse(t_jsonstring_temp);
+						this.value.floating_number = double.Parse(t_jsonstring_temp);
 						return;
 					}//break;
 				case ValueType.IndexArray:
@@ -319,7 +333,7 @@ namespace NJsonItem
 				}//break;
 			case ValueType.None:
 			case ValueType.IntegerNumber:
-			case ValueType.FloatNumber:
+			case ValueType.FloatingNumber:
 			case ValueType.BoolData:
 			case ValueType.BinaryData:
 			case ValueType.Calc_BoolDataFalse:
@@ -378,26 +392,26 @@ namespace NJsonItem
 		*/
 		public float GetFloat()
 		{
-			Tool.Assert(this.valuetype == ValueType.FloatNumber);
+			Tool.Assert(this.valuetype == ValueType.FloatingNumber);
 
 			if(this.jsonstring != null){
 				this.JsonStringToValue();
 			}
 
-			return (float)this.value.float_number;
+			return (float)this.value.floating_number;
 		}
 
 		/** [取得][値]GetDouble
 		*/
 		public double GetDouble()
 		{
-			Tool.Assert(this.valuetype == ValueType.FloatNumber);
+			Tool.Assert(this.valuetype == ValueType.FloatingNumber);
 
 			if(this.jsonstring != null){
 				this.JsonStringToValue();
 			}
 
-			return (double)this.value.float_number;
+			return (double)this.value.floating_number;
 		}
 
 		/** [取得][値]GetBoolData
@@ -477,7 +491,7 @@ namespace NJsonItem
 		*/
 		public bool IsFloatNumber()
 		{
-			if(this.valuetype == ValueType.FloatNumber){
+			if(this.valuetype == ValueType.FloatingNumber){
 				return true;
 			}
 			return false;
@@ -681,13 +695,13 @@ namespace NJsonItem
 
 		/** [設定]整数セット。
 		*/
-		public void SetInteger(int a_integer)
+		public void SetInt(int a_int)
 		{
 			this.jsonstring = null;
 			this.value.Reset();
 		
 			this.valuetype = ValueType.IntegerNumber;
-			this.value.integer_number = a_integer;
+			this.value.integer_number = a_int;
 		}
 
 		/** [設定]整数セット。
@@ -708,19 +722,19 @@ namespace NJsonItem
 			this.jsonstring = null;
 			this.value.Reset();
 
-			this.valuetype = ValueType.FloatNumber;
-			this.value.float_number = a_float;
+			this.valuetype = ValueType.FloatingNumber;
+			this.value.floating_number = a_float;
 		}
 
 		/** [設定]少数セット。
 		*/
-		public void SetDouble(double a_float)
+		public void SetDouble(double a_double)
 		{
 			this.jsonstring = null;
 			this.value.Reset();
 
-			this.valuetype = ValueType.FloatNumber;
-			this.value.float_number = a_float;
+			this.valuetype = ValueType.FloatingNumber;
+			this.value.floating_number = a_double;
 		}
 
 		/** [設定]真偽データセット。
@@ -812,9 +826,11 @@ namespace NJsonItem
 				{
 					return this.value.integer_number.ToString();
 				}//break;
-			case ValueType.FloatNumber:
+			case ValueType.FloatingNumber:
 				{
-					return this.value.float_number.ToString();
+					//TODO:
+					//return string.Format("{0:0.0############}",this.value.float_number);
+					return string.Format(DOUBLE_TO_STRING_FORMAT,this.value.floating_number);
 				}//break;
 			case ValueType.IndexArray:
 				{

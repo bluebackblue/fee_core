@@ -38,7 +38,7 @@ namespace NJsonItem
 
 		/** 少数。
 		*/
-		public double float_number;
+		public double floating_number;
 
 		/** 真偽データ。
 		*/
@@ -56,7 +56,7 @@ namespace NJsonItem
 			this.associative_array = null;
 			this.index_array = null;
 			this.integer_number = 0;
-			this.float_number = 0.0f;
+			this.floating_number = 0.0;
 			this.bool_data = false;
 			this.binary_data = null;
 		}
@@ -87,27 +87,25 @@ namespace NJsonItem
 
 	/** 整数。
 	*/
-	public struct Value_Integer
+	public struct Value_Int
 	{
 		public int value;
-		public Value_Integer(int a_value)
+		public Value_Int(int a_value)
 		{
 			this.value = a_value;
 		}
 	}
 
-	/** TODO:整数。
+	/** 整数。
 	*/
-	/*
-	public struct Value_UnsignedInteger
+	public struct Value_Long
 	{
-		public int value;
-		public Value_UnsignedInteger(int a_value)
+		public long value;
+		public Value_Long(long a_value)
 		{
 			this.value = a_value;
 		}
 	}
-	*/
 
 	/** 少数。
 	*/
@@ -115,6 +113,17 @@ namespace NJsonItem
 	{
 		public float value;
 		public Value_Float(float a_value)
+		{
+			this.value = a_value;
+		}
+	}
+
+	/** 少数。
+	*/
+	public struct Value_Double
+	{
+		public double value;
+		public Value_Double(double a_value)
 		{
 			this.value = a_value;
 		}

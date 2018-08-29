@@ -26,7 +26,7 @@ namespace NJsonItem
 		AssociativeArray,		//連想配列。
 		IndexArray,				//インデックス配列。
 		IntegerNumber,			//整数。
-		FloatNumber,			//少数。
+		FloatingNumber,			//少数。
 		BoolData,				//真偽データ。3
 		BinaryData,				//バイナリデータ。
 		

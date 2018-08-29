@@ -52,19 +52,25 @@ namespace NJsonItem
 
 					int t_value_raw = (int)a_instance;
 				
-					t_return = new JsonItem(new Value_Integer(t_value_raw));
+					t_return = new JsonItem(new Value_Int(t_value_raw));
 				}else if(t_type == typeof(long)){
 					//long
 
-					int t_value_raw = (int)a_instance;
+					long t_value_raw = (long)a_instance;
 
-					t_return = new JsonItem(new Value_Integer(t_value_raw));
+					t_return = new JsonItem(new Value_Long(t_value_raw));
 				}else if(t_type == typeof(float)){
 					//float
 
 					float t_value_raw = (float)a_instance;
 
 					t_return = new JsonItem(new Value_Float(t_value_raw));
+				}else if(t_type == typeof(double)){
+					//double
+
+					double t_value_raw = (double)a_instance;
+
+					t_return = new JsonItem(new Value_Double(t_value_raw));
 				}else if(t_type.IsGenericType == true){
 					System.Type t_type_g = t_type.GetGenericTypeDefinition();
 
@@ -77,7 +83,8 @@ namespace NJsonItem
 							JsonItem t_jsonitem = new JsonItem(new Value_IndexArray());
 							for(int ii=0;ii<t_value_raw.Count;ii++){
 								if(t_value_raw[ii] != null){
-									ToJson_Work t_new = new ToJson_Work(t_value_raw[ii],ii,t_jsonitem);
+									System.Object t_list_item_raw = t_value_raw[ii];
+									ToJson_Work t_new = new ToJson_Work(t_list_item_raw,ii,t_jsonitem);
 									t_work.Add(t_new);
 								}else{
 									//nullの子は追加しない。
@@ -94,21 +101,28 @@ namespace NJsonItem
 
 						IDictionary t_value_raw = a_instance as IDictionary;
 						if(t_value_raw != null){
+							ICollection<string> t_collection = t_value_raw.Keys as ICollection<string>;
+							if(t_collection != null){
 
-							JsonItem t_jsonitem = new JsonItem(new Value_AssociativeArray());
-
-							//TODO:
-							foreach(KeyValuePair<string,JsonItem> t_pair in t_value_raw){
-								string t_key_string = t_pair.Key as string;
-								if(t_pair.Value != null){
-									ToJson_Work t_new = new ToJson_Work(t_pair.Value,t_key_string,t_jsonitem);
-									t_work.Add(t_new);
-								}else{
-									//nullの子は追加しない。
+								JsonItem t_jsonitem = new JsonItem(new Value_AssociativeArray());
+								foreach(string t_key_string in t_collection){
+									if(t_key_string != null){
+										System.Object t_list_item_raw = t_value_raw[t_key_string];
+										if(t_list_item_raw != null){
+											ToJson_Work t_new = new ToJson_Work(t_list_item_raw,t_key_string,t_jsonitem);
+											t_work.Add(t_new);
+										}
+										Debug.Log(t_key_string);
+									}else{
+										//nullの場合は追加しない。
+									}
 								}
-							}
 
-							t_return = t_jsonitem;
+								t_return = t_jsonitem;
+							}else{
+								//keyの型がstring以外のものは追加しない。
+								t_return = null;
+							}
 						}else{
 							//nullの場合は追加しない。
 							t_return = null;

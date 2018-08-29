@@ -22,11 +22,15 @@ namespace NJsonItem
 	{
 		/** ログ。
 		*/
-		public const bool LOG_ENABLE = true;
+		public static bool LOG_ENABLE = true;
 
 		/** アサート。
 		*/
-		public const bool ASSERT_ENABLE = false;
+		public static bool ASSERT_ENABLE = false;
+
+		/** Double To String
+		*/
+		public string DOUBLE_TO_STRING_FORMAT = "{0:0.0#########}";
 	}
 }
 

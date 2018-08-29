@@ -653,7 +653,7 @@ namespace NJsonItem
 					}break;
 				case ValueType.Calc_UnknownNumber:
 				case ValueType.IntegerNumber:
-				case ValueType.FloatNumber:
+				case ValueType.FloatingNumber:
 					{
 						t_value_size = GetLength_Number(a_jsonstring,t_index);
 					}break;
@@ -796,7 +796,7 @@ namespace NJsonItem
 					}break;
 				case ValueType.Calc_UnknownNumber:
 				case ValueType.IntegerNumber:
-				case ValueType.FloatNumber:
+				case ValueType.FloatingNumber:
 					{
 						t_value_size = GetLength_Number(a_jsonstring,t_index);
 					}break;
