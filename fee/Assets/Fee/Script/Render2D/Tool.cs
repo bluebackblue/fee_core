@@ -58,14 +58,16 @@ namespace NRender2D
 		public static void Assert(bool a_flag)
 		{
 			#if UNITY_EDITOR
-			if(a_flag == false){
-				try{
-					throw new System.Exception("Assert");
-				}catch(System.Exception a_exception){
-					LogError(a_exception);
-				}
+			if(Config.ASSERT_ENABLE == true){
+				if(a_flag == false){
+					try{
+						throw new System.Exception("Assert");
+					}catch(System.Exception a_exception){
+						LogError(a_exception);
+					}
 			
-				UnityEditor.EditorApplication.isPaused = true;
+					UnityEditor.EditorApplication.isPaused = true;
+				}
 			}
 			#endif
 		}
