@@ -42,7 +42,14 @@ public class main : MonoBehaviour
 	*/
 	public void DeleteLibInstance()
 	{
-		//TODO:
+		//ダウンロード。
+		NDownLoad.DownLoad.DeleteInstance();
+
+		//２Ｄ描画。インスタンス削除。
+		NRender2D.Render2D.DeleteInstance();
+
+		//セーブロード。
+		NSaveLoad.SaveLoad.DeleteInstance();
 	}
 	
 	/** デバッグ表示。

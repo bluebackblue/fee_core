@@ -61,6 +61,7 @@ public class test03 : main_base
 	*/
 	private void Update()
 	{
+		//ダウンロード。
 		NDownLoad.DownLoad.GetInstance().Main();
 
 		if(this.download_item != null){
