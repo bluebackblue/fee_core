@@ -108,6 +108,12 @@
     <Compile Include="Assets\Fee\Script\Render2D\Text2D_Param.cs" />
     <Compile Include="Assets\Fee\Script\Render2D\Text2D_Rect.cs" />
     <Compile Include="Assets\Fee\Script\Render2D\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\SaveLoad\Config.cs" />
+    <Compile Include="Assets\Fee\Script\SaveLoad\DataType.cs" />
+    <Compile Include="Assets\Fee\Script\SaveLoad\Item.cs" />
+    <Compile Include="Assets\Fee\Script\SaveLoad\SaveLoad.cs" />
+    <Compile Include="Assets\Fee\Script\SaveLoad\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\SaveLoad\Work.cs" />
     <Compile Include="Assets\TestScript\main.cs" />
     <Compile Include="Assets\TestScript\test01.cs" />
     <Compile Include="Assets\TestScript\test02.cs" />
