@@ -37,10 +37,6 @@ namespace NDownLoad
 			Do,
 		};
 
-		/** www
-		*/
-		public WWW www;
-
 		/** delete_flag
 		*/
 		[SerializeField]
@@ -51,15 +47,19 @@ namespace NDownLoad
 		[SerializeField]
 		private Mode mode;
 
+		/** datatype
+		*/
+		[SerializeField]
+		private DataType datatype;
+
 		/** request_url
 		*/
 		[SerializeField]
 		private string request_url;
 
-		/** datatype
+		/** www
 		*/
-		[SerializeField]
-		private DataType datatype;
+		public WWW www;
 
 		/** result_header
 		*/
@@ -88,22 +88,22 @@ namespace NDownLoad
 
 		/** Awake
 		*/
-		void Awake()
+		private void Awake()
 		{
-			//www
-			this.www = null;
-
 			//delete_flag
 			this.delete_flag = false;
 
 			//mode
 			this.mode = Mode.WaitRequest;
 
+			//datatype
+			this.datatype = DataType.None;
+
 			//request_url
 			this.request_url = null;
 
-			//datatype
-			this.datatype = DataType.None;
+			//www
+			this.www = null;
 
 			//result_header
 			this.result_header = null;
@@ -123,16 +123,18 @@ namespace NDownLoad
 
 		/** Start
 		*/
-		IEnumerator Start()
+		private IEnumerator Start()
 		{
 			while(this.delete_flag == false){
-
 				switch(this.mode){
 				case Mode.WaitRequest:
 					{
+						//リクエスト待ち。
 					}break;
 				case Mode.Start:
 					{
+						//開始。
+
 						if(this.request_url != null){
 							//リクエストあり。
 							Tool.Log("MonoBehaviour_WWW",this.request_url);
@@ -143,6 +145,8 @@ namespace NDownLoad
 					}break;
 				case Mode.Do:
 					{
+						//実行中。
+
 						if(this.www.error != null){
 							//ダウンロードエラー。
 							this.datatype = DataType.Error;
@@ -191,6 +195,9 @@ namespace NDownLoad
 								this.datatype = DataType.Error;
 							}
 
+							//TODO:解放。
+							this.www = null;
+
 							this.mode = Mode.WaitRequest;
 						}else{
 							//ダウンロード中。
@@ -213,8 +220,8 @@ namespace NDownLoad
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
 
-				this.request_url = a_url;
 				this.datatype = DataType.None;
+				this.request_url = a_url;
 				this.result_errorstring = "";
 				this.result_progress = 0.0f;
 				this.result_text = null;
@@ -237,20 +244,6 @@ namespace NDownLoad
 			return true;
 		}
 
-		/** エラー文字。取得。
-		*/
-		public string GetErrorString()
-		{
-			return this.result_errorstring;
-		}
-
-		/** プログレス。取得。
-		*/
-		public float GetProgress()
-		{
-			return this.result_progress;
-		}
-
 		/** DeleteRequest
 		*/
 		public void DeleteRequest()
@@ -263,6 +256,20 @@ namespace NDownLoad
 		public DataType GetDataType()
 		{
 			return this.datatype;
+		}
+
+		/** エラー文字。取得。
+		*/
+		public string GetErrorString()
+		{
+			return this.result_errorstring;
+		}
+
+		/** プログレス。取得。
+		*/
+		public float GetProgress()
+		{
+			return this.result_progress;
 		}
 
 		/** 結果。取得。

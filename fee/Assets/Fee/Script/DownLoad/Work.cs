@@ -77,7 +77,7 @@ namespace NDownLoad
 		*/
 		public bool Main()
 		{
-			MonoBehaviour_WWW t_www = DownLoad.GetInstance().GetWWW();
+			MonoBehaviour_Www t_www = NDownLoad.DownLoad.GetInstance().GetWww();
 
 			switch(this.mode){
 			case Mode.Start:

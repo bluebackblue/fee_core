@@ -53,7 +53,7 @@ namespace NDownLoad
 		/** www
 		*/
 		private GameObject www_gameobject;
-		private MonoBehaviour_WWW www_script;
+		private MonoBehaviour_Www www_script;
 
 		/** work_list
 		*/
@@ -67,7 +67,7 @@ namespace NDownLoad
 			{
 				this.www_gameobject = new GameObject();
 				this.www_gameobject.name = "DownLoad";
-				this.www_script = this.www_gameobject.AddComponent<MonoBehaviour_WWW>();
+				this.www_script = this.www_gameobject.AddComponent<MonoBehaviour_Www>();
 
 				GameObject.DontDestroyOnLoad(this.www_gameobject);
 			}
@@ -83,9 +83,9 @@ namespace NDownLoad
 			this.www_script.DeleteRequest();
 		}
 
-		/** WWW。取得。
+		/** www。取得。
 		*/
-		public MonoBehaviour_WWW GetWWW()
+		public MonoBehaviour_Www GetWww()
 		{
 			return this.www_script;
 		}
