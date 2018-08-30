@@ -14,13 +14,13 @@ using UnityEngine;
 
 /** test01
 
-	sprite
+	スプライト
 	仮想スクリーンサイズと同じサイズのスプライトを設置。
 
-	text
+	テキスト
 	中央に文字を設置。
 
-	inputfield
+	入力フィールド
 	テキストの下に入力フィールドを設置。
 
 */
@@ -30,15 +30,15 @@ public class test01 : main_base
 	*/
 	private NDeleter.Deleter deleter;
 
-	/** sprite
+	/** スプライト。
 	*/
 	private NRender2D.Sprite2D sprite;
 
-	/** text
+	/** テキスト。
 	*/
 	private NRender2D.Text2D text;
 
-	/** inputfield
+	/** 入力フィールド。
 	*/
 	private NRender2D.InputField2D inputfield;
 
@@ -46,19 +46,19 @@ public class test01 : main_base
 	*/
 	private void Start()
 	{
-		//２Ｄ描画。
+		//２Ｄ描画。インスタンス作成。
 		NRender2D.Render2D.CreateInstance();
 
-		//deleter
+		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
-		//layerindex
+		//レイヤインデックス。
 		int t_layerindex = 0;
 
-		//drawpriority
+		//描画プライオリティ。
 		long t_drawpriority = NRender2D.Render2D.DRAWPRIORITY_STEP * t_layerindex;
 
-		//sprite
+		//スプライト。
 		this.sprite = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority);
 		this.sprite.SetTexture(Texture2D.whiteTexture);
 		this.sprite.SetTextureRect(0,0,NRender2D.Render2D.TEXTURE_W,NRender2D.Render2D.TEXTURE_H);
@@ -66,14 +66,14 @@ public class test01 : main_base
 		this.sprite.SetColor(0.0f,0.5f,0.0f,1.0f);
 		this.sprite.SetMaterialType(NRender2D.Config.MaterialType.Normal);
 
-		//text
+		//テキスト。
 		this.text = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.text.SetCenter(true);
 		this.text.SetRect(NRender2D.Render2D.VIRTUAL_W / 2,NRender2D.Render2D.VIRTUAL_H / 2,0,0);
 		this.text.SetText("abcdefghijklmnopqrstuvwxyz");
 		this.text.SetColor(0.0f,0.0f,0.0f,1.0f);
 
-		//inputfield
+		//入力フィールド。
 		{
 			int t_w = 200;
 			int t_h = 200;

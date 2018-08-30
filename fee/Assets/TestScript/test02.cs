@@ -14,7 +14,9 @@ using UnityEngine;
 
 /** test02
 
-	json
+	オブジェクトをＪＳＯＮにコンバート。
+
+	ＪＳＯＮをオブジェクトにコンバート。
 
 */
 public class test02 : main_base

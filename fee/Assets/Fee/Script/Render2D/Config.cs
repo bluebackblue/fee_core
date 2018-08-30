@@ -30,6 +30,14 @@ namespace NRender2D
 		public static float TEXTURE_W = 10.0f;
 		public static float TEXTURE_H = 10.0f;
 
+		/** テクスチャー矩形。最大値。
+		*/
+		public static Rect2D_R<float> TEXTURE_RECT_MAX = new Rect2D_R<float>(0.0f,0.0f,TEXTURE_W,TEXTURE_H);
+
+		/** 矩形。最大値。
+		*/
+		public static Rect2D_R<int> VIRTUAL_RECT_MAX = new Rect2D_R<int>(0,0,VIRTUAL_W,VIRTUAL_H);
+
 		/** ログ。
 		*/
 		public static bool LOG_ENABLE = true;
@@ -110,7 +118,6 @@ namespace NRender2D
 		/** デフォルト。フォント名。
 		*/
 		public static string DEFAULT_FONT_NAME = "Arial.ttf";
-
 	}
 }
 
