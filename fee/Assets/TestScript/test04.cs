@@ -13,6 +13,12 @@ using UnityEngine;
 
 
 /** test04
+
+	テキスト。セーブ。
+	テキスト。ロード。
+	ＰＮＧ。セーブ。
+	ＰＮＧ、ロード。
+
 */
 public class test04 : main_base
 {
