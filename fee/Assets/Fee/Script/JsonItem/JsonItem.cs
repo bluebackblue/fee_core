@@ -828,8 +828,6 @@ namespace NJsonItem
 				}//break;
 			case ValueType.FloatingNumber:
 				{
-					//TODO:
-					//return string.Format("{0:0.0############}",this.value.float_number);
 					return string.Format(DOUBLE_TO_STRING_FORMAT,this.value.floating_number);
 				}//break;
 			case ValueType.IndexArray:
