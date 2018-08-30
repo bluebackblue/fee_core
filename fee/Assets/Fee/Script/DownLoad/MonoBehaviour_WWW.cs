@@ -16,9 +16,9 @@ using UnityEngine;
 */
 namespace NDownLoad
 {
-	/** MonoBehaviour_WWW
+	/** MonoBehaviour_Www
 	*/
-	public class MonoBehaviour_WWW : MonoBehaviour
+	public class MonoBehaviour_Www : MonoBehaviour
 	{
 		/** Mode
 		*/
