@@ -147,6 +147,7 @@ namespace NSaveLoad
 				this.request_type = RequestType.SaveLocalTextFile;
 				this.request_filename = a_filename;
 				this.request_text = a_text;
+				this.request_texture = null;
 
 				this.datatype = DataType.None;
 				this.result_text = null;
@@ -167,6 +168,8 @@ namespace NSaveLoad
 
 				this.request_type = RequestType.LoadLocalTextFile;
 				this.request_filename = a_filename;
+				this.request_text = null;
+				this.request_texture = null;
 
 				this.datatype = DataType.None;
 				this.result_text = null;
@@ -187,6 +190,7 @@ namespace NSaveLoad
 
 				this.request_type = RequestType.SaveLocalPngFile;
 				this.request_filename = a_filename;
+				this.request_text = null;
 				this.request_texture = a_texture;
 
 				this.datatype = DataType.None;
@@ -208,6 +212,8 @@ namespace NSaveLoad
 
 				this.request_type = RequestType.LoadLocalPngFile;
 				this.request_filename = a_filename;
+				this.request_text = null;
+				this.request_texture = null;
 
 				this.datatype = DataType.None;
 				this.result_text = null;
