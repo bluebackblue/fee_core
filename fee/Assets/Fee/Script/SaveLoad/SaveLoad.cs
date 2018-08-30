@@ -50,26 +50,88 @@ namespace NSaveLoad
 			}
 		}
 
+		/** io
+		*/
+		private GameObject io_gameobject;
+		private MonoBehaviour_Io io_script;
+
 		/** work_list
 		*/
 		private List<Work> work_list;
-
-		/** request_current
-		*/
-		private Work request_current;
 
 		/** [シングルトン]constructor
 		*/
 		private SaveLoad()
 		{
+			//io
+			{
+				this.io_gameobject = new GameObject();
+				this.io_gameobject.name = "SaveLoad";
+				this.io_script = this.io_gameobject.AddComponent<MonoBehaviour_Io>();
+
+				GameObject.DontDestroyOnLoad(this.io_gameobject);
+			}
+
+			//work_list
 			this.work_list = new List<Work>();
-			this.request_current = null;
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			this.io_script.DeleteRequest();
+		}
+
+		/** Io。取得。
+		*/
+		public MonoBehaviour_Io GetIo()
+		{
+			return this.io_script;
+		}
+
+		/** リクエスト。セーブローカル。テキストファイル。
+		*/
+		public Item RequestSaveLocalTextFile(string a_filename,string a_text)
+		{
+			Work t_work = new Work();
+			t_work.RequestSaveLocalTextFile(a_filename,a_text);
+
+			this.work_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。ロードローカル。テキストファイル。
+		*/
+		public Item RequestLoadLoaclTextFile(string a_filename)
+		{
+			Work t_work = new Work();
+			t_work.RequestLoadLocalTextFile(a_filename);
+
+			this.work_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。セーブローカル。ＰＮＧファイル。
+		*/
+		public Item RequestSaveLocalPngFile(string a_filename,Texture2D a_texture)
+		{
+			Work t_work = new Work();
+			t_work.RequestSaveLocalPngFile(a_filename,a_texture);
+
+			this.work_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。ロードローカル。ＰＮＧファイル。
+		*/
+		public Item RequestLoadLocalPngFile(string a_filename)
+		{
+			Work t_work = new Work();
+			t_work.RequestLoadLocalPngFile(a_filename);
+
+			this.work_list.Add(t_work);
+			return t_work.GetItem();
 		}
 
 		/** 更新。
@@ -77,7 +139,7 @@ namespace NSaveLoad
 		public void Main()
 		{
 			try{
-				if(this.request_current == null){
+				if(this.work_list.Count > 0){
 					if(this.work_list[0].Main() == true){
 						this.work_list.RemoveAt(0);
 					}
@@ -85,50 +147,6 @@ namespace NSaveLoad
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}
-		}
-
-		/** セーブローカル。テキストファイル。リクエスト。
-		*/
-		public Item SaveLocalTextFileRequest(string a_filename,string a_text)
-		{
-			Work t_work = new Work();
-			t_work.SaveLocal_TextFile(a_filename,a_text);
-
-			this.work_list.Add(t_work);
-			return t_work.GetItem();
-		}
-
-		/** ロードローカル。テキストファイル。リクエスト。
-		*/
-		public Item LoadLoaclTextFileRequest(string a_filename)
-		{
-			Work t_work = new Work();
-			t_work.LoadLocal_TextFile(a_filename);
-
-			this.work_list.Add(t_work);
-			return t_work.GetItem();
-		}
-
-		/** セーブローカル。ＰＮＧファイル。リクエスト。
-		*/
-		public Item SaveLocalPngFileRequest(string a_filename,Texture2D a_texture)
-		{
-			Work t_work = new Work();
-			t_work.SaveLocal_PngFile(a_filename,a_texture);
-
-			this.work_list.Add(t_work);
-			return t_work.GetItem();
-		}
-
-		/** ロードローカル。ＰＮＧファイル。リクエスト。
-		*/
-		public Item LoadLocalPngFileRequest(string a_filename)
-		{
-			Work t_work = new Work();
-			t_work.LoadLocal_PngFile(a_filename);
-
-			this.work_list.Add(t_work);
-			return t_work.GetItem();
 		}
 	}
 }

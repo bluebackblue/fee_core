@@ -45,19 +45,19 @@ namespace NSaveLoad
 
 			/** セーブローカル。テキストファイル。
 			*/
-			SaveLocal_TextFile,
+			SaveLocalTextFile,
 
 			/** ロードローカル。テキストファイル。
 			*/
-			LoadLocal_TextFile,
+			LoadLocalTextFile,
 
 			/** セーブローカル。ＰＮＧファイル。
 			*/
-			SaveLocal_PngFile,
+			SaveLocalPngFile,
 
 			/** ロードローカル。ＰＮＧファイル。
 			*/
-			LoadLocal_PngFile,
+			LoadLocalPngFile,
 		}
 
 		/** mode
@@ -80,6 +80,10 @@ namespace NSaveLoad
 		*/
 		private string text;
 
+		/** texture
+		*/
+		private Texture2D texture;
+
 		/** constructor
 		*/
 		public Work()
@@ -98,6 +102,43 @@ namespace NSaveLoad
 
 			//text
 			this.text = null;
+
+			//texture
+			this.texture = null;
+		}
+
+		/** セーブローカル。テキストファイル。
+		*/
+		public void RequestSaveLocalTextFile(string a_filename,string a_text)
+		{
+			this.type = Type.SaveLocalTextFile;
+			this.filename = a_filename;
+			this.text = a_text;
+		}
+
+		/** ロードローカル。テキストファイル。
+		*/
+		public void RequestLoadLocalTextFile(string a_filename)
+		{
+			this.type = Type.LoadLocalTextFile;
+			this.filename = a_filename;
+		}
+
+		/** セーブローカル。ＰＮＧファイル。
+		*/
+		public void RequestSaveLocalPngFile(string a_filename,Texture2D a_texture)
+		{
+			this.type = Type.SaveLocalPngFile;
+			this.filename = a_filename;
+			this.texture = a_texture;
+		}
+
+		/** ロードローカル。ＰＮＧファイル。
+		*/
+		public void RequestLoadLocalPngFile(string a_filename)
+		{
+			this.type = Type.LoadLocalPngFile;
+			this.filename = a_filename;
 		}
 
 		/** アイテム。
@@ -107,162 +148,28 @@ namespace NSaveLoad
 			return this.item;
 		}
 
-		/** セーブローカル。テキストファイル。
+		/** リクエスト。
 		*/
-		public bool SaveLocal_TextFile(string a_filename,string a_text)
+		private bool Request()
 		{
-			string t_full_path = Application.persistentDataPath + "/" + a_filename;
+			MonoBehaviour_Io t_io = NSaveLoad.SaveLoad.GetInstance().GetIo();
 
-			bool t_ret = false;
-
-			if(a_text != null){
-				System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(t_full_path);
-				if(t_fileinfo != null){
-					System.IO.StreamWriter t_stream_writer = null;
-
-					//open
-					try{
-						t_stream_writer = t_fileinfo.CreateText();
-					}catch(System.Exception /*t_exception*/){
-						//Tool.LogError(t_exception);
-					}
-
-					//write
-					if(t_stream_writer != null){
-						t_stream_writer.Write(a_text);
-						t_stream_writer.Flush();
-
-						t_ret = true;
-					}
-
-					//close
-					if(t_stream_writer != null){
-						t_stream_writer.Close();
-					}
-				}
-			}
-
-			return t_ret;
-		}
-
-		/** ロードローカル。テキストファイル。
-		*/
-		public string LoadLocal_TextFile(string a_filename)
-		{
-			string t_full_path = Application.persistentDataPath + "/" + a_filename;
-
-			string t_ret = null;
-
-			{
-				System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(t_full_path);
-				if(t_fileinfo != null){
-					System.IO.StreamReader t_stream_reader = null;
-
-					//open
-					try{
-						t_stream_reader = t_fileinfo.OpenText();
-					}catch(System.Exception /*t_exception*/){
-						//Tool.LogError(t_exception);
-					}
-
-					//read
-					if(t_stream_reader != null){
-						t_ret = t_stream_reader.ReadToEnd();
-					}
-
-					//close
-					if(t_stream_reader != null){
-						t_stream_reader.Close();
-					}
-				}
-			}
-
-			return t_ret;
-		}
-
-		/** セーブローカル。ＰＮＧファイル。
-		*/
-		public bool SaveLocal_PngFile(string a_filename,Texture2D a_texture)
-		{
-			string t_full_path = Application.persistentDataPath + "/" + a_filename;
-
-			bool t_ret = false;
-
-			if(a_texture != null){
-				//TODO:
-			}
-
-			return t_ret;
-		}
-
-		/** ロードローカル。ＰＮＧファイル。
-		*/
-		public Texture2D LoadLocal_PngFile(string a_filename)
-		{
-			string t_full_path = Application.persistentDataPath + "/" + a_filename;
-
-			Texture2D t_ret = null;
-
-			{
-				//TODO:
-			}
-
-			return t_ret;
-		}
-
-		/** 開始。
-
-		TODO:MonoBehaviour化。
-
-		*/
-		public void Start()
-		{
 			switch(this.type){
-			case Type.SaveLocal_TextFile:
+			case Type.SaveLocalTextFile:
 				{
-					bool t_ret = this.SaveLocal_TextFile(this.filename,this.text);
-					if(t_ret == true){
-						this.item.SetResultSaveEnd();
-					}
-				}break;
-			case Type.LoadLocal_TextFile:
+				}return t_io.RequestSaveLocalTextFile(this.filename,this.text);
+			case Type.LoadLocalTextFile:
 				{
-					string t_text = this.LoadLocal_TextFile(this.filename);
-					if(t_text != null){
-						this.item.SetResultText(t_text);
-					}else{
-						this.item.SetResultError();
-					}
-				}break;
-			case Type.SaveLocal_PngFile:
+				}return t_io.RequestLoadLocalTextFile(this.filename);
+			case Type.SaveLocalPngFile:
 				{
-					bool t_ret = this.SaveLocal_TextFile(this.filename,this.text);
-					if(t_ret == true){
-						this.item.SetResultSaveEnd();
-					}
-				}break;
-			case Type.LoadLocal_PngFile:
+				}return t_io.RequestSaveLocalPngFile(this.filename,this.texture);
+			case Type.LoadLocalPngFile:
 				{
-					string t_text = this.LoadLocal_TextFile(this.filename);
-					if(t_text != null){
-						this.item.SetResultText(t_text);
-					}else{
-						this.item.SetResultError();
-					}
-				}break;
+				}return t_io.RequestLoadLocalPngFile(this.filename);
 			}
-		}
 
-		/** 実行中。
-
-		TODO:MonoBehaviour化。
-
-		戻り値 = true : 完了。
-
-		*/
-		public bool Do()
-		{
-			return true;
+			return false;
 		}
 
 		/** 更新。
@@ -275,11 +182,40 @@ namespace NSaveLoad
 			switch(this.mode){
 			case Mode.Start:
 				{
-					this.Start();
+					if(this.Request() == true){
+						//開始。
+						this.mode = Mode.Do;
+					}
 				}break;
 			case Mode.Do:
 				{
-					if(this.Do() == true){
+					MonoBehaviour_Io t_io = NSaveLoad.SaveLoad.GetInstance().GetIo();
+
+					if(t_io.IsBusy() == false){
+
+						//結果。
+						switch(t_io.GetDataType()){
+						case DataType.Text:
+							{
+								//テキスト。
+								this.item.SetResultText(t_io.GetResultText());
+							}break;
+						case DataType.Texture:
+							{
+								//テクスチャー。
+								this.item.SetResultTexture(t_io.GetResultTexture());
+							}break;
+						case DataType.SaveEnd:
+							{
+								//セーブ完了。
+								this.item.SetResultSaveEnd();
+							}break;
+						default:
+							{
+								this.item.SetResultError();
+							}break;
+						}
+
 						this.mode = Mode.End;
 					}
 				}break;
