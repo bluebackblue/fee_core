@@ -195,7 +195,7 @@ namespace NDownLoad
 								this.datatype = DataType.Error;
 							}
 
-							//TODO:解放。
+							//解放。
 							this.www = null;
 
 							this.mode = Mode.WaitRequest;
