@@ -65,6 +65,12 @@
     <Compile Include="Assets\Fee\Script\Deleter\Deleter.cs" />
     <Compile Include="Assets\Fee\Script\Deleter\Item_Base.cs" />
     <Compile Include="Assets\Fee\Script\Deleter\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\Directory\Config.cs" />
+    <Compile Include="Assets\Fee\Script\Directory\Directory.cs" />
+    <Compile Include="Assets\Fee\Script\Directory\Item.cs" />
+    <Compile Include="Assets\Fee\Script\Directory\Root.cs" />
+    <Compile Include="Assets\Fee\Script\Directory\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\Directory\Work.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Config.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\DataType.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\DownLoad.cs" />

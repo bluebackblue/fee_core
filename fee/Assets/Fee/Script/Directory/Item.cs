@@ -8,31 +8,23 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief テスト。
+ * @brief ディレクトリ。アイテム。
 */
 
 
-/** test08
+/** NDirectory
 */
-public class test08 : main_base
+namespace NDirectory
 {
-	/** Start
+	/** Item
 	*/
-	private void Start()
+	public class Item
 	{
-		NDirectory.Directory.GetDirectoryItem(Application.dataPath);
-	}
-
-	/** Update
-	*/
-	private void Update()
-	{
-	}
-
-	/** OnDestroy
-	*/
-	private void OnDestroy()
-	{
+		/** constructor
+		*/
+		public Item()
+		{
+		}
 	}
 }
 

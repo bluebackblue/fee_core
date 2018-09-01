@@ -8,31 +8,25 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief テスト。
+ * @brief ディレクトリ。コンフィグ。
 */
 
 
-/** test08
+/** NDirectory
 */
-public class test08 : main_base
+namespace NDirectory
 {
-	/** Start
+	/** Config
 	*/
-	private void Start()
+	public class Config
 	{
-		NDirectory.Directory.GetDirectoryItem(Application.dataPath);
-	}
+		/** ログ。
+		*/
+		public static bool LOG_ENABLE = false;
 
-	/** Update
-	*/
-	private void Update()
-	{
-	}
-
-	/** OnDestroy
-	*/
-	private void OnDestroy()
-	{
+		/** アサート。
+		*/
+		public static bool ASSERT_ENABLE = false;
 	}
 }
 
