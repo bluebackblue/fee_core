@@ -287,6 +287,7 @@ namespace NJsonItem
 				case ValueType.BinaryData:
 					{
 						this.value.binary_data = Impl.CreateBinaryDataFromJsonString(t_jsonstring_temp);
+						return;
 					}break;
 				case ValueType.None:
 				case ValueType.Calc_BoolDataFalse:
@@ -903,7 +904,6 @@ namespace NJsonItem
 
 							//二つ目以降。
 							for(;t_index<t_count;t_index++){
-								t_jsonstring += ",";
 								t_jsonstring += string.Format("{0:X}",this.value.binary_data[t_index]);
 							}
 						}

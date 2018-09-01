@@ -145,7 +145,7 @@ namespace NJsonItem
 	public struct Value_BinaryData
 	{
 		public List<byte> value;
-		Value_BinaryData(List<byte> a_value)
+		public Value_BinaryData(List<byte> a_value)
 		{
 			this.value = a_value;
 		}
