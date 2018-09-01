@@ -18,6 +18,7 @@ namespace NInput
 {
 	/** InputManager_Item
 	*/
+	#if UNITY_EDITOR
 	public class InputManager_Item
 	{
 		/** Type
@@ -228,6 +229,28 @@ namespace NInput
 			this.axis = NInput.InputManager_Item.Axis.None;
 			this.joyNum = 0;
 		}
+
+		/** ジョイスティック。ボタン３。
+		*/
+		public void CreateJoyButton3()
+		{
+			this.m_Name = NInput.Input.JOY_INPUTNAME_BUTTON3;
+			this.descriptiveName = "";
+			this.descriptiveNegativeName = "";
+			this.negativeButton = "";
+			this.positiveButton = "joystick button 3";
+			this.altNegativeButton = "";
+			this.altPositiveButton = "";
+			this.gravity = 1.0f;
+			this.dead = 0.001f;
+			this.sensitivity = 1.0f;
+			this.snap = false;
+			this.invert = false;
+			this.type = NInput.InputManager_Item.Type.KeyOrMouseButton;
+			this.axis = NInput.InputManager_Item.Axis.None;
+			this.joyNum = 0;
+		}
 	}
+	#endif
 }
 

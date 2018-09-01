@@ -73,6 +73,10 @@ namespace NInput
 		*/
 		public static string JOY_INPUTNAME_BUTTON2 = "JoyButton2";
 
+		/** ジョイスティック。ボタン３。
+		*/
+		public static string JOY_INPUTNAME_BUTTON3 = "JoyButton3";
+
 		/** キー。左。
 		*/
 		public static KeyCode KEY_LEFT = KeyCode.A;

@@ -18,6 +18,7 @@ namespace NInput
 {
 	/** InputManage
 	*/
+	#if UNITY_EDITOR
 	public class InputManage
 	{
 		/** list
@@ -182,6 +183,6 @@ namespace NInput
 			this.list.Add(a_item);
 		}
 	}
+	#endif
 }
-
 

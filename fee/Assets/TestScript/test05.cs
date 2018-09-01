@@ -28,6 +28,10 @@ public class test05 : main_base
 	*/
 	NRender2D.Text2D text_mouse;
 
+	/** テキスト。
+	*/
+	NRender2D.Text2D text_joy;
+
 	/** Start
 	*/
 	private void Start()
@@ -59,7 +63,11 @@ public class test05 : main_base
 
 		//テキスト。
 		this.text_mouse = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.text_mouse.SetRect(10,10,0,0);
+		this.text_mouse.SetRect(10,200 + 50 * 0,0,0);
+
+		//テキスト。
+		this.text_joy = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
+		this.text_joy.SetRect(10,200 + 50 * 1,0,0);
 	}
 
 	/** Update
@@ -99,6 +107,36 @@ public class test05 : main_base
 
 		//マウス位置。
 		this.text_mouse.SetText("x = " + NInput.Mouse.GetInstance().pos.x.ToString() + " y = " + NInput.Mouse.GetInstance().pos.y.ToString());
+
+		//ジョイスティック。
+		{
+			string t_text = "";
+			if(NInput.Joy.GetInstance().enter.on == true){
+				t_text += "Enter[o] ";
+			}else{
+				t_text += "Enter[ ] ";
+			}
+
+			if(NInput.Joy.GetInstance().escape.on == true){
+				t_text += "Escape[o]";
+			}else{
+				t_text += "Escape[ ]";
+			}
+
+			if(NInput.Joy.GetInstance().sub1.on == true){
+				t_text += "Sub1[o]";
+			}else{
+				t_text += "Sub1[ ]";
+			}
+
+			if(NInput.Joy.GetInstance().sub2.on == true){
+				t_text += "Sub2[o]";
+			}else{
+				t_text += "Sub2[ ]";
+			}
+
+			this.text_joy.SetText(t_text);
+		}
 	}
 
 	/** OnDestroy
@@ -110,6 +148,7 @@ public class test05 : main_base
 
 	/** 追加。
 	*/
+	#if UNITY_EDITOR
 	[UnityEditor.MenuItem("Test/Test5/MakeInputManager")]
 	private static void MakeInputManager()
 	{
@@ -123,6 +162,7 @@ public class test05 : main_base
 			bool t_find_button0 = false;
 			bool t_find_button1 = false;
 			bool t_find_button2 = false;
+			bool t_find_button3 = false;
 
 			for(int ii=0;ii<t_list.Count;ii++){
 				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_AXIS6){
@@ -142,6 +182,9 @@ public class test05 : main_base
 				}
 				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_BUTTON2){
 					t_find_button2 = true;
+				}
+				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_BUTTON3){
+					t_find_button3 = true;
 				}
 			}
 
@@ -180,8 +223,15 @@ public class test05 : main_base
 				t_item.CreateJoyButton2();
 				t_list.Add(t_item);
 			}
+
+			if(t_find_button3 == false){
+				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				t_item.CreateJoyButton3();
+				t_list.Add(t_item);
+			}
 		}
 		t_inputmaanger.Save();
 	}
+	#endif
 }
 

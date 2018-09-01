@@ -105,6 +105,8 @@ namespace NInput
 		public Key_Button down;
 		public Key_Button enter;
 		public Key_Button escape;
+		public Key_Button sub1;
+		public Key_Button sub2;
 
 		/** フラグ。
 		*/
@@ -114,6 +116,7 @@ namespace NInput
 		public bool joy_button0_flag;
 		public bool joy_button1_flag;
 		public bool joy_button2_flag;
+		public bool joy_button3_flag;
 
 		/** [シングルトン]constructor
 		*/
@@ -126,6 +129,8 @@ namespace NInput
 			this.down.Reset();
 			this.enter.Reset();
 			this.escape.Reset();
+			this.sub1.Reset();
+			this.sub2.Reset();
 
 			//フラグ。
 			this.joy_axis6_flag = true;
@@ -134,6 +139,7 @@ namespace NInput
 			this.joy_button0_flag = true;
 			this.joy_button1_flag = true;
 			this.joy_button2_flag = true;
+			this.joy_button3_flag = true;
 		}
 
 		/** [シングルトン]削除。
@@ -153,6 +159,8 @@ namespace NInput
 				bool t_down = false;
 				bool t_enter = false;
 				bool t_escape = false;
+				bool t_sub1 = false;
+				bool t_sub2 = false;
 
 				float t_axis_6 = 0.0f;
 				float t_axis_7 = 0.0f;
@@ -191,6 +199,7 @@ namespace NInput
 				bool t_button_0 = false;
 				bool t_button_1 = false;
 				bool t_button_2 = false;
+				bool t_button_3 = false;
 
 				if(this.joy_button0_flag == true){
 					try{
@@ -222,6 +231,16 @@ namespace NInput
 					}
 				}
 
+				if(this.joy_button3_flag == true){
+					try{
+						t_button_3 = UnityEngine.Input.GetButton(Config.JOY_INPUTNAME_BUTTON3);
+					}catch(System.Exception /*t_exception*/){
+						//インプットマネージャで登録が必要。
+						Tool.Log("Joy","ERROR : " + Config.JOY_INPUTNAME_BUTTON3);
+						this.joy_button3_flag = false;
+					}
+				}
+
 				float t_pad_x = 0.0f;
 				float t_pad_y = 0.0f;
 				#if UNITY_EDITOR
@@ -231,6 +250,8 @@ namespace NInput
 
 					t_enter = t_button_2;
 					t_escape = t_button_1;
+					t_sub1 = t_button_3;
+					t_sub2 = t_button_0;
 				}
 				#elif UNITY_STANDALONE_WIN
 				{
@@ -239,6 +260,8 @@ namespace NInput
 
 					t_enter = t_button_2;
 					t_escape = t_button_1;
+					t_sub1 = t_button_3;
+					t_sub2 = t_button_0;
 				}
 				#elif UNITY_WEBGL
 				{
@@ -247,6 +270,8 @@ namespace NInput
 
 					t_enter = t_button_1;
 					t_escape = t_button_0;
+					t_sub1 = t_button_3;
+					t_sub2 = t_button_2;
 				}
 				#endif
 
@@ -267,6 +292,8 @@ namespace NInput
 				this.down.Set(t_down);
 				this.enter.Set(t_enter);
 				this.escape.Set(t_escape);
+				this.sub1.Set(t_sub1);
+				this.sub2.Set(t_sub2);
 
 				//更新。
 				this.left.Main();
@@ -275,6 +302,8 @@ namespace NInput
 				this.down.Main();
 				this.enter.Main();
 				this.escape.Main();
+				this.sub1.Main();
+				this.sub2.Main();
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}
