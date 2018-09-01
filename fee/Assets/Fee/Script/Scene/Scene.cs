@@ -136,6 +136,8 @@ namespace NScene
 						if(this.request != null){
 							this.current = this.request;
 							this.request = null;
+
+							Tool.Log("Scene","this.current = this.request");
 						}
 					}
 
@@ -164,6 +166,8 @@ namespace NScene
 							this.current.Delete();
 							this.current = null;
 							this.mode = Mode.WaitRequest;
+
+							Tool.Log("Scene","this.current = null;");
 						}
 					}
 				}break;

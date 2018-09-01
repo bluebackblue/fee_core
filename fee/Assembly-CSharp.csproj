@@ -73,6 +73,14 @@
     <Compile Include="Assets\Fee\Script\DownLoad\MonoBehaviour_Www.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Tool.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Work.cs" />
+    <Compile Include="Assets\Fee\Script\EventPlate\BlockItem.cs" />
+    <Compile Include="Assets\Fee\Script\EventPlate\Config.cs" />
+    <Compile Include="Assets\Fee\Script\EventPlate\EventPlate.cs" />
+    <Compile Include="Assets\Fee\Script\EventPlate\EventType.cs" />
+    <Compile Include="Assets\Fee\Script\EventPlate\Item.cs" />
+    <Compile Include="Assets\Fee\Script\EventPlate\OnOverCallBack_Base.cs" />
+    <Compile Include="Assets\Fee\Script\EventPlate\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\EventPlate\Work.cs" />
     <Compile Include="Assets\Fee\Script\Fade\Config.cs" />
     <Compile Include="Assets\Fee\Script\Fade\Fade.cs" />
     <Compile Include="Assets\Fee\Script\Fade\Fade_Sprite2D.cs" />
@@ -132,8 +140,10 @@
     <Compile Include="Assets\Fee\Script\SaveLoad\SaveLoad.cs" />
     <Compile Include="Assets\Fee\Script\SaveLoad\Tool.cs" />
     <Compile Include="Assets\Fee\Script\SaveLoad\Work.cs" />
+    <Compile Include="Assets\Fee\Script\Scene\Config.cs" />
     <Compile Include="Assets\Fee\Script\Scene\Scene.cs" />
     <Compile Include="Assets\Fee\Script\Scene\Scene_Base.cs" />
+    <Compile Include="Assets\Fee\Script\Scene\Tool.cs" />
     <Compile Include="Assets\TestScript\main.cs" />
     <Compile Include="Assets\TestScript\test01.cs" />
     <Compile Include="Assets\TestScript\test02.cs" />

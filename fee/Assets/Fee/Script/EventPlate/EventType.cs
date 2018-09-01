@@ -8,25 +8,23 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief セーブロード。コンフィグ。
+ * @brief イベントプレート。イベントタイプ。
 */
 
 
-/** NSaveLoad
+/** NEventPlate
 */
-namespace NSaveLoad
+namespace NEventPlate
 {
-	/** Config
+	/** EventType
 	*/
-	public class Config
+	public enum EventType
 	{
-		/** ログ。
-		*/
-		public static bool LOG_ENABLE = false;
+		Button = 0,
+		ViewItem,
+		View,
 
-		/** アサート。
-		*/
-		public static bool ASSERT_ENABLE = false;
+		Max
 	}
 }
 

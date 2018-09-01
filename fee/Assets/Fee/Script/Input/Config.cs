@@ -22,7 +22,7 @@ namespace NInput
 	{
 		/** ログ。
 		*/
-		public static bool LOG_ENABLE = true;
+		public static bool LOG_ENABLE = false;
 
 		/** アサート。
 		*/

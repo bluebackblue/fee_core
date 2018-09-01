@@ -8,13 +8,13 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief セーブロード。コンフィグ。
+ * @brief イベントプレート。コンフィグ。
 */
 
 
-/** NSaveLoad
+/** NEventPlate
 */
-namespace NSaveLoad
+namespace NEventPlate
 {
 	/** Config
 	*/

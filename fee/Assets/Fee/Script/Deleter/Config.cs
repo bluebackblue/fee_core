@@ -22,7 +22,7 @@ namespace NDeleter
 	{
 		/** ログ。
 		*/
-		public const bool LOG_ENABLE = true;
+		public const bool LOG_ENABLE = false;
 	}
 }
 
