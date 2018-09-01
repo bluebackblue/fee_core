@@ -32,14 +32,14 @@ namespace NEventPlate
 
 		/** constructor
 		*/
-		public BlockItem(NDeleter.Deleter a_deleter)
+		public BlockItem(NDeleter.Deleter a_deleter,long a_priority)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
 
-			this.eventplate_button = new Item(this.deleter,EventType.Button);
-			this.eventplate_viewitem = new Item(this.deleter,EventType.ViewItem);
-			this.eventplate_view = new Item(this.deleter,EventType.View);
+			this.eventplate_button = new Item(this.deleter,EventType.Button,a_priority);
+			this.eventplate_viewitem = new Item(this.deleter,EventType.ViewItem,a_priority);
+			this.eventplate_view = new Item(this.deleter,EventType.View,a_priority);
 
 			this.eventplate_button.SetRect(0,0,NRender2D.Render2D.VIRTUAL_W,NRender2D.Render2D.VIRTUAL_H);
 			this.eventplate_viewitem.SetRect(0,0,NRender2D.Render2D.VIRTUAL_W,NRender2D.Render2D.VIRTUAL_H);
