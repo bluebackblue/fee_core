@@ -24,11 +24,11 @@ public class test04 : main_base
 {
 	/** 削除管理。
 	*/
-	NDeleter.Deleter deleter;
+	private NDeleter.Deleter deleter;
 
 	/** step
 	*/
-	int step;
+	private int step;
 
 	/** セーブロードアイテム。
 	*/

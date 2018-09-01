@@ -18,23 +18,23 @@ public class test07 : main_base , NEventPlate.OnOverCallBack_Base
 {
 	/** 削除管理。
 	*/
-	NDeleter.Deleter deleter;
+	private NDeleter.Deleter deleter;
 
 	/** text
 	*/
-	NRender2D.Text2D text;
+	private NRender2D.Text2D text;
 
 	/** sprite
 	*/
-	NRender2D.Sprite2D[] sprite;
+	private NRender2D.Sprite2D[] sprite;
 
 	/** eventplate
 	*/
-	NEventPlate.Item[] eventplate;
+	private NEventPlate.Item[] eventplate;
 
 	/** onover
 	*/
-	bool[] onover;
+	private bool[] onover;
 
 	/** Start
 	*/

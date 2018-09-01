@@ -22,15 +22,15 @@ public class test03 : main_base
 {
 	/** 削除管理。
 	*/
-	NDeleter.Deleter deleter;
+	private NDeleter.Deleter deleter;
 
 	/** スプライト。
 	*/
-	NRender2D.Sprite2D sprite;
+	private NRender2D.Sprite2D sprite;
 
 	/** ダウンロードアイテム。
 	*/
-	NDownLoad.Item download_item;
+	private NDownLoad.Item download_item;
 	
 	/** Start
 	*/

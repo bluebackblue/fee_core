@@ -18,19 +18,19 @@ public class test05 : main_base
 {
 	/** 削除管理。
 	*/
-	NDeleter.Deleter deleter;
+	private NDeleter.Deleter deleter;
 
 	/** 背景。
 	*/
-	NRender2D.Sprite2D sprite_bg;
+	private NRender2D.Sprite2D sprite_bg;
 
 	/** テキスト。
 	*/
-	NRender2D.Text2D text_mouse;
+	private NRender2D.Text2D text_mouse;
 
 	/** テキスト。
 	*/
-	NRender2D.Text2D text_joy;
+	private NRender2D.Text2D text_joy;
 
 	/** Start
 	*/
