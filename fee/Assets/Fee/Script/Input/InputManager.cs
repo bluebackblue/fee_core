@@ -58,62 +58,57 @@ namespace NInput
 				for(int ii=0;ii<this.serialized_axes.arraySize;ii++){
 					InputManager_Item t_item = new InputManager_Item();
 
-					UnityEditor.SerializedProperty t_serialized_listitem = this.serialized_axes.GetArrayElementAtIndex(ii);
-					UnityEditor.SerializedProperty t_serialized_temp = t_serialized_listitem.Copy();
-					t_serialized_temp.Next(true);
+					UnityEditor.SerializedProperty t_serialized_it = this.serialized_axes.GetArrayElementAtIndex(ii);
+					t_serialized_it.Next(true);
 					do{
-						Debug.Log(ii.ToString() + " : " + t_serialized_temp.name + " : " + t_serialized_temp.propertyType.ToString());
-
-						if(t_serialized_temp.name == "m_Name"){
-							t_item.m_Name = t_serialized_temp.stringValue;
+						if(t_serialized_it.name == "m_Name"){
+							t_item.m_Name = t_serialized_it.stringValue;
 						}
-						if(t_serialized_temp.name == "descriptiveName"){
-							t_item.descriptiveName = t_serialized_temp.stringValue;
+						if(t_serialized_it.name == "descriptiveName"){
+							t_item.descriptiveName = t_serialized_it.stringValue;
 						}
-						if(t_serialized_temp.name == "descriptiveNegativeName"){
-							t_item.descriptiveNegativeName = t_serialized_temp.stringValue;
+						if(t_serialized_it.name == "descriptiveNegativeName"){
+							t_item.descriptiveNegativeName = t_serialized_it.stringValue;
 						}
-						if(t_serialized_temp.name == "negativeButton"){
-							t_item.negativeButton = t_serialized_temp.stringValue;
+						if(t_serialized_it.name == "negativeButton"){
+							t_item.negativeButton = t_serialized_it.stringValue;
 						}
-						if(t_serialized_temp.name == "positiveButton"){
-							t_item.positiveButton = t_serialized_temp.stringValue;
+						if(t_serialized_it.name == "positiveButton"){
+							t_item.positiveButton = t_serialized_it.stringValue;
 						}
-						if(t_serialized_temp.name == "altNegativeButton"){
-							t_item.altNegativeButton = t_serialized_temp.stringValue;
+						if(t_serialized_it.name == "altNegativeButton"){
+							t_item.altNegativeButton = t_serialized_it.stringValue;
 						}
-						if(t_serialized_temp.name == "altPositiveButton"){
-							t_item.altPositiveButton = t_serialized_temp.stringValue;
+						if(t_serialized_it.name == "altPositiveButton"){
+							t_item.altPositiveButton = t_serialized_it.stringValue;
 						}
-						if(t_serialized_temp.name == "gravity"){
-							t_item.gravity = t_serialized_temp.floatValue;
+						if(t_serialized_it.name == "gravity"){
+							t_item.gravity = t_serialized_it.floatValue;
 						}
-						if(t_serialized_temp.name == "dead"){
-							t_item.dead = t_serialized_temp.floatValue;
+						if(t_serialized_it.name == "dead"){
+							t_item.dead = t_serialized_it.floatValue;
 						}
-						if(t_serialized_temp.name == "sensitivity"){
-							t_item.sensitivity = t_serialized_temp.floatValue;
+						if(t_serialized_it.name == "sensitivity"){
+							t_item.sensitivity = t_serialized_it.floatValue;
 						}
-						if(t_serialized_temp.name == "snap"){
-							t_item.snap = t_serialized_temp.boolValue;
+						if(t_serialized_it.name == "snap"){
+							t_item.snap = t_serialized_it.boolValue;
 						}
-						if(t_serialized_temp.name == "invert"){
-							t_item.invert = t_serialized_temp.boolValue;
+						if(t_serialized_it.name == "invert"){
+							t_item.invert = t_serialized_it.boolValue;
 						}
-						if(t_serialized_temp.name == "type"){
-							t_item.type = t_serialized_temp.intValue;
+						if(t_serialized_it.name == "type"){
+							t_item.type = t_serialized_it.intValue;
 						}
-						if(t_serialized_temp.name == "axis"){
-							t_item.axis = t_serialized_temp.intValue;
+						if(t_serialized_it.name == "axis"){
+							t_item.axis = t_serialized_it.intValue;
 						}
-						if(t_serialized_temp.name == "joyNum"){
-							t_item.joyNum = t_serialized_temp.intValue;
+						if(t_serialized_it.name == "joyNum"){
+							t_item.joyNum = t_serialized_it.intValue;
 						}
-
-						Debug.Log(t_item.m_Name);
 
 						this.list.Add(t_item);
-					}while(t_serialized_temp.Next(false));
+					}while(t_serialized_it.Next(false));
 				}
 			}
 		}
@@ -132,35 +127,76 @@ namespace NInput
 			this.list.Add(a_item);
 		}
 
-		/**
+		/** セーブ。
 		*/
-		public void ReCreate()
-		{
-			
-		}
-
-		/** クリア。
-		*/
-		public void Clear()
+		public void Save()
 		{
 			this.serialized_axes.ClearArray();
-			this.serialized_root.ApplyModifiedProperties();
+
+			for(int ii=0;ii<this.list.Count;ii++){
+				this.serialized_axes.arraySize++;
+				this.serialized_root.ApplyModifiedProperties();
+
+				InputManager_Item t_item = this.list[ii];
+
+				UnityEditor.SerializedProperty t_serialized_it = this.serialized_axes.GetArrayElementAtIndex(this.serialized_axes.arraySize - 1);
+				t_serialized_it.Next(true);
+				do{
+					if(t_serialized_it.name == "m_Name"){
+						t_serialized_it.stringValue = t_item.m_Name;
+					}
+					if(t_serialized_it.name == "descriptiveName"){
+						t_serialized_it.stringValue = t_item.descriptiveName;
+					}
+					if(t_serialized_it.name == "descriptiveNegativeName"){
+						t_serialized_it.stringValue = t_item.descriptiveNegativeName;
+					}
+					if(t_serialized_it.name == "negativeButton"){
+						t_serialized_it.stringValue = t_item.negativeButton;
+					}
+					if(t_serialized_it.name == "positiveButton"){
+						t_serialized_it.stringValue = t_item.positiveButton;
+					}
+					if(t_serialized_it.name == "altNegativeButton"){
+						t_serialized_it.stringValue = t_item.altNegativeButton;
+					}
+					if(t_serialized_it.name == "altPositiveButton"){
+						t_serialized_it.stringValue = t_item.altPositiveButton;
+					}
+					if(t_serialized_it.name == "gravity"){
+						t_serialized_it.floatValue = t_item.gravity;
+					}
+					if(t_serialized_it.name == "dead"){
+						t_serialized_it.floatValue = t_item.dead;
+					}
+					if(t_serialized_it.name == "sensitivity"){
+						t_serialized_it.floatValue = t_item.sensitivity;
+					}
+					if(t_serialized_it.name == "snap"){
+						t_serialized_it.boolValue = t_item.snap;
+					}
+					if(t_serialized_it.name == "invert"){
+						t_serialized_it.boolValue = t_item.invert;
+					}
+					if(t_serialized_it.name == "type"){
+						t_serialized_it.intValue = t_item.type;
+					}
+					if(t_serialized_it.name == "axis"){
+						t_serialized_it.intValue = t_item.axis;
+					}
+					if(t_serialized_it.name == "joyNum"){
+						t_serialized_it.intValue = t_item.joyNum;
+					}
+				}while(t_serialized_it.Next(false));
+			}
 		}
 
-		[UnityEditor.MenuItem("InputManager/Save")]
-		private static void Save()
+		[UnityEditor.MenuItem("InputManager/Test")]
+		private static void Test()
 		{
 			InputManage t_inputmaanger = new InputManage();
-
 			t_inputmaanger.Load();
-
-			t_inputmaanger.Clear();
-
-			/*
-			UnityEditor.EditorUtility.SetDirty(this.asset);
-			UnityEditor.AssetDatabase.SaveAssets();
-			UnityEditor.AssetDatabase.Refresh();
-			*/
+			t_inputmaanger.Save();
 		}
 
 		/*
