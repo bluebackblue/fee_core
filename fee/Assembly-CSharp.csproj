@@ -73,6 +73,11 @@
     <Compile Include="Assets\Fee\Script\DownLoad\MonoBehaviour_Www.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Tool.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Work.cs" />
+    <Compile Include="Assets\Fee\Script\Fade\Config.cs" />
+    <Compile Include="Assets\Fee\Script\Fade\Fade.cs" />
+    <Compile Include="Assets\Fee\Script\Fade\Fade_Sprite2D.cs" />
+    <Compile Include="Assets\Fee\Script\Fade\MonoBehaviour_Flag.cs" />
+    <Compile Include="Assets\Fee\Script\Fade\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Input\Config.cs" />
     <Compile Include="Assets\Fee\Script\Input\DirType.cs" />
     <Compile Include="Assets\Fee\Script\Input\Input.cs" />
@@ -127,6 +132,8 @@
     <Compile Include="Assets\Fee\Script\SaveLoad\SaveLoad.cs" />
     <Compile Include="Assets\Fee\Script\SaveLoad\Tool.cs" />
     <Compile Include="Assets\Fee\Script\SaveLoad\Work.cs" />
+    <Compile Include="Assets\Fee\Script\Scene\Scene.cs" />
+    <Compile Include="Assets\Fee\Script\Scene\Scene_Base.cs" />
     <Compile Include="Assets\TestScript\main.cs" />
     <Compile Include="Assets\TestScript\test01.cs" />
     <Compile Include="Assets\TestScript\test02.cs" />

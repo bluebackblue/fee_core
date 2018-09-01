@@ -108,7 +108,7 @@ namespace NInput
 			}
 		}
 
-		/** [外部からの呼び出し]更新。
+		/** 更新。
 		*/
 		public void Main(NRender2D.Render2D a_render2d)
 		{

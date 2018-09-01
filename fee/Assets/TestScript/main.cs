@@ -45,11 +45,26 @@ public class main : MonoBehaviour
 		//ダウンロード。
 		NDownLoad.DownLoad.DeleteInstance();
 
+		//フェード。
+		NFade.Fade.DeleteInstance();
+
+		//マスウ。
+		NInput.Mouse.DeleteInstance();
+
+		//キー。
+		NInput.Key.DeleteInstance();
+
+		//ジョイスティック。
+		NInput.Joy.DeleteInstance();
+
 		//２Ｄ描画。インスタンス削除。
 		NRender2D.Render2D.DeleteInstance();
 
 		//セーブロード。
 		NSaveLoad.SaveLoad.DeleteInstance();
+
+		//シーン。
+		NScene.Scene.DeleteInstance();
 	}
 	
 	/** デバッグ表示。

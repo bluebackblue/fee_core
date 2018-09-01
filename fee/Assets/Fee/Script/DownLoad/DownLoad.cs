@@ -99,7 +99,7 @@ namespace NDownLoad
 			return t_work.GetItem();
 		}
 
-		/** [外部からの呼び出し]更新。
+		/** 更新。
 		*/
 		public void Main()
 		{
