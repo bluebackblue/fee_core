@@ -22,7 +22,7 @@ namespace NDirectory
 	{
 		/** full_path
 		*/
-		public string full_path;
+		private string full_path;
 
 		/** constructor
 		*/
@@ -36,6 +36,13 @@ namespace NDirectory
 			}else{
 				this.full_path += "\\";
 			}
+		}
+
+		/** フルパス。取得。
+		*/
+		public string GetFullPath()
+		{
+			return this.full_path;
 		}
 	}
 }

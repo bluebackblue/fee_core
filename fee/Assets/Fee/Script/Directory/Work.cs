@@ -22,18 +22,37 @@ namespace NDirectory
 	{
 		/** 相対パス。
 		*/
-		public string dir;
+		private string path;
 
-		/** 追加先。
+		/** アイテム。
 		*/
-		public Item add_to;
+		private Item item;
 
 		/** constructor
 		*/
-		public Work(string a_dir,Item a_add_to)
+		public Work(string a_path,Item a_item)
 		{
-			this.dir = a_dir;
-			this.add_to = a_add_to;
+			/** 相対パス。
+			*/
+			this.path = a_path;
+
+			/** 追加先。
+			*/
+			this.item = a_item;
+		}
+
+		/** 相対パス。取得。
+		*/
+		public string GetPath()
+		{
+			return this.path;
+		}
+
+		/** アイテム。取得。
+		*/
+		public Item GetItem()
+		{
+			return this.item;
 		}
 	}
 }
