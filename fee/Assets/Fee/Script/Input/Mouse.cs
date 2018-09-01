@@ -153,6 +153,178 @@ namespace NInput
 				Tool.LogError(t_exception);
 			}
 		}
+
+		/** 範囲チェック。
+		*/
+		public bool InRectCheck(int a_x,int a_y,int a_w,int a_h)
+		{
+			if((a_x <= this.pos.x) && (a_y <= this.pos.y)){
+				if(((a_x + a_w) >= this.pos.x) && ((a_y + a_h) >= this.pos.y)){
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/** 範囲チェック。
+		*/
+		public bool InRectCheck(ref NRender2D.Rect2D_R<int> a_rect)
+		{
+			if((a_rect.x <= this.pos.x) && (a_rect.y <= this.pos.y)){
+				if(((a_rect.x + a_rect.w) >= this.pos.x) && ((a_rect.y + a_rect.h) >= this.pos.y)){
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/** 移動チェック。左ボタンドラッグアップ時。
+		*/
+		public Dir4Type LeftDragUpMoveCheck()
+		{
+			if((this.left.up == true)&&(this.left.drag_dir_magnitude >= Config.DRAGUP_LENGTH_MIN)&&(this.left.drag_totallength <= (this.left.drag_dir_magnitude * Config.DRAGUP_LENGTH_SCALE))){
+				{
+					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.down);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Up;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.up);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Down;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.left);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Left;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.right);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Right;
+					}
+				}
+			}
+
+			return Dir4Type.None;
+		}
+
+		/** 移動チェック。左ボタンドラッグオン時。
+		*/
+		public Dir4Type LeftDragOnMoveCheck()
+		{
+			if((this.left.on == true)&&(this.left.drag_dir_magnitude >= Config.DRAGON_LENGTH_MIN)){
+				{
+					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.down);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Up;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.up);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Down;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.left);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Left;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.right);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Right;
+					}
+				}
+			}
+
+			return Dir4Type.None;
+		}
+
+		/** 移動チェック。左ボタンドラッグアップ時。
+		*/
+		public Dir4Type RightDragUpMoveCheck()
+		{
+			if((this.right.up == true)&&(this.right.drag_dir_magnitude >= Config.DRAGUP_LENGTH_MIN)&&(this.right.drag_totallength <= (this.right.drag_dir_magnitude * Config.DRAGUP_LENGTH_SCALE))){
+				{
+					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.down);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Up;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.up);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Down;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.left);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Left;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.right);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Right;
+					}
+				}
+			}
+
+			return Dir4Type.None;
+		}
+
+		/** 移動チェック。左ボタンドラッグオン時。
+		*/
+		public Dir4Type RightDragOnMoveCheck()
+		{
+			if((this.right.on == true)&&(this.right.drag_dir_magnitude >= Config.DRAGON_LENGTH_MIN)){
+				{
+					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.down);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Up;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.up);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Down;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.left);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Left;
+					}
+				}
+
+				{
+					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.right);
+					if(t_dot >= Config.DRAG_DIR4_DOT){
+						return Dir4Type.Right;
+					}
+				}
+			}
+
+			return Dir4Type.None;
+		}
 	}
 }
 

@@ -267,6 +267,40 @@ namespace NInput
 				Tool.LogError(t_exception);
 			}
 		}
+
+		/** 移動チェック。ダウン時。
+		*/
+		public Dir4Type DownMoveCheck()
+		{
+			if(this.up.down == true){
+				return Dir4Type.Up;
+			}else if(this.down.down == true){
+				return Dir4Type.Down;
+			}else if(this.left.down == true){
+				return Dir4Type.Left;
+			}else if(this.right.down == true){
+				return Dir4Type.Right;
+			}
+
+			return Dir4Type.None;
+		}
+
+		/** 移動チェック。オン時。
+		*/
+		public Dir4Type OnMoveCheck()
+		{
+			if(this.up.on == true){
+				return Dir4Type.Up;
+			}else if(this.down.on == true){
+				return Dir4Type.Down;
+			}else if(this.left.on == true){
+				return Dir4Type.Left;
+			}else if(this.right.on == true){
+				return Dir4Type.Right;
+			}
+
+			return Dir4Type.None;
+		}
 	}
 }
 
