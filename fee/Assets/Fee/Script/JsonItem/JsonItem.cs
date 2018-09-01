@@ -893,7 +893,20 @@ namespace NJsonItem
 					string t_jsonstring = "<";
 					//t_jsonstring.reserve(64);
 					{
-						//TODO:
+						int t_count = this.value.binary_data.Count;
+						int t_index = 0;
+
+						//一つ目。
+						if(t_count > 0){
+							t_jsonstring += string.Format("{0:X}",this.value.binary_data[t_index]);
+							t_index++;
+
+							//二つ目以降。
+							for(;t_index<t_count;t_index++){
+								t_jsonstring += ",";
+								t_jsonstring += string.Format("{0:X}",this.value.binary_data[t_index]);
+							}
+						}
 					}
 					t_jsonstring += ">";
 					return t_jsonstring;
@@ -910,11 +923,6 @@ namespace NJsonItem
 					return "";
 				}//break;
 			}
-
-			//不明。
-			//Tool.Assert(false);
-
-			//return "";
 		}
 	}
 }

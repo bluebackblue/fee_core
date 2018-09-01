@@ -873,7 +873,7 @@ namespace NJsonItem
 					}
 				}else{
 
-					byte t_binary = 0x00;//TODO:
+					byte t_binary = 0x00;
 
 					switch(a_jsonstring[t_index]){
 					case '0':t_binary = 0x00;break;
@@ -910,7 +910,6 @@ namespace NJsonItem
 
 					t_index++;
 
-					//TODO:or演算子。
 					if(t_index < a_jsonstring.Length){
 						switch(a_jsonstring[t_index]){
 						case '0':t_binary |= 0x00;break;
