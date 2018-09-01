@@ -164,6 +164,8 @@ namespace NInput
 					}
 				}while(t_serialized_it.Next(false));
 			}
+
+			this.serialized_root.ApplyModifiedProperties();
 		}
 
 		/** 検索。
