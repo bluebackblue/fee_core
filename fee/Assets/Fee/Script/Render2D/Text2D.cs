@@ -80,6 +80,9 @@ namespace NRender2D
 		{
 			this.deletereq = true;
 
+			//非表示。
+			this.visible = false;
+
 			//rawの削除。
 			this.param.Delete();
 
