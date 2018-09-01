@@ -288,7 +288,7 @@ namespace NJsonItem
 					{
 						this.value.binary_data = Impl.CreateBinaryDataFromJsonString(t_jsonstring_temp);
 						return;
-					}break;
+					}//break;
 				case ValueType.None:
 				case ValueType.Calc_BoolDataFalse:
 				case ValueType.Calc_BoolDataTrue:
