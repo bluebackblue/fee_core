@@ -245,9 +245,10 @@ namespace NInput
 				float t_pad_y = 0.0f;
 				#if UNITY_EDITOR
 				{
+					//PSパッド。
+
 					t_pad_x = t_axis_7;
 					t_pad_y = t_axis_8;
-
 					t_enter = t_button_2;
 					t_escape = t_button_1;
 					t_sub1 = t_button_3;
@@ -255,9 +256,10 @@ namespace NInput
 				}
 				#elif UNITY_STANDALONE_WIN
 				{
+					//PSパッド。
+
 					t_pad_x = t_axis_7;
 					t_pad_y = t_axis_8;
-
 					t_enter = t_button_2;
 					t_escape = t_button_1;
 					t_sub1 = t_button_3;
@@ -265,9 +267,10 @@ namespace NInput
 				}
 				#elif UNITY_WEBGL
 				{
+					//PSパッド。
+
 					t_pad_x = t_axis_6;
 					t_pad_y = t_axis_7;
-
 					t_enter = t_button_1;
 					t_escape = t_button_0;
 					t_sub1 = t_button_3;
