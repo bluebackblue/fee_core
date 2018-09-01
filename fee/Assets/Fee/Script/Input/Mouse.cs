@@ -61,6 +61,7 @@ namespace NInput
 
 		/** マウスホイール。
 		*/
+		public bool mouse_wheel_flag;
 		public float mouse_wheel;
 		public float mouse_wheel_old;
 		public bool mouse_wheel_action;
@@ -77,6 +78,7 @@ namespace NInput
 			this.right.Reset();
 
 			//ホイール。
+			this.mouse_wheel_flag = true;
 			this.mouse_wheel = 0.0f;
 			this.mouse_wheel_old = 0.0f;
 			this.mouse_wheel_action = false;
@@ -129,13 +131,13 @@ namespace NInput
 				{
 					this.mouse_wheel_old = this.mouse_wheel;
 
-					if(Config.MOUSE_INPUTNAME_WHEEL != null){
+					if(this.mouse_wheel_flag == true){
 						try{
 							this.mouse_wheel = UnityEngine.Input.GetAxis(Config.MOUSE_INPUTNAME_WHEEL);
 						}catch(System.Exception /*t_exception*/){
 							//インプットマネージャで登録が必要。
 							Tool.Log("Mouse","ERROR : " + Config.MOUSE_INPUTNAME_WHEEL);
-							Config.MOUSE_INPUTNAME_WHEEL = null;
+							this.mouse_wheel_flag = false;
 						}
 					}
 

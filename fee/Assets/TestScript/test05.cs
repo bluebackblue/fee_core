@@ -107,5 +107,81 @@ public class test05 : main_base
 	{
 		this.deleter.DeleteAll();
 	}
+
+	/** 追加。
+	*/
+	[UnityEditor.MenuItem("Test/Test5/MakeInputManager")]
+	private static void MakeInputManager()
+	{
+		NInput.InputManage t_inputmaanger = new NInput.InputManage();
+		{
+			List<NInput.InputManager_Item> t_list = t_inputmaanger.GetList();
+
+			bool t_find_axis6 = false;
+			bool t_find_axis7 = false;
+			bool t_find_axis8 = false;
+			bool t_find_button0 = false;
+			bool t_find_button1 = false;
+			bool t_find_button2 = false;
+
+			for(int ii=0;ii<t_list.Count;ii++){
+				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_AXIS6){
+					t_find_axis6 = true;
+				}
+				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_AXIS7){
+					t_find_axis7 = true;
+				}
+				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_AXIS8){
+					t_find_axis8 = true;
+				}
+				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_BUTTON0){
+					t_find_button0 = true;
+				}
+				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_BUTTON1){
+					t_find_button1 = true;
+				}
+				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_BUTTON2){
+					t_find_button2 = true;
+				}
+			}
+
+			if(t_find_axis6 == false){
+				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				t_item.CreateJoyAixs6();
+				t_list.Add(t_item);
+			}
+
+			if(t_find_axis7 == false){
+				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				t_item.CreateJoyAixs7();
+				t_list.Add(t_item);
+			}
+
+			if(t_find_axis8 == false){
+				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				t_item.CreateJoyAixs8();
+				t_list.Add(t_item);
+			}
+
+			if(t_find_button0 == false){
+				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				t_item.CreateJoyButton0();
+				t_list.Add(t_item);
+			}
+
+			if(t_find_button1 == false){
+				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				t_item.CreateJoyButton1();
+				t_list.Add(t_item);
+			}
+
+			if(t_find_button2 == false){
+				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				t_item.CreateJoyButton2();
+				t_list.Add(t_item);
+			}
+		}
+		t_inputmaanger.Save();
+	}
 }
 

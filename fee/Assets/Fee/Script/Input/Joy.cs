@@ -97,10 +97,6 @@ namespace NInput
 			}
 		}
 
-		/** ジョイタイプ。
-		*/
-		//private JoyType joytype;
-
 		/** ボタン。
 		*/
 		public Key_Button left;
@@ -110,18 +106,34 @@ namespace NInput
 		public Key_Button enter;
 		public Key_Button escape;
 
+		/** フラグ。
+		*/
+		public bool joy_axis6_flag;
+		public bool joy_axis7_flag;
+		public bool joy_axis8_flag;
+		public bool joy_button0_flag;
+		public bool joy_button1_flag;
+		public bool joy_button2_flag;
+
 		/** [シングルトン]constructor
 		*/
 		private Joy()
 		{
-			/** ボタン。
-			*/
+			//ボタン。
 			this.left.Reset();
 			this.right.Reset();
 			this.up.Reset();
 			this.down.Reset();
 			this.enter.Reset();
 			this.escape.Reset();
+
+			//フラグ。
+			this.joy_axis6_flag = true;
+			this.joy_axis7_flag = true;
+			this.joy_axis8_flag = true;
+			this.joy_button0_flag = true;
+			this.joy_button1_flag = true;
+			this.joy_button2_flag = true;
 		}
 
 		/** [シングルトン]削除。
@@ -146,33 +158,33 @@ namespace NInput
 				float t_axis_7 = 0.0f;
 				float t_axis_8 = 0.0f;
 
-				if(Config.JOY_INPUTNAME_AXIS6 != null){
+				if(this.joy_axis6_flag == true){
 					try{
 						t_axis_6 = UnityEngine.Input.GetAxis(Config.JOY_INPUTNAME_AXIS6);
 					}catch(System.Exception /*t_exception*/){
 						//インプットマネージャで登録が必要。
 						Tool.Log("Joy","ERROR : " + Config.JOY_INPUTNAME_AXIS6);
-						Config.JOY_INPUTNAME_AXIS6 = null;
+						this.joy_axis6_flag = false;
 					}
 				}
 
-				if(Config.JOY_INPUTNAME_AXIS7 != null){
+				if(this.joy_axis7_flag == true){
 					try{
 						t_axis_7 = UnityEngine.Input.GetAxis(Config.JOY_INPUTNAME_AXIS7);
 					}catch(System.Exception /*t_exception*/){
 						//インプットマネージャで登録が必要。
 						Tool.Log("Joy","ERROR : " + Config.JOY_INPUTNAME_AXIS7);
-						Config.JOY_INPUTNAME_AXIS7 = null;
+						this.joy_axis7_flag = false;
 					}
 				}
 
-				if(Config.JOY_INPUTNAME_AXIS8 != null){
+				if(this.joy_axis8_flag == true){
 					try{
 						t_axis_8 = UnityEngine.Input.GetAxis(Config.JOY_INPUTNAME_AXIS8);
 					}catch(System.Exception /*t_exception*/){
 						//インプットマネージャで登録が必要。
 						Tool.Log("Joy","ERROR : " + Config.JOY_INPUTNAME_AXIS8);
-						Config.JOY_INPUTNAME_AXIS8 = null;
+						this.joy_axis8_flag = false;
 					}
 				}
 
@@ -180,33 +192,33 @@ namespace NInput
 				bool t_button_1 = false;
 				bool t_button_2 = false;
 
-				if(Config.JOY_INPUTNAME_BUTTON0 != null){
+				if(this.joy_button0_flag == true){
 					try{
 						t_button_0 = UnityEngine.Input.GetButton(Config.JOY_INPUTNAME_BUTTON0);
 					}catch(System.Exception /*t_exception*/){
 						//インプットマネージャで登録が必要。
 						Tool.Log("Joy","ERROR : " + Config.JOY_INPUTNAME_BUTTON0);
-						Config.JOY_INPUTNAME_BUTTON0 = null;
+						this.joy_button0_flag = false;
 					}
 				}
 
-				if(Config.JOY_INPUTNAME_BUTTON1 != null){
+				if(this.joy_button1_flag == true){
 					try{
 						t_button_1 = UnityEngine.Input.GetButton(Config.JOY_INPUTNAME_BUTTON1);
 					}catch(System.Exception /*t_exception*/){
 						//インプットマネージャで登録が必要。
 						Tool.Log("Joy","ERROR : " + Config.JOY_INPUTNAME_BUTTON1);
-						Config.JOY_INPUTNAME_BUTTON1 = null;
+						this.joy_button1_flag = false;
 					}
 				}
 
-				if(Config.JOY_INPUTNAME_BUTTON2 != null){
+				if(this.joy_button2_flag == true){
 					try{
 						t_button_2 = UnityEngine.Input.GetButton(Config.JOY_INPUTNAME_BUTTON2);
 					}catch(System.Exception /*t_exception*/){
 						//インプットマネージャで登録が必要。
 						Tool.Log("Joy","ERROR : " + Config.JOY_INPUTNAME_BUTTON2);
-						Config.JOY_INPUTNAME_BUTTON2 = null;
+						this.joy_button2_flag = false;
 					}
 				}
 
