@@ -150,6 +150,14 @@
     <Compile Include="Assets\Fee\Script\Scene\Scene.cs" />
     <Compile Include="Assets\Fee\Script\Scene\Scene_Base.cs" />
     <Compile Include="Assets\Fee\Script\Scene\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Button.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Button_Base.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Button_Mode.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Button_Sprite2D.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Config.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\OnTargetCallBack_Base.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Ui.cs" />
     <Compile Include="Assets\TestScript\main.cs" />
     <Compile Include="Assets\TestScript\test01.cs" />
     <Compile Include="Assets\TestScript\test02.cs" />
@@ -164,6 +172,7 @@
     <None Include="Assets\Fee\Resources\Shader\Render2D\Text.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha_Clip.shader" />
     <None Include="Assets\Fee\license\fee\LICENSE.txt" />
+    <None Include="Assets\Fee\Resources\Shader\Render2D\Button.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Normal.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Add.shader" />

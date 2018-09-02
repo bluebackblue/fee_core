@@ -13,6 +13,9 @@ using UnityEngine;
 
 
 /** test07
+
+	イベントプレート
+
 */
 public class test07 : main_base , NEventPlate.OnOverCallBack_Base
 {

@@ -36,6 +36,14 @@ namespace NEventPlate
 		*/
 		private NRender2D.Rect2D_R<int> rect;
 
+		/** clip_rect
+		*/
+		private NRender2D.Rect2D_R<int> clip_rect;
+
+		/** clip
+		*/
+		private bool clip;
+
 		/** onovercallback
 		*/
 		private OnOverCallBack_Base onover_callback;
@@ -59,7 +67,13 @@ namespace NEventPlate
 			this.enable = true;
 
 			//rect
-			//this.rect = new Rect(0,0,0,0);
+			//this.rect.Set(0,0,0,0);
+
+			//clip_rect
+			//this.clip_rect.Set(0,0,0,0);
+
+			//clip
+			this.clip = false;
 
 			//onover_callback
 			this.onover_callback = null;
@@ -105,6 +119,30 @@ namespace NEventPlate
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
 		{
 			this.rect.Set(a_x,a_y,a_w,a_h);
+		}
+
+		/** クリップ矩形。設定。
+		*/
+		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
+		{
+			this.clip_rect = a_rect;
+		}
+
+		/** クリップ矩形。設定。
+		*/
+		public void SetClipRect(int a_x,int a_y,int a_w,int a_h)
+		{
+			this.clip_rect.x = a_x;
+			this.clip_rect.y = a_y;
+			this.clip_rect.w = a_w;
+			this.clip_rect.h = a_h;
+		}
+
+		/** クリップ。設定。
+		*/
+		public void SetClip(bool a_flag)
+		{
+			this.clip = a_flag;
 		}
 
 		/** 矩形。設定。
@@ -211,7 +249,13 @@ namespace NEventPlate
 		{
 			if(this.enable == true){
 				if((this.rect.x <= a_pos.x)&&(this.rect.y <= a_pos.y)&&(a_pos.x <= (this.rect.x + this.rect.w))&&(a_pos.y <= (this.rect.y + this.rect.h))){
-					return true;
+					if(this.clip == true){
+						if((this.clip_rect.x <= a_pos.x)&&(this.clip_rect.y <= a_pos.y)&&(a_pos.x <= (this.clip_rect.x + this.clip_rect.w))&&(a_pos.y <= (this.clip_rect.y + this.clip_rect.h))){
+							return true;
+						}
+					}else{
+						return true;
+					}
 				}
 			}
 			return false;

@@ -13,6 +13,10 @@ using UnityEngine;
 
 
 /** test06
+
+	シーン遷移
+	フェード
+
 */
 public class test06 : main_base
 {

@@ -13,6 +13,11 @@ using UnityEngine;
 
 
 /** test05
+
+	マウス
+	ジョイスティック
+	キー
+
 */
 public class test05 : main_base
 {

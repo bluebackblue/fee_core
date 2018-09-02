@@ -13,6 +13,9 @@ using UnityEngine;
 
 
 /** test08
+
+	ディレクトリ探査
+
 */
 public class test08 : main_base
 {

@@ -85,6 +85,7 @@ namespace NRender2D
 			"Material/Render2D/Alpha",
 			"Material/Render2D/Alpha_Clip",
 			"Material/Render2D/Add",
+			"Material/Render2D/Button",
 		};
 
 		/** マテリアルタイプ。
@@ -96,7 +97,8 @@ namespace NRender2D
 			Normal = 0,
 			Alpha,
 			Alpha_Clip,
-			Add
+			Add,
+			Button,
 		}
 
 		/** マテリアル名。テキスト。
