@@ -46,6 +46,19 @@ namespace NBlur
 
 			//work_rendertexture
 			this.work_rendertexture = null;
+
+			{
+				float[] t_table = new float[8];
+				float t_total = 0.0f;
+				float t_dispersion = 4.0f;
+				for(int ii=0;ii<t_table.Length;ii++){
+					t_table[ii] = Mathf.Exp(-0.5f * ((float)(ii*ii)) / t_dispersion);
+					t_total += t_table[ii] * 2;
+				}
+				for(int ii=0;ii<t_table.Length;ii++){
+					t_table[ii] /= t_total;
+				}
+			}
 		}
 
 		/** 削除。
@@ -58,6 +71,13 @@ namespace NBlur
 			}
 		}
 
+		/** カメラデプス。設定。
+		*/
+		public void SetCameraDepth(float a_depth)
+		{
+			this.mycamera.depth = a_depth;
+		}
+
 		/** OnRenderImage
 		*/
 		private void OnRenderImage(RenderTexture a_source,RenderTexture a_dest)
@@ -68,7 +88,6 @@ namespace NBlur
 			}
 
 			UnityEngine.Graphics.Blit(a_source,this.work_rendertexture,this.material_blur_x);
-
 			UnityEngine.Graphics.Blit(this.work_rendertexture,a_dest,this.material_blur_y);
 		}
 	}

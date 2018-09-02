@@ -64,14 +64,46 @@ Shader "Blur/BlurY"
 			*/
 			fixed4 frag(v2f i) : SV_Target
 			{
-				half3 t_color_a = tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 1)).rgb * 3;
-				half3 t_color_b = tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 1)).rgb * 3;
-				half3 t_color_c = tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 2)).rgb * 2;
-				half3 t_color_d = tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 2)).rgb * 2;
-				half3 t_color_e = tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 3)).rgb * 1;
-				half3 t_color_f = tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 3)).rgb * 1;
+				half3 t_color = half3(0.0f,0.0f,0.0f);
 
-				half3 t_color = (t_color_a + t_color_b + t_color_c + t_color_d + t_color_e + t_color_f) * 0.083f;
+				/*
+				float[] t_table = new float[8];
+				float t_total = 0.0f;
+				float t_dispersion = 4.0f;
+				for(int ii=0;ii<t_table.Length;ii++){
+					t_table[ii] = Mathf.Exp(-0.5f * ((float)(ii*ii)) / t_dispersion);
+					t_total += t_table[ii] * 2;
+				}
+				for(int ii=0;ii<t_table.Length;ii++){
+					t_table[ii] /= t_total;
+				}
+				*/
+				float t_weight_1 = 0.16632f;
+				float t_weight_2 = 0.14677f;
+				float t_weight_3 = 0.10087f;
+				float t_weight_4 = 0.05399f;
+				float t_weight_5 = 0.02250f;
+				float t_weight_6 = 0.00730f;
+				float t_weight_7 = 0.00184f;
+				float t_weight_8 = 0.00036f;
+
+				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y *  1)).rgb * t_weight_1;
+				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y *  1)).rgb * t_weight_1;
+				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y *  3)).rgb * t_weight_2;
+				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y *  3)).rgb * t_weight_2;
+				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y *  5)).rgb * t_weight_3;
+				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y *  5)).rgb * t_weight_3;
+				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y *  7)).rgb * t_weight_4;
+				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y *  7)).rgb * t_weight_4;
+				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y *  9)).rgb * t_weight_5;
+				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y *  9)).rgb * t_weight_5;
+				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 11)).rgb * t_weight_6;
+				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 11)).rgb * t_weight_6;
+				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 13)).rgb * t_weight_7;
+				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 13)).rgb * t_weight_7;
+				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 15)).rgb * t_weight_8;
+				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 15)).rgb * t_weight_8;
+
 				return fixed4(t_color,1.0);
 			}
 			ENDCG

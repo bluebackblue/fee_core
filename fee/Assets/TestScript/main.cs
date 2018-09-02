@@ -22,7 +22,7 @@ public class main : MonoBehaviour
 
 	/** シーン数。
 	*/
-	private readonly int SCENE_COUNT = 10;
+	private readonly int SCENE_COUNT = 16;
 
 	/** Start
 	*/
@@ -42,6 +42,9 @@ public class main : MonoBehaviour
 	*/
 	public void DeleteLibInstance()
 	{
+		//ブラー。
+		NBlur.Blur.DeleteInstance();
+
 		//ダウンロード。
 		NDownLoad.DownLoad.DeleteInstance();
 
@@ -66,7 +69,7 @@ public class main : MonoBehaviour
 		//シーン。
 		NScene.Scene.DeleteInstance();
 	}
-	
+
 	/** デバッグ表示。
 	*/
     void OnGUI()

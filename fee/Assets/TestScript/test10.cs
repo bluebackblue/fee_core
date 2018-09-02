@@ -24,6 +24,10 @@ public class test10 : main_base
 	*/
 	private NRender2D.Sprite2D sprite;
 
+	/** flag
+	*/
+	private bool flag;
+
 	/** Start
 	*/
 	private void Start()
@@ -33,6 +37,9 @@ public class test10 : main_base
 
 		//ブラー。インスタンス作成。
 		NBlur.Blur.CreateInstance();
+
+		//マウス。インスタンス作成。
+		NInput.Mouse.CreateInstance();
 
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
@@ -53,12 +60,25 @@ public class test10 : main_base
 			this.sprite.SetRect(t_x,t_y,t_w,t_h);
 			this.sprite.SetTexture(t_texture);
 		}
+
+		this.flag =  false;
 	}
 
 	/** Update
 	*/
 	private void Update()
 	{
+		//マウス。
+		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
+
+		if(NInput.Mouse.GetInstance().left.down == true){
+			if(this.flag == true){
+				this.flag = false;
+			}else{
+				this.flag = true;
+			}
+			NBlur.Blur.GetInstance().SetEnable(this.flag);
+		}
 	}
 
 	/** OnDestroy

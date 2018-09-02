@@ -56,7 +56,8 @@ namespace NBlur
 
 		/** monobehaviour_camera
 		*/
-		private MonoBehaviour_Camera monobehaviour_camera;
+		private GameObject camera_gameobject;
+		private MonoBehaviour_Camera camera_monobehaviour;
 
 		/** [シングルトン]constructor
 		*/
@@ -73,15 +74,18 @@ namespace NBlur
 
 			{
 				//カメラ。
-				GameObject t_gameobject_camera = GameObject.Instantiate(t_prefab_camera,Vector3.zero,Quaternion.identity);
-				t_gameobject_camera.name = "Camera";
-				t_gameobject_camera.transform.SetParent(t_root_transform);
-				Camera t_camera = t_gameobject_camera.GetComponent<Camera>();
+				this.camera_gameobject = GameObject.Instantiate(t_prefab_camera,Vector3.zero,Quaternion.identity);
+				this.camera_gameobject.name = "Camera";
+				this.camera_gameobject.transform.SetParent(t_root_transform);
+				Camera t_camera = this.camera_gameobject.GetComponent<Camera>();
 				t_camera.depth = 999.0f;
 
 				//OnRenderImage
-				this.monobehaviour_camera = t_gameobject_camera.AddComponent<MonoBehaviour_Camera>();
-				this.monobehaviour_camera.Initialize();
+				this.camera_monobehaviour = this.camera_gameobject.AddComponent<MonoBehaviour_Camera>();
+				this.camera_monobehaviour.Initialize();
+
+				//無効。
+				this.camera_gameobject.SetActive(false);
 			}
 		}
 
@@ -89,7 +93,7 @@ namespace NBlur
 		*/
 		private void Delete()
 		{
-			this.monobehaviour_camera.Delete();
+			this.camera_monobehaviour.Delete();
 			GameObject.Destroy(this.root_gameobject);
 		}
 
@@ -97,7 +101,14 @@ namespace NBlur
 		*/
 		public void SetCameraDepth(float a_depth)
 		{
-			this.monobehaviour_camera.mycamera.depth = a_depth;
+			this.camera_monobehaviour.SetCameraDepth(a_depth);
+		}
+
+		/** 有効。設定。
+		*/
+		public void SetEnable(bool a_bool)
+		{
+			this.camera_gameobject.SetActive(a_bool);
 		}
 	}
 }
