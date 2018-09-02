@@ -185,7 +185,8 @@
     <None Include="Assets\Fee\Resources\Shader\Render2D\Button.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Normal.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha.shader" />
-    <None Include="Assets\Fee\Resources\Shader\Blur\Blur.shader" />
+    <None Include="Assets\Fee\Resources\Shader\Blur\BlurX.shader" />
+    <None Include="Assets\Fee\Resources\Shader\Blur\BlurY.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Add.shader" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/work/github/fee/fee/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>

@@ -26,7 +26,12 @@ namespace NBlur
 
 		/** material_blur
 		*/
-		private Material material_blur;
+		private Material material_blur_x;
+		private Material material_blur_y;
+
+		/** work_rendertexture
+		*/
+		private RenderTexture work_rendertexture;
 
 		/** 初期化。
 		*/
@@ -36,20 +41,35 @@ namespace NBlur
 			this.mycamera = this.GetComponent<Camera>();
 
 			//マテリアル読み込み。
-			this.material_blur = Resources.Load<Material>(Config.MATERIAL_NAME_BLUR);
+			this.material_blur_x = Resources.Load<Material>(Config.MATERIAL_NAME_BLURX);
+			this.material_blur_y = Resources.Load<Material>(Config.MATERIAL_NAME_BLURY);
+
+			//work_rendertexture
+			this.work_rendertexture = null;
 		}
 
 		/** 削除。
 		*/
 		public void Delete()
 		{
+			if(this.work_rendertexture != null){
+				this.work_rendertexture.Release();
+				this.work_rendertexture = null;
+			}
 		}
 
 		/** OnRenderImage
 		*/
 		private void OnRenderImage(RenderTexture a_source,RenderTexture a_dest)
 		{
-			UnityEngine.Graphics.Blit(a_source,a_dest,this.material_blur);
+			//レンダリングテクスチャ。
+			if(this.work_rendertexture == null){
+				this.work_rendertexture = new RenderTexture(a_source.width,a_source.height,0,a_source.format);
+			}
+
+			UnityEngine.Graphics.Blit(a_source,this.work_rendertexture,this.material_blur_x);
+
+			UnityEngine.Graphics.Blit(this.work_rendertexture,a_dest,this.material_blur_y);
 		}
 	}
 }

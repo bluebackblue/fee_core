@@ -7,7 +7,7 @@
 */
 
 
-Shader "Blur/Blur"
+Shader "Blur/BlurY"
 {
     Properties
 	{
@@ -64,12 +64,14 @@ Shader "Blur/Blur"
 			*/
 			fixed4 frag(v2f i) : SV_Target
 			{
-				half3 t_color_a = tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x, _MainTex_TexelSize.y)).rgb;
-				half3 t_color_b = tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x,-_MainTex_TexelSize.y)).rgb;
-				half3 t_color_c = tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x, _MainTex_TexelSize.y)).rgb;
-				half3 t_color_d = tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x,-_MainTex_TexelSize.y)).rgb;
-				half3 t_color = (t_color_a + t_color_b + t_color_c + t_color_d) * 0.25;
+				half3 t_color_a = tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 1)).rgb * 3;
+				half3 t_color_b = tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 1)).rgb * 3;
+				half3 t_color_c = tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 2)).rgb * 2;
+				half3 t_color_d = tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 2)).rgb * 2;
+				half3 t_color_e = tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 3)).rgb * 1;
+				half3 t_color_f = tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 3)).rgb * 1;
 
+				half3 t_color = (t_color_a + t_color_b + t_color_c + t_color_d + t_color_e + t_color_f) * 0.083f;
 				return fixed4(t_color,1.0);
 			}
 			ENDCG

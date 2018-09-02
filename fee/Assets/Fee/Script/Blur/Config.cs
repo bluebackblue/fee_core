@@ -34,7 +34,8 @@ namespace NBlur
 
 		/** マテリアル名。
 		*/
-		public static string MATERIAL_NAME_BLUR = "Material/Blur/Blur";
+		public static string MATERIAL_NAME_BLURX = "Material/Blur/BlurX";
+		public static string MATERIAL_NAME_BLURY = "Material/Blur/BlurY";
 		
 	}
 }

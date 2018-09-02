@@ -37,6 +37,8 @@ public class test10 : main_base
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
+		Texture2D t_texture = Resources.Load<Texture2D>("IMGP8657");
+
 		//スプライト。
 		{
 			int t_w = 200;
@@ -47,9 +49,9 @@ public class test10 : main_base
 			int t_layerindex = 0;
 			long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
 			this.sprite = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority);
-			this.sprite.SetTexture(Texture2D.whiteTexture);
 			this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 			this.sprite.SetRect(t_x,t_y,t_w,t_h);
+			this.sprite.SetTexture(t_texture);
 		}
 	}
 
