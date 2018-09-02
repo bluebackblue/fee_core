@@ -169,6 +169,12 @@
     <Compile Include="Assets\TestScript\test08.cs" />
     <Compile Include="Assets\TestScript\test09.cs" />
     <Compile Include="Assets\TestScript\test10.cs" />
+    <Compile Include="Assets\TestScript\test11.cs" />
+    <Compile Include="Assets\TestScript\test12.cs" />
+    <Compile Include="Assets\TestScript\test13.cs" />
+    <Compile Include="Assets\TestScript\test14.cs" />
+    <Compile Include="Assets\TestScript\test15.cs" />
+    <Compile Include="Assets\TestScript\test16.cs" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Text.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha_Clip.shader" />
     <None Include="Assets\Fee\license\fee\LICENSE.txt" />
