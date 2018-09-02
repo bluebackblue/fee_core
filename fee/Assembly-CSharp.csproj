@@ -61,6 +61,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Fee\Script\Blur\Blur.cs" />
+    <Compile Include="Assets\Fee\Script\Blur\Config.cs" />
+    <Compile Include="Assets\Fee\Script\Blur\MonoBehaviour_Camera.cs" />
+    <Compile Include="Assets\Fee\Script\Blur\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Deleter\Config.cs" />
     <Compile Include="Assets\Fee\Script\Deleter\Deleter.cs" />
     <Compile Include="Assets\Fee\Script\Deleter\Item_Base.cs" />
@@ -181,6 +185,7 @@
     <None Include="Assets\Fee\Resources\Shader\Render2D\Button.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Normal.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha.shader" />
+    <None Include="Assets\Fee\Resources\Shader\Blur\Blur.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Add.shader" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/work/github/fee/fee/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
