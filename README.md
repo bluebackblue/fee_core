@@ -26,3 +26,10 @@ http://bbbproject.sakura.ne.jp/www/project_webgl/fee/
 * http://mplus-fonts.osdn.jp/
 * Copyright (C) 2002-2017 M+ FONTS PROJECT
 
+### 魔王魂
+* https://maoudamashii.jokersounds.com/music_rule.html
+* 音楽、効果音 : 魔王魂
+
+### 効果音ラボ
+* https://soundeffect-lab.info/agreement/
+* https://soundeffect-lab.info/faq/
