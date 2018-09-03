@@ -108,16 +108,25 @@ public class test11 : main_base
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
 
 		//クリックチェック。
-		if(NInput.Mouse.GetInstance().left.down == true){
+		bool t_onover_volume = false;
+		if(NInput.Mouse.GetInstance().left.on == true){
 			if(NInput.Mouse.GetInstance().InRectCheck(this.volume_master_bar_bg.GetX(),this.volume_master_bar_bg.GetY(),this.volume_master_bar_bg.GetW(),this.volume_master_bar_bg.GetH())){
 				//ボリューム変更。マスター。
 				float t_volume = (NInput.Mouse.GetInstance().pos.x - this.volume_master_bar_bg.GetX()) / (float)this.volume_master_bar_bg.GetW();
 				NAudio.Audio.GetInstance().SetMasterVolume(t_volume);
+
+				t_onover_volume = true;
 			}else if(NInput.Mouse.GetInstance().InRectCheck(this.volume_se_bar_bg.GetX(),this.volume_se_bar_bg.GetY(),this.volume_se_bar_bg.GetW(),this.volume_se_bar_bg.GetH())){
 				//ボリューム変更。ＳＥ。
 				float t_volume = (NInput.Mouse.GetInstance().pos.x - this.volume_se_bar_bg.GetX()) / (float)this.volume_se_bar_bg.GetW();
 				NAudio.Audio.GetInstance().SetSeVolume(t_volume);
-			}else{
+
+				t_onover_volume = true;
+			}
+		}
+
+		if(NInput.Mouse.GetInstance().left.down == true){
+			if(t_onover_volume == false){
 				//再生。
 				NAudio.Audio.GetInstance().PlaySe(this.audioclip);
 			}
