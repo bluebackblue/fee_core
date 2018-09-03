@@ -56,27 +56,41 @@ namespace NAudio
 
 		/** オーディオソース。
 		*/
-		private GameObject audiosource_gameobject;
-		private MonoBehaviour_AudioSource audiosource_script;
+		private GameObject audiosource_se_gameobject;
+		private MonoBehaviour_AudioSource_Se audiosource_se_script;
+
+		/** ボリューム。マスター。
+		*/
+		private Volume volume_master;
+
+		/** ボリューム。ＳＥ。
+		*/
+		private Volume volume_se;
 
 		/** [シングルトン]constructor
 		*/
 		private Audio()
 		{
+			//ボリューム。マスター。
+			this.volume_master = new Volume(Config.DEFAULT_VOLUME_MASTER);
+
+			//ボリューム。ＳＥ。
+			this.volume_se = new Volume(Config.DEFAULT_VOLUME_SE);
+
 			//ルート。
 			this.root_gameobject = new GameObject();
 			this.root_gameobject.name = "Audio";
 			Transform t_root_transform = this.root_gameobject.GetComponent<Transform>();
 			GameObject.DontDestroyOnLoad(this.root_gameobject);
 
+			//オーディオソース。ＳＥ。
 			{
-				this.audiosource_gameobject = new GameObject();
-				this.audiosource_gameobject.name = "AudioSource";
-				this.audiosource_gameobject.transform.SetParent(t_root_transform);
-
-				this.audiosource_gameobject.AddComponent<AudioSource>();
-				this.audiosource_script = this.audiosource_gameobject.AddComponent<MonoBehaviour_AudioSource>();
-				this.audiosource_script.Initialize();
+				this.audiosource_se_gameobject = new GameObject();
+				this.audiosource_se_gameobject.name = "Se";
+				this.audiosource_se_gameobject.transform.SetParent(t_root_transform);
+				this.audiosource_se_gameobject.AddComponent<AudioSource>();
+				this.audiosource_se_script = this.audiosource_se_gameobject.AddComponent<MonoBehaviour_AudioSource_Se>();
+				this.audiosource_se_script.Initialize(this.volume_master,this.volume_se);
 			}
 		}
 
@@ -84,15 +98,45 @@ namespace NAudio
 		*/
 		private void Delete()
 		{
-			this.audiosource_script.Delete();
+			this.audiosource_se_script.Delete();
 			GameObject.Destroy(this.root_gameobject);
 		}
 
 		/** 再生。
 		*/
-		public void PlayOneShot(AudioClip a_audioclip)
+		public void PlaySe(AudioClip a_audioclip)
 		{
-			this.audiosource_script.PlayOneShot(a_audioclip);
+			this.audiosource_se_script.PlayOneShot(a_audioclip);
+		}
+
+		/** マスターボリューム。設定。
+		*/
+		public void SetMasterVolume(float a_volume)
+		{
+			this.volume_master.SetVolume(a_volume);
+			this.audiosource_se_script.UpdateVolume();
+		}
+
+		/** ＳＥボリューム。設定。
+		*/
+		public void SetSeVolume(float a_volume)
+		{
+			this.volume_se.SetVolume(a_volume);
+			this.audiosource_se_script.UpdateVolume();
+		}
+
+		/** マスターボリューム。取得。
+		*/
+		public float GetMasterVolume()
+		{
+			return this.volume_master.GetVolume();
+		}
+
+		/** ＳＥボリューム。取得。
+		*/
+		public float GetSeVolume()
+		{
+			return this.volume_se.GetVolume();
 		}
 	}
 }

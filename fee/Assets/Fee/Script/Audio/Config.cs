@@ -27,6 +27,14 @@ namespace NAudio
 		/** アサート。
 		*/
 		public static bool ASSERT_ENABLE = false;
+
+		/** デフォルトボリューム。マスター。
+		*/
+		public static float DEFAULT_VOLUME_MASTER = 0.8f;
+
+		/** デフォルトボリューム。ＳＥ。
+		*/
+		public static float DEFAULT_VOLUME_SE = 0.8f;
 	}
 }
 
