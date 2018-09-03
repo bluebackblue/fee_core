@@ -190,8 +190,9 @@
     <None Include="Assets\Fee\license\fee\LICENSE.txt" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Button.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Normal.shader" />
+    <None Include="Assets\Fee\license\maoudamashii\maoudamashii.txt" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha.shader" />
-    <None Include="Assets\Fee\license\soundeffectlab\memo.txt" />
+    <None Include="Assets\Fee\license\soundeffect-lab\soundeffect-lab.txt" />
     <None Include="Assets\Fee\Resources\Shader\Blur\BlurX.shader" />
     <None Include="Assets\Fee\Resources\Shader\Blur\BlurY.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Add.shader" />
