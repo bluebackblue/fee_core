@@ -27,9 +27,11 @@ http://bbbproject.sakura.ne.jp/www/project_webgl/fee/
 * Copyright (C) 2002-2017 M+ FONTS PROJECT
 
 ### 魔王魂
+* https://github.com/bluebackblue/fee/tree/master/license/maoudamashii
 * https://maoudamashii.jokersounds.com/music_rule.html
 * 音楽、効果音 : 魔王魂
 
 ### 効果音ラボ
+* https://github.com/bluebackblue/fee/tree/master/license/soundeffect-lab
 * https://soundeffect-lab.info/agreement/
 * https://soundeffect-lab.info/faq/
