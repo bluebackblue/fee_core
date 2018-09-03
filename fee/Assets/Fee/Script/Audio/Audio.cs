@@ -50,16 +50,49 @@ namespace NAudio
 			}
 		}
 
+		/** ルート。
+		*/
+		private GameObject root_gameobject;
+
+		/** オーディオソース。
+		*/
+		private GameObject audiosource_gameobject;
+		private MonoBehaviour_AudioSource audiosource_script;
+
 		/** [シングルトン]constructor
 		*/
 		private Audio()
 		{
+			//ルート。
+			this.root_gameobject = new GameObject();
+			this.root_gameobject.name = "Audio";
+			Transform t_root_transform = this.root_gameobject.GetComponent<Transform>();
+			GameObject.DontDestroyOnLoad(this.root_gameobject);
+
+			{
+				this.audiosource_gameobject = new GameObject();
+				this.audiosource_gameobject.name = "AudioSource";
+				this.audiosource_gameobject.transform.SetParent(t_root_transform);
+
+				this.audiosource_gameobject.AddComponent<AudioSource>();
+				this.audiosource_script = this.audiosource_gameobject.AddComponent<MonoBehaviour_AudioSource>();
+				this.audiosource_script.Initialize();
+			}
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			this.audiosource_script.Delete();
+			GameObject.Destroy(this.root_gameobject);
+		}
+
+		/** 再生。
+		*/
+		public void PlayOneShot(AudioClip a_audioclip)
+		{
+			this.audiosource_script.PlayOneShot(a_audioclip);
 		}
 	}
 }

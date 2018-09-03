@@ -38,6 +38,9 @@ public class test11 : main_base
 		//マウス。インスタンス作成。
 		NInput.Mouse.CreateInstance();
 
+		//オーディオ。インスタンス作成。
+		NAudio.Audio.CreateInstance();
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
@@ -60,11 +63,15 @@ public class test11 : main_base
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
 
 		if(NInput.Mouse.GetInstance().left.down == true){
+
+			/*
 			if(this.audiosource == null){
 				this.audiosource = this.GetComponent<AudioSource>();
 			}
-
 			this.audiosource.PlayOneShot(this.audioclip);
+			*/
+
+			NAudio.Audio.GetInstance().PlayOneShot(this.audioclip);
 		}
 	}
 
