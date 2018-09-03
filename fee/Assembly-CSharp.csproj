@@ -187,7 +187,6 @@
     <Compile Include="Assets\TestScript\test16.cs" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Text.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha_Clip.shader" />
-    <None Include="Assets\Fee\license\fee\LICENSE.txt" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Button.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Normal.shader" />
     <None Include="Assets\Fee\license\maoudamashii\maoudamashii.txt" />
