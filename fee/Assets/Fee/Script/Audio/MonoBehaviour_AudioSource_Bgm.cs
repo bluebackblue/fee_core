@@ -50,14 +50,11 @@ namespace NAudio
 		/** オーディオソース。
 		*/
 		private AudioSource[] myaudiosource;
+		private float[] myaudiosource_volume;
 
 		/** クリップパック。
 		*/
 		private ClipPack clippack;
-
-		/** TODO
-		*/
-		private float myvolume;
 
 		/** リクエストインデックス。
 		*/
@@ -67,9 +64,9 @@ namespace NAudio
 		*/
 		private int play_index;
 
-		/** time
+		/** fadetime
 		*/
-		private int time;
+		private float fadetime;
 
 		/** mode
 		*/
@@ -89,18 +86,24 @@ namespace NAudio
 			this.myaudiosource = this.GetComponents<AudioSource>();
 			for(int ii=0;ii<this.myaudiosource.Length;ii++){
 				this.myaudiosource[ii].playOnAwake = false;
+				this.myaudiosource[ii].loop = true;
 				this.myaudiosource[ii].volume = this.volume_master.GetVolume() * this.volume_bgm.GetVolume();
 			}
 
-			this.myvolume = 0.0f;
+			//myaudiosource_volume
+			this.myaudiosource_volume = new float[this.myaudiosource.Length];
 
+			//request_index
 			this.request_index = -1;
 
+			//play_index
 			this.play_index = -1;
 
-			this.mode = Mode.Wait;
+			//fadetime
+			this.fadetime = 0.0f;
 
-			this.time = 0;
+			//mode
+			this.mode = Mode.Wait;
 		}
 
 		/** 削除。
@@ -113,7 +116,9 @@ namespace NAudio
 		*/
 		public void UpdateVolume()
 		{
-			this.myvolume = this.volume_master.GetVolume() * this.volume_bgm.GetVolume();
+			for(int ii=0;ii<this.myaudiosource_volume.Length;ii++){
+				this.myaudiosource[ii].volume = this.myaudiosource_volume[ii] * this.volume_master.GetVolume() * this.volume_bgm.GetVolume();
+			}
 		}
 
 		/** クリップパック。設定。
@@ -142,8 +147,11 @@ namespace NAudio
 						this.myaudiosource[0].clip = this.clippack.clip_list[this.request_index];
 						this.myaudiosource[0].Play();
 
-						this.play_index = this.request_index;
+						//ボリューム。
+						this.myaudiosource_volume[0] = 1.0f;
+						this.UpdateVolume();
 
+						this.play_index = this.request_index;
 						this.mode = Mode.Play0;
 					}
 				}break;
@@ -152,11 +160,15 @@ namespace NAudio
 					if(this.play_index != this.request_index){
 						//クロスフェード開始。
 
-						this.time = 0;
+						this.fadetime = 0.0f;
 
+						//再生。
 						this.myaudiosource[1].clip = this.clippack.clip_list[this.request_index];
 						this.myaudiosource[1].volume = 0.0f;
 						this.myaudiosource[1].Play();
+
+						//ボリューム。
+						this.myaudiosource_volume[1] = 0.0f;
 
 						this.play_index = this.request_index;
 						this.mode = Mode.Cross0To1;
@@ -167,11 +179,15 @@ namespace NAudio
 					if(this.play_index != this.request_index){
 						//クロスフェード開始。
 
-						this.time = 0;
+						this.fadetime = 0.0f;
 
+						//再生。
 						this.myaudiosource[0].clip = this.clippack.clip_list[this.request_index];
 						this.myaudiosource[0].volume = 0.0f;
 						this.myaudiosource[0].Play();
+
+						//ボリューム。
+						this.myaudiosource_volume[0] = 0.0f;
 
 						this.play_index = this.request_index;
 						this.mode = Mode.Cross1To0;
@@ -179,16 +195,24 @@ namespace NAudio
 				}break;
 			case Mode.Cross0To1:
 				{
-					this.time++;
+					this.fadetime += 0.02f;
+					if(this.fadetime < 1.0f){
 
-					if(this.time < 60){
-						float t_per = (float)this.time / 60;
-
-						float t_volume = this.volume_bgm.GetVolume() * this.volume_master.GetVolume();
-
-						this.myaudiosource[1].volume = t_per * t_volume;
-						this.myaudiosource[0].volume = (1.0f - t_per) * t_volume;
+						//ボリューム。
+						this.myaudiosource_volume[1] = this.fadetime;
+						this.myaudiosource_volume[0] = 1.0f - this.fadetime;
+						this.UpdateVolume();
+						
 					}else{
+
+						//ボリューム。
+						this.myaudiosource_volume[1] = 1.0f;
+						this.myaudiosource_volume[0] = 0.0f;
+						this.UpdateVolume();
+
+						Debug.Log(this.myaudiosource[1].volume.ToString());
+
+						//停止。
 						this.myaudiosource[0].Stop();
 						this.myaudiosource[0].clip = null;
 
@@ -197,16 +221,24 @@ namespace NAudio
 				}break;
 			case Mode.Cross1To0:
 				{
-					this.time++;
+					this.fadetime += 0.02f;
+					if(this.fadetime < 1.0f){
 
-					if(this.time < 60){
-						float t_per = (float)this.time / 60;
-
-						float t_volume = this.volume_bgm.GetVolume() * this.volume_master.GetVolume();
-
-						this.myaudiosource[0].volume = t_per * t_volume;
-						this.myaudiosource[1].volume = (1.0f - t_per) * t_volume;
+						//ボリューム。
+						this.myaudiosource_volume[0] = this.fadetime;
+						this.myaudiosource_volume[1] = 1.0f - this.fadetime;
+						this.UpdateVolume();
+						
 					}else{
+
+						//ボリューム。
+						this.myaudiosource_volume[0] = 1.0f;
+						this.myaudiosource_volume[1] = 0.0f;
+						this.UpdateVolume();
+
+						Debug.Log(this.myaudiosource[0].volume.ToString());
+
+						//停止。
 						this.myaudiosource[1].Stop();
 						this.myaudiosource[1].clip = null;
 

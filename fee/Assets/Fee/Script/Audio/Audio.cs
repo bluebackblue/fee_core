@@ -108,7 +108,7 @@ namespace NAudio
 			//オーディオソース。ＢＧＭ。
 			{
 				this.bgm_audiosource_gameobject = new GameObject();
-				this.bgm_audiosource_gameobject.name = "Se";
+				this.bgm_audiosource_gameobject.name = "Bgm";
 				this.bgm_audiosource_gameobject.transform.SetParent(t_root_transform);
 				this.bgm_audiosource_gameobject.AddComponent<AudioSource>();
 				this.bgm_audiosource_gameobject.AddComponent<AudioSource>();
@@ -138,6 +138,7 @@ namespace NAudio
 		{
 			this.volume_master.SetVolume(a_volume);
 			this.se_audiosource_script.UpdateVolume();
+			this.bgm_audiosource_script.UpdateVolume();
 		}
 
 		/** ＳＥボリューム。設定。

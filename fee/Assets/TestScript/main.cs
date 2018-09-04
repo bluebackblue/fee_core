@@ -42,11 +42,17 @@ public class main : MonoBehaviour
 	*/
 	public void DeleteLibInstance()
 	{
+		//オーディオ。
+		NAudio.Audio.DeleteInstance();
+
 		//ブラー。
 		NBlur.Blur.DeleteInstance();
 
 		//ダウンロード。
 		NDownLoad.DownLoad.DeleteInstance();
+
+		//イベントプレート。
+		NEventPlate.EventPlate.DeleteInstance();
 
 		//フェード。
 		NFade.Fade.DeleteInstance();
