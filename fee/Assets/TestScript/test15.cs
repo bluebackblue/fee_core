@@ -2,15 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class test15 : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+/**
+ * Copyright (c) blueback
+ * Released under the MIT License
+ * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
+ * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
+ * @brief テスト。
+*/
+
+
+/** test15
+*/
+public class test15 : main_base
+{
+	/** Start
+	*/
+	private void Start()
+	{
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	/** Update
+	*/
+	private void Update()
+	{
+	}
+
+	/** OnDestroy
+	*/
+	private void OnDestroy()
+	{
 	}
 }
+

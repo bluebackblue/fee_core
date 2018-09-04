@@ -145,17 +145,5 @@ public class test11 : main_base
 	{
 		this.deleter.DeleteAll();
 	}
-
-	/** イベントプレートに入場。
-	*/
-	void OnOverEnter(int a_value)
-	{
-	}
-
-	/** イベントプレートから退場。
-	*/
-	void OnOverLeave(int a_value)
-	{
-	}
 }
 
