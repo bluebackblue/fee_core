@@ -35,6 +35,10 @@ namespace NAudio
 		/** デフォルトボリューム。ＳＥ。
 		*/
 		public static float DEFAULT_VOLUME_SE = 0.8f;
+
+		/** デフォルトボリューム。ＢＧＭ。
+		*/
+		public static float DEFAULT_VOLUME_BGM = 0.8f;
 	}
 }
 

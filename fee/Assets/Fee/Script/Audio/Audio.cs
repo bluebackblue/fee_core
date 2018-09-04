@@ -50,15 +50,6 @@ namespace NAudio
 			}
 		}
 
-		/** ルート。
-		*/
-		private GameObject root_gameobject;
-
-		/** オーディオソース。
-		*/
-		private GameObject audiosource_se_gameobject;
-		private MonoBehaviour_AudioSource_Se audiosource_se_script;
-
 		/** ボリューム。マスター。
 		*/
 		private Volume volume_master;
@@ -67,6 +58,24 @@ namespace NAudio
 		*/
 		private Volume volume_se;
 
+		/** ボリューム。ＢＧＭ。
+		*/
+		private Volume volume_bgm;
+
+		/** ルート。
+		*/
+		private GameObject root_gameobject;
+
+		/** ＳＥ。オーディオソース。
+		*/
+		private GameObject se_audiosource_gameobject;
+		private MonoBehaviour_AudioSource_Se se_audiosource_script;
+
+		/** ＢＧＭ。オーディオソース。
+		*/
+		private GameObject bgm_audiosource_gameobject;
+		private MonoBehaviour_AudioSource_Bgm bgm_audiosource_script;
+		
 		/** [シングルトン]constructor
 		*/
 		private Audio()
@@ -77,6 +86,9 @@ namespace NAudio
 			//ボリューム。ＳＥ。
 			this.volume_se = new Volume(Config.DEFAULT_VOLUME_SE);
 
+			//ボリューム。ＢＧＭ。
+			this.volume_bgm = new Volume(Config.DEFAULT_VOLUME_BGM);
+
 			//ルート。
 			this.root_gameobject = new GameObject();
 			this.root_gameobject.name = "Audio";
@@ -85,12 +97,23 @@ namespace NAudio
 
 			//オーディオソース。ＳＥ。
 			{
-				this.audiosource_se_gameobject = new GameObject();
-				this.audiosource_se_gameobject.name = "Se";
-				this.audiosource_se_gameobject.transform.SetParent(t_root_transform);
-				this.audiosource_se_gameobject.AddComponent<AudioSource>();
-				this.audiosource_se_script = this.audiosource_se_gameobject.AddComponent<MonoBehaviour_AudioSource_Se>();
-				this.audiosource_se_script.Initialize(this.volume_master,this.volume_se);
+				this.se_audiosource_gameobject = new GameObject();
+				this.se_audiosource_gameobject.name = "Se";
+				this.se_audiosource_gameobject.transform.SetParent(t_root_transform);
+				this.se_audiosource_gameobject.AddComponent<AudioSource>();
+				this.se_audiosource_script = this.se_audiosource_gameobject.AddComponent<MonoBehaviour_AudioSource_Se>();
+				this.se_audiosource_script.Initialize(this.volume_master,this.volume_se);
+			}
+
+			//オーディオソース。ＢＧＭ。
+			{
+				this.bgm_audiosource_gameobject = new GameObject();
+				this.bgm_audiosource_gameobject.name = "Se";
+				this.bgm_audiosource_gameobject.transform.SetParent(t_root_transform);
+				this.bgm_audiosource_gameobject.AddComponent<AudioSource>();
+				this.bgm_audiosource_gameobject.AddComponent<AudioSource>();
+				this.bgm_audiosource_script = this.bgm_audiosource_gameobject.AddComponent<MonoBehaviour_AudioSource_Bgm>();
+				this.bgm_audiosource_script.Initialize(this.volume_master,this.volume_bgm);
 			}
 		}
 
@@ -98,7 +121,7 @@ namespace NAudio
 		*/
 		private void Delete()
 		{
-			this.audiosource_se_script.Delete();
+			this.se_audiosource_script.Delete();
 			GameObject.Destroy(this.root_gameobject);
 		}
 
@@ -106,7 +129,7 @@ namespace NAudio
 		*/
 		public void PlaySe(AudioClip a_audioclip)
 		{
-			this.audiosource_se_script.PlayOneShot(a_audioclip);
+			this.se_audiosource_script.PlayOneShot(a_audioclip);
 		}
 
 		/** マスターボリューム。設定。
@@ -114,7 +137,7 @@ namespace NAudio
 		public void SetMasterVolume(float a_volume)
 		{
 			this.volume_master.SetVolume(a_volume);
-			this.audiosource_se_script.UpdateVolume();
+			this.se_audiosource_script.UpdateVolume();
 		}
 
 		/** ＳＥボリューム。設定。
@@ -122,7 +145,15 @@ namespace NAudio
 		public void SetSeVolume(float a_volume)
 		{
 			this.volume_se.SetVolume(a_volume);
-			this.audiosource_se_script.UpdateVolume();
+			this.se_audiosource_script.UpdateVolume();
+		}
+
+		/** ＢＧＭボリューム。設定。
+		*/
+		public void SetBgmVolume(float a_volume)
+		{
+			this.volume_bgm.SetVolume(a_volume);
+			this.bgm_audiosource_script.UpdateVolume();
 		}
 
 		/** マスターボリューム。取得。
@@ -137,6 +168,27 @@ namespace NAudio
 		public float GetSeVolume()
 		{
 			return this.volume_se.GetVolume();
+		}
+
+		/** ＢＧＭボリューム。取得。
+		*/
+		public float GetBgmVolume()
+		{
+			return this.volume_bgm.GetVolume();
+		}
+
+		/** ＢＧＭ。ロード。
+		*/
+		public void LoadBgm(ClipPack a_clippack)
+		{
+			this.bgm_audiosource_script.SetClipPack(a_clippack);
+		}
+
+		/** ＢＧＭ。再生。
+		*/
+		public void PlayBgm(int a_index)
+		{
+			this.bgm_audiosource_script.PlayBgm(a_index);
 		}
 	}
 }
