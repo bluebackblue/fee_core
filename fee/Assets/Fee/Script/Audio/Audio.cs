@@ -125,13 +125,6 @@ namespace NAudio
 			GameObject.Destroy(this.root_gameobject);
 		}
 
-		/** 再生。
-		*/
-		public void PlaySe(AudioClip a_audioclip)
-		{
-			this.se_audiosource_script.PlayOneShot(a_audioclip);
-		}
-
 		/** マスターボリューム。設定。
 		*/
 		public void SetMasterVolume(float a_volume)
@@ -183,6 +176,34 @@ namespace NAudio
 		public void LoadBgm(ClipPack a_clippack)
 		{
 			this.bgm_audiosource_script.SetClipPack(a_clippack);
+		}
+
+		/** ＳＥ。ロード。
+		*/
+		public void LoadSe(ClipPack a_clippack,long a_se_id)
+		{
+			this.se_audiosource_script.SetClipPack(a_clippack,a_se_id);
+		}
+
+		/** ＳＥ。アンロード。
+		*/
+		public void UnLoadSe(long a_se_id)
+		{
+			this.se_audiosource_script.UnSetClipPack(a_se_id);
+		}
+
+		/** ＳＥ。チェック。
+		*/
+		public bool IsExistSe(long a_se_id)
+		{
+			return this.se_audiosource_script.IsExistClipPack(a_se_id);
+		}
+
+		/** 再生。
+		*/
+		public void PlaySe(long a_se_id,int a_index)
+		{
+			this.se_audiosource_script.PlayOneShot(a_se_id,a_index);
 		}
 
 		/** ＢＧＭ。再生。

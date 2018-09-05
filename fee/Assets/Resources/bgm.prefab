@@ -54,3 +54,6 @@ MonoBehaviour:
   clip_list:
   - {fileID: 8300000, guid: c2a10c16e874da24d8a3a33876415a61, type: 3}
   - {fileID: 8300000, guid: 8ec2488d4b3ac7249882b72976551b10, type: 3}
+  volume_list:
+  - 0.3
+  - 0.3

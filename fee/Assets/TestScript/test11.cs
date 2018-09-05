@@ -20,14 +20,6 @@ public class test11 : main_base
 	*/
 	private NDeleter.Deleter deleter;
 
-	/** audiosource
-	*/
-	private AudioSource audiosource;
-
-	/** audioclip
-	*/
-	private AudioClip audioclip;
-
 	/** volume_master_bar
 	*/
 	private NRender2D.Sprite2D volume_master_bar_bg;
@@ -37,6 +29,10 @@ public class test11 : main_base
 	*/
 	private NRender2D.Sprite2D volume_se_bar_bg;
 	private NRender2D.Sprite2D volume_se_bar;
+
+	/** SE_ID
+	*/
+	private long SE_ID = 0x12345678;
 
 	/** Start
 	*/
@@ -54,16 +50,14 @@ public class test11 : main_base
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
-		//プレハブの読み込み。
-		GameObject t_prefab_clippack = Resources.Load<GameObject>("se");
-		NAudio.ClipPack t_clippack = t_prefab_clippack.GetComponent<NAudio.ClipPack>();
+		//ＳＥ読み込み。
+		{
+			GameObject t_prefab_clippack = Resources.Load<GameObject>("se");
+			NAudio.ClipPack t_clippack = t_prefab_clippack.GetComponent<NAudio.ClipPack>();
+			NAudio.Audio.GetInstance().LoadSe(t_clippack,SE_ID);
+		}
 
-		//audiosource
-		this.audiosource = null;
-
-		//audioclip
-		this.audioclip = t_clippack.clip_list[0];
-
+		//drawpriority
 		int t_layerindex = 0;
 		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
 
@@ -125,10 +119,16 @@ public class test11 : main_base
 			}
 		}
 
+		//再生。
 		if(NInput.Mouse.GetInstance().left.down == true){
 			if(t_onover_volume == false){
-				//再生。
-				NAudio.Audio.GetInstance().PlaySe(this.audioclip);
+				int t_index = 0;
+				NAudio.Audio.GetInstance().PlaySe(SE_ID,t_index);
+			}
+		}else if(NInput.Mouse.GetInstance().right.down == true){
+			if(t_onover_volume == false){
+				int t_index = 3;
+				NAudio.Audio.GetInstance().PlaySe(SE_ID,t_index);
 			}
 		}
 

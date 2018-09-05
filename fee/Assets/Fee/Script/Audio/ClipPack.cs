@@ -24,10 +24,42 @@ namespace NAudio
 		*/
 		public AudioClip[] clip_list;
 
-		/** Start
+		/** volume_list
 		*/
-		private void Start()
+		public float[] volume_list;
+
+		/** リスト数。取得。
+		*/
+		public int GetListMax()
 		{
+			if(this.clip_list != null){
+				return this.clip_list.Length;
+			}
+			return 0;
+		}
+
+		/** オーディオクリップ。取得。
+		*/
+		public AudioClip GetAudioClip(int a_index)
+		{
+			if(this.clip_list != null){
+				if((0 <= a_index)&&(a_index < this.volume_list.Length)){
+					return this.clip_list[a_index];
+				}
+			}
+			return null;
+		}
+
+		/** ボリューム。取得。
+		*/
+		public float GetVolume(int a_index)
+		{
+			if(this.volume_list != null){
+				if((0 <= a_index)&&(a_index < this.volume_list.Length)){
+					return this.volume_list[a_index];
+				}
+			}
+			return 1.0f;
 		}
 	}
 }

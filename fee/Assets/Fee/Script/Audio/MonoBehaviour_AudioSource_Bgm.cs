@@ -51,6 +51,7 @@ namespace NAudio
 		*/
 		private AudioSource[] myaudiosource;
 		private float[] myaudiosource_volume;
+		private int[] myaudiosource_index;
 
 		/** クリップパック。
 		*/
@@ -92,6 +93,15 @@ namespace NAudio
 
 			//myaudiosource_volume
 			this.myaudiosource_volume = new float[this.myaudiosource.Length];
+			for(int ii=0;ii<this.myaudiosource_volume.Length;ii++){
+				this.myaudiosource_volume[ii] = 0.0f;
+			}
+
+			//myaudiosource_index
+			this.myaudiosource_index = new int[this.myaudiosource.Length];
+			for(int ii=0;ii<this.myaudiosource_volume.Length;ii++){
+				this.myaudiosource_index[ii] = -1;
+			}
 
 			//request_index
 			this.request_index = -1;
@@ -117,7 +127,12 @@ namespace NAudio
 		public void UpdateVolume()
 		{
 			for(int ii=0;ii<this.myaudiosource_volume.Length;ii++){
-				this.myaudiosource[ii].volume = this.myaudiosource_volume[ii] * this.volume_master.GetVolume() * this.volume_bgm.GetVolume();
+				float t_volume = 0.0f;
+				if(this.clippack != null){
+					t_volume = this.clippack.GetVolume(ii);
+				}
+
+				this.myaudiosource[ii].volume = this.myaudiosource_volume[ii] * this.volume_master.GetVolume() * this.volume_bgm.GetVolume() * t_volume;
 			}
 		}
 
@@ -144,7 +159,7 @@ namespace NAudio
 				{
 					if(this.request_index >= 0){
 						//再生。
-						this.myaudiosource[0].clip = this.clippack.clip_list[this.request_index];
+						this.myaudiosource[0].clip = this.clippack.GetAudioClip(this.request_index);
 						this.myaudiosource[0].Play();
 
 						//ボリューム。
@@ -163,7 +178,7 @@ namespace NAudio
 						this.fadetime = 0.0f;
 
 						//再生。
-						this.myaudiosource[1].clip = this.clippack.clip_list[this.request_index];
+						this.myaudiosource[1].clip = this.clippack.GetAudioClip(this.request_index);
 						this.myaudiosource[1].volume = 0.0f;
 						this.myaudiosource[1].Play();
 
@@ -182,7 +197,7 @@ namespace NAudio
 						this.fadetime = 0.0f;
 
 						//再生。
-						this.myaudiosource[0].clip = this.clippack.clip_list[this.request_index];
+						this.myaudiosource[0].clip = this.clippack.GetAudioClip(this.request_index);
 						this.myaudiosource[0].volume = 0.0f;
 						this.myaudiosource[0].Play();
 
@@ -195,7 +210,7 @@ namespace NAudio
 				}break;
 			case Mode.Cross0To1:
 				{
-					this.fadetime += 0.02f;
+					this.fadetime += Config.BGM_CROSSFADE_SPEED;
 					if(this.fadetime < 1.0f){
 
 						//ボリューム。
@@ -221,7 +236,7 @@ namespace NAudio
 				}break;
 			case Mode.Cross1To0:
 				{
-					this.fadetime += 0.02f;
+					this.fadetime += Config.BGM_CROSSFADE_SPEED;
 					if(this.fadetime < 1.0f){
 
 						//ボリューム。

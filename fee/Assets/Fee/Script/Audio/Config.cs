@@ -39,6 +39,10 @@ namespace NAudio
 		/** デフォルトボリューム。ＢＧＭ。
 		*/
 		public static float DEFAULT_VOLUME_BGM = 0.8f;
+
+		/** クロスフェード速度。
+		*/
+		public static float BGM_CROSSFADE_SPEED = 0.02f;
 	}
 }
 
