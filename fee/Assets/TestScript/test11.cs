@@ -79,7 +79,7 @@ public class test11 : main_base
 		AssetBundle.UnloadAllAssetBundles(false);
 
 		//キャッシュクリア。
-		UnityEngine.Caching.ClearAllCachedVersions("bgm");
+		//UnityEngine.Caching.ClearAllCachedVersions("bgm");
 
 		//ダウンロードリクエスト。
 		{

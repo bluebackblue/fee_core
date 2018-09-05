@@ -195,36 +195,37 @@ namespace NDownLoad
 							this.mode = Mode.WaitRequest;
 						}else if(this.www.isDone == true){
 							//ダウンロード完了。
-							this.result_errorstring = "";
 
-							this.request_url = null;
-
-							this.result_progress = 1.0f;
-
-							this.result_header = this.www.responseHeaders;
-
-							//ヘッダ。
-							{
-								foreach(KeyValuePair<string,string> t_pair in this.result_header){
-									Tool.Log("MonoBehaviour_WWW",t_pair.Key + " = " + t_pair.Value);
-								}
+							for(int ii=0;ii<3;ii++){
+								yield return null;
 							}
 
 							//ヘッダ。
 							string t_header_contenttype = "";
 							{
+								this.result_header = this.www.responseHeaders;
+
+								foreach(KeyValuePair<string,string> t_pair in this.result_header){
+									Tool.Log("MonoBehaviour_WWW",t_pair.Key + " = " + t_pair.Value);
+								}
+
 								if(this.result_header.TryGetValue("Content-Type",out t_header_contenttype) == false){
 									t_header_contenttype = "";
 								}
 							}
 
 							//コンバート。
-							try{
+							{
 								DataType t_datatype = Mime.GetDataTypeFromContentType(t_header_contenttype);
 								switch(t_datatype){
 								case DataType.Texture:
 									{
-										this.result_texture = this.www.texture;
+										try{
+											this.result_texture = this.www.texture;
+										}catch(System.Exception t_exception){
+											Tool.LogError(t_exception);
+										}
+
 										if(this.result_texture != null){
 											this.datatype = DataType.Texture;
 										}else{
@@ -234,7 +235,12 @@ namespace NDownLoad
 									}break;
 								case DataType.Text:
 									{
-										this.result_text = this.www.text;
+										try{
+											this.result_text = this.www.text;
+										}catch(System.Exception t_exception){
+											Tool.LogError(t_exception);
+										}
+
 										if(this.result_text != null){
 											this.datatype = DataType.Text;
 										}else{
@@ -259,10 +265,13 @@ namespace NDownLoad
 									}break;
 								}
 
+								this.result_errorstring = "";
+
+								this.request_url = null;
+
+								this.result_progress = 1.0f;
+
 								Tool.Log("MonoBehaviour_WWW","Convert : " + this.datatype.ToString());
-							}catch(System.Exception t_exception){
-								Tool.LogError(t_exception);
-								this.datatype = DataType.Error;
 							}
 
 							//解放。
