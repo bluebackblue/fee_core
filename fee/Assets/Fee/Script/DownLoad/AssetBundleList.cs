@@ -65,7 +65,7 @@ namespace NDownLoad
 			return null;
 		}
 
-		/** すべてのアセットバンドル。アンロード。
+		/** アセットバンドル。アンロード。
 		*/
 		public void UnloadAllAssetBundle()
 		{
@@ -77,6 +77,23 @@ namespace NDownLoad
 				this.UnloadAssetBundle(t_keylist[ii]);
 			}
 		}
+
+		/** メモリ中のすべてのアセットバンドルをアンロード。
+		*/
+		public static void UnloadAllAssetBundleFromMemory()
+		{
+			//アセットバンドル。全破棄。
+			AssetBundle.UnloadAllAssetBundles(false);
+		}
+
+		/** すべてのキャッシュファイル削除。
+		*/
+		public static void ClearAllCacheFile()
+		{
+			bool t_ret = UnityEngine.Caching.ClearCache();
+			Tool.Log("NDownLoad.AssetBundleList","UnityEngine.Caching.ClearCache() : " +  t_ret.ToString());
+		}
+
 	}
 }
 

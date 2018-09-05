@@ -33,9 +33,21 @@ public class test12 : main_base
 	private NRender2D.Sprite2D volume_se_bar_bg;
 	private NRender2D.Sprite2D volume_se_bar;
 
-	/** SE_ID
+	/** download_se
 	*/
-	private long SE_ID = 0x12345678;
+	private NDownLoad.Item download_se;
+
+	/** SE_ID_TESTDATA
+	*/
+	private const long SE_ID_TESTDATA = 0x12345678;
+
+	/** ASSETBUNDLE_ID_SE
+	*/
+	private const long ASSETBUNDLE_ID_SE = 0x00000002;
+
+	/** DATA_VERSION
+	*/
+	private const int DATA_VERSION = 2;
 
 	/** Start
 	*/
@@ -50,14 +62,26 @@ public class test12 : main_base
 		//オーディオ。インスタンス作成。
 		NAudio.Audio.CreateInstance();
 
+		//ダウンロード。インスタンス作成。
+		NDownLoad.DownLoad.CreateInstance();
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
-		//ＳＥ読み込み。
+		//ＳＥダウンロード。
 		{
-			GameObject t_prefab_clippack = Resources.Load<GameObject>("se");
-			NAudio.ClipPack t_clippack = t_prefab_clippack.GetComponent<NAudio.ClipPack>();
-			NAudio.Audio.GetInstance().LoadSe(t_clippack,SE_ID);
+			#if(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/StandaloneWindows/";
+			#elif(UNITY_WEBGL)
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/WebGL/";
+			#elif(UNITY_ANDROID)
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Android/";
+			#elif(UNITY_IOS)
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/iOS/";
+			#else
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/StandaloneWindows/";
+			#endif
+			this.download_se = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "se",ASSETBUNDLE_ID_SE,DATA_VERSION);
 		}
 
 		{
@@ -106,6 +130,9 @@ public class test12 : main_base
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
 
+		//ダウンロード。
+		NDownLoad.DownLoad.GetInstance().Main();
+
 		//クリックチェック。
 		bool t_onover_volume = false;
 		if(NInput.Mouse.GetInstance().left.on == true){
@@ -124,16 +151,33 @@ public class test12 : main_base
 			}
 		}
 
+		//ダウンロード。
+		if(this.download_se != null){
+			if(this.download_se.IsBusy() == false){
+				AssetBundle t_assetbundle = this.download_se.GetResultAssetBundle();
+				if(t_assetbundle != null){
+					GameObject t_prefab = t_assetbundle.LoadAsset<GameObject>("se");
+					if(t_prefab != null){
+						NAudio.ClipPack t_clippack = t_prefab.GetComponent<NAudio.ClipPack>();
+						if(t_clippack != null){
+							NAudio.Audio.GetInstance().LoadSe(t_clippack,SE_ID_TESTDATA);
+						}
+					}
+				}
+				this.download_se = null;
+			}
+		}
+
 		//再生。
 		if(NInput.Mouse.GetInstance().left.down == true){
 			if(t_onover_volume == false){
-				int t_index = 0;
-				NAudio.Audio.GetInstance().PlaySe(SE_ID,t_index);
+				int t_index = 3;
+				NAudio.Audio.GetInstance().PlaySe(SE_ID_TESTDATA,t_index);
 			}
 		}else if(NInput.Mouse.GetInstance().right.down == true){
 			if(t_onover_volume == false){
-				int t_index = 3;
-				NAudio.Audio.GetInstance().PlaySe(SE_ID,t_index);
+				int t_index = 0;
+				NAudio.Audio.GetInstance().PlaySe(SE_ID_TESTDATA,t_index);
 			}
 		}
 

@@ -76,26 +76,25 @@ public class test11 : main_base
 			this.sprite.SetCenter(t_x + 50,t_y + 50);
 		}
 
-		//アセットバンドル。全破棄。
-		//AssetBundle.UnloadAllAssetBundles(false);
-
-		//キャッシュクリア。
-		//UnityEngine.Caching.ClearAllCachedVersions("bgm");
+		//すべてのキャッシュファイル削除。
+		NDownLoad.AssetBundleList.ClearAllCacheFile();
 
 		//ダウンロードリクエスト。
 		{
 			#if(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/StandaloneWindows/bgm";
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/StandaloneWindows/";
 			#elif(UNITY_WEBGL)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/WebGL/bgm";
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/WebGL/";
 			#elif(UNITY_ANDROID)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Android/bgm";
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Android/";
 			#elif(UNITY_IOS)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/iOS/bgm";
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/iOS/";
+			#else
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/StandaloneWindows/";
 			#endif
 
-			this.download_bgm_a = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url,ASSETBUNDLE_ID_BGM,DATA_VERSION);
-			this.download_bgm_b = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url,ASSETBUNDLE_ID_BGM,DATA_VERSION);
+			this.download_bgm_a = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
+			this.download_bgm_b = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
 		}
 	}
 

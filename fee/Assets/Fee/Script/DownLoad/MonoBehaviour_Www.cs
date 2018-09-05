@@ -302,6 +302,13 @@ namespace NDownLoad
 				yield return null;
 			}
 
+			//切断。
+			if(this.www != null){
+				this.www.Dispose();
+				this.www = null;
+			}
+
+			//削除。
 			Tool.Log("DownLoad","GameObject.Destroy");
 			GameObject.Destroy(this.gameObject);
 		}

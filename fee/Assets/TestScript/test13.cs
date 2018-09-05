@@ -33,9 +33,21 @@ public class test13 : main_base
 	private NRender2D.Sprite2D volume_bgm_bar_bg;
 	private NRender2D.Sprite2D volume_bgm_bar;
 
+	/** download_bgm
+	*/
+	private NDownLoad.Item download_bgm;
+
 	/** text
 	*/
 	private NRender2D.Text2D text;
+
+	/** ASSETBUNDLE_ID_BGM
+	*/
+	private const long ASSETBUNDLE_ID_BGM = 0x00000001;
+
+	/** DATA_VERSION
+	*/
+	private const int DATA_VERSION = 2;
 
 	/** bgm_index
 	*/
@@ -52,22 +64,36 @@ public class test13 : main_base
 		NInput.Mouse.CreateInstance();
 
 		//オーディオ。インスタンス作成。
-		NAudio.Config.ASSERT_ENABLE = true;
-		NAudio.Config.LOG_ENABLE = true;
+		//NAudio.Config.ASSERT_ENABLE = true;
+		//NAudio.Config.LOG_ENABLE = true;
+		//NAudio.Config.BGM_PLAY_FADEIN = false;
 		NAudio.Audio.CreateInstance();
+
+		//ダウンロード。インスタンス作成。
+		NDownLoad.DownLoad.CreateInstance();
 
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
-		//プレハブの読み込み。
-		GameObject t_prefab_clippack = Resources.Load<GameObject>("bgm");
-		NAudio.ClipPack t_clippack = t_prefab_clippack.GetComponent<NAudio.ClipPack>();
+		//ＢＧＭダウンロード。
+		{
 
-		//ＢＧＭロード。
-		NAudio.Audio.GetInstance().LoadBgm(t_clippack);
+			#if(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/StandaloneWindows/";
+			#elif(UNITY_WEBGL)
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/WebGL/";
+			#elif(UNITY_ANDROID)
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Android/";
+			#elif(UNITY_IOS)
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/iOS/";
+			#else
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/StandaloneWindows/";
+			#endif
+			this.download_bgm = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
+		}
 
 		//ＢＧＭインデックス。
-		this.bgm_index = NAudio.Audio.GetInstance().GetBgmMax();
+		this.bgm_index = -1;
 
 		{
 			//drawpriority
@@ -122,6 +148,26 @@ public class test13 : main_base
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
 
+		//ダウンロード。
+		NDownLoad.DownLoad.GetInstance().Main();
+
+		//ダウンロード。
+		if(this.download_bgm != null){
+			if(this.download_bgm.IsBusy() == false){
+				AssetBundle t_assetbundle = this.download_bgm.GetResultAssetBundle();
+				if(t_assetbundle != null){
+					GameObject t_prefab = t_assetbundle.LoadAsset<GameObject>("bgm");
+					if(t_prefab != null){
+						NAudio.ClipPack t_clippack = t_prefab.GetComponent<NAudio.ClipPack>();
+						if(t_clippack != null){
+							NAudio.Audio.GetInstance().LoadBgm(t_clippack);
+						}
+					}
+				}
+				this.download_bgm = null;
+			}
+		}
+
 		//クリックチェック。
 		bool t_onover_volume = false;
 		if(NInput.Mouse.GetInstance().left.on == true){
@@ -144,11 +190,11 @@ public class test13 : main_base
 		if(NInput.Mouse.GetInstance().left.down == true){
 			if(t_onover_volume == false){
 				this.bgm_index++;
-				if(this.bgm_index >= NAudio.Audio.GetInstance().GetBgmMax() + 1){
-					this.bgm_index = 0;
+				if(this.bgm_index >= NAudio.Audio.GetInstance().GetBgmMax()){
+					this.bgm_index = -1;
 				}
 
-				if(this.bgm_index == NAudio.Audio.GetInstance().GetBgmMax()){
+				if(this.bgm_index < 0){
 					NAudio.Audio.GetInstance().StopBgm();
 				}else{
 					NAudio.Audio.GetInstance().PlayBgm(this.bgm_index);
@@ -165,7 +211,7 @@ public class test13 : main_base
 		{
 			int t_loopcount = NAudio.Audio.GetInstance().GetBgmLoopCount();
 			float t_playposition = NAudio.Audio.GetInstance().GetBgmPlayPosition();
-			this.text.SetText(this.bgm_index.ToString() + " : " + t_loopcount.ToString() + " : " + t_playposition.ToString());
+			this.text.SetText(this.bgm_index.ToString() + " / " + NAudio.Audio.GetInstance().GetBgmMax().ToString()  + " : " + t_loopcount.ToString() + " : " + t_playposition.ToString());
 		}
 	}
 
