@@ -24,6 +24,14 @@ namespace NDownLoad
 		*/
 		private DataType datatype;
 
+		/** progress
+		*/
+		private float progress;
+
+		/** result_errorstring
+		*/
+		private string result_errorstring;
+
 		/** result_text
 		*/
 		private string result_text;
@@ -42,6 +50,12 @@ namespace NDownLoad
 		{
 			//datatype
 			this.datatype = DataType.None;
+
+			//progress
+			this.progress = 0.0f;
+
+			//result_errorstring
+			this.result_errorstring = null;
 
 			//result_text
 			this.result_text = null;
@@ -63,6 +77,20 @@ namespace NDownLoad
 			return false;
 		}
 
+		/** プログレス。設定。
+		*/
+		public void SetProgress(float a_progress)
+		{
+			this.progress = a_progress;
+		}
+
+		/** プログレス。取得。
+		*/
+		public float GetProgress()
+		{
+			return this.progress;
+		}
+
 		/** データタイプ。取得。
 		*/
 		public DataType GetDataType()
@@ -70,11 +98,20 @@ namespace NDownLoad
 			return this.datatype;
 		}
 
-		/** 結果。エラー。
+		/** 結果。設定。
 		*/
-		public void SetResultError()
+		public void SetResultErrorString(string a_error_string)
 		{
 			this.datatype = DataType.Error;
+
+			this.result_errorstring = a_error_string;
+		}
+
+		/** 結果。取得。
+		*/
+		public string GetResultErrorString()
+		{
+			return this.result_errorstring;
 		}
 
 		/** 結果。設定。

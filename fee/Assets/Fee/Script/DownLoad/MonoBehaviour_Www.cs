@@ -157,7 +157,7 @@ namespace NDownLoad
 
 						if(this.request_url != null){
 							//リクエストあり。
-							
+
 							if(this.request_cache == true){
 								Tool.Log("MonoBehaviour_WWW","VERSION = " + this.request_cache_version.ToString() + " REQUEST :" + this.request_url);
 								this.www = WWW.LoadFromCacheOrDownload(this.request_url,this.request_cache_version);
@@ -178,7 +178,21 @@ namespace NDownLoad
 							this.datatype = DataType.Error;
 
 							this.result_errorstring = this.www.error;
+							if(this.result_errorstring == null){
+								this.result_errorstring = "";
+							}
+
+							this.request_url = null;
+
 							this.result_progress = 1.0f;
+
+							this.result_header = new Dictionary<string,string>();
+
+							//解放。
+							this.www.Dispose();
+							this.www = null;
+
+							this.mode = Mode.WaitRequest;
 						}else if(this.www.isDone == true){
 							//ダウンロード完了。
 							this.result_errorstring = "";
@@ -189,6 +203,7 @@ namespace NDownLoad
 
 							this.result_header = this.www.responseHeaders;
 
+							//ヘッダ。
 							{
 								foreach(KeyValuePair<string,string> t_pair in this.result_header){
 									Tool.Log("MonoBehaviour_WWW",t_pair.Key + " = " + t_pair.Value);
@@ -213,6 +228,7 @@ namespace NDownLoad
 										if(this.result_texture != null){
 											this.datatype = DataType.Texture;
 										}else{
+											this.result_errorstring = "texture convert error";
 											this.datatype = DataType.Error;
 										}
 									}break;
@@ -222,6 +238,7 @@ namespace NDownLoad
 										if(this.result_text != null){
 											this.datatype = DataType.Text;
 										}else{
+											this.result_errorstring = "text convert error";
 											this.datatype = DataType.Error;
 										}
 									}break;
@@ -236,6 +253,7 @@ namespace NDownLoad
 										if(this.result_assetbundle != null){
 											this.datatype = DataType.AssetBundle;
 										}else{
+											this.result_errorstring = "assetbundle convert error";
 											this.datatype = DataType.Error;
 										}
 									}break;
@@ -255,6 +273,9 @@ namespace NDownLoad
 						}else{
 							//ダウンロード中。
 							this.result_progress = this.www.progress;
+							if(this.result_progress >= 0.999f){
+								this.result_progress = 0.999f;
+							}
 						}
 					}break;
 				}
@@ -317,7 +338,7 @@ namespace NDownLoad
 
 		/** エラー文字。取得。
 		*/
-		public string GetErrorString()
+		public string GetResultErrorString()
 		{
 			return this.result_errorstring;
 		}

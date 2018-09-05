@@ -112,6 +112,8 @@ namespace NDownLoad
 				{
 					if(t_www.IsBusy() == false){
 
+						this.item.SetProgress(t_www.GetProgress());
+
 						//結果。
 						switch(t_www.GetDataType()){
 						case DataType.Text:
@@ -128,11 +130,19 @@ namespace NDownLoad
 							}break;
 						default:
 							{
-								this.item.SetResultError();
+								string t_error_string = t_www.GetResultErrorString();
+
+								if(t_error_string == null){
+									t_error_string = "";
+								}
+
+								this.item.SetResultErrorString(t_error_string);
 							}break;
 						}
 
 						this.mode = Mode.End;
+					}else{
+						this.item.SetProgress(t_www.GetProgress());
 					}
 				}break;
 			case Mode.End:
