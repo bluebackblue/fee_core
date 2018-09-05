@@ -211,7 +211,15 @@ public class test13 : main_base
 		{
 			int t_loopcount = NAudio.Audio.GetInstance().GetBgmLoopCount();
 			float t_playposition = NAudio.Audio.GetInstance().GetBgmPlayPosition();
-			this.text.SetText(this.bgm_index.ToString() + " / " + NAudio.Audio.GetInstance().GetBgmMax().ToString()  + " : " + t_loopcount.ToString() + " : " + t_playposition.ToString());
+
+			string t_bgm_max = "";
+			if(this.download_bgm != null){
+				t_bgm_max = "DownLoad(" + this.download_bgm.GetProgress().ToString() + ")";
+			}else{
+				t_bgm_max = NAudio.Audio.GetInstance().GetBgmMax().ToString();
+			}
+
+			this.text.SetText(this.bgm_index.ToString() + " / " + t_bgm_max  + " : " + t_loopcount.ToString() + " : " + t_playposition.ToString());
 		}
 	}
 
