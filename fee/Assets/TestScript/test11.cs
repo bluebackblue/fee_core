@@ -153,7 +153,6 @@ public class test11 : main_base
 
 		if(this.download_bgm_b != null){
 			if(this.download_bgm_b.IsBusy() == false){
-			}else{
 				download_bgm_b = null;
 			}
 		}
