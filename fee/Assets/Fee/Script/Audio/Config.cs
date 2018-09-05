@@ -43,6 +43,10 @@ namespace NAudio
 		/** クロスフェード速度。
 		*/
 		public static float BGM_CROSSFADE_SPEED = 0.02f;
+
+		/** ＢＧＭ再生。フェードイン。
+		*/
+		public static bool BGM_PLAY_FADEIN = true;
 	}
 }
 

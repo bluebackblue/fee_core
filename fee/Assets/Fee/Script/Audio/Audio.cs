@@ -212,6 +212,34 @@ namespace NAudio
 		{
 			this.bgm_audiosource_script.PlayBgm(a_index);
 		}
+
+		/** ＢＧＭ。停止。
+		*/
+		public void StopBgm()
+		{
+			this.bgm_audiosource_script.PlayBgm(-1);
+		}
+
+		/** ＢＧＭ数。取得。
+		*/
+		public int GetBgmMax()
+		{
+			return this.bgm_audiosource_script.GetBgmMax();
+		}
+
+		/** ＢＧＭループカウント。取得。
+		*/
+		public int GetBgmLoopCount()
+		{
+			return this.bgm_audiosource_script.GetLoopCount();
+		}
+
+		/** ＢＧＭ再生位置。取得。
+		*/
+		public float GetBgmPlayPosition()
+		{
+			return this.bgm_audiosource_script.GetPlayPosition();
+		}
 	}
 }
 

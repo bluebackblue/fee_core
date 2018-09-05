@@ -57,41 +57,43 @@ public class test11 : main_base
 			NAudio.Audio.GetInstance().LoadSe(t_clippack,SE_ID);
 		}
 
-		//drawpriority
-		int t_layerindex = 0;
-		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
+		{
+			//drawpriority
+			int t_layerindex = 0;
+			long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
 
-		int t_y = 300;
+			int t_y = 300;
 
-		//volume_master_bar_bg
-		this.volume_master_bar_bg = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority + 1);
-		this.volume_master_bar_bg.SetTexture(Texture2D.whiteTexture);
-		this.volume_master_bar_bg.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-		this.volume_master_bar_bg.SetRect(100,t_y,300,30);
-		this.volume_master_bar_bg.SetColor(0.0f,0.0f,0.0f,1.0f);
+			//volume_master_bar_bg
+			this.volume_master_bar_bg = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority + 1);
+			this.volume_master_bar_bg.SetTexture(Texture2D.whiteTexture);
+			this.volume_master_bar_bg.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+			this.volume_master_bar_bg.SetRect(100,t_y,300,30);
+			this.volume_master_bar_bg.SetColor(0.0f,0.0f,0.0f,1.0f);
 
-		//volume_master_bar
-		this.volume_master_bar = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority + 2);
-		this.volume_master_bar.SetTexture(Texture2D.whiteTexture);
-		this.volume_master_bar.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-		this.volume_master_bar.SetRect(100,t_y,0,30);
-		this.volume_master_bar.SetColor(0.5f,1.0f,0.5f,1.0f);
+			//volume_master_bar
+			this.volume_master_bar = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority + 2);
+			this.volume_master_bar.SetTexture(Texture2D.whiteTexture);
+			this.volume_master_bar.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+			this.volume_master_bar.SetRect(100,t_y,0,30);
+			this.volume_master_bar.SetColor(0.5f,1.0f,0.5f,1.0f);
 
-		t_y = 350;
+			t_y = 350;
 
-		//volume_se_bar_bg
-		this.volume_se_bar_bg = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority + 1);
-		this.volume_se_bar_bg.SetTexture(Texture2D.whiteTexture);
-		this.volume_se_bar_bg.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-		this.volume_se_bar_bg.SetRect(100,t_y,300,30);
-		this.volume_se_bar_bg.SetColor(0.0f,0.0f,0.0f,1.0f);
+			//volume_se_bar_bg
+			this.volume_se_bar_bg = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority + 1);
+			this.volume_se_bar_bg.SetTexture(Texture2D.whiteTexture);
+			this.volume_se_bar_bg.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+			this.volume_se_bar_bg.SetRect(100,t_y,300,30);
+			this.volume_se_bar_bg.SetColor(0.0f,0.0f,0.0f,1.0f);
 
-		//volume_se_bar
-		this.volume_se_bar = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority + 2);
-		this.volume_se_bar.SetTexture(Texture2D.whiteTexture);
-		this.volume_se_bar.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-		this.volume_se_bar.SetRect(100,t_y,0,30);
-		this.volume_se_bar.SetColor(0.5f,1.0f,0.5f,1.0f);
+			//volume_se_bar
+			this.volume_se_bar = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority + 2);
+			this.volume_se_bar.SetTexture(Texture2D.whiteTexture);
+			this.volume_se_bar.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+			this.volume_se_bar.SetRect(100,t_y,0,30);
+			this.volume_se_bar.SetColor(0.5f,1.0f,0.5f,1.0f);
+		}
 	}
 
 	/** Update

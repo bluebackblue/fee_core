@@ -52,6 +52,7 @@ namespace NAudio
 		private AudioSource[] myaudiosource;
 		private float[] myaudiosource_volume;
 		private int[] myaudiosource_index;
+		private float[] myaudiosource_time;
 
 		/** クリップパック。
 		*/
@@ -72,6 +73,14 @@ namespace NAudio
 		/** mode
 		*/
 		private Mode mode;
+
+		/** ループ数。
+		*/
+		private int loopcount;
+
+		/** 再生位置。
+		*/
+		private float playposition;
 
 		/** 初期化。
 		*/
@@ -103,6 +112,12 @@ namespace NAudio
 				this.myaudiosource_index[ii] = -1;
 			}
 
+			//myaudiosource_time
+			this.myaudiosource_time = new float[this.myaudiosource.Length];
+			for(int ii=0;ii<this.myaudiosource_time.Length;ii++){
+				this.myaudiosource_time[ii] = 0.0f;
+			}
+
 			//request_index
 			this.request_index = -1;
 
@@ -114,6 +129,12 @@ namespace NAudio
 
 			//mode
 			this.mode = Mode.Wait;
+
+			//loopcount
+			this.loopcount = 0;
+
+			//再生位置。
+			this.playposition = 0.0f;
 		}
 
 		/** 削除。
@@ -131,7 +152,6 @@ namespace NAudio
 				if(this.clippack != null){
 					t_volume = this.clippack.GetVolume(ii);
 				}
-
 				this.myaudiosource[ii].volume = this.myaudiosource_volume[ii] * this.volume_master.GetVolume() * this.volume_bgm.GetVolume() * t_volume;
 			}
 		}
@@ -150,6 +170,32 @@ namespace NAudio
 			this.request_index = a_index;
 		}
 
+		/** ＢＧＭ数。取得。
+		*/
+		public int GetBgmMax()
+		{
+			if(this.clippack != null){
+				if(this.clippack.clip_list != null){
+					return this.clippack.clip_list.Length;
+				}
+			}
+			return 0;
+		}
+
+		/** ループ数。取得。
+		*/
+		public int GetLoopCount()
+		{
+			return this.loopcount;
+		}
+
+		/** 再生位置。取得。
+		*/
+		public float GetPlayPosition()
+		{
+			return this.playposition;
+		}
+
 		/** 更新。
 		*/
 		public void Update()
@@ -161,6 +207,7 @@ namespace NAudio
 						//再生。
 						this.myaudiosource[0].clip = this.clippack.GetAudioClip(this.request_index);
 						this.myaudiosource[0].Play();
+						this.myaudiosource_time[0] = 0.0f;
 
 						//ボリューム。
 						this.myaudiosource_volume[0] = 1.0f;
@@ -168,6 +215,9 @@ namespace NAudio
 
 						this.play_index = this.request_index;
 						this.mode = Mode.Play0;
+
+						this.loopcount = 0;
+						this.playposition = 0.0f;
 					}
 				}break;
 			case Mode.Play0:
@@ -177,16 +227,36 @@ namespace NAudio
 
 						this.fadetime = 0.0f;
 
-						//再生。
-						this.myaudiosource[1].clip = this.clippack.GetAudioClip(this.request_index);
-						this.myaudiosource[1].volume = 0.0f;
-						this.myaudiosource[1].Play();
-
 						//ボリューム。
-						this.myaudiosource_volume[1] = 0.0f;
+						if(Config.BGM_PLAY_FADEIN == true){
+							this.myaudiosource_volume[1] = 0.0f;
+						}else{
+							this.myaudiosource_volume[1] = 1.0f;
+						}
+						this.UpdateVolume();
+
+						//再生。
+						if(this.request_index >= 0){
+							this.myaudiosource[1].clip = this.clippack.GetAudioClip(this.request_index);
+							this.myaudiosource[1].Play();
+							this.myaudiosource_time[1] = 0.0f;
+						}
 
 						this.play_index = this.request_index;
 						this.mode = Mode.Cross0To1;
+
+						this.loopcount = 0;
+						this.playposition = 0.0f;
+					}else{
+						//再生中。
+						float t_old = this.myaudiosource_time[0];
+						this.myaudiosource_time[0] = this.myaudiosource[0].time;
+						this.playposition = this.myaudiosource_time[0];
+
+						if(t_old > this.myaudiosource_time[0]){
+							Tool.Log("Bgm","loop : " + t_old.ToString() + " : " + this.myaudiosource_time[0].ToString());
+							this.loopcount++;
+						}
 					}
 				}break;
 			case Mode.Play1:
@@ -196,68 +266,100 @@ namespace NAudio
 
 						this.fadetime = 0.0f;
 
-						//再生。
-						this.myaudiosource[0].clip = this.clippack.GetAudioClip(this.request_index);
-						this.myaudiosource[0].volume = 0.0f;
-						this.myaudiosource[0].Play();
-
 						//ボリューム。
-						this.myaudiosource_volume[0] = 0.0f;
+						if(Config.BGM_PLAY_FADEIN == true){
+							this.myaudiosource_volume[0] = 0.0f;
+						}else{
+							this.myaudiosource_volume[0] = 1.0f;
+						}
+						this.UpdateVolume();
+
+						//再生。
+						if(this.request_index >= 0){
+							this.myaudiosource[0].clip = this.clippack.GetAudioClip(this.request_index);
+							this.myaudiosource[0].Play();
+							this.myaudiosource_time[0] = 0.0f;
+						}
 
 						this.play_index = this.request_index;
 						this.mode = Mode.Cross1To0;
+
+						this.loopcount = 0;
+						this.playposition = 0.0f;
+					}else{
+						//再生中。
+						float t_old = this.myaudiosource_time[1];
+						this.myaudiosource_time[1] = this.myaudiosource[1].time;
+						this.playposition = this.myaudiosource_time[1];
+
+						if(t_old > this.myaudiosource_time[1]){
+							Tool.Log("Bgm","loop : " + t_old.ToString() + " : " + this.myaudiosource_time[1].ToString());
+							this.loopcount++;
+						}
 					}
 				}break;
 			case Mode.Cross0To1:
 				{
+					this.playposition = this.myaudiosource[1].time;
+
 					this.fadetime += Config.BGM_CROSSFADE_SPEED;
 					if(this.fadetime < 1.0f){
-
 						//ボリューム。
 						this.myaudiosource_volume[1] = this.fadetime;
 						this.myaudiosource_volume[0] = 1.0f - this.fadetime;
 						this.UpdateVolume();
+
+						//再生位置。
+						this.myaudiosource_time[1] = this.myaudiosource[1].time;
 						
 					}else{
-
 						//ボリューム。
 						this.myaudiosource_volume[1] = 1.0f;
 						this.myaudiosource_volume[0] = 0.0f;
 						this.UpdateVolume();
 
-						Debug.Log(this.myaudiosource[1].volume.ToString());
-
 						//停止。
 						this.myaudiosource[0].Stop();
 						this.myaudiosource[0].clip = null;
+						this.myaudiosource_time[0] = 0.0f;
 
-						this.mode = Mode.Play1;
+						if(this.play_index < 0){
+							this.mode = Mode.Wait;
+						}else{
+							this.mode = Mode.Play1;
+						}
 					}
 				}break;
 			case Mode.Cross1To0:
 				{
+					this.playposition = this.myaudiosource[0].time;
+
 					this.fadetime += Config.BGM_CROSSFADE_SPEED;
 					if(this.fadetime < 1.0f){
-
 						//ボリューム。
 						this.myaudiosource_volume[0] = this.fadetime;
 						this.myaudiosource_volume[1] = 1.0f - this.fadetime;
 						this.UpdateVolume();
-						
-					}else{
 
+						//再生位置。
+						this.myaudiosource_time[0] = this.myaudiosource[0].time;
+
+					}else{
 						//ボリューム。
 						this.myaudiosource_volume[0] = 1.0f;
 						this.myaudiosource_volume[1] = 0.0f;
 						this.UpdateVolume();
 
-						Debug.Log(this.myaudiosource[0].volume.ToString());
-
 						//停止。
 						this.myaudiosource[1].Stop();
 						this.myaudiosource[1].clip = null;
+						this.myaudiosource_time[1] = 0.0f;
 
-						this.mode = Mode.Play0;
+						if(this.play_index < 0){
+							this.mode = Mode.Wait;
+						}else{
+							this.mode = Mode.Play0;
+						}
 					}
 				}break;
 			}
