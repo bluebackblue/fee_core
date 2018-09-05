@@ -397,6 +397,13 @@ namespace NRender2D
 			this.rotate.SetQuaternion(a_euler_x,a_euler_y,a_euler_z);
 		}
 
+		/** クォータニオン。設定。
+		*/
+		public void SetQuaternion(ref Quaternion a_quaternion)
+		{
+			this.rotate.SetQuaternion(ref a_quaternion);
+		}
+
 		/** クォータニオン。取得。
 		*/
 		public Quaternion GetQuaternion()

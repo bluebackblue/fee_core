@@ -105,6 +105,13 @@ namespace NRender2D
 			}
 		}
 
+		/** クォータニオン。設定。
+		*/
+		public void SetQuaternion(ref Quaternion a_quaternion)
+		{
+			this.quaternion = a_quaternion;
+		}
+
 		/** クォータニオン。取得。
 		*/
 		public Quaternion GetQuaternion()
