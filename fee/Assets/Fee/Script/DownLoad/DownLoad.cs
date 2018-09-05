@@ -94,7 +94,21 @@ namespace NDownLoad
 		*/
 		public Item Request(string a_url)
 		{
-			Work t_work = new Work(a_url);
+			Work t_work = new Work(a_url,false,-1,Config.INVALID_ASSSETBUNDLE_ID);
+			this.work_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。アセットバンドル。
+
+		a_url				: アドレス。
+		a_assetbundle_id    : 重複チェック用のＩＤ。
+		a_cache_version		: 再ダウンロードチェック用のバージョン値。
+
+		*/
+		public Item RequestAssetBundle(string a_url,long a_assetbundle_id,int a_cache_version)
+		{
+			Work t_work = new Work(a_url,true,a_cache_version,a_assetbundle_id);
 			this.work_list.Add(t_work);
 			return t_work.GetItem();
 		}

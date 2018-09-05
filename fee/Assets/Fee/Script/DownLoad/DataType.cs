@@ -35,6 +35,10 @@ namespace NDownLoad
 		/** テクスチャー。
 		*/
 		Texture,
+
+		/** アセットバンドル。
+		*/
+		AssetBundle,
 	};
 }
 

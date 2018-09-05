@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 1158722469
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 4be4ffe376f2a388cede9c19700cb8a6
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c679470976611e13d891d717f81c165e
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7a635aedd4eff57419b5a85c412530bb, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/AssetBundleData/se.prefab
+Dependencies: []

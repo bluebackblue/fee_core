@@ -32,6 +32,10 @@ namespace NDownLoad
 		*/
 		private Texture2D result_texture;
 
+		/** result_assetbundle
+		*/
+		private AssetBundle result_assetbundle;
+
 		/** constructor
 		*/
 		public Item()
@@ -44,6 +48,9 @@ namespace NDownLoad
 
 			//result_texture
 			this.result_texture = null;
+
+			//result_assetbundle
+			this.result_assetbundle = null;
 		}
 
 		/** 処理中。チェック。
@@ -100,6 +107,22 @@ namespace NDownLoad
 		public Texture2D GetResultTexture()
 		{
 			return this.result_texture;
+		}
+
+		/** 結果。設定。
+		*/
+		public void SetResultAssetBundle(AssetBundle a_assetbundle)
+		{
+			this.datatype = DataType.AssetBundle;
+
+			this.result_assetbundle = a_assetbundle;
+		}
+
+		/** 結果。取得。
+		*/
+		public AssetBundle GetResultAssetBundle()
+		{
+			return this.result_assetbundle;
 		}
 	}
 }

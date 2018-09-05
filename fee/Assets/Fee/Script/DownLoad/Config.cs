@@ -27,6 +27,10 @@ namespace NDownLoad
 		/** アサート。
 		*/
 		public static bool ASSERT_ENABLE = false;
+
+		/** 無効なアセットバンドルＩＤ。
+		*/
+		public static long INVALID_ASSSETBUNDLE_ID = -1;
 	}
 }
 

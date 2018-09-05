@@ -57,6 +57,12 @@ namespace NDownLoad
 		[SerializeField]
 		private string request_url;
 
+		[SerializeField]
+		private bool request_cache;
+
+		[SerializeField]
+		private int request_cache_version;
+
 		/** www
 		*/
 		public WWW www;
@@ -86,6 +92,11 @@ namespace NDownLoad
 		[SerializeField]
 		private Texture2D result_texture;
 
+		/** result_assetbundle
+		*/
+		[SerializeField]
+		private AssetBundle result_assetbundle;
+
 		/** Awake
 		*/
 		private void Awake()
@@ -101,6 +112,12 @@ namespace NDownLoad
 
 			//request_url
 			this.request_url = null;
+
+			//request_cache_version
+			this.request_cache_version = 0;
+
+			//request_cache
+			this.request_cache = false;
 
 			//www
 			this.www = null;
@@ -119,6 +136,9 @@ namespace NDownLoad
 
 			//result_texture
 			this.result_texture = null;
+
+			//result_assetbundle
+			this.result_assetbundle = null;
 		}
 
 		/** Start
@@ -137,9 +157,15 @@ namespace NDownLoad
 
 						if(this.request_url != null){
 							//リクエストあり。
-							Tool.Log("MonoBehaviour_WWW",this.request_url);
+							
+							if(this.request_cache == true){
+								Tool.Log("MonoBehaviour_WWW","VERSION = " + this.request_cache_version.ToString() + " REQUEST :" + this.request_url);
+								this.www = WWW.LoadFromCacheOrDownload(this.request_url,this.request_cache_version);
+							}else{
+								Tool.Log("MonoBehaviour_WWW","REQUEST : " + this.request_url);
+								this.www = new WWW(this.request_url);
+							}
 
-							this.www = new WWW(this.request_url);
 							this.mode = Mode.Do;
 						}
 					}break;
@@ -163,6 +189,12 @@ namespace NDownLoad
 
 							this.result_header = this.www.responseHeaders;
 
+							{
+								foreach(KeyValuePair<string,string> t_pair in this.result_header){
+									Tool.Log("MonoBehaviour_WWW",t_pair.Key + " = " + t_pair.Value);
+								}
+							}
+
 							//ヘッダ。
 							string t_header_contenttype = "";
 							{
@@ -173,19 +205,39 @@ namespace NDownLoad
 
 							//コンバート。
 							try{
-								this.datatype = Mime.GetDataTypeFromContentType(t_header_contenttype);
-								switch(this.datatype){
+								DataType t_datatype = Mime.GetDataTypeFromContentType(t_header_contenttype);
+								switch(t_datatype){
 								case DataType.Texture:
 									{
 										this.result_texture = this.www.texture;
+										if(this.result_texture != null){
+											this.datatype = DataType.Texture;
+										}else{
+											this.datatype = DataType.Error;
+										}
 									}break;
 								case DataType.Text:
 									{
 										this.result_text = this.www.text;
+										if(this.result_text != null){
+											this.datatype = DataType.Text;
+										}else{
+											this.datatype = DataType.Error;
+										}
 									}break;
 								default:
 									{
-										this.datatype = DataType.Error;
+										try{
+											this.result_assetbundle = this.www.assetBundle;
+										}catch(System.Exception t_exception){
+											Tool.LogError(t_exception);
+										}
+
+										if(this.result_assetbundle != null){
+											this.datatype = DataType.AssetBundle;
+										}else{
+											this.datatype = DataType.Error;
+										}
 									}break;
 								}
 
@@ -196,6 +248,7 @@ namespace NDownLoad
 							}
 
 							//解放。
+							this.www.Dispose();
 							this.www = null;
 
 							this.mode = Mode.WaitRequest;
@@ -215,13 +268,17 @@ namespace NDownLoad
 
 		/** リクエスト。
 		*/
-		public bool Request(string a_url)
+		public bool Request(string a_url,bool a_cache,int a_cache_version)
 		{
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
 
 				this.datatype = DataType.None;
+
 				this.request_url = a_url;
+				this.request_cache = a_cache;
+				this.request_cache_version = a_cache_version;
+
 				this.result_errorstring = "";
 				this.result_progress = 0.0f;
 				this.result_text = null;
@@ -291,6 +348,13 @@ namespace NDownLoad
 		public Texture2D GetResultTexture()
 		{
 			return this.result_texture;
+		}
+
+		/** 結果。取得。
+		*/
+		public AssetBundle GetResultAssetBundle()
+		{
+			return this.result_assetbundle;
 		}
 	}
 }

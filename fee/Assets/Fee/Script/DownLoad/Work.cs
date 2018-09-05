@@ -45,19 +45,40 @@ namespace NDownLoad
 		*/
 		private string url;
 
+		/** cache
+		*/
+		private bool cache;
+
+		/** cache_version
+		*/
+		private int cache_version;
+
+		/** assetbundle_id
+		*/
+		private long assetbundle_id;
+
 		/** item
 		*/
 		private Item item;
 
 		/** constructor
 		*/
-		public Work(string a_url)
+		public Work(string a_url,bool a_cache,int a_cache_version,long a_assetbundle_id)
 		{
 			//mode
 			this.mode = Mode.Start;
 
 			//url
 			this.url = a_url;
+
+			//cache
+			this.cache = a_cache;
+
+			//cache_version
+			this.cache_version = a_cache_version;
+
+			//TODO:assetbundle_id
+			this.assetbundle_id = a_assetbundle_id;
 
 			//item
 			this.item = new Item();
@@ -82,7 +103,7 @@ namespace NDownLoad
 			switch(this.mode){
 			case Mode.Start:
 				{
-					if(t_www.Request(this.url) == true){
+					if(t_www.Request(this.url,this.cache,this.cache_version) == true){
 						//開始。
 						this.mode = Mode.Do;
 					}
@@ -100,6 +121,10 @@ namespace NDownLoad
 						case DataType.Texture:
 							{		
 								this.item.SetResultTexture(t_www.GetResultTexture());
+							}break;
+						case DataType.AssetBundle:
+							{
+								this.item.SetResultAssetBundle(t_www.GetResultAssetBundle());
 							}break;
 						default:
 							{

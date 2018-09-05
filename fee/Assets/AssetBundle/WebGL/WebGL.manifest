@@ -1,0 +1,10 @@
+ManifestFileVersion: 0
+CRC: 356186226
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: bgm
+      Dependencies: {}
+    Info_1:
+      Name: se
+      Dependencies: {}
