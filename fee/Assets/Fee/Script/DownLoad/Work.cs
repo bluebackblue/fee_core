@@ -77,7 +77,7 @@ namespace NDownLoad
 			//cache_version
 			this.cache_version = a_cache_version;
 
-			//TODO:assetbundle_id
+			//assetbundle_id
 			this.assetbundle_id = a_assetbundle_id;
 
 			//item
@@ -103,9 +103,26 @@ namespace NDownLoad
 			switch(this.mode){
 			case Mode.Start:
 				{
-					if(t_www.Request(this.url,this.cache,this.cache_version) == true){
-						//開始。
-						this.mode = Mode.Do;
+					AssetBundleList t_assetbundle_list = NDownLoad.DownLoad.GetInstance().GetAssetBundleList();
+
+					AssetBundle t_assetbundle = null;
+
+					//アセットバンドルリストから取得。
+					if(this.assetbundle_id != Config.INVALID_ASSSETBUNDLE_ID){
+						t_assetbundle = t_assetbundle_list.GetAssetBundle(this.assetbundle_id);
+					}
+
+					if(t_assetbundle == null){
+						if(t_www.Request(this.url,this.cache,this.cache_version,this.assetbundle_id) == true){
+							//開始。
+							this.mode = Mode.Do;
+						}
+					}else{
+						Tool.Log("NDownLoad.Work","GetAssetBundle From AssetBundleList");
+
+						this.item.SetProgress(1.0f);
+						this.item.SetResultAssetBundle(t_assetbundle);
+						this.mode = Mode.End;
 					}
 				}break;
 			case Mode.Do:

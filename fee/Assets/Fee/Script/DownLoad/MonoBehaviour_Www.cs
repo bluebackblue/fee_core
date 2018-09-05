@@ -63,6 +63,9 @@ namespace NDownLoad
 		[SerializeField]
 		private int request_cache_version;
 
+		[SerializeField]
+		private long request_assetbundle_id;
+
 		/** www
 		*/
 		public WWW www;
@@ -118,6 +121,9 @@ namespace NDownLoad
 
 			//request_cache
 			this.request_cache = false;
+
+			//request_assetbundle_id
+			this.request_assetbundle_id = Config.INVALID_ASSSETBUNDLE_ID;
 
 			//www
 			this.www = null;
@@ -257,6 +263,10 @@ namespace NDownLoad
 										}
 
 										if(this.result_assetbundle != null){
+
+											//アセットバンドルリストに登録。
+											NDownLoad.DownLoad.GetInstance().GetAssetBundleList().Regist(this.request_assetbundle_id,this.result_assetbundle);
+
 											this.datatype = DataType.AssetBundle;
 										}else{
 											this.result_errorstring = "assetbundle convert error";
@@ -298,7 +308,7 @@ namespace NDownLoad
 
 		/** リクエスト。
 		*/
-		public bool Request(string a_url,bool a_cache,int a_cache_version)
+		public bool Request(string a_url,bool a_cache,int a_cache_version,long a_assetbundle_id)
 		{
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
@@ -308,6 +318,7 @@ namespace NDownLoad
 				this.request_url = a_url;
 				this.request_cache = a_cache;
 				this.request_cache_version = a_cache_version;
+				this.request_assetbundle_id = a_assetbundle_id;
 
 				this.result_errorstring = "";
 				this.result_progress = 0.0f;

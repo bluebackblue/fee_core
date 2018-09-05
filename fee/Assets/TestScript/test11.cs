@@ -32,9 +32,10 @@ public class test11 : main_base
 	*/
 	NRender2D.Text2D text;
 
-	/** download_bgm
+	/** download_bgm_a
 	*/
-	NDownLoad.Item download_bgm;
+	NDownLoad.Item download_bgm_a;
+	NDownLoad.Item download_bgm_b;
 
 	/** sprite
 	*/
@@ -76,7 +77,7 @@ public class test11 : main_base
 		}
 
 		//アセットバンドル。全破棄。
-		AssetBundle.UnloadAllAssetBundles(false);
+		//AssetBundle.UnloadAllAssetBundles(false);
 
 		//キャッシュクリア。
 		//UnityEngine.Caching.ClearAllCachedVersions("bgm");
@@ -93,7 +94,8 @@ public class test11 : main_base
 			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/iOS/bgm";
 			#endif
 
-			this.download_bgm = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url,ASSETBUNDLE_ID_BGM,DATA_VERSION);
+			this.download_bgm_a = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url,ASSETBUNDLE_ID_BGM,DATA_VERSION);
+			this.download_bgm_b = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url,ASSETBUNDLE_ID_BGM,DATA_VERSION);
 		}
 	}
 
@@ -113,16 +115,16 @@ public class test11 : main_base
 		//ダウンロード。
 		NDownLoad.DownLoad.GetInstance().Main();
 
-		if(this.download_bgm != null){
-			if(this.download_bgm.IsBusy() == false){
+		if(this.download_bgm_a != null){
+			if(this.download_bgm_a.IsBusy() == false){
 				this.text.SetText("Download : End");
 
 				//エラーチェック。
-				if(this.download_bgm.GetDataType() == NDownLoad.DataType.Error){
-					this.text.SetText("Error : " + this.download_bgm.GetResultErrorString());
+				if(this.download_bgm_a.GetDataType() == NDownLoad.DataType.Error){
+					this.text.SetText("Error : " + this.download_bgm_a.GetResultErrorString());
 				}else{
 					//ロード、再生。
-					AssetBundle t_assetbundle = this.download_bgm.GetResultAssetBundle();
+					AssetBundle t_assetbundle = this.download_bgm_a.GetResultAssetBundle();
 					if(t_assetbundle != null){
 						GameObject t_prefab = t_assetbundle.LoadAsset<GameObject>("bgm");
 						if(t_prefab != null){
@@ -142,10 +144,17 @@ public class test11 : main_base
 					}
 				}
 
-				this.download_bgm = null;
+				this.download_bgm_a = null;
 			}else{
 				//ダウンロード中。
-				this.text.SetText("Download : " + this.download_bgm.GetProgress().ToString());
+				this.text.SetText("Download : " + this.download_bgm_a.GetProgress().ToString());
+			}
+		}
+
+		if(this.download_bgm_b != null){
+			if(this.download_bgm_b.IsBusy() == false){
+			}else{
+				download_bgm_b = null;
 			}
 		}
 	}

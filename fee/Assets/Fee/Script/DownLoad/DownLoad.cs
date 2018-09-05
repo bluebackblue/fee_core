@@ -59,6 +59,10 @@ namespace NDownLoad
 		*/
 		private List<Work> work_list;
 
+		/** アセットバンドルリスト。
+		*/
+		private AssetBundleList assetbundle_list;
+
 		/** [シングルトン]constructor
 		*/
 		private DownLoad()
@@ -74,12 +78,17 @@ namespace NDownLoad
 
 			//work_list
 			this.work_list = new List<Work>();
+
+			//assetbundle_list
+			this.assetbundle_list = new AssetBundleList();
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			this.assetbundle_list.UnloadAllAssetBundle();
+
 			this.www_script.DeleteRequest();
 		}
 
@@ -88,6 +97,13 @@ namespace NDownLoad
 		public MonoBehaviour_Www GetWww()
 		{
 			return this.www_script;
+		}
+
+		/** アセットバンドルリスト。取得。
+		*/
+		public AssetBundleList GetAssetBundleList()
+		{
+			return this.assetbundle_list;
 		}
 
 		/** リクエスト。
@@ -101,9 +117,9 @@ namespace NDownLoad
 
 		/** リクエスト。アセットバンドル。
 
-		a_url				: アドレス。
-		a_assetbundle_id    : 重複チェック用のＩＤ。
-		a_cache_version		: 再ダウンロードチェック用のバージョン値。
+		a_url            : アドレス。
+		a_assetbundle_id : 重複チェック用のＩＤ。
+		a_cache_version  : 再ダウンロードチェック用のバージョン値。
 
 		*/
 		public Item RequestAssetBundle(string a_url,long a_assetbundle_id,int a_cache_version)

@@ -82,6 +82,7 @@
     <Compile Include="Assets\Fee\Script\Directory\Root.cs" />
     <Compile Include="Assets\Fee\Script\Directory\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Directory\Work.cs" />
+    <Compile Include="Assets\Fee\Script\DownLoad\AssetBundleList.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Config.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\DataType.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\DownLoad.cs" />
