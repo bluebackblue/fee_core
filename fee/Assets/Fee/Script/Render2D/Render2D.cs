@@ -446,7 +446,7 @@ namespace NRender2D
 					for(int ii=t_start_index;ii<=t_last_index;ii++){
 						Text2D t_text = this.text_list[ii];
 
-						UnityEngine.UI.Text t_raw_text = t_text.Raw_GetText();
+						UnityEngine.UI.Text t_raw_text = t_text.Raw_GetTextInstance();
 
 						//テキスト再描画。
 						if((t_text.Raw_IsReCalc() == true)||(this.screen.IsUiReCalcFlag() == true)){
@@ -461,14 +461,14 @@ namespace NRender2D
 							t_raw_text.fontSize = this.screen.CalcFontSize(t_text);
 
 							//スケール設定。
-							t_text.Raw_GetRectTransform().localScale = new Vector3(1.0f,1.0f,1.0f);
+							t_text.Raw_GetRectTransformInstance().localScale = new Vector3(1.0f,1.0f,1.0f);
 
 							//色の設定。
 							t_raw_text.color = t_text.GetColor();
 
 							//文字列の設定。
 							t_raw_text.text = t_text.GetText();
-							t_text.Raw_GetRectTransform().sizeDelta = new Vector2(UnityEngine.Screen.width,UnityEngine.Screen.height);
+							t_text.Raw_GetRectTransformInstance().sizeDelta = new Vector2(UnityEngine.Screen.width,UnityEngine.Screen.height);
 
 							if(t_text.IsClip() == false){
 								//共通マテリアル使用。w
@@ -518,7 +518,7 @@ namespace NRender2D
 					for(int ii=t_start_index;ii<=t_last_index;ii++){
 						InputField2D t_inputfield = this.inputfield_list[ii];
 
-						UnityEngine.UI.InputField t_raw_inputfield = t_inputfield.Raw_GetInputField();
+						UnityEngine.UI.InputField t_raw_inputfield = t_inputfield.Raw_GetInputFieldInstance();
 
 						//テキスト再描画。
 						if((t_inputfield.Raw_IsReCalc() == true)||(this.screen.IsUiReCalcFlag() == true)){
@@ -527,13 +527,13 @@ namespace NRender2D
 							//CalcInputFieldRect前に必要な処理。
 
 							//フォントの設定。
-							t_inputfield.Raw_GetText().font = t_inputfield.GetFont();
+							t_inputfield.Raw_GetTextInstance().font = t_inputfield.GetFont();
 
 							//フォントサイズの設定。
-							t_inputfield.Raw_GetText().fontSize = this.screen.CalcFontSize(t_inputfield);
+							t_inputfield.Raw_GetTextInstance().fontSize = this.screen.CalcFontSize(t_inputfield);
 
 							//スケール設定。
-							t_inputfield.Raw_GetRectTransform().localScale = new Vector3(1.0f,1.0f,1.0f);
+							t_inputfield.Raw_GetRectTransformInstance().localScale = new Vector3(1.0f,1.0f,1.0f);
 						}
 
 						if((t_inputfield.IsVisible() == true)&&(t_inputfield.GetDrawPriority() >= 0)){

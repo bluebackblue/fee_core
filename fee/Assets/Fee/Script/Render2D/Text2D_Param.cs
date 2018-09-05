@@ -53,6 +53,8 @@ namespace NRender2D
 		private UnityEngine.RectTransform raw_recttransform;
 		private bool raw_is_recalc;
 		private Material raw_custom_textmaterial;
+		private UnityEngine.UI.Outline raw_outline;
+		private UnityEngine.UI.Shadow raw_shadow;
 
 		/** 初期化。
 		*/
@@ -85,6 +87,16 @@ namespace NRender2D
 			this.raw_is_recalc = true;
 			this.raw_custom_textmaterial = new Material(Render2D.GetInstance().GetTextMaterial());
 			this.raw_text.material = this.raw_custom_textmaterial;
+
+			UnityEngine.UI.BaseMeshEffect[] t_effect_list = this.raw_gameobject.GetComponents<UnityEngine.UI.BaseMeshEffect>();
+
+			for(int ii=0;ii<t_effect_list.Length;ii++){
+				if(t_effect_list[ii].GetType() == typeof(UnityEngine.UI.Shadow)){
+					this.raw_shadow = this.raw_gameobject.GetComponent<UnityEngine.UI.Shadow>();
+				}else if(t_effect_list[ii].GetType() == typeof(UnityEngine.UI.Outline)){
+					this.raw_outline = this.raw_gameobject.GetComponent<UnityEngine.UI.Outline>();
+				}
+			}
 		}
 
 		/** クリップ。設定。
@@ -236,6 +248,44 @@ namespace NRender2D
 			this.is_center = a_flag;
 		}
 
+		/** アウトライン。設定。
+		*/
+		public void SetOutLine(bool a_flag)
+		{
+			if(this.raw_outline != null){
+				this.raw_outline.enabled = a_flag;
+			}
+		}
+
+		/** アウトライン。取得。
+		*/
+		public bool GetOutLine()
+		{
+			if(this.raw_outline != null){
+				return this.raw_outline.enabled;
+			}
+			return false;
+		}
+
+		/** シャドー。設定。
+		*/
+		public void SetShadow(bool a_flag)
+		{
+			if(this.raw_shadow != null){
+				this.raw_shadow.enabled = a_flag;
+			}
+		}
+
+		/** シャドー。取得。
+		*/
+		public bool GetShadow()
+		{
+			if(this.raw_shadow != null){
+				return this.raw_shadow.enabled;
+			}
+			return false;
+		}
+
 		/** センター。取得。
 		*/
 		public bool IsCenter()
@@ -271,7 +321,7 @@ namespace NRender2D
 			this.raw_custom_textmaterial = null;
 		}
 
-		/** レイヤー。設定。
+		/** [内部からの呼び出し]レイヤー。設定。
 		*/
 		public void Raw_SetLayer(Transform a_layer_transform)
 		{
@@ -283,28 +333,28 @@ namespace NRender2D
 			}
 		}
 
-		/** テキスト。取得。
+		/** [内部からの呼び出し]テキストインスタンス。取得。
 		*/
-		public UnityEngine.UI.Text Raw_GetText()
+		public UnityEngine.UI.Text Raw_GetTextInstance()
 		{
 			return this.raw_text;
 		}
 
-		/** RectTransform。取得。
+		/** [内部からの呼び出し]RectTransform。取得。
 		*/
-		public UnityEngine.RectTransform Raw_GetRectTransform()
+		public UnityEngine.RectTransform Raw_GetRectTransformInstance()
 		{
 			return this.raw_recttransform;
 		}
 
-		/** 再計算フラグ。取得。
+		/** [内部からの呼び出し]再計算フラグ。取得。
 		*/
 		public bool Raw_IsReCalc()
 		{
 			return this.raw_is_recalc;
 		}
 
-		/** 再計算フラグ。設定。
+		/** [内部からの呼び出し]再計算フラグ。設定。
 		*/
 		public void Raw_ResetReCalc()
 		{

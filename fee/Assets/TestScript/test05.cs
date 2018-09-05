@@ -69,10 +69,12 @@ public class test05 : main_base
 		//テキスト。
 		this.text_mouse = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.text_mouse.SetRect(10,200 + 50 * 0,0,0);
+		this.text_mouse.SetFontSize(30);
 
 		//テキスト。
 		this.text_joy = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.text_joy.SetRect(10,200 + 50 * 1,0,0);
+		this.text_joy.SetFontSize(30);
 	}
 
 	/** Update
@@ -87,6 +89,13 @@ public class test05 : main_base
 
 		//キー。
 		NInput.Key.GetInstance().Main();
+
+		//ダウン・
+		if(NInput.Mouse.GetInstance().left.down == true){
+			this.text_mouse.SetOutLine(!this.text_mouse.GetOutLine());
+		}else if(NInput.Mouse.GetInstance().right.down == true){
+			this.text_mouse.SetShadow(!this.text_mouse.GetShadow());
+		}
 
 		//ホイール。
 		if(NInput.Mouse.GetInstance().mouse_wheel_action == true){

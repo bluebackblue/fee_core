@@ -200,7 +200,7 @@ namespace NRender2D
 			this.raw_gameobject = null;
 		}
 
-		/** レイヤー。設定。
+		/** [内部からの呼び出し]レイヤー。設定。
 		*/
 		public void Raw_SetLayer(Transform a_layer_transform)
 		{
@@ -212,35 +212,35 @@ namespace NRender2D
 			}
 		}
 
-		/** 入力フィールド。取得。
+		/** [内部からの呼び出し]入力フィールド。取得。
 		*/
-		public UnityEngine.UI.InputField Raw_GetInputField()
+		public UnityEngine.UI.InputField Raw_GetInputFieldInstance()
 		{
 			return this.raw_inputfield;
 		}
 
-		/** RectTransform。取得。
+		/** [内部からの呼び出し]RectTransform。取得。
 		*/
-		public UnityEngine.RectTransform Raw_GetRectTransform()
+		public UnityEngine.RectTransform Raw_GetRectTransformInstance()
 		{
 			return this.raw_recttransform;
 		}
 
-		/** テキスト。取得。
+		/** [内部からの呼び出し]テキスト。取得。
 		*/
-		public UnityEngine.UI.Text Raw_GetText()
+		public UnityEngine.UI.Text Raw_GetTextInstance()
 		{
 			return this.raw_text;
 		}
 
-		/** 再計算フラグ。取得。
+		/** [内部からの呼び出し]再計算フラグ。取得。
 		*/
 		public bool Raw_IsReCalc()
 		{
 			return this.raw_is_recalc;
 		}
 
-		/** 再計算フラグ。設定。
+		/** [内部からの呼び出し]再計算フラグ。設定。
 		*/
 		public void Raw_ResetReCalc()
 		{

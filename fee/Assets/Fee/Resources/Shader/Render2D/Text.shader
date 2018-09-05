@@ -116,7 +116,7 @@ Shader "Render2D/Text"
 
 				fixed4 t_color = i.color;
 
-				t_color.a *= UNITY_SAMPLE_1CHANNEL(_MainTex,i.uv);
+				t_color.a = saturate(t_color.a * UNITY_SAMPLE_1CHANNEL(_MainTex,i.uv) * 1.3f);
 
 				return t_color;
 			}

@@ -338,42 +338,42 @@ namespace NRender2D
 			return this.param.GetFont();
 		}
 
-		/** レイヤー。設定。
+		/** [内部からの呼び出し]レイヤー。設定。
 		*/
 		public void Raw_SetLayer(Transform a_layer_transform)
 		{
 			this.param.Raw_SetLayer(a_layer_transform);
 		}
 
-		/** 入力フィールド。取得。
+		/** [内部からの呼び出し]入力フィールド。取得。
 		*/
-		public UnityEngine.UI.InputField Raw_GetInputField()
+		public UnityEngine.UI.InputField Raw_GetInputFieldInstance()
 		{
-			return this.param.Raw_GetInputField();
+			return this.param.Raw_GetInputFieldInstance();
 		}
 
-		/** RectTransform。取得。
+		/** [内部からの呼び出し]RectTransform。取得。
 		*/
-		public UnityEngine.RectTransform Raw_GetRectTransform()
+		public UnityEngine.RectTransform Raw_GetRectTransformInstance()
 		{
-			return this.param.Raw_GetRectTransform();
+			return this.param.Raw_GetRectTransformInstance();
 		}
 
-		/** テキスト。取得。
+		/** [内部からの呼び出し]テキスト。取得。
 		*/
-		public UnityEngine.UI.Text Raw_GetText()
+		public UnityEngine.UI.Text Raw_GetTextInstance()
 		{
-			return this.param.Raw_GetText();
+			return this.param.Raw_GetTextInstance();
 		}
 
-		/** 再計算フラグ。取得。
+		/** [内部からの呼び出し]再計算フラグ。取得。
 		*/
 		public bool Raw_IsReCalc()
 		{
 			return this.param.Raw_IsReCalc();
 		}
 
-		/** 再計算フラグ。設定。
+		/** [内部からの呼び出し]再計算フラグ。設定。
 		*/
 		public void Raw_ResetReCalc()
 		{

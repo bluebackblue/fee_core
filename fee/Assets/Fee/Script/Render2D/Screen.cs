@@ -265,13 +265,13 @@ namespace NRender2D
 			float t_h = a_text.GetH();
 
 			if(t_w <= 0.0f){
-				t_w = a_text.Raw_GetText().preferredWidth;
+				t_w = a_text.Raw_GetTextInstance().preferredWidth;
 			}else{
 				t_w *= this.calc_ui_scale;
 			}
 
 			if(t_h <= 0.0f){
-				t_h = a_text.Raw_GetText().preferredHeight;
+				t_h = a_text.Raw_GetTextInstance().preferredHeight;
 			}else{
 				t_h *= this.calc_ui_scale;
 			}
@@ -284,8 +284,8 @@ namespace NRender2D
 				t_y -= t_h / 2;
 			}
 
-			a_text.Raw_GetRectTransform().sizeDelta = new Vector2(t_w,t_h);
-			a_text.Raw_GetRectTransform().localPosition = new Vector3(t_x,t_y,0.0f);
+			a_text.Raw_GetRectTransformInstance().sizeDelta = new Vector2(t_w,t_h);
+			a_text.Raw_GetRectTransformInstance().localPosition = new Vector3(t_x,t_y,0.0f);
 		}
 
 		/** 計算。入力フィールド。
@@ -303,8 +303,8 @@ namespace NRender2D
 				t_y -= t_h / 2;
 			}
 
-			a_inputfield.Raw_GetRectTransform().sizeDelta = new Vector2(t_w,t_h);
-			a_inputfield.Raw_GetRectTransform().localPosition = new Vector3(t_x,t_y,0.0f);
+			a_inputfield.Raw_GetRectTransformInstance().sizeDelta = new Vector2(t_w,t_h);
+			a_inputfield.Raw_GetRectTransformInstance().localPosition = new Vector3(t_x,t_y,0.0f);
 		}
 	}
 }
