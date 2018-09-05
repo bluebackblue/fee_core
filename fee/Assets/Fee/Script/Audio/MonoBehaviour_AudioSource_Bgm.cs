@@ -302,7 +302,12 @@ namespace NAudio
 				{
 					this.playposition = this.myaudiosource[1].time;
 
-					this.fadetime += Config.BGM_CROSSFADE_SPEED;
+					if(Config.BGM_PLAY_FADEIN == true){
+						this.fadetime += Config.BGM_CROSSFADE_SPEED;
+					}else{
+						this.fadetime = 1.0f;
+					}
+
 					if(this.fadetime < 1.0f){
 						//ボリューム。
 						this.myaudiosource_volume[1] = this.fadetime;
@@ -321,6 +326,7 @@ namespace NAudio
 						//停止。
 						this.myaudiosource[0].Stop();
 						this.myaudiosource[0].clip = null;
+						this.myaudiosource[0].time = 0.0f;
 						this.myaudiosource_time[0] = 0.0f;
 
 						if(this.play_index < 0){
@@ -335,6 +341,13 @@ namespace NAudio
 					this.playposition = this.myaudiosource[0].time;
 
 					this.fadetime += Config.BGM_CROSSFADE_SPEED;
+
+					if(Config.BGM_PLAY_FADEIN == true){
+						this.fadetime += Config.BGM_CROSSFADE_SPEED;
+					}else{
+						this.fadetime = 1.0f;
+					}
+
 					if(this.fadetime < 1.0f){
 						//ボリューム。
 						this.myaudiosource_volume[0] = this.fadetime;
@@ -353,6 +366,7 @@ namespace NAudio
 						//停止。
 						this.myaudiosource[1].Stop();
 						this.myaudiosource[1].clip = null;
+						this.myaudiosource[1].time = 0.0f;
 						this.myaudiosource_time[1] = 0.0f;
 
 						if(this.play_index < 0){
