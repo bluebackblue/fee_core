@@ -16,9 +16,9 @@ using UnityEngine;
 */
 namespace NUi
 {
-	/** Button_Mode
+	/** CheckButton_Mode
 	*/
-	public enum Button_Mode
+	public enum CheckButton_Mode
 	{
 		/** 通常。
 		*/
@@ -27,10 +27,6 @@ namespace NUi
 		/** オン。
 		*/
 		On = 1,
-
-		/** ダウン。
-		*/
-		Down = 2,
 
 		/** ロック。
 		*/

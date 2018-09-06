@@ -16,7 +16,7 @@ using UnityEngine;
 */
 namespace NUi
 {
-	/** Button_Base
+	/** Button
 	*/
 	public class Button : Button_Base
 	{
@@ -33,8 +33,6 @@ namespace NUi
 			this.sprite = new Button_Sprite2D(this.deleter,a_state,a_drawpriority);
 
 			this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-
-			this.Update();
 		}
 
 		/** [Button_Base]コールバック。削除。
@@ -63,7 +61,6 @@ namespace NUi
 		protected override void OnSetModeCallBack(Button_Mode a_mode)
 		{
 			this.sprite.SetMode(a_mode);
-			this.Update();
 		}
 
 		/** テクスチャー設定。
@@ -71,35 +68,6 @@ namespace NUi
 		public void SetTexture(Texture2D a_texture)
 		{
 			this.sprite.SetTexture(a_texture);
-		}
-
-		/** 更新。
-		*/
-		private void Update()
-		{
-			/*
-			float t_w = NRender2D.Render2D.TEXTURE_W / 2;
-			float t_h = NRender2D.Render2D.TEXTURE_H / 2;
-
-			switch(this.mode){
-			case Button_Mode.Normal:
-				{
-					this.sprite.SetTextureRect(t_w * 0,t_h * 0,t_w,t_h);
-				}break;
-			case Button_Mode.On:
-				{
-					this.sprite.SetTextureRect(t_w * 1,t_h * 0,t_w,t_h);
-				}break;
-			case Button_Mode.Down:
-				{
-					this.sprite.SetTextureRect(t_w * 0,t_h * 1,t_w,t_h);
-				}break;
-			case Button_Mode.Lock:
-				{
-					this.sprite.SetTextureRect(t_w * 1,t_h * 1,t_w,t_h);
-				}break;
-			}
-			*/
 		}
 	}
 }

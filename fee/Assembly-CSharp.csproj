@@ -166,6 +166,10 @@
     <Compile Include="Assets\Fee\Script\Ui\Button_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Button_Mode.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Button_Sprite2D.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\CheckButton.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\CheckButton_Base.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\CheckButton_Mode.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\CheckButton_Sprite2D.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Config.cs" />
     <Compile Include="Assets\Fee\Script\Ui\OnTargetCallBack_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Tool.cs" />
