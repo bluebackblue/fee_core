@@ -446,63 +446,46 @@ namespace NRender2D
 					for(int ii=t_start_index;ii<=t_last_index;ii++){
 						Text2D t_text = this.text_list[ii];
 
-						UnityEngine.UI.Text t_raw_text = t_text.Raw_GetTextInstance();
-
 						//テキスト再描画。
 						if((t_text.Raw_IsReCalc() == true)||(this.screen.IsUiReCalcFlag() == true)){
 							t_text.Raw_ResetReCalc();
 
-							//CalcTextPosition前に必要な処理。
-
-							//フォントの設定。
-							t_raw_text.font = t_text.GetFont();
-
 							//フォントサイズの設定。
-							t_raw_text.fontSize = this.screen.CalcFontSize(t_text);
-
-							//スケール設定。
-							t_text.Raw_GetRectTransformInstance().localScale = new Vector3(1.0f,1.0f,1.0f);
-
-							//色の設定。
-							t_raw_text.color = t_text.GetColor();
-
-							//文字列の設定。
-							t_raw_text.text = t_text.GetText();
-							t_text.Raw_GetRectTransformInstance().sizeDelta = new Vector2(UnityEngine.Screen.width,UnityEngine.Screen.height);
+							t_text.Raw_SetFontSize(this.screen.CalcFontSize(t_text));
 
 							if(t_text.IsClip() == false){
-								//共通マテリアル使用。w
-								t_raw_text.material = this.materiallist.GetTextMaterial();
+								//共通マテリアル使用。
+								t_text.Raw_SetMaterial(this.materiallist.GetTextMaterial());
 							}else{
 								//カスタムマテリアル使用。
 								Material t_material = t_text.GetCustomTextMaterial();
+								{
+									int t_gui_x1;
+									int t_gui_y1;
+									int t_gui_x2;
+									int t_gui_y2;
+									this.VirtualScreenToGuiScreen(t_text.GetClipX(),t_text.GetClipY() + t_text.GetClipH(),out t_gui_x1,out t_gui_y1);
+									this.VirtualScreenToGuiScreen(t_text.GetClipX() + t_text.GetClipW(),t_text.GetClipY(),out t_gui_x2,out t_gui_y2);
+									t_material.SetFloat("clip_flag",1.0f);
+									t_material.SetFloat("clip_x1",t_gui_x1);
+									t_material.SetFloat("clip_y1",this.screen.GetGuiH() - t_gui_y1);
+									t_material.SetFloat("clip_x2",t_gui_x2);
+									t_material.SetFloat("clip_y2",this.screen.GetGuiH() - t_gui_y2);
+								}
 
-								int t_gui_x1;
-								int t_gui_y1;
-								int t_gui_x2;
-								int t_gui_y2;
-								this.VirtualScreenToGuiScreen(t_text.GetClipX(),t_text.GetClipY() + t_text.GetClipH(),out t_gui_x1,out t_gui_y1);
-								this.VirtualScreenToGuiScreen(t_text.GetClipX() + t_text.GetClipW(),t_text.GetClipY(),out t_gui_x2,out t_gui_y2);
-								t_material.SetFloat("clip_flag",1.0f);
-								t_material.SetFloat("clip_x1",t_gui_x1);
-								t_material.SetFloat("clip_y1",this.screen.GetGuiH() - t_gui_y1);
-								t_material.SetFloat("clip_x2",t_gui_x2);
-								t_material.SetFloat("clip_y2",this.screen.GetGuiH() - t_gui_y2);
-
-								t_raw_text.material = t_material;
+								t_text.Raw_SetMaterial(t_material);
 							}
 						}
 
 						if((t_text.GetText().Length > 0)&&(t_text.IsVisible() == true)&&(t_text.GetDrawPriority() >= 0)){
-
 							//矩形計算。
 							this.screen.CalcTextRect(t_text);
 
 							//表示。
-							t_raw_text.enabled = true;
+							t_text.Raw_SetEnable(true);
 						}else{
 							//非表示。
-							t_raw_text.enabled = false;
+							t_text.Raw_SetEnable(false);
 						}
 					}
 				}
@@ -518,34 +501,23 @@ namespace NRender2D
 					for(int ii=t_start_index;ii<=t_last_index;ii++){
 						InputField2D t_inputfield = this.inputfield_list[ii];
 
-						UnityEngine.UI.InputField t_raw_inputfield = t_inputfield.Raw_GetInputFieldInstance();
-
 						//テキスト再描画。
 						if((t_inputfield.Raw_IsReCalc() == true)||(this.screen.IsUiReCalcFlag() == true)){
 							t_inputfield.Raw_ResetReCalc();
 
-							//CalcInputFieldRect前に必要な処理。
-
-							//フォントの設定。
-							t_inputfield.Raw_GetTextInstance().font = t_inputfield.GetFont();
-
 							//フォントサイズの設定。
-							t_inputfield.Raw_GetTextInstance().fontSize = this.screen.CalcFontSize(t_inputfield);
-
-							//スケール設定。
-							t_inputfield.Raw_GetRectTransformInstance().localScale = new Vector3(1.0f,1.0f,1.0f);
+							t_inputfield.Raw_SetFontSize(this.screen.CalcFontSize(t_inputfield));
 						}
 
 						if((t_inputfield.IsVisible() == true)&&(t_inputfield.GetDrawPriority() >= 0)){
-
 							//矩形計算。
 							this.screen.CalcInputFieldRect(t_inputfield);
 
 							//表示。
-							t_raw_inputfield.enabled = true;
+							t_inputfield.Raw_SetEnable(true);
 						}else{
 							//非表示。
-							t_raw_inputfield.enabled = false;
+							t_inputfield.Raw_SetEnable(false);
 						}
 					}
 				}

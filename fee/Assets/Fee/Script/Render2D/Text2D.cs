@@ -410,6 +410,48 @@ namespace NRender2D
 			return this.param.GetShadow();
 		}
 
+		/** [内部からの呼び出し]最適横幅。取得。
+		*/
+		public float Raw_GetPreferredWidth()
+		{
+			return this.param.Raw_GetPreferredWidth();
+		}
+
+		/** [内部からの呼び出し]最適縦幅。取得。
+		*/
+		public float Raw_GetPreferredHeight()
+		{
+			return this.param.Raw_GetPreferredHeight();
+		}
+
+		/** [内部からの呼び出し]サイズ。設定。
+		*/
+		public void Raw_SetRectTransformSizeDeleta(ref Vector2 a_size)
+		{
+			this.param.Raw_SetRectTransformSizeDeleta(ref a_size);
+		}
+
+		/** [内部からの呼び出し]位置。設定。
+		*/
+		public void Raw_SetRectTransformLocalPosition(ref Vector3 a_position)
+		{
+			this.param.Raw_SetRectTransformLocalPosition(ref a_position);
+		}
+
+		/** [内部からの呼び出し]フォントサイズ。設定。
+		*/
+		public void Raw_SetFontSize(int a_raw_fontsize)
+		{
+			this.param.Raw_SetFontSize(a_raw_fontsize);
+		}
+
+		/** [内部からの呼び出し]マテリアル。設定。
+		*/
+		public void Raw_SetMaterial(Material a_material)
+		{
+			this.param.Raw_SetMaterial(a_material);
+		}
+
 		/** [内部からの呼び出し]レイヤー。設定。
 		*/
 		public void Raw_SetLayer(Transform a_layer_transform)
@@ -417,18 +459,11 @@ namespace NRender2D
 			this.param.Raw_SetLayer(a_layer_transform);
 		}
 
-		/** [内部からの呼び出し]テキスト。取得。
+		/** [内部からの呼び出し]有効。設定。
 		*/
-		public UnityEngine.UI.Text Raw_GetTextInstance()
+		public void Raw_SetEnable(bool a_flag)
 		{
-			return this.param.Raw_GetTextInstance();
-		}
-
-		/** [内部からの呼び出し]RectTransform。取得。
-		*/
-		public UnityEngine.RectTransform Raw_GetRectTransformInstance()
-		{
-			return this.param.Raw_GetRectTransformInstance();
+			this.param.Raw_SetEnable(a_flag);
 		}
 
 		/** [内部からの呼び出し]再計算フラグ。取得。

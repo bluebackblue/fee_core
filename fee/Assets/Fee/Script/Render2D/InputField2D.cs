@@ -283,33 +283,6 @@ namespace NRender2D
 			return this.param.GetFontSize();
 		}
 
-		/** 色。設定。
-		*/
-		/*
-		public void SetColor(ref Color a_color)
-		{
-			this.param.SetColor(ref a_color);
-		}
-		*/
-
-		/** 色。設定。
-		*/
-		/*
-		public void SetColor(float a_r,float a_g,float a_b,float a_a)
-		{
-			this.param.SetColor(a_r,a_g,a_b,a_a);
-		}
-		*/
-
-		/** 色。取得。
-		*/
-		/*
-		public Color GetColor()
-		{
-			return this.param.GetColor();
-		}
-		*/
-
 		/** センター。設定。
 		*/
 		public void SetCenter(bool a_flag)
@@ -338,6 +311,27 @@ namespace NRender2D
 			return this.param.GetFont();
 		}
 
+		/** [内部からの呼び出し]サイズ。設定。
+		*/
+		public void Raw_SetRectTransformSizeDeleta(ref Vector2 a_size)
+		{
+			this.param.Raw_SetRectTransformSizeDeleta(ref a_size);
+		}
+
+		/** [内部からの呼び出し]位置。設定。
+		*/
+		public void Raw_SetRectTransformLocalPosition(ref Vector3 a_position)
+		{
+			this.param.Raw_SetRectTransformLocalPosition(ref a_position);
+		}
+
+		/** [内部からの呼び出し]フォントサイズ。設定。
+		*/
+		public void Raw_SetFontSize(int a_raw_fontsize)
+		{
+			this.param.Raw_SetFontSize(a_raw_fontsize);
+		}
+
 		/** [内部からの呼び出し]レイヤー。設定。
 		*/
 		public void Raw_SetLayer(Transform a_layer_transform)
@@ -345,25 +339,11 @@ namespace NRender2D
 			this.param.Raw_SetLayer(a_layer_transform);
 		}
 
-		/** [内部からの呼び出し]入力フィールド。取得。
+		/** [内部からの呼び出し]有効。設定。
 		*/
-		public UnityEngine.UI.InputField Raw_GetInputFieldInstance()
+		public void Raw_SetEnable(bool a_flag)
 		{
-			return this.param.Raw_GetInputFieldInstance();
-		}
-
-		/** [内部からの呼び出し]RectTransform。取得。
-		*/
-		public UnityEngine.RectTransform Raw_GetRectTransformInstance()
-		{
-			return this.param.Raw_GetRectTransformInstance();
-		}
-
-		/** [内部からの呼び出し]テキスト。取得。
-		*/
-		public UnityEngine.UI.Text Raw_GetTextInstance()
-		{
-			return this.param.Raw_GetTextInstance();
+			this.param.Raw_SetEnable(a_flag);
 		}
 
 		/** [内部からの呼び出し]再計算フラグ。取得。

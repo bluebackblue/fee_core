@@ -24,17 +24,13 @@ namespace NRender2D
 		*/
 		private int fontsize;
 
-		/** 色。
-		*/
-		//private Color color;
-
 		/** センター。
 		*/
 		private bool is_center;
 
-		/** フォント。
+		/** 再計算が必要。
 		*/
-		private Font font;
+		private bool raw_is_recalc;
 
 		/** raw
 		*/
@@ -43,7 +39,6 @@ namespace NRender2D
 		private UnityEngine.UI.InputField raw_inputfield;
 		private UnityEngine.RectTransform raw_recttransform;
 		private UnityEngine.UI.Text raw_text;
-		private bool raw_is_recalc;
 
 		/** 初期化。
 		*/
@@ -52,16 +47,11 @@ namespace NRender2D
 			//フォントサイズ。
 			this.fontsize = Config.DEFAULT_TEXT_FONTSIZE;
 
-			//色。
-			//this.color = Config.DEFAULT_TEXT_COLOR;
-
 			//センター。
 			this.is_center = false;
 
-			//フォント。
-			this.font = Render2D.GetInstance().GetDefaultFont();
-
-			//
+			//再計算が必要。
+			this.raw_is_recalc = true;
 
 			//raw
 			this.raw_gameobject = Render2D.GetInstance().RawInputField_Create();
@@ -69,7 +59,15 @@ namespace NRender2D
 			this.raw_inputfield = this.raw_gameobject.GetComponent<UnityEngine.UI.InputField>();
 			this.raw_recttransform = this.raw_gameobject.GetComponent<UnityEngine.RectTransform>();
 			this.raw_text = this.raw_inputfield.textComponent;
-			this.raw_is_recalc = true;
+
+			//font
+			this.raw_text.font = Render2D.GetInstance().GetDefaultFont();
+
+			//localscale
+			this.raw_recttransform.localScale = new Vector3(1.0f,1.0f,1.0f);
+
+			//sizedelta
+			this.raw_recttransform.sizeDelta = new Vector2(UnityEngine.Screen.width,UnityEngine.Screen.height);
 		}
 
 		/** フォーカス。取得。
@@ -117,6 +115,8 @@ namespace NRender2D
 		{
 			if(this.fontsize != a_fontsize){
 				this.fontsize = a_fontsize;
+
+				//■再計算が必要。
 				this.raw_is_recalc = true;
 			}
 		}
@@ -128,38 +128,12 @@ namespace NRender2D
 			return this.fontsize;
 		}
 
-		/** 色。設定。
+		/** [内部からの呼び出し]フォントサイズ。設定。
 		*/
-		/*
-		public void SetColor(ref Color a_color)
+		public void Raw_SetFontSize(int a_raw_fontsize)
 		{
-			if(this.color != a_color){
-				this.color = a_color;
-				this.raw_is_recalc = true;
-			}
+			this.raw_text.fontSize = a_raw_fontsize;
 		}
-		*/
-
-		/** 色。設定。
-		*/
-		/*
-		public void SetColor(float a_r,float a_g,float a_b,float a_a)
-		{
-			this.color.r = a_r;
-			this.color.g = a_g;
-			this.color.b = a_b;
-			this.color.a = a_a;
-		}
-		*/
-
-		/** 色。取得。
-		*/
-		/*
-		public Color GetColor()
-		{
-			return this.color;
-		}
-		*/
 
 		/** センター。設定。
 		*/
@@ -179,9 +153,8 @@ namespace NRender2D
 		*/
 		public void SetFont(Font a_font)
 		{
-			if(this.font != a_font){
-				this.font = a_font;
-				this.raw_is_recalc = true;
+			if(this.raw_text.font != a_font){
+				this.raw_text.font = a_font;
 			}
 		}
 
@@ -189,7 +162,7 @@ namespace NRender2D
 		*/
 		public Font GetFont()
 		{
-			return this.font;
+			return this.raw_text.font;
 		}
 
 		/** 削除。
@@ -198,6 +171,20 @@ namespace NRender2D
 		{
 			Render2D.GetInstance().RawInputField_Delete(this.raw_gameobject);
 			this.raw_gameobject = null;
+		}
+
+		/** [内部からの呼び出し]サイズ。設定。
+		*/
+		public void Raw_SetRectTransformSizeDeleta(ref Vector2 a_size)
+		{
+			this.raw_recttransform.sizeDelta = a_size;
+		}
+
+		/** [内部からの呼び出し]位置。設定。
+		*/
+		public void Raw_SetRectTransformLocalPosition(ref Vector3 a_position)
+		{
+			this.raw_recttransform.localPosition = a_position;
 		}
 
 		/** [内部からの呼び出し]レイヤー。設定。
@@ -209,28 +196,15 @@ namespace NRender2D
 			}else{
 				this.raw_transform.SetParent(a_layer_transform);
 				this.raw_gameobject.SetActive(true);
+				this.raw_recttransform.localScale = new Vector3(1.0f,1.0f,1.0f);
 			}
 		}
 
-		/** [内部からの呼び出し]入力フィールド。取得。
+		/** [内部からの呼び出し]有効。設定。
 		*/
-		public UnityEngine.UI.InputField Raw_GetInputFieldInstance()
+		public void Raw_SetEnable(bool a_flag)
 		{
-			return this.raw_inputfield;
-		}
-
-		/** [内部からの呼び出し]RectTransform。取得。
-		*/
-		public UnityEngine.RectTransform Raw_GetRectTransformInstance()
-		{
-			return this.raw_recttransform;
-		}
-
-		/** [内部からの呼び出し]テキスト。取得。
-		*/
-		public UnityEngine.UI.Text Raw_GetTextInstance()
-		{
-			return this.raw_text;
+			this.raw_inputfield.enabled = a_flag;
 		}
 
 		/** [内部からの呼び出し]再計算フラグ。取得。

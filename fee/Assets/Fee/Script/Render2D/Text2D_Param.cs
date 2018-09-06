@@ -20,30 +20,22 @@ namespace NRender2D
 	*/
 	public struct Text2D_Param
 	{
-		/** テキスト。
-		*/
-		private string text;
-
 		/** フォントサイズ。
 		*/
 		private int fontsize;
-
-		/** 色。
-		*/
-		private Color color;
 
 		/** センター。
 		*/
 		private bool is_center;
 
-		/** フォント。
-		*/
-		private Font font;
-
 		/** クリップ。
 		*/
 		private bool clip;
 		private NRender2D.Rect2D_R<int> clip_rect;
+
+		/** 再計算が必要。
+		*/
+		private bool raw_is_recalc;
 
 		/** raw
 		*/
@@ -51,7 +43,6 @@ namespace NRender2D
 		private Transform raw_transform;
 		private UnityEngine.UI.Text raw_text;
 		private UnityEngine.RectTransform raw_recttransform;
-		private bool raw_is_recalc;
 		private Material raw_custom_textmaterial;
 		private UnityEngine.UI.Outline raw_outline;
 		private UnityEngine.UI.Shadow raw_shadow;
@@ -60,41 +51,58 @@ namespace NRender2D
 		*/
 		public void Initialze()
 		{
-			//テキスト。
-			this.text = "";
-
 			//フォントサイズ。
 			this.fontsize = Config.DEFAULT_TEXT_FONTSIZE;
-
-			//色。
-			this.color = Config.DEFAULT_TEXT_COLOR;
 
 			//センター。
 			this.is_center = false;
 
-			//フォント。
-			this.font = Render2D.GetInstance().GetDefaultFont();
-
 			//クリップ。
 			this.clip = false;
 			this.clip_rect.Set(0,0,0,0);
+
+			//再計算が必要。
+			this.raw_is_recalc = true;
 
 			//raw
 			this.raw_gameobject = Render2D.GetInstance().RawText_Create();
 			this.raw_transform = this.raw_gameobject.GetComponent<Transform>();
 			this.raw_text = this.raw_gameobject.GetComponent<UnityEngine.UI.Text>();
 			this.raw_recttransform = this.raw_gameobject.GetComponent<UnityEngine.RectTransform>();
-			this.raw_is_recalc = true;
 			this.raw_custom_textmaterial = new Material(Render2D.GetInstance().GetTextMaterial());
+
+			//material
 			this.raw_text.material = this.raw_custom_textmaterial;
 
-			UnityEngine.UI.BaseMeshEffect[] t_effect_list = this.raw_gameobject.GetComponents<UnityEngine.UI.BaseMeshEffect>();
+			//font
+			this.raw_text.font = Render2D.GetInstance().GetDefaultFont();
 
-			for(int ii=0;ii<t_effect_list.Length;ii++){
-				if(t_effect_list[ii].GetType() == typeof(UnityEngine.UI.Shadow)){
-					this.raw_shadow = this.raw_gameobject.GetComponent<UnityEngine.UI.Shadow>();
-				}else if(t_effect_list[ii].GetType() == typeof(UnityEngine.UI.Outline)){
-					this.raw_outline = this.raw_gameobject.GetComponent<UnityEngine.UI.Outline>();
+			//color
+			this.raw_text.color = Config.DEFAULT_TEXT_COLOR;
+
+			//text
+			this.raw_text.text = "";
+
+			//localscale
+			this.raw_recttransform.localScale = new Vector3(1.0f,1.0f,1.0f);
+
+			//sizedelta
+			this.raw_recttransform.sizeDelta = new Vector2(UnityEngine.Screen.width,UnityEngine.Screen.height);
+
+			{
+				UnityEngine.UI.BaseMeshEffect[] t_effect_list = this.raw_gameobject.GetComponents<UnityEngine.UI.BaseMeshEffect>();
+				for(int ii=0;ii<t_effect_list.Length;ii++){
+					if(t_effect_list[ii].GetType() == typeof(UnityEngine.UI.Shadow)){
+						this.raw_shadow = this.raw_gameobject.GetComponent<UnityEngine.UI.Shadow>();
+						if(this.raw_shadow != null){
+							this.raw_shadow.enabled = false;
+						}
+					}else if(t_effect_list[ii].GetType() == typeof(UnityEngine.UI.Outline)){
+						this.raw_outline = this.raw_gameobject.GetComponent<UnityEngine.UI.Outline>();
+						if(this.raw_outline != null){
+							this.raw_outline.enabled = false;
+						}
+					}
 				}
 			}
 		}
@@ -105,6 +113,8 @@ namespace NRender2D
 		{
 			if(this.clip != a_flag){
 				this.clip = a_flag;
+
+				//■再計算が必要。
 				this.raw_is_recalc = true;
 			}
 		}
@@ -122,6 +132,8 @@ namespace NRender2D
 		{
 			if((this.clip_rect.x != a_rect.x)||(this.clip_rect.y != a_rect.y)||(this.clip_rect.w != a_rect.w)||(this.clip_rect.h != a_rect.h)){
 				this.clip_rect = a_rect;
+
+				//■再計算が必要。
 				this.raw_is_recalc = true;
 			}
 		}
@@ -132,6 +144,8 @@ namespace NRender2D
 		{
 			if((this.clip_rect.x != a_x)||(this.clip_rect.y != a_y)||(this.clip_rect.w != a_w)||(this.clip_rect.h != a_h)){
 				this.clip_rect.Set(a_x,a_y,a_w,a_h);
+
+				//■再計算が必要。
 				this.raw_is_recalc = true;
 			}
 		}
@@ -181,9 +195,8 @@ namespace NRender2D
 				t_text = "";
 			}
 
-			if(this.text != a_text){
-				this.text = a_text;
-				this.raw_is_recalc = true;
+			if(this.raw_text.text != a_text){
+				this.raw_text.text = a_text;
 			}
 		}
 
@@ -191,7 +204,7 @@ namespace NRender2D
 		*/
 		public string GetText()
 		{
-			return this.text;
+			return this.raw_text.text;
 		}
 
 		/** テキスト。設定。
@@ -200,6 +213,8 @@ namespace NRender2D
 		{
 			if(this.fontsize != a_fontsize){
 				this.fontsize = a_fontsize;
+
+				//■再計算が必要。
 				this.raw_is_recalc = true;
 			}
 		}
@@ -215,9 +230,8 @@ namespace NRender2D
 		*/
 		public void SetColor(ref Color a_color)
 		{
-			if(this.color != a_color){
-				this.color = a_color;
-				this.raw_is_recalc = true;
+			if(this.raw_text.color != a_color){
+				this.raw_text.color = a_color;
 			}
 		}
 
@@ -225,12 +239,8 @@ namespace NRender2D
 		*/
 		public void SetColor(float a_r,float a_g,float a_b,float a_a)
 		{
-			if((this.color.r != a_r)||(this.color.g != a_g)||(this.color.b != a_b)||(this.color.a != a_a)){
-				this.color.r = a_r;
-				this.color.g = a_g;
-				this.color.b = a_b;
-				this.color.a = a_a;
-				this.raw_is_recalc = true;
+			if((this.raw_text.color.r != a_r)||(this.raw_text.color.g != a_g)||(this.raw_text.color.b != a_b)||(this.raw_text.color.a != a_a)){
+				this.raw_text.color = new Color(a_r,a_g,a_b,a_a);
 			}
 		}
 
@@ -238,7 +248,7 @@ namespace NRender2D
 		*/
 		public Color GetColor()
 		{
-			return this.color;
+			return this.raw_text.color;
 		}
 
 		/** センター。設定。
@@ -297,9 +307,8 @@ namespace NRender2D
 		*/
 		public void SetFont(Font a_font)
 		{
-			if(this.font != a_font){
-				this.font = a_font;
-				this.raw_is_recalc = true;
+			if(this.raw_text.font != a_font){
+				this.raw_text.font = a_font;
 			}
 		}
 
@@ -307,7 +316,7 @@ namespace NRender2D
 		*/
 		public Font GetFont()
 		{
-			return this.font;
+			return this.raw_text.font;
 		}
 
 		/** 削除。
@@ -321,6 +330,48 @@ namespace NRender2D
 			this.raw_custom_textmaterial = null;
 		}
 
+		/** [内部からの呼び出し]最適横幅。取得。
+		*/
+		public float Raw_GetPreferredWidth()
+		{
+			return this.raw_text.preferredWidth;
+		}
+
+		/** [内部からの呼び出し]最適縦幅。取得。
+		*/
+		public float Raw_GetPreferredHeight()
+		{
+			return this.raw_text.preferredHeight;
+		}
+
+		/** [内部からの呼び出し]サイズ。設定。
+		*/
+		public void Raw_SetRectTransformSizeDeleta(ref Vector2 a_size)
+		{
+			this.raw_recttransform.sizeDelta = a_size;
+		}
+
+		/** [内部からの呼び出し]位置。設定。
+		*/
+		public void Raw_SetRectTransformLocalPosition(ref Vector3 a_position)
+		{
+			this.raw_recttransform.localPosition = a_position;
+		}
+
+		/** [内部からの呼び出し]フォントサイズ。設定。
+		*/
+		public void Raw_SetFontSize(int a_raw_fontsize)
+		{
+			this.raw_text.fontSize = a_raw_fontsize;
+		}
+
+		/** [内部からの呼び出し]マテリアル。設定。
+		*/
+		public void Raw_SetMaterial(Material a_material)
+		{
+			this.raw_text.material = a_material;
+		}
+
 		/** [内部からの呼び出し]レイヤー。設定。
 		*/
 		public void Raw_SetLayer(Transform a_layer_transform)
@@ -330,21 +381,15 @@ namespace NRender2D
 			}else{
 				this.raw_transform.SetParent(a_layer_transform);
 				this.raw_gameobject.SetActive(true);
+				this.raw_recttransform.localScale = new Vector3(1.0f,1.0f,1.0f);
 			}
 		}
 
-		/** [内部からの呼び出し]テキストインスタンス。取得。
+		/** [内部からの呼び出し]有効。設定。
 		*/
-		public UnityEngine.UI.Text Raw_GetTextInstance()
+		public void Raw_SetEnable(bool a_flag)
 		{
-			return this.raw_text;
-		}
-
-		/** [内部からの呼び出し]RectTransform。取得。
-		*/
-		public UnityEngine.RectTransform Raw_GetRectTransformInstance()
-		{
-			return this.raw_recttransform;
+			this.raw_text.enabled = a_flag;
 		}
 
 		/** [内部からの呼び出し]再計算フラグ。取得。
