@@ -162,6 +162,11 @@
     <Compile Include="Assets\Fee\Script\Scene\Scene.cs" />
     <Compile Include="Assets\Fee\Script\Scene\Scene_Base.cs" />
     <Compile Include="Assets\Fee\Script\Scene\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\Socket\Config.cs" />
+    <Compile Include="Assets\Fee\Script\Socket\Socket.cs" />
+    <Compile Include="Assets\Fee\Script\Socket\TcpClient.cs" />
+    <Compile Include="Assets\Fee\Script\Socket\TcpServer.cs" />
+    <Compile Include="Assets\Fee\Script\Socket\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Button.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Button_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Button_Mode.cs" />
