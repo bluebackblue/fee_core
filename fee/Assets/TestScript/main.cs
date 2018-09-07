@@ -110,9 +110,15 @@ public class main : MonoBehaviour
 				}
 			}
 		}
-    }
-}
+	}
 
+	/** シーン名。
+	*/
+	public void CallFromHTML(string a_scene_name)
+	{
+		UnityEngine.SceneManagement.SceneManager.LoadScene(a_scene_name);
+	}
+}
 
 /** main_base
 */
