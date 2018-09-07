@@ -36,7 +36,7 @@ namespace NRender2D
 		*/
 		public void Initialize()
 		{
-			//テクスチャー。
+			//テクスチャ。
 			this.texture = null;
 
 			//色。
@@ -46,14 +46,14 @@ namespace NRender2D
 			this.materialtype = Config.DEFALUT_SPRITE_MATERIALTYPE;
 		}
 
-		/** テクスチャー。設定。
+		/** テクスチャ。設定。
 		*/
 		public void SetTexture(Texture2D a_texture)
 		{
 			this.texture = a_texture;
 		}
 
-		/** テクスチャー。取得。
+		/** テクスチャ。取得。
 		*/
 		public Texture2D GetTexture()
 		{

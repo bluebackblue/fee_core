@@ -13,6 +13,9 @@ using UnityEngine;
 
 
 /** test11
+
+	アセットバンドル
+
 */
 public class test11 : main_base
 {

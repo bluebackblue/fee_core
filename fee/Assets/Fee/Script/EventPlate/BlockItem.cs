@@ -46,7 +46,9 @@ namespace NEventPlate
 			this.eventplate_view.SetRect(0,0,NRender2D.Render2D.VIRTUAL_W,NRender2D.Render2D.VIRTUAL_H);
 
 			//削除管理。
-			a_deleter.Register(this);
+			if(a_deleter != null){
+				a_deleter.Register(this);
+			}
 		}
 
 		/** 削除。

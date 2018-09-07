@@ -13,6 +13,9 @@ using UnityEngine;
 
 
 /** test10
+
+	ブラー
+
 */
 public class test10 : main_base
 {

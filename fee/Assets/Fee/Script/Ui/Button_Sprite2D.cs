@@ -20,13 +20,21 @@ namespace NUi
 	*/
 	public class Button_Sprite2D : NRender2D.Sprite2D
 	{
+		/** is_clip
+		*/
+		private bool is_clip;
+
+		/** corner_size
+		*/
+		private int corner_size;
+
 		/** clip_rect
 		*/
-		NRender2D.Rect2D_R<int> clip_rect;
+		private NRender2D.Rect2D_R<int> clip_rect;
 
 		/** mode
 		*/
-		Button_Mode mode;
+		private Button_Mode mode;
 
 		/** constructor。
 		*/
@@ -34,9 +42,27 @@ namespace NUi
 			:
 			base(a_deleter,a_state,a_drawpriority)
 		{
-			this.SetMaterialType(NRender2D.Config.MaterialType.Button);
-			this.clip_rect.Set(-NRender2D.Render2D.VIRTUAL_W,-NRender2D.Render2D.VIRTUAL_H,NRender2D.Render2D.VIRTUAL_W*2,NRender2D.Render2D.VIRTUAL_H*2);
+			//is_clip
+			this.is_clip = false;
+
+			//corner_size
+			this.corner_size = 20;
+
+			//clip_rect
+			this.clip_rect.Set(0,0,0,0);
+
+			//mode
 			this.mode = Button_Mode.Normal;
+
+			//マテリアル設定。
+			this.SetMaterialType(NRender2D.Config.MaterialType.Slice9);
+		}
+
+		/** クリック。設定。
+		*/
+		public void SetClip(bool a_flag)
+		{
+			this.is_clip = a_flag;
 		}
 
 		/** クリップ矩形。設定。
@@ -100,10 +126,9 @@ namespace NUi
 		{
 			bool t_setpass = false;
 
+			//テクスチャ設定。
 			Texture2D t_texture = this.GetTexture();
-
 			if(a_material.mainTexture != t_texture){
-				//テクスチャー設定。
 				a_material.mainTexture = this.GetTexture();
 				t_setpass = true;
 			}
@@ -121,24 +146,41 @@ namespace NUi
 				float t_clip_x2 = t_gui_x2;
 				float t_clip_y2 = NRender2D.Render2D.GetInstance().GetGuiH() - t_gui_y2;
 
-				if(a_material.GetFloat("clip_x1") != t_clip_x1){
-					a_material.SetFloat("clip_x1",t_clip_x1);
+				int t_clip_flag = 0;
+				if(this.is_clip == true){
+					t_clip_flag = 1;
+				}
+
+				if(a_material.GetInt("clip_flag") != t_clip_flag){
+					a_material.SetFloat("clip_flag",t_clip_flag);
 					t_setpass = true;
 				}
 
-				if(a_material.GetFloat("clip_y1") != t_clip_y1){
-					a_material.SetFloat("clip_y1",t_clip_y1);
-					t_setpass = true;
-				}
+				if(t_clip_flag > 0){
+					if(a_material.GetInt("corner_size") != this.corner_size){
+						a_material.SetInt("clip_x1",this.corner_size);
+						t_setpass = true;						
+					}
 
-				if(a_material.GetFloat("clip_x2") != t_clip_x2){
-					a_material.SetFloat("clip_x2",t_clip_x2);
-					t_setpass = true;
-				}
+					if(a_material.GetFloat("clip_x1") != t_clip_x1){
+						a_material.SetFloat("clip_x1",t_clip_x1);
+						t_setpass = true;
+					}
 
-				if(a_material.GetFloat("clip_y2") != t_clip_y2){
-					a_material.SetFloat("clip_y2",t_clip_y2);
-					t_setpass = true;
+					if(a_material.GetFloat("clip_y1") != t_clip_y1){
+						a_material.SetFloat("clip_y1",t_clip_y1);
+						t_setpass = true;
+					}
+
+					if(a_material.GetFloat("clip_x2") != t_clip_x2){
+						a_material.SetFloat("clip_x2",t_clip_x2);
+						t_setpass = true;
+					}
+
+					if(a_material.GetFloat("clip_y2") != t_clip_y2){
+						a_material.SetFloat("clip_y2",t_clip_y2);
+						t_setpass = true;
+					}
 				}
 			}
 

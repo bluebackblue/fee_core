@@ -22,11 +22,11 @@ namespace NUi
 	{
 		/** sprite_bg
 		*/
-		private NRender2D.Sprite2D sprite_bg;
+		private NUi.ClipSprite sprite_bg;
 
 		/** sprite_check
 		*/
-		private NRender2D.Sprite2D sprite_check;
+		private NUi.ClipSprite sprite_check;
 
 		/** constructor
 		*/
@@ -34,10 +34,12 @@ namespace NUi
 			:
 			base(a_deleter,a_state,a_drawpriority)
 		{
-			this.sprite_bg = new NRender2D.Sprite2D(this.deleter,a_state,a_drawpriority);
+			//sprite_bg
+			this.sprite_bg = new NUi.ClipSprite(this.deleter,a_state,a_drawpriority);
 			this.sprite_bg.SetTextureRect(0.0f,0.0f,NRender2D.Render2D.TEXTURE_W / 2,NRender2D.Render2D.TEXTURE_H / 2);
 
-			this.sprite_check = new NRender2D.Sprite2D(this.deleter,a_state,a_drawpriority + 1);
+			//sprite_check
+			this.sprite_check = new NUi.ClipSprite(this.deleter,a_state,a_drawpriority + 1);
 			this.sprite_check.SetTextureRect(0.0f,NRender2D.Render2D.TEXTURE_H / 2,NRender2D.Render2D.TEXTURE_W / 2,NRender2D.Render2D.TEXTURE_H / 2);
 			this.sprite_check.SetVisible(false);
 		}
@@ -46,7 +48,6 @@ namespace NUi
 		*/
 		protected override void OnDeleteCallBack()
 		{
-			Debug.Log("OnDeleteCallBack");
 		}
 
 		/** コールバック。矩形。設定。
@@ -92,7 +93,31 @@ namespace NUi
 			this.sprite_check.SetVisible(a_flag);
 		}
 
-		/** テクスチャー設定。
+		/** コールバック。クリップ。設定。
+		*/
+		protected override void OnSetClipCallBack(bool a_flag)
+		{
+			this.sprite_bg.SetClip(a_flag);
+			this.sprite_check.SetClip(a_flag);
+		}
+
+		/** コールバック。クリップ矩形。設定。
+		*/
+		protected override void OnSetClipRectCallBack(int a_x,int a_y,int a_w,int a_h)
+		{
+			this.sprite_bg.SetClipRect(a_x,a_y,a_w,a_h);
+			this.sprite_check.SetClipRect(a_x,a_y,a_w,a_h);
+		}
+
+		/** コールバック。クリップ矩形。設定。
+		*/
+		protected override void OnSetClipRectCallBack(ref NRender2D.Rect2D_R<int> a_rect)
+		{
+			this.sprite_bg.SetClipRect(ref a_rect);
+			this.sprite_check.SetClipRect(ref a_rect);
+		}
+
+		/** テクスチャ設定。
 		*/
 		public void SetTexture(Texture2D a_texture)
 		{

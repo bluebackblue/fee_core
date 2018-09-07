@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＩ。ボタン。
+ * @brief ＵＩ。クリップスプライト。
 */
 
 
@@ -16,27 +16,46 @@ using UnityEngine;
 */
 namespace NUi
 {
-	/** CheckButton_Sprite2D
+	/** ClipSprite_Sprite2D
 	*/
-	public class CheckButton_Sprite2D : NRender2D.Sprite2D
+	public class ClipSprite_Sprite2D : NRender2D.Sprite2D
 	{
+		/** is_clip
+		*/
+		private bool is_clip;
+
 		/** clip_rect
 		*/
-		NRender2D.Rect2D_R<int> clip_rect;
-
-		/** mode
-		*/
-		CheckButton_Mode mode;
+		private NRender2D.Rect2D_R<int> clip_rect;
 
 		/** constructor。
 		*/
-		public CheckButton_Sprite2D(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
+		public ClipSprite_Sprite2D(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
 			:
 			base(a_deleter,a_state,a_drawpriority)
 		{
-			this.SetMaterialType(NRender2D.Config.MaterialType.Button);
-			this.clip_rect.Set(-NRender2D.Render2D.VIRTUAL_W,-NRender2D.Render2D.VIRTUAL_H,NRender2D.Render2D.VIRTUAL_W*2,NRender2D.Render2D.VIRTUAL_H*2);
-			this.mode = CheckButton_Mode.Normal;
+			//is_clip
+			this.is_clip = false;
+
+			//clip_rect
+			this.clip_rect.Set(0,0,0,0);
+
+			//マテリアル設定。
+			this.SetMaterialType(NRender2D.Config.MaterialType.Alpha_Clip);
+		}
+
+		/** クリップ。設定。
+		*/
+		public void SetClip(bool a_flag)
+		{
+			this.is_clip = a_flag;
+		}
+
+		/** クリップ。取得。
+		*/
+		public bool IsClip()
+		{
+			return this.is_clip;
 		}
 
 		/** クリップ矩形。設定。
@@ -84,13 +103,6 @@ namespace NUi
 			return this.clip_rect.h;
 		}
 
-		/** モード。設定。
-		*/
-		public void SetMode(CheckButton_Mode a_mode)
-		{
-			this.mode = a_mode;
-		}
-
 		/** マテリアルを更新する。
 
 		戻り値 = true : 変更あり。直後にSetPassの呼び出しが行われます。
@@ -100,10 +112,9 @@ namespace NUi
 		{
 			bool t_setpass = false;
 
+			//テクスチャ設定。
 			Texture2D t_texture = this.GetTexture();
-
 			if(a_material.mainTexture != t_texture){
-				//テクスチャー設定。
 				a_material.mainTexture = this.GetTexture();
 				t_setpass = true;
 			}
@@ -121,54 +132,36 @@ namespace NUi
 				float t_clip_x2 = t_gui_x2;
 				float t_clip_y2 = NRender2D.Render2D.GetInstance().GetGuiH() - t_gui_y2;
 
-				if(a_material.GetFloat("clip_x1") != t_clip_x1){
-					a_material.SetFloat("clip_x1",t_clip_x1);
+				int t_clip_flag = 0;
+				if(this.is_clip == true){
+					t_clip_flag = 1;
+				}
+
+				if(a_material.GetInt("clip_flag") != t_clip_flag){
+					a_material.SetFloat("clip_flag",t_clip_flag);
 					t_setpass = true;
 				}
 
-				if(a_material.GetFloat("clip_y1") != t_clip_y1){
-					a_material.SetFloat("clip_y1",t_clip_y1);
-					t_setpass = true;
-				}
+				if(t_clip_flag > 0){
+					if(a_material.GetFloat("clip_x1") != t_clip_x1){
+						a_material.SetFloat("clip_x1",t_clip_x1);
+						t_setpass = true;
+					}
 
-				if(a_material.GetFloat("clip_x2") != t_clip_x2){
-					a_material.SetFloat("clip_x2",t_clip_x2);
-					t_setpass = true;
-				}
+					if(a_material.GetFloat("clip_y1") != t_clip_y1){
+						a_material.SetFloat("clip_y1",t_clip_y1);
+						t_setpass = true;
+					}
 
-				if(a_material.GetFloat("clip_y2") != t_clip_y2){
-					a_material.SetFloat("clip_y2",t_clip_y2);
-					t_setpass = true;
-				}
-			}
+					if(a_material.GetFloat("clip_x2") != t_clip_x2){
+						a_material.SetFloat("clip_x2",t_clip_x2);
+						t_setpass = true;
+					}
 
-			//モード。
-			{
-				if(a_material.GetInt("mode") != (int)this.mode){
-					a_material.SetInt("mode",(int)this.mode);
-					t_setpass = true;
-				}
-			}
-
-			//矩形サイズ。
-			{
-				int t_rect_x1;
-				int t_rect_y1;
-				int t_rect_x2;
-				int t_rect_y2;
-				NRender2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.GetX(),this.GetY(),out t_rect_x1,out t_rect_y1);
-				NRender2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.GetX() + this.GetW(),this.GetY() + this.GetH(),out t_rect_x2,out t_rect_y2);
-				float t_clip_w = t_rect_x2 - t_rect_x1;
-				float t_clip_h = t_rect_y2 - t_rect_y1;
-
-				if(a_material.GetFloat("rect_w") != t_clip_w){
-					a_material.SetFloat("rect_w",t_clip_w);
-					t_setpass = true;
-				}
-
-				if(a_material.GetFloat("rect_h") != t_clip_h){
-					a_material.SetFloat("rect_h",t_clip_h);
-					t_setpass = true;
+					if(a_material.GetFloat("clip_y2") != t_clip_y2){
+						a_material.SetFloat("clip_y2",t_clip_y2);
+						t_setpass = true;
+					}
 				}
 			}
 

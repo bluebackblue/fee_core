@@ -3,20 +3,22 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/brownie/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief シェーダー。ボタン。
+ * @brief シェーダー。スライス。
 */
 
 
-Shader "Render2D/Button"
+Shader "Render2D/Slice9"
 {
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+		[MaterialToggle] clip_flag ("Clip Flag", Int) = 0
 		clip_x1 ("Clip X1", Float) = 0
 		clip_y1 ("Clip Y1", Float) = 0
 		clip_x2 ("Clip X2", Float) = 0
 		clip_y2 ("Clip Y2", Float) = 0
 		mode ("Mode", int) = 0
+		corner_size ("Corner Size", Int) = 20
 		rect_w ("Rect W", Float) = 0
 		rect_h ("Rect H", Float) = 0
 	}
@@ -69,6 +71,10 @@ Shader "Render2D/Button"
 			*/
 			float4 _MainTex_TexelSize;
 
+			/** clip_flag
+			*/
+			int clip_flag;
+
 			/** clip
 			*/
 			float clip_x1;
@@ -79,6 +85,10 @@ Shader "Render2D/Button"
 			/** mode
 			*/
 			int mode;
+
+			/** corner_size
+			*/
+			int corner_size;
 
 			/** rect
 			*/
@@ -103,21 +113,22 @@ Shader "Render2D/Button"
 			fixed4 frag(v2f i) : SV_Target
 			{
 				//クリップ。
+				if(clip_flag > 0){
+					if(clip_x1>i.vertex.x){
+						discard;
+					}
 
-				if(clip_x1>i.vertex.x){
-					discard;
-				}
+					if(i.vertex.x>clip_x2){
+						discard;
+					}
 
-				if(i.vertex.x>clip_x2){
-					discard;
-				}
+					if(clip_y1>i.vertex.y){
+						discard;
+					}
 
-				if(clip_y1>i.vertex.y){
-					discard;
-				}
-
-				if(i.vertex.y>clip_y2){
-					discard;
+					if(i.vertex.y>clip_y2){
+						discard;
+					}
 				}
 
 				//１ピクセルのサイズ。
@@ -134,30 +145,30 @@ Shader "Render2D/Button"
 
 				//テクスチャ参照位置。
 				float t_tex_x;
-				if(t_to_gui_x < 20){
-					//左２０ピクセル。
+				if(t_to_gui_x < corner_size){
+					//左corner_sizeピクセル。
 					t_tex_x = t_to_gui_x * t_pix_x;
-				}else if(t_to_gui_x >= t_gui_w - 20){
-					//右２０ピクセル。
+				}else if(t_to_gui_x >= t_gui_w - corner_size){
+					//右corner_sizeピクセル。
 					t_tex_x = (t_gui_w - t_to_gui_x) * t_pix_x;
 				}else{
 					//真ん中。
-					float t_per = float(t_to_gui_x - 20) / float(t_gui_w - 40);
-					t_tex_x = t_pix_x * (20 + t_per * (_MainTex_TexelSize.z / 2 - 40));
+					float t_per = float(t_to_gui_x - corner_size) / float(t_gui_w - corner_size*2);
+					t_tex_x = t_pix_x * (corner_size + t_per * (_MainTex_TexelSize.z / 2 - corner_size*2));
 				}
 
 				//テクスチャ参照位置。
 				float t_tex_y;
-				if(t_to_gui_y < 20){
-					//上２０ピクセル。
+				if(t_to_gui_y < corner_size){
+					//上corner_sizeピクセル。
 					t_tex_y = t_to_gui_y * t_pix_y;
-				}else if(t_to_gui_y >= t_gui_h - 20){
-					//下２０ピクセル。
+				}else if(t_to_gui_y >= t_gui_h - corner_size){
+					//下corner_sizeピクセル。
 					t_tex_y = (t_gui_h - t_to_gui_y) * t_pix_y;
 				}else{
 					//真ん中。
-					float t_per = float(t_to_gui_y - 20) / float(t_gui_h - 40);
-					t_tex_y = t_pix_y * (20 + t_per * (_MainTex_TexelSize.w / 2 - 40));
+					float t_per = float(t_to_gui_y - corner_size) / float(t_gui_h - corner_size*2);
+					t_tex_y = t_pix_y * (corner_size + t_per * (_MainTex_TexelSize.w / 2 - corner_size*2));
 				}
 				
 				//参照位置オフセット。

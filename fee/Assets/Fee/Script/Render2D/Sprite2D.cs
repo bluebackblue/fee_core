@@ -130,7 +130,7 @@ namespace NRender2D
 		{
 			if(a_material.mainTexture != this.GetTexture()){
 
-				//テクスチャー設定。
+				//テクスチャ設定。
 				a_material.mainTexture = this.GetTexture();
 
 				//SetPass要求。
@@ -200,56 +200,56 @@ namespace NRender2D
 			}
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureX(float a_texture_x)
 		{
 			this.rect.SetTextureX(a_texture_x);
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureY(float a_texture_y)
 		{
 			this.rect.SetTextureY(a_texture_y);
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureW(float a_texture_w)
 		{
 			this.rect.SetTextureW(a_texture_w);
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureH(float a_texture_h)
 		{
 			this.rect.SetTextureH(a_texture_h);
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public float GetTextureX()
 		{
 			return this.rect.GetTextureX();
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public float GetTextureY()
 		{
 			return this.rect.GetTextureY();
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public float GetTextureW()
 		{
 			return this.rect.GetTextureW();
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public float GetTextureH()
 		{
@@ -320,14 +320,14 @@ namespace NRender2D
 			this.rect.SetH(a_h);
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
-		public void SetTextureRect(ref Rect2D_R<float> a_texture_rect)
+		public void SetTextureRect(ref NRender2D.Rect2D_R<float> a_texture_rect)
 		{
 			this.rect.SetTextureRect(ref a_texture_rect);
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureRect(float a_texture_x,float a_texture_y,float a_texture_w,float a_texture_h)
 		{
@@ -339,7 +339,7 @@ namespace NRender2D
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref Rect2D_R<int> a_rect)
+		public void SetRect(ref NRender2D.Rect2D_R<int> a_rect)
 		{
 			this.rect.SetRect(ref a_rect);
 		}
@@ -475,14 +475,14 @@ namespace NRender2D
 			return (int)(a_test.drawpriority - a_target.drawpriority);
 		}
 
-		/** テクスチャー。設定。
+		/** テクスチャ。設定。
 		*/
 		public void SetTexture(Texture2D a_texture)
 		{
 			this.param.SetTexture(a_texture);
 		}
 
-		/** テクスチャー。取得。
+		/** テクスチャ。取得。
 		*/
 		public Texture2D GetTexture()
 		{

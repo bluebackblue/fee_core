@@ -41,7 +41,7 @@ public class test14 : main_base
 		NEventPlate.EventPlate.CreateInstance();
 
 		//ＵＩ。インスタンス作成。
-		NUi.Config.LOG_ENABLE = true;
+		//NUi.Config.LOG_ENABLE = true;
 		NUi.Ui.CreateInstance();
 
 		//削除管理。
@@ -50,7 +50,7 @@ public class test14 : main_base
 		//drawpriority
 		int t_layerindex = 0;
 		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
-		Texture2D t_texture = Resources.Load<Texture2D>("check");
+		Texture2D t_texture = Resources.Load<Texture2D>("checkbutton");
 
 		this.checkbutton = new NUi.CheckButton[10];
 		for(int ii=0;ii<this.checkbutton.Length;ii++){

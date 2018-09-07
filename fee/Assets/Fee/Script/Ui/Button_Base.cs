@@ -127,6 +127,18 @@ namespace NUi
 		*/
 		protected abstract void OnSetModeCallBack(Button_Mode a_mode);
 
+		/** コールバック。クリップ。設定。
+		*/
+		protected abstract void OnSetClipCallBack(bool a_flag);
+
+		/** コールバック。クリップ矩形。設定。
+		*/
+		protected abstract void OnSetClipRectCallBack(int a_x,int a_y,int a_w,int a_h);
+
+		/** コールバック。クリップ矩形。設定。
+		*/
+		protected abstract void OnSetClipRectCallBack(ref NRender2D.Rect2D_R<int> a_rect);
+
 		/** 削除。
 		*/
 		public void Delete()
@@ -152,6 +164,7 @@ namespace NUi
 			if(this.mode != a_mode){
 				this.mode = a_mode;
 
+				//コールバック。モード。設定。
 				this.OnSetModeCallBack(a_mode);
 			}
 		}
@@ -189,6 +202,9 @@ namespace NUi
 			if(this.clip_flag != a_flag){
 				this.clip_flag = a_flag;
 				this.eventplate.SetClip(a_flag);
+
+				//コールバック。クリップ。設定。
+				this.OnSetClipCallBack(a_flag);
 			}
 		}
 		
@@ -197,6 +213,9 @@ namespace NUi
 		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
 		{
 			this.eventplate.SetClipRect(ref a_rect);
+
+			//コールバック。クリップ矩形。設定。
+			this.OnSetClipRectCallBack(ref a_rect);
 		}
 
 		/** クリップ矩形。設定。
@@ -204,6 +223,9 @@ namespace NUi
 		public void SetClipRect(int a_x,int a_y,int a_w,int a_h)
 		{
 			this.eventplate.SetClipRect(a_x,a_y,a_w,a_h);
+
+			//コールバック。クリップ矩形。設定。
+			this.OnSetClipRectCallBack(a_x,a_y,a_w,a_h);
 		}
 
 		/** 矩形。設定。

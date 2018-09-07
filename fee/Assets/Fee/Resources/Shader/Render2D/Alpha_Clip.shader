@@ -12,6 +12,7 @@ Shader "Render2D/Alpha_Clip"
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+		[MaterialToggle] clip_flag ("Clip Flag", Int) = 0
 		clip_x1 ("Clip X1", Float) = 0
 		clip_y1 ("Clip Y1", Float) = 0
 		clip_x2 ("Clip X2", Float) = 0
@@ -56,6 +57,10 @@ Shader "Render2D/Alpha_Clip"
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 
+			/** clip_flag
+			*/
+			int clip_flag;
+
 			/** clip
 			*/
 			float clip_x1;
@@ -80,20 +85,23 @@ Shader "Render2D/Alpha_Clip"
 			*/
 			fixed4 frag(v2f i) : SV_Target
 			{
-				if(clip_x1>i.vertex.x){
-					discard;
-				}
+				//クリップ。
+				if(clip_flag > 0){
+					if(clip_x1>i.vertex.x){
+						discard;
+					}
 
-				if(i.vertex.x>clip_x2){
-					discard;
-				}
+					if(i.vertex.x>clip_x2){
+						discard;
+					}
 
-				if(clip_y1>i.vertex.y){
-					discard;
-				}
+					if(clip_y1>i.vertex.y){
+						discard;
+					}
 
-				if(i.vertex.y>clip_y2){
-					discard;
+					if(i.vertex.y>clip_y2){
+						discard;
+					}
 				}
 
 				fixed4 t_color = tex2D(_MainTex,i.uv) * i.color;

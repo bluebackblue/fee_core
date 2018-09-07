@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＩ。ボタン。
+ * @brief ＵＩ。チェックボタン。
 */
 
 
@@ -22,15 +22,15 @@ namespace NUi
 	{
 		/** 通常。
 		*/
-		Normal = 0,
+		Normal,
 
 		/** オン。
 		*/
-		On = 1,
+		On,
 
 		/** ロック。
 		*/
-		Lock = 3,
+		Lock,
 	};
 }
 

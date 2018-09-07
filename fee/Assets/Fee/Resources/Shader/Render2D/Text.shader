@@ -21,7 +21,7 @@ Shader "Render2D/Text"
 
 		/** clip
 		*/
-		[MaterialToggle] clip_flag ("Clip Flag", Float) = 0
+		[MaterialToggle] clip_flag ("Clip Flag", Int) = 0
 		clip_x1 ("Clip X1", Float) = 0
 		clip_y1 ("Clip Y1", Float) = 0
 		clip_x2 ("Clip X2", Float) = 0
@@ -71,9 +71,12 @@ Shader "Render2D/Text"
 			*/
 			uniform fixed4 _Color;
 
+			/** clip_flag
+			*/
+			int clip_flag;
+
 			/** clip
 			*/
-			float clip_flag;
 			float clip_x1;
 			float clip_y1;
 			float clip_x2;
@@ -96,7 +99,7 @@ Shader "Render2D/Text"
 			*/
 			fixed4 frag(v2f i) : SV_Target
 			{
-				if(clip_flag >= 1.0){
+				if(clip_flag > 0){
 					if(clip_x1>i.vertex.x){
 						discard;
 					}

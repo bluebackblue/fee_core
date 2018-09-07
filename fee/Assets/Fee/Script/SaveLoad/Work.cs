@@ -202,7 +202,7 @@ namespace NSaveLoad
 							}break;
 						case DataType.Texture:
 							{
-								//テクスチャー。
+								//テクスチャ。
 								this.item.SetResultTexture(t_io.GetResultTexture());
 							}break;
 						case DataType.SaveEnd:

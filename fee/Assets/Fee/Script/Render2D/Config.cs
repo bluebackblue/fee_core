@@ -25,12 +25,12 @@ namespace NRender2D
 		public static int VIRTUAL_W = 960;
 		public static int VIRTUAL_H = 600;
 
-		/** テクスチャースクリーンサイズ。
+		/** テクスチャスクリーンサイズ。
 		*/
 		public static float TEXTURE_W = 10.0f;
 		public static float TEXTURE_H = 10.0f;
 
-		/** テクスチャー矩形。最大値。
+		/** テクスチャ矩形。最大値。
 		*/
 		public static Rect2D_R<float> TEXTURE_RECT_MAX = new Rect2D_R<float>(0.0f,0.0f,TEXTURE_W,TEXTURE_H);
 
@@ -85,7 +85,7 @@ namespace NRender2D
 			"Material/Render2D/Alpha",
 			"Material/Render2D/Alpha_Clip",
 			"Material/Render2D/Add",
-			"Material/Render2D/Button",
+			"Material/Render2D/Slice9",
 		};
 
 		/** マテリアルタイプ。
@@ -98,7 +98,7 @@ namespace NRender2D
 			Alpha,
 			Alpha_Clip,
 			Add,
-			Button,
+			Slice9,
 		}
 
 		/** マテリアル名。テキスト。

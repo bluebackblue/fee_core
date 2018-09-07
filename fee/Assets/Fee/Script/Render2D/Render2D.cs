@@ -466,7 +466,7 @@ namespace NRender2D
 									int t_gui_y2;
 									this.VirtualScreenToGuiScreen(t_text.GetClipX(),t_text.GetClipY() + t_text.GetClipH(),out t_gui_x1,out t_gui_y1);
 									this.VirtualScreenToGuiScreen(t_text.GetClipX() + t_text.GetClipW(),t_text.GetClipY(),out t_gui_x2,out t_gui_y2);
-									t_material.SetFloat("clip_flag",1.0f);
+									t_material.SetInt("clip_flag",1);
 									t_material.SetFloat("clip_x1",t_gui_x1);
 									t_material.SetFloat("clip_y1",this.screen.GetGuiH() - t_gui_y1);
 									t_material.SetFloat("clip_x2",t_gui_x2);

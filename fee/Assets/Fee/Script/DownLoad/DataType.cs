@@ -32,7 +32,7 @@ namespace NDownLoad
 		*/
 		Text,
 
-		/** テクスチャー。
+		/** テクスチャ。
 		*/
 		Texture,
 

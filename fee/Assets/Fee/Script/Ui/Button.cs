@@ -30,8 +30,8 @@ namespace NUi
 			:
 			base(a_deleter,a_state,a_drawpriority,a_callback_click,a_callback_click_value)
 		{
+			//sprite
 			this.sprite = new Button_Sprite2D(this.deleter,a_state,a_drawpriority);
-
 			this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 		}
 
@@ -39,7 +39,6 @@ namespace NUi
 		*/
 		protected override void OnDeleteCallBack()
 		{
-			Debug.Log("OnDeleteCallBack");
 		}
 
 		/** コールバック。矩形。設定。
@@ -63,7 +62,28 @@ namespace NUi
 			this.sprite.SetMode(a_mode);
 		}
 
-		/** テクスチャー設定。
+		/** コールバック。クリップ。設定。
+		*/
+		protected override void OnSetClipCallBack(bool a_flag)
+		{
+			this.sprite.SetClip(a_flag);
+		}
+
+		/** コールバック。クリップ矩形。設定。
+		*/
+		protected override void OnSetClipRectCallBack(int a_x,int a_y,int a_w,int a_h)
+		{
+			this.sprite.SetClipRect(a_x,a_y,a_w,a_h);
+		}
+
+		/** コールバック。クリップ矩形。設定。
+		*/
+		protected override void OnSetClipRectCallBack(ref NRender2D.Rect2D_R<int> a_rect)
+		{
+			this.sprite.SetClipRect(ref a_rect);
+		}
+
+		/** テクスチャ設定。
 		*/
 		public void SetTexture(Texture2D a_texture)
 		{

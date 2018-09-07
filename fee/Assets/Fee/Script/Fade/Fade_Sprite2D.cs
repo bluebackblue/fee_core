@@ -35,7 +35,7 @@ namespace NFade
 		*/
 		public override bool UpdateMaterial(ref Material a_material)
 		{
-			//テクスチャー設定。
+			//テクスチャ設定。
 			a_material.mainTexture = Texture2D.whiteTexture;
 
 			//SetPass要求。

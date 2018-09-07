@@ -20,7 +20,7 @@ namespace NRender2D
 	*/
 	public struct Sprite2D_Rect
 	{
-		/** テクスチャー矩形。
+		/** テクスチャ矩形。
 		*/
 		private Rect2D_R<float> texture_rect;
 
@@ -35,63 +35,63 @@ namespace NRender2D
 			this.rect = a_rect;
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureRect(ref NRender2D.Rect2D_R<float> a_texture_rect)
 		{
 			this.texture_rect = a_texture_rect;
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureX(float a_texture_x)
 		{
 			this.texture_rect.x = a_texture_x;
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureY(float a_texture_y)
 		{
 			this.texture_rect.y = a_texture_y;
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureW(float a_texture_w)
 		{
 			this.texture_rect.w = a_texture_w;
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureH(float a_texture_h)
 		{
 			this.texture_rect.h = a_texture_h;
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public float GetTextureX()
 		{
 			return this.texture_rect.x;
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public float GetTextureY()
 		{
 			return this.texture_rect.y;
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public float GetTextureW()
 		{
 			return this.texture_rect.w;
 		}
 
-		/** テクスチャー矩形。設定。
+		/** テクスチャ矩形。設定。
 		*/
 		public float GetTextureH()
 		{

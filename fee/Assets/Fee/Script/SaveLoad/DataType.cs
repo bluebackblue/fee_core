@@ -36,7 +36,7 @@ namespace NSaveLoad
 		*/
 		Text,
 
-		/** テクスチャー。
+		/** テクスチャ。
 		*/
 		Texture,
 	};
