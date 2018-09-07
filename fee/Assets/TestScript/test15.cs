@@ -70,7 +70,7 @@ public class test15 : main_base
 		this.deleter = new NDeleter.Deleter();
 
 		//is_clip
-		this.is_clip = false;
+		this.is_clip = true;
 
 		//update_clip_rect
 		this.update_clip_rect = true;
@@ -128,6 +128,14 @@ public class test15 : main_base
 			this.checkbutton = new NUi.CheckButton(this.deleter,null,t_drawpriority + 2);
 			this.checkbutton.SetRect(t_x,t_y,t_w,t_h);
 			this.checkbutton.SetTexture(t_texture);
+		}
+
+		//is_clip
+		{
+			this.clipsprite.SetClip(this.is_clip);
+			this.text.SetClip(this.is_clip);
+			this.button.SetClip(this.is_clip);
+			this.checkbutton.SetClip(this.is_clip);
 		}
 	}
 
