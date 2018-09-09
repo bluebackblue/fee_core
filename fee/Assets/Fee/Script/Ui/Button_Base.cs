@@ -139,6 +139,10 @@ namespace NUi
 		*/
 		protected abstract void OnSetClipRectCallBack(ref NRender2D.Rect2D_R<int> a_rect);
 
+		/** コーブラック。表示。設定。
+		*/
+		protected abstract void OnSetVisibleCallBack(bool a_flag);
+
 		/** 削除。
 		*/
 		public void Delete()
@@ -255,6 +259,9 @@ namespace NUi
 			if(this.visible != a_flag){
 				this.visible = a_flag;
 				this.eventplate.SetEnable(a_flag);
+
+				//コールバック。表示。設定。
+				this.OnSetVisibleCallBack(a_flag);
 			}
 		}
 

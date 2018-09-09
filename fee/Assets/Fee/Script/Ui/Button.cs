@@ -83,6 +83,13 @@ namespace NUi
 			this.sprite.SetClipRect(ref a_rect);
 		}
 
+		/** コーブラック。表示。設定。
+		*/
+		protected override void OnSetVisibleCallBack(bool a_flag)
+		{
+			this.sprite.SetVisible(a_flag);
+		}
+
 		/** テクスチャ設定。
 		*/
 		public void SetTexture(Texture2D a_texture)
