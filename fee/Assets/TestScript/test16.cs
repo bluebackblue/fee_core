@@ -20,24 +20,69 @@ namespace Ntest16
 	*/
 	public class CustomNetworkManager :  UnityEngine.Networking.NetworkManager
 	{
-		private bool start_server;
+		[SerializeField]
+		private bool start_host;
+
+		[SerializeField]
 		private bool start_client;
 
 		/** 開始。
 		*/
 		void Start()
 		{
-			this.start_server = false;
+			this.start_host = false;
 			this.start_client = false;
+		}
+
+		/** 削除。
+		*/
+		public void OnDestroy()
+		{
+			Debug.Log("OnDestroy");
+
+			this.Close();
+		}
+
+		/** Close
+		*/
+		public void Close()
+		{
+			Debug.Log("Close");
+
+			if(this.start_host == true){
+				this.StopHost();
+			}
+
+			if(this.start_client == true){
+				this.StopClient();
+			}
+		}
+
+		/** OnStartHost
+		*/
+		public override void OnStartHost()
+		{
+			this.start_host = true;
+
+			Debug.Log("OnStartHost : ホスト開始");
+			base.OnStartHost();
+		}
+
+		/** OnStopHost
+		*/
+		public override void OnStopHost()
+		{
+			this.start_host = false;
+
+			Debug.Log("OnStopHost : ホスト終了");
+			base.OnStopHost();
 		}
 
 		/** OnStartServer
 		*/
 		public override void OnStartServer()
 		{
-			this.start_server = true;
-
-			Debug.Log("OnStartServer");
+			Debug.Log("OnStartServer : サーバ開始");
 			base.OnStartServer();
 		}
 
@@ -45,51 +90,89 @@ namespace Ntest16
 		*/
 		public override void OnStopServer()
 		{
-			this.start_server = false;
-
-			Debug.Log("OnStopServer");
+			Debug.Log("OnStopServer : サーバ終了");
 			base.OnStopServer();
 		}
 
+		/** OnStartClient
+		*/
 		public override void OnStartClient(NetworkClient a_client)
 		{
 			this.start_client = true;
 
-			Debug.Log("OnStartClient");
+			Debug.Log("OnStartClient : クライアント開始");
 			base.OnStartClient(a_client);
 		}
 
+		/** OnStopClient
+		*/
 		public override void OnStopClient()
 		{
 			this.start_client = false;
 
-			Debug.Log("OnStopClient");
+			Debug.Log("OnStopClient : クライアント終了");
 			base.OnStopClient();
 		}
 
-		/** 削除。
+		#if false
+
+		/** OnClientError
 		*/
-		private void OnDestroy()
+		public override void OnClientError(NetworkConnection a_network_connection,int a_errorcode)
 		{
-			Debug.Log("OnDestroy");
-
-			if(this.start_server == true){
-				this.StopServer();
-			}
-
-			if(this.start_client == true){
-				this.StopClient();
-			}
+			Debug.Log("OnClientError : " + a_errorcode.ToString());
+			base.OnClientError(a_network_connection,a_errorcode);
 		}
-	}
 
-	/** test16_player
-	*/
-	public class test16_player :  UnityEngine.Networking.NetworkBehaviour
-	{
+		/** OnServerConnect
+		*/
+		public override void OnServerConnect(NetworkConnection a_network_connection)
+		{
+			Debug.Log("OnServerConnect : " + a_network_connection.connectionId.ToString());
+			base.OnServerConnect(a_network_connection);			
+		}
+
+		/** OnServerAddPlayer
+		*/
+		public override void OnServerAddPlayer(NetworkConnection a_network_connection,short player_controller_id,NetworkReader a_network_reader)
+		{
+			Debug.Log("OnServerAddPlayer : " + player_controller_id.ToString());
+			base.OnServerAddPlayer(a_network_connection,player_controller_id,a_network_reader);
+		}
+
+		/** OnServerAddPlayer
+		*/
+		public override void OnServerAddPlayer(NetworkConnection a_network_connection,short player_controller_id)
+		{
+			Debug.Log("OnServerAddPlayer : " + player_controller_id.ToString());
+			base.OnServerAddPlayer(a_network_connection,player_controller_id);
+		}
+
+		public override void OnServerRemovePlayer(NetworkConnection a_network_connection,PlayerController a_player_controller)
+		{
+			Debug.Log("OnServerRemovePlayer : " + a_network_connection.connectionId.ToString());
+			base.OnServerRemovePlayer(a_network_connection,a_player_controller);
+		}
+
+		/** OnClientSceneChanged
+		*/
+		public override void OnClientSceneChanged(NetworkConnection a_network_connection)
+		{
+			Debug.Log("OnClientSceneChanged");
+			base.OnClientSceneChanged(a_network_connection);
+		}
+
+		/** OnClientConnect
+		*/
+		public override void OnClientConnect(NetworkConnection a_network_connection)
+		{
+			Debug.Log("OnClientConnect : " + a_network_connection.connectionId.ToString());
+			base.OnClientConnect(a_network_connection);
+		}
+
+		#endif
 	}
 }
-
 
 /** test16
 */
@@ -123,7 +206,17 @@ public class test16 : main_base
 	*/
 	private NUi.Button client_button;
 
+	/** disconnected_button
+	*/
+	private NUi.Button disconnected_button;
 
+	/** status_text
+	*/
+	private NRender2D.Text2D status_text;
+
+	/** playerlist_text
+	*/
+	private NRender2D.Text2D[] playerlist_text;
 
 	/** Mode
 	*/
@@ -164,26 +257,20 @@ public class test16 : main_base
 		this.deleter = new NDeleter.Deleter();
 
 		//player_prefab
-		GameObject t_player_prefab = new GameObject();
-		{
-			t_player_prefab.AddComponent<UnityEngine.Networking.NetworkIdentity>();
-			t_player_prefab.AddComponent<Ntest16.test16_player>();
-			t_player_prefab.name = "test16_player";
-		}
+		GameObject t_player_prefab = Resources.Load<GameObject>("test16_player");
 
 		//networkmanager
 		this.networkmanager_gameobject = new GameObject();
 		this.networkmanager_gameobject.SetActive(false);
 		this.networkmanager_gameobject.name = "NetworkManager";
+
+		//networkmanager
 		this.networkmanager = this.networkmanager_gameobject.AddComponent<Ntest16.CustomNetworkManager>();
 		this.networkmanager.playerPrefab = t_player_prefab;
-		this.networkmanager.useWebSockets = true;
+		this.networkmanager.useWebSockets = false;
 		this.networkmanager.dontDestroyOnLoad = false;
-
-		//networkmanager_hud
-		this.networkmanager_hud = this.networkmanager_gameobject.AddComponent<UnityEngine.Networking.NetworkManagerHUD>();
-		this.networkmanager_hud.offsetX = 200;
-		this.networkmanager_hud.offsetY = 200;
+		this.networkmanager.runInBackground = true;
+		this.networkmanager.autoCreatePlayer = true;
 
 		//networkmanager
 		this.networkmanager_gameobject.SetActive(true);
@@ -204,6 +291,7 @@ public class test16 : main_base
 			this.host_button.SetRect(t_x,t_y,t_w,t_h);
 			this.host_button.SetTexture(Resources.Load<Texture2D>("button"));
 			this.host_button.SetVisible(false);
+			this.host_button.SetText("Host");
 
 			t_x += 150;
 
@@ -211,6 +299,41 @@ public class test16 : main_base
 			this.client_button.SetRect(t_x,t_y,t_w,t_h);
 			this.client_button.SetTexture(Resources.Load<Texture2D>("button"));
 			this.client_button.SetVisible(false);
+			this.client_button.SetText("Client");
+		}
+
+		{
+			int t_x = 300;
+			int t_y = 100;
+			int t_w = 100;
+			int t_h = 50;
+
+			this.disconnected_button = new NUi.Button(this.deleter,null,t_drawpriority,Click,999);
+			this.disconnected_button.SetRect(t_x,t_y,t_w,t_h);
+			this.disconnected_button.SetTexture(Resources.Load<Texture2D>("button"));
+			this.disconnected_button.SetVisible(false);
+			this.disconnected_button.SetText("DisConnected");
+		}
+
+		{
+			int t_x = 300;
+			int t_y = 150;
+
+			this.status_text = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
+			this.status_text.SetRect(t_x,t_y,0,0);
+			this.status_text.SetText("---");
+		}
+
+		{
+			int t_x = 300;
+			int t_y = 200;
+
+			this.playerlist_text = new NRender2D.Text2D[10];
+			for(int ii=0;ii<this.playerlist_text.Length;ii++){
+				this.playerlist_text[ii] = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
+				this.playerlist_text[ii].SetRect(t_x,t_y + 20 * ii,0,0);
+				this.playerlist_text[ii].SetText("---");
+			}
 		}
 	
 		//mode
@@ -231,6 +354,7 @@ public class test16 : main_base
 		//ＵＩ。
 		NUi.Ui.GetInstance().Main();
 
+		//mode
 		Mode t_old = this.mode;
 
 		switch(this.mode){
@@ -259,19 +383,55 @@ public class test16 : main_base
 			}break;
 		case Mode.Start_Host:
 			{
-				this.networkmanager.StartServer();
+				this.button_result = -1;
+				this.disconnected_button.SetVisible(true);
+
+				this.status_text.SetText("Mode.Start_Host");
+
+				this.networkmanager.StartHost();
 				this.mode = Mode.Do;
 			}break;
 		case Mode.Start_Client:
 			{
+				this.button_result = -1;
+				this.disconnected_button.SetVisible(true);
+
+				this.status_text.SetText("Mode.Start_Client");
+
 				this.networkmanager.StartClient();
 				this.mode = Mode.Do;
 			}break;
 		case Mode.Do:
 			{
+				if(this.button_result == 999){
+					this.disconnected_button.SetVisible(false);
+
+					this.networkmanager.Close();
+					this.mode = Mode.Init;
+				}
 			}break;
 		}
 
+		#if true
+
+		this.status_text.SetText("ready = " + ClientScene.ready.ToString());
+		for(int ii=0;ii<this.playerlist_text.Length;ii++){
+			PlayerController t_pc = null;
+			if(UnityEngine.Networking.ClientScene.localPlayers != null){
+				if(ii < UnityEngine.Networking.ClientScene.localPlayers.Count){
+					t_pc = UnityEngine.Networking.ClientScene.localPlayers[ii];
+				}
+			}
+			if(t_pc != null){
+				this.playerlist_text[ii].SetText(t_pc.playerControllerId.ToString());
+			}else{
+				this.playerlist_text[ii].SetText("---");
+			}
+		}
+
+		#endif
+
+		//mode
 		if(t_old != this.mode){
 			this.mode_first = true;
 		}else{

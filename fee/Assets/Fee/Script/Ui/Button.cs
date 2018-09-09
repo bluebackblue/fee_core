@@ -24,6 +24,10 @@ namespace NUi
 		*/
 		private Button_Sprite2D sprite;
 
+		/** text
+		*/
+		private NRender2D.Text2D text;
+
 		/** constructor
 		*/
 		public Button(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,Button_Base.CallBack_Click a_callback_click,int a_callback_click_value)
@@ -33,6 +37,10 @@ namespace NUi
 			//sprite
 			this.sprite = new Button_Sprite2D(this.deleter,a_state,a_drawpriority);
 			this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+
+			//text
+			this.text = new NRender2D.Text2D(this.deleter,a_state,a_drawpriority);
+			this.text.SetCenter(true);
 		}
 
 		/** [Button_Base]コールバック。削除。
@@ -46,6 +54,8 @@ namespace NUi
 		protected override void OnSetRectCallBack(int a_x,int a_y,int a_w,int a_h)
 		{
 			this.sprite.SetRect(a_x,a_y,a_w,a_h);
+
+			this.text.SetRect(a_x+a_w/2,a_y+a_h/2,0,0);
 		}
 
 		/** コールバック。矩形。設定。
@@ -53,6 +63,8 @@ namespace NUi
 		protected override void OnSetRectCallBack(ref NRender2D.Rect2D_R<int> a_rect)
 		{
 			this.sprite.SetRect(ref a_rect);
+
+			this.text.SetRect(a_rect.x+a_rect.w/2,a_rect.y+a_rect.h/2,0,0);
 		}
 
 		/** コールバック。モード。設定。
@@ -88,6 +100,7 @@ namespace NUi
 		protected override void OnSetVisibleCallBack(bool a_flag)
 		{
 			this.sprite.SetVisible(a_flag);
+			this.text.SetVisible(a_flag);
 		}
 
 		/** テクスチャ設定。
@@ -95,6 +108,13 @@ namespace NUi
 		public void SetTexture(Texture2D a_texture)
 		{
 			this.sprite.SetTexture(a_texture);
+		}
+
+		/** テキスト。
+		*/
+		public void SetText(string a_text)
+		{
+			this.text.SetText(a_text);
 		}
 	}
 }
