@@ -22,7 +22,7 @@ public class main : MonoBehaviour
 
 	/** シーン数。
 	*/
-	private readonly int SCENE_COUNT = 16;
+	private readonly int SCENE_COUNT = 20;
 
 	/** Start
 	*/

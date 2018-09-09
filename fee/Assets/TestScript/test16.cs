@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Networking;
 
 /**
  * Copyright (c) blueback
@@ -12,116 +12,137 @@ using UnityEngine;
 */
 
 
-/** Client
+/** Ntest16
 */
-#if false
-public class Client
+namespace Ntest16
 {
-	/** クライアント。
+	/** CustomNetworkManager
 	*/
-	System.Net.Sockets.TcpClient tcpclient;
-
-	/** ストリーム。
-	*/
-	System.IO.StreamWriter streamwriter;
-
-	/** constructor
-	*/
-	public Client()
+	public class CustomNetworkManager :  UnityEngine.Networking.NetworkManager
 	{
-		this.tcpclient = new System.Net.Sockets.TcpClient("127.0.0.1",12345);
+		private bool start_server;
+		private bool start_client;
 
-		System.Net.Sockets.NetworkStream t_stream = this.tcpclient.GetStream();
+		/** 開始。
+		*/
+		void Start()
+		{
+			this.start_server = false;
+			this.start_client = false;
+		}
 
-		this.streamwriter = new System.IO.StreamWriter(t_stream);
-	}
+		/** OnStartServer
+		*/
+		public override void OnStartServer()
+		{
+			this.start_server = true;
 
-	public void Send()
-	{
-		if(this.tcpclient.Connected == true){
-			this.streamwriter.WriteLine("abc");
-			this.streamwriter.Flush();
+			Debug.Log("OnStartServer");
+			base.OnStartServer();
+		}
+
+		/** OnStopServer
+		*/
+		public override void OnStopServer()
+		{
+			this.start_server = false;
+
+			Debug.Log("OnStopServer");
+			base.OnStopServer();
+		}
+
+		public override void OnStartClient(NetworkClient a_client)
+		{
+			this.start_client = true;
+
+			Debug.Log("OnStartClient");
+			base.OnStartClient(a_client);
+		}
+
+		public override void OnStopClient()
+		{
+			this.start_client = false;
+
+			Debug.Log("OnStopClient");
+			base.OnStopClient();
+		}
+
+		/** 削除。
+		*/
+		private void OnDestroy()
+		{
+			Debug.Log("OnDestroy");
+
+			if(this.start_server == true){
+				this.StopServer();
+			}
+
+			if(this.start_client == true){
+				this.StopClient();
+			}
 		}
 	}
-}
-#endif
 
-/** Server
-*/
-#if false
-public class Server
-{
-	/** サーバ。
+	/** test16_player
 	*/
-	System.Net.Sockets.TcpListener tcplistener;
-
-	/** constructor
-	*/
-	public Server()
+	public class test16_player :  UnityEngine.Networking.NetworkBehaviour
 	{
-		int t_port = 12345;
-		System.Net.IPAddress t_ip = System.Net.IPAddress.Parse("127.0.0.1");
-	
-		//待ち受け開始。
-		this.tcplistener = new System.Net.Sockets.TcpListener(t_ip,t_port);
-		this.tcplistener.Start();
-		this.tcplistener.BeginAcceptSocket(OnAcceptCallBack,this.tcplistener);
-	}
-
-	/** 待ち受けコールバック。
-	*/
-	public void OnAcceptCallBack(System.IAsyncResult a_resuilt)
-	{
-		Debug.Log("OnAcceptCallBack");
-
-		//サーバ。
-        System.Net.Sockets.TcpListener t_listener = a_resuilt.AsyncState as System.Net.Sockets.TcpListener;
-
-		//クライアント。
-        System.Net.Sockets.TcpClient t_client = t_listener.EndAcceptTcpClient(a_resuilt);
-		
-		//ストリーム。
-        System.Net.Sockets.NetworkStream t_stream = t_client.GetStream();
-
-		System.IO.StreamReader t_reader = new System.IO.StreamReader(t_stream);
-
-        while(t_client.Connected == true){
-
-			//受信。
-            while(t_reader.EndOfStream == false){
-				string t_data = t_reader.ReadLine();
-				Debug.Log(t_data);
-            }
-
-			//切断。
-            if(t_client.Client.Poll(1000,System.Net.Sockets.SelectMode.SelectRead)&&(t_client.Client.Available == 0)){
-
-				Debug.Log("disconnected");
-
-                break;
-            }
-
-        }
 	}
 }
-#endif
 
 
 /** test16
 */
 public class test16 : main_base
 {
-	/** サーバ。
+	/** deleter
 	*/
-	private NSocket.TcpServer server;
+	private NDeleter.Deleter deleter;
 
-	/** クライアント。
+	/** networkmanager_gameobject
 	*/
-	private NSocket.TcpClient client;
+	private GameObject networkmanager_gameobject;
 
-	/** モード。
+	/** networkmanager
 	*/
-	private int mode;
+	private Ntest16.CustomNetworkManager networkmanager;
+
+	/** networkmanager_hud
+	*/
+	private UnityEngine.Networking.NetworkManagerHUD networkmanager_hud;
+
+	/** button_result
+	*/
+	private int button_result;
+
+	/** host_button
+	*/
+	private NUi.Button host_button;
+
+	/** client_button
+	*/
+	private NUi.Button client_button;
+
+
+
+	/** Mode
+	*/
+	private enum Mode
+	{
+		Init,
+
+		Select_HostClient,
+
+		Start_Host,
+		Start_Client,
+
+		Do,
+	};
+
+	/**
+	*/
+	private Mode mode;
+	private bool mode_first;
 
 	/** Start
 	*/
@@ -133,10 +154,68 @@ public class test16 : main_base
 		//マウス。インスタンス作成。
 		NInput.Mouse.CreateInstance();
 
-		//ソケット。インスタンス作成。
-		NSocket.Config.LOG_ENABLE = true;
+		//イベントプレート。インスタンス作成。
+		NEventPlate.EventPlate.CreateInstance();
 
-		this.mode = 0;
+		//ＵＩ。インスタンス作成。
+		NUi.Ui.CreateInstance();
+
+		//deleter
+		this.deleter = new NDeleter.Deleter();
+
+		//player_prefab
+		GameObject t_player_prefab = new GameObject();
+		{
+			t_player_prefab.AddComponent<UnityEngine.Networking.NetworkIdentity>();
+			t_player_prefab.AddComponent<Ntest16.test16_player>();
+			t_player_prefab.name = "test16_player";
+		}
+
+		//networkmanager
+		this.networkmanager_gameobject = new GameObject();
+		this.networkmanager_gameobject.SetActive(false);
+		this.networkmanager_gameobject.name = "NetworkManager";
+		this.networkmanager = this.networkmanager_gameobject.AddComponent<Ntest16.CustomNetworkManager>();
+		this.networkmanager.playerPrefab = t_player_prefab;
+		this.networkmanager.useWebSockets = true;
+		this.networkmanager.dontDestroyOnLoad = false;
+
+		//networkmanager_hud
+		this.networkmanager_hud = this.networkmanager_gameobject.AddComponent<UnityEngine.Networking.NetworkManagerHUD>();
+		this.networkmanager_hud.offsetX = 200;
+		this.networkmanager_hud.offsetY = 200;
+
+		//networkmanager
+		this.networkmanager_gameobject.SetActive(true);
+
+		//button_result
+		this.button_result = -1;
+
+		int t_layerindex = 0;
+		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
+
+		{
+			int t_x = 100;
+			int t_y = 100;
+			int t_w = 100;
+			int t_h = 50;
+
+			this.host_button = new NUi.Button(this.deleter,null,t_drawpriority,Click,0);
+			this.host_button.SetRect(t_x,t_y,t_w,t_h);
+			this.host_button.SetTexture(Resources.Load<Texture2D>("button"));
+			this.host_button.SetVisible(false);
+
+			t_x += 150;
+
+			this.client_button = new NUi.Button(this.deleter,null,t_drawpriority,Click,1);
+			this.client_button.SetRect(t_x,t_y,t_w,t_h);
+			this.client_button.SetTexture(Resources.Load<Texture2D>("button"));
+			this.client_button.SetVisible(false);
+		}
+	
+		//mode
+		this.mode = Mode.Init;
+		this.mode_first = true;
 	}
 
 	/** Update
@@ -146,50 +225,72 @@ public class test16 : main_base
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
 
+		//イベントプレート。
+		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
+
+		//ＵＩ。
+		NUi.Ui.GetInstance().Main();
+
+		Mode t_old = this.mode;
+
 		switch(this.mode){
-		case 0:
+		case Mode.Init:
 			{
-				//サーバ作成。
-				if(this.server == null){
-					Debug.Log("new TcpServer()");
-					this.server = new NSocket.TcpServer();
-					this.server.Accept(12345);
-				}
+				this.mode = Mode.Select_HostClient;
+			}break;
+		case Mode.Select_HostClient:
+			{
+				if(this.mode_first == true){
+					this.button_result = -1;
+					this.host_button.SetVisible(true);
+					this.client_button.SetVisible(true);
+				}else{
+					if(this.button_result >= 0){
+						this.host_button.SetVisible(false);
+						this.client_button.SetVisible(false);
 
-				if(NInput.Mouse.GetInstance().left.down == true){
-					this.mode++;
+						if(this.button_result == 0){
+							this.mode = Mode.Start_Host;	
+						}else{
+							this.mode = Mode.Start_Client;
+						}
+					}
 				}
 			}break;
-		case 1:
+		case Mode.Start_Host:
 			{
-				//クライアント作成。
-				if(this.client == null){
-					Debug.Log("new TcpClient()");
-					this.client = new NSocket.TcpClient();
-					this.client.Connect("127.0.0.1",12345);
-				}
-
-				if(NInput.Mouse.GetInstance().left.down == true){
-					this.mode++;
-				}
+				this.networkmanager.StartServer();
+				this.mode = Mode.Do;
 			}break;
-		case 2:
+		case Mode.Start_Client:
 			{
-				//送信。
-				if(NInput.Mouse.GetInstance().left.down == true){
-					Debug.Log("this.client.Send()");
-					this.client.Send("ABCDEFG");
-				}
+				this.networkmanager.StartClient();
+				this.mode = Mode.Do;
 			}break;
-
+		case Mode.Do:
+			{
+			}break;
 		}
+
+		if(t_old != this.mode){
+			this.mode_first = true;
+		}else{
+			this.mode_first = false;
+		}
+	}
+
+	/** クリック。
+	*/
+	public void Click(int a_value)
+	{
+		this.button_result = a_value;
 	}
 
 	/** OnDestroy
 	*/
 	private void OnDestroy()
 	{
+		this.deleter.DeleteAll();
 	}
 }
-
 

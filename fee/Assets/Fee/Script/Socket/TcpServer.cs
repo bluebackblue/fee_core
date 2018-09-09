@@ -24,22 +24,59 @@ namespace NSocket
 		*/
 		private System.Net.Sockets.TcpListener tcp_listener;
 
+		/** 受信データ。
+		*/
+		private List<string> recvdata;
+
+		/** ロックオブジェクト。
+		*/
+		private System.Object lockobject;
+
 		/** constructor
 		*/
 		public TcpServer()
 		{
 			this.tcp_listener = null;
+
+			this.recvdata = new List<string>();
+
+			this.lockobject = new object();
 		}
+
+		/** 受信データ取得。
+		*/
+		public string GetRecvData()
+		{
+			string t_recvdata = null;
+	
+			lock(this.lockobject){
+				if(this.recvdata.Count > 0){
+					t_recvdata = this.recvdata[this.recvdata.Count - 1];
+					this.recvdata.RemoveAt(this.recvdata.Count - 1);
+				}
+			}
+
+			return t_recvdata;
+		}
+
 
 		/** 待ち受け開始。
 		*/
-		public void Accept(int a_port)
+		public string Accept(int a_port)
 		{
-			System.Net.IPAddress t_ip_address = System.Net.IPAddress.Parse("127.0.0.1");
+			string t_ret = "Success";
 
-			this.tcp_listener = new System.Net.Sockets.TcpListener(t_ip_address,a_port);
-			this.tcp_listener.Start();
-			this.tcp_listener.BeginAcceptTcpClient(OnAcceptCallBack,this.tcp_listener);
+			try{
+				System.Net.IPAddress t_ip_address = System.Net.IPAddress.Parse("127.0.0.1");
+
+				this.tcp_listener = new System.Net.Sockets.TcpListener(t_ip_address,a_port);
+				this.tcp_listener.Start();
+				this.tcp_listener.BeginAcceptTcpClient(OnAcceptCallBack,this.tcp_listener);
+			}catch(System.Exception t_exception){
+				t_ret = t_exception.Message;
+			}
+
+			return t_ret;
 		}
 
 		/** [別スレッド]待ち受けコールバック。
@@ -60,6 +97,10 @@ namespace NSocket
 				while(t_reader.EndOfStream == false){
 					string t_data = t_reader.ReadLine();
 					Tool.Log("TcpServer",t_data);
+
+					lock(this.lockobject){
+						this.recvdata.Insert(0,t_data);
+					}
 				}
 
 				//切断。
