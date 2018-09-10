@@ -14,6 +14,7 @@ using UnityEngine;
 
 /** NNetwork
 */
+#if USE_PHOTON
 namespace NNetwork
 {
 	/** AutoJoinRandomRoom
@@ -154,4 +155,15 @@ namespace NNetwork
 		}
 	}
 }
+#else
+namespace NNetwork
+{
+	/** AutoJoinRandomRoom
+	*/
+	public class AutoJoinRandomRoom
+	{
+		public bool Main(){return false;}
+	}
+}
+#endif
 
