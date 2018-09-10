@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ソケット。ツール。
+ * @brief ネットワーク。ツール。
 */
 
 
@@ -16,9 +16,9 @@ using UnityEngine;
 #pragma warning disable 0162
 
 
-/** NInput
+/** NNetwork
 */
-namespace NSocket
+namespace NNetwork
 {
 	/** Tool
 	*/

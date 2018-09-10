@@ -1,27 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+
 
 /**
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief テスト。
+ * @brief ネットワーク。コンフィグ。
 */
 
 
-/** test16_player
+/** NNetwork
 */
-public class test16_player : UnityEngine.Networking.NetworkBehaviour
+namespace NNetwork
 {
-	private void Start()
+	/** Config
+	*/
+	public class Config
 	{
-	}
+		/** ログ。
+		*/
+		public static bool LOG_ENABLE = false;
 
-	private void Update()
-	{
+		/** アサート。
+		*/
+		public static bool ASSERT_ENABLE = false;
 	}
 }
 

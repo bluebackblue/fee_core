@@ -74,6 +74,9 @@ public class main : MonoBehaviour
 
 		//シーン。
 		NScene.Scene.DeleteInstance();
+
+		//ネットワーク。
+		NNetwork.Network.DeleteInstance();
 	}
 
 	/** デバッグ表示。
@@ -124,19 +127,57 @@ public class main : MonoBehaviour
 */
 public class main_base : MonoBehaviour
 {
+	/** is_changescene
+	*/
+	public bool is_changescene = false;
+
 	/** デバッグ描画。
 	*/
-    void OnGUI()
+	public void OnGUI()
     {
-		int t_x = 30;
-		int t_y = 30;
-		int t_w = 80;
-		int t_h = 40;
+		if(this.is_changescene == false){
+			int t_x = 30;
+			int t_y = 30;
+			int t_w = 80;
+			int t_h = 40;
 
-		if(GUI.Button(new Rect(t_x,t_y,t_w,t_h),"return") == true){
-			GameObject.Destroy(this.gameObject);
-			UnityEngine.SceneManagement.SceneManager.LoadScene("main");
+			if(GUI.Button(new Rect(t_x,t_y,t_w,t_h),"return") == true){
+				this.is_changescene = true;
+				StartCoroutine(ChangeScene());
+			}
 		}
+	}
+
+	/** 削除前。
+	*/
+	public virtual bool PreDestroy(bool a_first)
+	{
+		return true;
+	}
+
+	/** シーン切り替え。チェック。
+	*/
+	public bool IsChangeScene()
+	{
+		return this.is_changescene;
+	}
+
+	/** シーン切り替え。
+	*/
+	public IEnumerator ChangeScene()
+	{
+		bool t_first = true;
+
+		while(this.PreDestroy(t_first) == false){
+			t_first = false;
+			yield return null;
+		}
+
+		GameObject.Destroy(this.gameObject);
+
+		UnityEngine.SceneManagement.SceneManager.LoadScene("main");
+
+		yield break;
 	}
 }
 

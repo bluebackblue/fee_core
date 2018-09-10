@@ -8,25 +8,22 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ソケット。コンフィグ。
+ * @brief ネットワーク。
 */
 
 
-/** NSocket
+/** NNetwork
 */
-namespace NSocket
+namespace NNetwork
 {
-	/** Config
+	/** PlayerPrefab
 	*/
-	public class Config
+	#if USE_PHOTON
+	public class PlayerPrefab : PhotonView
+	#else
+	public class PlayerPrefab : MonoBehaviour
+	#endif
 	{
-		/** ログ。
-		*/
-		public static bool LOG_ENABLE = false;
-
-		/** アサート。
-		*/
-		public static bool ASSERT_ENABLE = false;
 	}
 }
 
