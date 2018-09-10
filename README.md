@@ -35,3 +35,11 @@ http://bbbproject.sakura.ne.jp/www/project_webgl/fee/
 * https://github.com/bluebackblue/fee/tree/master/license/soundeffect-lab
 * https://soundeffect-lab.info/agreement/
 * https://soundeffect-lab.info/faq/
+
+### Photon Unity Networking Classic - FREE
+このリポジトリにアセットは含まれていません。
+* 使用しない場合は、PlayerSettings => OthersSettings => ScriptingDefineSymbols の USE_PHOTONを削除して下さい。
+* https://assetstore.unity.com/packages/tools/network/photon-unity-networking-classic-free-1786
+* https://dashboard.photonengine.com/ja-jp/Account/Terms
+
+
