@@ -27,6 +27,10 @@ namespace NNetwork
 		/** アサート。
 		*/
 		public static bool ASSERT_ENABLE = false;
+
+		/** プレハブ名。
+		*/
+		public static string PREFAB_NAME_PLAYERPREFAB = "Prefab/Network/playerprefab";
 	}
 }
 

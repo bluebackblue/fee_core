@@ -130,6 +130,8 @@
     <Compile Include="Assets\Fee\Script\Network\AutoJoinRandomRoom.cs" />
     <Compile Include="Assets\Fee\Script\Network\Config.cs" />
     <Compile Include="Assets\Fee\Script\Network\Network.cs" />
+    <Compile Include="Assets\Fee\Script\Network\OnJoinedRoomCallBack.cs" />
+    <Compile Include="Assets\Fee\Script\Network\PlayerPrefab.cs" />
     <Compile Include="Assets\Fee\Script\Network\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Render2D\Config.cs" />
     <Compile Include="Assets\Fee\Script\Render2D\InputField2D.cs" />

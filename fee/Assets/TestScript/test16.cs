@@ -32,27 +32,6 @@ public class test16 : main_base
 	*/
 	private NUi.Button end_button;
 
-	/** net_gameobject
-	*/
-	//private GameObject net_gameobject;
-
-	/** net_control
-	*/
-	//private ConnectAndJoinRandom net_control;
-
-	/** net_status
-	*/
-	//private ShowStatusWhenConnecting net_status;
-
-	/** net_onjoined_instantiate
-	*/
-	//private OnJoinedInstantiate net_onjoined_instantiate;
-
-	/** timeout
-	*/
-	//private int timeout;
-
-
 	/** Mode
 	*/
 	private enum Mode
@@ -200,12 +179,6 @@ public class test16 : main_base
 			{
 				this.status_text.SetText("Mode.Start");
 
-				//t_player_prefab
-				GameObject t_player_prefab = Resources.Load<GameObject>("test16_player");
-
-				//プレイヤプレハブ。設定。
-				NNetwork.Network.GetInstance().SetPlayerPrefab(t_player_prefab);
-
 				//開始。
 				NNetwork.Network.GetInstance().Start_AutoJoinRandomRoom();
 
@@ -217,7 +190,9 @@ public class test16 : main_base
 			}break;
 		case Mode.Do:
 			{
-				this.status_text.SetText("Mode.Do");
+				List<NNetwork.PlayerPrefab> t_list = NNetwork.Network.GetInstance().GetPlayerList();
+
+				this.status_text.SetText("Mode.Do : " + t_list.Count.ToString());
 			}break;
 		case Mode.DisConnect:
 			{

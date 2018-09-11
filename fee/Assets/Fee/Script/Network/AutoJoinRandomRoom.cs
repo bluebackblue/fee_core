@@ -65,9 +65,6 @@ namespace NNetwork
 			//ルート。
 			Transform t_root = NNetwork.Network.GetInstance().GetRoot();
 
-			//プレイヤプレハブ。
-			GameObject t_player_prefab = NNetwork.Network.GetInstance().GetPlayerPrefab();
-
 			//コントロール作成。
 			{
 				this.control = new GameObject();
@@ -75,17 +72,8 @@ namespace NNetwork
 				this.control.name = "control";
 				this.control.SetActive(false);
 	
-				ConnectAndJoinRandom t_connect_and_joinrandom = this.control.AddComponent<ConnectAndJoinRandom>();
-				if(t_connect_and_joinrandom == null){
-					Tool.Assert(false);
-				}
-
-				OnJoinedInstantiate t_onjoined_instantiate = this.control.AddComponent<OnJoinedInstantiate>();
-				if(t_onjoined_instantiate == null){
-					Tool.Assert(false);
-				}
-
-				t_onjoined_instantiate.PrefabsToInstantiate = new GameObject[1]{t_player_prefab};
+				this.control.AddComponent<ConnectAndJoinRandom>();
+				this.control.AddComponent<NNetwork.OnJoinedRoomCallBack>();
 			}
 
 			//mode
@@ -139,7 +127,6 @@ namespace NNetwork
 
 					if(PhotonNetwork.connectionState == ConnectionState.Disconnected){
 						//切断完了。
-
 						GameObject.Destroy(this.control);
 						this.control = null;
 						this.mode = Mode.End;			
