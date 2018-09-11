@@ -63,6 +63,9 @@ namespace NRender2D
 			//font
 			this.raw_text.font = Render2D.GetInstance().GetDefaultFont();
 
+			//linetype
+			this.raw_inputfield.lineType = UnityEngine.UI.InputField.LineType.MultiLineNewline;
+
 			//localscale
 			this.raw_recttransform.localScale = new Vector3(1.0f,1.0f,1.0f);
 
