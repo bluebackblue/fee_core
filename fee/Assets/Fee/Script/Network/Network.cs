@@ -84,6 +84,10 @@ namespace NNetwork
 		*/
 		private List<PlayerPrefab> player_list;
 
+		/** recv_callback
+		*/
+		private OnRecvCallBack_Base recv_callback;
+
 		/** [シングルトン]constructor
 		*/
 		private Network()
@@ -105,6 +109,9 @@ namespace NNetwork
 
 			//player_list
 			this.player_list = new List<PlayerPrefab>();
+
+			//recv_callback
+			this.recv_callback = null;
 		}
 
 		/** [シングルトン]削除。
@@ -163,6 +170,16 @@ namespace NNetwork
 			return this.player_list;
 		}
 
+		/** プレイヤプレハブ。取得。
+		*/
+		public NNetwork.PlayerPrefab GetPlayerPrefab(int a_playerindex)
+		{
+			if((0<=a_playerindex)&&(a_playerindex<this.player_list.Count)){
+				return this.player_list[a_playerindex];
+			}
+			return null;
+		}
+
 		/** 自分のプレイヤプレハブ。取得。
 		*/
 		public NNetwork.PlayerPrefab GetMyPlayerPrefab()
@@ -190,6 +207,20 @@ namespace NNetwork
 		public void RemovePlayerPrefab(NNetwork.PlayerPrefab a_player_prefab)
 		{
 			this.player_list.Remove(a_player_prefab);
+		}
+
+		/** 受信コールバック。設定。
+		*/
+		public void SetRecvCallBack(OnRecvCallBack_Base a_callback)
+		{
+			this.recv_callback = a_callback;
+		}
+
+		/** 受信コールバック。取得。
+		*/
+		public OnRecvCallBack_Base GetRecvCallBack()
+		{
+			return this.recv_callback;
 		}
 
 		/** 更新。

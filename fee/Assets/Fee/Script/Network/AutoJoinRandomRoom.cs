@@ -100,7 +100,7 @@ namespace NNetwork
 				{
 					//処理中。
 
-					Tool.Log("AutoJoinRandomRoom",PhotonNetwork.connectionState.ToString() + " : " + PhotonNetwork.connectionStateDetailed.ToString());
+					//Tool.Log("AutoJoinRandomRoom",PhotonNetwork.connectionState.ToString() + " : " + PhotonNetwork.connectionStateDetailed.ToString());
 
 					this.time++;
 					if(this.time >= 300){

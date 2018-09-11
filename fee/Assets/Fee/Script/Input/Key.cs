@@ -58,6 +58,8 @@ namespace NInput
 		public Key_Button down;
 		public Key_Button enter;
 		public Key_Button escape;
+		public Key_Button sub1;
+		public Key_Button sub2;
 
 		/** [シングルトン]constructor
 		*/
@@ -71,6 +73,8 @@ namespace NInput
 			this.down.Reset();
 			this.enter.Reset();
 			this.escape.Reset();
+			this.sub1.Reset();
+			this.sub2.Reset();
 		}
 
 		/** [シングルトン]削除。
@@ -89,8 +93,10 @@ namespace NInput
 				this.right.Set(UnityEngine.Input.GetKey(Config.KEY_RIGHT));
 				this.up.Set(UnityEngine.Input.GetKey(Config.KEY_UP));
 				this.down.Set(UnityEngine.Input.GetKey(Config.KEY_DOWN));
-				this.enter.Set(UnityEngine.Input.GetKey(KeyCode.Return));
-				this.escape.Set(UnityEngine.Input.GetKey(KeyCode.Escape));
+				this.enter.Set(UnityEngine.Input.GetKey(Config.KEY_ENTER));
+				this.escape.Set(UnityEngine.Input.GetKey(Config.KEY_ESCAPE));
+				this.sub1.Set(UnityEngine.Input.GetKey(Config.KEY_SUB1));
+				this.sub2.Set(UnityEngine.Input.GetKey(Config.KEY_SUB2));
 
 				//更新。
 				this.left.Main();
@@ -99,6 +105,8 @@ namespace NInput
 				this.down.Main();
 				this.enter.Main();
 				this.escape.Main();
+				this.sub1.Main();
+				this.sub2.Main();
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}

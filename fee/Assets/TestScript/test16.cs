@@ -14,7 +14,7 @@ using UnityEngine;
 
 /** test16
 */
-public class test16 : main_base
+public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 {
 	/** 削除管理。
 	*/
@@ -74,6 +74,31 @@ public class test16 : main_base
 	*/
 	private InputMode inputmode;
 
+	/** [NNetwork.OnRecvCallBack_Int_Base]受信。
+	*/
+	public void OnRecvInt(int a_playerlist_index,int a_key,int a_value)
+	{
+		Debug.Log("OnRecvInt : " + a_playerlist_index.ToString() + " : " + a_key.ToString() + " : " + a_value.ToString());
+
+		NNetwork.PlayerPrefab t_playerprefab = NNetwork.Network.GetInstance().GetPlayerPrefab(a_playerlist_index);
+		if(t_playerprefab != null){
+			if(a_value == 0){
+				//白。
+				this.player_list[a_playerlist_index].GetComponent<MeshRenderer>().material.color = Color.white;
+			}else{
+				//赤。
+				this.player_list[a_playerlist_index].GetComponent<MeshRenderer>().material.color = Color.red;
+			}
+		}
+	}
+
+	/** [NNetwork.OnRecvCallBack_String_Base]受信。
+	*/
+	public void OnRecvString(int a_playerlist_index,int a_key,string a_value)
+	{
+		Debug.Log("OnRecvString : " + a_playerlist_index.ToString() + " : " + a_key.ToString() + " : " + a_value);
+	}
+
 	/** Start
 	*/
 	private void Start()
@@ -95,6 +120,13 @@ public class test16 : main_base
 
 		//ネットワーク。インスタンス作成。
 		NNetwork.Network.CreateInstance();
+		NNetwork.Network.GetInstance().SetRecvCallBack(this);
+
+		//フォント。
+		Font t_font = Resources.Load<Font>("Font/mplus-1p-medium");
+		if(t_font != null){
+			NRender2D.Render2D.GetInstance().SetDefaultFont(t_font);
+		}
 
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
@@ -301,8 +333,36 @@ public class test16 : main_base
 							}break;
 						}
 					}
-				}
 
+					//■送信。
+					if(NInput.Key.GetInstance().enter.down == true){
+						if(this.my_playerprefab != null){
+							//自分赤。
+							this.my_playerprefab.SendInt(999,1);
+							this.my_playerprefab.SendString(777,"red");
+						}
+					}else if(NInput.Key.GetInstance().escape.down == true){
+						if(this.my_playerprefab != null){
+							//自分白。
+							this.my_playerprefab.SendInt(999,0);
+						}
+					}
+
+					if(NInput.Key.GetInstance().sub1.down == true){
+						//全部赤。
+
+						List<NNetwork.PlayerPrefab> t_player_prefab_list = NNetwork.Network.GetInstance().GetPlayerList();
+						for(int ii=0;ii<t_player_prefab_list.Count;ii++){
+							t_player_prefab_list[ii].SendInt(888,1);
+						}
+					}else if(NInput.Key.GetInstance().sub2.down == true){
+						//全部白。
+						List<NNetwork.PlayerPrefab> t_player_prefab_list = NNetwork.Network.GetInstance().GetPlayerList();
+						for(int ii=0;ii<t_player_prefab_list.Count;ii++){
+							t_player_prefab_list[ii].SendInt(888,0);
+						}
+					}
+				}
 
 				for(int ii=0;ii<this.player_text.Length;ii++){
 					if(ii < t_list.Count){
@@ -325,6 +385,9 @@ public class test16 : main_base
 					}
 				}
 
+				if(this.IsChangeScene() == true){
+					this.mode = Mode.DisConnect;
+				}
 			}break;
 		case Mode.DisConnect:
 			{

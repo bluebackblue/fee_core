@@ -92,6 +92,22 @@ namespace NInput
 		/** キー。下。
 		*/
 		public static KeyCode KEY_DOWN = KeyCode.S;
+
+		/** キー。エンター。
+		*/
+		public static KeyCode KEY_ENTER = KeyCode.Return;
+
+		/** キー。エスケープ。
+		*/
+		public static KeyCode KEY_ESCAPE = KeyCode.Escape;
+
+		/** キー。サブ１。
+		*/
+		public static KeyCode KEY_SUB1 = KeyCode.LeftShift;
+
+		/** キー。サブ２。
+		*/
+		public static KeyCode KEY_SUB2 = KeyCode.LeftControl;
 	}
 }
 

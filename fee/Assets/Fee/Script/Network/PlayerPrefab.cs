@@ -16,17 +16,48 @@ using UnityEngine;
 */
 namespace NNetwork
 {
+	#if USE_PHOTON
+	#else
+
+	/** PunRPC
+	*/
+	public class PunRPC : System.Attribute{}
+
+	/** PhotonView
+	*/
+	public class PhotonView{}
+
+	#endif
+
+	#if USE_PHOTON
+	#else
+	namespace Photon
+	{
+		/** MonoBehaviour
+		*/
+		public class MonoBehaviour : UnityEngine.MonoBehaviour{}
+	}
+	#endif
+
 	/** PlayerPrefab
 	*/
-	public class PlayerPrefab : MonoBehaviour
+	public class PlayerPrefab : Photon.MonoBehaviour
 	{
 		/** トランスフォーム。
 		*/
-		Transform mytransform;
+		private Transform mytransform;
 
 		/** is_mine
 		*/
-		bool is_mine;
+		private bool is_mine;
+
+		/** playerlist_index
+		*/
+		private int playerlist_index;
+
+		/** photon_view
+		*/
+		private PhotonView photon_view;
 
 		/** 開始。
 		*/
@@ -41,18 +72,19 @@ namespace NNetwork
 			Transform t_root = NNetwork.Network.GetInstance().GetRoot();
 			this.GetComponent<Transform>().SetParent(t_root);
 
-			//インデックス取得。
-			int t_playerlist_index = NNetwork.Network.GetInstance().AddPlayerPrefab(this);
+			//プレイヤインデックス取得。
+			this.playerlist_index = NNetwork.Network.GetInstance().AddPlayerPrefab(this);
 
 			//名前設定。
-			this.name = "PlayerPrefab_" + t_playerlist_index.ToString();
+			this.name = "PlayerPrefab_" + this.playerlist_index.ToString();
+
+			//photon_view
+			this.photon_view = this.GetComponent<PhotonView>();
 
 			#if USE_PHOTON
 			{
-				PhotonView t_photon_view = this.GetComponent<PhotonView>();
-
 				//is_mine
-				this.is_mine = t_photon_view.isMine;
+				this.is_mine = photon_view.isMine;
 			}
 			#else
 			{
@@ -118,6 +150,50 @@ namespace NNetwork
 		public bool IsMine()
 		{
 			return this.is_mine;
+		}
+
+		/** 受信。
+		*/
+		[PunRPC]
+		public void RecvInt(int a_key,int a_value)
+		{
+			OnRecvCallBack_Base t_callback = NNetwork.Network.GetInstance().GetRecvCallBack();
+			if(t_callback != null){
+				t_callback.OnRecvInt(this.playerlist_index,a_key,a_value);
+			}
+		}
+
+		/** 受信。
+		*/
+		[PunRPC]
+		public void RecvString(int a_key,string a_value)
+		{
+			OnRecvCallBack_Base t_callback = NNetwork.Network.GetInstance().GetRecvCallBack();
+			if(t_callback != null){
+				t_callback.OnRecvString(this.playerlist_index,a_key,a_value);
+			}
+		}
+
+		/** 送信。
+		*/
+		public void SendInt(int a_key,int a_value)
+		{
+			#if USE_PHOTON
+			if(this.photon_view != null){
+				this.photon_view.RPC("RecvInt",PhotonTargets.All,a_key,a_value);
+			}
+			#endif
+		}
+
+		/** 送信。
+		*/
+		public void SendString(int a_key,string a_value)
+		{
+			#if USE_PHOTON
+			if(this.photon_view != null){
+				this.photon_view.RPC("RecvString",PhotonTargets.All,a_key,a_value);
+			}
+			#endif
 		}
 	}
 }

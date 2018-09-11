@@ -49,6 +49,12 @@ public class test01 : main_base
 		//２Ｄ描画。インスタンス作成。
 		NRender2D.Render2D.CreateInstance();
 
+		//フォント。
+		Font t_font = Resources.Load<Font>("Font/mplus-1p-medium");
+		if(t_font != null){
+			NRender2D.Render2D.GetInstance().SetDefaultFont(t_font);
+		}
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
