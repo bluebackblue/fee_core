@@ -16,29 +16,6 @@ using UnityEngine;
 */
 namespace NNetwork
 {
-	#if USE_PHOTON
-	#else
-
-	/** PunRPC
-	*/
-	public class PunRPC : System.Attribute{}
-
-	/** PhotonView
-	*/
-	public class PhotonView{}
-
-	#endif
-
-	#if USE_PHOTON
-	#else
-	namespace Photon
-	{
-		/** MonoBehaviour
-		*/
-		public class MonoBehaviour : UnityEngine.MonoBehaviour{}
-	}
-	#endif
-
 	/** PlayerPrefab
 	*/
 	public class PlayerPrefab : Photon.MonoBehaviour
@@ -81,17 +58,8 @@ namespace NNetwork
 			//photon_view
 			this.photon_view = this.GetComponent<PhotonView>();
 
-			#if USE_PHOTON
-			{
-				//is_mine
-				this.is_mine = photon_view.isMine;
-			}
-			#else
-			{
-				//is_mine
-				this.is_mine = false;
-			}
-			#endif
+			//is_mine
+			this.is_mine = photon_view.isMine;
 		}
 
 		/** 削除。
@@ -178,22 +146,18 @@ namespace NNetwork
 		*/
 		public void SendInt(int a_key,int a_value)
 		{
-			#if USE_PHOTON
 			if(this.photon_view != null){
 				this.photon_view.RPC("RecvInt",PhotonTargets.All,a_key,a_value);
 			}
-			#endif
 		}
 
 		/** 送信。
 		*/
 		public void SendString(int a_key,string a_value)
 		{
-			#if USE_PHOTON
 			if(this.photon_view != null){
 				this.photon_view.RPC("RecvString",PhotonTargets.All,a_key,a_value);
 			}
-			#endif
 		}
 	}
 }
