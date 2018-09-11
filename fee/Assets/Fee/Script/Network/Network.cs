@@ -163,6 +163,19 @@ namespace NNetwork
 			return this.player_list;
 		}
 
+		/** 自分のプレイヤプレハブ。取得。
+		*/
+		public NNetwork.PlayerPrefab GetMyPlayerPrefab()
+		{
+			for(int ii=0;ii<this.player_list.Count;ii++){
+				if(this.player_list[ii].IsMine() == true){
+					return this.player_list[ii];
+				}
+			}
+
+			return null;
+		}
+
 		/** プレイヤプレハブ。追加。
 		*/
 		public int AddPlayerPrefab(NNetwork.PlayerPrefab a_player_prefab)

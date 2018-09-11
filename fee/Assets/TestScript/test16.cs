@@ -24,6 +24,14 @@ public class test16 : main_base
 	*/
 	private NRender2D.Text2D status_text;
 
+	/** player_text
+	*/
+	private NRender2D.Text2D[] player_text;
+
+	/** player_list
+	*/
+	private GameObject[] player_list;
+
 	/** 開始ボタン。
 	*/
 	private NUi.Button start_button;
@@ -31,6 +39,10 @@ public class test16 : main_base
 	/** 修了ボタン。
 	*/
 	private NUi.Button end_button;
+
+	/** 自分。
+	*/
+	private NNetwork.PlayerPrefab my_playerprefab;
 
 	/** Mode
 	*/
@@ -45,7 +57,22 @@ public class test16 : main_base
 		ChangeScene,
 	};
 
+	/** mode
+	*/
 	private Mode mode;
+
+	/** InputMode
+	*/
+	private enum InputMode
+	{
+		Position,
+		Rotate,
+		Scale,
+	};
+
+	/** inputmode
+	*/
+	private InputMode inputmode;
 
 	/** Start
 	*/
@@ -86,6 +113,29 @@ public class test16 : main_base
 			this.status_text.SetText("");
 		}
 
+		//player_text
+		{
+			int t_x = 100;
+			int t_y = 130;
+
+			this.player_text = new NRender2D.Text2D[8];
+			for(int ii=0;ii<player_text.Length;ii++){
+				this.player_text[ii] = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
+				this.player_text[ii].SetRect(t_x,t_y + 20*ii,0,0);
+			}
+		}
+
+		//player_list
+		{
+			GameObject t_prefab = Resources.Load<GameObject>("box");
+
+			this.player_list = new GameObject[8];
+			for(int ii=0;ii<this.player_list.Length;ii++){
+				this.player_list[ii] = GameObject.Instantiate(t_prefab);
+				this.player_list[ii].SetActive(false);
+			}
+		}
+
 		//開始ボタン。
 		{
 			int t_w = 100;
@@ -118,7 +168,14 @@ public class test16 : main_base
 			this.end_button.SetVisible(false);
 		}
 
+		//my_playerprefab
+		this.my_playerprefab = null;
+
+		//mode
 		this.mode = Mode.Init;
+
+		//inputmode
+		this.inputmode = InputMode.Position;
 	}
 
 	/** クリック。開始。
@@ -186,6 +243,9 @@ public class test16 : main_base
 				this.start_button.SetVisible(false);
 				this.end_button.SetVisible(true);
 
+				//自分。
+				this.my_playerprefab = null;
+
 				this.mode = Mode.Do;
 			}break;
 		case Mode.Do:
@@ -193,16 +253,95 @@ public class test16 : main_base
 				List<NNetwork.PlayerPrefab> t_list = NNetwork.Network.GetInstance().GetPlayerList();
 
 				this.status_text.SetText("Mode.Do : " + t_list.Count.ToString());
+
+				if(this.my_playerprefab == null){
+					//自分のプレイヤプレハブ。
+					this.my_playerprefab = NNetwork.Network.GetInstance().GetMyPlayerPrefab();
+				}else{
+
+					if(NInput.Mouse.GetInstance().right.down == true){
+						switch(this.inputmode){
+						case InputMode.Position:
+							{
+								this.inputmode = InputMode.Rotate;
+							}break;
+						case InputMode.Rotate:
+							{
+								this.inputmode = InputMode.Scale;
+							}break;
+						case InputMode.Scale:
+							{
+								this.inputmode = InputMode.Position;
+							}break;
+						}
+					}
+
+					if(NInput.Mouse.GetInstance().left.down == true){
+						switch(this.inputmode){
+						case InputMode.Position:
+							{
+								float t_x = ((float)NInput.Mouse.GetInstance().pos.x - NRender2D.Render2D.VIRTUAL_W / 2) / 100;
+								float t_y = ((float)NInput.Mouse.GetInstance().pos.y - NRender2D.Render2D.VIRTUAL_H / 2) / 100;
+
+								this.my_playerprefab.SetPosition(t_x,t_y,0.0f);
+							}break;
+						case InputMode.Rotate:
+							{
+								float t_angle = NInput.Mouse.GetInstance().pos.x;
+
+								Quaternion t_q = Quaternion.AngleAxis(t_angle,new Vector3(0.0f,1.0f,0.0f));
+								this.my_playerprefab.SetQuaternion(ref t_q);
+							}break;
+						case InputMode.Scale:
+							{
+								float t_x = 1.0f + (float)NInput.Mouse.GetInstance().pos.x / NRender2D.Render2D.VIRTUAL_W;
+								float t_y = 1.0f + (float)NInput.Mouse.GetInstance().pos.y / NRender2D.Render2D.VIRTUAL_H;
+
+								this.my_playerprefab.SetScale(t_x,t_y,1.0f);
+							}break;
+						}
+					}
+				}
+
+
+				for(int ii=0;ii<this.player_text.Length;ii++){
+					if(ii < t_list.Count){
+
+						string t_text = "";
+						t_text += "IsMine = " + t_list[ii].IsMine().ToString() + " ";
+						t_text += "Pos = " + t_list[ii].GetPosition().ToString() + " ";
+						t_text += "Rotate = " + t_list[ii].GetQuaternion().ToString() + " ";
+						t_text += "Scale = " + t_list[ii].GetScale().ToString();
+
+						this.player_text[ii].SetText(t_text);
+
+						this.player_list[ii].SetActive(true);
+						this.player_list[ii].transform.position = t_list[ii].GetPosition();
+						this.player_list[ii].transform.rotation = t_list[ii].GetQuaternion();
+						this.player_list[ii].transform.localScale = t_list[ii].GetScale();
+					}else{
+						this.player_text[ii].SetText("---");
+						this.player_list[ii].SetActive(false);
+					}
+				}
+
 			}break;
 		case Mode.DisConnect:
 			{
 				this.status_text.SetText("Mode.DisConnect");
+
+				for(int ii=0;ii<this.player_text.Length;ii++){
+					this.player_text[ii].SetText("");
+					this.player_list[ii].SetActive(false);
+				}
 
 				//切断リクエスト。
 				NNetwork.Network.GetInstance().DisconnectRequest();
 
 				//ボタン。
 				this.end_button.SetVisible(false);
+
+				this.my_playerprefab = null;
 
 				this.mode = Mode.DisConnectNow;
 			}break;
