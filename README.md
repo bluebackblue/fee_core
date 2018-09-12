@@ -36,10 +36,9 @@ http://bbbproject.sakura.ne.jp/www/project_webgl/fee/
 * https://soundeffect-lab.info/agreement/
 * https://soundeffect-lab.info/faq/
 
-### Photon Unity Networking Classic - FREE
+### PUN 2 - FREE
 このリポジトリにアセットは含まれていません。
-* 使用しない場合は、PlayerSettings => OthersSettings => ScriptingDefineSymbols の USE_PHOTONを削除して下さい。
-* https://assetstore.unity.com/packages/tools/network/photon-unity-networking-classic-free-1786
+* 使用しない場合は、PlayerSettings => OthersSettings => ScriptingDefineSymbols の USE_PUN を削除して下さい。
+* https://assetstore.unity.com/packages/tools/network/pun-2-free-119922
 * https://dashboard.photonengine.com/ja-jp/Account/Terms
-
 
