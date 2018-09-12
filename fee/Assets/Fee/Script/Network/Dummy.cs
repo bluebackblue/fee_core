@@ -15,41 +15,8 @@ using UnityEngine;
 #if USE_PUN
 #else
 
-namespace Photon.Pun
-{
-	/** MonoBehaviourPun
-	*/
-	public class MonoBehaviourPun : UnityEngine.MonoBehaviour
-	{
-	}
-
-	/** RpcTarget
-	*/
-	public enum RpcTarget
-	{
-		All,
-	};
-
-	/** PhotonView
-	*/
-	public class PhotonView
-	{
-		/** IsMine
-		*/
-		public bool IsMine;
-
-		/** RPC
-		*/
-		public void RPC(params object[] a_list){}
-	}
-
-	/** PunRPC
-	*/
-	class PunRPC : System.Attribute
-	{
-	}
-}
-
+/** NNetwork
+*/
 namespace NNetwork
 {
 	/** Connect_Auto
@@ -59,6 +26,43 @@ namespace NNetwork
 		/** Main
 		*/
 		public bool Main(){return false;}
+	}
+
+	/** Photon.Pun
+	*/
+	namespace Photon.Pun
+	{
+		/** MonoBehaviourPun
+		*/
+		public class MonoBehaviourPun : UnityEngine.MonoBehaviour
+		{
+		}
+
+		/** RpcTarget
+		*/
+		public enum RpcTarget
+		{
+			All,
+		};
+
+		/** PhotonView
+		*/
+		public class PhotonView
+		{
+			/** IsMine
+			*/
+			public bool IsMine;
+
+			/** RPC
+			*/
+			public void RPC(params object[] a_list){}
+		}
+
+		/** PunRPC
+		*/
+		class PunRPC : System.Attribute
+		{
+		}
 	}
 }
 
