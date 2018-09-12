@@ -69,9 +69,10 @@ namespace NDownLoad
 		/** webrequest
 		*/
 		#if(USE_WWW)
-		public WWW www;
+		private WWW www;
 		#else
-		public UnityEngine.Networking.UnityWebRequest webrequest;
+		private UnityEngine.Networking.UnityWebRequest webrequest;
+		private UnityEngine.Networking.UnityWebRequestAsyncOperation webrequest_async;
 		#endif
 
 		/** result_header
@@ -134,6 +135,7 @@ namespace NDownLoad
 			this.www = null;
 			#else
 			this.webrequest = null;
+			this.webrequest_async = null;
 			#endif
 
 			//result_header
@@ -236,6 +238,10 @@ namespace NDownLoad
 										this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);
 									}break;
 								}
+
+								if(this.webrequest != null){
+									this.webrequest_async = this.webrequest.SendWebRequest();
+								}
 							}
 							#endif
 
@@ -248,6 +254,14 @@ namespace NDownLoad
 
 						if(this.Raw_IsError() == true){
 							//ダウンロードエラー。
+
+							#if(USE_WWW)
+							#else
+							if(this.webrequest_async != null){
+								yield return this.webrequest_async;
+							}
+							#endif
+
 							this.datatype = DataType.Error;
 
 							#if(USE_WWW)
@@ -278,6 +292,7 @@ namespace NDownLoad
 							}
 							#else
 							{
+								this.webrequest_async = null;
 								this.webrequest.Dispose();
 								this.webrequest = null;
 							}
@@ -287,9 +302,12 @@ namespace NDownLoad
 						}else if(this.Raw_IsDone() == true){
 							//ダウンロード完了。
 
-							for(int ii=0;ii<3;ii++){
-								yield return null;
+							#if(USE_WWW)
+							#else
+							if(this.webrequest_async != null){
+								yield return this.webrequest_async;
 							}
+							#endif
 
 							//ヘッダ。
 							string t_header_contenttype = "";
@@ -418,6 +436,7 @@ namespace NDownLoad
 							}
 							#else
 							{
+								this.webrequest_async = null;
 								this.webrequest.Dispose();
 								this.webrequest = null;
 							}
@@ -426,8 +445,6 @@ namespace NDownLoad
 							this.mode = Mode.WaitRequest;
 						}else{
 							//ダウンロード中。
-
-							yield return this.webrequest.SendWebRequest();
 
 							#if(USE_WWW)
 							{

@@ -169,6 +169,17 @@ public class test11 : main_base
 	}
 
 	#if UNITY_EDITOR
+	[UnityEditor.MenuItem("Test/test11/MakeAssetBundle/All")]
+	private static void MakeAssetBundle_All()
+	{
+		MakeAssetBundle_StandaloneWindows();
+		MakeAssetBundle_WebGL();
+		MakeAssetBundle_Android();
+		MakeAssetBundle_iOS();
+	}
+	#endif
+
+	#if UNITY_EDITOR
 	[UnityEditor.MenuItem("Test/test11/MakeAssetBundle/StandaloneWindows")]
 	private static void MakeAssetBundle_StandaloneWindows()
 	{
