@@ -50,10 +50,10 @@ namespace NDownLoad
 			}
 		}
 
-		/** www
+		/** webrequest
 		*/
-		private GameObject www_gameobject;
-		private MonoBehaviour_Www www_script;
+		private GameObject webrequest_gameobject;
+		private MonoBehaviour_WebRequest webrequest_script;
 
 		/** work_list
 		*/
@@ -67,13 +67,13 @@ namespace NDownLoad
 		*/
 		private DownLoad()
 		{
-			//www
+			//webrequest
 			{
-				this.www_gameobject = new GameObject();
-				this.www_gameobject.name = "DownLoad";
-				this.www_script = this.www_gameobject.AddComponent<MonoBehaviour_Www>();
+				this.webrequest_gameobject = new GameObject();
+				this.webrequest_gameobject.name = "DownLoad";
+				this.webrequest_script = this.webrequest_gameobject.AddComponent<MonoBehaviour_WebRequest>();
 
-				GameObject.DontDestroyOnLoad(this.www_gameobject);
+				GameObject.DontDestroyOnLoad(this.webrequest_gameobject);
 			}
 
 			//work_list
@@ -89,14 +89,14 @@ namespace NDownLoad
 		{
 			this.assetbundle_list.UnloadAllAssetBundle();
 
-			this.www_script.DeleteRequest();
+			this.webrequest_script.DeleteRequest();
 		}
 
-		/** www。取得。
+		/** ウェブリクエスト。取得。
 		*/
-		public MonoBehaviour_Www GetWww()
+		public MonoBehaviour_WebRequest GetWebRequest()
 		{
-			return this.www_script;
+			return this.webrequest_script;
 		}
 
 		/** アセットバンドルリスト。取得。

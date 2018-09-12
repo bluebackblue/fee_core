@@ -16,9 +16,9 @@ using UnityEngine;
 */
 namespace NDownLoad
 {
-	/** MonoBehaviour_Www
+	/** MonoBehaviour_WebRequest
 	*/
-	public class MonoBehaviour_Www : MonoBehaviour
+	public class MonoBehaviour_WebRequest : MonoBehaviour
 	{
 		/** Mode
 		*/
@@ -66,7 +66,7 @@ namespace NDownLoad
 		[SerializeField]
 		private long request_assetbundle_id;
 
-		/** www
+		/** webrequest
 		*/
 		#if(USE_WWW)
 		public WWW www;
@@ -129,7 +129,7 @@ namespace NDownLoad
 			//request_assetbundle_id
 			this.request_assetbundle_id = Config.INVALID_ASSSETBUNDLE_ID;
 
-			//www
+			//webrequest
 			#if(USE_WWW)
 			this.www = null;
 			#else
@@ -203,11 +203,11 @@ namespace NDownLoad
 							#if(USE_WWW)
 							{
 								if(this.request_datatype == DataType.AssetBundle){
-									Tool.Log("MonoBehaviour_WWW",this.request_datatype.ToString() + " : " + this.request_assetbundle_version.ToString() + " : " + this.request_url);
+									Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_assetbundle_version.ToString() + " : " + this.request_url);
 
 									this.www = WWW.LoadFromCacheOrDownload(this.request_url,this.request_assetbundle_version);
 								}else{
-									Tool.Log("MonoBehaviour_WWW",this.request_datatype.ToString() + " : " + this.request_url);
+									Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
 
 									this.www = new WWW(this.request_url);
 								}
@@ -217,22 +217,22 @@ namespace NDownLoad
 								switch(this.request_datatype){
 								case DataType.AssetBundle:
 									{
-										Tool.Log("MonoBehaviour_WWW",this.request_datatype.ToString() + " : " + this.request_assetbundle_version.ToString() + " : " + this.request_url);
+										Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_assetbundle_version.ToString() + " : " + this.request_url);
 										this.webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(this.request_url,this.request_assetbundle_version,0);
 									}break;
 								case DataType.Texture:
 									{
-										Tool.Log("MonoBehaviour_WWW",this.request_datatype.ToString() + " : " + this.request_url);
+										Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
 										this.webrequest =  UnityEngine.Networking.UnityWebRequestTexture.GetTexture(this.request_url);
 									}break;
 								case DataType.Text:
 									{
-										Tool.Log("MonoBehaviour_WWW",this.request_datatype.ToString() + " : " + this.request_url);
+										Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
 										this.webrequest =  UnityEngine.Networking.UnityWebRequest.Get(this.request_url);	
 									}break;
 								default:
 									{
-										Tool.Log("MonoBehaviour_WWW",this.request_datatype.ToString() + " : " + this.request_url);
+										Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
 										this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);
 									}break;
 								}
@@ -306,10 +306,10 @@ namespace NDownLoad
 
 								if(this.result_header == null){
 									this.result_header = new Dictionary<string,string>();
-									Tool.Log("MonoBehaviour_WWW","No Header");
+									Tool.Log("MonoBehaviour_WebRequest","No Header");
 								}else{
 									foreach(KeyValuePair<string,string> t_pair in this.result_header){
-										Tool.Log("MonoBehaviour_WWW",t_pair.Key + " = " + t_pair.Value);
+										Tool.Log("MonoBehaviour_WebRequest",t_pair.Key + " = " + t_pair.Value);
 									}
 								}
 
@@ -407,7 +407,7 @@ namespace NDownLoad
 
 								this.result_progress = 1.0f;
 
-								Tool.Log("MonoBehaviour_WWW","Convert : " + this.datatype.ToString());
+								Tool.Log("MonoBehaviour_WebRequest","Convert : " + this.datatype.ToString());
 							}
 
 							//解放。
@@ -460,7 +460,7 @@ namespace NDownLoad
 			#endif
 
 			//削除。
-			Tool.Log("DownLoad","GameObject.Destroy");
+			Tool.Log("MonoBehaviour_WebRequest","GameObject.Destroy");
 			GameObject.Destroy(this.gameObject);
 		}
 

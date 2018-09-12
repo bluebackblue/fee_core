@@ -98,7 +98,7 @@ namespace NDownLoad
 		*/
 		public bool Main()
 		{
-			MonoBehaviour_Www t_www = NDownLoad.DownLoad.GetInstance().GetWww();
+			MonoBehaviour_WebRequest t_webrequest = NDownLoad.DownLoad.GetInstance().GetWebRequest();
 
 			switch(this.mode){
 			case Mode.Start:
@@ -113,7 +113,7 @@ namespace NDownLoad
 					}
 
 					if(t_assetbundle == null){
-						if(t_www.Request(this.url,this.datatype,this.assetbundle_version,this.assetbundle_id) == true){
+						if(t_webrequest.Request(this.url,this.datatype,this.assetbundle_version,this.assetbundle_id) == true){
 							//開始。
 							this.mode = Mode.Do;
 						}
@@ -127,27 +127,27 @@ namespace NDownLoad
 				}break;
 			case Mode.Do:
 				{
-					if(t_www.IsBusy() == false){
+					if(t_webrequest.IsBusy() == false){
 
-						this.item.SetProgress(t_www.GetProgress());
+						this.item.SetProgress(t_webrequest.GetProgress());
 
 						//結果。
-						switch(t_www.GetDataType()){
+						switch(t_webrequest.GetDataType()){
 						case DataType.Text:
 							{
-								this.item.SetResultText(t_www.GetResultText());
+								this.item.SetResultText(t_webrequest.GetResultText());
 							}break;
 						case DataType.Texture:
 							{		
-								this.item.SetResultTexture(t_www.GetResultTexture());
+								this.item.SetResultTexture(t_webrequest.GetResultTexture());
 							}break;
 						case DataType.AssetBundle:
 							{
-								this.item.SetResultAssetBundle(t_www.GetResultAssetBundle());
+								this.item.SetResultAssetBundle(t_webrequest.GetResultAssetBundle());
 							}break;
 						default:
 							{
-								string t_error_string = t_www.GetResultErrorString();
+								string t_error_string = t_webrequest.GetResultErrorString();
 
 								if(t_error_string == null){
 									t_error_string = "";
@@ -159,7 +159,7 @@ namespace NDownLoad
 
 						this.mode = Mode.End;
 					}else{
-						this.item.SetProgress(t_www.GetProgress());
+						this.item.SetProgress(t_webrequest.GetProgress());
 					}
 				}break;
 			case Mode.End:

@@ -86,7 +86,7 @@
     <Compile Include="Assets\Fee\Script\DownLoad\DataType.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\DownLoad.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Item.cs" />
-    <Compile Include="Assets\Fee\Script\DownLoad\MonoBehaviour_Www.cs" />
+    <Compile Include="Assets\Fee\Script\DownLoad\MonoBehaviour_WebRequest.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Tool.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Work.cs" />
     <Compile Include="Assets\Fee\Script\EventPlate\BlockItem.cs" />
