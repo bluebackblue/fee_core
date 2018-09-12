@@ -173,6 +173,27 @@ public class main_base : MonoBehaviour
 			yield return null;
 		}
 
+		bool t_ok = false;
+		while(t_ok == false){
+			t_ok = true;
+
+			if(NDownLoad.DownLoad.GetInstance() != null){
+				if(NDownLoad.DownLoad.GetInstance().IsBusy() == true){
+					t_ok = false;
+				}
+			}
+		
+			if(NNetwork.Network.GetInstance() != null){
+				if(NNetwork.Network.GetInstance().IsBusy() == true){
+					t_ok = false;
+				}
+			}
+
+			if(t_ok == false){
+				yield return null;
+			}
+		}
+
 		GameObject.Destroy(this.gameObject);
 
 		UnityEngine.SceneManagement.SceneManager.LoadScene("main");

@@ -184,9 +184,18 @@ public class test15 : main_base
 		}
 	}
 
+	/** クリック。
+	*/
 	public void Click(int a_value)
 	{
 		Debug.Log("Click : " + a_value.ToString());
+	}
+
+	/** 削除前。
+	*/
+	public override bool PreDestroy(bool a_first)
+	{
+		return true;
 	}
 
 	/** OnDestroy

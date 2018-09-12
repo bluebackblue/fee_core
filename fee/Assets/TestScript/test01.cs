@@ -99,6 +99,13 @@ public class test01 : main_base
 	{
 	}
 
+	/** 削除前。
+	*/
+	public override bool PreDestroy(bool a_first)
+	{
+		return true;
+	}
+
 	/** OnDestroy
 	*/
 	private void OnDestroy()

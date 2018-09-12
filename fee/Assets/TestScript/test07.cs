@@ -104,6 +104,13 @@ public class test07 : main_base , NEventPlate.OnOverCallBack_Base
 		this.text.SetText(this.onover[0].ToString() + " " + this.onover[1].ToString() + " " + this.onover[2].ToString());
 	}
 
+	/** 削除前。
+	*/
+	public override bool PreDestroy(bool a_first)
+	{
+		return true;
+	}
+
 	/** OnDestroy
 	*/
 	private void OnDestroy()

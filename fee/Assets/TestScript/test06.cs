@@ -180,6 +180,13 @@ public class test06 : main_base
 		NScene.Scene.GetInstance().Main();
 	}
 
+	/** 削除前。
+	*/
+	public override bool PreDestroy(bool a_first)
+	{
+		return true;
+	}
+
 	/** OnDestroy
 	*/
 	private void OnDestroy()
