@@ -14,7 +14,7 @@ using UnityEngine;
 
 /** test16
 */
-public class test16 : main_base , NNetwork.OnRecvCallBack_Base
+public class test16 : main_base , NNetwork.OnRemoteCallBack_Base
 {
 	/** 削除管理。
 	*/
@@ -70,11 +70,11 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 	*/
 	private InputMode inputmode;
 
-	/** [NNetwork.OnRecvCallBack_Int_Base]受信。
+	/** [NNetwork.OnRemoteCallBack_Base]リモートコール。
 	*/
-	public void OnRecvInt(int a_playerlist_index,int a_key,int a_value)
+	public void OnRemoteCallInt(int a_playerlist_index,int a_key,int a_value)
 	{
-		Debug.Log("OnRecvInt : " + a_playerlist_index.ToString() + " : " + a_key.ToString() + " : " + a_value.ToString());
+		Debug.Log("OnRemoteCallInt : " + a_playerlist_index.ToString() + " : " + a_key.ToString() + " : " + a_value.ToString());
 
 		NNetwork.Player t_player = NNetwork.Network.GetInstance().GetPlayer(a_playerlist_index);
 		if(t_player != null){
@@ -88,11 +88,11 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 		}
 	}
 
-	/** [NNetwork.OnRecvCallBack_String_Base]受信。
+	/** [NNetwork.OnRemoteCallBack_Base]リモートコール。
 	*/
-	public void OnRecvString(int a_playerlist_index,int a_key,string a_value)
+	public void OnRemoteCallString(int a_playerlist_index,int a_key,string a_value)
 	{
-		Debug.Log("OnRecvString : " + a_playerlist_index.ToString() + " : " + a_key.ToString() + " : " + a_value);
+		Debug.Log("OnRemoteCallString : " + a_playerlist_index.ToString() + " : " + a_key.ToString() + " : " + a_value);
 	}
 
 	/** Start
@@ -150,7 +150,7 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 			this.player_text = new NRender2D.Text2D[8];
 			for(int ii=0;ii<player_text.Length;ii++){
 				this.player_text[ii] = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-				this.player_text[ii].SetRect(t_x,t_y + 20*ii,0,0);
+				this.player_text[ii].SetRect(t_x,t_y + 35*ii,0,0);
 			}
 		}
 
@@ -332,13 +332,13 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 					if(NInput.Key.GetInstance().enter.down == true){
 						if(t_myplayer != null){
 							//自分赤。
-							t_myplayer.SendInt(999,1);
-							t_myplayer.SendString(777,"red");
+							t_myplayer.RemoteCallInt(999,1);
+							t_myplayer.RemoteCallString(777,"red");
 						}
 					}else if(NInput.Key.GetInstance().escape.down == true){
 						if(t_myplayer != null){
 							//自分白。
-							t_myplayer.SendInt(999,0);
+							t_myplayer.RemoteCallInt(999,0);
 						}
 					}
 
@@ -347,13 +347,13 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 
 						List<NNetwork.Player> t_player_list = NNetwork.Network.GetInstance().GetPlayerList();
 						for(int ii=0;ii<t_player_list.Count;ii++){
-							t_player_list[ii].SendInt(888,1);
+							t_player_list[ii].RemoteCallInt(888,1);
 						}
 					}else if(NInput.Key.GetInstance().sub2.down == true){
 						//全部白。
 						List<NNetwork.Player> t_player_list = NNetwork.Network.GetInstance().GetPlayerList();
 						for(int ii=0;ii<t_player_list.Count;ii++){
-							t_player_list[ii].SendInt(888,0);
+							t_player_list[ii].RemoteCallInt(888,0);
 						}
 					}
 				}
@@ -363,9 +363,13 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 
 						string t_text = "";
 						t_text += "IsMine = " + t_list[ii].IsMine().ToString() + " ";
+						t_text += "IsMasterClient = " + t_list[ii].IsMasterClient().ToString() + " ";
+						t_text += "NickName = " + t_list[ii].GetNickName() + " ";
+						t_text += "UserID = " + t_list[ii].GetUniqueID().ToString() + "\n";
+
 						t_text += "Pos = " + t_list[ii].GetPosition().ToString() + " ";
 						t_text += "Rotate = " + t_list[ii].GetQuaternion().ToString() + " ";
-						t_text += "Scale = " + t_list[ii].GetScale().ToString();
+						t_text += "Scale = " + t_list[ii].GetScale().ToString() + " ";
 
 						this.player_text[ii].SetText(t_text);
 

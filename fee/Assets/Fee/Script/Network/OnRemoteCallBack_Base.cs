@@ -16,17 +16,17 @@ using UnityEngine;
 */
 namespace NNetwork
 {
-	/** OnRecvCallBack_Base
+	/** OnRemoteCallBack_Base
 	*/
-	public interface OnRecvCallBack_Base
+	public interface OnRemoteCallBack_Base
 	{
-		/** 受信。
+		/** リモートコール。
 		*/
-		void OnRecvInt(int a_playerlist_index,int a_key,int a_value);
+		void OnRemoteCallInt(int a_playerlist_index,int a_key,int a_value);
 
-		/** 受信。
+		/** リモートコール。
 		*/
-		void OnRecvString(int a_playerlist_index,int a_key,string a_value);
+		void OnRemoteCallString(int a_playerlist_index,int a_key,string a_value);
 	}
 }
 

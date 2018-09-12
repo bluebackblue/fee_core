@@ -86,7 +86,6 @@
     <Compile Include="Assets\Fee\Script\DownLoad\DataType.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\DownLoad.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Item.cs" />
-    <Compile Include="Assets\Fee\Script\DownLoad\Mime.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\MonoBehaviour_Www.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Tool.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Work.cs" />
@@ -131,7 +130,7 @@
     <Compile Include="Assets\Fee\Script\Network\Dummy.cs" />
     <Compile Include="Assets\Fee\Script\Network\MonoBehaviour_Connect_Auto.cs" />
     <Compile Include="Assets\Fee\Script\Network\Network.cs" />
-    <Compile Include="Assets\Fee\Script\Network\OnRecvCallBack_Base.cs" />
+    <Compile Include="Assets\Fee\Script\Network\OnRemoteCallBack_Base.cs" />
     <Compile Include="Assets\Fee\Script\Network\Player.cs" />
     <Compile Include="Assets\Fee\Script\Network\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Render2D\Config.cs" />
@@ -594,6 +593,12 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.0b1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="Photon3Unity3D">
+      <HintPath>C:/work/github/fee/fee/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>C:/work/github/fee/fee/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>C:/work/github/fee/fee/Library/PackageCache/com.unity.analytics@3.0.9/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
@@ -608,12 +613,6 @@
     </Reference>
     <Reference Include="UnityEngine.Purchasing">
       <HintPath>C:/work/github/fee/fee/Library/PackageCache/com.unity.purchasing@2.0.1/UnityEngine.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="Photon3Unity3D">
-      <HintPath>C:/work/github/fee/fee/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
-    </Reference>
-    <Reference Include="websocket-sharp">
-      <HintPath>C:/work/github/fee/fee/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.0b1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

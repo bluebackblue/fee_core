@@ -101,7 +101,7 @@ namespace NRender2D
 			return this.raw_inputfield.text;
 		}
 
-		/** 複数行。設定。
+		/** マルチライン。設定。
 		*/
 		public void SetMultiLine(bool a_flag)
 		{

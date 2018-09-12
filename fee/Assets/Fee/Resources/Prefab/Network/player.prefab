@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8614136399998420942}
   - component: {fileID: 6452291009030672007}
   m_Layer: 0
-  m_Name: Player
+  m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 8614136399998420942}
   viewIdField: 0
-  InstantiationId: -1
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &8614136399998420942
 MonoBehaviour:
@@ -69,7 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
 --- !u!114 &6452291009030672007
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ public class test13 : main_base
 
 	/** DATA_VERSION
 	*/
-	private const int DATA_VERSION = 2;
+	private const int DATA_VERSION = 3;
 
 	/** bgm_index
 	*/
@@ -70,6 +70,7 @@ public class test13 : main_base
 		NAudio.Audio.CreateInstance();
 
 		//ダウンロード。インスタンス作成。
+		NDownLoad.Config.LOG_ENABLE = true;
 		NDownLoad.DownLoad.CreateInstance();
 
 		//削除管理。
@@ -77,18 +78,20 @@ public class test13 : main_base
 
 		//ＢＧＭダウンロード。
 		{
-
-			#if(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/StandaloneWindows/";
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
+	
+			#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
+			t_url += "StandaloneWindows/";
 			#elif(UNITY_WEBGL)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/WebGL/";
+			t_url += "WebGL/";
 			#elif(UNITY_ANDROID)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Android/";
+			t_url += "Android/";
 			#elif(UNITY_IOS)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/iOS/";
+			t_url += "iOS/";
 			#else
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/StandaloneWindows/";
+			t_url += "StandaloneWindows/";
 			#endif
+
 			this.download_bgm = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
 		}
 

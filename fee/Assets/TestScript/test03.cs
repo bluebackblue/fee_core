@@ -30,7 +30,8 @@ public class test03 : main_base
 
 	/** ダウンロードアイテム。
 	*/
-	private NDownLoad.Item download_item;
+	private NDownLoad.Item download_item_bg;
+	private NDownLoad.Item download_item_text;
 	
 	/** Start
 	*/
@@ -54,7 +55,8 @@ public class test03 : main_base
 		this.sprite.SetTexture(null);	
 
 		//ダウンロードアイテム。
-		this.download_item = NDownLoad.DownLoad.GetInstance().Request("http://bbbproject.sakura.ne.jp/wordpress/wp-content/uploads/2016/06/IMGP8657.jpg");	
+		this.download_item_bg = NDownLoad.DownLoad.GetInstance().Request("http://bbbproject.sakura.ne.jp/wordpress/wp-content/uploads/2016/06/IMGP8657.jpg",NDownLoad.DataType.Texture);
+		this.download_item_text = NDownLoad.DownLoad.GetInstance().Request("http://bbbproject.sakura.ne.jp/wordpress/gallery",NDownLoad.DataType.Text);
 	}
 
 	/** Update
@@ -64,8 +66,8 @@ public class test03 : main_base
 		//ダウンロード。
 		NDownLoad.DownLoad.GetInstance().Main();
 
-		if(this.download_item != null){
-			switch(this.download_item.GetDataType()){
+		if(this.download_item_bg != null){
+			switch(this.download_item_bg.GetDataType()){
 			case NDownLoad.DataType.None:
 				{
 					//ダウンロード中。
@@ -73,19 +75,25 @@ public class test03 : main_base
 			case NDownLoad.DataType.Texture:
 				{
 					//ダウンロード完了。
-					this.sprite.SetTexture(this.download_item.GetResultTexture());
-					this.download_item = null;
+					this.sprite.SetTexture(this.download_item_bg.GetResultTexture());
+					this.download_item_bg = null;
 				}break;
 			case NDownLoad.DataType.Error:
 				{
 					//ダウンロード失敗。
-					this.download_item = null;
+					this.download_item_bg = null;
 				}break;
 			default:
 				{
 					//不明なタイプ。
-					this.download_item = null;
+					this.download_item_bg = null;
 				}break;
+			}
+		}
+
+		if(this.download_item_text != null){
+			if(this.download_item_text.IsBusy() == false){
+				this.download_item_text = null;
 			}
 		}
 	}

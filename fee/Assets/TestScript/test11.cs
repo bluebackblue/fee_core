@@ -84,16 +84,18 @@ public class test11 : main_base
 
 		//ダウンロードリクエスト。
 		{
-			#if(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/StandaloneWindows/";
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
+	
+			#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
+			t_url += "StandaloneWindows/";
 			#elif(UNITY_WEBGL)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/WebGL/";
+			t_url += "WebGL/";
 			#elif(UNITY_ANDROID)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Android/";
+			t_url += "Android/";
 			#elif(UNITY_IOS)
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/iOS/";
+			t_url += "iOS/";
 			#else
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/StandaloneWindows/";
+			t_url += "StandaloneWindows/";
 			#endif
 
 			this.download_bgm_a = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
@@ -155,7 +157,7 @@ public class test11 : main_base
 
 		if(this.download_bgm_b != null){
 			if(this.download_bgm_b.IsBusy() == false){
-				download_bgm_b = null;
+				this.download_bgm_b = null;
 			}
 		}
 	}

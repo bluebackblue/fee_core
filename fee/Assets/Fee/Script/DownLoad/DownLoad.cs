@@ -108,23 +108,23 @@ namespace NDownLoad
 
 		/** リクエスト。
 		*/
-		public Item Request(string a_url)
+		public Item Request(string a_url,DataType a_datatype)
 		{
-			Work t_work = new Work(a_url,false,-1,Config.INVALID_ASSSETBUNDLE_ID);
+			Work t_work = new Work(a_url,a_datatype,0,Config.INVALID_ASSSETBUNDLE_ID);
 			this.work_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。アセットバンドル。
 
-		a_url            : アドレス。
-		a_assetbundle_id : 重複チェック用のＩＤ。
-		a_cache_version  : 再ダウンロードチェック用のバージョン値。
+		a_url                 : アドレス。
+		a_assetbundle_id      : 重複チェック用のＩＤ。
+		a_assetbundle_version : 再ダウンロードチェック用のバージョン値。
 
 		*/
-		public Item RequestAssetBundle(string a_url,long a_assetbundle_id,int a_cache_version)
+		public Item RequestAssetBundle(string a_url,long a_assetbundle_id,uint a_assetbundle_version)
 		{
-			Work t_work = new Work(a_url,true,a_cache_version,a_assetbundle_id);
+			Work t_work = new Work(a_url,DataType.AssetBundle,a_assetbundle_version,a_assetbundle_id);
 			this.work_list.Add(t_work);
 			return t_work.GetItem();
 		}

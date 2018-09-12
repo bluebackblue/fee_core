@@ -36,6 +36,12 @@ namespace NNetwork
 		*/
 		private Photon.Pun.PhotonView photon_view;
 
+		/** [内部からの呼び出し]リモートコールキー。
+		*/
+		public enum Raw_RemoteCallKey
+		{
+		};
+
 		/** 開始。
 		*/
 		void Start()
@@ -52,8 +58,17 @@ namespace NNetwork
 			//photon_view
 			this.photon_view = this.GetComponent<Photon.Pun.PhotonView>();
 
-			//is_mine
-			this.is_mine = this.photon_view.IsMine;
+			#if USE_PUN
+			{
+				//is_mine
+				this.is_mine = this.photon_view.IsMine;
+			}
+			#else
+			{
+				//is_mine
+				this.is_mine = true;
+			}
+			#endif
 
 			//playerlist_index
 			this.playerlist_index = -1;
@@ -80,14 +95,6 @@ namespace NNetwork
 
 			NNetwork.Network.GetInstance().RemovePlayer(this);
 		}
-
-		/** OnPhotonSerializeView
-		*/
-		/*
-		public void OnPhotonSerializeView(Photon.Pun.PhotonStream a_stream,Photon.Pun.PhotonMessageInfo a_info)
-		{
-		}
-		*/
 
 		/** 位置。取得。
 		*/
@@ -138,44 +145,110 @@ namespace NNetwork
 			return this.is_mine;
 		}
 
-		/** 受信。
+		/** ニックネーム。取得。
+		*/
+		public string GetNickName()
+		{
+			#if USE_PUN
+			return this.photon_view.Owner.NickName;
+			#else
+			return "";
+			#endif
+		}
+
+		/** ユニークID。取得。
+		*/
+		public string GetUniqueID()
+		{
+			#if USE_PUN
+			return this.photon_view.Owner.UserId;
+			#else
+			return return this.GetHashCode().ToString();
+			#endif
+		}
+
+		/** マスタークライアント。
+		*/
+		public bool IsMasterClient()
+		{
+			#if USE_PUN
+			return this.photon_view.Owner.IsMasterClient;
+			#else
+			return true;
+			#endif
+		}
+
+		/** [内部からの呼び出し]リモートコール。受信。
+		*/
+		[Photon.Pun.PunRPC]
+		public void Raw_Recv(Raw_RemoteCallKey a_key,int a_value)
+		{
+		}
+
+		/** [内部からの呼び出し]リモートコール。マスタークライアント。
+		*/
+		public void Raw_RemoteCall_MasterClient(Raw_RemoteCallKey a_key,int a_value)
+		{
+			#if USE_PUN
+			if(this.photon_view != null){
+				this.photon_view.RPC("Raw_Recv",Photon.Pun.RpcTarget.MasterClient,a_key,a_value);
+			}
+			#endif
+		}
+
+		/** [内部からの呼び出し]リモートコール。全員。
+		*/
+		public void Raw_RemoteCall_All(Raw_RemoteCallKey a_key,int a_value)
+		{
+			#if USE_PUN
+			if(this.photon_view != null){
+				this.photon_view.RPC("Raw_Recv",Photon.Pun.RpcTarget.All,a_key,a_value);
+			}
+			#endif
+		}
+
+		/** リモートコール。受信。
 		*/
 		[Photon.Pun.PunRPC]
 		public void RecvInt(int a_key,int a_value)
 		{
-			OnRecvCallBack_Base t_callback = NNetwork.Network.GetInstance().GetRecvCallBack();
+			OnRemoteCallBack_Base t_callback = NNetwork.Network.GetInstance().GetRecvCallBack();
 			if(t_callback != null){
-				t_callback.OnRecvInt(this.playerlist_index,a_key,a_value);
+				t_callback.OnRemoteCallInt(this.playerlist_index,a_key,a_value);
 			}
 		}
 
-		/** 受信。
+		/** リモートコール。受信。
 		*/
 		[Photon.Pun.PunRPC]
 		public void RecvString(int a_key,string a_value)
 		{
-			OnRecvCallBack_Base t_callback = NNetwork.Network.GetInstance().GetRecvCallBack();
+			OnRemoteCallBack_Base t_callback = NNetwork.Network.GetInstance().GetRecvCallBack();
 			if(t_callback != null){
-				t_callback.OnRecvString(this.playerlist_index,a_key,a_value);
+				t_callback.OnRemoteCallString(this.playerlist_index,a_key,a_value);
 			}
 		}
 
-		/** 送信。
+		/** リモートコール。
 		*/
-		public void SendInt(int a_key,int a_value)
+		public void RemoteCallInt(int a_key,int a_value)
 		{
+			#if USE_PUN
 			if(this.photon_view != null){
 				this.photon_view.RPC("RecvInt",Photon.Pun.RpcTarget.All,a_key,a_value);
 			}
+			#endif
 		}
 
-		/** 送信。
+		/** リモートコール。
 		*/
-		public void SendString(int a_key,string a_value)
+		public void RemoteCallString(int a_key,string a_value)
 		{
+			#if USE_PUN
 			if(this.photon_view != null){
 				this.photon_view.RPC("RecvString",Photon.Pun.RpcTarget.All,a_key,a_value);
 			}
+			#endif
 		}
 	}
 }

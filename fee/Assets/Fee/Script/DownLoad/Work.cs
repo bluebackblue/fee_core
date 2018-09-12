@@ -45,13 +45,13 @@ namespace NDownLoad
 		*/
 		private string url;
 
-		/** cache
+		/** datatype
 		*/
-		private bool cache;
+		private DataType datatype;
 
-		/** cache_version
+		/** assetbundle_version
 		*/
-		private int cache_version;
+		private uint assetbundle_version;
 
 		/** assetbundle_id
 		*/
@@ -63,7 +63,7 @@ namespace NDownLoad
 
 		/** constructor
 		*/
-		public Work(string a_url,bool a_cache,int a_cache_version,long a_assetbundle_id)
+		public Work(string a_url,DataType a_datatype,uint a_assetbundle_version,long a_assetbundle_id)
 		{
 			//mode
 			this.mode = Mode.Start;
@@ -71,11 +71,11 @@ namespace NDownLoad
 			//url
 			this.url = a_url;
 
-			//cache
-			this.cache = a_cache;
+			//datatype
+			this.datatype = a_datatype;
 
-			//cache_version
-			this.cache_version = a_cache_version;
+			//assetbundle_version
+			this.assetbundle_version = a_assetbundle_version;
 
 			//assetbundle_id
 			this.assetbundle_id = a_assetbundle_id;
@@ -113,7 +113,7 @@ namespace NDownLoad
 					}
 
 					if(t_assetbundle == null){
-						if(t_www.Request(this.url,this.cache,this.cache_version,this.assetbundle_id) == true){
+						if(t_www.Request(this.url,this.datatype,this.assetbundle_version,this.assetbundle_id) == true){
 							//開始。
 							this.mode = Mode.Do;
 						}

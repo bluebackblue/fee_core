@@ -90,7 +90,7 @@ namespace NNetwork
 
 		/** recv_callback
 		*/
-		private OnRecvCallBack_Base recv_callback;
+		private OnRemoteCallBack_Base recv_callback;
 
 		/** [シングルトン]constructor
 		*/
@@ -222,14 +222,14 @@ namespace NNetwork
 
 		/** 受信コールバック。設定。
 		*/
-		public void SetRecvCallBack(OnRecvCallBack_Base a_callback)
+		public void SetRecvCallBack(OnRemoteCallBack_Base a_callback)
 		{
 			this.recv_callback = a_callback;
 		}
 
 		/** 受信コールバック。取得。
 		*/
-		public OnRecvCallBack_Base GetRecvCallBack()
+		public OnRemoteCallBack_Base GetRecvCallBack()
 		{
 			return this.recv_callback;
 		}

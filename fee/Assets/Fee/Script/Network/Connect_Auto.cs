@@ -229,7 +229,8 @@ namespace NNetwork
 
 					Photon.Realtime.RoomOptions t_room_optopm = new Photon.Realtime.RoomOptions();
 					{
-						t_room_optopm.MaxPlayers = 3;
+						t_room_optopm.MaxPlayers = 3;	
+						t_room_optopm.PublishUserId = true;
 					}
 
 					Photon.Pun.PhotonNetwork.CreateRoom(null,t_room_optopm);
@@ -329,7 +330,9 @@ namespace NNetwork
 					//切断完了。
 
 					if(NNetwork.Network.GetInstance().IsDisconnectRequest() == true){
-						this.SetMode(Mode.End);
+						if(NNetwork.Network.GetInstance().GetPlayerList().Count == 0){
+							this.SetMode(Mode.End);
+						}
 					}
 				}break;
 			case Mode.End:
