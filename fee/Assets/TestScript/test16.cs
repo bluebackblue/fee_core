@@ -40,10 +40,6 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 	*/
 	private NUi.Button end_button;
 
-	/** 自分。
-	*/
-	private NNetwork.PlayerPrefab my_playerprefab;
-
 	/** Mode
 	*/
 	private enum Mode
@@ -80,8 +76,8 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 	{
 		Debug.Log("OnRecvInt : " + a_playerlist_index.ToString() + " : " + a_key.ToString() + " : " + a_value.ToString());
 
-		NNetwork.PlayerPrefab t_playerprefab = NNetwork.Network.GetInstance().GetPlayerPrefab(a_playerlist_index);
-		if(t_playerprefab != null){
+		NNetwork.Player t_player = NNetwork.Network.GetInstance().GetPlayer(a_playerlist_index);
+		if(t_player != null){
 			if(a_value == 0){
 				//白。
 				this.player_list[a_playerlist_index].GetComponent<MeshRenderer>().material.color = Color.white;
@@ -119,6 +115,7 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 		NEventPlate.EventPlate.CreateInstance();
 
 		//ネットワーク。インスタンス作成。
+		NNetwork.Config.LOG_ENABLE = true;
 		NNetwork.Network.CreateInstance();
 		NNetwork.Network.GetInstance().SetRecvCallBack(this);
 
@@ -200,9 +197,6 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 			this.end_button.SetVisible(false);
 		}
 
-		//my_playerprefab
-		this.my_playerprefab = null;
-
 		//mode
 		this.mode = Mode.Init;
 
@@ -245,7 +239,6 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 		NUi.Ui.GetInstance().Main();
 
 		//ネットワーク。
-		NNetwork.Config.LOG_ENABLE = true;
 		NNetwork.Network.GetInstance().Main();
 
 		switch(this.mode){
@@ -275,22 +268,16 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 				this.start_button.SetVisible(false);
 				this.end_button.SetVisible(true);
 
-				//自分。
-				this.my_playerprefab = null;
-
 				this.mode = Mode.Do;
 			}break;
 		case Mode.Do:
 			{
-				List<NNetwork.PlayerPrefab> t_list = NNetwork.Network.GetInstance().GetPlayerList();
+				List<NNetwork.Player> t_list = NNetwork.Network.GetInstance().GetPlayerList();
+				NNetwork.Player t_myplayer = NNetwork.Network.GetInstance().GetMyPlayer();
 
 				this.status_text.SetText("Mode.Do : " + t_list.Count.ToString());
 
-				if(this.my_playerprefab == null){
-					//自分のプレイヤプレハブ。
-					this.my_playerprefab = NNetwork.Network.GetInstance().GetMyPlayerPrefab();
-				}else{
-
+				{
 					if(NInput.Mouse.GetInstance().right.down == true){
 						switch(this.inputmode){
 						case InputMode.Position:
@@ -308,6 +295,8 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 						}
 					}
 
+					
+
 					if(NInput.Mouse.GetInstance().left.down == true){
 						switch(this.inputmode){
 						case InputMode.Position:
@@ -315,51 +304,58 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 								float t_x = ((float)NInput.Mouse.GetInstance().pos.x - NRender2D.Render2D.VIRTUAL_W / 2) / 100;
 								float t_y = ((float)NInput.Mouse.GetInstance().pos.y - NRender2D.Render2D.VIRTUAL_H / 2) / 100;
 
-								this.my_playerprefab.SetPosition(t_x,t_y,0.0f);
+								if(t_myplayer != null){
+									t_myplayer.SetPosition(t_x,t_y,0.0f);
+								}
 							}break;
 						case InputMode.Rotate:
 							{
 								float t_angle = NInput.Mouse.GetInstance().pos.x;
 
 								Quaternion t_q = Quaternion.AngleAxis(t_angle,new Vector3(0.0f,1.0f,0.0f));
-								this.my_playerprefab.SetQuaternion(ref t_q);
+
+								if(t_myplayer != null){
+									t_myplayer.SetQuaternion(ref t_q);
+								}
 							}break;
 						case InputMode.Scale:
 							{
 								float t_x = 1.0f + (float)NInput.Mouse.GetInstance().pos.x / NRender2D.Render2D.VIRTUAL_W;
 								float t_y = 1.0f + (float)NInput.Mouse.GetInstance().pos.y / NRender2D.Render2D.VIRTUAL_H;
 
-								this.my_playerprefab.SetScale(t_x,t_y,1.0f);
+								if(t_myplayer != null){
+									t_myplayer.SetScale(t_x,t_y,1.0f);
+								}
 							}break;
 						}
 					}
 
 					//■送信。
 					if(NInput.Key.GetInstance().enter.down == true){
-						if(this.my_playerprefab != null){
+						if(t_myplayer != null){
 							//自分赤。
-							this.my_playerprefab.SendInt(999,1);
-							this.my_playerprefab.SendString(777,"red");
+							t_myplayer.SendInt(999,1);
+							t_myplayer.SendString(777,"red");
 						}
 					}else if(NInput.Key.GetInstance().escape.down == true){
-						if(this.my_playerprefab != null){
+						if(t_myplayer != null){
 							//自分白。
-							this.my_playerprefab.SendInt(999,0);
+							t_myplayer.SendInt(999,0);
 						}
 					}
 
 					if(NInput.Key.GetInstance().sub1.down == true){
 						//全部赤。
 
-						List<NNetwork.PlayerPrefab> t_player_prefab_list = NNetwork.Network.GetInstance().GetPlayerList();
-						for(int ii=0;ii<t_player_prefab_list.Count;ii++){
-							t_player_prefab_list[ii].SendInt(888,1);
+						List<NNetwork.Player> t_player_list = NNetwork.Network.GetInstance().GetPlayerList();
+						for(int ii=0;ii<t_player_list.Count;ii++){
+							t_player_list[ii].SendInt(888,1);
 						}
 					}else if(NInput.Key.GetInstance().sub2.down == true){
 						//全部白。
-						List<NNetwork.PlayerPrefab> t_player_prefab_list = NNetwork.Network.GetInstance().GetPlayerList();
-						for(int ii=0;ii<t_player_prefab_list.Count;ii++){
-							t_player_prefab_list[ii].SendInt(888,0);
+						List<NNetwork.Player> t_player_list = NNetwork.Network.GetInstance().GetPlayerList();
+						for(int ii=0;ii<t_player_list.Count;ii++){
+							t_player_list[ii].SendInt(888,0);
 						}
 					}
 				}
@@ -403,8 +399,6 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 
 				//ボタン。
 				this.end_button.SetVisible(false);
-
-				this.my_playerprefab = null;
 
 				this.mode = Mode.DisConnectNow;
 			}break;

@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ネットワーク。
+ * @brief ネットワーク。プレイヤー
 */
 
 
@@ -16,9 +16,9 @@ using UnityEngine;
 */
 namespace NNetwork
 {
-	/** PlayerPrefab
+	/** Player
 	*/
-	public class PlayerPrefab : Photon.MonoBehaviour
+	public class Player : Photon.Pun.MonoBehaviourPun /* , Photon.Pun.IPunObservable*/
 	{
 		/** トランスフォーム。
 		*/
@@ -34,13 +34,13 @@ namespace NNetwork
 
 		/** photon_view
 		*/
-		private PhotonView photon_view;
+		private Photon.Pun.PhotonView photon_view;
 
 		/** 開始。
 		*/
 		void Start()
 		{
-			Tool.Log("PlayerPrefab", "Start");
+			Tool.Log("Player", "Start");
 
 			//トランスフォーム。
 			this.mytransform = this.GetComponent<Transform>();
@@ -49,27 +49,45 @@ namespace NNetwork
 			Transform t_root = NNetwork.Network.GetInstance().GetRoot();
 			this.GetComponent<Transform>().SetParent(t_root);
 
-			//プレイヤインデックス取得。
-			this.playerlist_index = NNetwork.Network.GetInstance().AddPlayerPrefab(this);
-
-			//名前設定。
-			this.name = "PlayerPrefab_" + this.playerlist_index.ToString();
-
 			//photon_view
-			this.photon_view = this.GetComponent<PhotonView>();
+			this.photon_view = this.GetComponent<Photon.Pun.PhotonView>();
 
 			//is_mine
-			this.is_mine = photon_view.isMine;
+			this.is_mine = this.photon_view.IsMine;
+
+			//playerlist_index
+			this.playerlist_index = -1;
+
+			//this.name
+			this.name = "Player";
+
+			{
+				//プレイヤ－インデックス取得。
+				this.playerlist_index = NNetwork.Network.GetInstance().AddPlayer(this);
+
+				//名前設定。
+				if(this.playerlist_index >= 0){
+					this.name = "Player_" + this.playerlist_index.ToString();
+				}
+			}
 		}
 
 		/** 削除。
 		*/
 		private void OnDestroy()
 		{
-			Tool.Log("PlayerPrefab","OnDestroy");
+			Tool.Log("Player","OnDestroy");
 
-			NNetwork.Network.GetInstance().RemovePlayerPrefab(this);
+			NNetwork.Network.GetInstance().RemovePlayer(this);
 		}
+
+		/** OnPhotonSerializeView
+		*/
+		/*
+		public void OnPhotonSerializeView(Photon.Pun.PhotonStream a_stream,Photon.Pun.PhotonMessageInfo a_info)
+		{
+		}
+		*/
 
 		/** 位置。取得。
 		*/
@@ -122,7 +140,7 @@ namespace NNetwork
 
 		/** 受信。
 		*/
-		[PunRPC]
+		[Photon.Pun.PunRPC]
 		public void RecvInt(int a_key,int a_value)
 		{
 			OnRecvCallBack_Base t_callback = NNetwork.Network.GetInstance().GetRecvCallBack();
@@ -133,7 +151,7 @@ namespace NNetwork
 
 		/** 受信。
 		*/
-		[PunRPC]
+		[Photon.Pun.PunRPC]
 		public void RecvString(int a_key,string a_value)
 		{
 			OnRecvCallBack_Base t_callback = NNetwork.Network.GetInstance().GetRecvCallBack();
@@ -147,7 +165,7 @@ namespace NNetwork
 		public void SendInt(int a_key,int a_value)
 		{
 			if(this.photon_view != null){
-				this.photon_view.RPC("RecvInt",PhotonTargets.All,a_key,a_value);
+				this.photon_view.RPC("RecvInt",Photon.Pun.RpcTarget.All,a_key,a_value);
 			}
 		}
 
@@ -156,7 +174,7 @@ namespace NNetwork
 		public void SendString(int a_key,string a_value)
 		{
 			if(this.photon_view != null){
-				this.photon_view.RPC("RecvString",PhotonTargets.All,a_key,a_value);
+				this.photon_view.RPC("RecvString",Photon.Pun.RpcTarget.All,a_key,a_value);
 			}
 		}
 	}

@@ -56,8 +56,8 @@ namespace NNetwork
 		{
 			None,
 
-			//ランダムルーム自動接続。
-			AutoJoinRandomRoom,
+			//自動接続。
+			Connect_Auto,
 
 			//リセット。
 			Reset,
@@ -67,9 +67,9 @@ namespace NNetwork
 		*/
 		private Mode mode;
 
-		/** control_autojoinrandomroom
+		/** connect_auto
 		*/
-		private AutoJoinRandomRoom control_autojoinrandomroom;
+		private Connect_Auto connect_auto;
 
 		/** ルート。
 		*/
@@ -82,7 +82,11 @@ namespace NNetwork
 
 		/** player_list
 		*/
-		private List<PlayerPrefab> player_list;
+		private List<Player> player_list;
+
+		/** my_player
+		*/
+		private Player my_player;
 
 		/** recv_callback
 		*/
@@ -95,8 +99,8 @@ namespace NNetwork
 			//mode
 			this.mode = Mode.None;
 
-			//control_autojoinrandomroom
-			this.control_autojoinrandomroom = null;
+			//connect_auto
+			this.connect_auto = null;
 
 			//ルート。
 			this.root_gameobject = new GameObject();
@@ -108,7 +112,10 @@ namespace NNetwork
 			this.disconnect_request = false;
 
 			//player_list
-			this.player_list = new List<PlayerPrefab>();
+			this.player_list = new List<Player>();
+
+			//my_player
+			this.my_player = null;
 
 			//recv_callback
 			this.recv_callback = null;
@@ -133,9 +140,9 @@ namespace NNetwork
 		public void Start_AutoJoinRandomRoom()
 		{
 			if(this.mode == Mode.None){
-				this.mode = Mode.AutoJoinRandomRoom;
+				this.mode = Mode.Connect_Auto;
 				this.disconnect_request = false;
-				this.control_autojoinrandomroom = new AutoJoinRandomRoom();
+				this.connect_auto = new Connect_Auto();
 			}
 		}
 
@@ -163,16 +170,16 @@ namespace NNetwork
 			return true;
 		}
 
-		/** プレイヤプレハブリスト。取得。
+		/** プレイヤープレハブリスト。取得。
 		*/
-		public List<NNetwork.PlayerPrefab> GetPlayerList()
+		public List<NNetwork.Player> GetPlayerList()
 		{
 			return this.player_list;
 		}
 
-		/** プレイヤプレハブ。取得。
+		/** プレイヤー。取得。
 		*/
-		public NNetwork.PlayerPrefab GetPlayerPrefab(int a_playerindex)
+		public NNetwork.Player GetPlayer(int a_playerindex)
 		{
 			if((0<=a_playerindex)&&(a_playerindex<this.player_list.Count)){
 				return this.player_list[a_playerindex];
@@ -180,33 +187,37 @@ namespace NNetwork
 			return null;
 		}
 
-		/** 自分のプレイヤプレハブ。取得。
+		/** 自分のプレイヤープレハブ。取得。
 		*/
-		public NNetwork.PlayerPrefab GetMyPlayerPrefab()
+		public NNetwork.Player GetMyPlayer()
 		{
-			for(int ii=0;ii<this.player_list.Count;ii++){
-				if(this.player_list[ii].IsMine() == true){
-					return this.player_list[ii];
+			return this.my_player;
+		}
+
+		/** プレイヤ‐プレハブ。追加。
+		*/
+		public int AddPlayer(NNetwork.Player a_player)
+		{
+			if(a_player != null){
+				if(a_player.IsMine() == true){
+					this.my_player = a_player;
 				}
 			}
 
-			return null;
-		}
-
-		/** プレイヤプレハブ。追加。
-		*/
-		public int AddPlayerPrefab(NNetwork.PlayerPrefab a_player_prefab)
-		{
-			this.player_list.Add(a_player_prefab);
+			this.player_list.Add(a_player);
 			int t_playerlist_index = this.player_list.Count - 1;
 			return t_playerlist_index;
 		}
 
-		/** プレイヤプレハブ。削除。
+		/** プレイヤープレハブ。削除。
 		*/
-		public void RemovePlayerPrefab(NNetwork.PlayerPrefab a_player_prefab)
+		public void RemovePlayer(NNetwork.Player a_player)
 		{
-			this.player_list.Remove(a_player_prefab);
+			if(this.my_player == a_player){
+				this.my_player = null;
+			}
+
+			this.player_list.Remove(a_player);
 		}
 
 		/** 受信コールバック。設定。
@@ -228,12 +239,12 @@ namespace NNetwork
 		public void Main()
 		{
 			switch(this.mode){
-			case Mode.AutoJoinRandomRoom:
+			case Mode.Connect_Auto:
 				{
-					//ランダムルーム自動接続。
+					//自動接続。
 
-					if(this.control_autojoinrandomroom.Main() == false){
-						this.control_autojoinrandomroom = null;
+					if(this.connect_auto.Main() == false){
+						this.connect_auto = null;
 						this.mode = Mode.Reset;
 					}
 				}break;
@@ -241,6 +252,7 @@ namespace NNetwork
 				{
 					//リセット。
 
+					this.my_player = null;
 					this.player_list.Clear();
 					this.mode = Mode.None;
 				}break;

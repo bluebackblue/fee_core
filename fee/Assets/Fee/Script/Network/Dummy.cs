@@ -8,11 +8,11 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ネットワーク。
+ * @brief ネットワーク。ダミー。
 */
 
 
-#if USE_PHOTON
+#if true
 #else
 
 /** PunRPC
