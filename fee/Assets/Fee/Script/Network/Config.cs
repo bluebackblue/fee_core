@@ -34,7 +34,7 @@ namespace NNetwork
 
 		/** プレハブ名。
 		*/
-		public static string PREFAB_NAME_PLAYER = "Prefab/Network/player";
+		public static string PREFAB_NAME_PLAYER = "Prefab/Network/Player";
 	}
 }
 

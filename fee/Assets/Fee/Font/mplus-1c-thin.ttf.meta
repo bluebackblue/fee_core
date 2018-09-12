@@ -11,7 +11,10 @@ TrueTypeFontImporter:
   fontName: M+ 1c
   fontNames:
   - M+ 1c
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 19eea787f5181b0439f6f0998427800a, type: 3}
+  - {fileID: 12800000, guid: 33313b883672ca1428cc3fbdcccf9849, type: 3}
+  - {fileID: 12800000, guid: 15aed9ee6adb9dc408b95db918d4a5d5, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

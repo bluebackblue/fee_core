@@ -295,8 +295,6 @@ public class test16 : main_base , NNetwork.OnRecvCallBack_Base
 						}
 					}
 
-					
-
 					if(NInput.Mouse.GetInstance().left.down == true){
 						switch(this.inputmode){
 						case InputMode.Position:

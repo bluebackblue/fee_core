@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Slice9
   m_Shader: {fileID: 4800000, guid: 1797d892aa83ac94695270bdd2bf8944, type: 3}
   m_ShaderKeywords: 

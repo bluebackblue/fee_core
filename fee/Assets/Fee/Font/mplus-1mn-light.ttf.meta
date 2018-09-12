@@ -11,7 +11,8 @@ TrueTypeFontImporter:
   fontName: M+ 1mn
   fontNames:
   - M+ 1mn
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 378a4863f45c92440b9cdf63c4ea4b3c, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

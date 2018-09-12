@@ -21,11 +21,11 @@ public class test09 : main_base
 {
 	/** 削除管理。
 	*/
-	NDeleter.Deleter deleter;
+	private NDeleter.Deleter deleter;
 
 	/** ボタン。
 	*/
-	NUi.Button button;
+	private NUi.Button button;
 
 	/** タイム。
 	*/
