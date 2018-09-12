@@ -14,7 +14,7 @@ using UnityEngine;
 
 /** NNetwork
 */
-#if USE_PHOTON
+#if USE_PUN
 namespace NNetwork
 {
 	/** Connect_Auto
