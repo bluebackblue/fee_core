@@ -12,56 +12,53 @@ using UnityEngine;
 */
 
 
-#if true
+#if USE_PUN
 #else
 
-/** PunRPC
-*/
-public class PunRPC : System.Attribute
+namespace Photon.Pun
 {
-}
-
-/** PhotonView
-*/
-public class PhotonView
-{
-	/** isMine
+	/** MonoBehaviourPun
 	*/
-	public bool isMine;
+	public class MonoBehaviourPun : UnityEngine.MonoBehaviour
+	{
+	}
 
-	/** RPC
+	/** RpcTarget
 	*/
-	public void RPC(params object[] a_list)
+	public enum RpcTarget
+	{
+		All,
+	};
+
+	/** PhotonView
+	*/
+	public class PhotonView
+	{
+		/** IsMine
+		*/
+		public bool IsMine;
+
+		/** RPC
+		*/
+		public void RPC(params object[] a_list){}
+	}
+
+	/** PunRPC
+	*/
+	class PunRPC : System.Attribute
 	{
 	}
 }
 
-/** PhotonTargets
-*/
-public enum PhotonTargets
+namespace NNetwork
 {
-	All,
-}
-
-/** PhotonNetwork
-*/
-public class PhotonNetwork
-{
-	/** Instantiate
+	/** Connect_Auto
 	*/
-	public static void Instantiate(params object[] a_list)
+	public class Connect_Auto
 	{
-	}
-}
-
-/** Photon
-*/
-namespace Photon
-{
-	/** MonoBehaviour
-	*/
-	public class MonoBehaviour : UnityEngine.MonoBehaviour
-	{
+		/** Main
+		*/
+		public bool Main(){return false;}
 	}
 }
 

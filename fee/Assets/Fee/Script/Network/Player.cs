@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ネットワーク。プレイヤー
+ * @brief ネットワーク。プレイヤー。
 */
 
 
@@ -18,7 +18,7 @@ namespace NNetwork
 {
 	/** Player
 	*/
-	public class Player : Photon.Pun.MonoBehaviourPun /* , Photon.Pun.IPunObservable*/
+	public class Player : Photon.Pun.MonoBehaviourPun
 	{
 		/** トランスフォーム。
 		*/
