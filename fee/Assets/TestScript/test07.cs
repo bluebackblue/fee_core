@@ -73,7 +73,7 @@ public class test07 : main_base , NEventPlate.OnOverCallBack_Base
 			this.sprite[ii].SetTexture(Texture2D.whiteTexture);
 			this.sprite[ii].SetRect(100*(ii + 1),100*(ii + 1),200,200);
 
-			this.eventplate[ii] = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,t_drawpriority);
+			this.eventplate[ii] = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,t_drawpriority + ii);
 			this.eventplate[ii].SetRect(this.sprite[ii].GetX(),this.sprite[ii].GetY(),this.sprite[ii].GetW(),this.sprite[ii].GetH());
 			this.eventplate[ii].SetOnOverCallBackValue(ii);
 			this.eventplate[ii].SetOnOverCallBack(this);
