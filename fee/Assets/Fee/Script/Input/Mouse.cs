@@ -141,6 +141,7 @@ namespace NInput
 						this.right.Set(t_r_on);
 						this.middle.Set(t_m_on);
 					}else{
+						//設定。
 						this.left.Set(false);
 						this.right.Set(false);
 						this.middle.Set(false);
@@ -150,11 +151,14 @@ namespace NInput
 				//マウスホイール。
 				{
 					if(t_mouse_current != null){
+						//デバイス。
 						int t_x = (int)UnityEngine.Experimental.Input.Mouse.current.scroll.ReadValue().x;
 						int t_y = (int)UnityEngine.Experimental.Input.Mouse.current.scroll.ReadValue().y;
 
+						//設定。
 						this.mouse_wheel.Set(t_x,t_y);
 					}else{
+						//設定。
 						this.mouse_wheel.Set(0,0);
 					}
 

@@ -63,8 +63,8 @@ public class main : MonoBehaviour
 		//キー。
 		NInput.Key.DeleteInstance();
 
-		//ジョイスティック。
-		NInput.Joy.DeleteInstance();
+		//パッド。
+		NInput.Pad.DeleteInstance();
 
 		//２Ｄ描画。インスタンス削除。
 		NRender2D.Render2D.DeleteInstance();

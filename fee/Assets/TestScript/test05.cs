@@ -35,11 +35,11 @@ public class test05 : main_base
 
 	/** テキスト。
 	*/
-	private NRender2D.Text2D text_joy;
+	private NRender2D.Text2D text_key;
 
 	/** テキスト。
 	*/
-	private NRender2D.Text2D text_key;
+	private NRender2D.Text2D text_pad;
 
 	/** Start
 	*/
@@ -51,11 +51,11 @@ public class test05 : main_base
 		//マウス。インスタンス作成。
 		NInput.Mouse.CreateInstance();
 
-		//ジョイスティック。インスタンス作成。
-		NInput.Joy.CreateInstance();
-
 		//キー。インスタンス作成。
 		NInput.Key.CreateInstance();
+
+		//パッド。インスタンス作成。
+		NInput.Pad.CreateInstance();
 
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
@@ -76,14 +76,14 @@ public class test05 : main_base
 		this.text_mouse.SetFontSize(30);
 
 		//テキスト。
-		this.text_joy = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.text_joy.SetRect(10,200 + 50 * 1,0,0);
-		this.text_joy.SetFontSize(30);
+		this.text_key = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
+		this.text_key.SetRect(10,200 + 50 * 1,0,0);
+		this.text_key.SetFontSize(30);
 
 		//テキスト。
-		this.text_key = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.text_key.SetRect(10,200 + 50 * 2,0,0);
-		this.text_key.SetFontSize(30);
+		this.text_pad = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
+		this.text_pad.SetRect(10,200 + 50 * 2,0,0);
+		this.text_pad.SetFontSize(30);
 	}
 
 	/** Update
@@ -93,11 +93,11 @@ public class test05 : main_base
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
 
-		//ジョイスティック。
-		NInput.Joy.GetInstance().Main();
-
 		//キー。
 		NInput.Key.GetInstance().Main();
+
+		//パッド。
+		NInput.Pad.GetInstance().Main();
 
 		//マウス位置。
 		{
@@ -111,61 +111,6 @@ public class test05 : main_base
 			t_text += NInput.Mouse.GetInstance().middle.on.ToString() + " ";
 
 			this.text_mouse.SetText(t_text);
-		}
-
-		//ジョイスティック。
-		{
-			string t_text = "";
-
-			if(NInput.Joy.GetInstance().enter.on == true){
-				t_text += "[o]";
-			}else{
-				t_text += "[ ]";
-			}
-
-			if(NInput.Joy.GetInstance().escape.on == true){
-				t_text += "[o]";
-			}else{
-				t_text += "[ ]";
-			}
-
-			if(NInput.Joy.GetInstance().sub1.on == true){
-				t_text += "[o]";
-			}else{
-				t_text += "[ ]";
-			}
-
-			if(NInput.Joy.GetInstance().sub2.on == true){
-				t_text += "[o]";
-			}else{
-				t_text += "[ ]";
-			}
-
-			if(NInput.Joy.GetInstance().left.on == true){
-				t_text += "[o]";
-			}else{
-				t_text += "[ ]";
-			}
-
-			if(NInput.Joy.GetInstance().right.on == true){
-				t_text += "[o]";
-			}else{
-				t_text += "[ ]";
-			}
-
-			if(NInput.Joy.GetInstance().up.on == true){
-				t_text += "[o]";
-			}else{
-				t_text += "[ ]";
-			}
-
-			if(NInput.Joy.GetInstance().down.on == true){
-				t_text += "[o]";
-			}else{
-				t_text += "[ ]";
-			}
-
-			this.text_joy.SetText(t_text);
 		}
 
 		//キー。
@@ -222,6 +167,82 @@ public class test05 : main_base
 
 			this.text_key.SetText(t_text);
 		}
+
+		//パッド。
+		{
+			string t_text = "";
+
+			if(NInput.Pad.GetInstance().enter.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().escape.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().sub1.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().sub2.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().left.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().right.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().up.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().down.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			t_text += "\n";
+
+			if(NInput.Pad.GetInstance().left_stick_button.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().right_stick_button.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			t_text += "\n";
+
+			t_text += ((int)(NInput.Pad.GetInstance().left_stick.x * 100)).ToString() + " " + ((int)(NInput.Pad.GetInstance().left_stick.y * 100)).ToString() + " ";
+			t_text += ((int)(NInput.Pad.GetInstance().right_stick.x * 100)).ToString() + " " + ((int)(NInput.Pad.GetInstance().right_stick.y * 100)).ToString() + " ";
+
+			this.text_pad.SetText(t_text);
+		}
+
+
 	}
 
 	/** 削除前。
@@ -241,12 +262,12 @@ public class test05 : main_base
 	/** 追加。
 	*/
 	#if UNITY_EDITOR
-	[UnityEditor.MenuItem("Test/Test5/MakeInputManager")]
+	[UnityEditor.MenuItem("Test/Test5/EditInputManager")]
 	private static void MakeInputManager()
 	{
-		NInput.InputManage t_inputmaanger = new NInput.InputManage();
+		NInput.EditInputManager t_inputmaanger = new NInput.EditInputManager();
 		{
-			List<NInput.InputManager_Item> t_list = t_inputmaanger.GetList();
+			List<NInput.EditInputManager_Item> t_list = t_inputmaanger.GetList();
 
 			bool t_find_axis6 = false;
 			bool t_find_axis7 = false;
@@ -257,67 +278,67 @@ public class test05 : main_base
 			bool t_find_button3 = false;
 
 			for(int ii=0;ii<t_list.Count;ii++){
-				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_AXIS6){
+				if(t_list[ii].m_Name == "Axis6"){
 					t_find_axis6 = true;
 				}
-				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_AXIS7){
+				if(t_list[ii].m_Name == "Axis7"){
 					t_find_axis7 = true;
 				}
-				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_AXIS8){
+				if(t_list[ii].m_Name == "Axis8"){
 					t_find_axis8 = true;
 				}
-				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_BUTTON0){
+				if(t_list[ii].m_Name == "Button0"){
 					t_find_button0 = true;
 				}
-				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_BUTTON1){
+				if(t_list[ii].m_Name == "Button1"){
 					t_find_button1 = true;
 				}
-				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_BUTTON2){
+				if(t_list[ii].m_Name == "Button2"){
 					t_find_button2 = true;
 				}
-				if(t_list[ii].m_Name == NInput.Input.JOY_INPUTNAME_BUTTON3){
+				if(t_list[ii].m_Name == "Button3"){
 					t_find_button3 = true;
 				}
 			}
 
 			if(t_find_axis6 == false){
-				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
 				t_item.CreateJoyAixs6();
 				t_list.Add(t_item);
 			}
 
 			if(t_find_axis7 == false){
-				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
 				t_item.CreateJoyAixs7();
 				t_list.Add(t_item);
 			}
 
 			if(t_find_axis8 == false){
-				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
 				t_item.CreateJoyAixs8();
 				t_list.Add(t_item);
 			}
 
 			if(t_find_button0 == false){
-				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
 				t_item.CreateJoyButton0();
 				t_list.Add(t_item);
 			}
 
 			if(t_find_button1 == false){
-				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
 				t_item.CreateJoyButton1();
 				t_list.Add(t_item);
 			}
 
 			if(t_find_button2 == false){
-				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
 				t_item.CreateJoyButton2();
 				t_list.Add(t_item);
 			}
 
 			if(t_find_button3 == false){
-				NInput.InputManager_Item t_item = new NInput.InputManager_Item();
+				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
 				t_item.CreateJoyButton3();
 				t_list.Add(t_item);
 			}

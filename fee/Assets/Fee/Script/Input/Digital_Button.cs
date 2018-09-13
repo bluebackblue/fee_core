@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief 入力。キー。
+ * @brief 入力。デジタル。ボタン。
 */
 
 
@@ -16,9 +16,9 @@ using UnityEngine;
 */
 namespace NInput
 {
-	/** Key_Button
+	/** Digital_Button
 	*/
-	public struct Key_Button
+	public struct Digital_Button
 	{
 		/** flag
 		*/

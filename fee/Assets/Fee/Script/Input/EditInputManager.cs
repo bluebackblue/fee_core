@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief 入力。インプットマネージャ。
+ * @brief 入力。インプットマネージャ編集。
 */
 
 
@@ -19,11 +19,11 @@ namespace NInput
 	/** InputManage
 	*/
 	#if UNITY_EDITOR
-	public class InputManage
+	public class EditInputManager
 	{
 		/** list
 		*/
-		private List<InputManager_Item> list;
+		private List<EditInputManager_Item> list;
 
 		/** asset
 		*/
@@ -39,16 +39,16 @@ namespace NInput
 
 		/** constructor
 		*/
-		public InputManage()
+		public EditInputManager()
 		{
-			this.list = new List<InputManager_Item>();
+			this.list = new List<EditInputManager_Item>();
 
 			this.asset = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("ProjectSettings/InputManager.asset");
 			this.serialized_root = new UnityEditor.SerializedObject(this.asset);
 			this.serialized_axes = this.serialized_root.FindProperty("m_Axes");
 
 			for(int ii=0;ii<this.serialized_axes.arraySize;ii++){
-				InputManager_Item t_item = new InputManager_Item();
+				EditInputManager_Item t_item = new EditInputManager_Item();
 				UnityEditor.SerializedProperty t_serialized_it = this.serialized_axes.GetArrayElementAtIndex(ii);
 				t_serialized_it.Next(true);
 				do{
@@ -89,10 +89,10 @@ namespace NInput
 						t_item.invert = t_serialized_it.boolValue;
 					}
 					if(t_serialized_it.name == "type"){
-						t_item.type = (InputManager_Item.Type)t_serialized_it.intValue;
+						t_item.type = (EditInputManager_Item.Type)t_serialized_it.intValue;
 					}
 					if(t_serialized_it.name == "axis"){
-						t_item.axis = (InputManager_Item.Axis)t_serialized_it.intValue;
+						t_item.axis = (EditInputManager_Item.Axis)t_serialized_it.intValue;
 					}
 					if(t_serialized_it.name == "joyNum"){
 						t_item.joyNum = t_serialized_it.intValue;
@@ -113,7 +113,7 @@ namespace NInput
 			for(int ii=0;ii<this.list.Count;ii++){
 				this.serialized_axes.arraySize++;
 				
-				InputManager_Item t_item = this.list[ii];
+				EditInputManager_Item t_item = this.list[ii];
 
 				UnityEditor.SerializedProperty t_serialized_it = this.serialized_axes.GetArrayElementAtIndex(this.serialized_axes.arraySize - 1);
 				t_serialized_it.Next(true);
@@ -171,14 +171,14 @@ namespace NInput
 
 		/** 検索。
 		*/
-		public List<InputManager_Item> GetList()
+		public List<EditInputManager_Item> GetList()
 		{
 			return this.list;
 		}
 
 		/** 追加。
 		*/
-		public void Add(InputManager_Item a_item)
+		public void Add(EditInputManager_Item a_item)
 		{
 			this.list.Add(a_item);
 		}

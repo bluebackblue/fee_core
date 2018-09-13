@@ -45,38 +45,6 @@ namespace NInput
 		*/
 		public static int MOUSE_DRAGTIME_MAX = 9999;
 
-		/** マウス。ホイール。
-		*/
-		public static string MOUSE_INPUTNAME_WHEEL = "Mouse ScrollWheel";
-
-		/** ジョイスティック。方向６。
-		*/
-		public static string JOY_INPUTNAME_AXIS6 = "JoyAxis6";
-
-		/** ジョイスティック。方向７。
-		*/
-		public static string JOY_INPUTNAME_AXIS7 = "JoyAxis7";
-
-		/** ジョイスティック。方向８。
-		*/
-		public static string JOY_INPUTNAME_AXIS8 = "JoyAxis8";
-
-		/** ジョイスティック。ボタン０。
-		*/
-		public static string JOY_INPUTNAME_BUTTON0 = "JoyButton0";
-
-		/** ジョイスティック。ボタン１。
-		*/
-		public static string JOY_INPUTNAME_BUTTON1 = "JoyButton1";
-
-		/** ジョイスティック。ボタン２。
-		*/
-		public static string JOY_INPUTNAME_BUTTON2 = "JoyButton2";
-
-		/** ジョイスティック。ボタン３。
-		*/
-		public static string JOY_INPUTNAME_BUTTON3 = "JoyButton3";
-
 		/** キー。左。
 		*/
 		public static UnityEngine.Experimental.Input.Key KEY_LEFT = UnityEngine.Experimental.Input.Key.A;

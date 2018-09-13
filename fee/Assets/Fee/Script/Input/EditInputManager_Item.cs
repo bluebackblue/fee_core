@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief 入力。インプットマネージャ。
+ * @brief 入力。インプットマネージャ編集。
 */
 
 
@@ -16,10 +16,10 @@ using UnityEngine;
 */
 namespace NInput
 {
-	/** InputManager_Item
+	/** EditInputManager_Item
 	*/
 	#if UNITY_EDITOR
-	public class InputManager_Item
+	public class EditInputManager_Item
 	{
 		/** Type
 		*/
@@ -85,7 +85,7 @@ namespace NInput
 
 		/** constructor
 		*/
-		public InputManager_Item()
+		public EditInputManager_Item()
 		{
 			this.m_Name = "";
 			this.descriptiveName = "";
@@ -108,7 +108,7 @@ namespace NInput
 		*/
 		public void CreateJoyAixs6()
 		{
-			this.m_Name = NInput.Input.JOY_INPUTNAME_AXIS6;
+			this.m_Name = "Axis6";
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -120,8 +120,8 @@ namespace NInput
 			this.sensitivity = 1000.0f;
 			this.snap = false;
 			this.invert = false;
-			this.type = NInput.InputManager_Item.Type.JoyStickAxis;
-			this.axis = NInput.InputManager_Item.Axis.Axis6;
+			this.type = NInput.EditInputManager_Item.Type.JoyStickAxis;
+			this.axis = NInput.EditInputManager_Item.Axis.Axis6;
 			this.joyNum = 0;
 		}
 
@@ -129,7 +129,7 @@ namespace NInput
 		*/
 		public void CreateJoyAixs7()
 		{
-			this.m_Name = NInput.Input.JOY_INPUTNAME_AXIS7;
+			this.m_Name = "Axis7";
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -141,8 +141,8 @@ namespace NInput
 			this.sensitivity = 1000.0f;
 			this.snap = false;
 			this.invert = false;
-			this.type = NInput.InputManager_Item.Type.JoyStickAxis;
-			this.axis = NInput.InputManager_Item.Axis.Axis7;
+			this.type = NInput.EditInputManager_Item.Type.JoyStickAxis;
+			this.axis = NInput.EditInputManager_Item.Axis.Axis7;
 			this.joyNum = 0;
 		}
 
@@ -150,7 +150,7 @@ namespace NInput
 		*/
 		public void CreateJoyAixs8()
 		{
-			this.m_Name = NInput.Input.JOY_INPUTNAME_AXIS8;
+			this.m_Name = "Axis8";
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -162,8 +162,8 @@ namespace NInput
 			this.sensitivity = 1000.0f;
 			this.snap = false;
 			this.invert = false;
-			this.type = NInput.InputManager_Item.Type.JoyStickAxis;
-			this.axis = NInput.InputManager_Item.Axis.Axis8;
+			this.type = NInput.EditInputManager_Item.Type.JoyStickAxis;
+			this.axis = NInput.EditInputManager_Item.Axis.Axis8;
 			this.joyNum = 0;
 		}
 
@@ -171,7 +171,7 @@ namespace NInput
 		*/
 		public void CreateJoyButton0()
 		{
-			this.m_Name = NInput.Input.JOY_INPUTNAME_BUTTON0;
+			this.m_Name =  "Button0";
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -183,8 +183,8 @@ namespace NInput
 			this.sensitivity = 1.0f;
 			this.snap = false;
 			this.invert = false;
-			this.type = NInput.InputManager_Item.Type.KeyOrMouseButton;
-			this.axis = NInput.InputManager_Item.Axis.None;
+			this.type = NInput.EditInputManager_Item.Type.KeyOrMouseButton;
+			this.axis = NInput.EditInputManager_Item.Axis.None;
 			this.joyNum = 0;
 		}
 
@@ -192,7 +192,7 @@ namespace NInput
 		*/
 		public void CreateJoyButton1()
 		{
-			this.m_Name = NInput.Input.JOY_INPUTNAME_BUTTON1;
+			this.m_Name = "Button1";
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -204,8 +204,8 @@ namespace NInput
 			this.sensitivity = 1.0f;
 			this.snap = false;
 			this.invert = false;
-			this.type = NInput.InputManager_Item.Type.KeyOrMouseButton;
-			this.axis = NInput.InputManager_Item.Axis.None;
+			this.type = NInput.EditInputManager_Item.Type.KeyOrMouseButton;
+			this.axis = NInput.EditInputManager_Item.Axis.None;
 			this.joyNum = 0;
 		}
 
@@ -213,7 +213,7 @@ namespace NInput
 		*/
 		public void CreateJoyButton2()
 		{
-			this.m_Name = NInput.Input.JOY_INPUTNAME_BUTTON2;
+			this.m_Name = "Button2";
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -225,8 +225,8 @@ namespace NInput
 			this.sensitivity = 1.0f;
 			this.snap = false;
 			this.invert = false;
-			this.type = NInput.InputManager_Item.Type.KeyOrMouseButton;
-			this.axis = NInput.InputManager_Item.Axis.None;
+			this.type = NInput.EditInputManager_Item.Type.KeyOrMouseButton;
+			this.axis = NInput.EditInputManager_Item.Axis.None;
 			this.joyNum = 0;
 		}
 
@@ -234,7 +234,7 @@ namespace NInput
 		*/
 		public void CreateJoyButton3()
 		{
-			this.m_Name = NInput.Input.JOY_INPUTNAME_BUTTON3;
+			this.m_Name = "Button3";
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -246,8 +246,8 @@ namespace NInput
 			this.sensitivity = 1.0f;
 			this.snap = false;
 			this.invert = false;
-			this.type = NInput.InputManager_Item.Type.KeyOrMouseButton;
-			this.axis = NInput.InputManager_Item.Axis.None;
+			this.type = NInput.EditInputManager_Item.Type.KeyOrMouseButton;
+			this.axis = NInput.EditInputManager_Item.Axis.None;
 			this.joyNum = 0;
 		}
 	}
