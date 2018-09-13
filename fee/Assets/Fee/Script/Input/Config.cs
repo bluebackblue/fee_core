@@ -79,35 +79,35 @@ namespace NInput
 
 		/** キー。左。
 		*/
-		public static KeyCode KEY_LEFT = KeyCode.A;
+		public static UnityEngine.Experimental.Input.Key KEY_LEFT = UnityEngine.Experimental.Input.Key.A;
 
 		/** キー。右。
 		*/
-		public static KeyCode KEY_RIGHT = KeyCode.D;
+		public static UnityEngine.Experimental.Input.Key KEY_RIGHT = UnityEngine.Experimental.Input.Key.D;
 
 		/** キー。上。
 		*/
-		public static KeyCode KEY_UP = KeyCode.W;
+		public static UnityEngine.Experimental.Input.Key KEY_UP = UnityEngine.Experimental.Input.Key.W;
 
 		/** キー。下。
 		*/
-		public static KeyCode KEY_DOWN = KeyCode.S;
+		public static UnityEngine.Experimental.Input.Key KEY_DOWN = UnityEngine.Experimental.Input.Key.S;
 
 		/** キー。エンター。
 		*/
-		public static KeyCode KEY_ENTER = KeyCode.Return;
+		public static UnityEngine.Experimental.Input.Key KEY_ENTER = UnityEngine.Experimental.Input.Key.Enter;
 
 		/** キー。エスケープ。
 		*/
-		public static KeyCode KEY_ESCAPE = KeyCode.Escape;
+		public static UnityEngine.Experimental.Input.Key KEY_ESCAPE = UnityEngine.Experimental.Input.Key.Escape;
 
 		/** キー。サブ１。
 		*/
-		public static KeyCode KEY_SUB1 = KeyCode.LeftShift;
+		public static UnityEngine.Experimental.Input.Key KEY_SUB1 = UnityEngine.Experimental.Input.Key.LeftShift;
 
 		/** キー。サブ２。
 		*/
-		public static KeyCode KEY_SUB2 = KeyCode.LeftControl;
+		public static UnityEngine.Experimental.Input.Key KEY_SUB2 = UnityEngine.Experimental.Input.Key.LeftCtrl;
 	}
 }
 

@@ -89,14 +89,29 @@ namespace NInput
 		{
 			try{
 				//設定。
-				this.left.Set(UnityEngine.Input.GetKey(Config.KEY_LEFT));
-				this.right.Set(UnityEngine.Input.GetKey(Config.KEY_RIGHT));
-				this.up.Set(UnityEngine.Input.GetKey(Config.KEY_UP));
-				this.down.Set(UnityEngine.Input.GetKey(Config.KEY_DOWN));
-				this.enter.Set(UnityEngine.Input.GetKey(Config.KEY_ENTER));
-				this.escape.Set(UnityEngine.Input.GetKey(Config.KEY_ESCAPE));
-				this.sub1.Set(UnityEngine.Input.GetKey(Config.KEY_SUB1));
-				this.sub2.Set(UnityEngine.Input.GetKey(Config.KEY_SUB2));
+				UnityEngine.Experimental.Input.Keyboard t_key_current = UnityEngine.Experimental.Input.Keyboard.current;
+
+				if(t_key_current != null){
+					//デバイス。
+					bool t_enter_on = t_key_current[Config.KEY_ENTER].isPressed;
+					bool t_escape_on = t_key_current[Config.KEY_ESCAPE].isPressed;
+					bool t_sub1_on = t_key_current[Config.KEY_SUB1].isPressed;
+					bool t_sub2_on = t_key_current[Config.KEY_SUB2].isPressed;
+					bool t_left_on = t_key_current[Config.KEY_LEFT].isPressed;
+					bool t_right_on = t_key_current[Config.KEY_RIGHT].isPressed;
+					bool t_up_on = t_key_current[Config.KEY_UP].isPressed;
+					bool t_down_on = t_key_current[Config.KEY_DOWN].isPressed;
+
+					//設定。
+					this.enter.Set(t_enter_on);
+					this.escape.Set(t_escape_on);
+					this.sub1.Set(t_sub1_on);
+					this.sub2.Set(t_sub2_on);
+					this.left.Set(t_left_on);
+					this.right.Set(t_right_on);
+					this.up.Set(t_up_on);
+					this.down.Set(t_down_on);
+				}
 
 				//更新。
 				this.left.Main();

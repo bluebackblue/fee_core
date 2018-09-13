@@ -58,13 +58,12 @@ namespace NInput
 		*/
 		public Mouse_Button left;
 		public Mouse_Button right;
+		public Mouse_Button middle;
 
 		/** マウスホイール。
 		*/
-		public bool mouse_wheel_flag;
-		public float mouse_wheel;
-		public float mouse_wheel_old;
 		public bool mouse_wheel_action;
+		public Mouse_Pos mouse_wheel;
 
 		/** [シングルトン]constructor
 		*/
@@ -76,12 +75,11 @@ namespace NInput
 			//ボタン。
 			this.left.Reset();
 			this.right.Reset();
+			this.middle.Reset();
 
 			//ホイール。
-			this.mouse_wheel_flag = true;
-			this.mouse_wheel = 0.0f;
-			this.mouse_wheel_old = 0.0f;
 			this.mouse_wheel_action = false;
+			this.mouse_wheel.Reset();
 		}
 
 		/** [シングルトン]削除。
@@ -113,53 +111,54 @@ namespace NInput
 		public void Main(NRender2D.Render2D a_render2d)
 		{
 			try{
+				UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
+
+				//位置。
 				{
-					int t_mouse_x = 0;
-					int t_mouse_y = 0;
+					if(t_mouse_current != null){
+						//デバイス。
+						int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
+						int t_mouse_y = (int)(Screen.height - t_mouse_current.position.y.ReadValue());
 
-					#if(USE_INPUTMANAGER)
-					{
-						t_mouse_x = (int)UnityEngine.Input.mousePosition.x;
-						t_mouse_y = (int)(Screen.height - UnityEngine.Input.mousePosition.y)
+						//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+						a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out int t_x,out int t_y);
+
+						//設定。
+						this.pos.Set(t_x,t_y);
 					}
-					#else
-					{
-						UnityEngine.Experimental.Input.Mouse t_mouse = UnityEngine.Experimental.Input.Mouse.current;
-						if(t_mouse != null){
-							t_mouse_x = (int)t_mouse.position.x.ReadValue();
-							t_mouse_y = (int)(Screen.height - t_mouse.position.y.ReadValue());
-						}
-					}
-					#endif
-
-					//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-					int t_x;
-					int t_y;
-					a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
-
-					//設定。
-					this.pos.Set(t_x,t_y);
 				}
 
-				//設定。
-				this.left.Set(UnityEngine.Input.GetMouseButton(0));
-				this.right.Set(UnityEngine.Input.GetMouseButton(1));
+				//ボタン。
+				{
+					if(t_mouse_current != null){
+						//デバイス。
+						bool t_l_on = t_mouse_current.leftButton.isPressed;
+						bool t_r_on = t_mouse_current.rightButton.isPressed;
+						bool t_m_on = t_mouse_current.middleButton.isPressed;
+
+						//設定。
+						this.left.Set(t_l_on);
+						this.right.Set(t_r_on);
+						this.middle.Set(t_m_on);
+					}else{
+						this.left.Set(false);
+						this.right.Set(false);
+						this.middle.Set(false);
+					}
+				}
 
 				//マウスホイール。
 				{
-					this.mouse_wheel_old = this.mouse_wheel;
+					if(t_mouse_current != null){
+						int t_x = (int)UnityEngine.Experimental.Input.Mouse.current.scroll.ReadValue().x;
+						int t_y = (int)UnityEngine.Experimental.Input.Mouse.current.scroll.ReadValue().y;
 
-					if(this.mouse_wheel_flag == true){
-						try{
-							this.mouse_wheel = UnityEngine.Input.GetAxis(Config.MOUSE_INPUTNAME_WHEEL);
-						}catch(System.Exception /*t_exception*/){
-							//インプットマネージャで登録が必要。
-							Tool.Log("Mouse","ERROR : " + Config.MOUSE_INPUTNAME_WHEEL);
-							this.mouse_wheel_flag = false;
-						}
+						this.mouse_wheel.Set(t_x,t_y);
+					}else{
+						this.mouse_wheel.Set(0,0);
 					}
 
-					if((this.mouse_wheel != 0.0f)&&(this.mouse_wheel != this.mouse_wheel_old)){
+					if((this.mouse_wheel.x != this.mouse_wheel.x_old)||(this.mouse_wheel.y != this.mouse_wheel.y_old)){
 						this.mouse_wheel_action = true;
 					}else{
 						this.mouse_wheel_action = false;
@@ -169,6 +168,7 @@ namespace NInput
 				//更新。
 				this.left.Main(ref this.pos);
 				this.right.Main(ref this.pos);
+				this.middle.Main(ref this.pos);
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}

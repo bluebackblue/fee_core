@@ -37,6 +37,10 @@ public class test05 : main_base
 	*/
 	private NRender2D.Text2D text_joy;
 
+	/** テキスト。
+	*/
+	private NRender2D.Text2D text_key;
+
 	/** Start
 	*/
 	private void Start()
@@ -75,6 +79,11 @@ public class test05 : main_base
 		this.text_joy = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.text_joy.SetRect(10,200 + 50 * 1,0,0);
 		this.text_joy.SetFontSize(30);
+
+		//テキスト。
+		this.text_key = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
+		this.text_key.SetRect(10,200 + 50 * 2,0,0);
+		this.text_key.SetFontSize(30);
 	}
 
 	/** Update
@@ -90,66 +99,128 @@ public class test05 : main_base
 		//キー。
 		NInput.Key.GetInstance().Main();
 
-		//ダウン・
-		if(NInput.Mouse.GetInstance().left.down == true){
-			this.text_mouse.SetOutLine(!this.text_mouse.GetOutLine());
-		}else if(NInput.Mouse.GetInstance().right.down == true){
-			this.text_mouse.SetShadow(!this.text_mouse.GetShadow());
-		}
-
-		//ホイール。
-		if(NInput.Mouse.GetInstance().mouse_wheel_action == true){
-			if(NInput.Mouse.GetInstance().mouse_wheel > 0){
-				Debug.Log("mouse_wheel : -");
-			}else{
-				Debug.Log("mouse_wheel : +");
-			}
-		}
-
-		//キー。
-		if(NInput.Key.GetInstance().enter.down == true){
-			NInput.Mouse.GetInstance().SetVisible(false);
-			NInput.Mouse.GetInstance().SetLock(true);
-			Debug.Log("key.enter.down");
-		}
-
-		if(NInput.Key.GetInstance().escape.down == true){
-			NInput.Mouse.GetInstance().SetVisible(true);
-			NInput.Mouse.GetInstance().SetLock(false);
-			Debug.Log("key.escape.down");
-		}
-
 		//マウス位置。
-		this.text_mouse.SetText("x = " + NInput.Mouse.GetInstance().pos.x.ToString() + " y = " + NInput.Mouse.GetInstance().pos.y.ToString());
+		{
+			string t_text = "";
+
+			t_text += "x = " + NInput.Mouse.GetInstance().pos.x.ToString() + " ";
+			t_text += "y = " + NInput.Mouse.GetInstance().pos.y.ToString() + " ";
+			t_text += "m = " + NInput.Mouse.GetInstance().mouse_wheel.y.ToString() + " ";
+			t_text += NInput.Mouse.GetInstance().left.on.ToString() + " ";
+			t_text += NInput.Mouse.GetInstance().right.on.ToString() + " ";
+			t_text += NInput.Mouse.GetInstance().middle.on.ToString() + " ";
+
+			this.text_mouse.SetText(t_text);
+		}
 
 		//ジョイスティック。
 		{
 			string t_text = "";
+
 			if(NInput.Joy.GetInstance().enter.on == true){
-				t_text += "Enter[o] ";
+				t_text += "[o]";
 			}else{
-				t_text += "Enter[ ] ";
+				t_text += "[ ]";
 			}
 
 			if(NInput.Joy.GetInstance().escape.on == true){
-				t_text += "Escape[o]";
+				t_text += "[o]";
 			}else{
-				t_text += "Escape[ ]";
+				t_text += "[ ]";
 			}
 
 			if(NInput.Joy.GetInstance().sub1.on == true){
-				t_text += "Sub1[o]";
+				t_text += "[o]";
 			}else{
-				t_text += "Sub1[ ]";
+				t_text += "[ ]";
 			}
 
 			if(NInput.Joy.GetInstance().sub2.on == true){
-				t_text += "Sub2[o]";
+				t_text += "[o]";
 			}else{
-				t_text += "Sub2[ ]";
+				t_text += "[ ]";
+			}
+
+			if(NInput.Joy.GetInstance().left.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Joy.GetInstance().right.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Joy.GetInstance().up.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Joy.GetInstance().down.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
 			}
 
 			this.text_joy.SetText(t_text);
+		}
+
+		//キー。
+		{
+			string t_text = "";
+
+			if(NInput.Key.GetInstance().enter.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Key.GetInstance().escape.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Key.GetInstance().sub1.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Key.GetInstance().sub2.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Key.GetInstance().left.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Key.GetInstance().right.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Key.GetInstance().up.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Key.GetInstance().down.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			this.text_key.SetText(t_text);
 		}
 	}
 
