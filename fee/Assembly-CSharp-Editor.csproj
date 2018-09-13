@@ -716,6 +716,10 @@
       <Project>{4462AA9E-4FA3-0022-354C-BC60A1B1CC3A}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.InputSystem.csproj">
+      <Project>{8DF884EA-6AF9-B427-80AB-D20D6E9C218B}</Project>
+      <Name>Unity.InputSystem</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

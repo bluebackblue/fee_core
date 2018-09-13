@@ -114,10 +114,28 @@ namespace NInput
 		{
 			try{
 				{
+					int t_mouse_x = 0;
+					int t_mouse_y = 0;
+
+					#if(USE_INPUTMANAGER)
+					{
+						t_mouse_x = (int)UnityEngine.Input.mousePosition.x;
+						t_mouse_y = (int)(Screen.height - UnityEngine.Input.mousePosition.y)
+					}
+					#else
+					{
+						UnityEngine.Experimental.Input.Mouse t_mouse = UnityEngine.Experimental.Input.Mouse.current;
+						if(t_mouse != null){
+							t_mouse_x = (int)t_mouse.position.x.ReadValue();
+							t_mouse_y = (int)(Screen.height - t_mouse.position.y.ReadValue());
+						}
+					}
+					#endif
+
 					//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 					int t_x;
 					int t_y;
-					a_render2d.GuiScreenToVirtualScreen((int)UnityEngine.Input.mousePosition.x,(int)(Screen.height - UnityEngine.Input.mousePosition.y),out t_x,out t_y);
+					a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
 
 					//設定。
 					this.pos.Set(t_x,t_y);
