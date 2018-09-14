@@ -64,18 +64,28 @@ namespace NInput
 		public Digital_Button escape;
 		public Digital_Button sub1;
 		public Digital_Button sub2;
+		public Digital_Button left_menu;
+		public Digital_Button right_menu;
 
+		/** アナログスティック。
+		*/
 		public Analog_Stick left_stick;
 		public Analog_Stick right_stick;	
-
 		public Digital_Button left_stick_button;
 		public Digital_Button right_stick_button;
+
+		/** トリガーボタン。
+		*/
+		public Digital_Button left_trigger1_button;
+		public Digital_Button right_trigger1_button;
+		public Analog_Button left_trigger2_button;
+		public Analog_Button right_trigger2_button;
 
 		/** [シングルトン]constructor
 		*/
 		private Pad()
 		{
-			//ボタン。
+			//デジタルボタン。
 			this.left.Reset();
 			this.right.Reset();
 			this.up.Reset();
@@ -84,6 +94,20 @@ namespace NInput
 			this.escape.Reset();
 			this.sub1.Reset();
 			this.sub2.Reset();
+			this.left_menu.Reset();
+			this.right_menu.Reset();
+
+			//アナログスティック。
+			this.left_stick.Reset();
+			this.right_stick.Reset();
+			this.left_stick_button.Reset();
+			this.right_stick_button.Reset();
+
+			//トリガーボタン。
+			this.left_trigger1_button.Reset();
+			this.right_trigger1_button.Reset();
+			this.left_trigger2_button.Reset();
+			this.right_trigger2_button.Reset();
 		}
 
 		/** [シングルトン]削除。
@@ -99,6 +123,7 @@ namespace NInput
 			try{
 				UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
 
+				//デジタルボタン。
 				if(t_gamepad_current != null){
 					//デバイス。
 					bool t_left_on = t_gamepad_current.dpad.left.isPressed;
@@ -109,6 +134,8 @@ namespace NInput
 					bool t_escape_on = t_gamepad_current.buttonSouth.isPressed;
 					bool t_sub1_on = t_gamepad_current.buttonNorth.isPressed;
 					bool t_sub2_on = t_gamepad_current.buttonWest.isPressed;
+					bool t_left_menu_on = t_gamepad_current.selectButton.isPressed;
+					bool t_right_menu_on = t_gamepad_current.startButton.isPressed;
 
 					//設定。
 					this.left.Set(t_left_on);
@@ -119,6 +146,8 @@ namespace NInput
 					this.escape.Set(t_escape_on);
 					this.sub1.Set(t_sub1_on);
 					this.sub2.Set(t_sub2_on);
+					this.left_menu.Set(t_left_menu_on);
+					this.right_menu.Set(t_right_menu_on);
 				}else{
 					//設定。
 					this.left.Set(false);
@@ -131,7 +160,7 @@ namespace NInput
 					this.sub2.Set(false);
 				}
 
-
+				//アナログスティック。
 				if(t_gamepad_current != null){
 					//デバイス。
 					float t_l_x = t_gamepad_current.leftStick.x.ReadValue();
@@ -148,18 +177,47 @@ namespace NInput
 					this.right_stick_button.Set(t_r_on);
 				}
 
-				//更新。
-				this.left.Main();
-				this.right.Main();
-				this.up.Main();
-				this.down.Main();
-				this.enter.Main();
-				this.escape.Main();
-				this.sub1.Main();
-				this.sub2.Main();
+				//トリガーボタン。
+				if(t_gamepad_current != null){
+					//デバイス。
+					bool t_l_1 = t_gamepad_current.leftShoulder.isPressed;
+					bool t_r_1 = t_gamepad_current.rightShoulder.isPressed;
+					float t_l_2 = t_gamepad_current.leftTrigger.ReadValue();
+					float t_r_2 = t_gamepad_current.rightTrigger.ReadValue();
 
-				this.left_stick.Main();
-				this.right_stick.Main();
+					//設定。
+					this.left_trigger1_button.Set(t_l_1);
+					this.right_trigger1_button.Set(t_r_1);
+					this.left_trigger2_button.Set(t_l_2);
+					this.right_trigger2_button.Set(t_r_2);
+				}
+
+				//更新。
+				{
+					//デジタルボタン。
+					this.left.Main();
+					this.right.Main();
+					this.up.Main();
+					this.down.Main();
+					this.enter.Main();
+					this.escape.Main();
+					this.sub1.Main();
+					this.sub2.Main();
+					this.left_menu.Main();
+					this.right_menu.Main();
+
+					//アナログスティック。
+					this.left_stick.Main();
+					this.right_stick.Main();
+					this.left_stick_button.Main();
+					this.right_stick_button.Main();
+
+					//トリガーボタン。
+					this.left_trigger1_button.Main();
+					this.right_trigger1_button.Main();
+					this.left_trigger2_button.Main();
+					this.right_trigger2_button.Main();
+				}
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}

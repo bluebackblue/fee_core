@@ -45,6 +45,14 @@ namespace NInput
 		*/
 		public static int MOUSE_DRAGTIME_MAX = 9999;
 
+		/** アナログボタン。オンからオフになる閾値。
+		*/
+		public static float ANALOG_BUTTON_VALUE_OFF = 0.4f;
+
+		/** アナログボタン。オフからオンになる閾値。
+		*/
+		public static float ANALOG_BUTTON_VALUE_ON = 0.6f;
+
 		/** キー。左。
 		*/
 		public static UnityEngine.Experimental.Input.Key KEY_LEFT = UnityEngine.Experimental.Input.Key.A;
@@ -76,6 +84,14 @@ namespace NInput
 		/** キー。サブ２。
 		*/
 		public static UnityEngine.Experimental.Input.Key KEY_SUB2 = UnityEngine.Experimental.Input.Key.LeftCtrl;
+
+		/** キー。左セレクト。
+		*/
+		public static UnityEngine.Experimental.Input.Key KEY_LEFT_MENU = UnityEngine.Experimental.Input.Key.Space;
+
+		/** キー。右セレクト。
+		*/
+		public static UnityEngine.Experimental.Input.Key KEY_RIGHT_MENU = UnityEngine.Experimental.Input.Key.Backspace;
 	}
 }
 

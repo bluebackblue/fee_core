@@ -121,7 +121,9 @@ namespace NInput
 						int t_mouse_y = (int)(Screen.height - t_mouse_current.position.y.ReadValue());
 
 						//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-						a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out int t_x,out int t_y);
+						int t_x;
+						int t_y;
+						a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
 
 						//設定。
 						this.pos.Set(t_x,t_y);

@@ -102,6 +102,7 @@
     <Compile Include="Assets\Fee\Script\Fade\Fade_Sprite2D.cs" />
     <Compile Include="Assets\Fee\Script\Fade\MonoBehaviour_Flag.cs" />
     <Compile Include="Assets\Fee\Script\Fade\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\Input\Analog_Button.cs" />
     <Compile Include="Assets\Fee\Script\Input\Analog_Stick.cs" />
     <Compile Include="Assets\Fee\Script\Input\Config.cs" />
     <Compile Include="Assets\Fee\Script\Input\Digital_Button.cs" />
@@ -333,6 +334,7 @@
     <Compile Include="Assets\Photon\PhotonUnityNetworking\UtilityScripts\Prototyping\MoveByKeys.cs" />
     <Compile Include="Assets\Photon\PhotonUnityNetworking\UtilityScripts\Prototyping\OnClickDestroy.cs" />
     <Compile Include="Assets\Photon\PhotonUnityNetworking\UtilityScripts\Prototyping\OnClickInstantiate.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\UtilityScripts\Prototyping\OnClickRpc.cs" />
     <Compile Include="Assets\Photon\PhotonUnityNetworking\UtilityScripts\Prototyping\OnEscapeQuit.cs" />
     <Compile Include="Assets\Photon\PhotonUnityNetworking\UtilityScripts\Prototyping\OnJoinedInstantiate.cs" />
     <Compile Include="Assets\Photon\PhotonUnityNetworking\UtilityScripts\Prototyping\OnStartDelete.cs" />

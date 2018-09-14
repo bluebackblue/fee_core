@@ -220,6 +220,18 @@ public class test05 : main_base
 				t_text += "[ ]";
 			}
 
+			if(NInput.Pad.GetInstance().left_menu.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().right_menu.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
 			t_text += "\n";
 
 			if(NInput.Pad.GetInstance().left_stick_button.on == true){
@@ -238,11 +250,38 @@ public class test05 : main_base
 
 			t_text += ((int)(NInput.Pad.GetInstance().left_stick.x * 100)).ToString() + " " + ((int)(NInput.Pad.GetInstance().left_stick.y * 100)).ToString() + " ";
 			t_text += ((int)(NInput.Pad.GetInstance().right_stick.x * 100)).ToString() + " " + ((int)(NInput.Pad.GetInstance().right_stick.y * 100)).ToString() + " ";
+			t_text += ((int)(NInput.Pad.GetInstance().left_trigger2_button.value * 100)).ToString() + " " + ((int)(NInput.Pad.GetInstance().right_trigger2_button.value * 100)).ToString() + " ";
+			
+			t_text += "\n";
+
+			if(NInput.Pad.GetInstance().left_trigger1_button.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().right_trigger1_button.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			t_text += "\n";
+
+			if(NInput.Pad.GetInstance().left_trigger2_button.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().right_trigger2_button.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
 
 			this.text_pad.SetText(t_text);
 		}
-
-
 	}
 
 	/** 削除前。

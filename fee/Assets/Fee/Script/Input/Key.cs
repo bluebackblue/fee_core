@@ -60,13 +60,14 @@ namespace NInput
 		public Digital_Button escape;
 		public Digital_Button sub1;
 		public Digital_Button sub2;
+		public Digital_Button left_menu;
+		public Digital_Button right_menu;
 
 		/** [シングルトン]constructor
 		*/
 		private Key()
 		{
-			/** ボタン。
-			*/
+			//ボタン。
 			this.left.Reset();
 			this.right.Reset();
 			this.up.Reset();
@@ -75,6 +76,8 @@ namespace NInput
 			this.escape.Reset();
 			this.sub1.Reset();
 			this.sub2.Reset();
+			this.left_menu.Reset();
+			this.right_menu.Reset();
 		}
 
 		/** [シングルトン]削除。
@@ -101,6 +104,8 @@ namespace NInput
 					bool t_right_on = t_key_current[Config.KEY_RIGHT].isPressed;
 					bool t_up_on = t_key_current[Config.KEY_UP].isPressed;
 					bool t_down_on = t_key_current[Config.KEY_DOWN].isPressed;
+					bool t_left_menu_on = t_key_current[Config.KEY_LEFT_MENU].isPressed;
+					bool t_right_menu_on = t_key_current[Config.KEY_RIGHT_MENU].isPressed;
 
 					//設定。
 					this.enter.Set(t_enter_on);
@@ -111,6 +116,8 @@ namespace NInput
 					this.right.Set(t_right_on);
 					this.up.Set(t_up_on);
 					this.down.Set(t_down_on);
+					this.left_menu.Set(t_left_menu_on);
+					this.right_menu.Set(t_right_menu_on);
 				}else{
 					//設定。
 					this.enter.Set(false);
@@ -132,6 +139,8 @@ namespace NInput
 				this.escape.Main();
 				this.sub1.Main();
 				this.sub2.Main();
+				this.left_menu.Main();
+				this.right_menu.Main();
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}

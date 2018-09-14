@@ -51,8 +51,6 @@ namespace NInput
 		*/
 		public void Main()
 		{
-			//this.x = this.x * 0.3f + this.x_old * 0.7f;
-			//this.y = this.y * 0.3f + this.y_old * 0.7f;
 		}
     }
 }
