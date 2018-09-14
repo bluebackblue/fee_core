@@ -184,6 +184,7 @@ public class test15 : main_base
 			this.text.SetClip(this.is_clip);
 			this.button.SetClip(this.is_clip);
 			this.checkbutton.SetClip(this.is_clip);
+			this.inputfield.SetClip(this.is_clip);
 		}
 
 		if(NInput.Key.GetInstance().escape.down == true){

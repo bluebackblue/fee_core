@@ -72,15 +72,6 @@ namespace NRender2D
 		{
 			return this.material_ui_image;
 		}
-
-		/** マテリアル。取得。
-		*/
-		/*
-		public Material GetMaterial(Config.MaterialType a_material_type)
-		{
-			return this.list[(int)a_material_type];
-		}
-		*/
 	}
 }
 

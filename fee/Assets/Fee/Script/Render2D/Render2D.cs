@@ -548,7 +548,7 @@ namespace NRender2D
 									t_image_material.SetFloat("clip_y1",this.screen.GetGuiH() - t_gui_y1);
 									t_image_material.SetFloat("clip_x2",t_gui_x2);
 									t_image_material.SetFloat("clip_y2",this.screen.GetGuiH() - t_gui_y2);
-									t_inputfield.Raw_SetTextMaterial(t_image_material);
+									t_inputfield.Raw_SetImageMaterial(t_image_material);
 								}
 							}
 						}
