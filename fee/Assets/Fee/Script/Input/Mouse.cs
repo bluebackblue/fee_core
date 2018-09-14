@@ -197,7 +197,6 @@ namespace NInput
 						for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
 							switch(t_touchscreen_current.activeTouches[ii].phase.ReadValue()){
 							case UnityEngine.Experimental.Input.PointerPhase.Began:
-							case UnityEngine.Experimental.Input.PointerPhase.Moved:
 								{
 									t_count++;
 								}break;
