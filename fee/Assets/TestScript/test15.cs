@@ -47,6 +47,10 @@ public class test15 : main_base
 	*/
 	private NUi.CheckButton checkbutton;
 
+	/** inputfield
+	*/
+	private NRender2D.InputField2D inputfield;
+
 	/** Start
 	*/
 	private void Start()
@@ -130,12 +134,24 @@ public class test15 : main_base
 			this.checkbutton.SetTexture(t_texture);
 		}
 
+		//inputfield
+		{
+			int t_w = 100;
+			int t_h = 100;
+			int t_x = 100;
+			int t_y = 100;
+
+			this.inputfield = new NRender2D.InputField2D(this.deleter,null,t_drawpriority + 2);
+			this.inputfield.SetRect(t_x,t_y,t_w,t_h);
+		}
+
 		//is_clip
 		{
 			this.clipsprite.SetClip(this.is_clip);
 			this.text.SetClip(this.is_clip);
 			this.button.SetClip(this.is_clip);
 			this.checkbutton.SetClip(this.is_clip);
+			this.inputfield.SetClip(this.is_clip);
 		}
 	}
 

@@ -32,6 +32,11 @@ namespace NRender2D
 		*/
 		private bool raw_is_recalc;
 
+		/** クリップ。
+		*/
+		private bool clip;
+		private NRender2D.Rect2D_R<int> clip_rect;
+
 		/** raw
 		*/
 		private GameObject raw_gameobject;
@@ -49,6 +54,10 @@ namespace NRender2D
 
 			//センター。
 			this.is_center = false;
+
+			//クリップ。
+			this.clip = false;
+			this.clip_rect.Set(0,0,0,0);
 
 			//再計算が必要。
 			this.raw_is_recalc = true;
@@ -71,6 +80,77 @@ namespace NRender2D
 
 			//sizedelta
 			this.raw_recttransform.sizeDelta = new Vector2(UnityEngine.Screen.width,UnityEngine.Screen.height);
+		}
+
+		/** クリップ。設定。
+		*/
+		public void SetClip(bool a_flag)
+		{
+			if(this.clip != a_flag){
+				this.clip = a_flag;
+
+				//■再計算が必要。
+				this.raw_is_recalc = true;
+			}
+		}
+
+		/** クリップ。取得。
+		*/
+		public bool IsClip()
+		{
+			return this.clip;
+		}
+
+		/** クリップ矩形。設定。
+		*/
+		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
+		{
+			if((this.clip_rect.x != a_rect.x)||(this.clip_rect.y != a_rect.y)||(this.clip_rect.w != a_rect.w)||(this.clip_rect.h != a_rect.h)){
+				this.clip_rect = a_rect;
+
+				//■再計算が必要。
+				this.raw_is_recalc = true;
+			}
+		}
+
+		/** クリップ矩形。設定。
+		*/
+		public void SetClipRect(int a_x,int a_y,int a_w,int a_h)
+		{
+			if((this.clip_rect.x != a_x)||(this.clip_rect.y != a_y)||(this.clip_rect.w != a_w)||(this.clip_rect.h != a_h)){
+				this.clip_rect.Set(a_x,a_y,a_w,a_h);
+
+				//■再計算が必要。
+				this.raw_is_recalc = true;
+			}
+		}
+
+		/** クリップ矩形。取得。
+		*/
+		public int GetClipX()
+		{
+			return this.clip_rect.x;
+		}
+
+		/** クリップ矩形。取得。
+		*/
+		public int GetClipY()
+		{
+			return this.clip_rect.y;
+		}
+
+		/** クリップ矩形。取得。
+		*/
+		public int GetClipW()
+		{
+			return this.clip_rect.w;
+		}
+
+		/** クリップ矩形。取得。
+		*/
+		public int GetClipH()
+		{
+			return this.clip_rect.h;
 		}
 
 		/** フォーカス。取得。

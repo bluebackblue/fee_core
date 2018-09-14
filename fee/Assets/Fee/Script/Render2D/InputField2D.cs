@@ -170,6 +170,62 @@ namespace NRender2D
 			this.rect.SetH(a_h);
 		}
 
+		/** クリップ。設定。
+		*/
+		public void SetClip(bool a_flag)
+		{
+			this.param.SetClip(a_flag);
+		}
+
+		/** クリップ。取得。
+		*/
+		public bool IsClip()
+		{
+			return this.param.IsClip();
+		}
+
+		/** クリップ矩形。設定。
+		*/
+		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
+		{
+			this.param.SetClipRect(ref a_rect);
+		}
+
+		/** クリップ矩形。設定。
+		*/
+		public void SetClipRect(int a_x,int a_y,int a_w,int a_h)
+		{
+			this.param.SetClipRect(a_x,a_y,a_w,a_h);
+		}
+
+		/** クリップ矩形。取得。
+		*/
+		public int GetClipX()
+		{
+			return this.param.GetClipX();
+		}
+
+		/** クリップ矩形。取得。
+		*/
+		public int GetClipY()
+		{
+			return this.param.GetClipY();
+		}
+
+		/** クリップ矩形。取得。
+		*/
+		public int GetClipW()
+		{
+			return this.param.GetClipW();
+		}
+
+		/** クリップ矩形。取得。
+		*/
+		public int GetClipH()
+		{
+			return this.param.GetClipH();
+		}
+
 		/** 状態。設定。
 		*/
 		public void SetState(State2D a_state)
