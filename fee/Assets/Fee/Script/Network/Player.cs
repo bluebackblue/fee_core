@@ -163,7 +163,7 @@ namespace NNetwork
 			#if USE_PUN
 			return this.photon_view.Owner.UserId;
 			#else
-			return return this.GetHashCode().ToString();
+			return this.GetHashCode().ToString();
 			#endif
 		}
 

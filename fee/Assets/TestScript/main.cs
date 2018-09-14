@@ -22,7 +22,7 @@ public class main : MonoBehaviour
 
 	/** シーン数。
 	*/
-	private readonly int SCENE_COUNT = 20;
+	private static int SCENE_COUNT = 20;
 
 	/** Start
 	*/
@@ -121,6 +121,24 @@ public class main : MonoBehaviour
 	{
 		UnityEngine.SceneManagement.SceneManager.LoadScene(a_scene_name);
 	}
+
+	/** 追加。
+	*/
+	#if UNITY_EDITOR
+	[UnityEditor.MenuItem("Test/main/EditSceneList")]
+	private static void EditSceneList()
+	{
+		List<UnityEditor.EditorBuildSettingsScene> t_list = new List<UnityEditor.EditorBuildSettingsScene>();
+
+		t_list.Add(new UnityEditor.EditorBuildSettingsScene("Assets/TestScene/main.unity",true));
+
+		for(int ii=0;ii<SCENE_COUNT;ii++){
+			t_list.Add(new UnityEditor.EditorBuildSettingsScene(string.Format("Assets/TestScene/test{0:D2}.unity",ii+1),true));
+		}
+
+		UnityEditor.EditorBuildSettings.scenes = t_list.ToArray();
+	}
+	#endif
 }
 
 /** main_base
