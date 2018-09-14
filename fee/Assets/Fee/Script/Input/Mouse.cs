@@ -106,48 +106,118 @@ namespace NInput
 			}
 		}
 
+		/** 更新。位置。
+		*/
+		private void Main_Pos(NRender2D.Render2D a_render2d)
+		{
+			//マウス。
+			#if(UNITY_ANDROID)
+			{
+				//TODO:マウスが接続されていないアンドロイドでもカレントマウスがtrueを返す。
+			}
+			#else
+			{
+				UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
+				if(t_mouse_current != null){
+					//デバイス。
+					int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
+					int t_mouse_y = (int)(Screen.height - t_mouse_current.position.y.ReadValue());
+
+					//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+					int t_x;
+					int t_y;
+					a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
+
+					//設定。
+					this.pos.Set(t_x,t_y);
+				}
+			}
+			#endif
+
+			//タッチスクリーン。
+			UnityEngine.Experimental.Input.Touchscreen t_touchscreen_current = UnityEngine.Experimental.Input.Touchscreen.current;
+			if(t_touchscreen_current != null){
+				int t_current_index = -1;
+				if(t_touchscreen_current.activeTouches.Count > 0){
+					for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
+						switch(t_touchscreen_current.activeTouches[ii].phase.ReadValue()){
+						case UnityEngine.Experimental.Input.PointerPhase.Began:
+						case UnityEngine.Experimental.Input.PointerPhase.Moved:
+							{
+								t_current_index = ii;
+							}break;
+						}
+					}
+				}
+				if(t_current_index >= 0){
+					//デバイス。
+					int t_mouse_x = (int)t_touchscreen_current.activeTouches[t_current_index].position.x.ReadValue();
+					int t_mouse_y = (int)t_touchscreen_current.activeTouches[t_current_index].position.y.ReadValue();
+
+					//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+					int t_x;
+					int t_y;
+					a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
+
+					//設定。
+					this.pos.Set(t_x,t_y);
+				}
+			}
+		}
+
 		/** 更新。
 		*/
 		public void Main(NRender2D.Render2D a_render2d)
 		{
 			try{
 				UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
+				UnityEngine.Experimental.Input.Touchscreen t_touchscreen_current = UnityEngine.Experimental.Input.Touchscreen.current;
 
 				//位置。
-				{
-					if(t_mouse_current != null){
-						//デバイス。
-						int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
-						int t_mouse_y = (int)(Screen.height - t_mouse_current.position.y.ReadValue());
-
-						//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-						int t_x;
-						int t_y;
-						a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
-
-						//設定。
-						this.pos.Set(t_x,t_y);
-					}
-				}
+				this.Main_Pos(a_render2d);
 
 				//ボタン。
 				{
+					bool t_l_on = false;
+					bool t_r_on = false;
+					bool t_m_on = false;
+
+					//マウス。
 					if(t_mouse_current != null){
 						//デバイス。
-						bool t_l_on = t_mouse_current.leftButton.isPressed;
-						bool t_r_on = t_mouse_current.rightButton.isPressed;
-						bool t_m_on = t_mouse_current.middleButton.isPressed;
-
-						//設定。
-						this.left.Set(t_l_on);
-						this.right.Set(t_r_on);
-						this.middle.Set(t_m_on);
-					}else{
-						//設定。
-						this.left.Set(false);
-						this.right.Set(false);
-						this.middle.Set(false);
+						t_l_on |= t_mouse_current.leftButton.isPressed;
+						t_r_on |= t_mouse_current.rightButton.isPressed;
+						t_m_on |= t_mouse_current.middleButton.isPressed;
 					}
+
+					//タッチスクリーン。
+					if(t_touchscreen_current != null){
+						//デバイス。
+						int t_count = 0;
+						for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
+							switch(t_touchscreen_current.activeTouches[ii].phase.ReadValue()){
+							case UnityEngine.Experimental.Input.PointerPhase.Began:
+							case UnityEngine.Experimental.Input.PointerPhase.Moved:
+								{
+									t_count++;
+								}break;
+							}
+						}
+						if(t_count == 1){
+							t_l_on |= true;
+						}
+						if(t_count == 2){
+							t_r_on |= true;
+						}
+						if(t_count == 3){
+							t_m_on |= true;
+						}
+					}
+
+					//設定。
+					this.left.Set(t_l_on);
+					this.right.Set(t_r_on);
+					this.middle.Set(t_m_on);
 				}
 
 				//マウスホイール。
