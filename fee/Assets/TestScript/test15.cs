@@ -70,6 +70,12 @@ public class test15 : main_base
 		//イベントプレート。インスタンス作成。
 		NEventPlate.EventPlate.CreateInstance();
 
+		//フォント。
+		Font t_font = Resources.Load<Font>("mplus-1p-medium");
+		if(t_font != null){
+			NRender2D.Render2D.GetInstance().SetDefaultFont(t_font);
+		}
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
@@ -197,6 +203,7 @@ public class test15 : main_base
 			this.text.SetClipRect(ref t_cliprect);
 			this.button.SetClipRect(ref t_cliprect);
 			this.checkbutton.SetClipRect(ref t_cliprect);
+			this.inputfield.SetClipRect(ref t_cliprect);
 		}
 	}
 

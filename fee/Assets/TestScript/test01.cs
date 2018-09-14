@@ -50,7 +50,7 @@ public class test01 : main_base
 		NRender2D.Render2D.CreateInstance();
 
 		//フォント。
-		Font t_font = Resources.Load<Font>("Font/mplus-1p-medium");
+		Font t_font = Resources.Load<Font>("mplus-1p-medium");
 		if(t_font != null){
 			NRender2D.Render2D.GetInstance().SetDefaultFont(t_font);
 		}

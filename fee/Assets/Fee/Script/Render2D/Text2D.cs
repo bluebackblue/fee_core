@@ -445,11 +445,11 @@ namespace NRender2D
 			this.param.Raw_SetFontSize(a_raw_fontsize);
 		}
 
-		/** [内部からの呼び出し]マテリアル。設定。
+		/** [内部からの呼び出し]テキストマテリアル。設定。
 		*/
-		public void Raw_SetMaterial(Material a_material)
+		public void Raw_SetTextMaterial(Material a_material)
 		{
-			this.param.Raw_SetMaterial(a_material);
+			this.param.Raw_SetTextMaterial(a_material);
 		}
 
 		/** [内部からの呼び出し]レイヤー。設定。

@@ -226,6 +226,20 @@ namespace NRender2D
 			return this.param.GetClipH();
 		}
 
+		/** カスタムテキストマテリアル。取得。
+		*/
+		public Material GetCustomTextMaterial()
+		{
+			return this.param.GetCustomTextMaterial();
+		}
+
+		/** カスタムイメージマテリアル。取得。
+		*/
+		public Material GetCustomImageMaterial()
+		{
+			return this.param.GetCustomImageMaterial();
+		}
+
 		/** 状態。設定。
 		*/
 		public void SetState(State2D a_state)
@@ -386,6 +400,20 @@ namespace NRender2D
 		public void Raw_SetFontSize(int a_raw_fontsize)
 		{
 			this.param.Raw_SetFontSize(a_raw_fontsize);
+		}
+
+		/** [内部からの呼び出し]テキストマテリアル。設定。
+		*/
+		public void Raw_SetTextMaterial(Material a_material)
+		{
+			this.param.Raw_SetTextMaterial(a_material);
+		}
+
+		/** [内部からの呼び出し]イメージマテリアル。設定。
+		*/
+		public void Raw_SetImageMaterial(Material a_material)
+		{
+			this.param.Raw_SetImageMaterial(a_material);
 		}
 
 		/** [内部からの呼び出し]レイヤー。設定。

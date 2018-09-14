@@ -111,7 +111,7 @@ namespace NInput
 		private void Main_Pos(NRender2D.Render2D a_render2d)
 		{
 			//マウス。
-			#if(UNITY_ANDROID)
+			#if((!UNITY_EDITOR)&&(UNITY_ANDROID))
 			{
 				//TODO:マウスが接続されていないアンドロイドでもカレントマウスがtrueを返す。
 			}

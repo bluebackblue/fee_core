@@ -120,7 +120,7 @@ public class test16 : main_base , NNetwork.OnRemoteCallBack_Base
 		NNetwork.Network.GetInstance().SetRecvCallBack(this);
 
 		//フォント。
-		Font t_font = Resources.Load<Font>("Font/mplus-1p-medium");
+		Font t_font = Resources.Load<Font>("mplus-1p-medium");
 		if(t_font != null){
 			NRender2D.Render2D.GetInstance().SetDefaultFont(t_font);
 		}

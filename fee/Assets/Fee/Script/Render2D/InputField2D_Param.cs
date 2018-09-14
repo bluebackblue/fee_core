@@ -44,6 +44,11 @@ namespace NRender2D
 		private UnityEngine.UI.InputField raw_inputfield;
 		private UnityEngine.RectTransform raw_recttransform;
 		private UnityEngine.UI.Text raw_text;
+		private UnityEngine.UI.Image raw_image;
+		private UnityEngine.UI.Text raw_placeholder_text;
+
+		private Material raw_custom_textmaterial;
+		private Material raw_custom_imagematerial;
 
 		/** 初期化。
 		*/
@@ -68,9 +73,19 @@ namespace NRender2D
 			this.raw_inputfield = this.raw_gameobject.GetComponent<UnityEngine.UI.InputField>();
 			this.raw_recttransform = this.raw_gameobject.GetComponent<UnityEngine.RectTransform>();
 			this.raw_text = this.raw_inputfield.textComponent;
+			this.raw_image = this.raw_inputfield.image;
+			this.raw_placeholder_text = this.raw_inputfield.placeholder.GetComponent<UnityEngine.UI.Text>();
+			this.raw_custom_textmaterial = new Material(Render2D.GetInstance().GetTextMaterial());
+			this.raw_custom_imagematerial = new Material(Render2D.GetInstance().GetMaterial(Config.MaterialType.Alpha_Clip));
+
+			//material
+			this.raw_text.material = this.raw_custom_textmaterial;
+			this.raw_image.material = this.raw_custom_imagematerial;
+			this.raw_placeholder_text.material = this.raw_custom_textmaterial;
 
 			//font
 			this.raw_text.font = Render2D.GetInstance().GetDefaultFont();
+			this.raw_placeholder_text.font = Render2D.GetInstance().GetDefaultFont();
 
 			//linetype
 			this.raw_inputfield.lineType = UnityEngine.UI.InputField.LineType.MultiLineNewline;
@@ -153,6 +168,20 @@ namespace NRender2D
 			return this.clip_rect.h;
 		}
 
+		/** カスタムテキストマテリアル。取得。
+		*/
+		public Material GetCustomTextMaterial()
+		{
+			return this.raw_custom_textmaterial;
+		}
+
+		/** カスタムイメージマテリアル。取得。
+		*/
+		public Material GetCustomImageMaterial()
+		{
+			return this.raw_custom_imagematerial;
+		}
+
 		/** フォーカス。取得。
 		*/
 		public bool IsFocused()
@@ -218,6 +247,21 @@ namespace NRender2D
 			this.raw_text.fontSize = a_raw_fontsize;
 		}
 
+		/** [内部からの呼び出し]テキストマテリアル。設定。
+		*/
+		public void Raw_SetTextMaterial(Material a_material)
+		{
+			this.raw_text.material = a_material;
+			this.raw_placeholder_text.material = a_material;
+		}
+
+		/** [内部からの呼び出し]イメージマテリアル。設定。
+		*/
+		public void Raw_SetImageMaterial(Material a_material)
+		{
+			this.raw_image.material = a_material;
+		}
+
 		/** センター。設定。
 		*/
 		public void SetCenter(bool a_flag)
@@ -238,6 +282,7 @@ namespace NRender2D
 		{
 			if(this.raw_text.font != a_font){
 				this.raw_text.font = a_font;
+				this.raw_placeholder_text.font = a_font;
 			}
 		}
 
@@ -254,6 +299,9 @@ namespace NRender2D
 		{
 			Render2D.GetInstance().RawInputField_Delete(this.raw_gameobject);
 			this.raw_gameobject = null;
+
+			GameObject.DestroyImmediate(this.raw_custom_textmaterial);
+			this.raw_custom_textmaterial = null;
 		}
 
 		/** [内部からの呼び出し]サイズ。設定。

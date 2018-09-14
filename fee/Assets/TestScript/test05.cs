@@ -103,6 +103,14 @@ public class test05 : main_base
 		{
 			string t_text = "";
 
+			if(UnityEngine.Experimental.Input.Touchscreen.current != null){
+				for(int ii=0;ii<UnityEngine.Experimental.Input.Touchscreen.current.activeTouches.Count;ii++){
+					if(UnityEngine.Experimental.Input.Touchscreen.current.activeTouches[ii] != null){
+						t_text += UnityEngine.Experimental.Input.Touchscreen.current.activeTouches[ii].touchId.ReadValue().ToString();
+					}
+				}
+			}
+
 			t_text += "x = " + NInput.Mouse.GetInstance().pos.x.ToString() + " ";
 			t_text += "y = " + NInput.Mouse.GetInstance().pos.y.ToString() + " ";
 			t_text += "m = " + NInput.Mouse.GetInstance().mouse_wheel.y.ToString() + " ";

@@ -200,6 +200,13 @@ namespace NRender2D
 			return this.materiallist.GetTextMaterial();
 		}
 
+		/** マテリアル。取得。
+		*/
+		public Material GetMaterial(Config.MaterialType a_material_type)
+		{
+			return this.materiallist.GetMaterial(a_material_type);
+		}
+
 		/** [RawText]作成。
 		*/
 		public GameObject RawText_Create()
@@ -442,7 +449,6 @@ namespace NRender2D
 				int t_last_index = this.layerlist.GetLastIndex_Text(a_layerindex);
 
 				if((t_start_index >= 0)&&(t_last_index >= 0)){
-			
 					for(int ii=t_start_index;ii<=t_last_index;ii++){
 						Text2D t_text = this.text_list[ii];
 
@@ -454,12 +460,12 @@ namespace NRender2D
 							t_text.Raw_SetFontSize(this.screen.CalcFontSize(t_text));
 
 							if(t_text.IsClip() == false){
-								//共通マテリアル使用。
-								t_text.Raw_SetMaterial(this.materiallist.GetTextMaterial());
+								//共通テキストマテリアル使用。
+								t_text.Raw_SetTextMaterial(this.materiallist.GetTextMaterial());
 							}else{
-								//カスタムマテリアル使用。
-								Material t_material = t_text.GetCustomTextMaterial();
+								//カスタムテキストマテリアル使用。
 								{
+									Material t_material = t_text.GetCustomTextMaterial();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
@@ -471,9 +477,8 @@ namespace NRender2D
 									t_material.SetFloat("clip_y1",this.screen.GetGuiH() - t_gui_y1);
 									t_material.SetFloat("clip_x2",t_gui_x2);
 									t_material.SetFloat("clip_y2",this.screen.GetGuiH() - t_gui_y2);
+									t_text.Raw_SetTextMaterial(t_material);
 								}
-
-								t_text.Raw_SetMaterial(t_material);
 							}
 						}
 
@@ -497,7 +502,6 @@ namespace NRender2D
 				int t_last_index = this.layerlist.GetLastIndex_InputField(a_layerindex);
 
 				if((t_start_index >= 0)&&(t_last_index >= 0)){
-			
 					for(int ii=t_start_index;ii<=t_last_index;ii++){
 						InputField2D t_inputfield = this.inputfield_list[ii];
 
@@ -507,6 +511,47 @@ namespace NRender2D
 
 							//フォントサイズの設定。
 							t_inputfield.Raw_SetFontSize(this.screen.CalcFontSize(t_inputfield));
+
+							if(t_inputfield.IsClip() == false){
+								//共通テキストマテリアル使用。
+
+								t_inputfield.Raw_SetTextMaterial(this.materiallist.GetTextMaterial());
+								t_inputfield.Raw_SetImageMaterial(this.materiallist.GetMaterial(Config.MaterialType.Alpha_Clip));
+							}else{
+								//カスタムテキストマテリアル使用。
+								{
+									Material t_text_material = t_inputfield.GetCustomTextMaterial();
+									int t_gui_x1;
+									int t_gui_y1;
+									int t_gui_x2;
+									int t_gui_y2;
+									this.VirtualScreenToGuiScreen(t_inputfield.GetClipX(),t_inputfield.GetClipY() + t_inputfield.GetClipH(),out t_gui_x1,out t_gui_y1);
+									this.VirtualScreenToGuiScreen(t_inputfield.GetClipX() + t_inputfield.GetClipW(),t_inputfield.GetClipY(),out t_gui_x2,out t_gui_y2);
+									t_text_material.SetInt("clip_flag",1);
+									t_text_material.SetFloat("clip_x1",t_gui_x1);
+									t_text_material.SetFloat("clip_y1",this.screen.GetGuiH() - t_gui_y1);
+									t_text_material.SetFloat("clip_x2",t_gui_x2);
+									t_text_material.SetFloat("clip_y2",this.screen.GetGuiH() - t_gui_y2);
+									t_inputfield.Raw_SetTextMaterial(t_text_material);
+								}
+
+								//カスタムイメージマテリアル使用。
+								{
+									Material t_image_material = t_inputfield.GetCustomImageMaterial();
+									int t_gui_x1;
+									int t_gui_y1;
+									int t_gui_x2;
+									int t_gui_y2;
+									this.VirtualScreenToGuiScreen(t_inputfield.GetClipX(),t_inputfield.GetClipY() + t_inputfield.GetClipH(),out t_gui_x1,out t_gui_y1);
+									this.VirtualScreenToGuiScreen(t_inputfield.GetClipX() + t_inputfield.GetClipW(),t_inputfield.GetClipY(),out t_gui_x2,out t_gui_y2);
+									t_image_material.SetInt("clip_flag",1);
+									t_image_material.SetFloat("clip_x1",t_gui_x1);
+									t_image_material.SetFloat("clip_y1",this.screen.GetGuiH() - t_gui_y1);
+									t_image_material.SetFloat("clip_x2",t_gui_x2);
+									t_image_material.SetFloat("clip_y2",this.screen.GetGuiH() - t_gui_y2);
+									t_inputfield.Raw_SetTextMaterial(t_image_material);
+								}
+							}
 						}
 
 						if((t_inputfield.IsVisible() == true)&&(t_inputfield.GetDrawPriority() >= 0)){
