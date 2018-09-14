@@ -80,10 +80,10 @@ namespace NRender2D
 
 		/** マテリアル名。
 		*/
-		public static string[] MATERIAL_STRING = {
-			"Material/Render2D/Normal",
+		public static string[] MATERIAL_NAME = {
+			"Material/Render2D/Simple",
 			"Material/Render2D/Alpha",
-			"Material/Render2D/Alpha_Clip",
+			"Material/Render2D/AlphaClip",
 			"Material/Render2D/Add",
 			"Material/Render2D/Slice9",
 		};
@@ -94,16 +94,22 @@ namespace NRender2D
 		{
 			None = -1,
 
-			Normal = 0,
+			/** 
+			*/
+			Simple = 0,
 			Alpha,
-			Alpha_Clip,
+			AlphaClip,
 			Add,
 			Slice9,
 		}
 
-		/** マテリアル名。テキスト。
+		/** マテリアル名。ＵＩテキスト。
 		*/
-		public static string MATERIAL_STRING_TEXT = "Material/Render2D/Text";
+		public static string MATERIAL_NAME_UITEXT = "Material/Render2D/UiText";
+
+		/** マテリアル名。ＵＩイメージ。
+		*/
+		public static string MATERIAL_NAME_UIIMAGE = "Material/Render2D/UiImage";
 
 		/** デフォルト。テキスト。フォントサイズ。
 		*/
@@ -115,7 +121,7 @@ namespace NRender2D
 
 		/** デフォルト。スプライト。マテリアルタイプ。
 		*/
-		public static MaterialType DEFALUT_SPRITE_MATERIALTYPE = MaterialType.Normal;
+		public static MaterialType DEFALUT_SPRITE_MATERIALTYPE = MaterialType.Simple;
 
 		/** デフォルト。フォント名。
 		*/

@@ -69,7 +69,9 @@ namespace NRender2D
 			this.raw_transform = this.raw_gameobject.GetComponent<Transform>();
 			this.raw_text = this.raw_gameobject.GetComponent<UnityEngine.UI.Text>();
 			this.raw_recttransform = this.raw_gameobject.GetComponent<UnityEngine.RectTransform>();
-			this.raw_custom_textmaterial = new Material(Render2D.GetInstance().GetTextMaterial());
+
+			//共通マテリアルから複製。
+			this.raw_custom_textmaterial = new Material(Render2D.GetInstance().GetUiTextMaterial());
 
 			//material
 			this.raw_text.material = this.raw_custom_textmaterial;

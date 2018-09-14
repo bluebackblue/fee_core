@@ -47,6 +47,8 @@ public class test01 : main_base
 	private void Start()
 	{
 		//２Ｄ描画。インスタンス作成。
+		NRender2D.Config.LOG_ENABLE = true;
+		NRender2D.Config.ASSERT_ENABLE = true;
 		NRender2D.Render2D.CreateInstance();
 
 		//フォント。
@@ -70,14 +72,16 @@ public class test01 : main_base
 		this.sprite.SetTextureRect(0,0,NRender2D.Render2D.TEXTURE_W,NRender2D.Render2D.TEXTURE_H);
 		this.sprite.SetRect(0,0,NRender2D.Render2D.VIRTUAL_W,NRender2D.Render2D.VIRTUAL_H);
 		this.sprite.SetColor(0.0f,0.5f,0.0f,1.0f);
-		this.sprite.SetMaterialType(NRender2D.Config.MaterialType.Normal);
+		this.sprite.SetMaterialType(NRender2D.Config.MaterialType.Simple);
 
 		//テキスト。
 		this.text = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.text.SetCenter(true);
 		this.text.SetRect(NRender2D.Render2D.VIRTUAL_W / 2,NRender2D.Render2D.VIRTUAL_H / 2,0,0);
-		this.text.SetText("abcdefghijklmnopqrstuvwxyz");
+		this.text.SetText("abcあいうえおxyz");
 		this.text.SetColor(0.0f,0.0f,0.0f,1.0f);
+		this.text.SetOutLine(true);
+		this.text.SetShadow(true);
 
 		//入力フィールド。
 		{
@@ -88,8 +92,10 @@ public class test01 : main_base
 		
 			this.inputfield = new NRender2D.InputField2D(this.deleter,null,t_drawpriority);
 			this.inputfield.SetRect(t_x,t_y,t_w,t_h);
-			this.inputfield.SetText("default_text");
+			this.inputfield.SetText("defaultテキスト");
 			this.inputfield.SetMultiLine(true);
+			this.inputfield.SetImageColor(1.0f,0.6f,0.6f,1.0f);
+			this.inputfield.SetTextColor(0.0f,0.0f,0.0f,0.5f);
 		}
 	}
 

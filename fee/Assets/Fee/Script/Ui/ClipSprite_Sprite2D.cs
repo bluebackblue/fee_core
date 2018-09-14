@@ -41,7 +41,7 @@ namespace NUi
 			this.clip_rect.Set(0,0,0,0);
 
 			//マテリアル設定。
-			this.SetMaterialType(NRender2D.Config.MaterialType.Alpha_Clip);
+			this.SetMaterialType(NRender2D.Config.MaterialType.AlphaClip);
 		}
 
 		/** クリップ。設定。

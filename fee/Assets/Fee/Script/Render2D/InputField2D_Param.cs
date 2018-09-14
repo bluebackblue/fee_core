@@ -75,8 +75,10 @@ namespace NRender2D
 			this.raw_text = this.raw_inputfield.textComponent;
 			this.raw_image = this.raw_inputfield.image;
 			this.raw_placeholder_text = this.raw_inputfield.placeholder.GetComponent<UnityEngine.UI.Text>();
-			this.raw_custom_textmaterial = new Material(Render2D.GetInstance().GetTextMaterial());
-			this.raw_custom_imagematerial = new Material(Render2D.GetInstance().GetMaterial(Config.MaterialType.Alpha_Clip));
+
+			//共通マテリアルから複製。
+			this.raw_custom_textmaterial = new Material(Render2D.GetInstance().GetUiTextMaterial());
+			this.raw_custom_imagematerial = new Material(Render2D.GetInstance().GetUiImageMaterial());
 
 			//material
 			this.raw_text.material = this.raw_custom_textmaterial;
@@ -238,6 +240,56 @@ namespace NRender2D
 		public int GetFontSize()
 		{
 			return this.fontsize;
+		}
+
+		/** イメージ色。設定。
+		*/
+		public void SetImageColor(ref Color a_color)
+		{
+			if(this.raw_image.color != a_color){
+				this.raw_image.color = a_color;
+			}
+		}
+
+		/** イメージ色。設定。
+		*/
+		public void SetImageColor(float a_r,float a_g,float a_b,float a_a)
+		{
+			if((this.raw_image.color.r != a_r)||(this.raw_image.color.g != a_g)||(this.raw_image.color.b != a_b)||(this.raw_image.color.a != a_a)){
+				this.raw_image.color = new Color(a_r,a_g,a_b,a_a);
+			}
+		}
+
+		/** イメージ色。取得。
+		*/
+		public Color GetImageColor()
+		{
+			return this.raw_image.color;
+		}
+
+		/** テキスト色。設定。
+		*/
+		public void SetTextColor(ref Color a_color)
+		{
+			if(this.raw_text.color != a_color){
+				this.raw_text.color = a_color;
+			}
+		}
+
+		/** テキスト色。設定。
+		*/
+		public void SetTextColor(float a_r,float a_g,float a_b,float a_a)
+		{
+			if((this.raw_text.color.r != a_r)||(this.raw_text.color.g != a_g)||(this.raw_text.color.b != a_b)||(this.raw_text.color.a != a_a)){
+				this.raw_text.color = new Color(a_r,a_g,a_b,a_a);
+			}
+		}
+
+		/** イテキスト色。取得。
+		*/
+		public Color GetTextColor()
+		{
+			return this.raw_text.color;
 		}
 
 		/** [内部からの呼び出し]フォントサイズ。設定。

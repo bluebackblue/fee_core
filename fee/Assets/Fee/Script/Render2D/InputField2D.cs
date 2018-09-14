@@ -353,6 +353,48 @@ namespace NRender2D
 			return this.param.GetFontSize();
 		}
 
+		/** イメージ色。設定。
+		*/
+		public void SetImageColor(ref Color a_color)
+		{
+			this.param.SetImageColor(ref a_color);
+		}
+
+		/** イメージ色。設定。
+		*/
+		public void SetImageColor(float a_r,float a_g,float a_b,float a_a)
+		{
+			this.param.SetImageColor(a_r,a_g,a_b,a_a);
+		}
+
+		/** イメージ色。取得。
+		*/
+		public Color GetImageColor()
+		{
+			return this.param.GetImageColor();
+		}
+
+		/** テキスト色。設定。
+		*/
+		public void SetTextColor(ref Color a_color)
+		{
+			this.param.SetTextColor(ref a_color);
+		}
+
+		/** テキスト色。設定。
+		*/
+		public void SetTextColor(float a_r,float a_g,float a_b,float a_a)
+		{
+			this.param.SetTextColor(a_r,a_g,a_b,a_a);
+		}
+
+		/** テキスト色。取得。
+		*/
+		public Color GetTextColor()
+		{
+			return this.param.GetTextColor();
+		}
+
 		/** センター。設定。
 		*/
 		public void SetCenter(bool a_flag)

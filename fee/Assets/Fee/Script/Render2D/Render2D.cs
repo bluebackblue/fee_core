@@ -193,18 +193,18 @@ namespace NRender2D
 			return this.default_font;
 		}
 
-		/** テキストマテリアル。取得。
+		/** ＵＩテキストマテリアル。取得。
 		*/
-		public Material GetTextMaterial()
+		public Material GetUiTextMaterial()
 		{
-			return this.materiallist.GetTextMaterial();
+			return this.materiallist.GetUiTextMaterial();
 		}
 
-		/** マテリアル。取得。
+		/** ＵＩイメージマテリアル。取得。
 		*/
-		public Material GetMaterial(Config.MaterialType a_material_type)
+		public Material GetUiImageMaterial()
 		{
-			return this.materiallist.GetMaterial(a_material_type);
+			return this.materiallist.GetUiImageMaterial();
 		}
 
 		/** [RawText]作成。
@@ -461,7 +461,7 @@ namespace NRender2D
 
 							if(t_text.IsClip() == false){
 								//共通テキストマテリアル使用。
-								t_text.Raw_SetTextMaterial(this.materiallist.GetTextMaterial());
+								t_text.Raw_SetTextMaterial(this.materiallist.GetUiTextMaterial());
 							}else{
 								//カスタムテキストマテリアル使用。
 								{
@@ -514,9 +514,8 @@ namespace NRender2D
 
 							if(t_inputfield.IsClip() == false){
 								//共通テキストマテリアル使用。
-
-								t_inputfield.Raw_SetTextMaterial(this.materiallist.GetTextMaterial());
-								t_inputfield.Raw_SetImageMaterial(this.materiallist.GetMaterial(Config.MaterialType.Alpha_Clip));
+								t_inputfield.Raw_SetTextMaterial(this.materiallist.GetUiTextMaterial());
+								t_inputfield.Raw_SetImageMaterial(this.materiallist.GetUiImageMaterial());
 							}else{
 								//カスタムテキストマテリアル使用。
 								{

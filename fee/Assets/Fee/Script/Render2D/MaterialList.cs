@@ -24,25 +24,32 @@ namespace NRender2D
 		*/
 		private Material[] list;
 
-		/** material_text
+		/** material_ui_text
 		*/
-		private Material material_text;
+		private Material material_ui_text;
+
+		/** material_ui_image
+		*/
+		private Material material_ui_image;
 
 		/** constructor
 		*/
 		public MaterialList()
 		{
 			//list
-			this.list = new Material[Config.MATERIAL_STRING.Length];
+			this.list = new Material[Config.MATERIAL_NAME.Length];
 			for(int ii=0;ii<this.list.Length;ii++){
-				Material t_material = Resources.Load<Material>(Config.MATERIAL_STRING[ii]);
+				Material t_material = Resources.Load<Material>(Config.MATERIAL_NAME[ii]);
 				if(t_material != null){
 					this.list[ii] = new Material(t_material);
 				}
 			}
 
-			//material_text
-			this.material_text = Resources.Load<Material>(Config.MATERIAL_STRING_TEXT);
+			//material_ui_text
+			this.material_ui_text = Resources.Load<Material>(Config.MATERIAL_NAME_UITEXT);
+
+			//material_ui_image
+			this.material_ui_image = Resources.Load<Material>(Config.MATERIAL_NAME_UIIMAGE);
 		}
 
 		/** マテリアル。取得。
@@ -52,19 +59,28 @@ namespace NRender2D
 			return this.list[(int)a_sprite.GetMaterialType()];
 		}
 
-		/** マテリアル。取得。
+		/** ＵＩテキストマテリアル。取得。
 		*/
-		public Material GetTextMaterial()
+		public Material GetUiTextMaterial()
 		{
-			return this.material_text;
+			return this.material_ui_text;
+		}
+
+		/** ＵＩイメージマテリアル。取得。
+		*/
+		public Material GetUiImageMaterial()
+		{
+			return this.material_ui_image;
 		}
 
 		/** マテリアル。取得。
 		*/
+		/*
 		public Material GetMaterial(Config.MaterialType a_material_type)
 		{
 			return this.list[(int)a_material_type];
 		}
+		*/
 	}
 }
 
