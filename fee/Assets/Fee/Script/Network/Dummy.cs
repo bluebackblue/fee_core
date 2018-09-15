@@ -38,26 +38,6 @@ namespace NNetwork
 		{
 		}
 
-		/** RpcTarget
-		*/
-		public enum RpcTarget
-		{
-			All,
-		};
-
-		/** PhotonView
-		*/
-		public class PhotonView
-		{
-			/** IsMine
-			*/
-			public bool IsMine;
-
-			/** RPC
-			*/
-			public void RPC(params object[] a_list){}
-		}
-
 		/** PunRPC
 		*/
 		class PunRPC : System.Attribute

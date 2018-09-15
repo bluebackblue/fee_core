@@ -31,7 +31,7 @@ namespace NBlur
 
 		/** work_rendertexture
 		*/
-		private RenderTexture work_rendertexture;
+		//private RenderTexture work_rendertexture;
 
 		/** 初期化。
 		*/
@@ -44,9 +44,7 @@ namespace NBlur
 			this.material_blur_x = Resources.Load<Material>(Config.MATERIAL_NAME_BLURX);
 			this.material_blur_y = Resources.Load<Material>(Config.MATERIAL_NAME_BLURY);
 
-			//work_rendertexture
-			this.work_rendertexture = null;
-
+			#if(UNITY_EDITOR)
 			{
 				float[] t_table = new float[8];
 				float t_total = 0.0f;
@@ -57,18 +55,16 @@ namespace NBlur
 				}
 				for(int ii=0;ii<t_table.Length;ii++){
 					t_table[ii] /= t_total;
+					Tool.Log("MonoBehaviour_Camera","param = " + t_table[ii].ToString());
 				}
 			}
+			#endif
 		}
 
 		/** 削除。
 		*/
 		public void Delete()
 		{
-			if(this.work_rendertexture != null){
-				this.work_rendertexture.Release();
-				this.work_rendertexture = null;
-			}
 		}
 
 		/** カメラデプス。設定。
@@ -82,30 +78,13 @@ namespace NBlur
 		*/
 		private void OnRenderImage(RenderTexture a_source,RenderTexture a_dest)
 		{
-			//レンダリングテクスチャ。
-			if(this.work_rendertexture == null){
-				this.work_rendertexture = new RenderTexture(a_source.width / 2,a_source.height / 2,0,a_source.format);
-			}
+			RenderTexture t_work_rendertexture = RenderTexture.GetTemporary(a_source.width/2,a_source.height/2,0,a_source.format,RenderTextureReadWrite.Default);
 
-			if(this.work_rendertexture != null){
-				this.work_rendertexture.DiscardContents();
-			}
+			UnityEngine.Graphics.Blit(a_source,t_work_rendertexture,this.material_blur_x);
+			UnityEngine.Graphics.Blit(t_work_rendertexture,a_dest,this.material_blur_y);
 
-			UnityEngine.Graphics.Blit(a_source,this.work_rendertexture,this.material_blur_x);
-
-			/*
-			いくつかのプラットフォームでは RenderTexture オブジェクトの現在のコンテンツが 必要でないタイミングを使用することはパフォーマンスに良い影響を与えます。 
-			テクスチャを再利用したときに一種類のメモリから別のものに複製することを回避できます。 
-			Xbox 360 および多くのモバイル GPU でこのメリットがあります。 
-			カラーバッファおよびデプスバッファはデフォルトでは無視されますが、どちらも個別に任意の boolean 引数を使用して選択できます。
-			discardColor	カラーバッファを無視するか
-			discardDepth	デプスバッファを無視するか
-			*/
-			//this.work_rendertexture.DiscardContents(true,true);
-
-			if(a_dest != null){
-				UnityEngine.Graphics.Blit(this.work_rendertexture,a_dest,this.material_blur_y);
-			}
+			RenderTexture.ReleaseTemporary(t_work_rendertexture);
+			t_work_rendertexture = null;
 		}
 	}
 }

@@ -34,7 +34,9 @@ namespace NNetwork
 
 		/** photon_view
 		*/
+		#if USE_PUN
 		private Photon.Pun.PhotonView photon_view;
+		#endif
 
 		/** [内部からの呼び出し]リモートコールキー。
 		*/
@@ -56,7 +58,9 @@ namespace NNetwork
 			this.GetComponent<Transform>().SetParent(t_root);
 
 			//photon_view
+			#if USE_PUN
 			this.photon_view = this.GetComponent<Photon.Pun.PhotonView>();
+			#endif
 
 			#if USE_PUN
 			{
