@@ -29,7 +29,7 @@ namespace NRender2D
 		public LayerList(Transform a_transform_root)
 		{
 			//プレハブ読み込み。
-			GameObject t_prefab_camera = Resources.Load<GameObject>(Config.PREFAB_NAME_CAMERA);
+			//GameObject t_prefab_camera = Resources.Load<GameObject>(Config.PREFAB_NAME_CAMERA);
 			GameObject t_prefab_canvas = Resources.Load<GameObject>(Config.PREFAB_NAME_CANVAS);
 			GameObject t_prefab_eventsystem = Resources.Load<GameObject>(Config.PREFAB_NAME_EVENTSYSTEM);
 
@@ -53,38 +53,24 @@ namespace NRender2D
 			for(int ii=0;ii<this.list.Length;ii++){
 				this.list[ii] = new LayerItem();
 
+				//描画順序。
+				float t_gl_depth = Config.CAMERADEPTH_START + ii * Config.CAMERADEPTH_STEP + Config.CAMERADEPTH_OFFSET_GL;
+				float t_ui_depth = Config.CAMERADEPTH_START + ii * Config.CAMERADEPTH_STEP + Config.CAMERADEPTJ_OFFSET_UI;
+
 				//カメラ。ＧＬ描画。
-				GameObject t_gameobject_camera_gl = GameObject.Instantiate(t_prefab_camera,Vector3.zero,Quaternion.identity);
-				t_gameobject_camera_gl.name = "Camera_" + ii.ToString() + "_GL";
-				t_gameobject_camera_gl.transform.SetParent(a_transform_root);
+				GameObject t_gameobject_camera_gl = NInstantiate.Instantiate.CreateOrthographicCameraObject("Camera_" + ii.ToString() + "_GL",a_transform_root,t_gl_depth);
 				Camera t_camera_gl = t_gameobject_camera_gl.GetComponent<Camera>();
 
 				//カメラ。ＵＩ描画。
-				GameObject t_gameobject_camera_ui = GameObject.Instantiate(t_prefab_camera,Vector3.zero,Quaternion.identity);
-				t_gameobject_camera_ui.name = "Camera_" + ii.ToString() + "_UI";
-				t_gameobject_camera_ui.transform.SetParent(a_transform_root);
+				GameObject t_gameobject_camera_ui = NInstantiate.Instantiate.CreateOrthographicCameraObject("Camera_" + ii.ToString() + "_UI",a_transform_root,t_ui_depth);
 				Camera t_camera_ui = t_gameobject_camera_ui.GetComponent<Camera>();
-
+				t_camera_ui.cullingMask = (1 << LayerMask.NameToLayer("UI"));
+				
 				//キャンバス。
 				GameObject t_gameobject_canvas = GameObject.Instantiate(t_prefab_canvas,Vector3.zero,Quaternion.identity);
 				t_gameobject_canvas.name = "Canvas_" + ii.ToString();
 				t_gameobject_canvas.transform.SetParent(a_transform_root);
 				Canvas t_canvas = t_gameobject_canvas.GetComponent<Canvas>();
-
-				float t_gl_depth = Config.CAMERADEPTH_START + ii * Config.CAMERADEPTH_STEP + Config.CAMERADEPTH_OFFSET_GL;
-				float t_ui_depth = Config.CAMERADEPTH_START + ii * Config.CAMERADEPTH_STEP + Config.CAMERADEPTJ_OFFSET_UI;
-
-				//カメラ設定。ＧＬ描画。
-				t_camera_gl.clearFlags = CameraClearFlags.Nothing;
-				t_camera_gl.orthographic = true;
-				t_camera_gl.cullingMask = 0;
-				t_camera_gl.depth = t_gl_depth;
-
-				//カメラ設定。ＵＩ。
-				t_camera_ui.clearFlags = CameraClearFlags.Nothing;
-				t_camera_ui.orthographic = true;
-				t_camera_ui.cullingMask = (1 << LayerMask.NameToLayer("UI"));
-				t_camera_ui.depth = t_ui_depth;
 
 				//キャンバス設定。
 				t_canvas.renderMode = RenderMode.ScreenSpaceCamera;
