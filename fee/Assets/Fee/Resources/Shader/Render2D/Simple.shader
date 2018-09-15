@@ -7,7 +7,7 @@
 */
 
 
-Shader "Render2D/Normal"
+Shader "Render2D/Simple"
 {
 	Properties
 	{

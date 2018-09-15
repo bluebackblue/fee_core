@@ -122,11 +122,11 @@ Shader "Render2D/Slice9"
 						discard;
 					}
 
-					if(clip_y1>i.vertex.y){
+					if(clip_y2>i.vertex.y){
 						discard;
 					}
 
-					if(i.vertex.y>clip_y2){
+					if(i.vertex.y>clip_y1){
 						discard;
 					}
 				}
@@ -192,7 +192,9 @@ Shader "Render2D/Slice9"
 					t_offset_y = 0.5f;
 				}
 
-				return tex2D(_MainTex,float2(t_tex_x + t_offset_x,1.0f - t_tex_y - t_offset_y)) * i.color;
+				fixed4 t_color = tex2D(_MainTex,float2(t_tex_x + t_offset_x,1.0f - t_tex_y - t_offset_y)) * i.color;
+
+				return t_color;
 			}
 			ENDCG
 		}

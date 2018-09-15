@@ -142,9 +142,9 @@ namespace NUi
 				NRender2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.clip_rect.x,this.clip_rect.y + this.clip_rect.h,out t_gui_x1,out t_gui_y1);
 				NRender2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.clip_rect.x + this.clip_rect.w,this.clip_rect.y,out t_gui_x2,out t_gui_y2);
 				float t_clip_x1 = t_gui_x1;
-				float t_clip_y1 = NRender2D.Render2D.GetInstance().GetGuiH() - t_gui_y1;
+				float t_clip_y1 = t_gui_y1;
 				float t_clip_x2 = t_gui_x2;
-				float t_clip_y2 = NRender2D.Render2D.GetInstance().GetGuiH() - t_gui_y2;
+				float t_clip_y2 = t_gui_y2;
 
 				int t_clip_flag = 0;
 				if(this.is_clip == true){

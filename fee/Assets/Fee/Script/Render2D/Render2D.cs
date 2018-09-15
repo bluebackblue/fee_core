@@ -474,9 +474,9 @@ namespace NRender2D
 									this.VirtualScreenToGuiScreen(t_text.GetClipX() + t_text.GetClipW(),t_text.GetClipY(),out t_gui_x2,out t_gui_y2);
 									t_material.SetInt("clip_flag",1);
 									t_material.SetFloat("clip_x1",t_gui_x1);
-									t_material.SetFloat("clip_y1",this.screen.GetGuiH() - t_gui_y1);
+									t_material.SetFloat("clip_y1",t_gui_y1);
 									t_material.SetFloat("clip_x2",t_gui_x2);
-									t_material.SetFloat("clip_y2",this.screen.GetGuiH() - t_gui_y2);
+									t_material.SetFloat("clip_y2",t_gui_y2);
 									t_text.Raw_SetTextMaterial(t_material);
 								}
 							}
@@ -528,9 +528,9 @@ namespace NRender2D
 									this.VirtualScreenToGuiScreen(t_inputfield.GetClipX() + t_inputfield.GetClipW(),t_inputfield.GetClipY(),out t_gui_x2,out t_gui_y2);
 									t_text_material.SetInt("clip_flag",1);
 									t_text_material.SetFloat("clip_x1",t_gui_x1);
-									t_text_material.SetFloat("clip_y1",this.screen.GetGuiH() - t_gui_y1);
+									t_text_material.SetFloat("clip_y1",t_gui_y1);
 									t_text_material.SetFloat("clip_x2",t_gui_x2);
-									t_text_material.SetFloat("clip_y2",this.screen.GetGuiH() - t_gui_y2);
+									t_text_material.SetFloat("clip_y2",t_gui_y2);
 									t_inputfield.Raw_SetTextMaterial(t_text_material);
 								}
 
@@ -545,9 +545,9 @@ namespace NRender2D
 									this.VirtualScreenToGuiScreen(t_inputfield.GetClipX() + t_inputfield.GetClipW(),t_inputfield.GetClipY(),out t_gui_x2,out t_gui_y2);
 									t_image_material.SetInt("clip_flag",1);
 									t_image_material.SetFloat("clip_x1",t_gui_x1);
-									t_image_material.SetFloat("clip_y1",this.screen.GetGuiH() - t_gui_y1);
+									t_image_material.SetFloat("clip_y1",t_gui_y1);
 									t_image_material.SetFloat("clip_x2",t_gui_x2);
-									t_image_material.SetFloat("clip_y2",this.screen.GetGuiH() - t_gui_y2);
+									t_image_material.SetFloat("clip_y2",t_gui_y2);
 									t_inputfield.Raw_SetImageMaterial(t_image_material);
 								}
 							}

@@ -108,11 +108,11 @@ Shader "Render2D/UiText"
 						discard;
 					}
 
-					if(clip_y1>i.vertex.y){
+					if(clip_y2>i.vertex.y){
 						discard;
 					}
 
-					if(i.vertex.y>clip_y2){
+					if(i.vertex.y>clip_y1){
 						discard;
 					}
 				}
