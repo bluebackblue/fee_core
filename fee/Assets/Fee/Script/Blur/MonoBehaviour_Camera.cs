@@ -84,11 +84,28 @@ namespace NBlur
 		{
 			//レンダリングテクスチャ。
 			if(this.work_rendertexture == null){
-				this.work_rendertexture = new RenderTexture(a_source.width,a_source.height,0,a_source.format);
+				this.work_rendertexture = new RenderTexture(a_source.width / 2,a_source.height / 2,0,a_source.format);
+			}
+
+			if(this.work_rendertexture != null){
+				this.work_rendertexture.DiscardContents();
 			}
 
 			UnityEngine.Graphics.Blit(a_source,this.work_rendertexture,this.material_blur_x);
-			UnityEngine.Graphics.Blit(this.work_rendertexture,a_dest,this.material_blur_y);
+
+			/*
+			いくつかのプラットフォームでは RenderTexture オブジェクトの現在のコンテンツが 必要でないタイミングを使用することはパフォーマンスに良い影響を与えます。 
+			テクスチャを再利用したときに一種類のメモリから別のものに複製することを回避できます。 
+			Xbox 360 および多くのモバイル GPU でこのメリットがあります。 
+			カラーバッファおよびデプスバッファはデフォルトでは無視されますが、どちらも個別に任意の boolean 引数を使用して選択できます。
+			discardColor	カラーバッファを無視するか
+			discardDepth	デプスバッファを無視するか
+			*/
+			//this.work_rendertexture.DiscardContents(true,true);
+
+			if(a_dest != null){
+				UnityEngine.Graphics.Blit(this.work_rendertexture,a_dest,this.material_blur_y);
+			}
 		}
 	}
 }

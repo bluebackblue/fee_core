@@ -8,13 +8,13 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ブラー。コンフィグ。
+ * @brief インスタンス作成。コンフィグ。
 */
 
 
-/** NBlur
+/** NInstantiate
 */
-namespace NBlur
+namespace NInstantiate
 {
 	/** Config
 	*/
@@ -27,20 +27,6 @@ namespace NBlur
 		/** アサート。
 		*/
 		public static bool ASSERT_ENABLE = false;
-
-		/** プレハブ名。
-		*/
-		//public static string PREFAB_NAME_CAMERA = "Prefab/Blur/Camera";
-
-		/** マテリアル名。
-		*/
-		public static string MATERIAL_NAME_BLURX = "Material/Blur/BlurX";
-		public static string MATERIAL_NAME_BLURY = "Material/Blur/BlurY";
-
-		/** デフォルト。カメラデプス。
-		*/
-		public static float DEFAULT_CAMERA_DEPTH = 999.0f;
-		
 	}
 }
 

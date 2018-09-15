@@ -69,16 +69,9 @@ namespace NBlur
 			Transform t_root_transform = this.root_gameobject.GetComponent<Transform>();
 			GameObject.DontDestroyOnLoad(this.root_gameobject);
 
-			//プレハブ読み込み。
-			GameObject t_prefab_camera = Resources.Load<GameObject>(Config.PREFAB_NAME_CAMERA);
-
 			{
 				//カメラ。
-				this.camera_gameobject = GameObject.Instantiate(t_prefab_camera,Vector3.zero,Quaternion.identity);
-				this.camera_gameobject.name = "Camera";
-				this.camera_gameobject.transform.SetParent(t_root_transform);
-				Camera t_camera = this.camera_gameobject.GetComponent<Camera>();
-				t_camera.depth = 999.0f;
+				this.camera_gameobject = NInstantiate.Instantiate.CreateOrthographicCameraObject("Camera",t_root_transform,Config.DEFAULT_CAMERA_DEPTH);
 
 				//OnRenderImage
 				this.camera_monobehaviour = this.camera_gameobject.AddComponent<MonoBehaviour_Camera>();
