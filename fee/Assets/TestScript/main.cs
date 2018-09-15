@@ -77,6 +77,9 @@ public class main : MonoBehaviour
 
 		//ネットワーク。
 		NNetwork.Network.DeleteInstance();
+
+		//パフォーマンスカウンター。
+		NPerformanceCounter.PerformanceCounter.DeleteInstance();
 	}
 
 	/** デバッグ表示。

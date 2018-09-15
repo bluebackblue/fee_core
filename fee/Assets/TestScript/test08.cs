@@ -23,6 +23,9 @@ public class test08 : main_base
 	*/
 	private void Start()
 	{
+		//パフォーマンスカウンター。インスタンス作成。
+		NPerformanceCounter.PerformanceCounter.CreateInstance();
+
 		NDirectory.Item t_item_root = NDirectory.Directory.GetDirectoryItem(Application.dataPath);
 
 		//ルートのフルパス。

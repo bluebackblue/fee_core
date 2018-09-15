@@ -128,6 +128,9 @@ public class test02 : main_base
 	*/
 	private void Start()
 	{
+		//パフォーマンスカウンター。インスタンス作成。
+		NPerformanceCounter.PerformanceCounter.CreateInstance();
+
 		Debug.Log("-------------------");
 
 		//オブジェクト => ＪＳＯＮ。

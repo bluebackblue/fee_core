@@ -48,6 +48,9 @@ public class test11 : main_base
 	*/
 	private void Start()
 	{
+		//パフォーマンスカウンター。インスタンス作成。
+		NPerformanceCounter.PerformanceCounter.CreateInstance();
+
 		//ダウンロード。インスタンス作成。
 		NDownLoad.Config.LOG_ENABLE = true;
 		NDownLoad.DownLoad.CreateInstance();

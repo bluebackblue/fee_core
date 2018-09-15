@@ -169,6 +169,9 @@ public class test06 : main_base
 	*/
 	private void Update()
 	{
+		//パフォーマンスカウンター。インスタンス作成。
+		NPerformanceCounter.PerformanceCounter.CreateInstance();
+
 		//フェード。
 		NFade.Fade.GetInstance().Main_PreDraw();
 		NFade.Fade.GetInstance().Main();

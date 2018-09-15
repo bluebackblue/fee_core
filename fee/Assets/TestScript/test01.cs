@@ -46,7 +46,7 @@ public class test01 : main_base
 	*/
 	private void Start()
 	{
-		//パフォーマンスカウンター。
+		//パフォーマンスカウンター。インスタンス作成。
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 
 		//２Ｄ描画。インスタンス作成。

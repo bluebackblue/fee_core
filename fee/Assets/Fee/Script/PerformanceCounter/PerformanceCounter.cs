@@ -60,6 +60,7 @@ namespace NPerformanceCounter
 		/** camera_gameobject
 		*/
 		private GameObject camera_gameobject;
+		private MonoBehaviour_Camera camera_script;
 
 		/** フレームデータ。
 		*/
@@ -80,14 +81,15 @@ namespace NPerformanceCounter
 
 			//カメラ。
 			this.camera_gameobject = NInstantiate.Instantiate.CreateOrthographicCameraObject("Camera",t_root_transform,999.0f);
-			MonoBehaviour_Camera t_script = this.camera_gameobject.AddComponent<MonoBehaviour_Camera>();
-			t_script.Initialize();
+			this.camera_script = this.camera_gameobject.AddComponent<MonoBehaviour_Camera>();
+			this.camera_script.Initialize();
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			this.camera_script.Delete();
 			GameObject.Destroy(this.root_gameobject);
 		}
 
