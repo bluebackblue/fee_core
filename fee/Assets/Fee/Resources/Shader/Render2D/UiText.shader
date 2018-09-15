@@ -108,6 +108,7 @@ Shader "Render2D/UiText"
 						discard;
 					}
 
+					#if(UNITY_UV_STARTS_AT_TOP)
 					if(clip_y2>i.vertex.y){
 						discard;
 					}
@@ -115,6 +116,15 @@ Shader "Render2D/UiText"
 					if(i.vertex.y>clip_y1){
 						discard;
 					}
+					#else
+					if((_ScreenParams.y - clip_y1)>i.vertex.y){
+						discard;
+					}
+
+					if(i.vertex.y>(_ScreenParams.y - clip_y2)){
+						discard;
+					}
+					#endif
 				}
 
 				fixed4 t_color = i.color;

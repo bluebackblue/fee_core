@@ -122,6 +122,7 @@ Shader "Render2D/Slice9"
 						discard;
 					}
 
+					#if(UNITY_UV_STARTS_AT_TOP)
 					if(clip_y2>i.vertex.y){
 						discard;
 					}
@@ -129,6 +130,15 @@ Shader "Render2D/Slice9"
 					if(i.vertex.y>clip_y1){
 						discard;
 					}
+					#else
+					if((_ScreenParams.y - clip_y1)>i.vertex.y){
+						discard;
+					}
+
+					if(i.vertex.y>(_ScreenParams.y - clip_y2)){
+						discard;
+					}
+					#endif
 				}
 
 				//１ピクセルのサイズ。

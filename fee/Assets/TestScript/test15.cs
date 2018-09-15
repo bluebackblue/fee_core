@@ -93,11 +93,14 @@ public class test15 : main_base
 
 		//clipsprite
 		{
+			Texture2D t_texture = Resources.Load<Texture2D>("IMGP8657");
+
 			this.clipsprite = new NUi.ClipSprite(this.deleter,null,t_drawpriority + 1);
 			this.clipsprite.SetRect(ref NRender2D.Render2D.VIRTUAL_RECT_MAX);
 			this.clipsprite.SetTexture(Texture2D.whiteTexture);
 			this.clipsprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 			this.clipsprite.SetColor(0.7f,0.7f,0.7f,1.0f);
+			this.clipsprite.SetTexture(t_texture);
 		}
 
 		//text
