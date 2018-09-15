@@ -46,6 +46,9 @@ public class test01 : main_base
 	*/
 	private void Start()
 	{
+		//パフォーマンスカウンター。
+		NPerformanceCounter.PerformanceCounter.CreateInstance();
+
 		//２Ｄ描画。インスタンス作成。
 		NRender2D.Config.LOG_ENABLE = true;
 		NRender2D.Config.ASSERT_ENABLE = true;

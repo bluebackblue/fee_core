@@ -138,6 +138,11 @@
     <Compile Include="Assets\Fee\Script\Network\OnRemoteCallBack_Base.cs" />
     <Compile Include="Assets\Fee\Script\Network\Player.cs" />
     <Compile Include="Assets\Fee\Script\Network\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\PerformanceCounter\Config.cs" />
+    <Compile Include="Assets\Fee\Script\PerformanceCounter\FrameData.cs" />
+    <Compile Include="Assets\Fee\Script\PerformanceCounter\MonoBehaviour_Camera.cs" />
+    <Compile Include="Assets\Fee\Script\PerformanceCounter\PerformanceCounter.cs" />
+    <Compile Include="Assets\Fee\Script\PerformanceCounter\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Render2D\Config.cs" />
     <Compile Include="Assets\Fee\Script\Render2D\InputField2D.cs" />
     <Compile Include="Assets\Fee\Script\Render2D\InputField2D_Param.cs" />
@@ -374,6 +379,7 @@
     <None Include="Assets\Fee\Resources\Shader\Render2D\AlphaClip.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\UiText.shader" />
     <None Include="Assets\Photon\PhotonUnityNetworking\link.xml" />
+    <None Include="Assets\Fee\Resources\Shader\PerformanceCounter\NewSurfaceShader.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Slice9.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Simple.shader" />
     <None Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Kenney Assets\Copyrights.txt" />

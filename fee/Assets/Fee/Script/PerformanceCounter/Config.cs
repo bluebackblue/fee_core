@@ -8,13 +8,13 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ブラー。コンフィグ。
+ * @brief パフォーマンスカウンター。コンフィグ。
 */
 
 
-/** NBlur
+/** NPerformanceCounter
 */
-namespace NBlur
+namespace NPerformanceCounter
 {
 	/** Config
 	*/
@@ -39,7 +39,8 @@ namespace NBlur
 
 		/** デフォルト。カメラデプス。
 		*/
-		public static float DEFAULT_CAMERA_DEPTH = 800.0f;
+		public static float DEFAULT_CAMERA_DEPTH = 900.0f;
+		
 	}
 }
 

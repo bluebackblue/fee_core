@@ -667,13 +667,13 @@ namespace NRender2D
 					}
 
 					if(t_is_begin == true){
-						GL.End();
+						UnityEngine.GL.End();
 					}
 				}catch(System.Exception t_exception){
 					Tool.LogError(t_exception);
 				}
 
-				GL.PopMatrix();
+				UnityEngine.GL.PopMatrix();
 			}
 		}
 	}
