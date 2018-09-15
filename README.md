@@ -19,6 +19,9 @@ https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
 ## webgl
 http://bbbproject.sakura.ne.jp/www/project_webgl/fee/
 
+## Unity Version
+2018.2.8f1
+
 ## 使用ライセンス
 
 ### M+ FONTS
