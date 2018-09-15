@@ -149,15 +149,36 @@ namespace NInput
 					this.left_menu.Set(t_left_menu_on);
 					this.right_menu.Set(t_right_menu_on);
 				}else{
-					//設定。
-					this.left.Set(false);
-					this.right.Set(false);
-					this.up.Set(false);
-					this.down.Set(false);
-					this.enter.Set(false);
-					this.escape.Set(false);
-					this.sub1.Set(false);
-					this.sub2.Set(false);
+					#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+					{
+						//bool t_enter_on = UnityEngine.Input.GetButton("Fire1");
+						//bool t_escape_on = UnityEngine.Input.GetButton("Fire2");
+						//bool t_sub1_on = UnityEngine.Input.GetButton("Fire3");
+						//bool t_sub2_on = UnityEngine.Input.GetButton("Jump");
+
+						//設定。
+						this.left.Set(false);
+						this.right.Set(false);
+						this.up.Set(false);
+						this.down.Set(false);
+						this.enter.Set(false);
+						this.escape.Set(false);
+						this.sub1.Set(false);
+						this.sub2.Set(false);
+					}
+					#else
+					{
+						//設定。
+						this.left.Set(false);
+						this.right.Set(false);
+						this.up.Set(false);
+						this.down.Set(false);
+						this.enter.Set(false);
+						this.escape.Set(false);
+						this.sub1.Set(false);
+						this.sub2.Set(false);
+					}
+					#endif
 				}
 
 				//アナログスティック。
@@ -175,6 +196,27 @@ namespace NInput
 					this.right_stick.Set(t_r_x,t_r_y);
 					this.left_stick_button.Set(t_l_on);
 					this.right_stick_button.Set(t_r_on);
+				}else{
+					#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+					{
+						float t_l_x = UnityEngine.Input.GetAxis("Horizontal");
+						float t_l_y = UnityEngine.Input.GetAxis("Vertical");
+
+						//設定。
+						this.left_stick.Set(t_l_x,t_l_y);
+						this.right_stick.Set(0.0f,0.0f);
+						this.left_stick_button.Set(false);
+						this.right_stick_button.Set(false);
+					}
+					#else
+					{
+						//設定。
+						this.left_stick.Set(0.0f,0.0f);
+						this.right_stick.Set(0.0f,0.0f);
+						this.left_stick_button.Set(false);
+						this.right_stick_button.Set(false);
+					}
+					#endif
 				}
 
 				//トリガーボタン。
@@ -190,6 +232,12 @@ namespace NInput
 					this.right_trigger1_button.Set(t_r_1);
 					this.left_trigger2_button.Set(t_l_2);
 					this.right_trigger2_button.Set(t_r_2);
+				}else{
+					//設定。
+					this.left_trigger1_button.Set(false);
+					this.right_trigger1_button.Set(false);
+					this.left_trigger2_button.Set(0.0f);
+					this.right_trigger2_button.Set(0.0f);
 				}
 
 				//更新。

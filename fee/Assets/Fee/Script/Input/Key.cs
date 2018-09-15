@@ -119,26 +119,58 @@ namespace NInput
 					this.left_menu.Set(t_left_menu_on);
 					this.right_menu.Set(t_right_menu_on);
 				}else{
-					//設定。
-					this.enter.Set(false);
-					this.escape.Set(false);
-					this.sub1.Set(false);
-					this.sub2.Set(false);
-					this.left.Set(false);
-					this.right.Set(false);
-					this.up.Set(false);
-					this.down.Set(false);
+					#if((!UNITY_EDITOR)&&(UNITY_WEBGL)) || true
+					{
+						//デバイス。
+						bool t_enter_on = UnityEngine.Input.GetKey(KeyCode.Return);
+						bool t_escape_on = UnityEngine.Input.GetKey(KeyCode.Escape);
+						bool t_sub1_on = UnityEngine.Input.GetKey(KeyCode.LeftShift);
+						bool t_sub2_on = UnityEngine.Input.GetKey(KeyCode.LeftControl);
+						bool t_left_on = UnityEngine.Input.GetKey(KeyCode.A);
+						bool t_right_on = UnityEngine.Input.GetKey(KeyCode.D);
+						bool t_up_on = UnityEngine.Input.GetKey(KeyCode.W);
+						bool t_down_on = UnityEngine.Input.GetKey(KeyCode.S);
+						bool t_left_menu_on = UnityEngine.Input.GetKey(KeyCode.Space);
+						bool t_right_menu_on = UnityEngine.Input.GetKey(KeyCode.Backspace);
+
+						//設定。
+						this.enter.Set(t_enter_on);
+						this.escape.Set(t_escape_on);
+						this.sub1.Set(t_sub1_on);
+						this.sub2.Set(t_sub2_on);
+						this.left.Set(t_left_on);
+						this.right.Set(t_right_on);
+						this.up.Set(t_up_on);
+						this.down.Set(t_down_on);
+						this.left_menu.Set(t_left_menu_on);
+						this.right_menu.Set(t_right_menu_on);
+					}
+					#else
+					{
+						//設定。
+						this.enter.Set(false);
+						this.escape.Set(false);
+						this.sub1.Set(false);
+						this.sub2.Set(false);
+						this.left.Set(false);
+						this.right.Set(false);
+						this.up.Set(false);
+						this.down.Set(false);
+						this.left_menu.Set(false);
+						this.right_menu.Set(false);
+					}
+					#endif
 				}
 
 				//更新。
-				this.left.Main();
-				this.right.Main();
-				this.up.Main();
-				this.down.Main();
 				this.enter.Main();
 				this.escape.Main();
 				this.sub1.Main();
 				this.sub2.Main();
+				this.left.Main();
+				this.right.Main();
+				this.up.Main();
+				this.down.Main();
 				this.left_menu.Main();
 				this.right_menu.Main();
 			}catch(System.Exception t_exception){
