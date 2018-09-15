@@ -130,6 +130,22 @@ namespace NInput
 
 					//設定。
 					this.pos.Set(t_x,t_y);
+				}else{
+					#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+					{
+						//デバイス。
+						int t_mouse_x = (int)UnityEngine.Input.mousePosition.x;
+						int t_mouse_y = Screen.height - (int)UnityEngine.Input.mousePosition.y;
+
+						//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+						int t_x;
+						int t_y;
+						a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
+
+						//設定。
+						this.pos.Set(t_x,t_y);
+					}
+					#endif
 				}
 			}
 			#endif
@@ -188,6 +204,14 @@ namespace NInput
 						t_l_on |= t_mouse_current.leftButton.isPressed;
 						t_r_on |= t_mouse_current.rightButton.isPressed;
 						t_m_on |= t_mouse_current.middleButton.isPressed;
+					}else{
+						#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+						{
+							t_l_on |= UnityEngine.Input.GetMouseButton(0);
+							t_r_on |= UnityEngine.Input.GetMouseButton(1);
+							t_m_on |= UnityEngine.Input.GetMouseButton(2);
+						}
+						#endif
 					}
 
 					//タッチスクリーン。
