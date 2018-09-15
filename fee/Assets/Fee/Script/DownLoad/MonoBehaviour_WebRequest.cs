@@ -201,6 +201,8 @@ namespace NDownLoad
 				this.mode = Mode.Do;
 			}
 
+			yield return null;
+
 			yield break;
 		}
 
@@ -216,7 +218,7 @@ namespace NDownLoad
 			}
 
 			//実行中チェック。
-			if(this.webrequest.isDone == true){
+			if(this.webrequest.isDone == false){
 				this.result_download_progress = this.webrequest.downloadProgress;
 				this.result_upload_progress = this.webrequest.uploadProgress;
 
@@ -232,10 +234,18 @@ namespace NDownLoad
 					this.result_upload_progress = 0.0f;
 				}
 			}else{
-				//正常終了。
-				this.mode = Mode.Do_Fix;
-				yield break;	
+				if((this.webrequest.isNetworkError == true)||(this.webrequest.isHttpError == true)){
+					//エラー終了。
+					this.mode = Mode.Do_Error;
+					yield break;
+				}else{
+					//正常終了。
+					this.mode = Mode.Do_Fix;
+					yield break;
+				}
 			}
+
+			yield return null;
 
 			yield break;
 		}
@@ -270,6 +280,9 @@ namespace NDownLoad
 			this.request_flag = false;
 
 			this.mode = Mode.Fix;
+
+			yield return null;
+
 			yield break;
 		}
 
@@ -360,6 +373,9 @@ namespace NDownLoad
 			this.request_flag = false;
 
 			this.mode = Mode.Fix;
+
+			yield return null;
+
 			yield break;
 		}
 
@@ -372,6 +388,7 @@ namespace NDownLoad
 				case Mode.WaitRequest:
 					{
 						//リクエスト待ち。
+						yield return null;
 					}break;
 				case Mode.Start:
 					{
@@ -394,8 +411,6 @@ namespace NDownLoad
 						yield return this.Raw_DoFix();
 					}break;
 				}
-
-				yield return null;
 			}
 
 			//削除。
