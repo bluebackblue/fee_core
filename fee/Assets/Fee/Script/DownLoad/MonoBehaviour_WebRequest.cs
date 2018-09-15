@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ダウンロード。ＷＷＷ。
+ * @brief ダウンロード。ウェブリクエスト。
 */
 
 
@@ -35,6 +35,18 @@ namespace NDownLoad
 			/** 実行中。
 			*/
 			Do,
+
+			/** エラー終了。
+			*/
+			Do_Error,
+
+			/** 正常終了。
+			*/
+			Do_Fix,
+
+			/** 完了。
+			*/
+			Fix,
 		};
 
 		/** delete_flag
@@ -47,10 +59,15 @@ namespace NDownLoad
 		[SerializeField]
 		private Mode mode;
 
-		/** datatype
+		/** webrequest
+		*/
+		private UnityEngine.Networking.UnityWebRequest webrequest;
+		private UnityEngine.Networking.UnityWebRequestAsyncOperation webrequest_async;
+
+		/** request_flag
 		*/
 		[SerializeField]
-		private DataType datatype;
+		private bool request_flag;
 
 		/** request_url
 		*/
@@ -66,29 +83,25 @@ namespace NDownLoad
 		[SerializeField]
 		private long request_assetbundle_id;
 
-		/** webrequest
-		*/
-		#if(USE_WWW)
-		private WWW www;
-		#else
-		private UnityEngine.Networking.UnityWebRequest webrequest;
-		private UnityEngine.Networking.UnityWebRequestAsyncOperation webrequest_async;
-		#endif
-
-		/** result_header
-		*/
-		[SerializeField]
-		private Dictionary<string,string> result_header;
-
 		/** result_errorstring
 		*/
 		[SerializeField]
 		private string result_errorstring;
 
-		/** result_progress
+		/** result_download_progress
 		*/
 		[SerializeField]
-		private float result_progress;
+		private float result_download_progress;
+
+		/** result_upload_progress
+		*/
+		[SerializeField]
+		private float result_upload_progress;
+
+		/** result_datatype
+		*/
+		[SerializeField]
+		private DataType result_datatype;
 
 		/** result_text
 		*/
@@ -115,8 +128,12 @@ namespace NDownLoad
 			//mode
 			this.mode = Mode.WaitRequest;
 
-			//datatype
-			this.datatype = DataType.None;
+			//webrequest
+			this.webrequest = null;
+			this.webrequest_async = null;
+
+			//result_datatype
+			this.result_datatype = DataType.None;
 
 			//request_url
 			this.request_url = null;
@@ -130,22 +147,14 @@ namespace NDownLoad
 			//request_assetbundle_id
 			this.request_assetbundle_id = Config.INVALID_ASSSETBUNDLE_ID;
 
-			//webrequest
-			#if(USE_WWW)
-			this.www = null;
-			#else
-			this.webrequest = null;
-			this.webrequest_async = null;
-			#endif
-
-			//result_header
-			this.result_header = null;
-
 			//result_errorstring
 			this.result_errorstring = "";
 
-			//result_progress
-			this.result_progress = 0.0f;
+			//result_download_progress
+			this.result_download_progress = 0.0f;
+
+			//result_upload_progress
+			this.result_upload_progress = 0.0f;
 
 			//result_text
 			this.result_text = null;
@@ -157,32 +166,201 @@ namespace NDownLoad
 			this.result_assetbundle = null;
 		}
 
-		/** [内部からの呼び出し]エラー。チェック。
+		/**  [内部からの呼び出し]開始。
 		*/
-		private bool Raw_IsError()
+		private IEnumerator Raw_Start()
 		{
-			#if(USE_WWW)
-			if(this.www.error != null){
-				return true;
-			}
-			#else
-			if((this.webrequest.isNetworkError == true)||(this.webrequest.isHttpError == true)){
-				return true;
-			}
-			#endif
+			if(this.request_flag == true){
+				switch(this.request_datatype){
+				case DataType.AssetBundle:
+					{
+						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_assetbundle_version.ToString() + " : " + this.request_url);
+						this.webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(this.request_url,this.request_assetbundle_version,0);
+					}break;
+				case DataType.Texture:
+					{
+						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
+						this.webrequest =  UnityEngine.Networking.UnityWebRequestTexture.GetTexture(this.request_url);
+					}break;
+				case DataType.Text:
+					{
+						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
+						this.webrequest =  UnityEngine.Networking.UnityWebRequest.Get(this.request_url);	
+					}break;
+				default:
+					{
+						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
+						this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);
+					}break;
+				}
 
-			return false;
+				if(this.webrequest != null){
+					this.webrequest_async = this.webrequest.SendWebRequest();
+				}
+
+				this.mode = Mode.Do;
+			}
+
+			yield break;
 		}
 
-		/** [内部からの呼び出し]実行中。チェック。
+		/** [内部からの呼び出し]実行中。
 		*/
-		private bool Raw_IsDone()
+		private IEnumerator Raw_Do()
 		{
-			#if(USE_WWW)
-			return this.www.isDone;
-			#else
-			return this.webrequest.isDone;
-			#endif
+			//エラーチェック。
+			if((this.webrequest.isNetworkError == true)||(this.webrequest.isHttpError == true)){
+				//エラー終了。
+				this.mode = Mode.Do_Error;
+				yield break;
+			}
+
+			//実行中チェック。
+			if(this.webrequest.isDone == true){
+				this.result_download_progress = this.webrequest.downloadProgress;
+				this.result_upload_progress = this.webrequest.uploadProgress;
+
+				if(this.result_download_progress >= 0.999f){
+					this.result_download_progress = 0.999f;
+				}else if(this.result_download_progress < 0.0f){
+					this.result_download_progress = 0.0f;
+				}
+
+				if(this.result_upload_progress >= 0.999f){
+					this.result_upload_progress = 0.999f;
+				}else if(this.result_upload_progress < 0.0f){
+					this.result_upload_progress = 0.0f;
+				}
+			}else{
+				//正常終了。
+				this.mode = Mode.Do_Fix;
+				yield break;	
+			}
+
+			yield break;
+		}
+
+		/** [内部からの呼び出し]エラー終了。
+		*/
+		private IEnumerator Raw_DoError()
+		{
+			//終了確認。
+			if(this.webrequest_async != null){
+				yield return this.webrequest_async;
+			}
+
+			{
+				this.result_datatype = DataType.Error;
+				this.result_errorstring = this.webrequest.error;
+				if(this.result_errorstring == null){
+					this.result_errorstring = "error == null";
+				}
+			}
+
+			//解放。
+			{
+				this.webrequest_async = null;
+				this.webrequest.Dispose();
+				this.webrequest = null;
+			}
+
+			//終了。
+			this.result_download_progress = 1.0f;
+			this.result_upload_progress = 1.0f;
+			this.request_flag = false;
+
+			this.mode = Mode.Fix;
+			yield break;
+		}
+
+		/** [内部からの呼び出し]終了。
+		*/
+		private IEnumerator Raw_DoFix()
+		{
+			//終了確認。
+			if(this.webrequest_async != null){
+				yield return this.webrequest_async;
+			}
+
+			//コンバート。
+			{
+				switch(this.request_datatype){
+				case DataType.Texture:
+					{
+						try{
+							this.result_texture = UnityEngine.Networking.DownloadHandlerTexture.GetContent(this.webrequest);
+						}catch(System.Exception t_exception){
+							Tool.LogError(t_exception);
+						}
+
+						if(this.result_texture != null){
+							this.result_errorstring = "";
+							this.result_datatype = DataType.Texture;
+						}else{
+							this.result_errorstring = "ConvertError : Texture";
+							this.result_datatype = DataType.Error;
+						}
+					}break;
+				case DataType.Text:
+					{
+						try{
+							this.result_text = this.webrequest.downloadHandler.text;
+						}catch(System.Exception t_exception){
+							Tool.LogError(t_exception);
+						}
+
+						if(this.result_text != null){
+							this.result_errorstring = "";
+							this.result_datatype = DataType.Text;
+						}else{
+							this.result_errorstring = "ConvertError : Text";
+							this.result_datatype = DataType.Error;
+						}
+					}break;
+				case DataType.AssetBundle:
+					{
+						try{
+							this.result_assetbundle = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(this.webrequest);
+						}catch(System.Exception t_exception){
+							Tool.LogError(t_exception);
+						}
+
+						if(this.result_assetbundle != null){
+
+							//アセットバンドルリストに登録。
+							NDownLoad.DownLoad.GetInstance().GetAssetBundleList().Regist(this.request_assetbundle_id,this.result_assetbundle);
+
+							this.result_errorstring = "";
+							this.result_datatype = DataType.AssetBundle;
+						}else{
+							this.result_errorstring = "ConvertError : AssetBundle";
+							this.result_datatype = DataType.Error;
+						}
+					}break;
+				default:
+					{
+						this.result_errorstring = "ConvertError : Unknown";
+						this.result_datatype = DataType.Error;
+					}break;
+				}
+
+				Tool.Log("MonoBehaviour_WebRequest","Convert : " + this.result_datatype.ToString());
+			}
+
+			//解放。
+			{
+				this.webrequest_async = null;
+				this.webrequest.Dispose();
+				this.webrequest = null;
+			}
+
+			//終了。
+			this.result_download_progress = 1.0f;
+			this.result_upload_progress = 1.0f;
+			this.request_flag = false;
+
+			this.mode = Mode.Fix;
+			yield break;
 		}
 
 		/** Start
@@ -198,283 +376,27 @@ namespace NDownLoad
 				case Mode.Start:
 					{
 						//開始。
-
-						if(this.request_url != null){
-							//リクエストあり。
-
-							#if(USE_WWW)
-							{
-								if(this.request_datatype == DataType.AssetBundle){
-									Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_assetbundle_version.ToString() + " : " + this.request_url);
-
-									this.www = WWW.LoadFromCacheOrDownload(this.request_url,this.request_assetbundle_version);
-								}else{
-									Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
-
-									this.www = new WWW(this.request_url);
-								}
-							}
-							#else
-							{
-								switch(this.request_datatype){
-								case DataType.AssetBundle:
-									{
-										Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_assetbundle_version.ToString() + " : " + this.request_url);
-										this.webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(this.request_url,this.request_assetbundle_version,0);
-									}break;
-								case DataType.Texture:
-									{
-										Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
-										this.webrequest =  UnityEngine.Networking.UnityWebRequestTexture.GetTexture(this.request_url);
-									}break;
-								case DataType.Text:
-									{
-										Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
-										this.webrequest =  UnityEngine.Networking.UnityWebRequest.Get(this.request_url);	
-									}break;
-								default:
-									{
-										Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
-										this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);
-									}break;
-								}
-
-								if(this.webrequest != null){
-									this.webrequest_async = this.webrequest.SendWebRequest();
-								}
-							}
-							#endif
-
-							this.mode = Mode.Do;
-						}
+						yield return this.Raw_Start();
 					}break;
 				case Mode.Do:
 					{
-						//実行中。
-
-						if(this.Raw_IsError() == true){
-							//ダウンロードエラー。
-
-							#if(USE_WWW)
-							#else
-							if(this.webrequest_async != null){
-								yield return this.webrequest_async;
-							}
-							#endif
-
-							this.datatype = DataType.Error;
-
-							#if(USE_WWW)
-							{
-								this.result_errorstring = this.www.error;
-							}
-							#else
-							{
-								this.result_errorstring = this.webrequest.error;
-							}
-							#endif
-
-							if(this.result_errorstring == null){
-								this.result_errorstring = "this.webrequest.error == null";
-							}
-
-							this.request_url = null;
-
-							this.result_progress = 1.0f;
-
-							this.result_header = new Dictionary<string,string>();
-
-							//解放。
-							#if(USE_WWW)
-							{
-								this.www.Dispose();
-								this.www = null;
-							}
-							#else
-							{
-								this.webrequest_async = null;
-								this.webrequest.Dispose();
-								this.webrequest = null;
-							}
-							#endif
-
-							this.mode = Mode.WaitRequest;
-						}else if(this.Raw_IsDone() == true){
-							//ダウンロード完了。
-
-							#if(USE_WWW)
-							#else
-							if(this.webrequest_async != null){
-								yield return this.webrequest_async;
-							}
-							#endif
-
-							//ヘッダ。
-							string t_header_contenttype = "";
-							{
-								#if(USE_WWW)
-								{
-									this.result_header = this.www.responseHeaders;
-								}
-								#else
-								{
-									this.result_header = this.webrequest.GetResponseHeaders();
-								}
-								#endif
-
-								if(this.result_header == null){
-									this.result_header = new Dictionary<string,string>();
-									Tool.Log("MonoBehaviour_WebRequest","No Header");
-								}else{
-									foreach(KeyValuePair<string,string> t_pair in this.result_header){
-										Tool.Log("MonoBehaviour_WebRequest",t_pair.Key + " = " + t_pair.Value);
-									}
-								}
-
-								if(this.result_header.TryGetValue("Content-Type",out t_header_contenttype) == false){
-									t_header_contenttype = "";
-								}
-							}
-
-							//コンバート。
-							{
-								switch(this.request_datatype){
-								case DataType.Texture:
-									{
-										try{
-											#if(USE_WWW)
-											{
-												this.result_texture = this.www.texture;
-											}
-											#else
-											{
-												this.result_texture = UnityEngine.Networking.DownloadHandlerTexture.GetContent(this.webrequest);
-											}
-											#endif
-										}catch(System.Exception t_exception){
-											Tool.LogError(t_exception);
-										}
-
-										if(this.result_texture != null){
-											this.datatype = DataType.Texture;
-										}else{
-											this.result_errorstring = "texture convert error";
-											this.datatype = DataType.Error;
-										}
-									}break;
-								case DataType.Text:
-									{
-										try{
-											#if(USE_WWW)
-											{
-												this.result_text = this.www.text;
-											}
-											#else
-											{
-												this.result_text = this.webrequest.downloadHandler.text;
-											}
-											#endif
-										}catch(System.Exception t_exception){
-											Tool.LogError(t_exception);
-										}
-
-										if(this.result_text != null){
-											this.datatype = DataType.Text;
-										}else{
-											this.result_errorstring = "text convert error";
-											this.datatype = DataType.Error;
-										}
-									}break;
-								case DataType.AssetBundle:
-									{
-										try{
-											#if(USE_WWW)
-											{
-												this.result_assetbundle = this.www.assetBundle;
-											}
-											#else
-											{
-												this.result_assetbundle = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(this.webrequest);
-											}
-											#endif
-										}catch(System.Exception t_exception){
-											Tool.LogError(t_exception);
-										}
-
-										if(this.result_assetbundle != null){
-
-											//アセットバンドルリストに登録。
-											NDownLoad.DownLoad.GetInstance().GetAssetBundleList().Regist(this.request_assetbundle_id,this.result_assetbundle);
-
-											this.datatype = DataType.AssetBundle;
-										}else{
-											this.result_errorstring = "assetbundle convert error";
-											this.datatype = DataType.Error;
-										}
-									}break;
-								default:
-									{
-										this.result_errorstring = "convert datatype error";
-										this.datatype = DataType.Error;
-									}break;
-								}
-
-								this.result_errorstring = "";
-
-								this.request_url = null;
-
-								this.result_progress = 1.0f;
-
-								Tool.Log("MonoBehaviour_WebRequest","Convert : " + this.datatype.ToString());
-							}
-
-							//解放。
-							#if(USE_WWW)
-							{
-								this.www.Dispose();
-								this.www = null;
-							}
-							#else
-							{
-								this.webrequest_async = null;
-								this.webrequest.Dispose();
-								this.webrequest = null;
-							}
-							#endif
-
-							this.mode = Mode.WaitRequest;
-						}else{
-							//ダウンロード中。
-
-							#if(USE_WWW)
-							{
-								this.result_progress = this.www.progress;
-							}
-							#else
-							{
-								this.result_progress = this.webrequest.downloadProgress;
-							}
-							#endif
-
-							if(this.result_progress >= 0.999f){
-								this.result_progress = 0.999f;
-							}else if(this.result_progress < 0.0f){
-								this.result_progress = 0.0f;
-							}
-						}
+						//実行。
+						yield return this.Raw_Do();
+					}break;
+				case Mode.Do_Error:
+					{
+						//エラー終了。
+						yield return this.Raw_DoError();
+					}break;
+				case Mode.Do_Fix:
+					{
+						//正常終了。
+						yield return this.Raw_DoFix();
 					}break;
 				}
 
 				yield return null;
 			}
-
-			//切断。
-			#if(USE_WWW)
-			if(this.www != null){
-				this.www.Dispose();
-				this.www = null;
-			}
-			#endif
 
 			//削除。
 			Tool.Log("MonoBehaviour_WebRequest","GameObject.Destroy");
@@ -488,18 +410,23 @@ namespace NDownLoad
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
 
-				this.datatype = DataType.None;
+				//開始。
+				this.request_flag = true;
 
+				//request
 				this.request_url = a_url;
 				this.request_datatype = a_datatype;
 				this.request_assetbundle_version = a_assetbundle_version;
 				this.request_assetbundle_id = a_assetbundle_id;
 
+				//result
 				this.result_errorstring = "";
-				this.result_progress = 0.0f;
+				this.result_download_progress = 0.0f;
+				this.result_upload_progress = 0.0f;
+				this.result_datatype = DataType.None;
 				this.result_text = null;
 				this.result_texture = null;
-				this.result_header = null;
+				this.result_assetbundle = null;
 
 				return true;
 			}else{
@@ -507,14 +434,23 @@ namespace NDownLoad
 			}
 		}
 
-		/** 処理中チェック。
+		/** 完了チェック。
 		*/
-		public bool IsBusy()
+		public bool IsFix()
 		{
-			if(this.mode == Mode.WaitRequest){
-				return false;
+			if(this.mode == Mode.Fix){
+				return true;
 			}
-			return true;
+			return false;
+		}
+
+		/** リクエスト待ち開始。
+		*/
+		public void WaitRequest()
+		{
+			if(this.mode == Mode.Fix){
+				this.mode = Mode.WaitRequest;
+			}
 		}
 
 		/** DeleteRequest
@@ -526,9 +462,9 @@ namespace NDownLoad
 
 		/** データタイプ。取得。
 		*/
-		public DataType GetDataType()
+		public DataType GetResultDataType()
 		{
-			return this.datatype;
+			return this.result_datatype;
 		}
 
 		/** エラー文字。取得。
@@ -540,16 +476,16 @@ namespace NDownLoad
 
 		/** プログレス。取得。
 		*/
-		public float GetProgress()
+		public float GetDownloadProgress()
 		{
-			return this.result_progress;
+			return this.result_download_progress;
 		}
 
-		/** 結果。取得。
+		/** プログレス。取得。
 		*/
-		public Dictionary<string,string> GetHeader()
+		public float GetUploadProgress()
 		{
-			return this.result_header;
+			return this.result_upload_progress;
 		}
 
 		/** 結果。取得。

@@ -103,18 +103,18 @@ namespace NDownLoad
 			switch(this.mode){
 			case Mode.Start:
 				{
-					AssetBundleList t_assetbundle_list = NDownLoad.DownLoad.GetInstance().GetAssetBundleList();
-
-					AssetBundle t_assetbundle = null;
-
 					//アセットバンドルリストから取得。
-					if(this.assetbundle_id != Config.INVALID_ASSSETBUNDLE_ID){
-						t_assetbundle = t_assetbundle_list.GetAssetBundle(this.assetbundle_id);
+					AssetBundle t_assetbundle = null;
+					{
+						AssetBundleList t_assetbundle_list = NDownLoad.DownLoad.GetInstance().GetAssetBundleList();
+						if(this.assetbundle_id != Config.INVALID_ASSSETBUNDLE_ID){
+							t_assetbundle = t_assetbundle_list.GetAssetBundle(this.assetbundle_id);
+						}
 					}
 
 					if(t_assetbundle == null){
+						//リクエスト。
 						if(t_webrequest.Request(this.url,this.datatype,this.assetbundle_version,this.assetbundle_id) == true){
-							//開始。
 							this.mode = Mode.Do;
 						}
 					}else{
@@ -127,12 +127,13 @@ namespace NDownLoad
 				}break;
 			case Mode.Do:
 				{
-					if(t_webrequest.IsBusy() == false){
-
-						this.item.SetProgress(t_webrequest.GetProgress());
+					if(t_webrequest.IsFix() == false){
+						this.item.SetProgress(t_webrequest.GetDownloadProgress());
+					}else{
+						this.item.SetProgress(t_webrequest.GetDownloadProgress());
 
 						//結果。
-						switch(t_webrequest.GetDataType()){
+						switch(t_webrequest.GetResultDataType()){
 						case DataType.Text:
 							{
 								this.item.SetResultText(t_webrequest.GetResultText());
@@ -157,9 +158,10 @@ namespace NDownLoad
 							}break;
 						}
 
+						//リクエスト待ち開始。
+						t_webrequest.WaitRequest();						
+
 						this.mode = Mode.End;
-					}else{
-						this.item.SetProgress(t_webrequest.GetProgress());
 					}
 				}break;
 			case Mode.End:
