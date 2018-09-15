@@ -81,6 +81,11 @@ namespace NInput
 		public Analog_Button left_trigger2_button;
 		public Analog_Button right_trigger2_button;
 
+		/** モーター。
+		*/
+		public Moter_Speed moter_low;
+		public Moter_Speed moter_high;
+
 		/** [シングルトン]constructor
 		*/
 		private Pad()
@@ -108,12 +113,20 @@ namespace NInput
 			this.right_trigger1_button.Reset();
 			this.left_trigger2_button.Reset();
 			this.right_trigger2_button.Reset();
+
+			//モーター。
+			this.moter_low.Reset();
+			this.moter_high.Reset();
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
+			if(t_gamepad_current != null){
+				t_gamepad_current.SetMotorSpeeds(0.0f,0.0f);
+			}
 		}
 
 		/** 更新。
@@ -265,6 +278,28 @@ namespace NInput
 					this.right_trigger1_button.Main();
 					this.left_trigger2_button.Main();
 					this.right_trigger2_button.Main();
+
+					//モーター。
+					{
+						this.moter_low.Main(1);
+						this.moter_high.Main(1);
+
+						if(t_gamepad_current != null){
+							float t_value_low = this.moter_low.GetValue();
+							float t_value_high = this.moter_high.GetValue();			
+							float t_raw_value_low = this.moter_low.GetRawValue();
+							float t_raw_value_high = this.moter_high.GetRawValue();
+
+							if((t_value_low != t_raw_value_low)||(t_value_high != t_raw_value_high)){
+								this.moter_low.SetRawValue(t_value_low);
+								this.moter_high.SetRawValue(t_value_high);
+								t_gamepad_current.SetMotorSpeeds(t_value_low,t_value_high);
+							}
+						}else{
+							this.moter_low.SetRawValue(0.0f);
+							this.moter_high.SetRawValue(0.0f);
+						}
+					}
 				}
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);

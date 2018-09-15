@@ -112,6 +112,7 @@
     <Compile Include="Assets\Fee\Script\Input\EditInputManager_Item.cs" />
     <Compile Include="Assets\Fee\Script\Input\Input.cs" />
     <Compile Include="Assets\Fee\Script\Input\Key.cs" />
+    <Compile Include="Assets\Fee\Script\Input\Moter_Speed.cs" />
     <Compile Include="Assets\Fee\Script\Input\Mouse.cs" />
     <Compile Include="Assets\Fee\Script\Input\Mouse_Button.cs" />
     <Compile Include="Assets\Fee\Script\Input\Mouse_Pos.cs" />

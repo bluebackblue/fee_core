@@ -102,6 +102,12 @@ public class test05 : main_base
 		//パッド。
 		NInput.Pad.GetInstance().Main();
 
+		//モーター。
+		{
+			NInput.Pad.GetInstance().moter_low.Request(NInput.Pad.GetInstance().left_trigger2_button.value);
+			NInput.Pad.GetInstance().moter_high.Request(NInput.Pad.GetInstance().right_trigger2_button.value);
+		}
+
 		//マウス位置。
 		{
 			string t_text = "";
