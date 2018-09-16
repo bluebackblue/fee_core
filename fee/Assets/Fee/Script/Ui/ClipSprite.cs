@@ -107,6 +107,34 @@ namespace NUi
 			this.sprite.SetRect(a_x,a_y,a_w,a_h);
 		}
 
+		/** 矩形。設定。
+		*/
+		public void SetX(int a_x)
+		{
+			this.sprite.SetX(a_x);
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetY(int a_y)
+		{
+			this.sprite.SetY(a_y);
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetW(int a_w)
+		{
+			this.sprite.SetW(a_w);
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetH(int a_h)
+		{
+			this.sprite.SetH(a_h);
+		}
+
 		/** 回転。設定。
 		*/
 		public void SetRotate(bool a_flag)

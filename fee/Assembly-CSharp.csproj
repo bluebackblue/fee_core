@@ -193,6 +193,7 @@
     <Compile Include="Assets\Fee\Script\Ui\OnTargetCallBack_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Ui.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\VerticalScroll.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Code\ChatChannel.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Code\ChatClient.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Code\ChatDisconnectCause.cs" />
