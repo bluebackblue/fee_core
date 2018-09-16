@@ -36,6 +36,9 @@ public class main : MonoBehaviour
 
 		//ライブラリ停止。
 		this.DeleteLibInstance();
+
+		//TODO:
+		//NInstantiate.Instantiate.CreateUiInputField("inpu",GameObject.Find("Canvas").GetComponent<Transform>());
 	}
 
 	/** //ライブラリ停止。

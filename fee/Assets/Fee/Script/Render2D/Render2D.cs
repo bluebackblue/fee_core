@@ -53,6 +53,7 @@ namespace NRender2D
 		/** ルート。
 		*/
 		public GameObject root_gameobject;
+		public Transform root_transform;
 
 		/** スクリーン。
 		*/
@@ -80,14 +81,6 @@ namespace NRender2D
 		private bool update_request_text;
 		private bool update_request_inputfield;
 
-		/** [RawText]プレハブ。
-		*/
-		private GameObject prefab_rawtext;
-
-		/** [RawInputField]プレハブ。
-		*/
-		private GameObject prefab_rawinputfield;
-
 		/** デフォルト。フォント。
 		*/
 		private Font default_font;
@@ -104,6 +97,7 @@ namespace NRender2D
 			this.root_gameobject = new GameObject();
 			this.root_gameobject.name = "Render2D";
 			GameObject.DontDestroyOnLoad(this.root_gameobject);
+			this.root_transform = this.root_gameobject.GetComponent<Transform>();
 
 			//スクリーン。
 			this.screen = new Screen();
@@ -124,12 +118,6 @@ namespace NRender2D
 			this.update_request_sprite = true;
 			this.update_request_text = true;
 			this.update_request_inputfield = true;
-
-			//[RawText]プレハブ読み込み。
-			this.prefab_rawtext = Resources.Load<GameObject>(Config.PREFAB_NAME_TEXT);
-
-			//[RawInputField]プラハブ読み込み。
-			this.prefab_rawinputfield = Resources.Load<GameObject>(Config.PREFAB_NAME_INPUTFIELD);
 
 			//デフォルト。フォント。
 			this.default_font = Resources.GetBuiltinResource<Font>(Config.DEFAULT_FONT_NAME);
@@ -211,20 +199,14 @@ namespace NRender2D
 		*/
 		public GameObject RawText_Create()
 		{
-			GameObject t_gameobject = GameObject.Instantiate(this.prefab_rawtext);
-			t_gameobject.name = "Text";
-
-			return t_gameobject;
+			return NInstantiate.Instantiate.CreateUiText("Text",this.root_transform);
 		}
 
 		/** [RawInputField]作成。
 		*/
 		public GameObject RawInputField_Create()
 		{
-			GameObject t_gameobject = GameObject.Instantiate(this.prefab_rawinputfield);
-			t_gameobject.name = "InputField";
-
-			return t_gameobject;
+			return NInstantiate.Instantiate.CreateUiInputField("InputField",this.root_transform);
 		}
 
 		/** [RawText]削除。

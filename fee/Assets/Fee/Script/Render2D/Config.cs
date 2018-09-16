@@ -72,9 +72,6 @@ namespace NRender2D
 
 		/** プレハブ名。
 		*/
-		public static string PREFAB_NAME_TEXT = "Prefab/Render2D/Text";
-		public static string PREFAB_NAME_INPUTFIELD = "Prefab/Render2D/InputField";
-		//public static string PREFAB_NAME_CAMERA = "Prefab/Render2D/Camera";
 		public static string PREFAB_NAME_CANVAS = "Prefab/Render2D/Canvas";
 		public static string PREFAB_NAME_EVENTSYSTEM = "Prefab/Render2D/EventSystem";
 
