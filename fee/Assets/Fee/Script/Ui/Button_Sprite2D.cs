@@ -58,6 +58,13 @@ namespace NUi
 			this.SetMaterialType(NRender2D.Config.MaterialType.Slice9);
 		}
 
+		/** コーナーサイズ。設定。
+		*/
+		public void SetCornerSize(int a_corner_size)
+		{
+			this.corner_size = a_corner_size;
+		}
+
 		/** クリック。設定。
 		*/
 		public void SetClip(bool a_flag)
@@ -158,7 +165,7 @@ namespace NUi
 
 				if(t_clip_flag > 0){
 					if(a_material.GetInt("corner_size") != this.corner_size){
-						a_material.SetInt("clip_x1",this.corner_size);
+						a_material.SetInt("corner_size",this.corner_size);
 						t_setpass = true;						
 					}
 

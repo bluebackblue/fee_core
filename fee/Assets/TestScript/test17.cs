@@ -40,6 +40,20 @@ public class test17 : main_base
 		*/
 		private int call_count;
 
+		/** 矩形。取得。
+		*/
+		public static int GetW()
+		{
+			return 100;
+		}
+
+		/** 矩形。取得。
+		*/
+		public static int GetH()
+		{
+			return 30;
+		}
+
 		/** constructor
 		*/
 		public ScrollItem(NDeleter.Deleter a_deleter)
@@ -52,7 +66,7 @@ public class test17 : main_base
 
 			//sprite
 			this.sprite = new NUi.ClipSprite(this.deleter,null,t_drawpriority);
-			this.sprite.SetRect(0,0,100,30);
+			this.sprite.SetRect(0,0,ScrollItem.GetW(),ScrollItem.GetH());
 			this.sprite.SetTexture(Texture2D.whiteTexture);
 			this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 			this.sprite.SetClip(true);
@@ -133,7 +147,8 @@ public class test17 : main_base
 	private bool drag;
 	private int drag_old_value_x;
 	private int drag_old_value_y;
-	private Vector2 drag_speed;
+	private float drag_speed_x;
+	private float drag_speed_y;
 
 	/** Start
 	*/
@@ -164,11 +179,12 @@ public class test17 : main_base
 		this.deleter = new NDeleter.Deleter();
 
 		//v_scrollview
-		//this.v_scrollview = new NUi.VerticalScroll<ScrollItem>(this.deleter,30);
-		//this.v_scrollview.SetRect(300,100,200,400);
+		this.v_scrollview = new NUi.VerticalScroll<ScrollItem>(this.deleter,0,ScrollItem.GetH());
+		this.v_scrollview.SetRect(200,100,200,400);
 
-		this.h_scrollview = new NUi.HorizontalScroll<ScrollItem>(this.deleter,100);
-		this.h_scrollview.SetRect(300,100,200,400);
+		//h_scrollview
+		this.h_scrollview = new NUi.HorizontalScroll<ScrollItem>(this.deleter,0,ScrollItem.GetW());
+		this.h_scrollview.SetRect(500,100,200,400);
 	}
 
 	/** Update
@@ -212,8 +228,8 @@ public class test17 : main_base
 					this.h_scrollview.SetPosition(this.drag_old_value_x + t_distance_x);
 				}
 
-				this.drag_speed.x = this.drag_speed.x * 0.3f + (NInput.Mouse.GetInstance().pos.x - NInput.Mouse.GetInstance().pos.x_old) * 0.7f;
-				this.drag_speed.y = this.drag_speed.y * 0.3f + (NInput.Mouse.GetInstance().pos.y - NInput.Mouse.GetInstance().pos.y_old) * 0.7f;
+				this.drag_speed_x = this.drag_speed_x * 0.3f + (NInput.Mouse.GetInstance().pos.x - NInput.Mouse.GetInstance().pos.x_old) * 0.7f;
+				this.drag_speed_y = this.drag_speed_y * 0.3f + (NInput.Mouse.GetInstance().pos.y - NInput.Mouse.GetInstance().pos.y_old) * 0.7f;
 			}else{
 				this.drag = false;
 			}
@@ -226,34 +242,30 @@ public class test17 : main_base
 				if(this.h_scrollview != null){
 					this.drag_old_value_x = this.h_scrollview.GetPosition();
 				}
-				this.drag_speed.Set(0.0f,0.0f);
+				this.drag_speed_x = 0.0f;
+				this.drag_speed_y = 0.0f;
 			}else{
-				if(this.drag_speed.y != 0.0f){
-					int t_move_y = (int)this.drag_speed.y;
-					int t_move_x = (int)this.drag_speed.x;
-					this.drag_speed.y /= 1.08f;
-					this.drag_speed.x /= 1.08f;
+				if(this.drag_speed_y != 0.0f){
+					int t_move = (int)this.drag_speed_y;
+					this.drag_speed_y /= 1.08f;
 					if(this.v_scrollview != null){
-						bool t_ret = this.v_scrollview.SetPosition(this.v_scrollview.GetPosition() - t_move_y);
+						bool t_ret = this.v_scrollview.SetPosition(this.v_scrollview.GetPosition() - t_move);
 						if(t_ret == false){
-							this.drag_speed.Set(0.0f,0.0f);
+							this.drag_speed_y = 0.0f;
 						}
 					}
+				}
+				if(this.drag_speed_x != 0.0f){
+					int t_move = (int)this.drag_speed_x;
+					this.drag_speed_x /= 1.08f;
 					if(this.h_scrollview != null){
-						bool t_ret = this.h_scrollview.SetPosition(this.h_scrollview.GetPosition() - t_move_x);
+						bool t_ret = this.h_scrollview.SetPosition(this.h_scrollview.GetPosition() - t_move);
 						if(t_ret == false){
-							this.drag_speed.Set(0.0f,0.0f);
+							this.drag_speed_x = 0.0f;
 						}
 					}
 				}
 			}
-		}
-
-		if(this.v_scrollview != null){
-			this.v_scrollview.Main();
-		}
-		if(this.h_scrollview != null){
-			this.h_scrollview.Main();
 		}
 	}
 

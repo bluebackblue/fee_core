@@ -52,7 +52,7 @@ namespace NUi
 
 		/** constructor
 		*/
-		public HorizontalScroll(NDeleter.Deleter a_deleter,int a_item_length)
+		public HorizontalScroll(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
@@ -61,7 +61,7 @@ namespace NUi
 			this.rect.Set(0,0,0,0);
 
 			//bg
-			this.bg = new ClipSprite(this.deleter,null,0);
+			this.bg = new ClipSprite(this.deleter,null,a_drawpriority);
 			this.bg.SetTexture(Texture2D.whiteTexture);
 			this.bg.SetRect(ref this.rect);
 			this.bg.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
@@ -135,6 +135,13 @@ namespace NUi
 					}
 				}
 			}
+		}
+
+		/** リスト。取得。
+		*/
+		public List<ITEM> GetList()
+		{
+			return this.list;
 		}
 
 		/** 位置。設定。
@@ -244,12 +251,6 @@ namespace NUi
 		public void Delete()
 		{
 			this.deleter.DeleteAll();
-		}
-
-		/** Main
-		*/
-		public void Main()
-		{
 		}
 	}
 }

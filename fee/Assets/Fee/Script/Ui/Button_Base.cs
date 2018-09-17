@@ -252,6 +252,74 @@ namespace NUi
 			this.OnSetRectCallBack(a_x,a_y,a_w,a_h);
 		}
 
+		/** 矩形。設定。
+		*/
+		public void SetX(int a_x)
+		{
+			this.eventplate.SetX(a_x);
+
+			//コールバック。矩形。設定。
+			this.OnSetRectCallBack(this.eventplate.GetX(),this.eventplate.GetY(),this.eventplate.GetW(),this.eventplate.GetH());
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetY(int a_y)
+		{
+			this.eventplate.SetY(a_y);
+
+			//コールバック。矩形。設定。
+			this.OnSetRectCallBack(this.eventplate.GetX(),this.eventplate.GetY(),this.eventplate.GetW(),this.eventplate.GetH());
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetW(int a_w)
+		{
+			this.eventplate.SetW(a_w);
+
+			//コールバック。矩形。設定。
+			this.OnSetRectCallBack(this.eventplate.GetX(),this.eventplate.GetY(),this.eventplate.GetW(),this.eventplate.GetH());
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetH(int a_h)
+		{
+			this.eventplate.SetH(a_h);
+
+			//コールバック。矩形。設定。
+			this.OnSetRectCallBack(this.eventplate.GetX(),this.eventplate.GetY(),this.eventplate.GetW(),this.eventplate.GetH());
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetX()
+		{
+			return this.eventplate.GetX();
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetY()
+		{
+			return this.eventplate.GetY();
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetW()
+		{
+			return this.eventplate.GetW();
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetH()
+		{
+			return this.eventplate.GetH();
+		}
+
 		/** 表示。設定。
 		*/
 		public void SetVisible(bool a_flag)

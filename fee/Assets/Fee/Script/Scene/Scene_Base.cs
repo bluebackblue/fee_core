@@ -20,25 +20,25 @@ namespace NScene
 	*/
 	public interface Scene_Base
 	{
-		/** 更新。
+		/** [Scene_Base]更新。
 
 		戻り値 = true : 終了。
 
 		*/
 		bool Main();
 
-		/** 削除。
+		/** [Scene_Base]削除。
 		*/
 		void Delete();
 
-		/** シーン開始。
+		/** [Scene_Base]シーン開始。
 
 		戻り値 = true : 開始処理完了。
 
 		*/
 		bool SceneStart();
 
-		/** シーン終了。
+		/** [Scene_Base]シーン終了。
 
 		戻り値 = true : 終了処理完了。
 

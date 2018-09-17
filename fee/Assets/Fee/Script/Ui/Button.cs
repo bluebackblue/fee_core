@@ -79,6 +79,7 @@ namespace NUi
 		protected override void OnSetClipCallBack(bool a_flag)
 		{
 			this.sprite.SetClip(a_flag);
+			this.text.SetClip(a_flag);
 		}
 
 		/** コールバック。クリップ矩形。設定。
@@ -86,6 +87,7 @@ namespace NUi
 		protected override void OnSetClipRectCallBack(int a_x,int a_y,int a_w,int a_h)
 		{
 			this.sprite.SetClipRect(a_x,a_y,a_w,a_h);
+			this.text.SetClipRect(a_x,a_y,a_w,a_h);
 		}
 
 		/** コールバック。クリップ矩形。設定。
@@ -93,6 +95,7 @@ namespace NUi
 		protected override void OnSetClipRectCallBack(ref NRender2D.Rect2D_R<int> a_rect)
 		{
 			this.sprite.SetClipRect(ref a_rect);
+			this.text.SetClipRect(ref a_rect);
 		}
 
 		/** コーブラック。表示。設定。
@@ -115,6 +118,13 @@ namespace NUi
 		public void SetText(string a_text)
 		{
 			this.text.SetText(a_text);
+		}
+
+		/**　テクスチャーコーナーサイズ。設定。
+		*/
+		public void SetTextureCornerSize(int a_corner_size)
+		{
+			this.sprite.SetCornerSize(a_corner_size);
 		}
 	}
 }
