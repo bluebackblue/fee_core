@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＩ。縦スクロール。
+ * @brief ＵＩ。横スクロール。
 */
 
 
@@ -16,9 +16,9 @@ using UnityEngine;
 */
 namespace NUi
 {
-	/** VerticalScroll
+	/** HorizontalScroll
 	*/
-	public class VerticalScroll<ITEM> : NDeleter.DeleteItem_Base
+	public class HorizontalScroll<ITEM> : NDeleter.DeleteItem_Base
 		where ITEM : class , ScrollItem_Base
 	{
 		/** deleter
@@ -52,7 +52,7 @@ namespace NUi
 
 		/** constructor
 		*/
-		public VerticalScroll(NDeleter.Deleter a_deleter,int a_item_length)
+		public HorizontalScroll(NDeleter.Deleter a_deleter,int a_item_length)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
@@ -86,11 +86,11 @@ namespace NUi
 			}
 		}
 
-		/** Ｙ座標計算。
+		/** Ｘ座標計算。
 		*/
-		private int CalcY(int a_index)
+		private int CalcX(int a_index)
 		{
-			return this.rect.y - this.position + a_index * this.item_length;
+			return this.rect.x - this.position + a_index * this.item_length;
 		}
 
 		/** 表示範囲更新。
@@ -111,7 +111,7 @@ namespace NUi
 				//変化なし。
 				if(t_view_start >= 0){
 					for(int ii=t_view_start;ii<=t_view_end;ii++){
-						this.list[ii].SetY(this.CalcY(ii));
+						this.list[ii].SetX(this.CalcX(ii));
 					}
 				}
 			}else{
@@ -147,10 +147,10 @@ namespace NUi
 			int t_position = a_position;
 			if(t_position < 0){
 				t_position = 0;
-			}else if(this.item_length * this.list.Count < this.rect.h){
+			}else if(this.item_length * this.list.Count < this.rect.w){
 				t_position = 0;
 			}else{
-				int t_position_max = this.item_length * this.list.Count - this.rect.h;
+				int t_position_max = this.item_length * this.list.Count - this.rect.w;
 				if(t_position > t_position_max){
 					t_position = t_position_max;
 				}
@@ -162,7 +162,7 @@ namespace NUi
 				//表示範囲変更。
 				{
 					float t_index_start = this.position / this.item_length;
-					float t_index_end = (this.position + this.rect.h) / this.item_length;
+					float t_index_end = (this.position + this.rect.w) / this.item_length;
 					if(t_index_end >= (this.list.Count - 1)){
 						t_index_end = (this.list.Count - 1);
 					}
@@ -174,7 +174,7 @@ namespace NUi
 
 				//TODO:全位置再計算。
 				for(int ii=0;ii<this.list.Count;ii++){
-					this.list[ii].SetY(this.CalcY(ii));
+					this.list[ii].SetX(this.CalcX(ii));
 				}
 
 				return true;
@@ -201,7 +201,7 @@ namespace NUi
 
 			//位置再計算。
 			for(int ii=0;ii<this.list.Count;ii++){
-				this.list[ii].SetY(this.CalcY(ii));
+				this.list[ii].SetX(this.CalcX(ii));
 			}
 
 			//bg
@@ -218,12 +218,12 @@ namespace NUi
 			//リスト追加。
 			int t_new_index = this.list.Count;
 			this.list.Add(a_new_item);
-			a_new_item.SetX(this.rect.x);
+			a_new_item.SetY(this.rect.y);
 
 			//表示範囲変更。
 			{
 				float t_index_start = this.position / this.item_length;
-				float t_index_end = (this.position + this.rect.h) / this.item_length;
+				float t_index_end = (this.position + this.rect.w) / this.item_length;
 				if(t_index_end >= (this.list.Count - 1)){
 					t_index_end = (this.list.Count - 1);
 				}
@@ -235,7 +235,7 @@ namespace NUi
 
 			//TODO:全位置再計算。
 			for(int ii=0;ii<this.list.Count;ii++){
-				this.list[ii].SetY(this.CalcY(ii));
+				this.list[ii].SetX(this.CalcX(ii));
 			}
 		}
 
