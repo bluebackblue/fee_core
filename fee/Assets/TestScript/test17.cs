@@ -13,6 +13,9 @@ using UnityEngine;
 
 
 /** test17
+
+	スクロール
+
 */
 public class test17 : main_base
 {
@@ -35,10 +38,6 @@ public class test17 : main_base
 		/** text
 		*/
 		private NRender2D.Text2D text;
-
-		/** call_count
-		*/
-		private int call_count;
 
 		/** 矩形。取得。
 		*/
@@ -69,19 +68,18 @@ public class test17 : main_base
 			this.sprite.SetRect(0,0,ScrollItem.GetW(),ScrollItem.GetH());
 			this.sprite.SetTexture(Texture2D.whiteTexture);
 			this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-			this.sprite.SetClip(true);
 			this.sprite.SetClipRect(0,0,0,0);
 			this.sprite.SetColor(Random.value,Random.value,Random.value,1.0f);
+			this.sprite.SetClip(true);
+			this.sprite.SetVisible(false);
 
 			//text
 			this.text = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 			this.text.SetRect(0,0,0,0);
-			this.text.SetClip(false);
 			this.text.SetClipRect(0,0,0,0);
-			this.text.SetText("out");
-
-			//call_count
-			this.call_count = 0;
+			this.text.SetText("text");
+			this.text.SetClip(true);
+			this.text.SetVisible(false);
 
 			//削除管理。
 			if(a_deleter != null){
@@ -124,16 +122,16 @@ public class test17 : main_base
 		*/
 		public void OnViewIn()
 		{
-			this.call_count++;
-			this.text.SetText("in" + this.call_count.ToString());
+			this.sprite.SetVisible(true);
+			this.text.SetVisible(true);
 		}
 
 		/** [ScrollItem_Base]表示外。
 		*/
 		public void OnViewOut()
 		{
-			this.call_count--;
-			this.text.SetText("out" + this.call_count.ToString());
+			this.sprite.SetVisible(false);
+			this.text.SetVisible(false);
 		}
 	}
 
@@ -209,10 +207,14 @@ public class test17 : main_base
 		//アイテム追加。
 		if(NInput.Mouse.GetInstance().right.down == true){
 			if(this.v_scrollview != null){
-				this.v_scrollview.AddList(new ScrollItem(this.deleter));
+				for(int ii=0;ii<10;ii++){
+					this.v_scrollview.AddList(new ScrollItem(this.deleter));
+				}
 			}
 			if(this.h_scrollview != null){
-				this.h_scrollview.AddList(new ScrollItem(this.deleter));
+				for(int ii=0;ii<10;ii++){
+					this.h_scrollview.AddList(new ScrollItem(this.deleter));
+				}
 			}
 		}
 

@@ -107,13 +107,15 @@ namespace NUi
 			int t_view_start = (int)(this.viewindex_start);
 			int t_view_end = (int)(this.viewindex_end);
 
+			//矩形。設定。
+			if(t_view_start >= 0){
+				for(int ii=t_view_start;ii<=t_view_end;ii++){
+					this.list[ii].SetY(this.CalcY(ii));
+				}
+			}
+
 			if((t_oldview_start == t_view_start)&&(t_oldview_end == t_view_end)){
 				//変化なし。
-				if(t_view_start >= 0){
-					for(int ii=t_view_start;ii<=t_view_end;ii++){
-						this.list[ii].SetY(this.CalcY(ii));
-					}
-				}
 			}else{
 				//旧表示空間。
 				if(t_oldview_start >= 0){
@@ -124,7 +126,6 @@ namespace NUi
 						}
 					}
 				}
-
 				//新表示空間。
 				if(t_view_start >= 0){
 					for(int ii=t_view_start;ii<=t_view_end;ii++){
@@ -135,6 +136,13 @@ namespace NUi
 					}
 				}
 			}
+		}
+
+		/** リスト。取得。
+		*/
+		public List<ITEM> GetList()
+		{
+			return this.list;
 		}
 
 		/** 位置。設定。
@@ -172,11 +180,6 @@ namespace NUi
 					this.UpdateViewIndex(t_index_start,t_index_end);
 				}
 
-				//TODO:全位置再計算。
-				for(int ii=0;ii<this.list.Count;ii++){
-					this.list[ii].SetY(this.CalcY(ii));
-				}
-
 				return true;
 			}
 			return false;
@@ -199,13 +202,20 @@ namespace NUi
 				this.list[ii].SetClipRect(ref this.rect);
 			}
 
-			//位置再計算。
-			for(int ii=0;ii<this.list.Count;ii++){
-				this.list[ii].SetY(this.CalcY(ii));
-			}
-
-			//bg
 			this.bg.SetRect(ref this.rect);
+
+			//表示範囲変更。
+			{
+				float t_index_start = this.position / this.item_length;
+				float t_index_end = (this.position + this.rect.h) / this.item_length;
+				if(t_index_end >= (this.list.Count - 1)){
+					t_index_end = (this.list.Count - 1);
+				}
+				if(this.list.Count == 0){
+					t_index_start = -1.0f;
+				}
+				this.UpdateViewIndex(t_index_start,t_index_end);
+			}
 		}
 
 		/** リスト追加。
@@ -231,11 +241,6 @@ namespace NUi
 					t_index_start = -1.0f;
 				}
 				this.UpdateViewIndex(t_index_start,t_index_end);
-			}
-
-			//TODO:全位置再計算。
-			for(int ii=0;ii<this.list.Count;ii++){
-				this.list[ii].SetY(this.CalcY(ii));
 			}
 		}
 
