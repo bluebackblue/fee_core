@@ -118,6 +118,7 @@
     <Compile Include="Assets\Fee\Script\Input\Mouse_Pos.cs" />
     <Compile Include="Assets\Fee\Script\Input\Pad.cs" />
     <Compile Include="Assets\Fee\Script\Input\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\Input\Touch.cs" />
     <Compile Include="Assets\Fee\Script\Input\Touch_Phase.cs" />
     <Compile Include="Assets\Fee\Script\Instantiate\Config.cs" />
     <Compile Include="Assets\Fee\Script\Instantiate\Instantiate.cs" />

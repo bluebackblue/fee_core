@@ -68,6 +68,9 @@ public class test05 : main_base
 		//パッド。インスタンス作成。
 		NInput.Pad.CreateInstance();
 
+		//タッチ。
+		NInput.Touch.CreateInstance();
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
@@ -83,18 +86,18 @@ public class test05 : main_base
 
 		//テキスト。
 		this.text_mouse = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.text_mouse.SetRect(10,10 + 50 * 0,0,0);
-		this.text_mouse.SetFontSize(30);
+		this.text_mouse.SetRect(250,10 + 50 * 0,0,0);
+		this.text_mouse.SetFontSize(17);
 
 		//テキスト。
 		this.text_key = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.text_key.SetRect(10,200 + 50 * 1,0,0);
-		this.text_key.SetFontSize(30);
+		this.text_key.SetFontSize(20);
 
 		//テキスト。
 		this.text_pad = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.text_pad.SetRect(10,200 + 50 * 2,0,0);
-		this.text_pad.SetFontSize(30);
+		this.text_pad.SetFontSize(20);
 
 		//value
 		this.value = 0;
@@ -115,6 +118,9 @@ public class test05 : main_base
 
 		//パッド。
 		NInput.Pad.GetInstance().Main();
+
+		//タッチ。
+		NInput.Touch.GetInstance().Main(NRender2D.Render2D.GetInstance());
 
 		//モーター。
 		{
@@ -138,7 +144,7 @@ public class test05 : main_base
 				t_text += "[ ]";
 			}
 
-			if (NInput.Mouse.GetInstance().middle.on == true){
+			if(NInput.Mouse.GetInstance().middle.on == true){
 				t_text += "[o]";
 			}else{
 				t_text += "[ ]";
@@ -148,43 +154,59 @@ public class test05 : main_base
 			t_text += "y = " + NInput.Mouse.GetInstance().pos.y.ToString() + " ";
 			t_text += "m = " + NInput.Mouse.GetInstance().mouse_wheel.y.ToString() + " ";
 
-			//ポインターテスト。
 			#if true
 			{
-				t_text += "\n----------";
+				t_text += "\n----------\n";
 
-				if(UnityEngine.Experimental.Input.Pointer.current != null){
+				for(int ii=0;ii<NInput.Touch.GetInstance().touch.Length;ii++){
 
-					t_text += UnityEngine.Experimental.Input.Pointer.current.phase.ReadValue().ToString() + " ";
+					string t_line_string = "";
 
-					if(UnityEngine.Experimental.Input.Pointer.current.phase.ReadValue() == UnityEngine.Experimental.Input.PointerPhase.Began){
-						this.phase_flag = true;
-					}else if(UnityEngine.Experimental.Input.Pointer.current.phase.ReadValue() == UnityEngine.Experimental.Input.PointerPhase.Ended){
-						this.phase_flag = true;
-					}else if(UnityEngine.Experimental.Input.Pointer.current.phase.ReadValue() == UnityEngine.Experimental.Input.PointerPhase.Cancelled){
-						this.phase_flag = true;
+					/*
+					if(NInput.Touch.GetInstance().touch[ii].exist == true){
+						t_line_string += "[o]";
+					}else{
+						t_line_string += "[ ]";
+					}
+					*/
+
+					if(NInput.Touch.GetInstance().touch[ii].phase_flag == true){
+						t_line_string += "[o]";
+					}else{
+						t_line_string += "[ ]";
+					}
+
+					/*
+					t_line_string += NInput.Touch.GetInstance().touch[ii].phase.ToString() + " ";
+					*/
+
+					if(NInput.Touch.GetInstance().touch[ii].phase == UnityEngine.Experimental.Input.PointerPhase.Moved){
+						t_line_string += "[o]";
+					}else{
+						t_line_string += "[ ]";
+					}
+
+					t_line_string += NInput.Touch.GetInstance().touch[ii].value_x.ToString() + " ";
+					t_line_string += NInput.Touch.GetInstance().touch[ii].value_y.ToString() + " ";
+
+					switch(ii % 3){
+					case 0:
+					case 1:
+						{
+							/*
+							while(t_line_string.Length < 25){
+								t_line_string += " ";
+							}
+							*/
+
+							t_text += t_line_string + " ";
+						}break;
+					case 2:
+						{
+							t_text += t_line_string + "\n";
+						}break;
 					}
 				}
-
-				t_text += "p = " + this.phase_flag.ToString();
-			}
-			#endif
-
-			#if false
-			{
-				t_text += "\n----------";
-
-				if(UnityEngine.Experimental.Input.Pen.current != null){
-					t_text += UnityEngine.Experimental.Input.Pen.current.position.x.ToString() + "";
-					t_text += UnityEngine.Experimental.Input.Pen.current.position.y.ToString() + " ";
-					t_text += UnityEngine.Experimental.Input.Pen.current.button.isPressed.ToString() + " ";
-				}			
-			}
-			#endif
-
-			#if false
-			{
-				t_text += "\n----------";
 			}
 			#endif
 

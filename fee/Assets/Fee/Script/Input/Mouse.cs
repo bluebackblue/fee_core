@@ -306,9 +306,6 @@ namespace NInput
 		public void Main(NRender2D.Render2D a_render2d)
 		{
 			try{
-				UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
-				UnityEngine.Experimental.Input.Touchscreen t_touchscreen_current = UnityEngine.Experimental.Input.Touchscreen.current;
-
 				//位置。
 				this.Main_Pos(a_render2d);
 
@@ -317,6 +314,7 @@ namespace NInput
 
 				//マウスホイール。
 				{
+					UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
 					if(t_mouse_current != null){
 						//デバイス。
 						int t_x = (int)UnityEngine.Experimental.Input.Mouse.current.scroll.ReadValue().x;
