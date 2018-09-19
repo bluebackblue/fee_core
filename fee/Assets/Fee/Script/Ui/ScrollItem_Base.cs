@@ -18,27 +18,52 @@ namespace NUi
 {
 	/** ScrollItem_Base
 	*/
-	public interface ScrollItem_Base
+	public abstract class ScrollItem_Base
 	{
-		/** [NUi.ScrollItem_Base]矩形。設定。
+		/** is_viewin
 		*/
-		void SetY(int a_y);
+		private bool is_viewin;
+
+		/** constructor
+		*/
+		public ScrollItem_Base()
+		{
+			this.is_viewin = false;
+		}
+
+		/** 表示。チェック。
+		*/
+		public bool IsViewIn()
+		{
+			return this.is_viewin;
+		}
+
+		/** 表示。設定。
+		*/
+		public void SetViewIn(bool a_flag)
+		{
+			this.is_viewin = a_flag;
+		}
 
 		/** [NUi.ScrollItem_Base]矩形。設定。
 		*/
-		void SetX(int a_x);
+		public abstract void SetY(int a_y);
+
+		/** [NUi.ScrollItem_Base]矩形。設定。
+		*/
+		public abstract void SetX(int a_x);
 
 		/** [NUi.ScrollItem_Base]クリック。矩形。
 		*/
-		void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect);
+		public abstract void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect);
 
 		/** [NUi.ScrollItem_Base]表示内。
 		*/
-		void OnViewIn();
+		public abstract void OnViewIn();
 
 		/** [NUi.ScrollItem_Base]表示外。
 		*/
-		void OnViewOut();
+		public abstract void OnViewOut();
 	}
 }
 

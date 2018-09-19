@@ -18,14 +18,14 @@ namespace NUi
 {
 	/** VerticalScroll
 	*/
-	public class VerticalScroll<ITEM> : NDeleter.DeleteItem_Base
-		where ITEM : class , ScrollItem_Base
+	public class VerticalScroll<ITEM> : Scroll_Base , NDeleter.DeleteItem_Base
+		where ITEM : ScrollItem_Base
 	{
 		/** deleter
 		*/
 		private NDeleter.Deleter deleter;
 
-		/** rect
+		/** 矩形。
 		*/
 		private NRender2D.Rect2D_R<int> rect;
 
@@ -33,31 +33,20 @@ namespace NUi
 		*/
 		private NUi.ClipSprite bg;
 
-		/** 位置。
-		*/
-		private int position;
-
 		/** リスト。
 		*/
 		private List<ITEM> list;
 
-		/** item_length
-		*/
-		private int item_length;
-
-		/** 表示インデックス。
-		*/
-		private float viewindex_start;
-		private float viewindex_end;
-
 		/** constructor
 		*/
 		public VerticalScroll(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
+			:
+			base(a_item_length)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
 
-			//rect
+			//矩形。
 			this.rect.Set(0,0,0,0);
 
 			//bg
@@ -67,180 +56,12 @@ namespace NUi
 			this.bg.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 			this.bg.SetColor(0.0f,0.0f,0.0f,0.1f);
 
-			//位置。
-			this.position = 0;
-
 			//リスト。
 			this.list = new List<ITEM>();
-
-			//item_length
-			this.item_length = a_item_length;
-
-			//表示インデックス。
-			this.viewindex_start = -1.0f;
-			this.viewindex_end = -1.0f;
 
 			//削除管理。
 			if(a_deleter != null){
 				a_deleter.Register(this);
-			}
-		}
-
-		/** Ｙ座標計算。
-		*/
-		private int CalcY(int a_index)
-		{
-			return this.rect.y - this.position + a_index * this.item_length;
-		}
-
-		/** 表示範囲更新。
-		*/
-		private void UpdateViewIndex(float a_viewindex_start,float a_viewindex_end)
-		{
-			float t_viewindex_start_old = this.viewindex_start;
-			float t_viewindex_end_old = this.viewindex_end;
-			this.viewindex_start = a_viewindex_start;
-			this.viewindex_end = a_viewindex_end;
-
-			int t_oldview_start = (int)(t_viewindex_start_old);
-			int t_oldview_end = (int)(t_viewindex_end_old);
-			int t_view_start = (int)(this.viewindex_start);
-			int t_view_end = (int)(this.viewindex_end);
-
-			//矩形。設定。
-			if(t_view_start >= 0){
-				for(int ii=t_view_start;ii<=t_view_end;ii++){
-					this.list[ii].SetY(this.CalcY(ii));
-				}
-			}
-
-			if((t_oldview_start == t_view_start)&&(t_oldview_end == t_view_end)){
-				//変化なし。
-			}else{
-				//旧表示空間。
-				if(t_oldview_start >= 0){
-					for(int ii=t_oldview_start;ii<=t_oldview_end;ii++){
-						if((ii<t_view_start)||(t_view_end<ii)){
-							//表示終了。
-							this.list[ii].OnViewOut();
-						}
-					}
-				}
-				//新表示空間。
-				if(t_view_start >= 0){
-					for(int ii=t_view_start;ii<=t_view_end;ii++){
-						if((ii<t_oldview_start)||(t_oldview_end<ii)){
-							//表示開始。
-							this.list[ii].OnViewIn();
-						}
-					}
-				}
-			}
-		}
-
-		/** リスト。取得。
-		*/
-		public List<ITEM> GetList()
-		{
-			return this.list;
-		}
-
-		/** 位置。設定。
-
-		return : 変更あり。
-
-		*/
-		public bool SetPosition(int a_position)
-		{
-			int t_position = a_position;
-			if(t_position < 0){
-				t_position = 0;
-			}else if(this.item_length * this.list.Count < this.rect.h){
-				t_position = 0;
-			}else{
-				int t_position_max = this.item_length * this.list.Count - this.rect.h;
-				if(t_position > t_position_max){
-					t_position = t_position_max;
-				}
-			}
-
-			if(this.position != t_position){
-				this.position = t_position;
-
-				//表示範囲変更。
-				{
-					float t_index_start = this.position / this.item_length;
-					float t_index_end = (this.position + this.rect.h) / this.item_length;
-					if(t_index_end >= (this.list.Count - 1)){
-						t_index_end = (this.list.Count - 1);
-					}
-					if(this.list.Count == 0){
-						t_index_start = -1.0f;
-					}
-					this.UpdateViewIndex(t_index_start,t_index_end);
-				}
-
-				return true;
-			}
-			return false;
-		}
-
-		/** 位置。取得。
-		*/
-		public int GetPosition()
-		{
-			return this.position;
-		}
-
-		/** 矩形。設定。
-		*/
-		public void SetRect(int a_x,int a_y,int a_w,int a_h)
-		{
-			this.rect.Set(a_x,a_y,a_w,a_h);
-
-			for(int ii=0;ii<this.list.Count;ii++){
-				this.list[ii].SetClipRect(ref this.rect);
-			}
-
-			this.bg.SetRect(ref this.rect);
-
-			//表示範囲変更。
-			{
-				float t_index_start = this.position / this.item_length;
-				float t_index_end = (this.position + this.rect.h) / this.item_length;
-				if(t_index_end >= (this.list.Count - 1)){
-					t_index_end = (this.list.Count - 1);
-				}
-				if(this.list.Count == 0){
-					t_index_start = -1.0f;
-				}
-				this.UpdateViewIndex(t_index_start,t_index_end);
-			}
-		}
-
-		/** リスト追加。
-		*/
-		public void AddList(ITEM a_new_item)
-		{
-			//クリップ設定。
-			a_new_item.SetClipRect(ref this.rect);
-
-			//リスト追加。
-			int t_new_index = this.list.Count;
-			this.list.Add(a_new_item);
-			a_new_item.SetX(this.rect.x);
-
-			//表示範囲変更。
-			{
-				float t_index_start = this.position / this.item_length;
-				float t_index_end = (this.position + this.rect.h) / this.item_length;
-				if(t_index_end >= (this.list.Count - 1)){
-					t_index_end = (this.list.Count - 1);
-				}
-				if(this.list.Count == 0){
-					t_index_start = -1.0f;
-				}
-				this.UpdateViewIndex(t_index_start,t_index_end);
 			}
 		}
 
@@ -250,6 +71,150 @@ namespace NUi
 		{
 			this.deleter.DeleteAll();
 		}
+
+		/** アイテム。初期化。
+		*/
+		private void InitItem(ITEM a_item)
+		{
+			//クリック矩形。設定。
+			a_item.SetClipRect(ref this.rect);
+
+			//矩形。設定。
+			a_item.SetX(this.rect.x);
+		}
+
+		/** アイテム。取得。
+		*/
+		public ITEM GetItem(int a_index)
+		{
+			return this.list[a_index];
+		}
+
+		/** リスト数。取得。
+		*/
+		public override int GetListCount()
+		{
+			return this.list.Count;
+		}
+
+		/** アイテム移動。
+		*/
+		public override void OnMove(int a_index)
+		{
+			if((0<=a_index)&&(a_index<=this.list.Count)){
+				int t_y = this.rect.y + a_index * this.item_length - this.view_position;
+				this.list[a_index].SetY(t_y);
+			}
+		}
+
+		/** 表示開始。
+		*/
+		public override void OnViewIn(int a_index)
+		{
+			if((0<=a_index)&&(a_index<=this.list.Count)){
+				if(this.list[a_index].IsViewIn() == false){
+					this.list[a_index].SetViewIn(true);
+					this.list[a_index].OnViewIn();
+				}
+			}
+		}
+
+		/** 表示終了。
+		*/
+		public override void OnViewOut(int a_index)
+		{
+			if((0<=a_index)&&(a_index<=this.list.Count)){
+				if(this.list[a_index].IsViewIn() == true){
+					this.list[a_index].SetViewIn(false);
+					this.list[a_index].OnViewOut();
+				}
+			}
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetRect(int a_x,int a_y,int a_w,int a_h)
+		{
+			//表示幅。
+			this.view_length = a_h;
+
+			//rect
+			this.rect.Set(a_x,a_y,a_w,a_h);
+
+			//bg
+			this.bg.SetRect(ref this.rect);
+
+			//list
+			for(int ii=0;ii<this.list.Count;ii++){
+				this.list[ii].SetClipRect(ref this.rect);
+			}
+
+			//表示範囲更新。
+			this.UpdateView_PositionChange();
+		}
+
+		/** 最後尾追加。
+		*/
+		public void PushItem(ITEM a_new_item)
+		{
+			//追加。
+			this.InitItem(a_new_item);
+			this.list.Add(a_new_item);
+
+			//表示範囲更新。
+			this.UpdateView_Insert(this.list.Count - 1);
+		}
+
+		/** 最後尾削除。
+		*/
+		public ITEM PopItem()
+		{
+			if(this.list.Count > 0){
+				//削除。
+				int t_list_index = this.list.Count - 1;
+				ITEM t_item = this.list[t_list_index];
+				this.list.RemoveAt(t_list_index);
+
+				//表示範囲更新。
+				this.UpdateView_Remove(t_list_index);
+
+				return t_item;
+			}
+
+			return null;
+		}
+
+		/** 追加。
+		*/
+		public void AddItem(ITEM a_new_item,int a_index)
+		{
+			if((0<=a_index)&&(a_index<=this.list.Count)){
+				//追加。
+				this.InitItem(a_new_item);
+				this.list.Insert(a_index,a_new_item);
+
+				//表示範囲更新。
+				this.UpdateView_Insert(a_index);
+			}
+		}
+
+		/** 削除。
+		*/
+		public ITEM RemoveItem(int a_index)
+		{
+			if((0<=a_index)&&(a_index<this.list.Count)){
+				//削除。
+				ITEM t_item = this.list[a_index];
+				this.list.RemoveAt(a_index);
+
+				//表示範囲更新。
+				this.UpdateView_Remove(a_index);
+
+				return t_item;
+			}
+			return null;
+		}
+		
 	}
 }
 

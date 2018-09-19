@@ -192,6 +192,7 @@
     <Compile Include="Assets\Fee\Script\Ui\Config.cs" />
     <Compile Include="Assets\Fee\Script\Ui\HorizontalScroll.cs" />
     <Compile Include="Assets\Fee\Script\Ui\OnTargetCallBack_Base.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Scroll_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\ScrollItem_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Ui.cs" />
