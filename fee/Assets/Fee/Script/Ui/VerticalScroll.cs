@@ -101,7 +101,7 @@ namespace NUi
 		*/
 		public override void OnMove(int a_index)
 		{
-			if((0<=a_index)&&(a_index<=this.list.Count)){
+			if((0<=a_index)&&(a_index<this.list.Count)){
 				int t_y = this.rect.y + a_index * this.item_length - this.view_position;
 				this.list[a_index].SetY(t_y);
 			}
@@ -111,7 +111,7 @@ namespace NUi
 		*/
 		public override void OnViewIn(int a_index)
 		{
-			if((0<=a_index)&&(a_index<=this.list.Count)){
+			if((0<=a_index)&&(a_index<this.list.Count)){
 				if(this.list[a_index].IsViewIn() == false){
 					this.list[a_index].SetViewIn(true);
 					this.list[a_index].OnViewIn();
@@ -123,7 +123,7 @@ namespace NUi
 		*/
 		public override void OnViewOut(int a_index)
 		{
-			if((0<=a_index)&&(a_index<=this.list.Count)){
+			if((0<=a_index)&&(a_index<this.list.Count)){
 				if(this.list[a_index].IsViewIn() == true){
 					this.list[a_index].SetViewIn(false);
 					this.list[a_index].OnViewOut();

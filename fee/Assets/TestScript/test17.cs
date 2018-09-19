@@ -165,8 +165,11 @@ public class test17 : main_base
 	private NUi.Button button_insert_top;
 	private NUi.Button button_remove_top;
 
-	private NUi.Button button_insert_5;
-	private NUi.Button button_remove_5;
+	private NUi.Button button_insert_top_5;
+	private NUi.Button button_remove_top_5;
+
+	private NUi.Button button_insert_last_5;
+	private NUi.Button button_remove_last_5;
 
 	/** Start
 	*/
@@ -238,19 +241,35 @@ public class test17 : main_base
 
 		t_y_index++;
 
-		//button_insert_5
-		this.button_insert_5 = new NUi.Button(this.deleter,null,0,Click,9004);
-		this.button_insert_5.SetRect(10,100 + 30 * t_y_index,100,30);
-		this.button_insert_5.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_insert_5.SetText("挿入(後から５)");
+		//button_insert_top_5
+		this.button_insert_top_5 = new NUi.Button(this.deleter,null,0,Click,9004);
+		this.button_insert_top_5.SetRect(10,100 + 30 * t_y_index,100,30);
+		this.button_insert_top_5.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_insert_top_5.SetText("挿入(５番目)");
 
 		t_y_index++;
 
-		//button_remove_5
-		this.button_remove_5 = new NUi.Button(this.deleter,null,0,Click,9005);
-		this.button_remove_5.SetRect(10,100 + 30 * t_y_index,100,30);
-		this.button_remove_5.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_remove_5.SetText("削除(後から５)");
+		//button_remove_top_5
+		this.button_remove_top_5 = new NUi.Button(this.deleter,null,0,Click,9005);
+		this.button_remove_top_5.SetRect(10,100 + 30 * t_y_index,100,30);
+		this.button_remove_top_5.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_remove_top_5.SetText("削除(５番目)");
+
+		t_y_index++;
+
+		//button_insert_last_5
+		this.button_insert_last_5 = new NUi.Button(this.deleter,null,0,Click,9006);
+		this.button_insert_last_5.SetRect(10,100 + 30 * t_y_index,100,30);
+		this.button_insert_last_5.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_insert_last_5.SetText("挿入(後５)");
+
+		t_y_index++;
+
+		//button_remove_last_5
+		this.button_remove_last_5 = new NUi.Button(this.deleter,null,0,Click,9007);
+		this.button_remove_last_5.SetRect(10,100 + 30 * t_y_index,100,30);
+		this.button_remove_last_5.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_remove_last_5.SetText("削除(後５)");
 	}
 
 	/** Clip
@@ -335,6 +354,44 @@ public class test17 : main_base
 				//追加。
 
 				{
+					int t_index = 4;
+					this.v_scrollview_create_id++;
+					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id),t_index);
+				}
+				{
+					int t_index = 4;
+					this.h_scrollview_create_id++;
+					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id),t_index);
+				}
+			}break;
+		case 9005:
+			{
+				//削除。
+
+				{
+					int t_index = 4;
+					ScrollItem t_item = this.v_scrollview.RemoveItem(t_index);
+					if(t_item != null){
+						this.deleter.UnRegister(t_item);
+						t_item.Delete();
+						t_item = null;
+					}
+				}
+				{
+					int t_index = 4;
+					ScrollItem t_item = this.h_scrollview.RemoveItem(t_index);
+					if(t_item != null){
+						this.deleter.UnRegister(t_item);
+						t_item.Delete();
+						t_item = null;
+					}
+				}
+			}break;
+		case 9006:
+			{
+				//追加。
+
+				{
 					int t_index = this.v_scrollview.GetListCount() - 5;
 					this.v_scrollview_create_id++;
 					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id),t_index);
@@ -345,7 +402,7 @@ public class test17 : main_base
 					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id),t_index);
 				}
 			}break;
-		case 9005:
+		case 9007:
 			{
 				//削除。
 

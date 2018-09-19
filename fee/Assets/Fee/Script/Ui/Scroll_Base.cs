@@ -159,10 +159,8 @@ namespace NUi
 
 			//表示範囲外チェック。
 			{
-				int t_check_index = this.viewindex_en + 1;
-				if((0 <= t_check_index)&&(t_check_index < t_list_count)){
-					this.OnViewOut(t_check_index);
-				}
+				this.OnViewOut(this.viewindex_st - 1);
+				this.OnViewOut(this.viewindex_en + 1);
 			}
 		}
 
@@ -207,6 +205,12 @@ namespace NUi
 			//表示範囲内チェック。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
 				this.OnViewIn(ii);
+			}
+
+			//表示範囲外チェック。
+			{
+				this.OnViewOut(this.viewindex_st - 1);
+				this.OnViewOut(this.viewindex_en + 1);
 			}
 		}
 

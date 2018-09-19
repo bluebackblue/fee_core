@@ -102,7 +102,7 @@ namespace NUi
 		*/
 		public override void OnMove(int a_index)
 		{
-			if((0<=a_index)&&(a_index<=this.list.Count)){
+			if((0<=a_index)&&(a_index<this.list.Count)){
 				int t_x = this.rect.x + a_index * this.item_length - this.view_position;
 				this.list[a_index].SetX(t_x);
 			}
@@ -112,7 +112,7 @@ namespace NUi
 		*/
 		public override void OnViewIn(int a_index)
 		{
-			if((0<=a_index)&&(a_index<=this.list.Count)){
+			if((0<=a_index)&&(a_index<this.list.Count)){
 				if(this.list[a_index].IsViewIn() == false){
 					this.list[a_index].SetViewIn(true);
 					this.list[a_index].OnViewIn();
@@ -124,7 +124,7 @@ namespace NUi
 		*/
 		public override void OnViewOut(int a_index)
 		{
-			if((0<=a_index)&&(a_index<=this.list.Count)){
+			if((0<=a_index)&&(a_index<this.list.Count)){
 				if(this.list[a_index].IsViewIn() == true){
 					this.list[a_index].SetViewIn(false);
 					this.list[a_index].OnViewOut();
@@ -214,6 +214,7 @@ namespace NUi
 				return t_item;
 			}
 			return null;
-		}	}
+		}
+	}
 }
 
