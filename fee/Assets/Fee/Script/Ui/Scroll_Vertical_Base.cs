@@ -16,30 +16,26 @@ using UnityEngine;
 */
 namespace NUi
 {
-	/** VerticalScroll
+	/** Scroll_Vertical_Base
 	*/
-	public class VerticalScroll<ITEM> : Scroll_Base , NDeleter.DeleteItem_Base
+	public abstract class Scroll_Vertical_Base<ITEM> : Scroll_Base , NDeleter.DeleteItem_Base
 		where ITEM : ScrollItem_Base
 	{
 		/** deleter
 		*/
-		private NDeleter.Deleter deleter;
+		protected NDeleter.Deleter deleter;
 
 		/** 矩形。
 		*/
-		private NRender2D.Rect2D_R<int> rect;
-
-		/** bg
-		*/
-		private NUi.ClipSprite bg;
+		protected NRender2D.Rect2D_R<int> rect;
 
 		/** リスト。
 		*/
-		private List<ITEM> list;
+		protected List<ITEM> list;
 
 		/** constructor
 		*/
-		public VerticalScroll(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
+		public Scroll_Vertical_Base(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
 			:
 			base(a_item_length)
 		{
@@ -48,13 +44,6 @@ namespace NUi
 
 			//矩形。
 			this.rect.Set(0,0,0,0);
-
-			//bg
-			this.bg = new ClipSprite(this.deleter,null,a_drawpriority);
-			this.bg.SetTexture(Texture2D.whiteTexture);
-			this.bg.SetRect(ref this.rect);
-			this.bg.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-			this.bg.SetColor(0.0f,0.0f,0.0f,0.1f);
 
 			//リスト。
 			this.list = new List<ITEM>();
@@ -65,11 +54,22 @@ namespace NUi
 			}
 		}
 
+		/** [Scroll_Horizontal_Base]コールバック。矩形。設定。
+		*/
+		protected abstract void OnSetRect(int a_x,int a_y,int a_w,int a_h);
+
 		/** 削除。
 		*/
 		public void Delete()
 		{
 			this.deleter.DeleteAll();
+		}
+
+		/** アイテム。取得。
+		*/
+		public ITEM GetItem(int a_index)
+		{
+			return this.list[a_index];
 		}
 
 		/** アイテム。初期化。
@@ -83,21 +83,14 @@ namespace NUi
 			a_item.SetX(this.rect.x);
 		}
 
-		/** アイテム。取得。
-		*/
-		public ITEM GetItem(int a_index)
-		{
-			return this.list[a_index];
-		}
-
-		/** リスト数。取得。
+		/** [Scroll_Base]リスト数。取得。
 		*/
 		public override int GetListCount()
 		{
 			return this.list.Count;
 		}
 
-		/** アイテム移動。
+		/** [Scroll_Base]アイテム移動。
 		*/
 		public override void OnMove(int a_index)
 		{
@@ -107,7 +100,7 @@ namespace NUi
 			}
 		}
 
-		/** 表示開始。
+		/** [Scroll_Base]表示開始。
 		*/
 		public override void OnViewIn(int a_index)
 		{
@@ -119,7 +112,7 @@ namespace NUi
 			}
 		}
 
-		/** 表示終了。
+		/** [Scroll_Base]表示終了。
 		*/
 		public override void OnViewOut(int a_index)
 		{
@@ -131,6 +124,18 @@ namespace NUi
 			}
 		}
 
+		/** [Scroll_Base]コールバック。表示位置変更。
+		*/
+		/*
+		public override void OnChangeViewPosition(int a_view_position)
+		{
+		}
+		*/
+
+		/** [Scroll_Horizontal_Base]コールバック。
+		*/
+		public abstract void OnChangeListCount();
+
 		/** 矩形。設定。
 		*/
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
@@ -141,9 +146,6 @@ namespace NUi
 			//rect
 			this.rect.Set(a_x,a_y,a_w,a_h);
 
-			//bg
-			this.bg.SetRect(ref this.rect);
-
 			//list
 			for(int ii=0;ii<this.list.Count;ii++){
 				this.list[ii].SetClipRect(ref this.rect);
@@ -151,6 +153,9 @@ namespace NUi
 
 			//表示範囲更新。
 			this.UpdateView_PositionChange();
+
+			//コールバック。
+			this.OnSetRect(a_x,a_y,a_w,a_h);
 		}
 
 		/** 最後尾追加。
@@ -163,6 +168,9 @@ namespace NUi
 
 			//表示範囲更新。
 			this.UpdateView_Insert(this.list.Count - 1);
+
+			//コールバック。
+			this.OnChangeListCount();
 		}
 
 		/** 最後尾削除。
@@ -177,6 +185,9 @@ namespace NUi
 
 				//表示範囲更新。
 				this.UpdateView_Remove(t_list_index);
+
+				//コールバック。
+				this.OnChangeListCount();
 
 				return t_item;
 			}
@@ -195,6 +206,9 @@ namespace NUi
 
 				//表示範囲更新。
 				this.UpdateView_Insert(a_index);
+
+				//コールバック。
+				this.OnChangeListCount();
 			}
 		}
 
@@ -210,11 +224,13 @@ namespace NUi
 				//表示範囲更新。
 				this.UpdateView_Remove(a_index);
 
+				//コールバック。
+				this.OnChangeListCount();
+
 				return t_item;
 			}
 			return null;
 		}
-		
 	}
 }
 

@@ -144,8 +144,8 @@ public class test17 : main_base
 
 	/** scrollview
 	*/
-	private NUi.VerticalScroll<ScrollItem> v_scrollview;
-	private NUi.HorizontalScroll<ScrollItem> h_scrollview;
+	private NUi.Scroll_Vertical<ScrollItem> v_scrollview;
+	private NUi.Scroll_Horizontal<ScrollItem> h_scrollview;
 	private int v_scrollview_create_id;
 	private int h_scrollview_create_id;
 
@@ -200,11 +200,11 @@ public class test17 : main_base
 		this.deleter = new NDeleter.Deleter();
 
 		//v_scrollview
-		this.v_scrollview = new NUi.VerticalScroll<ScrollItem>(this.deleter,0,ScrollItem.GetH());
+		this.v_scrollview = new NUi.Scroll_Vertical<ScrollItem>(this.deleter,0,ScrollItem.GetH());
 		this.v_scrollview.SetRect(200,100,200,400);
 
 		//h_scrollview
-		this.h_scrollview = new NUi.HorizontalScroll<ScrollItem>(this.deleter,0,ScrollItem.GetW());
+		this.h_scrollview = new NUi.Scroll_Horizontal<ScrollItem>(this.deleter,0,ScrollItem.GetW());
 		this.h_scrollview.SetRect(450,100,400,200);
 
 		int t_y_index = 0;

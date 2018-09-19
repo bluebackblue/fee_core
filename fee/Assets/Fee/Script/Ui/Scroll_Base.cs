@@ -55,21 +55,25 @@ namespace NUi
 			this.viewindex_en = -1;
 		}
 
-		/** リスト数。取得。
+		/** [Scroll_Base]コールバック。リスト数。取得。
 		*/
 		public abstract int GetListCount();
 
-		/** アイテム移動。
+		/** [Scroll_Base]コールバック。アイテム移動。
 		*/
 		public abstract void OnMove(int a_index);
 
-		/** 表示開始。
+		/** [Scroll_Base]コールバック。表示開始。
 		*/
 		public abstract void OnViewIn(int a_index);
 
-		/** 表示終了。
+		/** [Scroll_Base]コールバック。表示終了。
 		*/
 		public abstract void OnViewOut(int a_index);
+
+		/** [Scroll_Base]コールバック。表示位置変更。
+		*/
+		public abstract void OnChangeViewPosition();
 
 		/** 表示位置変更後。表示範囲更新。
 		*/
@@ -177,11 +181,17 @@ namespace NUi
 					this.viewindex_en = -1;
 				}else{
 					if(this.item_length * t_list_count < this.view_length){
-						this.view_position = 0;
+						if(this.view_position != 0){
+							this.view_position = 0;
+							this.OnChangeViewPosition();
+						}
 					}else{
 						int t_position_max = this.item_length * t_list_count - this.view_length;
 						if(this.view_position > t_position_max){
-							this.view_position = t_position_max;
+							if(this.view_position != t_position_max){
+								this.view_position = t_position_max;
+								this.OnChangeViewPosition();
+							}
 						}
 					}
 
@@ -237,6 +247,7 @@ namespace NUi
 
 			if(this.view_position != t_view_position){
 				this.view_position = t_view_position;
+				this.OnChangeViewPosition();
 
 				//表示範囲更新。
 				this.UpdateView_PositionChange();
