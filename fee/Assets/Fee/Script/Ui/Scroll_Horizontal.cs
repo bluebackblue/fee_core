@@ -85,7 +85,7 @@ namespace NUi
 
 				int t_position_max = this.item_length * this.list.Count - this.view_length;
 				float t_per = (float)this.view_position / t_position_max;
-				int t_offset = (int)(t_per * (this.view_length - this.bar.GetH()));
+				int t_offset = (int)(t_per * (this.view_length - this.bar.GetW()));
 				this.bar.SetX(this.rect.x + t_offset);
 			}
 		}
