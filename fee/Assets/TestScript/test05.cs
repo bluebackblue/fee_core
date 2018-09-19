@@ -41,6 +41,14 @@ public class test05 : main_base
 	*/
 	private NRender2D.Text2D text_pad;
 
+	/** value
+	*/
+	private int value;
+
+	/** phase_flag
+	*/
+	private bool phase_flag;
+
 	/** Start
 	*/
 	private void Start()
@@ -75,7 +83,7 @@ public class test05 : main_base
 
 		//テキスト。
 		this.text_mouse = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.text_mouse.SetRect(10,200 + 50 * 0,0,0);
+		this.text_mouse.SetRect(10,10 + 50 * 0,0,0);
 		this.text_mouse.SetFontSize(30);
 
 		//テキスト。
@@ -87,6 +95,12 @@ public class test05 : main_base
 		this.text_pad = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.text_pad.SetRect(10,200 + 50 * 2,0,0);
 		this.text_pad.SetFontSize(30);
+
+		//value
+		this.value = 0;
+
+		//phase_flag
+		this.phase_flag = false;
 	}
 
 	/** Update
@@ -112,20 +126,67 @@ public class test05 : main_base
 		{
 			string t_text = "";
 
-			if(UnityEngine.Experimental.Input.Touchscreen.current != null){
-				for(int ii=0;ii<UnityEngine.Experimental.Input.Touchscreen.current.activeTouches.Count;ii++){
-					if(UnityEngine.Experimental.Input.Touchscreen.current.activeTouches[ii] != null){
-						t_text += UnityEngine.Experimental.Input.Touchscreen.current.activeTouches[ii].touchId.ReadValue().ToString();
-					}
-				}
+			if(NInput.Mouse.GetInstance().left.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if(NInput.Mouse.GetInstance().right.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
+			}
+
+			if (NInput.Mouse.GetInstance().middle.on == true){
+				t_text += "[o]";
+			}else{
+				t_text += "[ ]";
 			}
 
 			t_text += "x = " + NInput.Mouse.GetInstance().pos.x.ToString() + " ";
 			t_text += "y = " + NInput.Mouse.GetInstance().pos.y.ToString() + " ";
 			t_text += "m = " + NInput.Mouse.GetInstance().mouse_wheel.y.ToString() + " ";
-			t_text += NInput.Mouse.GetInstance().left.on.ToString() + " ";
-			t_text += NInput.Mouse.GetInstance().right.on.ToString() + " ";
-			t_text += NInput.Mouse.GetInstance().middle.on.ToString() + " ";
+
+			//ポインターテスト。
+			#if true
+			{
+				t_text += "\n----------";
+
+				if(UnityEngine.Experimental.Input.Pointer.current != null){
+
+					t_text += UnityEngine.Experimental.Input.Pointer.current.phase.ReadValue().ToString() + " ";
+
+					if(UnityEngine.Experimental.Input.Pointer.current.phase.ReadValue() == UnityEngine.Experimental.Input.PointerPhase.Began){
+						this.phase_flag = true;
+					}else if(UnityEngine.Experimental.Input.Pointer.current.phase.ReadValue() == UnityEngine.Experimental.Input.PointerPhase.Ended){
+						this.phase_flag = true;
+					}else if(UnityEngine.Experimental.Input.Pointer.current.phase.ReadValue() == UnityEngine.Experimental.Input.PointerPhase.Cancelled){
+						this.phase_flag = true;
+					}
+				}
+
+				t_text += "p = " + this.phase_flag.ToString();
+			}
+			#endif
+
+			#if false
+			{
+				t_text += "\n----------";
+
+				if(UnityEngine.Experimental.Input.Pen.current != null){
+					t_text += UnityEngine.Experimental.Input.Pen.current.position.x.ToString() + "";
+					t_text += UnityEngine.Experimental.Input.Pen.current.position.y.ToString() + " ";
+					t_text += UnityEngine.Experimental.Input.Pen.current.button.isPressed.ToString() + " ";
+				}			
+			}
+			#endif
+
+			#if false
+			{
+				t_text += "\n----------";
+			}
+			#endif
 
 			this.text_mouse.SetText(t_text);
 		}
