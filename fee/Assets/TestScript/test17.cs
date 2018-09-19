@@ -196,6 +196,12 @@ public class test17 : main_base
 		//ＵＩ。インスタンス作成。
 		NUi.Ui.CreateInstance();
 
+		//フォント。
+		Font t_font = Resources.Load<Font>("mplus-1p-medium");
+		if(t_font != null){
+			NRender2D.Render2D.GetInstance().SetDefaultFont(t_font);
+		}
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
