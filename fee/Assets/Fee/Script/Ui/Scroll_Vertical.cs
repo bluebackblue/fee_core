@@ -41,35 +41,37 @@ namespace NUi
 			this.bg.SetRect(0,0,0,0);
 			this.bg.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 			this.bg.SetColor(0.0f,0.0f,0.0f,0.1f);
+			this.bg.SetMaterialType(NRender2D.Config.MaterialType.Alpha);
 
 			//バー。
 			this.bar = new NRender2D.Sprite2D(a_deleter,null,a_drawpriority + 1);
 			this.bar.SetTexture(Texture2D.whiteTexture);
 			this.bar.SetRect(0,0,5,5);
 			this.bar.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-			this.bar.SetColor(1.0f,1.0f,1.0f,0.1f);
+			this.bar.SetColor(1.0f,1.0f,1.0f,0.3f);
+			this.bar.SetMaterialType(NRender2D.Config.MaterialType.Alpha);
 
 			this.bar.SetVisible(false);
 		}
 
 		/** [Scroll_Vertical_Base]コールバック。矩形。設定。
 		*/
-		protected override void OnSetRect(int a_x,int a_y,int a_w,int a_h)
+		protected override void OnChangeRect()
 		{
-			this.bg.SetRect(a_x,a_y,a_w,a_h);
+			this.bg.SetRect(ref this.rect);
 			this.bar.SetX(this.rect.x - 10);
 		}
 
-		/** [Scroll_Base]コールバック。表示位置変更。
+		/** [Scroll_Vertical_Base]コールバック。表示位置変更。
 		*/
-		public override void OnChangeViewPosition()
+		protected override void OnChangeViewPosition()
 		{
 			this.UpdateBar();
 		}
 
-		/** [Scroll_Horizontal_Base]コールバック。
+		/** [Scroll_Vertical_Base]コールバック。リスト数変更。
 		*/
-		public override void OnChangeListCount()
+		protected override void OnChangeListCount()
 		{
 			this.UpdateBar();
 		}
@@ -78,15 +80,20 @@ namespace NUi
 		*/
 		private void UpdateBar()
 		{
-			if(this.list.Count <= 0){
+			int t_position_max = this.item_length * this.list.Count - this.view_length;
+
+			if(t_position_max <= 0){
 				this.bar.SetVisible(false);
 			}else{
 				this.bar.SetVisible(true);
 
-				int t_position_max = this.item_length * this.list.Count - this.view_length;
-				float t_per = (float)this.view_position / t_position_max;
-				int t_offset = (int)(t_per * (this.view_length - this.bar.GetH()));
+				float t_offset_per = (float)this.view_position / t_position_max;
+				float t_length_per = (float)this.view_length / (this.item_length * this.list.Count);
+
+				int t_offset = (int)(t_offset_per * (this.view_length - this.bar.GetH()));
+
 				this.bar.SetY(this.rect.y + t_offset);
+				this.bar.SetH((int)(this.rect.h * t_length_per));
 			}
 		}
 	}

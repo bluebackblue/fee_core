@@ -25,10 +25,6 @@ namespace NUi
 		*/
 		protected NDeleter.Deleter deleter;
 
-		/** 矩形。
-		*/
-		protected NRender2D.Rect2D_R<int> rect;
-
 		/** リスト。
 		*/
 		protected List<ITEM> list;
@@ -42,9 +38,6 @@ namespace NUi
 			//deleter
 			this.deleter = new NDeleter.Deleter();
 
-			//矩形。
-			this.rect.Set(0,0,0,0);
-
 			//リスト。
 			this.list = new List<ITEM>();
 
@@ -53,10 +46,6 @@ namespace NUi
 				a_deleter.Register(this);
 			}
 		}
-
-		/** [Scroll_Horizontal_Base]コールバック。矩形。設定。
-		*/
-		protected abstract void OnSetRect(int a_x,int a_y,int a_w,int a_h);
 
 		/** 削除。
 		*/
@@ -90,9 +79,9 @@ namespace NUi
 			return this.list.Count;
 		}
 
-		/** [Scroll_Base]アイテム移動。
+		/** [Scroll_Base]コールバック。アイテム移動。
 		*/
-		public override void OnMove(int a_index)
+		protected override void OnMoveItem_FromScrollBase(int a_index)
 		{
 			if((0<=a_index)&&(a_index<this.list.Count)){
 				int t_x = this.rect.x + a_index * this.item_length - this.view_position;
@@ -100,9 +89,9 @@ namespace NUi
 			}
 		}
 
-		/** [Scroll_Base]表示開始。
+		/** [Scroll_Base]コールバック。表示開始。
 		*/
-		public override void OnViewIn(int a_index)
+		protected override void OnViewInItem_FromScrollBase(int a_index)
 		{
 			if((0<=a_index)&&(a_index<this.list.Count)){
 				if(this.list[a_index].IsViewIn() == false){
@@ -112,9 +101,9 @@ namespace NUi
 			}
 		}
 
-		/** [Scroll_Base]表示終了。
+		/** [Scroll_Base]コールバック。表示終了。
 		*/
-		public override void OnViewOut(int a_index)
+		protected override void OnViewOutItem_FromScrollBase(int a_index)
 		{
 			if((0<=a_index)&&(a_index<this.list.Count)){
 				if(this.list[a_index].IsViewIn() == true){
@@ -124,27 +113,12 @@ namespace NUi
 			}
 		}
 
-		/** [Scroll_Base]コールバック。表示位置変更。
+		/** [Scroll_Base]コールバック。矩形変更。
 		*/
-		/*
-		public override void OnChangeViewPosition(int a_view_position)
-		{
-		}
-		*/
-
-		/** [Scroll_Horizontal_Base]コールバック。
-		*/
-		public abstract void OnChangeListCount();
-
-		/** 矩形。設定。
-		*/
-		public void SetRect(int a_x,int a_y,int a_w,int a_h)
+		protected override void OnChangeRect_FromScrollBase()
 		{
 			//表示幅。
-			this.view_length = a_w;
-
-			//rect
-			this.rect.Set(a_x,a_y,a_w,a_h);
+			this.view_length = this.rect.w;
 
 			//list
 			for(int ii=0;ii<this.list.Count;ii++){
@@ -154,9 +128,28 @@ namespace NUi
 			//表示範囲更新。
 			this.UpdateView_PositionChange();
 
-			//コールバック。
-			this.OnSetRect(a_x,a_y,a_w,a_h);
+			//コールバック。矩形変更。
+			this.OnChangeRect();
 		}
+
+		/** [Scroll_Base]コールバック。表示位置変更。
+		*/
+		protected override void OnChangeViewPosition_FromScrollBase()
+		{
+			this.OnChangeViewPosition();
+		}
+
+		/** [Scroll_Horizontal_Base]コールバック。リスト数変更。
+		*/
+		protected abstract void OnChangeListCount();
+
+		/** [Scroll_Horizontal_Base]コールバック。矩形変更。
+		*/
+		protected abstract void OnChangeRect();
+
+		/** [Scroll_Horizontal_Base]コールバック。表示位置変更。
+		*/
+		protected abstract void OnChangeViewPosition();
 
 		/** 最後尾追加。
 		*/
@@ -169,7 +162,7 @@ namespace NUi
 			//表示範囲更新。
 			this.UpdateView_Insert(this.list.Count - 1);
 
-			//コールバック。
+			//コールバック。リスト数変更。
 			this.OnChangeListCount();
 		}
 
@@ -186,7 +179,7 @@ namespace NUi
 				//表示範囲更新。
 				this.UpdateView_Remove(t_list_index);
 
-				//コールバック。
+				//コールバック。リスト数変更。
 				this.OnChangeListCount();
 
 				return t_item;
@@ -207,7 +200,7 @@ namespace NUi
 				//表示範囲更新。
 				this.UpdateView_Insert(a_index);
 
-				//コールバック。
+				//コールバック。リスト数変更。
 				this.OnChangeListCount();
 			}
 		}
@@ -224,7 +217,7 @@ namespace NUi
 				//表示範囲更新。
 				this.UpdateView_Remove(a_index);
 
-				//コールバック。
+				//コールバック。リスト数変更。
 				this.OnChangeListCount();
 
 				return t_item;

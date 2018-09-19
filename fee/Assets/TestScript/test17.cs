@@ -35,6 +35,10 @@ public class test17 : main_base
 		*/
 		private int create_id;
 
+		/** クリックコールバック。
+		*/
+		private NUi.Button_Base.CallBack_Click callback;
+
 		/** sprite
 		*/
 		private NUi.ClipSprite sprite;
@@ -42,6 +46,10 @@ public class test17 : main_base
 		/** text
 		*/
 		private NRender2D.Text2D text;
+
+		/** button
+		*/
+		private NUi.Button button;
 
 		/** 矩形。取得。
 		*/
@@ -59,7 +67,7 @@ public class test17 : main_base
 
 		/** constructor
 		*/
-		public ScrollItem(NDeleter.Deleter a_deleter,int a_create_id)
+		public ScrollItem(NDeleter.Deleter a_deleter,int a_create_id,NUi.Button_Base.CallBack_Click a_callback)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
@@ -88,6 +96,16 @@ public class test17 : main_base
 			this.text.SetClip(true);
 			this.text.SetVisible(false);
 
+			//button
+			this.button = new NUi.Button(this.deleter,null,t_drawpriority + 1,a_callback,this.create_id);
+			this.button.SetRect(0,0,20,20);
+			this.button.SetClipRect(0,0,0,0);
+			this.button.SetText("o");
+			this.button.SetTexture(Resources.Load<Texture2D>("button"));
+			this.button.SetClip(true);
+			this.button.SetVisible(false);
+			this.button.SetTextureCornerSize(10);
+
 			//削除管理。
 			if(a_deleter != null){
 				a_deleter.Register(this);
@@ -107,6 +125,7 @@ public class test17 : main_base
 		{
 			this.sprite.SetX(a_x);
 			this.text.SetX(a_x);
+			this.button.SetX(a_x + ScrollItem.GetW() - this.button.GetW() - 5);
 		}
 
 		/** [ScrollItem_Base]矩形。設定。
@@ -115,14 +134,16 @@ public class test17 : main_base
 		{
 			this.sprite.SetY(a_y);
 			this.text.SetY(a_y);
+			this.button.SetY(a_y + 5);
 		}
 
-		/** [ScrollItem_Base]クリック。矩形。
+		/** [ScrollItem_Base]クリップ矩形。設定。
 		*/
 		public override void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
 		{
 			this.sprite.SetClipRect(ref a_rect);
 			this.text.SetClipRect(ref a_rect);
+			this.button.SetClipRect(ref a_rect);
 		}
 
 		/** [ScrollItem_Base]表示内。
@@ -131,6 +152,7 @@ public class test17 : main_base
 		{
 			this.sprite.SetVisible(true);
 			this.text.SetVisible(true);
+			this.button.SetVisible(true);
 		}
 
 		/** [ScrollItem_Base]表示外。
@@ -139,6 +161,7 @@ public class test17 : main_base
 		{
 			this.sprite.SetVisible(false);
 			this.text.SetVisible(false);
+			this.button.SetVisible(false);
 		}
 	}
 
@@ -151,11 +174,16 @@ public class test17 : main_base
 
 	/** drag
 	*/
-	private bool drag;
+	private bool drag_v;
+	private bool drag_h;
 	private int drag_old_value_x;
 	private int drag_old_value_y;
 	private float drag_speed_x;
 	private float drag_speed_y;
+
+	/** status_text
+	*/
+	private NRender2D.Text2D status_text;
 
 	/** button
 	*/
@@ -170,6 +198,9 @@ public class test17 : main_base
 
 	private NUi.Button button_insert_last_5;
 	private NUi.Button button_remove_last_5;
+
+	private NUi.Button button_up;
+	private NUi.Button button_down;
 
 	/** Start
 	*/
@@ -208,10 +239,25 @@ public class test17 : main_base
 		//v_scrollview
 		this.v_scrollview = new NUi.Scroll_Vertical<ScrollItem>(this.deleter,0,ScrollItem.GetH());
 		this.v_scrollview.SetRect(200,100,200,400);
+		this.v_scrollview_create_id = 0;
 
 		//h_scrollview
 		this.h_scrollview = new NUi.Scroll_Horizontal<ScrollItem>(this.deleter,0,ScrollItem.GetW());
 		this.h_scrollview.SetRect(450,100,400,200);
+		this.h_scrollview_create_id = 0;
+
+		//drag
+		this.drag_v = false;
+		this.drag_h = false;
+		this.drag_old_value_x = 0;
+		this.drag_old_value_y = 0;
+		this.drag_speed_x = 0.0f;
+		this.drag_speed_y = 0.0f;
+
+		//status_text
+		this.status_text = new NRender2D.Text2D(this.deleter,null,0);
+		this.status_text.SetText("");
+		this.status_text.SetRect(200,10,0,0);
 
 		int t_y_index = 0;
 
@@ -276,6 +322,36 @@ public class test17 : main_base
 		this.button_remove_last_5.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_remove_last_5.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_remove_last_5.SetText("削除(後５)");
+
+		t_y_index++;
+
+		//button_up
+		this.button_up = new NUi.Button(this.deleter,null,0,Click,1000);
+		this.button_up.SetRect(10,100 + 30 * t_y_index,100,30);
+		this.button_up.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_up.SetText("前方に移動");
+
+		t_y_index++;
+
+		//button_down
+		this.button_down = new NUi.Button(this.deleter,null,0,Click,1001);
+		this.button_down.SetRect(10,100 + 30 * t_y_index,100,30);
+		this.button_down.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_down.SetText("後方に移動");
+	}
+
+	/** Click_V_Item
+	*/
+	public void Click_V_Item(int a_create_id)
+	{
+		this.status_text.SetText("Vertical :" + a_create_id.ToString());
+	}
+
+	/** Click_H_Item
+	*/
+	public void Click_H_Item(int a_create_id)
+	{
+		this.status_text.SetText("Horizontal : " + a_create_id.ToString());
 	}
 
 	/** Clip
@@ -283,17 +359,29 @@ public class test17 : main_base
 	public void Click(int a_value)
 	{
 		switch(a_value){
+		case 1000:
+			{
+				//上に移動。
+				this.drag_speed_y += 15.0f;
+				this.drag_speed_x += 15.0f;
+			}break;
+		case 1001:
+			{
+				//下に移動。
+				this.drag_speed_y -= 15.0f;
+				this.drag_speed_x -= 15.0f;
+			}break;
 		case 9000:
 			{
 				//最後尾追加。
 
 				{
 					this.v_scrollview_create_id++;
-					this.v_scrollview.PushItem(new ScrollItem(this.deleter,this.v_scrollview_create_id));
+					this.v_scrollview.PushItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,Click_V_Item));
 				}
 				{
 					this.h_scrollview_create_id++;
-					this.h_scrollview.PushItem(new ScrollItem(this.deleter,this.h_scrollview_create_id));
+					this.h_scrollview.PushItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,Click_H_Item));
 				}
 			}break;
 		case 9001:
@@ -324,12 +412,12 @@ public class test17 : main_base
 				{
 					int t_index = 0;
 					this.v_scrollview_create_id++;
-					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id),t_index);
+					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,Click_V_Item),t_index);
 				}
 				{
 					int t_index = 0;
 					this.h_scrollview_create_id++;
-					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id),t_index);
+					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,Click_H_Item),t_index);
 				}
 			}break;
 		case 9003:
@@ -362,12 +450,12 @@ public class test17 : main_base
 				{
 					int t_index = 4;
 					this.v_scrollview_create_id++;
-					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id),t_index);
+					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,Click_V_Item),t_index);
 				}
 				{
 					int t_index = 4;
 					this.h_scrollview_create_id++;
-					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id),t_index);
+					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,Click_H_Item),t_index);
 				}
 			}break;
 		case 9005:
@@ -400,12 +488,12 @@ public class test17 : main_base
 				{
 					int t_index = this.v_scrollview.GetListCount() - 5;
 					this.v_scrollview_create_id++;
-					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id),t_index);
+					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,Click_V_Item),t_index);
 				}
 				{
 					int t_index = this.h_scrollview.GetListCount() - 5;
 					this.h_scrollview_create_id++;
-					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id),t_index);
+					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,Click_H_Item),t_index);
 				}
 			}break;
 		case 9007:
@@ -453,54 +541,75 @@ public class test17 : main_base
 		//ＵＩ。
 		NUi.Ui.GetInstance().Main();
 
-		//ドラッグ。
-		if(this.drag == true){
+		//ドラッグ中。
+		if(this.drag_v == true){
 			if(NInput.Mouse.GetInstance().left.on == true){
 				{
 					int t_distance_y = NInput.Mouse.GetInstance().left.last_down_pos.y - NInput.Mouse.GetInstance().pos.y;
 					this.v_scrollview.SetViewPosition(this.drag_old_value_y + t_distance_y);
 				}
+				this.drag_speed_y = this.drag_speed_y * 0.3f + (NInput.Mouse.GetInstance().pos.y - NInput.Mouse.GetInstance().pos.y_old) * 0.7f;
+			}else{
+				this.drag_v = false;
+			}
+		}
+
+		//ドラッグ中。
+		if(this.drag_h == true){
+			
+			if(NInput.Mouse.GetInstance().left.on == true){
 				{
 					int t_distance_x = NInput.Mouse.GetInstance().left.last_down_pos.x - NInput.Mouse.GetInstance().pos.x;
 					this.h_scrollview.SetViewPosition(this.drag_old_value_x + t_distance_x);
 				}
 				this.drag_speed_x = this.drag_speed_x * 0.3f + (NInput.Mouse.GetInstance().pos.x - NInput.Mouse.GetInstance().pos.x_old) * 0.7f;
-				this.drag_speed_y = this.drag_speed_y * 0.3f + (NInput.Mouse.GetInstance().pos.y - NInput.Mouse.GetInstance().pos.y_old) * 0.7f;
 			}else{
-				this.drag = false;
+				this.drag_h = false;
 			}
-		}else{
-			if(NInput.Mouse.GetInstance().left.down == true){
-				this.drag = true;
-				{
+		}
+
+		//ドラッグ開始チェック。
+		if((this.drag_v == false)&&(this.drag_h == false)){
+			if(NInput.Mouse.GetInstance().InRectCheck(this.v_scrollview.GetX(),this.v_scrollview.GetY(),this.v_scrollview.GetW(),this.v_scrollview.GetH())){
+				if(NInput.Mouse.GetInstance().left.down == true){
+					this.drag_v = true;
 					this.drag_old_value_y = this.v_scrollview.GetViewPosition();
+					this.drag_speed_y = 0.0f;
 				}
-				{
+			}else if(NInput.Mouse.GetInstance().InRectCheck(this.h_scrollview.GetX(),this.h_scrollview.GetY(),this.h_scrollview.GetW(),this.h_scrollview.GetH())){
+				if(NInput.Mouse.GetInstance().left.down == true){
+					this.drag_h = true;
 					this.drag_old_value_x = this.h_scrollview.GetViewPosition();
+					this.drag_speed_x = 0.0f;
 				}
-				this.drag_speed_x = 0.0f;
-				this.drag_speed_y = 0.0f;
-			}else{
-				if(this.drag_speed_y != 0.0f){
-					int t_move = (int)this.drag_speed_y;
-					this.drag_speed_y /= 1.08f;
-					{
-						if(t_move != 0){
-							this.v_scrollview.SetViewPosition(this.v_scrollview.GetViewPosition() - t_move);
-						}else{
-							this.drag_speed_y = 0.0f;
-						}
+			}
+		}
+
+		//減速。
+		if(this.drag_v == false){
+			if(this.drag_speed_y != 0.0f){
+				int t_move = (int)this.drag_speed_y;
+				this.drag_speed_y /= 1.08f;
+				{
+					if(t_move != 0){
+						this.v_scrollview.SetViewPosition(this.v_scrollview.GetViewPosition() - t_move);
+					}else{
+						this.drag_speed_y = 0.0f;
 					}
 				}
-				if(this.drag_speed_x != 0.0f){
-					int t_move = (int)this.drag_speed_x;
-					this.drag_speed_x /= 1.08f;
-					{
-						if(t_move != 0){
-							this.h_scrollview.SetViewPosition(this.h_scrollview.GetViewPosition() - t_move);
-						}else{
-							this.drag_speed_x = 0.0f;
-						}
+			}
+		}
+
+		//減速。
+		if(this.drag_h == false){
+			if(this.drag_speed_x != 0.0f){
+				int t_move = (int)this.drag_speed_x;
+				this.drag_speed_x /= 1.08f;
+				{
+					if(t_move != 0){
+						this.h_scrollview.SetViewPosition(this.h_scrollview.GetViewPosition() - t_move);
+					}else{
+						this.drag_speed_x = 0.0f;
 					}
 				}
 			}

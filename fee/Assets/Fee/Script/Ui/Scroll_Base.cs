@@ -37,6 +37,10 @@ namespace NUi
 		protected int viewindex_st;
 		protected int viewindex_en;
 
+		/** 矩形。
+		*/
+		protected NRender2D.Rect2D_R<int> rect;
+
 		/** constructor
 		*/
 		public Scroll_Base(int a_item_length)
@@ -53,6 +57,9 @@ namespace NUi
 			//表示インデックス。
 			this.viewindex_st = -1;
 			this.viewindex_en = -1;
+
+			//矩形。
+			this.rect.Set(0,0,0,0);
 		}
 
 		/** [Scroll_Base]コールバック。リスト数。取得。
@@ -61,19 +68,23 @@ namespace NUi
 
 		/** [Scroll_Base]コールバック。アイテム移動。
 		*/
-		public abstract void OnMove(int a_index);
+		protected abstract void OnMoveItem_FromScrollBase(int a_index);
 
 		/** [Scroll_Base]コールバック。表示開始。
 		*/
-		public abstract void OnViewIn(int a_index);
+		protected abstract void OnViewInItem_FromScrollBase(int a_index);
 
 		/** [Scroll_Base]コールバック。表示終了。
 		*/
-		public abstract void OnViewOut(int a_index);
+		protected abstract void OnViewOutItem_FromScrollBase(int a_index);
+
+		/** [Scroll_Base]コールバック。矩形変更。
+		*/
+		protected abstract void OnChangeRect_FromScrollBase();
 
 		/** [Scroll_Base]コールバック。表示位置変更。
 		*/
-		public abstract void OnChangeViewPosition();
+		protected abstract void OnChangeViewPosition_FromScrollBase();
 
 		/** 表示位置変更後。表示範囲更新。
 		*/
@@ -104,7 +115,7 @@ namespace NUi
 
 			//表示中のアイテムの位置を設定。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnMove(ii);
+				this.OnMoveItem_FromScrollBase(ii);
 			}
 
 			if((t_st_old == this.viewindex_st)&&(t_en_old == this.viewindex_en)){
@@ -114,14 +125,14 @@ namespace NUi
 				for(int ii=t_st_old;ii<=t_en_old;ii++){
 					if((ii<this.viewindex_st)||(this.viewindex_en<ii)){
 						//表示終了。
-						this.OnViewOut(ii);
+						this.OnViewOutItem_FromScrollBase(ii);
 					}
 				}
 				//新表示空間。
 				for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
 					if((ii<t_st_old)||(t_en_old<ii)){
 						//表示開始。
-						this.OnViewIn(ii);
+						this.OnViewInItem_FromScrollBase(ii);
 					}
 				}
 			}
@@ -153,18 +164,18 @@ namespace NUi
 
 			//表示中のアイテムの位置を設定。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnMove(ii);
+				this.OnMoveItem_FromScrollBase(ii);
 			}
 
 			//表示範囲内チェック。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnViewIn(ii);
+				this.OnViewInItem_FromScrollBase(ii);
 			}
 
 			//表示範囲外チェック。
 			{
-				this.OnViewOut(this.viewindex_st - 1);
-				this.OnViewOut(this.viewindex_en + 1);
+				this.OnViewOutItem_FromScrollBase(this.viewindex_st - 1);
+				this.OnViewOutItem_FromScrollBase(this.viewindex_en + 1);
 			}
 		}
 
@@ -183,14 +194,14 @@ namespace NUi
 					if(this.item_length * t_list_count < this.view_length){
 						if(this.view_position != 0){
 							this.view_position = 0;
-							this.OnChangeViewPosition();
+							this.OnChangeViewPosition_FromScrollBase();
 						}
 					}else{
 						int t_position_max = this.item_length * t_list_count - this.view_length;
 						if(this.view_position > t_position_max){
 							if(this.view_position != t_position_max){
 								this.view_position = t_position_max;
-								this.OnChangeViewPosition();
+								this.OnChangeViewPosition_FromScrollBase();
 							}
 						}
 					}
@@ -209,18 +220,18 @@ namespace NUi
 
 			//表示中のアイテムの位置を設定。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnMove(ii);
+				this.OnMoveItem_FromScrollBase(ii);
 			}
 
 			//表示範囲内チェック。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnViewIn(ii);
+				this.OnViewInItem_FromScrollBase(ii);
 			}
 
 			//表示範囲外チェック。
 			{
-				this.OnViewOut(this.viewindex_st - 1);
-				this.OnViewOut(this.viewindex_en + 1);
+				this.OnViewOutItem_FromScrollBase(this.viewindex_st - 1);
+				this.OnViewOutItem_FromScrollBase(this.viewindex_en + 1);
 			}
 		}
 
@@ -247,7 +258,7 @@ namespace NUi
 
 			if(this.view_position != t_view_position){
 				this.view_position = t_view_position;
-				this.OnChangeViewPosition();
+				this.OnChangeViewPosition_FromScrollBase();
 
 				//表示範囲更新。
 				this.UpdateView_PositionChange();
@@ -259,6 +270,45 @@ namespace NUi
 		public int GetViewPosition()
 		{
 			return this.view_position;
+		}
+
+ 		/** 矩形。設定。
+		*/
+		public void SetRect(int a_x,int a_y,int a_w,int a_h)
+		{
+			//rect
+			this.rect.Set(a_x,a_y,a_w,a_h);
+
+			//コールバック。矩形変更。
+			this.OnChangeRect_FromScrollBase();
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetX()
+		{
+			return this.rect.x;
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetY()
+		{
+			return this.rect.y;
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetW()
+		{
+			return this.rect.w;
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetH()
+		{
+			return this.rect.h;
 		}
 	}
 }
