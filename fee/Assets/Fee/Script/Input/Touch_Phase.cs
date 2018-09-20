@@ -20,13 +20,17 @@ namespace NInput
 	*/
 	public struct Touch_Phase
 	{
-		/** exist
+		/** index
 		*/
-		public bool exist;
+		public int index;
 
 		/** phase。
 		*/
 		public UnityEngine.Experimental.Input.PointerPhase phase;
+
+		/** touch_id
+		*/
+		public int touch_id;
 
 		/** phase_flag
 		*/
@@ -34,27 +38,30 @@ namespace NInput
 
 		/** value_x
 		*/
-		public float value_x;
+		public int value_x;
 
 		/** value_y
 		*/
-		public float value_y;
+		public int value_y;
 
 		/** リセット。
 		*/
 		public void Reset()
 		{
-			//exist
-			this.exist = false;
+			//index
+			this.index = 0;
 
 			//phase
 			this.phase = UnityEngine.Experimental.Input.PointerPhase.None;
+
+			//touch_id
+			this.touch_id = 0;
 
 			//phase_flag
 			this.phase_flag = false;
 
 			//value_x
-			this.value_x = 0.0f;
+			this.value_x = 0;
 	
 			//value_y
 			this.value_y = 0;
@@ -62,22 +69,22 @@ namespace NInput
 
 		/** 設定。
 		*/
-		public void Set(bool a_flag,UnityEngine.Experimental.Input.PointerPhase a_phase,float a_value_x,float a_value_y)
+		public void Set(int a_index,UnityEngine.Experimental.Input.PointerPhase a_phase,int a_touch_id,int a_value_x,int a_value_y)
 		{
-			//exit
-			this.exist = a_flag;
+			//index
+			this.index = a_index;
 
 			//phase
 			this.phase = a_phase;
 
+			//touch_id
+			this.touch_id = a_touch_id;
 
-			if(a_phase == UnityEngine.Experimental.Input.PointerPhase.Moved){
-				//value_x
-				this.value_x = a_value_x;
+			//value_x
+			this.value_x = a_value_x;
 
-				//value_y
-				this.value_y = a_value_y;
-			}
+			//value_y
+			this.value_y = a_value_y;
 		}
 
 		/** 更新。
@@ -89,13 +96,18 @@ namespace NInput
 				{
 					this.phase_flag = true;
 				}break;
+			case UnityEngine.Experimental.Input.PointerPhase.Stationary:
+			case UnityEngine.Experimental.Input.PointerPhase.Moved:
+				{
+				}break;
 			case UnityEngine.Experimental.Input.PointerPhase.Cancelled:
 			case UnityEngine.Experimental.Input.PointerPhase.Ended:
 			case UnityEngine.Experimental.Input.PointerPhase.None:
+			default:
 				{
 					this.phase_flag = false;
-					this.value_x = 0.0f;
-					this.value_y = 0.0f;
+					this.value_x = 0;
+					this.value_y = 0;
 				}break;
 			}
 		}

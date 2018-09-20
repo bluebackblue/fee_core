@@ -162,43 +162,26 @@ public class test05 : main_base
 
 					string t_line_string = "";
 
-					/*
-					if(NInput.Touch.GetInstance().touch[ii].exist == true){
-						t_line_string += "[o]";
-					}else{
-						t_line_string += "[ ]";
-					}
-					*/
-
+					//phase_flag
 					if(NInput.Touch.GetInstance().touch[ii].phase_flag == true){
 						t_line_string += "[o]";
 					}else{
 						t_line_string += "[ ]";
 					}
 
-					/*
-					t_line_string += NInput.Touch.GetInstance().touch[ii].phase.ToString() + " ";
-					*/
+					//touch_id
+					t_line_string += NInput.Touch.GetInstance().touch[ii].touch_id.ToString();
 
+					//moved
 					if(NInput.Touch.GetInstance().touch[ii].phase == UnityEngine.Experimental.Input.PointerPhase.Moved){
-						t_line_string += "[o]";
-					}else{
-						t_line_string += "[ ]";
+						t_line_string += NInput.Touch.GetInstance().touch[ii].value_x.ToString() + " ";
+						t_line_string += NInput.Touch.GetInstance().touch[ii].value_y.ToString() + " ";
 					}
-
-					t_line_string += NInput.Touch.GetInstance().touch[ii].value_x.ToString() + " ";
-					t_line_string += NInput.Touch.GetInstance().touch[ii].value_y.ToString() + " ";
 
 					switch(ii % 3){
 					case 0:
 					case 1:
 						{
-							/*
-							while(t_line_string.Length < 25){
-								t_line_string += " ";
-							}
-							*/
-
 							t_text += t_line_string + " ";
 						}break;
 					case 2:

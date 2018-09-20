@@ -63,18 +63,17 @@
   <ItemGroup>
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\Composites\AxisComposite.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\Composites\DpadComposite.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\IActionCallbackReceiver.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\IInputBindingComposite.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\IInputInteraction.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputAction.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionAsset.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionAssetReference.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionChange.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionManager.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionMap.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionMapState.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionPhase.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionProperty.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionQueue.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionRebindingExtensions.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionReference.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputActionSetupExtensions.cs" />
@@ -95,7 +94,6 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\Interactions\SwipeInteraction.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\Interactions\TapInteraction.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\AnyKeyControl.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\AudioControl.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\AxisControl.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\ButtonControl.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\ColorControl.cs" />
@@ -154,6 +152,7 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Joystick.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Keyboard.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Mouse.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\NoiseFilter.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Pen.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Pointer.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Remote\InputRemoting.cs" />
@@ -195,6 +194,7 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\Internal\InputEventTreeView.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\Internal\InputStateWindow.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\SerializedPropertyHelpers.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Events\ActionEvent.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Events\DeltaStateEvent.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Events\DeviceConfigurationEvent.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Events\DeviceRemoveEvent.cs" />
@@ -268,8 +268,12 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Daydream.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\GearVR.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\GenericXRDevice.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Haptics\SimpleXRRumble.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Haptics\SimpleXRRumbleCommand.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Haptics\BufferedRumble.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Haptics\GetCurrentHapticStateCommand.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Haptics\GetHapticCapabilitiesCommand.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Haptics\SendBufferedHapticsCommand.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Haptics\SendSimpleRumbleCommand.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Haptics\SimpleRumble.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Knuckles.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Oculus.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Vive.cs" />
@@ -284,7 +288,6 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\State\InputStateHistory.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\ArrayHelpers.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\ArrayOrListWrapper.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\AudioBuffer.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\CSharpCodeHelpers.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\DynamicBitfield.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\FourCC.cs" />

@@ -78,39 +78,21 @@ namespace NInput
 					for(int ii=0;ii<this.touch.Length;ii++){
 						if(ii < t_touchscreen_current.allTouchControls.Count){
 							//デバイス。
-							UnityEngine.Experimental.Input.PointerPhase t_phase =  UnityEngine.Experimental.Input.PointerPhase.None;
-
-							bool t_enable = false;
+							UnityEngine.Experimental.Input.PointerPhase t_touch_phase = t_touchscreen_current.allTouchControls[ii].phase.ReadValue();
 							int t_touch_id = t_touchscreen_current.allTouchControls[ii].touchId.ReadValue();
-							float t_touch_x = 0.0f;
-							float t_touch_y = 0.0f;
+							int t_touch_x = (int)t_touchscreen_current.allTouchControls[ii].position.x.ReadValue();
+							int t_touch_y = (int)t_touchscreen_current.allTouchControls[ii].position.y.ReadValue();
 
-							if(ii == 0){
-								t_phase = t_touchscreen_current.allTouchControls[ii].phase.ReadValue();
-								t_touch_x = t_touchscreen_current.allTouchControls[ii].position.x.ReadValue();
-								t_touch_y = t_touchscreen_current.allTouchControls[ii].position.y.ReadValue();
-								t_enable = true;
-							}else{
-								if(t_touch_id == 0){
-									t_phase = UnityEngine.Experimental.Input.PointerPhase.None;
-									t_enable = false;
-								}else{
-									t_phase = t_touchscreen_current.allTouchControls[ii].phase.ReadValue();
-									t_touch_x = t_touchscreen_current.allTouchControls[ii].position.x.ReadValue();
-									t_touch_y = t_touchscreen_current.allTouchControls[ii].position.y.ReadValue();
-									t_enable = true;
-								}
-							}
+							//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+							int t_x;
+							int t_y;
+							a_render2d.GuiScreenToVirtualScreen(t_touch_x,t_touch_y,out t_x,out t_y);
 
 							//設定。
-							if(t_enable == true){
-								this.touch[ii].Set(true,t_phase,t_touch_x,t_touch_y);
-							}else{
-								this.touch[ii].Reset();
-							}
+							this.touch[ii].Set(ii,t_touch_phase,t_touch_id,t_x,t_y);
 						}else{
 							//設定。
-							this.touch[ii].Reset();
+							this.touch[ii].Set(ii,UnityEngine.Experimental.Input.PointerPhase.None,-1,0,0);
 						}
 					}
 				}

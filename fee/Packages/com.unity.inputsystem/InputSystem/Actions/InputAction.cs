@@ -1,6 +1,7 @@
 using System;
 using UnityEngine.Experimental.Input.Utilities;
-using UnityEngine.Serialization;
+
+////REVIEW: have single delegate instead of separate performed/started/cancelled callbacks?
 
 ////REVIEW: remove everything on InputAction that isn't about being an endpoint? (i.e. 'controls', 'devices', and 'bindings')
 
@@ -14,60 +15,16 @@ using UnityEngine.Serialization;
 
 ////REVIEW: resolving as a side-effect of 'controls' and 'devices' seems pretty heavy handed
 
-////TODO: give every action in the system a stable unique ID; use this also to reference actions in InputActionReferences
-
-////TODO: explore UnityEvents as an option to hook up action responses right in the inspector
-
-////REVIEW: allow individual bindings to be enabled/disabled?
-
-////TODO: event-based processing of input actions
-
 ////TODO: do not hardcode the transition from performed->waiting; allow an action to be performed over and over again inside
 ////      a single start cycle
 
-////TODO: add ability to query devices used by action
+////TODO: allow changing bindings without having to disable
 
-////REVIEW: instead of only having the callbacks on each single action, also have them on the map as a whole?
-
-////TODO: nuke Clone()
-
-// So, actions are set up to not have a contract. They just monitor state changes and then fire
-// in response to those.
-//
-// However, as a user, this is only half the story I'm interested in. Yeah, I want to monitor
-// state changes but I also want to control what values come in as a result.
-//
-// Actions don't carry values themselves. As such they don't have a value type. As a user, however,
-// in by far most of the cases, I will think of an action as giving me a specific type of value.
-// A "move" action, for example, is likely top represent a 2D planar motion vector. It can come from
-// a gamepad thumbstick, from pointer deltas, or from a combination of keyboard keys (usually WASD).
-// So the "move" action already has an aspect about it that's very much on my mind as a user but which
-// is not represented anywhere in the action itself.
-//
-// There are probably cases where I want an action to be "polymorphic" but those I think are far and
-// few between.
-//
-// Right now, actions just have a flat list of bindings. This works sufficiently well for bindings that
-// are going to controls that already generate values that both match the expected value as well as
-// the expected value *characteristics* (even with the right value type, if the value ranges and change
-// rates are not what's expected, binding to a control may have undesired behavior).
-//
-// When bindings are supposed to work in unison (as with WASD, for example), a flat list of bindings
-// is insufficient. A WASD setup is four distinct bindings that together form a single value. Also, even
-// when bindings are independent, to properly work across devices of different types, it is often necessary
-// to apply custom processing to values coming in through one binding and not to values coming in through
-// a different binding.
-//
-// It is possible to offload all this responsibility to the code running in action callbacks but I think
-// this will make for a very hard to use system at best. The promise of actions is that they abstract away
-// from the types of devices being used. If actions are to live up to that promise, they need to be able
-// to handle the above cases internally in their processing.
+////REVIEW: should actions basically be handles to data that is stored in an array in the map?
+////        (with this, we could also implement more efficient duplication where we duplicate all the binding data but not the action data)
 
 namespace UnityEngine.Experimental.Input
 {
-    ////REVIEW: I'd like to pass the context as ref but that leads to ugliness on the lambdas
-    public delegate void InputActionListener(InputAction.CallbackContext context);
-
     /// <summary>
     /// A named input signal that can flexibly decide which input data to tap.
     /// </summary>
@@ -172,6 +129,16 @@ namespace UnityEngine.Experimental.Input
         public InputActionMap actionMap
         {
             get { return isSingletonAction ? null : m_ActionMap; }
+        }
+
+        public InputBinding? bindingMask
+        {
+            get
+            {
+                if (m_BindingMask.isEmpty)
+                    return null;
+                return m_BindingMask;
+            }
         }
 
         ////TODO: add support for turning binding array into displayable info
@@ -291,7 +258,7 @@ namespace UnityEngine.Experimental.Input
                     return default(InputBinding);
                 Debug.Assert(m_ActionMap != null);
                 Debug.Assert(m_ActionMap.m_State != null);
-                var bindingStartIndex = m_ActionMap.m_State.mapIndices[m_ActionMap.m_MapIndex].bindingStartIndex;
+                var bindingStartIndex = m_ActionMap.m_State.mapIndices[m_ActionMap.m_MapIndexInState].bindingStartIndex;
                 return m_ActionMap.m_Bindings[bindingIndex - bindingStartIndex];
             }
         }
@@ -325,15 +292,13 @@ namespace UnityEngine.Experimental.Input
             get { return phase != InputActionPhase.Disabled; }
         }
 
-        ////REVIEW: have single delegate that just gives you an InputAction and you get the control and phase from the action?
-
-        public event InputActionListener started
+        public event Action<CallbackContext> started
         {
             add { m_OnStarted.Append(value); }
             remove { m_OnStarted.Remove(value); }
         }
 
-        public event InputActionListener cancelled
+        public event Action<CallbackContext> cancelled
         {
             add { m_OnCancelled.Append(value); }
             remove { m_OnCancelled.Remove(value); }
@@ -342,7 +307,7 @@ namespace UnityEngine.Experimental.Input
         // Listeners that are called when the action has been fully performed.
         // Passes along the control that triggered the state change and the action
         // object itself as well.
-        public event InputActionListener performed
+        public event Action<CallbackContext> performed
         {
             add { m_OnPerformed.Append(value); }
             remove { m_OnPerformed.Remove(value); }
@@ -396,15 +361,14 @@ namespace UnityEngine.Experimental.Input
 
             // For singleton actions, we create an internal-only InputActionMap
             // private to the action.
-            if (m_ActionMap == null)
-                CreateInternalActionMapForSingletonAction();
+            var map = GetOrCreateActionMap();
 
             // First time we're enabled, find all controls.
-            m_ActionMap.ResolveBindingsIfNecessary();
+            map.ResolveBindingsIfNecessary();
 
             // Go live.
-            m_ActionMap.m_State.EnableSingleAction(this);
-            ++m_ActionMap.m_EnabledActionsCount;
+            map.m_State.EnableSingleAction(this);
+            ++map.m_EnabledActionsCount;
         }
 
         public void Disable()
@@ -414,6 +378,32 @@ namespace UnityEngine.Experimental.Input
 
             m_ActionMap.m_State.DisableSingleAction(this);
             --m_ActionMap.m_EnabledActionsCount;
+        }
+
+        public void SetBindingMask(InputBinding bindingMask)
+        {
+            if (m_BindingMask == bindingMask)
+                return;
+
+            m_BindingMask = bindingMask;
+            if (!m_BindingMask.isEmpty)
+                m_BindingMask.action = name;
+
+            var map = GetOrCreateActionMap();
+            if (map.m_State != null)
+                map.ResolveBindings();
+        }
+
+        public void SetBindingMask(string bindingGroups)
+        {
+            if (string.IsNullOrEmpty(bindingGroups))
+                bindingGroups = null;
+            SetBindingMask(new InputBinding {groups = bindingGroups});
+        }
+
+        public void ClearBindingMask()
+        {
+            SetBindingMask(new InputBinding());
         }
 
         ////REVIEW: right now the Clone() methods aren't overridable; do we want that?
@@ -438,9 +428,9 @@ namespace UnityEngine.Experimental.Input
 
         // For singleton actions, we serialize the bindings directly as part of the action.
         // For any other type of action, this is null.
-        [FormerlySerializedAs("m_Bindings")]
         [SerializeField] internal InputBinding[] m_SingletonActionBindings;
 
+        [NonSerialized] internal InputBinding m_BindingMask;
         [NonSerialized] internal int m_BindingsStartIndex;
         [NonSerialized] internal int m_BindingsCount;
         [NonSerialized] internal int m_ControlStartIndex;
@@ -468,9 +458,9 @@ namespace UnityEngine.Experimental.Input
         [NonSerialized] internal InputActionMap m_ActionMap;
 
         // Listeners. No array allocations if only a single listener.
-        [NonSerialized] internal InlinedArray<InputActionListener> m_OnStarted;
-        [NonSerialized] internal InlinedArray<InputActionListener> m_OnCancelled;
-        [NonSerialized] internal InlinedArray<InputActionListener> m_OnPerformed;
+        [NonSerialized] internal InlinedArray<Action<CallbackContext>> m_OnStarted;
+        [NonSerialized] internal InlinedArray<Action<CallbackContext>> m_OnCancelled;
+        [NonSerialized] internal InlinedArray<Action<CallbackContext>> m_OnPerformed;
 
         /// <summary>
         /// Whether the action is a loose action created in code (e.g. as a property on a component).
@@ -493,8 +483,13 @@ namespace UnityEngine.Experimental.Input
                     return new InputActionMapState.TriggerState();
                 Debug.Assert(m_ActionMap != null);
                 Debug.Assert(m_ActionMap.m_State != null);
-                return m_ActionMap.m_State.FetchActionState(this);
+                return m_ActionMap.m_State.FetchTriggerState(this);
             }
+        }
+
+        internal bool HaveBindingFilterMatching(ref InputBinding bindingFilter)
+        {
+            throw new NotImplementedException();
         }
 
         internal InputActionMap GetOrCreateActionMap()
@@ -548,7 +543,7 @@ namespace UnityEngine.Experimental.Input
                 {
                     if (m_State == null)
                         return InputActionPhase.Disabled;
-                    return m_State.actionStates[actionIndex].phase;
+                    return m_State.triggerStates[actionIndex].phase;
                 }
             }
 
@@ -588,20 +583,6 @@ namespace UnityEngine.Experimental.Input
                 }
             }
 
-            public TValue ReadValue<TValue>()
-            {
-                var value = default(TValue);
-                if (m_State != null)
-                    value = m_State.ReadValue<TValue>(m_BindingIndex, m_ControlIndex);
-                return value;
-            }
-
-            // really read previous value, not value from last frame
-            public TValue ReadPreviousValue<TValue>()
-            {
-                throw new NotImplementedException();
-            }
-
             public double time
             {
                 get { return m_Time; }
@@ -622,6 +603,50 @@ namespace UnityEngine.Experimental.Input
             public double duration
             {
                 get { return time - startTime; }
+            }
+
+            public Type valueType
+            {
+                get
+                {
+                    if (m_State == null)
+                        return null;
+
+                    return m_State.GetValueType(m_BindingIndex, m_ControlIndex);
+                }
+            }
+
+            public int valueSizeInBytes
+            {
+                get
+                {
+                    if (m_State == null)
+                        return 0;
+
+                    return m_State.GetValueSizeInBytes(m_BindingIndex, m_ControlIndex);
+                }
+            }
+
+            public unsafe void ReadValue(void* buffer, int bufferSize)
+            {
+                if (m_State == null)
+                    return;
+                m_State.ReadValue(m_BindingIndex, m_ControlIndex, buffer, bufferSize);
+            }
+
+            public TValue ReadValue<TValue>()
+                where TValue : struct
+            {
+                var value = default(TValue);
+                if (m_State != null)
+                    value = m_State.ReadValue<TValue>(m_BindingIndex, m_ControlIndex);
+                return value;
+            }
+
+            // really read previous value, not value from last frame
+            public TValue ReadPreviousValue<TValue>()
+            {
+                throw new NotImplementedException();
             }
         }
     }
