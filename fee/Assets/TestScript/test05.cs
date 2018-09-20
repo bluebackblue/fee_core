@@ -104,7 +104,7 @@ public class test05 : main_base
 	*/
 	private void CallBack_OnTouch(NInput.Touch_Phase a_touch_phase)
 	{
-		NRender2D.Sprite2D t_sprite = new NRender2D.Sprite2D(null,null,0);
+		NRender2D.Sprite2D t_sprite = new NRender2D.Sprite2D(this.deleter,null,0);
 		t_sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 		t_sprite.SetTexture(Texture2D.whiteTexture);
 		t_sprite.SetColor(Random.value,Random.value,Random.value,0.5f);
@@ -149,6 +149,7 @@ public class test05 : main_base
 
 			{
 				for(int ii=0;ii<t_delete_list.Count;ii++){
+					this.deleter.UnRegister(this.touch_list[t_delete_list[ii]]);
 					this.touch_list[t_delete_list[ii]].Delete();
 					this.touch_list.Remove(t_delete_list[ii]);
 				}
