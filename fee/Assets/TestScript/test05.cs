@@ -89,6 +89,7 @@ public class test05 : main_base
 
 			string t_text = "";
 			t_text += "id = " + this.id.ToString() + " ";
+			t_text += this.touch_phase.phase_string + " ";
 			t_text += "pressure = " + this.touch_phase.pressure.ToString() + " ";
 			t_text += "radius = " + this.touch_phase.radius.ToString() + " ";
 			t_text += "altitude = " + this.touch_phase.angle_altitude.ToString() + " ";

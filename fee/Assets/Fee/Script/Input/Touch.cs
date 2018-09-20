@@ -124,14 +124,13 @@ namespace NInput
 		public int SearchListItemFromNoUpdate(int a_x,int a_y)
 		{
 			int t_ret_index = -1;
-			int t_ret_length = 1000;
+			int t_ret_length = 0;
 
 			for(int ii=0;ii<this.list.Count;ii++){
 				if(this.list[ii].update == false){
 					int t_length_x = a_x - this.list[ii].value_x;
 					int t_length_y = a_y - this.list[ii].value_y;
 					int t_length = t_length_x * t_length_x + t_length_y * t_length_y;
-
 					if(t_ret_index < 0){
 						t_ret_index = ii;
 						t_ret_length = t_length;
@@ -157,6 +156,7 @@ namespace NInput
 					this.list[ii].update = false;
 				}
 
+				//新規、追跡。
 				for(int ii=0;ii<UnityEngine.Input.touchCount;ii++){
 					UnityEngine.Touch t_touch = UnityEngine.Input.GetTouch(ii);
 
@@ -171,6 +171,15 @@ namespace NInput
 							float t_radius = t_touch.radius;
 							float t_angle_altitude = t_touch.altitudeAngle;
 							float t_angle_azimuth = t_touch.azimuthAngle;
+							string t_phase_string = "n";
+
+							if(t_touch.phase == TouchPhase.Began){
+								t_phase_string = "b";
+							}else if(t_touch.phase == TouchPhase.Moved){
+								t_phase_string = "m";
+							}else if(t_touch.phase == TouchPhase.Stationary){
+								t_phase_string = "s";
+							}
 
 							//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 							int t_x;
@@ -180,8 +189,8 @@ namespace NInput
 							//検索。
 							int t_index = this.SearchListItemFromNoUpdate(t_x,t_y);
 							if(t_index >= 0){
-								//追跡。,
-								this.list[t_index].Set(t_x,t_y,t_pressure,t_radius,t_angle_altitude,t_angle_azimuth);
+								//追跡。
+								this.list[t_index].Set(t_x,t_y,t_phase_string);
 								{
 									this.list[t_index].update = true;
 									this.list[t_index].fadeoutframe = 0;
@@ -189,7 +198,7 @@ namespace NInput
 							}else{
 								//新規。
 								Touch_Phase t_touch_phase = new Touch_Phase();
-								t_touch_phase.Set(t_x,t_y,t_pressure,t_radius,t_angle_altitude,t_angle_azimuth);
+								t_touch_phase.Set(t_x,t_y,t_phase_string);
 								this.list.Add(t_touch_phase);
 								t_index = this.list.Count - 1;
 								{
@@ -201,10 +210,11 @@ namespace NInput
 								}
 							}
 						}break;
-
 					}
 				}
 
+				//強制削除。
+				#if(false)
 				for(int ii=0;ii<UnityEngine.Input.touchCount;ii++){
 					UnityEngine.Touch t_touch = UnityEngine.Input.GetTouch(ii);
 
@@ -233,6 +243,7 @@ namespace NInput
 						}break;
 					}
 				}
+				#endif
 
 				{
 					int ii=0;

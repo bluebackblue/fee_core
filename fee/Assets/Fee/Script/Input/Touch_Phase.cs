@@ -36,6 +36,10 @@ namespace NInput
 		*/
 		public int fadeoutframe;
 
+		/** phase_string
+		*/
+		public string phase_string;
+
 		/** pressure
 		*/
 		public float pressure;
@@ -68,6 +72,9 @@ namespace NInput
 			//fadeoutframe
 			this.fadeoutframe = 0;
 
+			//phase_string
+			this.phase_string = "n";
+
 			//pressure
 			this.pressure = 0.0f;
 
@@ -83,7 +90,7 @@ namespace NInput
 
 		/** 設定。
 		*/
-		public void Set(int a_value_x,int a_value_y,float a_pressure,float a_radius,float a_angle_altitude,float a_angle_azimuth)
+		public void Set(int a_value_x,int a_value_y,string a_phase_string)
 		{
 			//value_x
 			this.value_x = a_value_x;
@@ -91,12 +98,30 @@ namespace NInput
 			//value_y
 			this.value_y = a_value_y;
 
+			//phase_string
+			this.phase_string = a_phase_string;
+		}
+
+		/** 圧力。
+		*/
+		public void SetPressure(float a_pressure)
+		{
 			//pressure
 			this.pressure = a_pressure;
+		}
 
+		/** 半径。
+		*/
+		public void SetRadius(float a_radius)
+		{
 			//radius
 			this.radius = a_radius;
+		}
 
+		/** 角度。
+		*/
+		public void SetAngle(float a_angle_altitude,float a_angle_azimuth)
+		{
 			//angle_altitude
 			this.angle_altitude = a_angle_altitude;
 
