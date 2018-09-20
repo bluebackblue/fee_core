@@ -41,13 +41,9 @@ public class test05 : main_base
 	*/
 	private NRender2D.Text2D text_pad;
 
-	/** value
+	/** touch_list
 	*/
-	private int value;
-
-	/** phase_flag
-	*/
-	private bool phase_flag;
+	private Dictionary<NInput.Touch_Phase,NRender2D.Sprite2D> touch_list;
 
 	/** Start
 	*/
@@ -70,6 +66,7 @@ public class test05 : main_base
 
 		//タッチ。
 		NInput.Touch.CreateInstance();
+		NInput.Touch.GetInstance().SetCallBack(CallBack_OnTouch);
 
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
@@ -99,11 +96,21 @@ public class test05 : main_base
 		this.text_pad.SetRect(10,200 + 50 * 2,0,0);
 		this.text_pad.SetFontSize(20);
 
-		//value
-		this.value = 0;
+		//touch_list
+		this.touch_list = new Dictionary<NInput.Touch_Phase,NRender2D.Sprite2D>();
+	}
 
-		//phase_flag
-		this.phase_flag = false;
+	/** コールバック。
+	*/
+	private void CallBack_OnTouch(NInput.Touch_Phase a_touch_phase)
+	{
+		NRender2D.Sprite2D t_sprite = new NRender2D.Sprite2D(null,null,0);
+		t_sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+		t_sprite.SetTexture(Texture2D.whiteTexture);
+		t_sprite.SetColor(Random.value,Random.value,Random.value,0.5f);
+		t_sprite.SetRect(a_touch_phase.value_x-5,a_touch_phase.value_y-5,10,10);
+
+		this.touch_list.Add(a_touch_phase,t_sprite);
 	}
 
 	/** Update
@@ -126,6 +133,26 @@ public class test05 : main_base
 		{
 			NInput.Pad.GetInstance().moter_low.Request(NInput.Pad.GetInstance().left_trigger2_button.value);
 			NInput.Pad.GetInstance().moter_high.Request(NInput.Pad.GetInstance().right_trigger2_button.value);
+		}
+
+		//タッチ。
+		{
+			List<NInput.Touch_Phase> t_delete_list = new List<NInput.Touch_Phase>();
+
+			foreach(KeyValuePair<NInput.Touch_Phase,NRender2D.Sprite2D> t_pair in this.touch_list){
+				if(t_pair.Key.update == true){
+					t_pair.Value.SetRect(t_pair.Key.value_x-5,t_pair.Key.value_y-5,10,10);
+				}else{
+					t_delete_list.Add(t_pair.Key);
+				}
+			}
+
+			{
+				for(int ii=0;ii<t_delete_list.Count;ii++){
+					this.touch_list[t_delete_list[ii]].Delete();
+					this.touch_list.Remove(t_delete_list[ii]);
+				}
+			}
 		}
 
 		//マウス位置。
@@ -154,7 +181,7 @@ public class test05 : main_base
 			t_text += "y = " + NInput.Mouse.GetInstance().pos.y.ToString() + " ";
 			t_text += "m = " + NInput.Mouse.GetInstance().mouse_wheel.y.ToString() + " ";
 
-			#if true
+			#if false
 			{
 				t_text += "\n----------\n";
 
