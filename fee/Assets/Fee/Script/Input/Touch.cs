@@ -119,44 +119,30 @@ namespace NInput
 		}
 		*/
 
-		/** 最近点。結果。
+		/** 検索。
 		*/
-		public struct ReturnValue_SearchListItem
-		{
-			public int index;
-			public int length;
-
-			public ReturnValue_SearchListItem(int a_index,int a_length)
-			{
-				this.index = a_index;
-				this.length = a_length;
-			}
-		}
-
-		/** 最近点。
-		*/
-		public ReturnValue_SearchListItem SearchListItem(int a_x,int a_y)
+		public int SearchListItemFromNoUpdate(int a_x,int a_y)
 		{
 			int t_ret_index = -1;
 			int t_ret_length = 1000;
 
 			for(int ii=0;ii<this.list.Count;ii++){
-				//距離計測。
+				if(this.list[ii].update == false){
+					int t_length_x = a_x - this.list[ii].value_x;
+					int t_length_y = a_y - this.list[ii].value_y;
+					int t_length = t_length_x * t_length_x + t_length_y * t_length_y;
 
-				int t_length_x = a_x - this.list[ii].value_x;
-				int t_length_y = a_y - this.list[ii].value_y;
-				int t_length = t_length_x * t_length_x + t_length_y * t_length_y;
-
-				if(t_ret_index < 0){
-					t_ret_index = ii;
-					t_ret_length = t_length;
-				}else if(t_ret_length > t_length){
-					t_ret_index = ii;
-					t_ret_length = t_length;
+					if(t_ret_index < 0){
+						t_ret_index = ii;
+						t_ret_length = t_length;
+					}else if(t_ret_length > t_length){
+						t_ret_index = ii;
+						t_ret_length = t_length;
+					}
 				}
 			}
 
-			return new ReturnValue_SearchListItem(t_ret_index,t_ret_length);
+			return t_ret_index;
 		}
 
 		/** 更新。タッチ。
@@ -177,31 +163,72 @@ namespace NInput
 					switch(t_touch.phase){
 					case TouchPhase.Began:
 					case TouchPhase.Moved:
+					case TouchPhase.Stationary:
 						{
 							int t_touch_x = (int)t_touch.position.x;
-							int t_touch_y = (int)t_touch.position.y;
+							int t_touch_y = (int)(Screen.height - t_touch.position.y);
+							float t_pressure = t_touch.pressure;
+							float t_radius = t_touch.radius;
+							float t_angle_altitude = t_touch.altitudeAngle;
+							float t_angle_azimuth = t_touch.azimuthAngle;
 
 							//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 							int t_x;
 							int t_y;
 							a_render2d.GuiScreenToVirtualScreen(t_touch_x,t_touch_y,out t_x,out t_y);
 
-							ReturnValue_SearchListItem t_ret = this.SearchListItem(t_x,t_y);
-							if((t_ret.index >= 0)&&(t_ret.length < 20)){
-								//追跡。
-								this.list[t_ret.index].Set(t_touch_x,t_touch_y);
-								this.list[t_ret.index].update = true;
+							//検索。
+							int t_index = this.SearchListItemFromNoUpdate(t_x,t_y);
+							if(t_index >= 0){
+								//追跡。,
+								this.list[t_index].Set(t_x,t_y,t_pressure,t_radius,t_angle_altitude,t_angle_azimuth);
+								{
+									this.list[t_index].update = true;
+									this.list[t_index].fadeoutframe = 0;
+								}
 							}else{
 								//新規。
 								Touch_Phase t_touch_phase = new Touch_Phase();
-								t_touch_phase.Set(t_touch_x,t_touch_y);
+								t_touch_phase.Set(t_x,t_y,t_pressure,t_radius,t_angle_altitude,t_angle_azimuth);
 								this.list.Add(t_touch_phase);
-								int t_index = this.list.Count - 1;
-								this.list[t_index].update = true;
-
+								t_index = this.list.Count - 1;
+								{
+									this.list[t_index].update = true;
+									this.list[t_index].fadeoutframe = 0;
+								}
 								if(this.callback != null){
 									this.callback(t_touch_phase);
 								}
+							}
+						}break;
+
+					}
+				}
+
+				for(int ii=0;ii<UnityEngine.Input.touchCount;ii++){
+					UnityEngine.Touch t_touch = UnityEngine.Input.GetTouch(ii);
+
+					switch(t_touch.phase){
+					case TouchPhase.Ended:
+					case TouchPhase.Canceled:
+						{
+							int t_touch_x = (int)t_touch.position.x;
+							int t_touch_y = (int)(Screen.height - t_touch.position.y);
+							float t_pressure = t_touch.pressure;
+							float t_radius = t_touch.radius;
+							float t_angle_altitude = t_touch.altitudeAngle;
+							float t_angle_azimuth = t_touch.azimuthAngle;
+
+							//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+							int t_x;
+							int t_y;
+							a_render2d.GuiScreenToVirtualScreen(t_touch_x,t_touch_y,out t_x,out t_y);
+
+							//検索。
+							int t_index = this.SearchListItemFromNoUpdate(t_x,t_y);
+							if(t_index >= 0){
+								//強制削除。
+								this.list.RemoveAt(t_index);
 							}
 						}break;
 					}
@@ -211,7 +238,13 @@ namespace NInput
 					int ii=0;
 					while(ii<this.list.Count){
 						if(this.list[ii].update == false){
-							this.list.RemoveAt(ii);
+							this.list[ii].fadeoutframe++;
+							if(this.list[ii].fadeoutframe >= 10){
+								//タイムアウト削除。
+								this.list.RemoveAt(ii);
+							}else{
+								this.list[ii].update = true;
+							}
 						}else{
 							ii++;
 						}

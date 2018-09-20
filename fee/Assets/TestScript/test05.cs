@@ -41,9 +41,79 @@ public class test05 : main_base
 	*/
 	private NRender2D.Text2D text_pad;
 
+	/** タッチビューＩＤ。
+	*/
+	private int touchview_id;
+
+	/** タッチビュー。
+	*/
+	class TouchView
+	{
+		public int id;
+		public NRender2D.Sprite2D sprite;
+		public NRender2D.Text2D text;
+		public NInput.Touch_Phase touch_phase;
+		public NDeleter.Deleter deleter;
+
+		/** constructor
+		*/
+		public TouchView(int a_id,NDeleter.Deleter a_deleter,NInput.Touch_Phase a_touch_phase)
+		{
+			this.id = a_id;
+			this.deleter = a_deleter;
+			this.touch_phase = a_touch_phase;
+
+			this.sprite = new NRender2D.Sprite2D(this.deleter,null,1);
+			{
+				int t_size = 100;
+
+				this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+				this.sprite.SetTexture(Texture2D.whiteTexture);
+				this.sprite.SetColor(Random.value,Random.value,Random.value,1.0f);
+				this.sprite.SetRect(this.touch_phase.value_x-t_size/2,this.touch_phase.value_y-t_size/2,t_size,t_size);
+			}
+
+			this.text = new NRender2D.Text2D(this.deleter,null,1);
+			{
+				this.text.SetRect(this.touch_phase.value_x,this.touch_phase.value_y,0,0);
+			}
+		}
+
+		/** 更新。
+		*/
+		public void Update()
+		{
+			int t_size = 100;
+			this.sprite.SetRect(this.touch_phase.value_x-t_size/2,this.touch_phase.value_y-t_size/2,t_size,t_size);
+			this.text.SetRect(this.touch_phase.value_x,this.touch_phase.value_y - 100,0,0);
+
+			string t_text = "";
+			t_text += "id = " + this.id.ToString() + " ";
+			t_text += "pressure = " + this.touch_phase.pressure.ToString() + " ";
+			t_text += "radius = " + this.touch_phase.radius.ToString() + " ";
+			t_text += "altitude = " + this.touch_phase.angle_altitude.ToString() + " ";
+			t_text += "azimuth = " + this.touch_phase.angle_azimuth.ToString() + " ";
+			this.text.SetText(t_text);
+		}
+
+		/** 削除。
+		*/
+		public void Delete()
+		{
+			this.deleter.UnRegister(this.sprite);
+			this.deleter.UnRegister(this.text);
+
+			this.sprite.Delete();
+			this.text.Delete();
+
+			this.sprite = null;
+			this.text = null;
+		}
+	};
+
 	/** touch_list
 	*/
-	private Dictionary<NInput.Touch_Phase,NRender2D.Sprite2D> touch_list;
+	private Dictionary<TouchView,NInput.Touch_Phase> touch_list;
 
 	/** Start
 	*/
@@ -83,7 +153,7 @@ public class test05 : main_base
 
 		//テキスト。
 		this.text_mouse = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.text_mouse.SetRect(250,10 + 50 * 0,0,0);
+		this.text_mouse.SetRect(10,10 + 50 * 0,0,0);
 		this.text_mouse.SetFontSize(17);
 
 		//テキスト。
@@ -97,20 +167,15 @@ public class test05 : main_base
 		this.text_pad.SetFontSize(20);
 
 		//touch_list
-		this.touch_list = new Dictionary<NInput.Touch_Phase,NRender2D.Sprite2D>();
+		this.touch_list = new Dictionary<TouchView,NInput.Touch_Phase>();
 	}
 
 	/** コールバック。
 	*/
-	private void CallBack_OnTouch(NInput.Touch_Phase a_touch_phase)
+	public void CallBack_OnTouch(NInput.Touch_Phase a_touch_phase)
 	{
-		NRender2D.Sprite2D t_sprite = new NRender2D.Sprite2D(this.deleter,null,0);
-		t_sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-		t_sprite.SetTexture(Texture2D.whiteTexture);
-		t_sprite.SetColor(Random.value,Random.value,Random.value,0.5f);
-		t_sprite.SetRect(a_touch_phase.value_x-5,a_touch_phase.value_y-5,10,10);
-
-		this.touch_list.Add(a_touch_phase,t_sprite);
+		this.touchview_id++;
+		this.touch_list.Add(new TouchView(this.touchview_id,this.deleter,a_touch_phase),a_touch_phase);
 	}
 
 	/** Update
@@ -137,21 +202,22 @@ public class test05 : main_base
 
 		//タッチ。
 		{
-			List<NInput.Touch_Phase> t_delete_list = new List<NInput.Touch_Phase>();
-
-			foreach(KeyValuePair<NInput.Touch_Phase,NRender2D.Sprite2D> t_pair in this.touch_list){
-				if(t_pair.Key.update == true){
-					t_pair.Value.SetRect(t_pair.Key.value_x-5,t_pair.Key.value_y-5,10,10);
+			List<TouchView> t_delete_list = null;
+			foreach(KeyValuePair<TouchView,NInput.Touch_Phase> t_pair in this.touch_list){
+				if(t_pair.Value.update == true){
+					t_pair.Key.Update();
 				}else{
+					if(t_delete_list == null){
+						t_delete_list = new List<TouchView>();
+					}
 					t_delete_list.Add(t_pair.Key);
 				}
 			}
-
-			{
+			if(t_delete_list != null){
 				for(int ii=0;ii<t_delete_list.Count;ii++){
-					this.deleter.UnRegister(this.touch_list[t_delete_list[ii]]);
-					this.touch_list[t_delete_list[ii]].Delete();
-					this.touch_list.Remove(t_delete_list[ii]);
+					TouchView t_touch_view = t_delete_list[ii];
+					t_touch_view.Delete();
+					this.touch_list.Remove(t_touch_view);
 				}
 			}
 		}
@@ -181,45 +247,6 @@ public class test05 : main_base
 			t_text += "x = " + NInput.Mouse.GetInstance().pos.x.ToString() + " ";
 			t_text += "y = " + NInput.Mouse.GetInstance().pos.y.ToString() + " ";
 			t_text += "m = " + NInput.Mouse.GetInstance().mouse_wheel.y.ToString() + " ";
-
-			#if false
-			{
-				t_text += "\n----------\n";
-
-				for(int ii=0;ii<NInput.Touch.GetInstance().touch.Length;ii++){
-
-					string t_line_string = "";
-
-					//phase_flag
-					if(NInput.Touch.GetInstance().touch[ii].phase_flag == true){
-						t_line_string += "[o]";
-					}else{
-						t_line_string += "[ ]";
-					}
-
-					//touch_id
-					t_line_string += NInput.Touch.GetInstance().touch[ii].touch_id.ToString();
-
-					//moved
-					if(NInput.Touch.GetInstance().touch[ii].phase == UnityEngine.Experimental.Input.PointerPhase.Moved){
-						t_line_string += NInput.Touch.GetInstance().touch[ii].value_x.ToString() + " ";
-						t_line_string += NInput.Touch.GetInstance().touch[ii].value_y.ToString() + " ";
-					}
-
-					switch(ii % 3){
-					case 0:
-					case 1:
-						{
-							t_text += t_line_string + " ";
-						}break;
-					case 2:
-						{
-							t_text += t_line_string + "\n";
-						}break;
-					}
-				}
-			}
-			#endif
 
 			this.text_mouse.SetText(t_text);
 		}

@@ -32,6 +32,26 @@ namespace NInput
 		*/
 		public bool update;
 
+		/** fadeoutframe
+		*/
+		public int fadeoutframe;
+
+		/** pressure
+		*/
+		public float pressure;
+
+		/** radius
+		*/
+		public float radius;
+
+		/** angle_altitude
+		*/
+		public float angle_altitude;
+
+		/** angle_azimuth
+		*/
+		public float angle_azimuth;
+
 		/** リセット。
 		*/
 		public void Reset()
@@ -44,17 +64,44 @@ namespace NInput
 	
 			//value_y
 			this.value_y = 0;
+
+			//fadeoutframe
+			this.fadeoutframe = 0;
+
+			//pressure
+			this.pressure = 0.0f;
+
+			//radius
+			this.radius = 0.0f;
+
+			//angle_altitude
+			this.angle_altitude = 0.0f;
+
+			//angle_azimuth
+			this.angle_azimuth = 0.0f;
 		}
 
 		/** 設定。
 		*/
-		public void Set(int a_value_x,int a_value_y)
+		public void Set(int a_value_x,int a_value_y,float a_pressure,float a_radius,float a_angle_altitude,float a_angle_azimuth)
 		{
 			//value_x
 			this.value_x = a_value_x;
 
 			//value_y
 			this.value_y = a_value_y;
+
+			//pressure
+			this.pressure = a_pressure;
+
+			//radius
+			this.radius = a_radius;
+
+			//angle_altitude
+			this.angle_altitude = a_angle_altitude;
+
+			//angle_azimuth
+			this.angle_azimuth = a_angle_azimuth;
 		}
 
 		/** 更新。
