@@ -198,6 +198,10 @@ namespace NInput
 								this.list.Add(t_touch_phase);
 								int t_index = this.list.Count - 1;
 								this.list[t_index].update = true;
+
+								if(this.callback != null){
+									this.callback(t_touch_phase);
+								}
 							}
 						}break;
 					}
