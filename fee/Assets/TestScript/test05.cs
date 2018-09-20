@@ -47,7 +47,7 @@ public class test05 : main_base
 
 	/** タッチビュー。
 	*/
-	class TouchView
+	class TouchView : NInput.Touch_Phase_Key_Base
 	{
 		public int id;
 		public NRender2D.Sprite2D sprite;
@@ -79,9 +79,9 @@ public class test05 : main_base
 			}
 		}
 
-		/** 更新。
+		/** [Touch_Phase_Key_Base]更新。
 		*/
-		public void Update()
+		public void OnUpdate()
 		{
 			int t_size = 100;
 			this.sprite.SetRect(this.touch_phase.value_x-t_size/2,this.touch_phase.value_y-t_size/2,t_size,t_size);
@@ -97,9 +97,9 @@ public class test05 : main_base
 			this.text.SetText(t_text);
 		}
 
-		/** 削除。
+		/** [Touch_Phase_Key_Base]削除。
 		*/
-		public void Delete()
+		public void OnRemove()
 		{
 			this.deleter.UnRegister(this.sprite);
 			this.deleter.UnRegister(this.text);
@@ -203,24 +203,7 @@ public class test05 : main_base
 
 		//タッチ。
 		{
-			List<TouchView> t_delete_list = null;
-			foreach(KeyValuePair<TouchView,NInput.Touch_Phase> t_pair in this.touch_list){
-				if(t_pair.Value.update == true){
-					t_pair.Key.Update();
-				}else{
-					if(t_delete_list == null){
-						t_delete_list = new List<TouchView>();
-					}
-					t_delete_list.Add(t_pair.Key);
-				}
-			}
-			if(t_delete_list != null){
-				for(int ii=0;ii<t_delete_list.Count;ii++){
-					TouchView t_touch_view = t_delete_list[ii];
-					t_touch_view.Delete();
-					this.touch_list.Remove(t_touch_view);
-				}
-			}
+			NInput.Touch.GetInstance().UpdateList(this.touch_list);
 		}
 
 		//マウス位置。

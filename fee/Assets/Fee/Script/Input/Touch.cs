@@ -289,6 +289,35 @@ namespace NInput
 				Tool.LogError(t_exception);
 			}
 		}
+
+		/** リスト更新。
+		*/
+		public void UpdateList<TYPE>(Dictionary<TYPE,NInput.Touch_Phase> a_list)
+			where TYPE : Touch_Phase_Key_Base
+		{
+			List<TYPE> t_delete_keylist = null;
+
+			foreach(KeyValuePair<TYPE,NInput.Touch_Phase> t_pair in a_list){
+				if(t_pair.Value.update == false){
+					if(t_delete_keylist == null){
+						t_delete_keylist = new List<TYPE>();
+					}
+					t_delete_keylist.Add(t_pair.Key);
+				}else{
+					//更新。
+					t_pair.Key.OnUpdate();
+				}
+			}
+
+			if(t_delete_keylist != null){
+				for(int ii=0;ii<t_delete_keylist.Count;ii++){
+					//リストから削除。
+					TYPE t_key = t_delete_keylist[ii];
+					a_list.Remove(t_key);
+					t_key.OnRemove();
+				}
+			}
+		}
 	}
 }
 
