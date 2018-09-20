@@ -29,6 +29,12 @@ namespace NUi
 		*/
 		protected List<ITEM> list;
 
+		/** キャプチャした表示範囲。
+		*/
+		/*
+		protected List<ITEM> capture_view_list;
+		*/
+
 		/** constructor
 		*/
 		public Scroll_Horizontal_Base(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
@@ -40,6 +46,11 @@ namespace NUi
 
 			//リスト。
 			this.list = new List<ITEM>();
+
+			//キャプチャした表示範囲。
+			/*
+			this.capture_view_list = null;
+			*/
 
 			//削除管理。
 			if(a_deleter != null){
@@ -223,6 +234,24 @@ namespace NUi
 				return t_item;
 			}
 			return null;
+		}
+
+		/** ソート。
+		*/
+		public void Sort(System.Comparison<ITEM> a_comparison)
+		{
+			//ソート。
+			this.list.Sort(a_comparison);
+
+			//全チェック。
+			this.UpdateView_AllCheck();
+		}
+
+		/** 入れ替え。
+		*/
+		public void Change(int a_index_a,int a_index_b)
+		{
+			//TODO:
 		}
 	}
 }

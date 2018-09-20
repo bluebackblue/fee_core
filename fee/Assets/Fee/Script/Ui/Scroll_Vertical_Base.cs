@@ -224,6 +224,24 @@ namespace NUi
 			}
 			return null;
 		}
+
+		/** ソート。
+		*/
+		public void Sort(System.Comparison<ITEM> a_comparison)
+		{
+			//ソート。
+			this.list.Sort(a_comparison);
+
+			//全チェック。
+			this.UpdateView_AllCheck();
+		}
+
+		/** 入れ替え。
+		*/
+		public void Change(int a_index_a,int a_index_b)
+		{
+			//TODO:
+		}
 	}
 }
 

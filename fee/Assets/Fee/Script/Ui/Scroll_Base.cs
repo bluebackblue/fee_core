@@ -86,9 +86,36 @@ namespace NUi
 		*/
 		protected abstract void OnChangeViewPosition_FromScrollBase();
 
+		/** 全チェック。表示範囲更新。
+		*/
+		protected void UpdateView_AllCheck()
+		{
+			int t_list_count = this.GetListCount();
+
+			//表示中のアイテムの位置を設定。
+			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
+				this.OnMoveItem_FromScrollBase(ii);
+			}
+
+			for(int ii=0;ii<this.viewindex_st;ii++){
+				//表示終了。
+				this.OnViewOutItem_FromScrollBase(ii);
+			}
+
+			for(int ii=viewindex_en+1;ii<t_list_count;ii++){
+				//表示終了。
+				this.OnViewOutItem_FromScrollBase(ii);
+			}
+
+			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
+				//表示開始。
+				this.OnViewInItem_FromScrollBase(ii);
+			}
+		}
+
 		/** 表示位置変更後。表示範囲更新。
 		*/
-		public void UpdateView_PositionChange()
+		protected void UpdateView_PositionChange()
 		{
 			int t_list_count = this.GetListCount();
 
@@ -140,7 +167,7 @@ namespace NUi
 
 		/** アイテム追加後。表示範囲更新。
 		*/
-		public void UpdateView_Insert(int a_insert_index)
+		protected void UpdateView_Insert(int a_insert_index)
 		{
 			int t_list_count = this.GetListCount();
 
@@ -181,7 +208,7 @@ namespace NUi
 
 		/** アイテム削除後。表示範囲更新。
 		*/
-		public void UpdateView_Remove(int a_removed_index)
+		protected void UpdateView_Remove(int a_removed_index)
 		{
 			int t_list_count = this.GetListCount();
 

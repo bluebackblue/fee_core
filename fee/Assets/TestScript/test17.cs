@@ -163,6 +163,13 @@ public class test17 : main_base
 			this.text.SetVisible(false);
 			this.button.SetVisible(false);
 		}
+
+		/** 作成ＩＤ。取得。
+		*/
+		public int GetCreateID()
+		{
+			return this.create_id;
+		}
 	}
 
 	/** scrollview
@@ -201,6 +208,9 @@ public class test17 : main_base
 
 	private NUi.Button button_up;
 	private NUi.Button button_down;
+
+	private NUi.Button button_sort_a;
+	private NUi.Button button_sort_b;
 
 	/** Start
 	*/
@@ -338,6 +348,22 @@ public class test17 : main_base
 		this.button_down.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_down.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_down.SetText("後方に移動");
+
+		t_y_index++;
+
+		//button_sort
+		this.button_sort_a = new NUi.Button(this.deleter,null,0,Click,2000);
+		this.button_sort_a.SetRect(10,100 + 30 * t_y_index,100,30);
+		this.button_sort_a.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_sort_a.SetText("ソート");
+
+		t_y_index++;
+
+		//button_sort
+		this.button_sort_b = new NUi.Button(this.deleter,null,0,Click,2001);
+		this.button_sort_b.SetRect(10,100 + 30 * t_y_index,100,30);
+		this.button_sort_b.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_sort_b.SetText("ソート");
 	}
 
 	/** Click_V_Item
@@ -370,6 +396,18 @@ public class test17 : main_base
 				//下に移動。
 				this.drag_speed_y -= 15.0f;
 				this.drag_speed_x -= 15.0f;
+			}break;
+		case 2000:
+			{
+				//ソート。
+				this.v_scrollview.Sort((ScrollItem a_test,ScrollItem a_target) => {return a_test.GetCreateID() - a_target.GetCreateID();});
+				this.h_scrollview.Sort((ScrollItem a_test,ScrollItem a_target) => {return a_test.GetCreateID() - a_target.GetCreateID();});
+			}break;
+		case 2001:
+			{
+				//ソート。
+				this.v_scrollview.Sort((ScrollItem a_test,ScrollItem a_target) => {return a_target.GetCreateID() - a_test.GetCreateID();});
+				this.h_scrollview.Sort((ScrollItem a_test,ScrollItem a_target) => {return a_target.GetCreateID() - a_test.GetCreateID();});
 			}break;
 		case 9000:
 			{
