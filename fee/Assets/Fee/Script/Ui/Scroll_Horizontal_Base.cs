@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＩ。横スクロール。
+ * @brief ＵＩ。スクロール。横スクロール。
 */
 
 
@@ -37,9 +37,9 @@ namespace NUi
 			a_item.SetX(t_x);
 		}
 
-		/** アイテムの位置更新。スクロール方向では座標。
+		/** アイテムの位置更新。スクロール方向ではない座標。
 		*/
-		protected override void UpdateItemOtherPos(ITEM a_item)
+		protected override void UpdateItemOtherPos(ITEM a_item,int a_index)
 		{
 			a_item.SetY(this.rect.y);
 		}

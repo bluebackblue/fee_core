@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＩ。スクロール。
+ * @brief ＵＩ。スクロール。リスト。
 */
 
 
@@ -46,9 +46,9 @@ namespace NUi
 		*/
 		protected abstract void UpdateItemPos(ITEM a_item,int a_index);
 
-		/** アイテムの位置更新。スクロール方向では座標。
+		/** アイテムの位置更新。スクロール方向ではない座標。
 		*/
-		protected abstract void UpdateItemOtherPos(ITEM a_item);
+		protected abstract void UpdateItemOtherPos(ITEM a_item,int a_index);
 
 		/** 表示幅更新。
 		*/
@@ -73,6 +73,7 @@ namespace NUi
 		protected override void OnMoveItem_FromBase(int a_index)
 		{
 			if((0<=a_index)&&(a_index<this.list.Count)){
+				//アイテムの位置更新。スクロール方向の座標。
 				this.UpdateItemPos(this.list[a_index],a_index);
 			}
 		}
@@ -122,13 +123,13 @@ namespace NUi
 
 		/** アイテム初期化。
 		*/
-		private void InitItem(ITEM a_item)
+		private void InitItem(ITEM a_item,int a_index)
 		{
 			//クリック矩形。設定。
 			a_item.SetClipRect(ref this.rect);
 
-			//矩形。設定。
-			this.UpdateItemOtherPos(a_item);
+			//アイテムの位置更新。スクロール方向ではない座標。
+			this.UpdateItemOtherPos(a_item,a_index);
 		}
 
 		/** 最後尾追加。
@@ -136,11 +137,12 @@ namespace NUi
 		public void PushItem(ITEM a_new_item)
 		{
 			//追加。
-			this.InitItem(a_new_item);
+			int t_index = this.list.Count;
+			this.InitItem(a_new_item,t_index);
 			this.list.Add(a_new_item);
 
 			//表示範囲更新。
-			this.UpdateView_Insert(this.list.Count - 1);
+			this.UpdateView_Insert(t_index);
 
 			//コールバック。リスト数変更。
 			this.OnChangeListCount();
@@ -174,7 +176,7 @@ namespace NUi
 		{
 			if((0<=a_index)&&(a_index<=this.list.Count)){
 				//追加。
-				this.InitItem(a_new_item);
+				this.InitItem(a_new_item,a_index);
 				this.list.Insert(a_index,a_new_item);
 
 				//表示範囲更新。
@@ -258,11 +260,9 @@ namespace NUi
 		*/
 		public int FindIndex(ITEM a_item)
 		{
-			int t_index = this.list.FindIndex((ITEM a_test) => {return a_test == a_item;});
+			
 
-			Debug.Log(t_index.ToString());
-
-			return t_index;
+			return this.list.IndexOf(a_item);
 		}
 
 		/** ソート。

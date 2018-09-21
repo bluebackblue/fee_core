@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＩ。横スクロール。
+ * @brief ＵＩ。スクロール。横スクロール。
 */
 
 
@@ -54,7 +54,7 @@ namespace NUi
 			this.bar.SetVisible(false);
 		}
 
-		/** [Scroll_Horizontal_Base]コールバック。矩形。設定。
+		/** [Scroll_Base]コールバック。矩形。設定。
 		*/
 		protected override void OnChangeRect()
 		{
@@ -62,14 +62,14 @@ namespace NUi
 			this.bar.SetY(this.rect.y - 10);
 		}
 
-		/** [Scroll_Horizontal_Base]コールバック。表示位置変更。
+		/** [Scroll_Base]コールバック。表示位置変更。
 		*/
 		protected override void OnChangeViewPosition()
 		{
 			this.UpdateBar();
 		}
 
-		/** [Scroll_Horizontal_Base]コールバック。リスト数変更。
+		/** [Scroll_Base]コールバック。リスト数変更。
 		*/
 		protected override void OnChangeListCount()
 		{
