@@ -166,6 +166,7 @@ public class test12 : main_base
 					if(t_prefab != null){
 						NAudio.ClipPack t_clippack = t_prefab.GetComponent<NAudio.ClipPack>();
 						if(t_clippack != null){
+							t_clippack.Load();
 							NAudio.Audio.GetInstance().LoadSe(t_clippack,SE_ID_TESTDATA);
 						}
 					}

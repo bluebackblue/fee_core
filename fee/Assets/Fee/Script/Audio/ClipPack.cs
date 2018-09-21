@@ -38,6 +38,15 @@ namespace NAudio
 			return 0;
 		}
 
+		/** 読み込み。
+		*/
+		public void Load()
+		{
+			for(int ii=0;ii<this.clip_list.Length;ii++){
+				this.clip_list[ii].LoadAudioData();
+			}
+		}
+
 		/** オーディオクリップ。取得。
 		*/
 		public AudioClip GetAudioClip(int a_index)
