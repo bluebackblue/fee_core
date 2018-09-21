@@ -18,8 +18,12 @@ namespace NUi
 {
 	/** Scroll_Base
 	*/
-	public abstract class Scroll_Base
+	public abstract class Scroll_Base : NDeleter.DeleteItem_Base
 	{
+		/** deleter
+		*/
+		protected NDeleter.Deleter deleter;
+
 		/** 表示位置。
 		*/
 		protected int view_position;
@@ -43,8 +47,11 @@ namespace NUi
 
 		/** constructor
 		*/
-		public Scroll_Base(int a_item_length)
+		public Scroll_Base(NDeleter.Deleter a_deleter,int a_item_length)
 		{
+			//deleter
+			this.deleter = new NDeleter.Deleter();
+
 			//表示位置。
 			this.view_position = 0;
 
@@ -60,31 +67,55 @@ namespace NUi
 
 			//矩形。
 			this.rect.Set(0,0,0,0);
+
+			//削除管理。
+			if(a_deleter != null){
+				a_deleter.Register(this);
+			}
 		}
 
-		/** [Scroll_Base]コールバック。リスト数。取得。
+		/** コールバック。リスト数。取得。
 		*/
 		public abstract int GetListCount();
 
+		/** コールバック。リスト数変更。
+		*/
+		protected abstract void OnChangeListCount();
+
+		/** コールバック。矩形変更。
+		*/
+		protected abstract void OnChangeRect();
+
+		/** コールバック。表示位置変更。
+		*/
+		protected abstract void OnChangeViewPosition();
+
 		/** [Scroll_Base]コールバック。アイテム移動。
 		*/
-		protected abstract void OnMoveItem_FromScrollBase(int a_index);
+		protected abstract void OnMoveItem_FromBase(int a_index);
 
 		/** [Scroll_Base]コールバック。表示開始。
 		*/
-		protected abstract void OnViewInItem_FromScrollBase(int a_index);
+		protected abstract void OnViewInItem_FromBase(int a_index);
 
 		/** [Scroll_Base]コールバック。表示終了。
 		*/
-		protected abstract void OnViewOutItem_FromScrollBase(int a_index);
+		protected abstract void OnViewOutItem_FromBase(int a_index);
 
 		/** [Scroll_Base]コールバック。矩形変更。
 		*/
-		protected abstract void OnChangeRect_FromScrollBase();
+		protected abstract void OnChangeRect_FromBase();
 
 		/** [Scroll_Base]コールバック。表示位置変更。
 		*/
-		protected abstract void OnChangeViewPosition_FromScrollBase();
+		//protected abstract void OnChangeViewPosition_FromBase();
+
+		/** 削除。
+		*/
+		public void Delete()
+		{
+			this.deleter.DeleteAll();
+		}
 
 		/** 全チェック。表示範囲更新。
 		*/
@@ -94,22 +125,22 @@ namespace NUi
 
 			//表示中のアイテムの位置を設定。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnMoveItem_FromScrollBase(ii);
+				this.OnMoveItem_FromBase(ii);
 			}
 
 			for(int ii=0;ii<this.viewindex_st;ii++){
 				//表示終了。
-				this.OnViewOutItem_FromScrollBase(ii);
+				this.OnViewOutItem_FromBase(ii);
 			}
 
 			for(int ii=viewindex_en+1;ii<t_list_count;ii++){
 				//表示終了。
-				this.OnViewOutItem_FromScrollBase(ii);
+				this.OnViewOutItem_FromBase(ii);
 			}
 
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
 				//表示開始。
-				this.OnViewInItem_FromScrollBase(ii);
+				this.OnViewInItem_FromBase(ii);
 			}
 		}
 
@@ -142,7 +173,7 @@ namespace NUi
 
 			//表示中のアイテムの位置を設定。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnMoveItem_FromScrollBase(ii);
+				this.OnMoveItem_FromBase(ii);
 			}
 
 			if((t_st_old == this.viewindex_st)&&(t_en_old == this.viewindex_en)){
@@ -152,14 +183,14 @@ namespace NUi
 				for(int ii=t_st_old;ii<=t_en_old;ii++){
 					if((ii<this.viewindex_st)||(this.viewindex_en<ii)){
 						//表示終了。
-						this.OnViewOutItem_FromScrollBase(ii);
+						this.OnViewOutItem_FromBase(ii);
 					}
 				}
 				//新表示空間。
 				for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
 					if((ii<t_st_old)||(t_en_old<ii)){
 						//表示開始。
-						this.OnViewInItem_FromScrollBase(ii);
+						this.OnViewInItem_FromBase(ii);
 					}
 				}
 			}
@@ -191,18 +222,18 @@ namespace NUi
 
 			//表示中のアイテムの位置を設定。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnMoveItem_FromScrollBase(ii);
+				this.OnMoveItem_FromBase(ii);
 			}
 
 			//表示範囲内チェック。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnViewInItem_FromScrollBase(ii);
+				this.OnViewInItem_FromBase(ii);
 			}
 
 			//表示範囲外チェック。
 			{
-				this.OnViewOutItem_FromScrollBase(this.viewindex_st - 1);
-				this.OnViewOutItem_FromScrollBase(this.viewindex_en + 1);
+				this.OnViewOutItem_FromBase(this.viewindex_st - 1);
+				this.OnViewOutItem_FromBase(this.viewindex_en + 1);
 			}
 		}
 
@@ -221,14 +252,14 @@ namespace NUi
 					if(this.item_length * t_list_count < this.view_length){
 						if(this.view_position != 0){
 							this.view_position = 0;
-							this.OnChangeViewPosition_FromScrollBase();
+							this.OnChangeViewPosition();
 						}
 					}else{
 						int t_position_max = this.item_length * t_list_count - this.view_length;
 						if(this.view_position > t_position_max){
 							if(this.view_position != t_position_max){
 								this.view_position = t_position_max;
-								this.OnChangeViewPosition_FromScrollBase();
+								this.OnChangeViewPosition();
 							}
 						}
 					}
@@ -247,18 +278,18 @@ namespace NUi
 
 			//表示中のアイテムの位置を設定。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnMoveItem_FromScrollBase(ii);
+				this.OnMoveItem_FromBase(ii);
 			}
 
 			//表示範囲内チェック。
 			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnViewInItem_FromScrollBase(ii);
+				this.OnViewInItem_FromBase(ii);
 			}
 
 			//表示範囲外チェック。
 			{
-				this.OnViewOutItem_FromScrollBase(this.viewindex_st - 1);
-				this.OnViewOutItem_FromScrollBase(this.viewindex_en + 1);
+				this.OnViewOutItem_FromBase(this.viewindex_st - 1);
+				this.OnViewOutItem_FromBase(this.viewindex_en + 1);
 			}
 		}
 
@@ -285,7 +316,7 @@ namespace NUi
 
 			if(this.view_position != t_view_position){
 				this.view_position = t_view_position;
-				this.OnChangeViewPosition_FromScrollBase();
+				this.OnChangeViewPosition();
 
 				//表示範囲更新。
 				this.UpdateView_PositionChange();
@@ -307,7 +338,7 @@ namespace NUi
 			this.rect.Set(a_x,a_y,a_w,a_h);
 
 			//コールバック。矩形変更。
-			this.OnChangeRect_FromScrollBase();
+			this.OnChangeRect_FromBase();
 		}
 
 		/** 矩形。取得。

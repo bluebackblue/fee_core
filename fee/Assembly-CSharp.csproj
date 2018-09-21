@@ -197,6 +197,7 @@
     <Compile Include="Assets\Fee\Script\Ui\Scroll_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Scroll_Horizontal.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Scroll_Horizontal_Base.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Scroll_List_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Scroll_Vertical.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Scroll_Vertical_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\ScrollItem_Base.cs" />

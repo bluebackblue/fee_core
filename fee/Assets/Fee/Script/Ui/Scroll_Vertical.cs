@@ -33,7 +33,7 @@ namespace NUi
 		*/
 		public Scroll_Vertical(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
 			:
-			base(a_deleter,a_drawpriority,a_item_length)
+			base(a_deleter,a_item_length)
 		{
 			//背景。
 			this.bg = new NRender2D.Sprite2D(a_deleter,null,a_drawpriority);
