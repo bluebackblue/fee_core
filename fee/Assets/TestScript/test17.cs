@@ -27,6 +27,10 @@ public class test17 : main_base
 	*/
 	public class ScrollItem : NUi.ScrollItem_Base , NDeleter.DeleteItem_Base
 	{
+		/** CallBack
+		*/
+		public delegate void CallBack_ScrollItem(ScrollItem a_item);
+
 		/** deleter
 		*/
 		private NDeleter.Deleter deleter;
@@ -35,9 +39,9 @@ public class test17 : main_base
 		*/
 		private int create_id;
 
-		/** クリックコールバック。
+		/** コールバック。
 		*/
-		private NUi.Button_Base.CallBack_Click callback;
+		private CallBack_ScrollItem callback;
 
 		/** sprite
 		*/
@@ -67,13 +71,16 @@ public class test17 : main_base
 
 		/** constructor
 		*/
-		public ScrollItem(NDeleter.Deleter a_deleter,int a_create_id,NUi.Button_Base.CallBack_Click a_callback)
+		public ScrollItem(NDeleter.Deleter a_deleter,int a_create_id,CallBack_ScrollItem a_callback)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
 
 			//create_id
 			this.create_id = a_create_id;
+
+			//callback
+			this.callback = a_callback;
 
 			//drawpriority
 			long t_drawpriority = 1;
@@ -97,7 +104,7 @@ public class test17 : main_base
 			this.text.SetVisible(false);
 
 			//button
-			this.button = new NUi.Button(this.deleter,null,t_drawpriority + 1,a_callback,this.create_id);
+			this.button = new NUi.Button(this.deleter,null,t_drawpriority + 1,this.Click,-1);
 			this.button.SetRect(0,0,20,20);
 			this.button.SetClipRect(0,0,0,0);
 			this.button.SetText("o");
@@ -169,6 +176,13 @@ public class test17 : main_base
 		public int GetCreateID()
 		{
 			return this.create_id;
+		}
+
+		/** クリック。
+		*/
+		public void Click(int a_value)
+		{
+			this.callback(this);
 		}
 	}
 
@@ -368,16 +382,24 @@ public class test17 : main_base
 
 	/** Click_V_Item
 	*/
-	public void Click_V_Item(int a_create_id)
+	public void Click_V_Item(ScrollItem a_item)
 	{
-		this.status_text.SetText("Vertical :" + a_create_id.ToString());
+		this.status_text.SetText("Vertical :" + a_item.GetCreateID().ToString());
+
+		int t_index = this.v_scrollview.FindIndex(a_item);
+
+		this.v_scrollview.Swap(t_index,t_index+1);
 	}
 
 	/** Click_H_Item
 	*/
-	public void Click_H_Item(int a_create_id)
+	public void Click_H_Item(ScrollItem a_item)
 	{
-		this.status_text.SetText("Horizontal : " + a_create_id.ToString());
+		this.status_text.SetText("Horizontal : " + a_item.GetCreateID().ToString());
+
+		int t_index = this.h_scrollview.FindIndex(a_item);
+
+		this.h_scrollview.Swap(t_index,t_index+1);
 	}
 
 	/** Clip

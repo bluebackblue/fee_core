@@ -29,11 +29,9 @@ namespace NUi
 		*/
 		protected List<ITEM> list;
 
-		/** キャプチャした表示範囲。
+		/** 表示範囲内のアイテムをキャプチャしたリスト。
 		*/
-		/*
-		protected List<ITEM> capture_view_list;
-		*/
+		protected List<ITEM> capture_list;
 
 		/** constructor
 		*/
@@ -47,10 +45,8 @@ namespace NUi
 			//リスト。
 			this.list = new List<ITEM>();
 
-			//キャプチャした表示範囲。
-			/*
-			this.capture_view_list = null;
-			*/
+			//表示範囲内のアイテムをキャプチャ。
+			this.capture_list = new List<ITEM>();
 
 			//削除管理。
 			if(a_deleter != null){
@@ -236,22 +232,96 @@ namespace NUi
 			return null;
 		}
 
+		/** 表示範囲内のアイテムをキャプチャ。
+		*/
+		public void CaptureViewList()
+		{
+			this.capture_list.Clear();
+
+			if(this.viewindex_st >= 0){
+				for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
+					this.list[ii].SetCaptureViewOutFlag(true);
+					this.capture_list.Add(this.list[ii]);
+				}
+			}
+		}
+
+		/** キャプチャから表示範囲更新。
+		*/
+		public void ViewUpdateFromCapture()
+		{
+			if(this.viewindex_st >= 0){
+				for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
+					//最新の表示範囲内のフラグを消す。
+					this.list[ii].SetCaptureViewOutFlag(false);
+
+					//アイテム移動。
+					this.OnMoveItem_FromScrollBase(ii);
+				}
+			}
+
+			//表示範囲外移動チェック。
+			for(int ii=0;ii<this.capture_list.Count;ii++){
+				if(this.capture_list[ii].GetCaptureViewOutFlag() == true){
+					if(this.capture_list[ii].IsViewIn() == true){
+						this.capture_list[ii].SetViewIn(false);
+						this.capture_list[ii].OnViewOut();
+					}
+				}
+			}
+
+			//表示範囲内移動チェック。
+			if(this.viewindex_st >= 0){
+				for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
+					if(this.list[ii].IsViewIn() == false){
+						this.list[ii].SetViewIn(true);
+						this.list[ii].OnViewIn();
+					}
+				}
+			}
+		}
+
+		/** インデックス検索。
+		*/
+		public int FindIndex(ITEM a_item)
+		{
+			int t_index = this.list.FindIndex((ITEM a_test) => {return a_test == a_item;});
+
+			Debug.Log(t_index.ToString());
+
+			return t_index;
+		}
+
 		/** ソート。
 		*/
 		public void Sort(System.Comparison<ITEM> a_comparison)
 		{
+			//表示範囲内のアイテムをキャプチャ。
+			this.CaptureViewList();
+
 			//ソート。
 			this.list.Sort(a_comparison);
 
-			//全チェック。
-			this.UpdateView_AllCheck();
+			//キャプチャから表示範囲更新。
+			this.ViewUpdateFromCapture();
 		}
 
 		/** 入れ替え。
 		*/
-		public void Change(int a_index_a,int a_index_b)
+		public void Swap(int a_index_a,int a_index_b)
 		{
-			//TODO:
+			if((0<=a_index_a)&&(0<=a_index_b)&&(a_index_a<this.list.Count)&&(a_index_b<this.list.Count)){
+				//表示範囲内のアイテムをキャプチャ。
+				this.CaptureViewList();
+
+				//ソート。
+				ITEM t_item = this.list[a_index_a];
+				this.list[a_index_a] = this.list[a_index_b];
+				this.list[a_index_b] = t_item;
+
+				//キャプチャから表示範囲更新。
+				this.ViewUpdateFromCapture();
+			}
 		}
 	}
 }

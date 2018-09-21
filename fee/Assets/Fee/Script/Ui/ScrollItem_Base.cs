@@ -24,6 +24,10 @@ namespace NUi
 		*/
 		private bool is_viewin;
 
+		/** capture_viewout
+		*/
+		private bool capture_viewout;
+
 		/** constructor
 		*/
 		public ScrollItem_Base()
@@ -43,6 +47,20 @@ namespace NUi
 		public void SetViewIn(bool a_flag)
 		{
 			this.is_viewin = a_flag;
+		}
+
+		/** キャプチャアイテム表示範囲外移動フラグ。設定。
+		*/
+		public void SetCaptureViewOutFlag(bool a_flag)
+		{
+			this.capture_viewout = a_flag;
+		}
+
+		/** キャプチャアイテム表示範囲外移動フラグ。取得。
+		*/
+		public bool GetCaptureViewOutFlag()
+		{
+			return this.capture_viewout;
 		}
 
 		/** [NUi.ScrollItem_Base]矩形。設定。
