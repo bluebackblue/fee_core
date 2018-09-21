@@ -260,8 +260,6 @@ namespace NUi
 		*/
 		public int FindIndex(ITEM a_item)
 		{
-			
-
 			return this.list.IndexOf(a_item);
 		}
 
