@@ -50,6 +50,7 @@ public class test11 : main_base
 		Se_DownLoad_Now,
 		Se_Save_Start,
 		Se_Save_Now,
+		Se_Android_Load_SoundPool,
 	};
 
 	private Mode mode;
@@ -85,6 +86,15 @@ public class test11 : main_base
 	/** ボタン。
 	*/
 	private NUi.Button button_se;
+
+	/** アンドロイドサウンドプール。
+	*/
+	#if(UNITY_ANDROID)
+	private AndroidJavaObject android_sound_pool;
+	private bool android_sound_enable;
+	private int android_sound_soundid;
+	private int android_sound_streamid;
+	#endif
 
 	/** Start
 	*/
@@ -154,7 +164,17 @@ public class test11 : main_base
 		this.button_se = new NUi.Button(this.deleter,null,0,Click_Se,-1);
 		this.button_se.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_se.SetRect(100 + 200 * 2,130,150,30);
-		this.button_se.SetText("ＳＥ");
+		this.button_se.SetText("ＳＥロード");
+
+		#if(UNITY_ANDROID)
+		{
+			int STREAM_MUSIC = 3;
+			this.android_sound_pool = new AndroidJavaObject("android.media.SoundPool",1,STREAM_MUSIC,0);
+			this.android_sound_enable = false;
+			this.android_sound_soundid = 0;
+			this.android_sound_streamid = 0;
+		}
+		#endif
 	}
 
 	/** クリック。
@@ -180,6 +200,21 @@ public class test11 : main_base
 	{
 		if(this.mode == Mode.Wait){
 			this.mode = Mode.Se_DownLoad_Start;
+		}
+	}
+
+	/** クリック。
+	*/
+	public void Click_Do(int a_value)
+	{
+		if(this.mode == Mode.Wait){
+
+			#if(UNITY_ANDROID)
+			if(this.android_sound_pool != null){
+				this.android_sound_streamid = this.android_sound_pool.Call<int>("play",this.android_sound_soundid,1.0f,1.0f,0,0,1.0f);
+				this.status.SetText("soundid = " + this.android_sound_soundid.ToString() + " streamid = " + this.android_sound_streamid.ToString());
+			}
+			#endif
 		}
 	}
 
@@ -265,9 +300,7 @@ public class test11 : main_base
 		case Mode.Se_DownLoad_Start:
 			{
 				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/water-drop3_1.mp3";
-
 				this.download_item = NDownLoad.DownLoad.GetInstance().Request(t_url,NDownLoad.DataType.Binary);
-
 				this.mode = Mode.Se_DownLoad_Now;
 			}break;
 		case Mode.Se_DownLoad_Now:
@@ -300,7 +333,6 @@ public class test11 : main_base
 		case Mode.Se_Save_Start:
 			{
 				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalBinaryFile("se_1.mp3",this.binary);
-
 				this.mode = Mode.Se_Save_Now;
 			}break;
 		case Mode.Se_Save_Now:
@@ -315,15 +347,42 @@ public class test11 : main_base
 						this.saveload_item = null;
 						this.mode = Mode.Wait;
 					}else{
-						//this.saveload_item = t
-
-						//TODO:完了。
+						this.status.SetText("SaveEnd");
 
 						this.saveload_item = null;
-						this.mode = Mode.Wait;
+						this.mode = Mode.Se_Android_Load_SoundPool;
 					}
 				}
 			}break;
+		case Mode.Se_Android_Load_SoundPool:
+			{
+				#if(UNITY_ANDROID)
+				{
+					if(this.android_sound_pool != null){
+						this.android_sound_enable = true;
+						this.android_sound_soundid = this.android_sound_pool.Call<int>("load",Application.persistentDataPath + "/se_1.mp3",1);
+					}else{
+						this.android_sound_enable = false;
+						this.android_sound_soundid = 0;
+					}
+					this.status.SetText(this.android_sound_enable.ToString() + " soundid = " + this.android_sound_soundid.ToString());
+				}
+				#endif
+
+				this.mode = Mode.Wait;
+			}break;
+		}
+
+		//再生。
+		if(NInput.Mouse.GetInstance().left.down == true){
+			#if(UNITY_ANDROID)
+			if(this.android_sound_pool != null){
+				if(this.android_sound_enable == true){
+					int t_ret = this.android_sound_pool.Call<int>("play",this.android_sound_soundid,1.0f,1.0f,0,0,1.0f);
+					this.status.SetText("id = " + this.android_sound_soundid.ToString() + " ret = " + t_ret.ToString());
+				}
+			}
+			#endif
 		}
 	}
 
@@ -338,6 +397,14 @@ public class test11 : main_base
 	*/
 	private void OnDestroy()
 	{
+		#if(UNITY_ANDROID)
+		{
+			if(this.android_sound_pool != null){
+				this.android_sound_pool.Dispose();
+				this.android_sound_pool = null;
+			}
+		}
+		#endif
 	}
 
 	/** 作成。

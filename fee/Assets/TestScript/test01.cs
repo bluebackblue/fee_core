@@ -103,6 +103,7 @@ public class test01 : main_base
 
 		#if(UNITY_ANDROID)
 		{
+			/*
 			using(AndroidJavaClass t_import_java_util_locale = new AndroidJavaClass("java.util.Locale")){
 				using(AndroidJavaObject t_instance_java_util_locale = t_import_java_util_locale.CallStatic<AndroidJavaObject>("getDefault")) {
 					string t_text = t_instance_java_util_locale.Call<string>("getDisplayLanguage");
@@ -111,6 +112,9 @@ public class test01 : main_base
 					}
 				}
 			}
+			*/
+
+			this.text.SetText(Application.persistentDataPath);
 		}
 		#endif
 	}
