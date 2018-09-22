@@ -114,40 +114,6 @@ public class test11 : main_base
 		this.button_download.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_download.SetRect(300,130,150,30);
 		this.button_download.SetText("ダウンロード");
-
-		//text
-		/*
-		int t_layerindex = 0;
-		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
-		this.text = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.text.SetRect(10,10,0,0);
-		*/
-
-		/*
-
-		*/
-
-		/*
-		//ダウンロードリクエスト。
-		{
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
-	
-			#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
-			t_url += "StandaloneWindows/";
-			#elif(UNITY_WEBGL)
-			t_url += "WebGL/";
-			#elif(UNITY_ANDROID)
-			t_url += "Android/";
-			#elif(UNITY_IOS)
-			t_url += "iOS/";
-			#else
-			t_url += "StandaloneWindows/";
-			#endif
-
-			this.download_bgm_a = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
-			this.download_bgm_b = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
-		}
-		*/
 	}
 
 	/** クリック。
@@ -233,7 +199,8 @@ public class test11 : main_base
 							this.download_item = null;
 							this.mode = 0;
 						}else{
-							this.status.SetText("ClipPack");
+							this.status.SetText("ClipPack : " + this.clippack.clip_list.Length.ToString());
+							this.download_item = null;
 							this.mode++;
 						}
 					}
@@ -241,52 +208,10 @@ public class test11 : main_base
 			}break;
 		case 3:
 			{
+				this.clippack = null;
+				this.mode = 0;
 			}break;
 		}
-
-		/*
-		if(this.download_bgm_a != null){
-			if(this.download_bgm_a.IsBusy() == false){
-				this.text.SetText("Download : End");
-
-				//エラーチェック。
-				if(this.download_bgm_a.GetDataType() == NDownLoad.DataType.Error){
-					this.text.SetText("Error : " + this.download_bgm_a.GetResultErrorString());
-				}else{
-					//ロード、再生。
-					AssetBundle t_assetbundle = this.download_bgm_a.GetResultAssetBundle();
-					if(t_assetbundle != null){
-						GameObject t_prefab = t_assetbundle.LoadAsset<GameObject>("bgm");
-						if(t_prefab != null){
-							NAudio.ClipPack t_cippack = t_prefab.GetComponent<NAudio.ClipPack>();
-							if(t_cippack != null){
-								NAudio.Audio.GetInstance().LoadBgm(t_cippack);
-								NAudio.Audio.GetInstance().PlayBgm(0);
-								this.text.SetText("PlayBgm : 0");
-							}else{
-								this.text.SetText("ClipPack : null");
-							}
-						}else{
-							this.text.SetText("LoadAsset : bgm : null");
-						}
-					}else{
-						this.text.SetText("AssetBundle : null");
-					}
-				}
-
-				this.download_bgm_a = null;
-			}else{
-				//ダウンロード中。
-				this.text.SetText("Download : " + this.download_bgm_a.GetProgress().ToString());
-			}
-		}
-
-		if(this.download_bgm_b != null){
-			if(this.download_bgm_b.IsBusy() == false){
-				this.download_bgm_b = null;
-			}
-		}
-		*/
 	}
 
 	/** 削除前。

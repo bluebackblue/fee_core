@@ -44,8 +44,8 @@ namespace NPerformanceCounter
 				return true;
 			}
 			return false;
-
 		}
+
 		/** [シングルトン]インスタンス。取得。
 		*/
 		public static PerformanceCounter GetInstance()
