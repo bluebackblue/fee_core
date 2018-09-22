@@ -14,6 +14,8 @@ using UnityEngine;
 
 /** test02
 
+	セーブロード。
+
 	オブジェクトをＪＳＯＮにコンバート。
 
 	ＪＳＯＮをオブジェクトにコンバート。
@@ -21,116 +23,15 @@ using UnityEngine;
 */
 public class test02 : main_base
 {
-	/** Data
+	/** SaveData
 	*/
-	#if false
-	class Data
+	private class SaveData
 	{
-		/** RootItem
-		*/
-		public struct RootItem
-		{
-			/** SubItem
-			*/
-			public struct SubItem
-			{
-				/** data
-				*/
-				public int data;
-			};
-
-			/** subitem
-			*/
-			public SubItem subitem;
-		};
-
-		/** data_long
-		*/
-		public long data_long;
-
-		/** data_int
-		*/
 		public int data_int;
-
-		/** data_double
-		*/
-		public double data_double;
-
-		/** data_float
-		*/
 		public float data_float;
-
-		/** data_string
-		*/
-		public string data_string;
-
-		/** data_list
-		*/
-		public List<RootItem> data_list;
-
-		/** data_dictionary
-		*/
-		public Dictionary<string,RootItem> data_dictionary;
-
-		/** data_non_support_dictionary
-		*/
-		public Dictionary<int,int> data_non_support_dictionary;
-
-		/** constructor
-		*/
-		public Data()
-		{
-		}
-
-		/** データ。設定。
-		*/
-		public void SetData()
-		{
-			this.data_long = 100;
-			this.data_int = 200;
-			this.data_double = 300.0;
-			this.data_float = 400.0f;
-			this.data_string = "500";
-
-			this.data_list = new List<RootItem>();
-			{
-				{
-					RootItem t_item;
-					t_item.subitem.data = 999;
-					this.data_list.Add(t_item);
-				}
-				{
-					RootItem t_item;
-					t_item.subitem.data = 888;
-					this.data_list.Add(t_item);
-				}
-			}
-			this.data_dictionary = new Dictionary<string,RootItem>();
-			{
-				{
-					RootItem t_item;
-					t_item.subitem.data = 777;
-					this.data_dictionary.Add("AAA",t_item);
-				}
-				{
-					RootItem t_item;
-					t_item.subitem.data = 666;
-					this.data_dictionary.Add("BBB",t_item);
-				}
-			}
-			this.data_non_support_dictionary = new Dictionary<int,int>();
-			{
-				this.data_non_support_dictionary.Add(-100,-200);
-			}
-		}
-	}
-	#endif
-
-	/** Data
-	*/
-	private class Data
-	{
-		public int data_int;
+		public bool data_bool;
+		public Dictionary<string,int> data_dictionary;
+		public List<int> data_list;
 	}
 
 	/** 削除管理。
@@ -154,19 +55,9 @@ public class test02 : main_base
 	private NSaveLoad.Item save_item;
 	private NSaveLoad.Item load_item;
 
-	/** データ。
+	/** セーブデータ。
 	*/
-	private Data data = null;
-
-	/** Mode
-	*/
-	private enum Mode
-	{
-		Save1,
-		Save2,
-		Load1,
-		Load2
-	}
+	private SaveData savedata = null;
 
 	/** Start
 	*/
@@ -229,8 +120,8 @@ public class test02 : main_base
 		this.save_item = null;
 		this.load_item = null;
 
-		//データ。
-		this.data = new Data();
+		//セーブデータ。
+		this.savedata = new SaveData();
 	}
 
 	/** クリック。
@@ -238,7 +129,7 @@ public class test02 : main_base
 	public void Click_Save(int a_value)
 	{
 		//オブジェクトをＪＳＯＮ化。
-		NJsonItem.JsonItem t_jsonitem = NJsonItem.ToJson.Convert(this.data);
+		NJsonItem.JsonItem t_jsonitem = NJsonItem.ToJson.Convert(this.savedata);
 
 		//ＪＳＯＮを文字列化。
 		string t_jsonstring = t_jsonitem.ConvertJsonString();
@@ -273,13 +164,23 @@ public class test02 : main_base
 	*/
 	public void Click_Random(int a_value)
 	{
-		this.data.data_int = Random.Range(0,9999);
-		this.SetStatus("Random",this.data);
+		this.savedata.data_int = Random.Range(0,9999);
+		this.savedata.data_float = Random.value;
+		this.savedata.data_bool = (Random.value > 0.5f ? true : false);
+		this.savedata.data_dictionary = new Dictionary<string,int>();
+		this.savedata.data_dictionary.Add("a",Random.Range(0,9999));
+		this.savedata.data_dictionary.Add("b",Random.Range(0,9999));
+		this.savedata.data_list = new List<int>();
+		this.savedata.data_list.Add(Random.Range(0,9999));
+		this.savedata.data_list.Add(Random.Range(0,9999));
+
+		this.SetStatus("Random",this.savedata);
+
 	}
 
 	/** ステータス表示。
 	*/
-	private void SetStatus(string a_message,Data a_data)
+	private void SetStatus(string a_message,SaveData a_data)
 	{
 		string t_text = "";
 
@@ -287,6 +188,22 @@ public class test02 : main_base
 
 		if(a_data != null){
 			t_text += "data_int = " + a_data.data_int.ToString() + "\n";
+
+			t_text += "data_float = " + a_data.data_float.ToString() + "\n";
+
+			t_text += "data_bool = " + a_data.data_bool.ToString() + "\n";
+
+			if(a_data.data_dictionary != null){
+				foreach(KeyValuePair<string,int> t_pair in a_data.data_dictionary){
+					t_text += t_pair.ToString() + " = " + t_pair.Key.ToString() + "\n";
+				}
+			}
+
+			if(a_data.data_list != null){
+				for(int ii=0;ii<a_data.data_list.Count;ii++){
+					t_text += "[" + ii.ToString() + "] = " + a_data.data_list[ii].ToString() + "\n";
+				}
+			}
 		}
 
 		this.status.SetText(t_text);
@@ -314,19 +231,28 @@ public class test02 : main_base
 			}else{
 				if(this.load_item.GetDataType() != NSaveLoad.DataType.Text){
 					//ロード失敗。
-					this.SetStatus("Load : Faild",this.data);
+					this.SetStatus("Load : Faild",this.savedata);
 				}else{
 					//ロード成功。
 
+					SaveData t_savedata = null;
+
 					string t_jsonstring = this.load_item.GetResultText();
+					if(t_jsonstring != null){
+						//文字列をＪＳＯＮ化。
+						NJsonItem.JsonItem t_jsonitem = new NJsonItem.JsonItem(t_jsonstring);
+						if(t_jsonitem != null){
+							//ＪＳＯＮをオブジェクト化。
+							t_savedata = NJsonItem.FromJson<SaveData>.Convert(t_jsonitem);
+						}
+					}
 
-					//文字列をＪＳＯＮ化。
-					NJsonItem.JsonItem t_jsonitem = new NJsonItem.JsonItem(t_jsonstring);
-
-					//ＪＳＯＮをオブジェクト化。
-					this.data = NJsonItem.FromJson<Data>.Convert(t_jsonitem);
-
-					this.SetStatus("Load : Success",this.data);
+					if(t_savedata != null){
+						this.savedata = t_savedata;
+						this.SetStatus("Load : Success",this.savedata);
+					}else{
+						this.SetStatus("Load : Convert Error",this.savedata);
+					}
 				}
 
 				this.button_save1.SetLock(false);
@@ -345,10 +271,10 @@ public class test02 : main_base
 			}else{
 				if(this.save_item.GetDataType() == NSaveLoad.DataType.SaveEnd){
 					//セーブ成功。
-					this.SetStatus("Save : Success",this.data);
+					this.SetStatus("Save : Success",this.savedata);
 				}else{
 					//セーブ失敗。
-					this.SetStatus("Save : Faild",this.data);
+					this.SetStatus("Save : Faild",this.savedata);
 				}
 
 				this.button_save1.SetLock(false);
