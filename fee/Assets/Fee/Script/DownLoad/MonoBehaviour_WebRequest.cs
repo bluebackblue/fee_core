@@ -103,6 +103,11 @@ namespace NDownLoad
 		[SerializeField]
 		private DataType result_datatype;
 
+		/** result_assetbundle
+		*/
+		[SerializeField]
+		private AssetBundle result_assetbundle;
+
 		/** result_text
 		*/
 		[SerializeField]
@@ -113,10 +118,10 @@ namespace NDownLoad
 		[SerializeField]
 		private Texture2D result_texture;
 
-		/** result_assetbundle
+		/** result_binary
 		*/
 		[SerializeField]
-		private AssetBundle result_assetbundle;
+		private byte[] result_binary;
 
 		/** Awake
 		*/
@@ -156,14 +161,17 @@ namespace NDownLoad
 			//result_upload_progress
 			this.result_upload_progress = 0.0f;
 
+			//result_assetbundle
+			this.result_assetbundle = null;
+
 			//result_text
 			this.result_text = null;
 
 			//result_texture
 			this.result_texture = null;
 
-			//result_assetbundle
-			this.result_assetbundle = null;
+			//result_binary
+			this.result_binary = null;
 		}
 
 		/**  [内部からの呼び出し]開始。
@@ -177,15 +185,20 @@ namespace NDownLoad
 						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_assetbundle_version.ToString() + " : " + this.request_url);
 						this.webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(this.request_url,this.request_assetbundle_version,0);
 					}break;
-				case DataType.Texture:
-					{
-						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
-						this.webrequest =  UnityEngine.Networking.UnityWebRequestTexture.GetTexture(this.request_url);
-					}break;
 				case DataType.Text:
 					{
 						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
-						this.webrequest =  UnityEngine.Networking.UnityWebRequest.Get(this.request_url);	
+						this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);	
+					}break;
+				case DataType.Texture:
+					{
+						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
+						this.webrequest = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(this.request_url);
+					}break;
+				case DataType.Binary:
+					{
+						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
+						this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);
 					}break;
 				default:
 					{
@@ -298,19 +311,23 @@ namespace NDownLoad
 			//コンバート。
 			{
 				switch(this.request_datatype){
-				case DataType.Texture:
+				case DataType.AssetBundle:
 					{
 						try{
-							this.result_texture = UnityEngine.Networking.DownloadHandlerTexture.GetContent(this.webrequest);
+							this.result_assetbundle = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(this.webrequest);
 						}catch(System.Exception t_exception){
 							Tool.LogError(t_exception);
 						}
 
-						if(this.result_texture != null){
+						if(this.result_assetbundle != null){
+
+							//アセットバンドルリストに登録。
+							NDownLoad.DownLoad.GetInstance().GetAssetBundleList().Regist(this.request_assetbundle_id,this.result_assetbundle);
+
 							this.result_errorstring = "";
-							this.result_datatype = DataType.Texture;
+							this.result_datatype = DataType.AssetBundle;
 						}else{
-							this.result_errorstring = "ConvertError : Texture";
+							this.result_errorstring = "ConvertError : AssetBundle";
 							this.result_datatype = DataType.Error;
 						}
 					}break;
@@ -330,23 +347,35 @@ namespace NDownLoad
 							this.result_datatype = DataType.Error;
 						}
 					}break;
-				case DataType.AssetBundle:
+				case DataType.Texture:
 					{
 						try{
-							this.result_assetbundle = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(this.webrequest);
+							this.result_texture = UnityEngine.Networking.DownloadHandlerTexture.GetContent(this.webrequest);
 						}catch(System.Exception t_exception){
 							Tool.LogError(t_exception);
 						}
 
-						if(this.result_assetbundle != null){
-
-							//アセットバンドルリストに登録。
-							NDownLoad.DownLoad.GetInstance().GetAssetBundleList().Regist(this.request_assetbundle_id,this.result_assetbundle);
-
+						if(this.result_texture != null){
 							this.result_errorstring = "";
-							this.result_datatype = DataType.AssetBundle;
+							this.result_datatype = DataType.Texture;
 						}else{
-							this.result_errorstring = "ConvertError : AssetBundle";
+							this.result_errorstring = "ConvertError : Texture";
+							this.result_datatype = DataType.Error;
+						}
+					}break;
+				case DataType.Binary:
+					{
+						try{
+							this.result_binary = this.webrequest.downloadHandler.data;
+						}catch(System.Exception t_exception){
+							Tool.LogError(t_exception);
+						}
+
+						if(this.result_binary != null){
+							this.result_errorstring = "";
+							this.result_datatype = DataType.Binary;
+						}else{
+							this.result_errorstring = "ConvertError : Binary";
 							this.result_datatype = DataType.Error;
 						}
 					}break;
@@ -439,9 +468,10 @@ namespace NDownLoad
 				this.result_download_progress = 0.0f;
 				this.result_upload_progress = 0.0f;
 				this.result_datatype = DataType.None;
+				this.result_assetbundle = null;
 				this.result_text = null;
 				this.result_texture = null;
-				this.result_assetbundle = null;
+				this.result_binary = null;
 
 				return true;
 			}else{
@@ -505,6 +535,13 @@ namespace NDownLoad
 
 		/** 結果。取得。
 		*/
+		public AssetBundle GetResultAssetBundle()
+		{
+			return this.result_assetbundle;
+		}
+
+		/** 結果。取得。
+		*/
 		public string GetResultText()
 		{
 			return this.result_text;
@@ -519,9 +556,9 @@ namespace NDownLoad
 
 		/** 結果。取得。
 		*/
-		public AssetBundle GetResultAssetBundle()
+		public byte[] GetResultBinary()
 		{
-			return this.result_assetbundle;
+			return this.result_binary;
 		}
 	}
 }

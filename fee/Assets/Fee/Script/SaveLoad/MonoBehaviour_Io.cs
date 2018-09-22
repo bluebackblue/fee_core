@@ -43,6 +43,14 @@ namespace NSaveLoad
 		{
 			None = -1,
 
+			/** セーブローカル。バイナリファイル。
+			*/
+			SaveLocalBinaryFile,
+
+			/** ロードローカル。バイナリファイル。
+			*/
+			LoadLocalBinaryFile,
+
 			/** セーブローカル。テキストファイル。
 			*/
 			SaveLocalTextFile,
@@ -85,6 +93,11 @@ namespace NSaveLoad
 		[SerializeField]
 		private string request_filename;
 
+		/** request_binary
+		*/
+		[SerializeField]
+		private byte[] request_binary;
+
 		/** request_text
 		*/
 		[SerializeField]
@@ -94,6 +107,11 @@ namespace NSaveLoad
 		*/
 		[SerializeField]
 		private Texture2D request_texture;
+
+		/** result_binary
+		*/
+		[SerializeField]
+		private byte[] result_binary;
 
 		/** result_text
 		*/
@@ -124,17 +142,71 @@ namespace NSaveLoad
 			//request_filename
 			this.request_filename = null;
 
+			//request_binary
+			this.request_binary = null;
+
 			//request_text
 			this.request_text = null;
 
 			//request_texture
 			this.request_texture = null;
 
+			//result_binary
+			this.result_binary = null;
+
 			//result_text
 			this.result_text = null;
 
 			//result_texture
 			this.result_texture = null;
+		}
+
+		/** リクエスト。
+		*/
+		public bool RequestSaveLocalBinaryFile(string a_filename,byte[] a_binary)
+		{
+			if(this.mode == Mode.WaitRequest){
+				this.mode = Mode.Start;
+
+				this.request_type = RequestType.SaveLocalBinaryFile;
+				this.request_filename = a_filename;
+				this.request_binary = a_binary;
+				this.request_text = null;
+				this.request_texture = null;
+
+				this.datatype = DataType.None;
+				this.result_binary = null;
+				this.result_text = null;
+				this.result_texture = null;
+
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+		/** リクエスト。
+		*/
+		public bool RequestLoadLocalBinaryFile(string a_filename)
+		{
+			if(this.mode == Mode.WaitRequest){
+				this.mode = Mode.Start;
+
+				this.request_type = RequestType.LoadLocalBinaryFile;
+				this.request_filename = a_filename;
+				this.request_binary = null;
+				this.request_text = null;
+				this.request_texture = null;
+
+				this.datatype = DataType.None;
+				this.result_binary = null;
+				this.result_text = null;
+				this.result_texture = null;
+
+				return true;
+			}else{
+				return false;
+			}
 		}
 
 		/** リクエスト。
@@ -146,10 +218,12 @@ namespace NSaveLoad
 
 				this.request_type = RequestType.SaveLocalTextFile;
 				this.request_filename = a_filename;
+				this.request_binary = null;
 				this.request_text = a_text;
 				this.request_texture = null;
 
 				this.datatype = DataType.None;
+				this.result_binary = null;
 				this.result_text = null;
 				this.result_texture = null;
 
@@ -168,10 +242,12 @@ namespace NSaveLoad
 
 				this.request_type = RequestType.LoadLocalTextFile;
 				this.request_filename = a_filename;
+				this.request_binary = null;
 				this.request_text = null;
 				this.request_texture = null;
 
 				this.datatype = DataType.None;
+				this.result_binary = null;
 				this.result_text = null;
 				this.result_texture = null;
 
@@ -190,10 +266,12 @@ namespace NSaveLoad
 
 				this.request_type = RequestType.SaveLocalPngFile;
 				this.request_filename = a_filename;
+				this.request_binary = null;
 				this.request_text = null;
 				this.request_texture = a_texture;
 
 				this.datatype = DataType.None;
+				this.result_binary = null;
 				this.result_text = null;
 				this.result_texture = null;
 
@@ -212,10 +290,12 @@ namespace NSaveLoad
 
 				this.request_type = RequestType.LoadLocalPngFile;
 				this.request_filename = a_filename;
+				this.request_binary = null;
 				this.request_text = null;
 				this.request_texture = null;
 
 				this.datatype = DataType.None;
+				this.result_binary = null;
 				this.result_text = null;
 				this.result_texture = null;
 
@@ -247,6 +327,13 @@ namespace NSaveLoad
 		public DataType GetDataType()
 		{
 			return this.datatype;
+		}
+
+		/** 結果。取得。
+		*/
+		public byte[] GetResultBinary()
+		{
+			return this.result_binary;
 		}
 
 		/** 結果。取得。
@@ -327,11 +414,67 @@ namespace NSaveLoad
 		{
 			string t_full_path = Application.persistentDataPath + "/" + this.request_filename;
 
+			Tool.Log("fiename",t_full_path);
+
 			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(t_full_path);
 
 			DataType t_ret = DataType.Error;
 
-			if(this.request_type == RequestType.SaveLocalTextFile){
+			if(this.request_type == RequestType.SaveLocalBinaryFile){
+				//セーブ。バイナリ。
+
+				System.IO.FileStream t_filestream = null;
+
+				//open
+				try{
+					t_filestream = t_fileinfo.Create();
+				}catch(System.Exception /*t_exception*/){
+					//Tool.LogError(t_exception);
+				}
+
+				yield return null;
+
+				//write
+				if(t_filestream != null){
+					System.IO.BinaryWriter t_binarwriter = new System.IO.BinaryWriter(t_filestream);
+					t_binarwriter.Write(this.request_binary,0,this.request_binary.Length);
+					t_binarwriter.Close();
+
+					t_ret = DataType.SaveEnd;
+				}
+
+				//close
+				if(t_filestream != null){
+					t_filestream.Close();
+				}
+			}else if(this.request_type == RequestType.LoadLocalBinaryFile){
+				//ロード。バイナリ。
+
+				System.IO.FileStream t_filestream = null;
+
+				//open
+				try{
+					t_filestream = t_fileinfo.OpenRead();
+				}catch(System.Exception /*t_exception*/){
+					//Tool.LogError(t_exception);
+				}
+
+				yield return null;
+
+				//read
+				if(t_filestream != null){
+					System.IO.BinaryReader t_binaryreader = new System.IO.BinaryReader(t_filestream);
+
+					this.result_binary = t_binaryreader.ReadBytes((int)t_filestream.Length);
+
+					t_ret = DataType.Binary;
+				}
+
+				//close
+				if(t_filestream != null){
+					t_filestream.Close();
+				}
+			}else if(this.request_type == RequestType.SaveLocalTextFile){
 				//セーブ。テキスト。
 
 				System.IO.StreamWriter t_stream_writer = null;

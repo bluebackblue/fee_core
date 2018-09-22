@@ -134,6 +134,10 @@ namespace NDownLoad
 
 						//結果。
 						switch(t_webrequest.GetResultDataType()){
+						case DataType.AssetBundle:
+							{
+								this.item.SetResultAssetBundle(t_webrequest.GetResultAssetBundle());
+							}break;
 						case DataType.Text:
 							{
 								this.item.SetResultText(t_webrequest.GetResultText());
@@ -142,9 +146,9 @@ namespace NDownLoad
 							{		
 								this.item.SetResultTexture(t_webrequest.GetResultTexture());
 							}break;
-						case DataType.AssetBundle:
+						case DataType.Binary:
 							{
-								this.item.SetResultAssetBundle(t_webrequest.GetResultAssetBundle());
+								this.item.SetResultBinary(t_webrequest.GetResultBinary());
 							}break;
 						default:
 							{

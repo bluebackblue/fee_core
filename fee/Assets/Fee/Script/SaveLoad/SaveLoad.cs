@@ -106,6 +106,28 @@ namespace NSaveLoad
 			return this.io_script;
 		}
 
+		/** リクエスト。セーブローカル。バイナリファイル。
+		*/
+		public Item RequestSaveLocalBinaryFile(string a_filename,byte[] a_binary)
+		{
+			Work t_work = new Work();
+			t_work.RequestSaveLocalBinaryFile(a_filename,a_binary);
+
+			this.work_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。ロードローカル。バイナリファイル。
+		*/
+		public Item RequestLoadLoaclBinaryFile(string a_filename)
+		{
+			Work t_work = new Work();
+			t_work.RequestLoadLocalBinaryFile(a_filename);
+
+			this.work_list.Add(t_work);
+			return t_work.GetItem();
+		}
+	
 		/** リクエスト。セーブローカル。テキストファイル。
 		*/
 		public Item RequestSaveLocalTextFile(string a_filename,string a_text)

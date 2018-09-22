@@ -15,7 +15,6 @@ using UnityEngine;
 /** test11
 
 	アセットバンドルダウンロード
-	アセットバンドル作成
 
 */
 public class test11 : main_base
@@ -32,17 +31,44 @@ public class test11 : main_base
 	*/
 	private NDeleter.Deleter deleter;
 
-	/** モード。
+	/** Mode
 	*/
-	private int mode;	
+	private enum Mode
+	{
+		/** 待ち。
+		*/
+		Wait,
+
+		/** アセットバンドル。
+		*/
+		AssetBundle_DownLoad_Start,
+		AssetBundle_DownLoad_Now,
+
+		/** ＳＥ。
+		*/
+		Se_DownLoad_Start,
+		Se_DownLoad_Now,
+		Se_Save_Start,
+		Se_Save_Now,
+	};
+
+	private Mode mode;
 
 	/** ダウンロード。
 	*/
 	private NDownLoad.Item download_item;
 
+	/** セーブロード。
+	*/
+	private NSaveLoad.Item saveload_item;
+
 	/** クリップパック。
 	*/
 	private NAudio.ClipPack clippack;
+
+	/** バイナリ。
+	*/
+	private byte[] binary;
 
 	/** ステータス。
 	*/
@@ -54,11 +80,11 @@ public class test11 : main_base
 
 	/** ボタン。
 	*/
-	private NUi.Button button_download;
+	private NUi.Button button_assetbundle;
 
-
-
-
+	/** ボタン。
+	*/
+	private NUi.Button button_se;
 
 	/** Start
 	*/
@@ -86,17 +112,26 @@ public class test11 : main_base
 		//イベントプレート。インスタンス作成。
 		NEventPlate.EventPlate.CreateInstance();
 
+		//セーブロード。インスタンス作成。
+		NSaveLoad.SaveLoad.CreateInstance();
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
 		//モード。
-		this.mode = 0;
+		this.mode = Mode.Wait;
 
 		//ダウンロード。
 		this.download_item = null;
 
+		//セーブロード。
+		this.saveload_item = null;
+
 		//クリップパック。
 		this.clippack = null;
+
+		//バイナリ。
+		this.binary = null;
 
 		//ステータス。
 		this.status = new NRender2D.Text2D(this.deleter,null,0);
@@ -106,14 +141,20 @@ public class test11 : main_base
 		//ボタン。
 		this.button_cacheclear = new NUi.Button(this.deleter,null,0,Click_ClearAllCacheFile,-1);
 		this.button_cacheclear.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_cacheclear.SetRect(100,130,150,30);
+		this.button_cacheclear.SetRect(100 + 200 * 0,130,150,30);
 		this.button_cacheclear.SetText("キャッシュクリア");
 
 		//ボタン。
-		this.button_download = new NUi.Button(this.deleter,null,0,Click_DownLoad,-1);
-		this.button_download.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_download.SetRect(300,130,150,30);
-		this.button_download.SetText("ダウンロード");
+		this.button_assetbundle = new NUi.Button(this.deleter,null,0,Click_AssetBundle,-1);
+		this.button_assetbundle.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_assetbundle.SetRect(100 + 200 * 1,130,150,30);
+		this.button_assetbundle.SetText("アセットバンドル");
+
+		//ボタン。
+		this.button_se = new NUi.Button(this.deleter,null,0,Click_Se,-1);
+		this.button_se.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_se.SetRect(100 + 200 * 2,130,150,30);
+		this.button_se.SetText("ＳＥ");
 	}
 
 	/** クリック。
@@ -126,10 +167,19 @@ public class test11 : main_base
 
 	/** クリック。
 	*/
-	public void Click_DownLoad(int a_value)
+	public void Click_AssetBundle(int a_value)
 	{
-		if(this.mode == 0){
-			this.mode = 1;
+		if(this.mode == Mode.Wait){
+			this.mode = Mode.AssetBundle_DownLoad_Start;
+		}
+	}
+
+	/** クリック。
+	*/
+	public void Click_Se(int a_value)
+	{
+		if(this.mode == Mode.Wait){
+			this.mode = Mode.Se_DownLoad_Start;
 		}
 	}
 
@@ -149,11 +199,15 @@ public class test11 : main_base
 		//イベントプレート。
 		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
 
+		//セーブロード。
+		NSaveLoad.Config.LOG_ENABLE = true;
+		NSaveLoad.SaveLoad.GetInstance().Main();
+
 		switch(this.mode){
-		case 0:
+		case Mode.Wait:
 			{
 			}break;
-		case 1:
+		case Mode.AssetBundle_DownLoad_Start:
 			{
 				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
 	
@@ -171,9 +225,9 @@ public class test11 : main_base
 
 				this.download_item = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "se",ASSETBUNDLE_ID_BGM,DATA_VERSION);
 
-				this.mode++;
+				this.mode = Mode.AssetBundle_DownLoad_Now;
 			}break;
-		case 2:
+		case Mode.AssetBundle_DownLoad_Now:
 			{
 				if(this.download_item.IsBusy() == true){
 					//ダウンロード中。
@@ -183,7 +237,7 @@ public class test11 : main_base
 						//ダウンロード失敗。
 						this.status.SetText("DataType = Error");
 						this.download_item = null;
-						this.mode = 0;
+						this.mode = Mode.Wait;
 					}else{
 						AssetBundle t_assetbundle = this.download_item.GetResultAssetBundle();
 						if(t_assetbundle != null){
@@ -192,24 +246,83 @@ public class test11 : main_base
 								this.clippack = t_prefab.GetComponent<NAudio.ClipPack>();
 							}
 						}
-
 						if(this.clippack == null){
 							//不正なクリップパック。
 							this.status.SetText("ClipPack = Error");
 							this.download_item = null;
-							this.mode = 0;
+							this.mode = Mode.Wait;
 						}else{
 							this.status.SetText("ClipPack : " + this.clippack.clip_list.Length.ToString());
 							this.download_item = null;
-							this.mode++;
+
+							this.clippack = null;
+
+							this.mode = Mode.Wait;
 						}
 					}
 				}
 			}break;
-		case 3:
+		case Mode.Se_DownLoad_Start:
 			{
-				this.clippack = null;
-				this.mode = 0;
+				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/water-drop3_1.mp3";
+
+				this.download_item = NDownLoad.DownLoad.GetInstance().Request(t_url,NDownLoad.DataType.Binary);
+
+				this.mode = Mode.Se_DownLoad_Now;
+			}break;
+		case Mode.Se_DownLoad_Now:
+			{
+				if(this.download_item.IsBusy() == true){
+					//ダウンロード中。
+					this.status.SetText(this.download_item.GetProgress().ToString());
+				}else{
+					if(this.download_item.GetDataType() == NDownLoad.DataType.Error){
+						//ダウンロード失敗。
+						this.status.SetText("DataType = Error");
+						this.download_item = null;
+						this.mode = Mode.Wait;
+					}else{
+						this.binary = this.download_item.GetResultBinary();
+
+						if(this.binary == null){
+							//不正なバイナリ。
+							this.status.SetText("Binary = Error");
+							this.download_item = null;
+							this.mode = Mode.Wait;
+						}else{
+							this.status.SetText("DataType = Binary : " + this.binary.Length.ToString());
+							this.download_item = null;
+							this.mode = Mode.Se_Save_Start;
+						}
+					}
+				}
+			}break;
+		case Mode.Se_Save_Start:
+			{
+				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalBinaryFile("se_1.mp3",this.binary);
+
+				this.mode = Mode.Se_Save_Now;
+			}break;
+		case Mode.Se_Save_Now:
+			{
+				if(this.saveload_item.IsBusy() == true){
+					//セーブ中。
+					this.status.SetText("SaveNow");
+				}else{
+					if(this.saveload_item.GetDataType() != NSaveLoad.DataType.SaveEnd){
+						//セーブ失敗。
+						this.status.SetText("DataType = Error");
+						this.saveload_item = null;
+						this.mode = Mode.Wait;
+					}else{
+						//this.saveload_item = t
+
+						//TODO:完了。
+
+						this.saveload_item = null;
+						this.mode = Mode.Wait;
+					}
+				}
 			}break;
 		}
 	}

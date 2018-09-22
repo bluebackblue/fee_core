@@ -43,6 +43,14 @@ namespace NSaveLoad
 		{
 			None = -1,
 
+			/** セーブローカル。バイナリファイル。
+			*/
+			SaveLocalBinaryFile,
+
+			/** ロードローカル。バイナリファイル。
+			*/
+			LoadLocalBinaryFile,
+
 			/** セーブローカル。テキストファイル。
 			*/
 			SaveLocalTextFile,
@@ -76,6 +84,10 @@ namespace NSaveLoad
 		*/
 		private string filename;
 
+		/** binary
+		*/
+		private byte[] binary;
+
 		/** text
 		*/
 		private string text;
@@ -100,11 +112,31 @@ namespace NSaveLoad
 			//filename
 			this.filename = null;
 
+			//binary
+			this.binary = null;
+
 			//text
 			this.text = null;
 
 			//texture
 			this.texture = null;
+		}
+
+		/** セーブローカル。バイナリファイル。
+		*/
+		public void RequestSaveLocalBinaryFile(string a_filename,byte[] a_binary)
+		{
+			this.type = Type.SaveLocalBinaryFile;
+			this.filename = a_filename;
+			this.binary = a_binary;
+		}
+
+		/** ロードローカル。バイナリファイル。
+		*/
+		public void RequestLoadLocalBinaryFile(string a_filename)
+		{
+			this.type = Type.LoadLocalBinaryFile;
+			this.filename = a_filename;
 		}
 
 		/** セーブローカル。テキストファイル。
@@ -155,6 +187,12 @@ namespace NSaveLoad
 			MonoBehaviour_Io t_io = NSaveLoad.SaveLoad.GetInstance().GetIo();
 
 			switch(this.type){
+			case Type.SaveLocalBinaryFile:
+				{
+				}return t_io.RequestSaveLocalBinaryFile(this.filename,this.binary);
+			case Type.LoadLocalBinaryFile:
+				{
+				}return t_io.RequestLoadLocalBinaryFile(this.filename);
 			case Type.SaveLocalTextFile:
 				{
 				}return t_io.RequestSaveLocalTextFile(this.filename,this.text);
@@ -195,6 +233,11 @@ namespace NSaveLoad
 
 						//結果。
 						switch(t_io.GetDataType()){
+						case DataType.Binary:
+							{
+								//バイナリ。
+								this.item.SetResultBinary(t_io.GetResultBinary());
+							}break;
 						case DataType.Text:
 							{
 								//テキスト。

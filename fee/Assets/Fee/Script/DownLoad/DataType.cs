@@ -28,6 +28,10 @@ namespace NDownLoad
 		*/
 		Error,
 
+		/** アセットバンドル。
+		*/
+		AssetBundle,
+
 		/** テキスト。
 		*/
 		Text,
@@ -36,9 +40,9 @@ namespace NDownLoad
 		*/
 		Texture,
 
-		/** アセットバンドル。
+		/** バイナリ。
 		*/
-		AssetBundle,
+		Binary,
 	};
 }
 

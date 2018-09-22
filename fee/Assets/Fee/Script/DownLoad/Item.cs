@@ -32,6 +32,10 @@ namespace NDownLoad
 		*/
 		private string result_errorstring;
 
+		/** result_assetbundle
+		*/
+		private AssetBundle result_assetbundle;
+
 		/** result_text
 		*/
 		private string result_text;
@@ -40,9 +44,9 @@ namespace NDownLoad
 		*/
 		private Texture2D result_texture;
 
-		/** result_assetbundle
+		/** result_binary
 		*/
-		private AssetBundle result_assetbundle;
+		private byte[] result_binary;
 
 		/** constructor
 		*/
@@ -57,14 +61,17 @@ namespace NDownLoad
 			//result_errorstring
 			this.result_errorstring = null;
 
+			//result_assetbundle
+			this.result_assetbundle = null;
+
 			//result_text
 			this.result_text = null;
 
 			//result_texture
 			this.result_texture = null;
 
-			//result_assetbundle
-			this.result_assetbundle = null;
+			//result_binary
+			this.result_binary = null;
 		}
 
 		/** 処理中。チェック。
@@ -114,39 +121,7 @@ namespace NDownLoad
 			return this.result_errorstring;
 		}
 
-		/** 結果。設定。
-		*/
-		public void SetResultText(string a_text)
-		{
-			this.datatype = DataType.Text;
-
-			this.result_text = a_text;
-		}
-
-		/** 結果。取得。
-		*/
-		public string GetResultText()
-		{
-			return this.result_text;
-		}
-
-		/** 結果。設定。
-		*/
-		public void SetResultTexture(Texture2D a_texture)
-		{
-			this.datatype = DataType.Texture;
-
-			this.result_texture = a_texture;
-		}
-
-		/** 結果。取得。
-		*/
-		public Texture2D GetResultTexture()
-		{
-			return this.result_texture;
-		}
-
-		/** 結果。設定。
+		/** 結果。アセットバンドル。設定。
 		*/
 		public void SetResultAssetBundle(AssetBundle a_assetbundle)
 		{
@@ -155,11 +130,59 @@ namespace NDownLoad
 			this.result_assetbundle = a_assetbundle;
 		}
 
-		/** 結果。取得。
+		/** 結果。アセットバンドル。取得。
 		*/
 		public AssetBundle GetResultAssetBundle()
 		{
 			return this.result_assetbundle;
+		}
+
+		/** 結果。テキスト。設定。
+		*/
+		public void SetResultText(string a_text)
+		{
+			this.datatype = DataType.Text;
+
+			this.result_text = a_text;
+		}
+
+		/** 結果。テキスト。取得。
+		*/
+		public string GetResultText()
+		{
+			return this.result_text;
+		}
+
+		/** 結果。テクスチャ。設定。
+		*/
+		public void SetResultTexture(Texture2D a_texture)
+		{
+			this.datatype = DataType.Texture;
+
+			this.result_texture = a_texture;
+		}
+
+		/** 結果。テクスチャ。取得。
+		*/
+		public Texture2D GetResultTexture()
+		{
+			return this.result_texture;
+		}
+
+		/** 結果。バイナリ。設定。
+		*/
+		public void SetResultBinary(byte[] a_binary)
+		{
+			this.datatype = DataType.Binary;
+
+			this.result_binary = a_binary;
+		}
+
+		/** 結果。バイナリ。取得。
+		*/
+		public byte[] GetResultBinary()
+		{
+			return this.result_binary;
 		}
 	}
 }

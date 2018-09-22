@@ -24,6 +24,10 @@ namespace NSaveLoad
 		*/
 		private DataType datatype;
 
+		/** result_binary
+		*/
+		private byte[] result_binary;
+
 		/** result_text
 		*/
 		private string result_text;
@@ -38,6 +42,9 @@ namespace NSaveLoad
 		{
 			//datatype
 			this.datatype = DataType.None;
+
+			//result_binary
+			this.result_binary = null;
 
 			//result_text
 			this.result_text = null;
@@ -79,11 +86,27 @@ namespace NSaveLoad
 
 		/** 結果。設定。
 		*/
+		public void SetResultBinary(byte[] a_binary)
+		{
+			this.datatype = DataType.Binary;
+
+			this.result_binary = a_binary;
+		}
+
+		/** 結果。設定。
+		*/
 		public void SetResultText(string a_text)
 		{
 			this.datatype = DataType.Text;
 
 			this.result_text = a_text;
+		}
+
+		/** 結果。取得。
+		*/
+		public byte[] GetResultBinary()
+		{
+			return this.result_binary;
 		}
 
 		/** 結果。取得。

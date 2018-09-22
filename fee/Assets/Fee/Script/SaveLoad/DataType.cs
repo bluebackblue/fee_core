@@ -32,6 +32,10 @@ namespace NSaveLoad
 		*/
 		Error,
 
+		/** バイナリ。
+		*/
+		Binary,
+
 		/** テキスト。
 		*/
 		Text,
