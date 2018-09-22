@@ -23,6 +23,10 @@ namespace NDeleter
 		/** ログ。
 		*/
 		public const bool LOG_ENABLE = false;
+
+		/** アサート。
+		*/
+		public static bool ASSERT_ENABLE = true;
 	}
 }
 

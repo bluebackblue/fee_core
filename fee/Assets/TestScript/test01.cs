@@ -100,6 +100,19 @@ public class test01 : main_base
 			this.inputfield.SetImageColor(1.0f,0.6f,0.6f,1.0f);
 			this.inputfield.SetTextColor(0.0f,0.0f,0.0f,0.5f);
 		}
+
+		#if(UNITY_ANDROID)
+		{
+			using(AndroidJavaClass t_import_java_util_locale = new AndroidJavaClass("java.util.Locale")){
+				using(AndroidJavaObject t_instance_java_util_locale = t_import_java_util_locale.CallStatic<AndroidJavaObject>("getDefault")) {
+					string t_text = t_instance_java_util_locale.Call<string>("getDisplayLanguage");
+					if(t_text != null){
+						this.text.SetText(t_text);
+					}
+				}
+			}
+		}
+		#endif
 	}
 
 	/** Update

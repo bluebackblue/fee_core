@@ -422,7 +422,7 @@ public class test05 : main_base
 
 	/** 追加。
 	*/
-	#if UNITY_EDITOR
+	#if(UNITY_EDITOR)
 	[UnityEditor.MenuItem("Test/Test5/EditInputManager")]
 	private static void MakeInputManager()
 	{

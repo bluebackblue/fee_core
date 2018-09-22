@@ -28,7 +28,7 @@ namespace NJsonItem
 		*/
 		public static void Log(string a_tag,string a_text)
 		{
-			#if UNITY_EDITOR
+			#if(UNITY_EDITOR)
 			if(Config.LOG_ENABLE == true){
 				Debug.Log(a_tag + " : " + a_text);
 			}
@@ -39,7 +39,7 @@ namespace NJsonItem
 		*/
 		public static void LogError(string a_tag,string a_text)
 		{
-			#if UNITY_EDITOR
+			#if(UNITY_EDITOR)
 			Debug.LogError(a_tag + " : " + a_text);
 			#endif
 		}
@@ -48,7 +48,7 @@ namespace NJsonItem
 		*/
 		public static void LogError(System.Exception a_exception)
 		{
-			#if UNITY_EDITOR
+			#if(UNITY_EDITOR)
 			Debug.LogError(a_exception.StackTrace + "\n\n" + a_exception.Message);
 			#endif
 		}
@@ -57,19 +57,14 @@ namespace NJsonItem
 		*/
 		public static void Assert(bool a_flag)
 		{
-			#if UNITY_EDITOR
 			if(Config.ASSERT_ENABLE == true){
-				if(a_flag == false){
-					try{
-						throw new System.Exception("Assert");
-					}catch(System.Exception a_exception){
-						LogError(a_exception);
-					}
-			
+				if(a_flag == false){				
+					#if(UNITY_EDITOR)
+					Debug.Assert(false);
 					UnityEditor.EditorApplication.isPaused = true;
+					#endif
 				}
 			}
-			#endif
 		}
 	}
 }

@@ -26,11 +26,7 @@ namespace NPerformanceCounter
 
 		/** アサート。
 		*/
-		public static bool ASSERT_ENABLE = false;
-
-		/** プレハブ名。
-		*/
-		//public static string PREFAB_NAME_CAMERA = "Prefab/Blur/Camera";
+		public static bool ASSERT_ENABLE = true;
 
 		/** マテリアル名。
 		*/

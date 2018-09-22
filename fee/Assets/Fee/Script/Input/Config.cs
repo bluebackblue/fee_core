@@ -26,7 +26,7 @@ namespace NInput
 
 		/** アサート。
 		*/
-		public static bool ASSERT_ENABLE = false;
+		public static bool ASSERT_ENABLE = true;
 
 		/** ドラッグ判定閾値。4方向。
 		*/

@@ -20,6 +20,14 @@ namespace NRender2D
 	*/
 	public class Config
 	{
+		/** ログ。
+		*/
+		public static bool LOG_ENABLE = false;
+
+		/** アサート。
+		*/
+		public static bool ASSERT_ENABLE = true;
+
 		/** 仮想スクリーンサイズ。
 		*/
 		public static int VIRTUAL_W = 960;
@@ -37,14 +45,6 @@ namespace NRender2D
 		/** 矩形。最大値。
 		*/
 		public static Rect2D_R<int> VIRTUAL_RECT_MAX = new Rect2D_R<int>(0,0,VIRTUAL_W,VIRTUAL_H);
-
-		/** ログ。
-		*/
-		public static bool LOG_ENABLE = false;
-
-		/** アサート。
-		*/
-		public static bool ASSERT_ENABLE = false;
 
 		/** 描画プライオリティ分割単位。
 		*/

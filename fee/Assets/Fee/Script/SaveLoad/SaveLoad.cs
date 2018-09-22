@@ -33,10 +33,26 @@ namespace NSaveLoad
 			}
 		}
 
+		/** [シングルトン]インスタンス。チェック。
+		*/
+		public static bool IsCreateInstance()
+		{
+			if(s_instance != null){
+				return true;
+			}
+			return false;
+		}
+
 		/** [シングルトン]インスタンス。取得。
 		*/
 		public static SaveLoad GetInstance()
 		{
+			#if(UNITY_EDITOR)
+			if(s_instance == null){
+				Tool.Assert(false);
+			}
+			#endif
+
 			return s_instance;			
 		}
 

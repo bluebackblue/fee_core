@@ -18,7 +18,7 @@ namespace NInput
 {
 	/** EditInputManager_Item
 	*/
-	#if UNITY_EDITOR
+	#if(UNITY_EDITOR)
 	public class EditInputManager_Item
 	{
 		/** Type

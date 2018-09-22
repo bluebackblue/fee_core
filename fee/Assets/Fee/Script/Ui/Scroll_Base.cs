@@ -106,10 +106,6 @@ namespace NUi
 		*/
 		protected abstract void OnChangeRect_FromBase();
 
-		/** [Scroll_Base]コールバック。表示位置変更。
-		*/
-		//protected abstract void OnChangeViewPosition_FromBase();
-
 		/** 削除。
 		*/
 		public void Delete()

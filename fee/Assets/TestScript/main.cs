@@ -36,9 +36,6 @@ public class main : MonoBehaviour
 
 		//ライブラリ停止。
 		this.DeleteLibInstance();
-
-		//TODO:
-		//NInstantiate.Instantiate.CreateUiInputField("inpu",GameObject.Find("Canvas").GetComponent<Transform>());
 	}
 
 	/** //ライブラリ停止。
@@ -130,7 +127,7 @@ public class main : MonoBehaviour
 
 	/** 追加。
 	*/
-	#if UNITY_EDITOR
+	#if(UNITY_EDITOR)
 	[UnityEditor.MenuItem("Test/main/EditSceneList")]
 	private static void EditSceneList()
 	{
@@ -201,13 +198,13 @@ public class main_base : MonoBehaviour
 		while(t_ok == false){
 			t_ok = true;
 
-			if(NDownLoad.DownLoad.GetInstance() != null){
+			if(NDownLoad.DownLoad.IsCreateInstance() == true){
 				if(NDownLoad.DownLoad.GetInstance().IsBusy() == true){
 					t_ok = false;
 				}
 			}
 		
-			if(NNetwork.Network.GetInstance() != null){
+			if(NNetwork.Network.IsCreateInstance() == true){
 				if(NNetwork.Network.GetInstance().IsBusy() == true){
 					t_ok = false;
 				}

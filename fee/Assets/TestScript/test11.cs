@@ -14,7 +14,8 @@ using UnityEngine;
 
 /** test11
 
-	アセットバンドル
+	アセットバンドルダウンロード
+	アセットバンドル作成
 
 */
 public class test11 : main_base
@@ -29,20 +30,35 @@ public class test11 : main_base
 
 	/** 削除管理。
 	*/
-	NDeleter.Deleter deleter;
+	private NDeleter.Deleter deleter;
 
-	/** text
+	/** モード。
 	*/
-	NRender2D.Text2D text;
+	private int mode;	
 
-	/** download_bgm_a
+	/** ダウンロード。
 	*/
-	NDownLoad.Item download_bgm_a;
-	NDownLoad.Item download_bgm_b;
+	private NDownLoad.Item download_item;
 
-	/** sprite
+	/** クリップパック。
 	*/
-	NRender2D.Sprite2D sprite;
+	private NAudio.ClipPack clippack;
+
+	/** ステータス。
+	*/
+	private NRender2D.Text2D status;
+
+	/** ボタン。キャッシュクリア。
+	*/
+	private NUi.Button button_cacheclear;
+
+	/** ボタン。
+	*/
+	private NUi.Button button_download;
+
+
+
+
 
 	/** Start
 	*/
@@ -61,30 +77,57 @@ public class test11 : main_base
 		//２Ｄ描画。インスタンス作成。
 		NRender2D.Render2D.CreateInstance();
 
+		//ＵＩ。インスタンス作成。
+		NUi.Ui.CreateInstance();
+
+		//マウス。インスタンス作成。
+		NInput.Mouse.CreateInstance();
+
+		//イベントプレート。インスタンス作成。
+		NEventPlate.EventPlate.CreateInstance();
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
+		//モード。
+		this.mode = 0;
+
+		//ダウンロード。
+		this.download_item = null;
+
+		//クリップパック。
+		this.clippack = null;
+
+		//ステータス。
+		this.status = new NRender2D.Text2D(this.deleter,null,0);
+		this.status.SetRect(100,100,0,0);
+		this.status.SetText("-");
+
+		//ボタン。
+		this.button_cacheclear = new NUi.Button(this.deleter,null,0,Click_ClearAllCacheFile,-1);
+		this.button_cacheclear.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_cacheclear.SetRect(100,130,150,30);
+		this.button_cacheclear.SetText("キャッシュクリア");
+
+		//ボタン。
+		this.button_download = new NUi.Button(this.deleter,null,0,Click_DownLoad,-1);
+		this.button_download.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_download.SetRect(300,130,150,30);
+		this.button_download.SetText("ダウンロード");
+
 		//text
+		/*
 		int t_layerindex = 0;
 		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
 		this.text = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.text.SetRect(10,10,0,0);
+		*/
 
-		//sprite
-		{
-			int t_w = 100;
-			int t_h = 100;
-			int t_x = (NRender2D.Render2D.VIRTUAL_W - t_w) / 2;
-			int t_y = (NRender2D.Render2D.VIRTUAL_H - t_h) / 2;
-			this.sprite = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority);
-			this.sprite.SetRect(t_x,t_y,t_w,t_h);
-			this.sprite.SetRotate(true);
-			this.sprite.SetCenter(t_x + 50,t_y + 50);
-		}
+		/*
 
-		//すべてのキャッシュファイル削除。
-		NDownLoad.AssetBundleList.ClearAllCacheFile();
+		*/
 
+		/*
 		//ダウンロードリクエスト。
 		{
 			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
@@ -104,15 +147,24 @@ public class test11 : main_base
 			this.download_bgm_a = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
 			this.download_bgm_b = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
 		}
+		*/
 	}
 
-	/** FixedUpdate
+	/** クリック。
 	*/
-	private void FixedUpdate()
+	public void Click_ClearAllCacheFile(int a_value)
 	{
-		Quaternion t_q = this.sprite.GetQuaternion();
-		t_q = Quaternion.AngleAxis(360 * UnityEngine.Time.fixedDeltaTime,new Vector3(0.0f,0.0f,1.0f)) * t_q;
-		this.sprite.SetQuaternion(ref t_q);
+		//すべてのキャッシュファイル削除。
+		NDownLoad.AssetBundleList.ClearAllCacheFile();
+	}
+
+	/** クリック。
+	*/
+	public void Click_DownLoad(int a_value)
+	{
+		if(this.mode == 0){
+			this.mode = 1;
+		}
 	}
 
 	/** Update
@@ -122,6 +174,77 @@ public class test11 : main_base
 		//ダウンロード。
 		NDownLoad.DownLoad.GetInstance().Main();
 
+		//ＵＩ。
+		NUi.Ui.GetInstance().Main();
+
+		//マウス。
+		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
+
+		//イベントプレート。
+		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
+
+		switch(this.mode){
+		case 0:
+			{
+			}break;
+		case 1:
+			{
+				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
+	
+				#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
+				t_url += "StandaloneWindows/";
+				#elif(UNITY_WEBGL)
+				t_url += "WebGL/";
+				#elif(UNITY_ANDROID)
+				t_url += "Android/";
+				#elif(UNITY_IOS)
+				t_url += "iOS/";
+				#else
+				t_url += "StandaloneWindows/";
+				#endif
+
+				this.download_item = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "se",ASSETBUNDLE_ID_BGM,DATA_VERSION);
+
+				this.mode++;
+			}break;
+		case 2:
+			{
+				if(this.download_item.IsBusy() == true){
+					//ダウンロード中。
+					this.status.SetText(this.download_item.GetProgress().ToString());
+				}else{
+					if(this.download_item.GetDataType() == NDownLoad.DataType.Error){
+						//ダウンロード失敗。
+						this.status.SetText("DataType = Error");
+						this.download_item = null;
+						this.mode = 0;
+					}else{
+						AssetBundle t_assetbundle = this.download_item.GetResultAssetBundle();
+						if(t_assetbundle != null){
+							GameObject t_prefab = t_assetbundle.LoadAsset<GameObject>("se");
+							if(t_prefab != null){
+								this.clippack = t_prefab.GetComponent<NAudio.ClipPack>();
+							}
+						}
+
+						if(this.clippack == null){
+							//不正なクリップパック。
+							this.status.SetText("ClipPack = Error");
+							this.download_item = null;
+							this.mode = 0;
+						}else{
+							this.status.SetText("ClipPack");
+							this.mode++;
+						}
+					}
+				}
+			}break;
+		case 3:
+			{
+			}break;
+		}
+
+		/*
 		if(this.download_bgm_a != null){
 			if(this.download_bgm_a.IsBusy() == false){
 				this.text.SetText("Download : End");
@@ -163,6 +286,7 @@ public class test11 : main_base
 				this.download_bgm_b = null;
 			}
 		}
+		*/
 	}
 
 	/** 削除前。
@@ -178,7 +302,9 @@ public class test11 : main_base
 	{
 	}
 
-	#if UNITY_EDITOR
+	/** 作成。
+	*/
+	#if(UNITY_EDITOR)
 	[UnityEditor.MenuItem("Test/test11/MakeAssetBundle/All")]
 	private static void MakeAssetBundle_All()
 	{
@@ -189,7 +315,9 @@ public class test11 : main_base
 	}
 	#endif
 
-	#if UNITY_EDITOR
+	/** 作成。
+	*/
+	#if(UNITY_EDITOR)
 	[UnityEditor.MenuItem("Test/test11/MakeAssetBundle/StandaloneWindows")]
 	private static void MakeAssetBundle_StandaloneWindows()
 	{
@@ -197,7 +325,9 @@ public class test11 : main_base
 	}
 	#endif
 
-	#if UNITY_EDITOR
+	/** 作成。
+	*/
+	#if(UNITY_EDITOR)
 	[UnityEditor.MenuItem("Test/test11/MakeAssetBundle/WebGL")]
 	private static void MakeAssetBundle_WebGL()
 	{
@@ -205,7 +335,9 @@ public class test11 : main_base
 	}
 	#endif
 
-	#if UNITY_EDITOR
+	/** 作成。
+	*/
+	#if(UNITY_EDITOR)
 	[UnityEditor.MenuItem("Test/test11/MakeAssetBundle/Android")]
 	private static void MakeAssetBundle_Android()
 	{
@@ -213,7 +345,9 @@ public class test11 : main_base
 	}
 	#endif
 
-	#if UNITY_EDITOR
+	/** 作成。
+	*/
+	#if(UNITY_EDITOR)
 	[UnityEditor.MenuItem("Test/test11/MakeAssetBundle/iOS")]
 	private static void MakeAssetBundle_iOS()
 	{

@@ -26,7 +26,7 @@ namespace NDownLoad
 
 		/** アサート。
 		*/
-		public static bool ASSERT_ENABLE = false;
+		public static bool ASSERT_ENABLE = true;
 
 		/** 無効なアセットバンドルＩＤ。
 		*/

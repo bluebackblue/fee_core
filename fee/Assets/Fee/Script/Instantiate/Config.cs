@@ -26,7 +26,7 @@ namespace NInstantiate
 
 		/** アサート。
 		*/
-		public static bool ASSERT_ENABLE = false;
+		public static bool ASSERT_ENABLE = true;
 	}
 }
 
