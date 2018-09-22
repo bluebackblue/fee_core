@@ -112,7 +112,6 @@ namespace NJsonItem
 											ToJson_Work t_new = new ToJson_Work(t_list_item_raw,t_key_string,t_jsonitem);
 											t_work.Add(t_new);
 										}
-										Debug.Log(t_key_string);
 									}else{
 										//nullの場合は追加しない。
 									}
