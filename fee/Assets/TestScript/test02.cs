@@ -188,17 +188,13 @@ public class test02 : main_base
 
 		if(a_data != null){
 			t_text += "data_int = " + a_data.data_int.ToString() + "\n";
-
 			t_text += "data_float = " + a_data.data_float.ToString() + "\n";
-
 			t_text += "data_bool = " + a_data.data_bool.ToString() + "\n";
-
 			if(a_data.data_dictionary != null){
 				foreach(KeyValuePair<string,int> t_pair in a_data.data_dictionary){
-					t_text += t_pair.ToString() + " = " + t_pair.Key.ToString() + "\n";
+					t_text += t_pair.Value.ToString() + " = " + t_pair.Key.ToString() + "\n";
 				}
 			}
-
 			if(a_data.data_list != null){
 				for(int ii=0;ii<a_data.data_list.Count;ii++){
 					t_text += "[" + ii.ToString() + "] = " + a_data.data_list[ii].ToString() + "\n";
@@ -234,7 +230,6 @@ public class test02 : main_base
 					this.SetStatus("Load : Faild",this.savedata);
 				}else{
 					//ロード成功。
-
 					SaveData t_savedata = null;
 
 					string t_jsonstring = this.load_item.GetResultText();

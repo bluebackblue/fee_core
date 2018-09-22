@@ -13,6 +13,9 @@ using UnityEngine;
 
 
 /** test16
+
+	通信
+
 */
 public class test16 : main_base , NNetwork.OnRemoteCallBack_Base
 {
