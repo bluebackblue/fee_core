@@ -16,9 +16,9 @@ using UnityEngine;
 */
 namespace NJsonItem
 {
-	/** FromJson
+	/** JsonToObject
 	*/
-	public class FromJson<Type>
+	public class JsonToObject<Type>
 	{
 		/** Convert
 		*/
@@ -27,7 +27,7 @@ namespace NJsonItem
 			Type t_return = default(Type);
 			System.Type t_type = typeof(Type);
 
-			System.Object t_object = FromJson_ToSystemObject.Convert(t_type,a_jsonitem);
+			System.Object t_object = JsonToObject_SystemObject.Convert(t_type,a_jsonitem);
 			if(t_object != null){
 				t_return = (Type)System.Convert.ChangeType(t_object,typeof(Type));
 			}

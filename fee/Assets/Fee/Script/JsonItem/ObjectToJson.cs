@@ -16,18 +16,18 @@ using UnityEngine;
 */
 namespace NJsonItem
 {
-	/** ToJson
+	/** ObjectToJson
 	*/
-	public class ToJson
+	public class ObjectToJson
 	{
 		/** Convert
 		*/
-		public static JsonItem Convert(System.Object a_instance,List<ToJson_Work> a_work = null)
+		public static JsonItem Convert(System.Object a_instance,List<ObjectToJson_Work> a_workpool = null)
 		{
-			List<ToJson_Work> t_work = a_work;
+			List<ObjectToJson_Work> t_workpool = a_workpool;
 
-			if(a_work == null){
-				t_work = new List<ToJson_Work>();				
+			if(t_workpool == null){
+				t_workpool = new List<ObjectToJson_Work>();				
 			}
 
 			JsonItem t_return = null;
@@ -84,8 +84,7 @@ namespace NJsonItem
 							for(int ii=0;ii<t_value_raw.Count;ii++){
 								if(t_value_raw[ii] != null){
 									System.Object t_list_item_raw = t_value_raw[ii];
-									ToJson_Work t_new = new ToJson_Work(t_list_item_raw,ii,t_jsonitem);
-									t_work.Add(t_new);
+									t_workpool.Add(new ObjectToJson_Work(t_list_item_raw,ii,t_jsonitem));
 								}else{
 									//nullの子は追加しない。
 								}
@@ -109,8 +108,7 @@ namespace NJsonItem
 									if(t_key_string != null){
 										System.Object t_list_item_raw = t_value_raw[t_key_string];
 										if(t_list_item_raw != null){
-											ToJson_Work t_new = new ToJson_Work(t_list_item_raw,t_key_string,t_jsonitem);
-											t_work.Add(t_new);
+											t_workpool.Add(new ObjectToJson_Work(t_list_item_raw,t_key_string,t_jsonitem));
 										}
 									}else{
 										//nullの場合は追加しない。
@@ -150,8 +148,7 @@ namespace NJsonItem
 									System.Object t_raw = t_fieldinfo.GetValue(a_instance);
 
 									if(t_raw != null){
-										ToJson_Work t_new = new ToJson_Work(t_raw,t_fieldinfo.Name,t_jsonitem);
-										t_work.Add(t_new);
+										t_workpool.Add(new ObjectToJson_Work(t_raw,t_fieldinfo.Name,t_jsonitem));
 
 										t_count++;
 									}else{
@@ -174,30 +171,13 @@ namespace NJsonItem
 			}
 
 			//再起呼び出し。
-			if(a_work == null){
+			if(a_workpool == null){
 				while(true){
-					int t_count = t_work.Count;
+					int t_count = t_workpool.Count;
 					if(t_count > 0){
-						ToJson_Work t_current_work = t_work[t_count - 1];
-						t_work.RemoveAt(t_count - 1);
-
-						if(t_current_work.additem_object != null){
-							JsonItem t_jsonitem_member = Convert(t_current_work.additem_object,t_work);
-							if(t_jsonitem_member != null){
-								t_current_work.to_jsonitem.AddItem(t_jsonitem_member,false);
-							}else{
-								//nullの場合は追加しない。
-							}
-						}else if(t_current_work.setitem_object != null){
-							JsonItem t_jsonitem_member = Convert(t_current_work.setitem_object,t_work);
-							if(t_jsonitem_member != null){
-								t_current_work.to_jsonitem.SetItem(t_current_work.setitem_key,t_jsonitem_member,false);
-							}else{
-								//nullの場合は追加しない。
-							}
-						}else{
-							//nullの場合は追加しない。
-						}
+						ObjectToJson_Work t_current_work = t_workpool[t_count - 1];
+						t_workpool.RemoveAt(t_count - 1);
+						t_current_work.Do(t_workpool);
 					}else{
 						break;
 					}

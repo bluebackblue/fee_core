@@ -203,21 +203,6 @@ public class test11 : main_base
 		}
 	}
 
-	/** クリック。
-	*/
-	public void Click_Do(int a_value)
-	{
-		if(this.mode == Mode.Wait){
-
-			#if(UNITY_ANDROID)
-			if(this.android_sound_pool != null){
-				this.android_sound_streamid = this.android_sound_pool.Call<int>("play",this.android_sound_soundid,1.0f,1.0f,0,0,1.0f);
-				this.status.SetText("soundid = " + this.android_sound_soundid.ToString() + " streamid = " + this.android_sound_streamid.ToString());
-			}
-			#endif
-		}
-	}
-
 	/** Update
 	*/
 	private void Update()

@@ -14,11 +14,9 @@ using UnityEngine;
 
 /** test02
 
-	セーブロード。
-
-	オブジェクトをＪＳＯＮにコンバート。
-
-	ＪＳＯＮをオブジェクトにコンバート。
+	セーブロード
+	オブジェクトをＪＳＯＮにコンバート
+	ＪＳＯＮをオブジェクトにコンバート
 
 */
 public class test02 : main_base
@@ -27,11 +25,32 @@ public class test02 : main_base
 	*/
 	private class SaveData
 	{
-		public int data_int;
-		public float data_float;
-		public bool data_bool;
-		public Dictionary<string,int> data_dictionary;
-		public List<int> data_list;
+		public struct Item
+		{
+			public int a;
+			public Item(int a_a)
+			{
+				this.a = a_a;
+			}
+		}
+		public class SubSubData
+		{
+			public int a;
+		}
+		public class SubData
+		{
+			public int a;
+			public SubSubData subsub;
+		}
+		public struct MainData
+		{
+			public int a;
+			public SubData sub;
+		}
+		public MainData maindata;
+
+		public Dictionary<string,Item> data_dictionary;
+		public List<Item> data_list;
 	}
 
 	/** 削除管理。
@@ -129,7 +148,7 @@ public class test02 : main_base
 	public void Click_Save(int a_value)
 	{
 		//オブジェクトをＪＳＯＮ化。
-		NJsonItem.JsonItem t_jsonitem = NJsonItem.ToJson.Convert(this.savedata);
+		NJsonItem.JsonItem t_jsonitem = NJsonItem.ObjectToJson.Convert(this.savedata);
 
 		//ＪＳＯＮを文字列化。
 		string t_jsonstring = t_jsonitem.ConvertJsonString();
@@ -164,15 +183,16 @@ public class test02 : main_base
 	*/
 	public void Click_Random(int a_value)
 	{
-		this.savedata.data_int = Random.Range(0,9999);
-		this.savedata.data_float = Random.value;
-		this.savedata.data_bool = (Random.value > 0.5f ? true : false);
-		this.savedata.data_dictionary = new Dictionary<string,int>();
-		this.savedata.data_dictionary.Add("a",Random.Range(0,9999));
-		this.savedata.data_dictionary.Add("b",Random.Range(0,9999));
-		this.savedata.data_list = new List<int>();
-		this.savedata.data_list.Add(Random.Range(0,9999));
-		this.savedata.data_list.Add(Random.Range(0,9999));
+		this.savedata.maindata.a = Random.Range(0,9999);
+		this.savedata.maindata.sub.a = Random.Range(0,9999);
+		this.savedata.maindata.sub.subsub = new SaveData.SubSubData();
+		this.savedata.maindata.sub.subsub.a = Random.Range(0,9999);
+
+		this.savedata.data_dictionary = new Dictionary<string,SaveData.Item>();
+		this.savedata.data_dictionary.Add("a",new SaveData.Item(Random.Range(0,9999)));
+
+		this.savedata.data_list = new List<SaveData.Item>();
+		this.savedata.data_list.Add(new SaveData.Item(Random.Range(0,9999)));
 
 		this.SetStatus("Random",this.savedata);
 
@@ -187,17 +207,20 @@ public class test02 : main_base
 		t_text += a_message + "\n";
 
 		if(a_data != null){
-			t_text += "data_int = " + a_data.data_int.ToString() + "\n";
-			t_text += "data_float = " + a_data.data_float.ToString() + "\n";
-			t_text += "data_bool = " + a_data.data_bool.ToString() + "\n";
+			t_text += "maindata.a = " + a_data.maindata.a.ToString() + "\n";
+			t_text += "maindata.sub.a = " + a_data.maindata.sub.a.ToString() + "\n";
+			if(a_data.maindata.sub.subsub != null){
+				t_text += "maindata.sub.sub.a = " + a_data.maindata.sub.subsub.a.ToString() + "\n";
+			}
+			
 			if(a_data.data_dictionary != null){
-				foreach(KeyValuePair<string,int> t_pair in a_data.data_dictionary){
-					t_text += t_pair.Value.ToString() + " = " + t_pair.Key.ToString() + "\n";
+				foreach(KeyValuePair<string,SaveData.Item> t_pair in a_data.data_dictionary){
+					t_text += t_pair.Key.ToString() + " = " +  t_pair.Value.a.ToString() + "\n";
 				}
 			}
 			if(a_data.data_list != null){
 				for(int ii=0;ii<a_data.data_list.Count;ii++){
-					t_text += "[" + ii.ToString() + "] = " + a_data.data_list[ii].ToString() + "\n";
+					t_text += "[" + ii.ToString() + "] = " + a_data.data_list[ii].a.ToString() + "\n";
 				}
 			}
 		}
@@ -238,7 +261,7 @@ public class test02 : main_base
 						NJsonItem.JsonItem t_jsonitem = new NJsonItem.JsonItem(t_jsonstring);
 						if(t_jsonitem != null){
 							//ＪＳＯＮをオブジェクト化。
-							t_savedata = NJsonItem.FromJson<SaveData>.Convert(t_jsonitem);
+							t_savedata = NJsonItem.JsonToObject<SaveData>.Convert(t_jsonitem);
 						}
 					}
 

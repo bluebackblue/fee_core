@@ -16,18 +16,18 @@ using UnityEngine;
 */
 namespace NJsonItem
 {
-	/** FromJson_ToSystemObject
+	/** JsonToObject_SystemObject
 	*/
-	public class FromJson_ToSystemObject
+	public class JsonToObject_SystemObject
 	{
 		/** Convert
 		*/
-		public static System.Object Convert(System.Type a_type,JsonItem a_jsonitem,List<FromJson_Work> a_work = null)
+		public static System.Object Convert(System.Type a_type,JsonItem a_jsonitem,List<JsonToObject_Work> a_workpool = null)
 		{
-			List<FromJson_Work> t_work = a_work;
+			List<JsonToObject_Work> t_workpool = a_workpool;
 
-			if(a_work == null){
-				t_work = new List<FromJson_Work>();
+			if(t_workpool == null){
+				t_workpool = new List<JsonToObject_Work>();
 			}
 
 			System.Object t_return = null;
@@ -61,9 +61,7 @@ namespace NJsonItem
 
 						for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
 							JsonItem t_jsonitem_member = a_jsonitem.GetItem(ii);
-
-							FromJson_Work t_new = new FromJson_Work(t_return_list,t_type_member,t_jsonitem_member);
-							t_work.Add(t_new);
+							t_workpool.Add(new JsonToObject_Work(t_return_list,t_type_member,t_jsonitem_member));
 						}
 					}
 				}
@@ -83,9 +81,7 @@ namespace NJsonItem
 						List<string> t_key_list = a_jsonitem.CreateAssociativeKeyList();
 						for(int ii=0;ii<t_key_list.Count;ii++){
 							JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_key_list[ii]);
-
-							FromJson_Work t_new = new FromJson_Work(t_return_dictionary,t_key_list[ii],t_type_member,t_jsonitem_member);
-							t_work.Add(t_new);
+							t_workpool.Add(new JsonToObject_Work(t_return_dictionary,t_key_list[ii],t_type_member,t_jsonitem_member));
 						}
 					}else{
 						t_search_member = true;
@@ -111,9 +107,16 @@ namespace NJsonItem
 										System.Type t_type_member = t_fieldinfo.FieldType;
 
 										if(t_jsonitem_member != null){
-
-											FromJson_Work t_new = new FromJson_Work(t_fieldinfo,t_type_member,t_jsonitem_member);
-											t_work.Add(t_new);
+											if(t_type_member.IsClass == true){
+												//t_returnはクラス遅延代入可能。
+												t_workpool.Add(new JsonToObject_Work(t_fieldinfo,t_return,t_type_member,t_jsonitem_member));
+											}else{
+												//t_valueを完成させて
+												System.Object t_value = JsonToObject_SystemObject.Convert(t_type_member,t_jsonitem_member);
+												if(t_value != null){
+													t_fieldinfo.SetValue(t_return,t_value);
+												}
+											}
 										}else{
 											Tool.Assert(false);
 										}
@@ -129,28 +132,13 @@ namespace NJsonItem
 				}
 			}
 
-			if(a_work == null){
+			if(a_workpool == null){
 				while(true){
-					int t_count = t_work.Count;
+					int t_count = t_workpool.Count;
 					if(t_count > 0){
-						FromJson_Work t_current_work = t_work[t_count - 1];
-						t_work.RemoveAt(t_count - 1);
-
-						if(t_current_work.add_list != null){
-							//List
-							System.Object t_value_member = Convert(t_current_work.type,t_current_work.jsonitem);
-							t_current_work.add_list.Add(t_value_member);
-						}else if(t_current_work.add_dictionary != null){
-							//Dictionary
-							System.Object t_value_member = Convert(t_current_work.type,t_current_work.jsonitem);
-							t_current_work.add_dictionary.Add(t_current_work.add_dictionary_key,t_value_member);
-						}else if(t_current_work.setvalue_fieldinfo != null){
-							//class,struct
-							System.Object t_value = Convert(t_current_work.type,t_current_work.jsonitem);
-							if(t_value != null){
-								t_current_work.setvalue_fieldinfo.SetValue(t_return,t_value);
-							}
-						}
+						JsonToObject_Work t_current_work = t_workpool[t_count - 1];
+						t_workpool.RemoveAt(t_count - 1);
+						t_current_work.Do(t_workpool);
 					}else{
 						break;
 					}
