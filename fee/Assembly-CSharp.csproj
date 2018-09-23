@@ -403,6 +403,7 @@
     <None Include="Assets\Photon\PhotonUnityNetworking\Demos\Shared Assets\Skin\eurof_tt.txt" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha.shader" />
     <None Include="Assets\Fee\license\soundeffect-lab\soundeffect-lab.txt" />
+    <None Include="Assets\AssetBundleData\se.txt" />
     <None Include="Assets\Fee\Resources\Shader\Blur\BlurX.shader" />
     <None Include="Assets\Photon\PhotonUnityNetworking\Demos\Shared Assets\Skin\3dText.shader" />
     <None Include="Assets\Photon\PhotonUnityNetworking\readme.txt" />
