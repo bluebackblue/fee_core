@@ -36,53 +36,11 @@ public class main : MonoBehaviour
 
 		//ライブラリ停止。
 		this.DeleteLibInstance();
-
-		Test();
 	}
 
 	struct Item
 	{
 		public int value;		
-	}
-
-	public void Test()
-	{
-		//リスト作成。
-		List<Item> t_list = new List<Item>();
-		
-		//リストメンバー作成。
-		System.Type t_listmember_type = typeof(Item);
-		System.Object t_listmember_base = System.Activator.CreateInstance(t_listmember_type);
-
-		//リストにメンバー追加。
-		IList t_list_base = t_list;
-
-		//メンバーメンバー。
-		System.Reflection.FieldInfo t_membermember_fieldinfo = null;
-		System.Object t_membermember_root = null;
-
-		//リストメンバーの値変更。
-		{
-			System.Type t_type = typeof(Item);
-			System.Reflection.MemberInfo[] t_member = t_listmember_type.GetMembers(System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance);
-			for(int ii=0;ii<t_member.Length;ii++){
-				if(t_member[ii].MemberType == System.Reflection.MemberTypes.Field){
-					System.Reflection.FieldInfo t_fieldinfo = t_member[ii] as System.Reflection.FieldInfo;
-					if(t_fieldinfo != null){
-						if(t_fieldinfo.Name == "value"){
-							t_membermember_root = t_listmember_base;
-							t_membermember_fieldinfo = t_fieldinfo;
-						}
-					}
-				}
-			}
-		}
-
-		t_membermember_fieldinfo.SetValue(t_membermember_root,123);
-		int t_value = (int)(t_membermember_fieldinfo.GetValue(t_membermember_root));
-
-		t_list_base.Add(t_listmember_base);
-		Debug.Log(t_value.ToString() + " " + t_list[0].value.ToString());
 	}
 
 	/** //ライブラリ停止。
