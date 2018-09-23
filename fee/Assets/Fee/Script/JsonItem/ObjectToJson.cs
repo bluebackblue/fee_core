@@ -135,27 +135,25 @@ namespace NJsonItem
 					//class,struct
 
 					JsonItem t_jsonitem = new JsonItem(new Value_AssociativeArray());
-
 					System.Reflection.MemberInfo[] t_member = t_type.GetMembers(System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance);
-
-					int t_count = 0;
 
 					for(int ii=0;ii<t_member.Length;ii++){
 						if(t_member[ii].MemberType == System.Reflection.MemberTypes.Field){
 							System.Reflection.FieldInfo t_fieldinfo = t_member[ii] as System.Reflection.FieldInfo;
 							if(t_fieldinfo != null){
-								if((t_fieldinfo.Attributes == System.Reflection.FieldAttributes.Public)||(t_fieldinfo.Attributes == System.Reflection.FieldAttributes.Private)){
-									System.Object t_raw = t_fieldinfo.GetValue(a_instance);
-
-									if(t_raw != null){
-										t_workpool.Add(new ObjectToJson_Work(t_raw,t_fieldinfo.Name,t_jsonitem));
-
-										t_count++;
-									}else{
-										//nullの子は追加しない。
-									}
+								if(t_fieldinfo.IsDefined(typeof(NJsonItem.Ignore),false) == true){
+									//無視する。
 								}else{
-									//ＪＳＯＮ化しない型。
+									if((t_fieldinfo.Attributes == System.Reflection.FieldAttributes.Public)||(t_fieldinfo.Attributes == System.Reflection.FieldAttributes.Private)){
+										System.Object t_raw = t_fieldinfo.GetValue(a_instance);
+										if(t_raw != null){
+											t_workpool.Add(new ObjectToJson_Work(t_raw,t_fieldinfo.Name,t_jsonitem));
+										}else{
+											//nullの子は追加しない。
+										}
+									}else{
+										//ＪＳＯＮ化しない型。
+									}
 								}
 							}else{
 								Tool.Assert(false);

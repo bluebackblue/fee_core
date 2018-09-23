@@ -24,15 +24,18 @@ namespace NJsonItem
 		*/
 		public static Type Convert(JsonItem a_jsonitem)
 		{
-			Type t_return = default(Type);
-			System.Type t_type = typeof(Type);
+			System.Object t_object = null;
 
-			System.Object t_object = JsonToObject_SystemObject.Convert(t_type,a_jsonitem);
-			if(t_object != null){
-				t_return = (Type)System.Convert.ChangeType(t_object,typeof(Type));
+			try{
+				t_object = System.Activator.CreateInstance(typeof(Type));
+			}catch(System.Exception t_exception){
+				//引数なしconstructorの呼び出しに失敗。
+				Tool.LogError(t_exception);
 			}
 
-			return t_return;
+			JsonToObject_SystemObject.Convert(ref t_object,a_jsonitem);
+
+			return (Type)System.Convert.ChangeType(t_object,typeof(Type));
 		}
 	}
 }

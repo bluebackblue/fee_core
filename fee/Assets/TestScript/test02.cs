@@ -25,14 +25,9 @@ public class test02 : main_base
 	*/
 	private class SaveData
 	{
-		public struct Item
-		{
-			public int a;
-			public Item(int a_a)
-			{
-				this.a = a_a;
-			}
-		}
+		[NJsonItem.Ignore]
+		public int ignore;
+
 		public class SubSubData
 		{
 			public int a;
@@ -48,6 +43,20 @@ public class test02 : main_base
 			public SubData sub;
 		}
 		public MainData maindata;
+
+		public class Item
+		{
+			public SubSubData subsub;
+			public Item()
+			{
+				this.subsub = null;
+			}
+			public Item(int a_a)
+			{
+				this.subsub = new SubSubData();
+				this.subsub.a = a_a;
+			}
+		}
 
 		public Dictionary<string,Item> data_dictionary;
 		public List<Item> data_list;
@@ -183,6 +192,8 @@ public class test02 : main_base
 	*/
 	public void Click_Random(int a_value)
 	{
+		this.savedata.ignore = Random.Range(0,9999);
+
 		this.savedata.maindata.a = Random.Range(0,9999);
 		this.savedata.maindata.sub.a = Random.Range(0,9999);
 		this.savedata.maindata.sub.subsub = new SaveData.SubSubData();
@@ -207,6 +218,9 @@ public class test02 : main_base
 		t_text += a_message + "\n";
 
 		if(a_data != null){
+
+			t_text += "ignore = " + a_data.ignore.ToString() + "\n";
+
 			t_text += "maindata.a = " + a_data.maindata.a.ToString() + "\n";
 			t_text += "maindata.sub.a = " + a_data.maindata.sub.a.ToString() + "\n";
 			if(a_data.maindata.sub.subsub != null){
@@ -215,12 +229,16 @@ public class test02 : main_base
 			
 			if(a_data.data_dictionary != null){
 				foreach(KeyValuePair<string,SaveData.Item> t_pair in a_data.data_dictionary){
-					t_text += t_pair.Key.ToString() + " = " +  t_pair.Value.a.ToString() + "\n";
+					if(t_pair.Value.subsub != null){
+						t_text += t_pair.Key.ToString() + " = " +  t_pair.Value.subsub.a.ToString() + "\n";
+					}
 				}
 			}
 			if(a_data.data_list != null){
 				for(int ii=0;ii<a_data.data_list.Count;ii++){
-					t_text += "[" + ii.ToString() + "] = " + a_data.data_list[ii].a.ToString() + "\n";
+					if(a_data.data_list[ii].subsub != null){
+						t_text += "[" + ii.ToString() + "] = " + a_data.data_list[ii].subsub.a.ToString() + "\n";
+					}
 				}
 			}
 		}
