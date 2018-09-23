@@ -62,10 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Fee\Script\Audio\Audio.cs" />
-    <Compile Include="Assets\Fee\Script\Audio\ClipPack.cs" />
+    <Compile Include="Assets\Fee\Script\Audio\Bank.cs" />
     <Compile Include="Assets\Fee\Script\Audio\Config.cs" />
     <Compile Include="Assets\Fee\Script\Audio\MonoBehaviour_AudioSource_Bgm.cs" />
     <Compile Include="Assets\Fee\Script\Audio\MonoBehaviour_AudioSource_Se.cs" />
+    <Compile Include="Assets\Fee\Script\Audio\Pack_AudioClip.cs" />
+    <Compile Include="Assets\Fee\Script\Audio\Pack_SoundPool.cs" />
     <Compile Include="Assets\Fee\Script\Audio\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Audio\Volume.cs" />
     <Compile Include="Assets\Fee\Script\Blur\Blur.cs" />

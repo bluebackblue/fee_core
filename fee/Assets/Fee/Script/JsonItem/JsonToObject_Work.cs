@@ -24,15 +24,20 @@ namespace NJsonItem
 		*/
 		System.Object to_object;
 
+		/** 変換先。
+		*/
+		System.Type to_type;
+
 		/** 変換元。
 		*/
 		JsonItem from_jsonitem;
 
 		/** constructor
 		*/
-		public JsonToObject_Work(System.Object a_object,JsonItem a_jsonitem)
+		public JsonToObject_Work(System.Object a_object,System.Type a_type,JsonItem a_jsonitem)
 		{
 			this.to_object = a_object;
+			this.to_type = a_type;
 			this.from_jsonitem = a_jsonitem;
 		}
 
@@ -40,7 +45,7 @@ namespace NJsonItem
 		*/
 		public void Do(List<JsonToObject_Work> a_work_pool)
 		{
-			JsonToObject_SystemObject.Convert(ref this.to_object,this.from_jsonitem,a_work_pool);
+			JsonToObject_SystemObject.Convert(ref this.to_object,this.to_type,this.from_jsonitem,a_work_pool);
 		}
 	}
 }

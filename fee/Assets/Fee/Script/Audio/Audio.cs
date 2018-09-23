@@ -189,30 +189,30 @@ namespace NAudio
 
 		/** ＢＧＭ。ロード。
 		*/
-		public void LoadBgm(ClipPack a_clippack)
+		public void LoadBgm(Pack_AudioClip a_pack)
 		{
-			this.bgm_audiosource_script.SetClipPack(a_clippack);
+			this.bgm_audiosource_script.SetBank(new Bank(a_pack));
 		}
 
 		/** ＳＥ。ロード。
 		*/
-		public void LoadSe(ClipPack a_clippack,long a_se_id)
+		public void LoadSe(Pack_AudioClip a_pack,long a_se_id)
 		{
-			this.se_audiosource_script.SetClipPack(a_clippack,a_se_id);
+			this.se_audiosource_script.SetBank(new Bank(a_pack),a_se_id);
 		}
 
 		/** ＳＥ。アンロード。
 		*/
 		public void UnLoadSe(long a_se_id)
 		{
-			this.se_audiosource_script.UnSetClipPack(a_se_id);
+			this.se_audiosource_script.UnSetBank(a_se_id);
 		}
 
 		/** ＳＥ。チェック。
 		*/
 		public bool IsExistSe(long a_se_id)
 		{
-			return this.se_audiosource_script.IsExistClipPack(a_se_id);
+			return this.se_audiosource_script.IsExistBank(a_se_id);
 		}
 
 		/** 再生。

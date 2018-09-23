@@ -20,64 +20,60 @@ namespace NJsonItem
 	*/
 	public class ObjectToJson_Work
 	{
-		/** additem
+		/** from_object
 		*/
-		private System.Object additem_object;
-		private int additem_index;
-
-		/** setitem
-		*/
-		private System.Object setitem_object;
-		private string setitem_key;
+		private System.Object from_object;
 
 		/** to_jsonitem
 		*/
 		private JsonItem to_jsonitem;
+		private int to_index;
+		private string to_key;
+
+		/** additem
+		*/
+		private bool mode_add;
+
+		/** setitem
+		*/
+		private bool mode_set;
 
 		/** constructor
 		*/
 		public ObjectToJson_Work(System.Object a_object,int a_index,JsonItem a_to_jsonitem)
 		{
-			this.additem_object = a_object;
-			this.additem_index = a_index;
+			this.from_object = a_object;
 			this.to_jsonitem = a_to_jsonitem;
+			this.to_index = a_index;
+			this.to_key = null;
 
-			this.setitem_object = null;
-			this.setitem_key = null;
+			this.mode_add = true;
+			this.mode_set = false;
 		}
 
 		/** constructor
 		*/
 		public ObjectToJson_Work(System.Object a_object,string a_key,JsonItem a_to_jsonitem)
 		{
-			this.setitem_object = a_object;
-			this.setitem_key = a_key;
+			this.from_object = a_object;
 			this.to_jsonitem = a_to_jsonitem;
+			this.to_index = -1;
+			this.to_key = a_key;
 
-			this.additem_object = null;
-			this.additem_index = -1;
+			this.mode_add = false;
+			this.mode_set = true;
 		}
 
 		/** 実行。
 		*/
 		public void Do(List<ObjectToJson_Work> a_work_pool)
 		{
-			if(this.additem_object != null){
-				JsonItem t_jsonitem_member = ObjectToJson.Convert(this.additem_object,a_work_pool);
-				if(t_jsonitem_member != null){
-					this.to_jsonitem.AddItem(t_jsonitem_member,false);
-				}else{
-					//nullの場合は追加しない。
-				}
-			}else if(this.setitem_object != null){
-				JsonItem t_jsonitem_member = ObjectToJson.Convert(this.setitem_object,a_work_pool);
-				if(t_jsonitem_member != null){
-					this.to_jsonitem.SetItem(this.setitem_key,t_jsonitem_member,false);
-				}else{
-					//nullの場合は追加しない。
-				}
-			}else{
-				//nullの場合は追加しない。
+			JsonItem t_jsonitem_member = ObjectToJson.Convert(this.from_object,a_work_pool);
+
+			if(this.mode_add == true){
+				this.to_jsonitem.SetItem(this.to_index,t_jsonitem_member,false);
+			}else if(this.mode_set == true){
+				this.to_jsonitem.SetItem(this.to_key,t_jsonitem_member,false);
 			}
 		}
 	}

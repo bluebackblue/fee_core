@@ -66,6 +66,10 @@ namespace NJsonItem
 				{
 					return ValueType.Calc_UnknownNumber;
 				}//break;
+			case 'n':
+				{
+					return ValueType.None;
+				}//break;
 			default:
 				{
 					//不明な開始文字。
@@ -588,6 +592,50 @@ namespace NJsonItem
 			}
 		}
 
+		/** NULLJSONの長さ。
+		*/
+		public static int GetLength_Null(string a_string,int a_index)
+		{
+			char[] t_null = {'n','u','l','l'};
+
+			for(int ii=0;ii<t_null.Length;ii++){
+				int t_index = a_index + ii;
+
+				if(t_index < a_string.Length){
+					if(a_string[t_index] == t_null[ii]){
+					}else{
+						//null以外。
+						Tool.Assert(false);
+						
+						return 0;
+					}
+				}else{
+					//null以外。
+					Tool.Assert(false);
+
+					return 0;
+				}
+			}
+
+			{
+				int t_index = a_index + t_null.Length;
+
+				if(t_index < a_string.Length){
+					if((a_string[t_index] == '}')||(a_string[t_index] == ']')||(a_string[t_index] == ',')){
+						//終端。
+						return t_null.Length;
+					}else{
+						//null以外。
+						Tool.Assert(false);
+
+						return 0;					
+					}
+				}else{
+					return t_null.Length;
+				}
+			}
+		}
+
 		/** JSON文字からインデックスリストの作成[*,*,*]。
 		*/
 		public static List<JsonItem> CreateIndexArrayFromJsonString(string a_jsonstring)
@@ -654,6 +702,9 @@ namespace NJsonItem
 						t_value_size = GetLength_BinaryData(a_jsonstring,t_index);
 					}break;
 				case ValueType.None:
+					{
+						t_value_size = GetLength_Null(a_jsonstring,t_index);
+					}break;
 				case ValueType.BoolData:
 				default:
 					{
@@ -796,8 +847,11 @@ namespace NJsonItem
 					{
 						t_value_size = GetLength_BinaryData(a_jsonstring,t_index);
 					}break;
-				case ValueType.BoolData:
 				case ValueType.None:
+					{
+						t_value_size = GetLength_Null(a_jsonstring,t_index);
+					}break;
+				case ValueType.BoolData:
 				default:
 					{
 						//不明。

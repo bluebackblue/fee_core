@@ -47,6 +47,12 @@ namespace NJsonItem
 						//nullの場合は追加しない。
 						t_return = null;
 					}
+				}else if(t_type == typeof(bool)){
+					//bool
+
+					bool t_value_raw = (bool)a_instance;
+
+					t_return = new JsonItem(new Value_BoolData(t_value_raw));
 				}else if(t_type == typeof(int)){
 					//int
 
@@ -71,6 +77,20 @@ namespace NJsonItem
 					double t_value_raw = (double)a_instance;
 
 					t_return = new JsonItem(new Value_Double(t_value_raw));
+				}else if(t_type.IsArray == true){
+					//x[]
+
+					System.Array t_array_raw = (System.Array)a_instance;
+					System.Type t_element_type = t_type.GetElementType();
+	
+					JsonItem t_jsonitem = new JsonItem(new Value_IndexArray());
+					t_jsonitem.ReSize(t_array_raw.Length);
+					for(int ii=0;ii<t_array_raw.Length;ii++){
+						System.Object t_list_item_raw = t_array_raw.GetValue(ii);
+						t_workpool.Add(new ObjectToJson_Work(t_list_item_raw,ii,t_jsonitem));
+					}
+
+					t_return = t_jsonitem;
 				}else if(t_type.IsGenericType == true){
 					System.Type t_type_g = t_type.GetGenericTypeDefinition();
 
@@ -82,13 +102,10 @@ namespace NJsonItem
 
 							JsonItem t_jsonitem = new JsonItem(new Value_IndexArray());
 							for(int ii=0;ii<t_value_raw.Count;ii++){
-								if(t_value_raw[ii] != null){
-									System.Object t_list_item_raw = t_value_raw[ii];
-									t_workpool.Add(new ObjectToJson_Work(t_list_item_raw,ii,t_jsonitem));
-								}else{
-									//nullの子は追加しない。
-								}
+								System.Object t_list_item_raw = t_value_raw[ii];
+								t_workpool.Add(new ObjectToJson_Work(t_list_item_raw,ii,t_jsonitem));
 							}
+
 							t_return = t_jsonitem;
 						}else{
 
@@ -107,9 +124,7 @@ namespace NJsonItem
 								foreach(string t_key_string in t_collection){
 									if(t_key_string != null){
 										System.Object t_list_item_raw = t_value_raw[t_key_string];
-										if(t_list_item_raw != null){
-											t_workpool.Add(new ObjectToJson_Work(t_list_item_raw,t_key_string,t_jsonitem));
-										}
+										t_workpool.Add(new ObjectToJson_Work(t_list_item_raw,t_key_string,t_jsonitem));
 									}else{
 										//nullの場合は追加しない。
 									}

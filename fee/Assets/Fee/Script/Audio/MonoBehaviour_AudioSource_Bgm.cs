@@ -54,9 +54,9 @@ namespace NAudio
 		private int[] myaudiosource_index;
 		private float[] myaudiosource_time;
 
-		/** クリップパック。
+		/** バンク。
 		*/
-		private ClipPack clippack;
+		private Bank bank;
 
 		/** リクエストインデックス。
 		*/
@@ -149,8 +149,8 @@ namespace NAudio
 		{
 			for(int ii=0;ii<this.myaudiosource_volume.Length;ii++){
 				float t_volume = 0.0f;
-				if(this.clippack != null){
-					t_volume = this.clippack.GetVolume(ii);
+				if(this.bank != null){
+					t_volume = this.bank.GetVolume(ii);
 				}
 				this.myaudiosource[ii].volume = this.myaudiosource_volume[ii] * this.volume_master.GetVolume() * this.volume_bgm.GetVolume() * t_volume;
 			}
@@ -158,9 +158,9 @@ namespace NAudio
 
 		/** クリップパック。設定。
 		*/
-		public void SetClipPack(ClipPack a_clippack)
+		public void SetBank(Bank a_bank)
 		{
-			this.clippack = a_clippack;
+			this.bank = a_bank;
 		}
 
 		/** 再生。
@@ -174,10 +174,8 @@ namespace NAudio
 		*/
 		public int GetBgmMax()
 		{
-			if(this.clippack != null){
-				if(this.clippack.clip_list != null){
-					return this.clippack.clip_list.Length;
-				}
+			if(this.bank != null){
+				return this.bank.GetCount();
 			}
 			return 0;
 		}
@@ -205,7 +203,7 @@ namespace NAudio
 				{
 					if(this.request_index >= 0){
 						//再生。
-						this.myaudiosource[0].clip = this.clippack.GetAudioClip(this.request_index);
+						this.myaudiosource[0].clip = this.bank.GetAudioClip(this.request_index);
 						this.myaudiosource[0].Play();
 						this.myaudiosource_time[0] = 0.0f;
 
@@ -237,7 +235,7 @@ namespace NAudio
 
 						//再生。
 						if(this.request_index >= 0){
-							this.myaudiosource[1].clip = this.clippack.GetAudioClip(this.request_index);
+							this.myaudiosource[1].clip = this.bank.GetAudioClip(this.request_index);
 							this.myaudiosource[1].Play();
 							this.myaudiosource_time[1] = 0.0f;
 						}
@@ -276,7 +274,7 @@ namespace NAudio
 
 						//再生。
 						if(this.request_index >= 0){
-							this.myaudiosource[0].clip = this.clippack.GetAudioClip(this.request_index);
+							this.myaudiosource[0].clip = this.bank.GetAudioClip(this.request_index);
 							this.myaudiosource[0].Play();
 							this.myaudiosource_time[0] = 0.0f;
 						}

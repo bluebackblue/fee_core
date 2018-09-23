@@ -32,9 +32,9 @@ namespace NAudio
 		*/
 		private AudioSource myaudiosource;
 
-		/** クリップパック。
+		/** バンク。
 		*/
-		private Dictionary<long,ClipPack> clippack;
+		private Dictionary<long,Bank> bank;
 
 		/** 初期化。
 		*/
@@ -51,8 +51,8 @@ namespace NAudio
 			this.myaudiosource.playOnAwake = false;
 			this.myaudiosource.volume = this.volume_master.GetVolume() * this.volume_se.GetVolume();
 
-			//clippack
-			this.clippack = new Dictionary<long,ClipPack>();
+			//bank
+			this.bank = new Dictionary<long,Bank>();
 		}
 
 		/** 削除。
@@ -68,54 +68,41 @@ namespace NAudio
 			this.myaudiosource.volume = this.volume_master.GetVolume() * this.volume_se.GetVolume();
 		}
 
-		/** クリップパック。設定。
+		/** バンク。設定。
 		*/
-		public void SetClipPack(ClipPack a_clippack,long a_id)
+		public void SetBank(Bank a_bank,long a_id)
 		{
-			if(this.clippack.ContainsKey(a_id) == false){
+			if(this.bank.ContainsKey(a_id) == false){
 				//追加。
-				this.clippack.Add(a_id,a_clippack);
+				this.bank.Add(a_id,a_bank);
 			}else{
 				//差し替え。
-				this.clippack[a_id] = a_clippack;
+				this.bank[a_id] = a_bank;
 			}
 		}
 
-		/** クリップパック。解除。
+		/** バンク。解除。
 		*/
-		public void UnSetClipPack(long a_id)
+		public void UnSetBank(long a_id)
 		{
-			this.clippack.Remove(a_id);
+			this.bank.Remove(a_id);
 		}
 
-		/** クリップパック。チェック。
+		/** バンク。チェック。
 		*/
-		public bool IsExistClipPack(long a_id)
+		public bool IsExistBank(long a_id)
 		{
-			return this.clippack.ContainsKey(a_id);
+			return this.bank.ContainsKey(a_id);
 		}
 
-		/** オーディオクリップ。取得。
+		/** バンク。取得。
 		*/
-		public AudioClip GetAudioClip(long a_id,int a_index)
+		public Bank GetBank(long a_id)
 		{
-			if(this.clippack != null){
-				NAudio.ClipPack t_clippack;
-				if(this.clippack.TryGetValue(a_id,out t_clippack) == true){
-					return t_clippack.GetAudioClip(a_index);
-				}
-			}
-			return null;
-		}
-
-		/** クリップパック。取得。
-		*/
-		public ClipPack GetClipPack(long a_id)
-		{
-			if(this.clippack != null){
-				NAudio.ClipPack t_clippack;
-				if(this.clippack.TryGetValue(a_id,out t_clippack) == true){
-					return t_clippack;
+			if(this.bank != null){
+				NAudio.Bank t_bank;
+				if(this.bank.TryGetValue(a_id,out t_bank) == true){
+					return t_bank;
 				}
 			}
 			return null;
@@ -125,11 +112,13 @@ namespace NAudio
 		*/
 		public void PlayOneShot(long a_id,int a_index)
 		{
-			NAudio.ClipPack t_clippack = this.GetClipPack(a_id);
-			if(t_clippack != null){
-				AudioClip t_audioclip = t_clippack.GetAudioClip(a_index);
+			NAudio.Bank t_bank = this.GetBank(a_id);
+			if(t_bank != null){
+
+				//TODO:
+				AudioClip t_audioclip = t_bank.GetAudioClip(a_index);
 				if(t_audioclip != null){
-					float t_volume = t_clippack.GetVolume(a_index);
+					float t_volume = t_bank.GetVolume(a_index);
 					if(t_volume > 0.0f){
 						this.myaudiosource.PlayOneShot(t_audioclip,t_volume);
 					}
@@ -138,4 +127,18 @@ namespace NAudio
 		}
 	}
 }
+
+#if(false)
+{
+	if(this.android_sound_pool != null){
+		this.android_sound_enable = true;
+		this.android_sound_soundid = this.android_sound_pool.Call<int>("load",Application.persistentDataPath + "/se_1.mp3",1);
+	}else{
+		this.android_sound_enable = false;
+		this.android_sound_soundid = 0;
+	}
+	this.status.SetText(this.android_sound_enable.ToString() + " soundid = " + this.android_sound_soundid.ToString());
+}
+#endif
+
 

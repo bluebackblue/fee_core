@@ -164,10 +164,9 @@ public class test12 : main_base
 				if(t_assetbundle != null){
 					GameObject t_prefab = t_assetbundle.LoadAsset<GameObject>("se");
 					if(t_prefab != null){
-						NAudio.ClipPack t_clippack = t_prefab.GetComponent<NAudio.ClipPack>();
-						if(t_clippack != null){
-							t_clippack.Load();
-							NAudio.Audio.GetInstance().LoadSe(t_clippack,SE_ID_TESTDATA);
+						NAudio.Pack_AudioClip t_pack = t_prefab.GetComponent<NAudio.Pack_AudioClip>();
+						if(t_pack != null){
+							NAudio.Audio.GetInstance().LoadSe(t_pack,SE_ID_TESTDATA);
 						}
 					}
 				}

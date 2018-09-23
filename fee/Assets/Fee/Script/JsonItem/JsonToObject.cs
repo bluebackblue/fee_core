@@ -24,18 +24,10 @@ namespace NJsonItem
 		*/
 		public static Type Convert(JsonItem a_jsonitem)
 		{
-			System.Object t_object = null;
-
-			try{
-				t_object = System.Activator.CreateInstance(typeof(Type));
-			}catch(System.Exception t_exception){
-				//引数なしconstructorの呼び出しに失敗。
-				Tool.LogError(t_exception);
-			}
-
-			JsonToObject_SystemObject.Convert(ref t_object,a_jsonitem);
-
-			return (Type)System.Convert.ChangeType(t_object,typeof(Type));
+			System.Type t_type = typeof(Type);
+			System.Object t_object = JsonToObject_SystemObject.CreateInstance(t_type,a_jsonitem);
+			JsonToObject_SystemObject.Convert(ref t_object,t_type,a_jsonitem);
+			return (Type)System.Convert.ChangeType(t_object,t_type);
 		}
 	}
 }

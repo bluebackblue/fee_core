@@ -646,6 +646,25 @@ namespace NJsonItem
 			}
 		}
 
+		/** [設定]インデックスリストにアイテム設定。
+		*/
+		public void SetItem(int a_index,JsonItem a_item,bool a_deepcopy)
+		{
+			Tool.Assert(this.valuetype == ValueType.IndexArray);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+		
+			if((0<=a_index)&&(a_index<this.value.index_array.Count)){
+				if(a_deepcopy == true){
+					this.value.index_array[a_index] = a_item.DeepCopy();
+				}else{
+					this.value.index_array[a_index] = a_item;
+				}
+			}
+		}
+
 		/** [削除]インデックスリストからアイテム削除。
 		*/
 		public void RemoveItem(int a_index)
@@ -659,6 +678,25 @@ namespace NJsonItem
 			}
 		
 			this.value.index_array.RemoveAt(a_index);
+		}
+
+		/** [設定]インデックスリストのサイズ変更。
+		*/
+		public void ReSize(int a_list_count)
+		{
+			Tool.Assert(this.valuetype == ValueType.IndexArray);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			if(this.value.index_array.Count < a_list_count){
+				while(this.value.index_array.Count < a_list_count){
+					this.value.index_array.Add(new JsonItem());
+				}
+			}else if(this.value.index_array.Count > a_list_count){
+				this.value.index_array.RemoveRange(a_list_count,this.value.index_array.Count - a_list_count);
+			}
 		}
 
 		/** [設定]文字データ。
@@ -912,6 +950,9 @@ namespace NJsonItem
 					return t_jsonstring;
 				}//break;
 			case ValueType.None:
+				{
+					return "null";
+				}//break;
 			case ValueType.Calc_UnknownNumber:
 			case ValueType.Calc_BoolDataTrue:
 			case ValueType.Calc_BoolDataFalse:

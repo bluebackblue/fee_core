@@ -20,9 +20,52 @@ namespace NJsonItem
 	*/
 	public class JsonToObject_SystemObject
 	{
+		/** インスタンス作成。
+		*/
+		public static System.Object CreateInstance(System.Type a_type,NJsonItem.JsonItem a_jsonitem)
+		{
+			if(
+				a_type == typeof(string) ||
+				a_type == typeof(int) ||
+				a_type == typeof(long) ||
+				a_type == typeof(float) ||
+				a_type == typeof(double) ||
+				a_type == typeof(bool)
+			){
+				return null;
+			}else if(a_type.IsArray == true){
+				int t_list_count = 0;
+				if(a_jsonitem.IsIndexArray() == true){
+					t_list_count = a_jsonitem.GetListMax();
+				}
+
+				System.Object t_return = null;
+
+				try{
+					System.Type t_element_type = a_type.GetElementType();
+					t_return = System.Array.CreateInstance(t_element_type,t_list_count);
+				}catch(System.Exception t_exception){
+					Tool.LogError(t_exception);
+				}
+
+				return t_return;
+			}else{
+				System.Object t_return = null;
+
+				try{
+					t_return = System.Activator.CreateInstance(a_type);
+				}catch(System.Exception t_exception){
+					//引数なしconstructorの呼び出しに失敗。
+					Tool.LogError(t_exception);
+				}
+
+				return t_return;
+			}
+		}
+
 		/** Convert
 		*/
-		public static void Convert(ref System.Object a_to_object,JsonItem a_jsonitem,List<JsonToObject_Work> a_workpool = null)
+		public static void Convert(ref System.Object a_to_object,System.Type a_type,JsonItem a_jsonitem,List<JsonToObject_Work> a_workpool = null)
 		{
 			List<JsonToObject_Work> t_workpool = a_workpool;
 
@@ -30,13 +73,18 @@ namespace NJsonItem
 				t_workpool = new List<JsonToObject_Work>();
 			}
 
-			if(a_to_object != null){
-				System.Type t_type = a_to_object.GetType();
+			{
+				System.Type t_type = a_type;
 
 				if(a_jsonitem.IsStringData() == true){
 					if(t_type == typeof(string)){
 						//string
 						a_to_object = a_jsonitem.GetStringData();
+					}
+				}else if(a_jsonitem.IsBoolData() == true){
+					if(t_type == typeof(bool)){
+						//bool
+						a_to_object = a_jsonitem.GetBoolData();
 					}
 				}else if(a_jsonitem.IsIntegerNumber() == true){
 					if((t_type == typeof(int))||(t_type == typeof(long))){
@@ -61,25 +109,38 @@ namespace NJsonItem
 							for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
 								JsonItem t_jsonitem_member = a_jsonitem.GetItem(ii);
 
-								System.Object t_object_member = null;
+								System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
 
-								try{
-									t_object_member = System.Activator.CreateInstance(t_type_member);
-								}catch(System.Exception t_exception){
-									//引数なしconstructorの呼び出しに失敗。
-									Tool.LogError(t_exception);
+								if((t_object_member != null)&&(t_type_member.IsClass == true)){
+									t_workpool.Add(new JsonToObject_Work(t_object_member,t_type_member,t_jsonitem_member));
+								}else{
+									JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member);
 								}
 
-								if(t_object_member != null){
-									if(t_type_member.IsClass == true){
-										t_workpool.Add(new JsonToObject_Work(t_object_member,t_jsonitem_member));
-									}else{
-										JsonToObject_SystemObject.Convert(ref t_object_member,t_jsonitem_member);
-									}
-									t_list.Add(t_object_member);
-								}
+								t_list.Add(t_object_member);
 							}
 						}
+					}else if(a_type.IsArray == true){
+						//x[]
+
+						System.Array t_list = a_to_object as System.Array;
+
+						System.Type t_type_member = t_type.GetElementType();
+
+						for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
+							JsonItem t_jsonitem_member = a_jsonitem.GetItem(ii);
+
+							System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+
+							if((t_object_member != null)&&(t_type_member.IsClass == true)){
+								t_workpool.Add(new JsonToObject_Work(t_object_member,t_type_member,t_jsonitem_member));
+							}else{
+								JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member);
+							}
+
+							t_list.SetValue(t_object_member,ii);
+						}
+
 					}
 				}else if(a_jsonitem.IsAssociativeArray() == true){
 					//struct,class,Dictionary
@@ -96,23 +157,15 @@ namespace NJsonItem
 							for(int ii=0;ii<t_key_list.Count;ii++){
 								JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_key_list[ii]);
 
-								System.Object t_object_member = null;
+								System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
 
-								try{
-									t_object_member = System.Activator.CreateInstance(t_type_member);
-								}catch(System.Exception t_exception){
-									//引数なしconstructorの呼び出しに失敗。
-									Tool.LogError(t_exception);
+								if((t_object_member != null)&&(t_type_member.IsClass == true)){
+									t_workpool.Add(new JsonToObject_Work(t_object_member,t_type_member,t_jsonitem_member));
+								}else{
+									JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member);
 								}
 
-								if(t_object_member != null){
-									if(t_type_member.IsClass == true){
-										t_workpool.Add(new JsonToObject_Work(t_object_member,t_jsonitem_member));
-									}else{
-										JsonToObject_SystemObject.Convert(ref t_object_member,t_jsonitem_member);
-									}
-									t_list.Add(t_key_list[ii],t_object_member);
-								}
+								t_list.Add(t_key_list[ii],t_object_member);
 							}
 
 							//no support dictionary
@@ -138,23 +191,15 @@ namespace NJsonItem
 
 												JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_fieldinfo.Name);
 
-												System.Object t_object_member = null;
+												System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
 
-												try{
-													t_object_member = System.Activator.CreateInstance(t_type_member);
-												}catch(System.Exception t_exception){
-													//引数なしconstructorの呼び出しに失敗。
-													Tool.LogError(t_exception);
+												if((t_object_member != null)&&(t_type_member.IsClass == true)){
+													t_workpool.Add(new JsonToObject_Work(t_object_member,t_type_member,t_jsonitem_member));
+												}else{
+													JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member);
 												}
 
-												if(t_object_member != null){
-													if(t_type_member.IsClass == true){
-														t_workpool.Add(new JsonToObject_Work(t_object_member,t_jsonitem_member));
-													}else{
-														JsonToObject_SystemObject.Convert(ref t_object_member,t_jsonitem_member);
-													}
-													t_fieldinfo.SetValue(a_to_object,t_object_member);
-												}
+												t_fieldinfo.SetValue(a_to_object,t_object_member);
 											}else{
 												//ＪＳＯＮ側には存在しない。
 											}

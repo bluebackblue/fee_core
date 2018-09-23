@@ -164,9 +164,9 @@ public class test13 : main_base
 				if(t_assetbundle != null){
 					GameObject t_prefab = t_assetbundle.LoadAsset<GameObject>("bgm");
 					if(t_prefab != null){
-						NAudio.ClipPack t_clippack = t_prefab.GetComponent<NAudio.ClipPack>();
-						if(t_clippack != null){
-							NAudio.Audio.GetInstance().LoadBgm(t_clippack);
+						NAudio.Pack_AudioClip t_pack = t_prefab.GetComponent<NAudio.Pack_AudioClip>();
+						if(t_pack != null){
+							NAudio.Audio.GetInstance().LoadBgm(t_pack);
 						}
 					}
 				}
