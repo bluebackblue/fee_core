@@ -66,6 +66,10 @@ namespace NAudio
 			}
 		}
 
+		/** サウンドプール。
+		*/
+		private SoundPool soundpool;
+
 		/** ボリューム。マスター。
 		*/
 		private Volume volume_master;
@@ -91,11 +95,14 @@ namespace NAudio
 		*/
 		private GameObject bgm_audiosource_gameobject;
 		private MonoBehaviour_AudioSource_Bgm bgm_audiosource_script;
-		
+
 		/** [シングルトン]constructor
 		*/
 		private Audio()
 		{
+			//サウンドプール。
+			this.soundpool = new SoundPool();
+
 			//ボリューム。マスター。
 			this.volume_master = new Volume(Config.DEFAULT_VOLUME_MASTER);
 
@@ -138,7 +145,19 @@ namespace NAudio
 		private void Delete()
 		{
 			this.se_audiosource_script.Delete();
+			this.se_audiosource_script = null;
+
+			this.soundpool.Delete();
+			this.soundpool = null;			
+
 			GameObject.Destroy(this.root_gameobject);
+		}
+
+		/** サウンドプール。
+		*/
+		public SoundPool GetSoundPool()
+		{
+			return this.soundpool;
 		}
 
 		/** マスターボリューム。設定。
@@ -198,7 +217,14 @@ namespace NAudio
 		*/
 		public void LoadSe(Pack_AudioClip a_pack,long a_se_id)
 		{
-			this.se_audiosource_script.SetBank(new Bank(a_pack),a_se_id);
+			this.se_audiosource_script.SetPack(a_pack,a_se_id);
+		}
+
+		/** ＳＥ。ロード。
+		*/
+		public void LoadSe(Pack_SoundPool a_pack,long a_se_id)
+		{
+			this.se_audiosource_script.SetPack(a_pack,a_se_id);
 		}
 
 		/** ＳＥ。アンロード。

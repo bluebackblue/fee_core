@@ -20,13 +20,24 @@ namespace NAudio
 	*/
 	public class Pack_AudioClip : MonoBehaviour
 	{
-		/** clip_list
+		/** audioclip_list
 		*/
-		public AudioClip[] clip_list;
+		public List<AudioClip> audioclip_list;
 
 		/** volume_list
 		*/
-		public float[] volume_list;
+		public List<float> volume_list;
+
+		/** constructor
+		*/
+		public Pack_AudioClip()
+		{
+			//audioclip_list
+			this.audioclip_list = new List<AudioClip>();
+
+			//volume_list
+			this.volume_list = new List<float>();
+		}
 	}
 }
 

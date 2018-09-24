@@ -24,40 +24,119 @@ namespace NAudio
 		*/
 		public Pack_AudioClip pack_audioclip;
 
+		/** pack_soundpool
+		*/
+		public Pack_SoundPool pack_soundpool;
+
 		/** constructor
 		*/
 		public Bank(Pack_AudioClip a_pack)
 		{
 			this.pack_audioclip = a_pack;
+			this.pack_soundpool = null;
 		}
 
-		/** ボリューム取得。
+		/** constructor
 		*/
-		public float GetVolume(int a_index)
+		public Bank(Pack_SoundPool a_pack)
 		{
-			if((0<=a_index)&&(a_index<this.pack_audioclip.volume_list.Length)){
-				return this.pack_audioclip.volume_list[a_index];
-			}
-
-			return 1.0f;
+			this.pack_audioclip = null;
+			this.pack_soundpool = a_pack;
 		}
 
 		/** 個数。取得。
 		*/
 		public int GetCount()
 		{
-			return this.pack_audioclip.clip_list.Length;
+			if(this.pack_audioclip != null){
+				return this.pack_audioclip.audioclip_list.Count;
+			}
+
+			if(this.pack_soundpool != null){
+				return this.pack_soundpool.name_list.Count;
+			}
+
+			return 0;
 		}
 
 		/** オーディオクリップ。取得。
 		*/
-		public AudioClip GetAudioClip(int a_index)
+		public void GetAudioClip(int a_index,out AudioClip a_audioclip,out float a_volume)
 		{
-			if((0<=a_index)&&(a_index<this.pack_audioclip.clip_list.Length)){
-				return this.pack_audioclip.clip_list[a_index];
+			if(this.pack_audioclip != null){
+				if((0<=a_index)&&(a_index<this.pack_audioclip.audioclip_list.Count)){
+					if(this.pack_audioclip.audioclip_list[a_index] != null){
+						a_audioclip = this.pack_audioclip.audioclip_list[a_index];
+						a_volume = this.pack_audioclip.volume_list[a_index];
+						return;
+					}
+				}
+			}
+			a_audioclip = null;
+			a_volume = 0.0f;
+		}
+
+		/** サウンドプール。取得。
+		*/
+		public void GetSoundPool(int a_index,out string a_name,out float a_volume)
+		{
+			if(this.pack_soundpool != null){
+				if((0<=a_index)&&(a_index<this.pack_soundpool.name_list.Count)){
+					if(this.pack_soundpool.name_list[a_index] != null){
+						a_name = this.pack_soundpool.name_list[a_index];
+						a_volume = this.pack_soundpool.volume_list[a_index];
+						return;
+					}
+				}
+			}
+			a_name = null;
+			a_volume = 0.0f;
+		}
+
+		/** ロードメイン。
+		*/
+		public bool LoadMain()
+		{
+			if(this.pack_audioclip != null){
+				for(int ii=0;ii<this.pack_audioclip.audioclip_list.Count;ii++){
+					if(this.pack_audioclip.audioclip_list[ii] != null){
+						this.pack_audioclip.audioclip_list[ii].LoadAudioData();
+					}
+				}
 			}
 
-			return null;
+			if(this.pack_soundpool != null){
+				for(int ii=0;ii<this.pack_soundpool.name_list.Count;ii++){
+					if(this.pack_soundpool.name_list[ii] != null){
+						NAudio.Audio.GetInstance().GetSoundPool().Load(this.pack_soundpool.name_list[ii]);
+					}
+				}
+			}
+
+			return true;
+		}
+
+		/** アンロードメイン。
+		*/
+		public bool UnloadMain()
+		{
+			if(this.pack_audioclip != null){
+				for(int ii=0;ii<this.pack_audioclip.audioclip_list.Count;ii++){
+					if(this.pack_audioclip.audioclip_list[ii] != null){
+						this.pack_audioclip.audioclip_list[ii].UnloadAudioData();
+					}
+				}
+			}
+
+			if(this.pack_soundpool != null){
+				for(int ii=0;ii<this.pack_soundpool.name_list.Count;ii++){
+					if(this.pack_soundpool.name_list[ii] != null){
+						NAudio.Audio.GetInstance().GetSoundPool().UnLoad(this.pack_soundpool.name_list[ii]);
+					}
+				}
+			}
+
+			return true;
 		}
 	}
 }

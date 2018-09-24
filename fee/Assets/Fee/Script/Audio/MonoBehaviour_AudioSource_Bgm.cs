@@ -50,6 +50,7 @@ namespace NAudio
 		/** オーディオソース。
 		*/
 		private AudioSource[] myaudiosource;
+		private float[] myaudiosource_data_volume;
 		private float[] myaudiosource_volume;
 		private int[] myaudiosource_index;
 		private float[] myaudiosource_time;
@@ -100,6 +101,12 @@ namespace NAudio
 				this.myaudiosource[ii].volume = this.volume_master.GetVolume() * this.volume_bgm.GetVolume();
 			}
 
+			//myaudiosource_data_volume
+			this.myaudiosource_data_volume = new float[this.myaudiosource.Length];
+			for(int ii=0;ii<this.myaudiosource_data_volume.Length;ii++){
+				this.myaudiosource_data_volume[ii] = 0.0f;
+			}
+
 			//myaudiosource_volume
 			this.myaudiosource_volume = new float[this.myaudiosource.Length];
 			for(int ii=0;ii<this.myaudiosource_volume.Length;ii++){
@@ -148,11 +155,8 @@ namespace NAudio
 		public void UpdateVolume()
 		{
 			for(int ii=0;ii<this.myaudiosource_volume.Length;ii++){
-				float t_volume = 0.0f;
-				if(this.bank != null){
-					t_volume = this.bank.GetVolume(ii);
-				}
-				this.myaudiosource[ii].volume = this.myaudiosource_volume[ii] * this.volume_master.GetVolume() * this.volume_bgm.GetVolume() * t_volume;
+				//フェード * マスター * ＢＧＭ * データ。
+				this.myaudiosource[ii].volume = this.myaudiosource_volume[ii] * this.volume_master.GetVolume() * this.volume_bgm.GetVolume() * this.myaudiosource_data_volume[ii];
 			}
 		}
 
@@ -205,11 +209,13 @@ namespace NAudio
 
 						//オーディオクリップ。
 						AudioClip t_audioclip = null;
+						float t_volume = 0.0f;
 						if(this.bank != null){
-							t_audioclip = this.bank.GetAudioClip(this.request_index);
+							this.bank.GetAudioClip(this.request_index,out t_audioclip,out t_volume);
 						}
 
 						//再生。
+						this.myaudiosource_data_volume[0] = t_volume;
 						this.myaudiosource[0].clip = t_audioclip;
 						this.myaudiosource[0].Play();
 						this.myaudiosource_time[0] = 0.0f;
@@ -245,10 +251,12 @@ namespace NAudio
 
 							//オーディオクリップ。
 							AudioClip t_audioclip = null;
+							float t_volume = 0.0f;
 							if(this.bank != null){
-								t_audioclip = this.bank.GetAudioClip(this.request_index);
+								this.bank.GetAudioClip(this.request_index,out t_audioclip,out t_volume);
 							}
 
+							this.myaudiosource_data_volume[1] = t_volume;
 							this.myaudiosource[1].clip = t_audioclip;
 							this.myaudiosource[1].Play();
 							this.myaudiosource_time[1] = 0.0f;
@@ -291,10 +299,12 @@ namespace NAudio
 
 							//オーディオクリップ。
 							AudioClip t_audioclip = null;
+							float t_volume = 0.0f;
 							if(this.bank != null){
-								t_audioclip = this.bank.GetAudioClip(this.request_index);
+								this.bank.GetAudioClip(this.request_index,out t_audioclip,out t_volume);
 							}
 
+							this.myaudiosource_data_volume[0] = t_volume;
 							this.myaudiosource[0].clip = t_audioclip;
 							this.myaudiosource[0].Play();
 							this.myaudiosource_time[0] = 0.0f;
