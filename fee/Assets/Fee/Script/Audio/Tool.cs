@@ -28,7 +28,7 @@ namespace NAudio
 		*/
 		public static void Log(string a_tag,string a_text)
 		{
-			#if(UNITY_EDITOR)
+			#if(UNITY_EDITOR) || (UNITY_ANDROID)
 			if(Config.LOG_ENABLE == true){
 				Debug.Log(a_tag + " : " + a_text);
 			}
@@ -39,7 +39,7 @@ namespace NAudio
 		*/
 		public static void LogError(string a_tag,string a_text)
 		{
-			#if(UNITY_EDITOR)
+			#if(UNITY_EDITOR) || (UNITY_ANDROID)
 			Debug.LogError(a_tag + " : " + a_text);
 			#endif
 		}
@@ -48,7 +48,7 @@ namespace NAudio
 		*/
 		public static void LogError(System.Exception a_exception)
 		{
-			#if(UNITY_EDITOR)
+			#if(UNITY_EDITOR) || (UNITY_ANDROID)
 			Debug.LogError(a_exception.StackTrace + "\n\n" + a_exception.Message);
 			#endif
 		}

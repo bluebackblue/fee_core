@@ -130,7 +130,7 @@ namespace NAudio
 
 				//読み込み。
 				#if(UNITY_ANDROID)
-				int t_sound_id = this.java_soundpool.Call<int>("load",Application.persistentDataPath + "/" + a_name,t_priority);					
+				int t_sound_id = this.java_soundpool.Call<int>("load",Application.persistentDataPath + "/" + a_name,t_priority);
 				#else
 				int t_sound_id = 0;
 				#endif
@@ -216,13 +216,20 @@ namespace NAudio
 			Tool.Log("SoundPool","Delete");
 
 			//アンロード。
-			foreach(KeyValuePair<string,Item> t_pair in this.list){
-				this.UnLoad(t_pair.Key);
+			{
+				Dictionary<string,Item>.KeyCollection t_collection = this.list.Keys;
+				string[] t_keylist = new string[t_collection.Count];
+				t_collection.CopyTo(t_keylist,0);
+
+				for(int ii=0;ii<t_keylist.Length;ii++){
+					this.UnLoad(t_keylist[ii],true);
+				}
 			}
 
 			//サウンドプールインスタンス。解放。
 			#if(UNITY_ANDROID)
 			if(this.java_soundpool != null){
+				this.java_soundpool.Call("release");
 				this.java_soundpool.Dispose();
 				this.java_soundpool = null;
 			}

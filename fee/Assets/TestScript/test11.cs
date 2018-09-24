@@ -109,6 +109,7 @@ public class test11 : main_base
 		NDownLoad.DownLoad.CreateInstance();
 
 		//オーディオ。インスタンス作成。
+		NAudio.Config.LOG_ENABLE = true;
 		NAudio.Audio.CreateInstance();
 
 		//２Ｄ描画。インスタンス作成。
@@ -283,11 +284,14 @@ public class test11 : main_base
 			{
 				//サウンドプール。
 
+				this.status.SetText(this.mode.ToString());
 				this.mode = Mode.SoundPool_DownLoad_List_Start;
 			}break;
 		case Mode.SoundPool_DownLoad_List_Start:
 			{
 				//サウンドプール。リストダウンロード開始。
+
+				this.status.SetText(this.mode.ToString());
 
 				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/se.txt";
 				this.download_item = NDownLoad.DownLoad.GetInstance().Request(t_url,NDownLoad.DataType.Text);
@@ -386,6 +390,7 @@ public class test11 : main_base
 			{
 				//サウンドプール。ロード。
 
+				this.status.SetText("LoadSe");
 				NAudio.Audio.GetInstance().LoadSe(this.soundpool_pack,SE_ID);
 				this.mode = Mode.Wait;
 			}break;
@@ -408,6 +413,7 @@ public class test11 : main_base
 	*/
 	private void OnDestroy()
 	{
+		this.deleter.DeleteAll();
 	}
 
 	class TEST
