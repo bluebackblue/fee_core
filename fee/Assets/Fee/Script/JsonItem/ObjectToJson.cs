@@ -81,7 +81,6 @@ namespace NJsonItem
 					//x[]
 
 					System.Array t_array_raw = (System.Array)a_instance;
-					System.Type t_element_type = t_type.GetElementType();
 	
 					JsonItem t_jsonitem = new JsonItem(new Value_IndexArray());
 					t_jsonitem.ReSize(t_array_raw.Length);
@@ -101,6 +100,7 @@ namespace NJsonItem
 						if(t_value_raw != null){
 
 							JsonItem t_jsonitem = new JsonItem(new Value_IndexArray());
+							t_jsonitem.ReSize(t_value_raw.Count);
 							for(int ii=0;ii<t_value_raw.Count;ii++){
 								System.Object t_list_item_raw = t_value_raw[ii];
 								t_workpool.Add(new ObjectToJson_Work(t_list_item_raw,ii,t_jsonitem));

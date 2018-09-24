@@ -20,11 +20,11 @@ namespace NEventPlate
 	*/
 	public interface OnOverCallBack_Base
 	{
-		/** イベントプレートに入場。
+		/** [NEventPlate.OnOverCallBack_Base]イベントプレートに入場。
 		*/
 		void OnOverEnter(int a_value);
 
-		/** イベントプレートから退場。
+		/** [NEventPlate.OnOverCallBack_Base]イベントプレートから退場。
 		*/
 		void OnOverLeave(int a_value);
 	}

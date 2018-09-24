@@ -33,7 +33,7 @@ namespace NUi
 		*/
 		public Scroll_Vertical(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
 			:
-			base(a_deleter,a_item_length)
+			base(a_deleter,a_drawpriority,a_item_length)
 		{
 			//背景。
 			this.bg = new NRender2D.Sprite2D(a_deleter,null,a_drawpriority);
@@ -59,7 +59,7 @@ namespace NUi
 		protected override void OnChangeRect()
 		{
 			this.bg.SetRect(ref this.rect);
-			this.bar.SetX(this.rect.x - 10);
+			this.UpdateBar();
 		}
 
 		/** [Scroll_Base]コールバック。表示位置変更。
@@ -93,6 +93,7 @@ namespace NUi
 				int t_offset = (int)(t_offset_per * (this.view_length - this.bar.GetH()));
 
 				this.bar.SetY(this.rect.y + t_offset);
+				this.bar.SetX(this.rect.x - 10);
 				this.bar.SetH((int)(this.rect.h * t_length_per));
 			}
 		}

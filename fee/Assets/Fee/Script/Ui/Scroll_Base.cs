@@ -18,7 +18,7 @@ namespace NUi
 {
 	/** Scroll_Base
 	*/
-	public abstract class Scroll_Base : NDeleter.DeleteItem_Base
+	public abstract class Scroll_Base : NDeleter.DeleteItem_Base , NEventPlate.OnOverCallBack_Base
 	{
 		/** deleter
 		*/
@@ -45,9 +45,17 @@ namespace NUi
 		*/
 		protected NRender2D.Rect2D_R<int> rect;
 
+		/** eventplate
+		*/
+		protected NEventPlate.Item eventplate;
+
+		/** is_onover
+		*/
+		protected bool is_onover;
+
 		/** constructor
 		*/
-		public Scroll_Base(NDeleter.Deleter a_deleter,int a_item_length)
+		public Scroll_Base(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
@@ -67,6 +75,14 @@ namespace NUi
 
 			//矩形。
 			this.rect.Set(0,0,0,0);
+
+			//eventplate
+			this.eventplate = new NEventPlate.Item(this.deleter,NEventPlate.EventType.View,a_drawpriority);
+			this.eventplate.SetRect(0,0,0,0);
+			this.eventplate.SetOnOverCallBack(this);
+
+			//is_onover
+			this.is_onover = false;
 
 			//削除管理。
 			if(a_deleter != null){
@@ -333,6 +349,37 @@ namespace NUi
 			//rect
 			this.rect.Set(a_x,a_y,a_w,a_h);
 
+			//eventplate
+			this.eventplate.SetRect(a_x,a_y,a_w,a_h);
+
+			//コールバック。矩形変更。
+			this.OnChangeRect_FromBase();
+		}
+
+ 		/** 矩形。設定。
+		*/
+		public void SetX(int a_x)
+		{
+			//rect
+			this.rect.x = a_x;
+
+			//eventplate
+			this.eventplate.SetX(a_x);
+
+			//コールバック。矩形変更。
+			this.OnChangeRect_FromBase();
+		}
+
+ 		/** 矩形。設定。
+		*/
+		public void SetY(int a_y)
+		{
+			//rect
+			this.rect.y = a_y;
+
+			//eventplate
+			this.eventplate.SetY(a_y);
+
 			//コールバック。矩形変更。
 			this.OnChangeRect_FromBase();
 		}
@@ -363,6 +410,27 @@ namespace NUi
 		public int GetH()
 		{
 			return this.rect.h;
+		}
+
+		/** [NEventPlate.OnOverCallBack_Base]イベントプレートに入場。
+		*/
+		public void OnOverEnter(int a_value)
+		{
+			this.is_onover = true;	
+		}
+
+		/** [NEventPlate.OnOverCallBack_Base]イベントプレートから退場。
+		*/
+		public void OnOverLeave(int a_value)
+		{
+			this.is_onover = false;
+		}
+
+		/** オンオーバー。取得。
+		*/
+		public bool IsOnOver()
+		{
+			return this.is_onover;
 		}
 	}
 }

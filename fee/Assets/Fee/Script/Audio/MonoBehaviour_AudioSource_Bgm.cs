@@ -202,8 +202,15 @@ namespace NAudio
 			case Mode.Wait:
 				{
 					if(this.request_index >= 0){
+
+						//オーディオクリップ。
+						AudioClip t_audioclip = null;
+						if(this.bank != null){
+							t_audioclip = this.bank.GetAudioClip(this.request_index);
+						}
+
 						//再生。
-						this.myaudiosource[0].clip = this.bank.GetAudioClip(this.request_index);
+						this.myaudiosource[0].clip = t_audioclip;
 						this.myaudiosource[0].Play();
 						this.myaudiosource_time[0] = 0.0f;
 
@@ -235,7 +242,14 @@ namespace NAudio
 
 						//再生。
 						if(this.request_index >= 0){
-							this.myaudiosource[1].clip = this.bank.GetAudioClip(this.request_index);
+
+							//オーディオクリップ。
+							AudioClip t_audioclip = null;
+							if(this.bank != null){
+								t_audioclip = this.bank.GetAudioClip(this.request_index);
+							}
+
+							this.myaudiosource[1].clip = t_audioclip;
 							this.myaudiosource[1].Play();
 							this.myaudiosource_time[1] = 0.0f;
 						}
@@ -274,7 +288,14 @@ namespace NAudio
 
 						//再生。
 						if(this.request_index >= 0){
-							this.myaudiosource[0].clip = this.bank.GetAudioClip(this.request_index);
+
+							//オーディオクリップ。
+							AudioClip t_audioclip = null;
+							if(this.bank != null){
+								t_audioclip = this.bank.GetAudioClip(this.request_index);
+							}
+
+							this.myaudiosource[0].clip = t_audioclip;
 							this.myaudiosource[0].Play();
 							this.myaudiosource_time[0] = 0.0f;
 						}

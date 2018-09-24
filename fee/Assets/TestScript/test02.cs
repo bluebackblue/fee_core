@@ -109,6 +109,9 @@ public class test02 : main_base
 		//セーブロード。インスタンス作成。
 		NSaveLoad.SaveLoad.CreateInstance();
 
+		//削除管理。
+		this.deleter = new NDeleter.Deleter();
+
 		//ボタン。
 		{
 			this.button_save1 = new NUi.Button(this.deleter,null,0,Click_Save,1);
@@ -195,6 +198,7 @@ public class test02 : main_base
 		this.savedata.ignore = Random.Range(0,9999);
 
 		this.savedata.maindata.a = Random.Range(0,9999);
+		this.savedata.maindata.sub = new SaveData.SubData();
 		this.savedata.maindata.sub.a = Random.Range(0,9999);
 		this.savedata.maindata.sub.subsub = new SaveData.SubSubData();
 		this.savedata.maindata.sub.subsub.a = Random.Range(0,9999);
@@ -335,6 +339,7 @@ public class test02 : main_base
 	*/
 	private void OnDestroy()
 	{
+		this.deleter.DeleteAll();
 	}
 }
 
