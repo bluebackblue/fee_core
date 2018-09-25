@@ -198,23 +198,11 @@ public class test01 : main_base
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
 
-		if(NInput.Mouse.GetInstance().left.down == true){
-			Debug.Log("NEventPlate.EventPlate.GetInstance().Main");
-		}
-
 		//イベントプレート。
 		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
 
-		if(NInput.Mouse.GetInstance().left.down == true){
-			Debug.Log("NUi.Ui.GetInstance().Main");
-		}
-
 		//ＵＩ。
-		NUi.Ui.GetInstance().Main(NInput.Mouse.GetInstance().left.down);
-
-		if(NInput.Mouse.GetInstance().left.down == true){
-			Debug.Log("FixedUpdate : mouse down");
-		}
+		NUi.Ui.GetInstance().Main();
 	}
 
 	/** 削除前。
