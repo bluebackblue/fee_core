@@ -354,6 +354,27 @@ namespace NRender2D
 			return this.param.GetColor();
 		}
 
+		/** アウトライン色。設定。
+		*/
+		public void SetOutLineColor(ref Color a_color)
+		{
+			this.param.SetOutLineColor(ref a_color);
+		}
+
+		/** アウトライン色。設定。
+		*/
+		public void SetOutLineColor(float a_r,float a_g,float a_b,float a_a)
+		{
+			this.param.SetOutLineColor(a_r,a_g,a_b,a_a);
+		}
+
+		/** アウトライン色。取得。
+		*/
+		public Color GetOutLineColor()
+		{
+			return this.param.GetOutLineColor();
+		}
+
 		/** センター。設定。
 		*/
 		public void SetCenter(bool a_flag)

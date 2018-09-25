@@ -253,6 +253,31 @@ namespace NRender2D
 			return this.raw_text.color;
 		}
 
+		/** アウトライン色。設定。
+		*/
+		public void SetOutLineColor(ref Color a_color)
+		{
+			if(this.raw_outline.effectColor != a_color){
+				this.raw_outline.effectColor = a_color;
+			}
+		}
+
+		/** アウトライン色。設定。
+		*/
+		public void SetOutLineColor(float a_r,float a_g,float a_b,float a_a)
+		{
+			if((this.raw_outline.effectColor.r != a_r)||(this.raw_outline.effectColor.g != a_g)||(this.raw_outline.effectColor.b != a_b)||(this.raw_outline.effectColor.a != a_a)){
+				this.raw_outline.effectColor = new Color(a_r,a_g,a_b,a_a);
+			}
+		}
+
+		/** アウトライン色。取得。
+		*/
+		public Color GetOutLineColor()
+		{
+			return this.raw_outline.effectColor;
+		}
+
 		/** センター。設定。
 		*/
 		public void SetCenter(bool a_flag)

@@ -28,18 +28,18 @@ namespace NDirectory
 		*/
 		public static void Log(string a_tag,string a_text)
 		{
-			#if(UNITY_EDITOR)
 			if(Config.LOG_ENABLE == true){
+				#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)
 				Debug.Log(a_tag + " : " + a_text);
+				#endif
 			}
-			#endif
 		}
 
 		/** LogError
 		*/
 		public static void LogError(string a_tag,string a_text)
 		{
-			#if(UNITY_EDITOR)
+			#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)
 			Debug.LogError(a_tag + " : " + a_text);
 			#endif
 		}
@@ -48,7 +48,7 @@ namespace NDirectory
 		*/
 		public static void LogError(System.Exception a_exception)
 		{
-			#if(UNITY_EDITOR)
+			#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)
 			Debug.LogError(a_exception.StackTrace + "\n\n" + a_exception.Message);
 			#endif
 		}
@@ -58,9 +58,13 @@ namespace NDirectory
 		public static void Assert(bool a_flag)
 		{
 			if(Config.ASSERT_ENABLE == true){
-				if(a_flag == false){				
+				if(a_flag == false){
+
+					#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)
+					Debug.Log("Assert");
+					#endif
+
 					#if(UNITY_EDITOR)
-					Debug.Assert(false);
 					UnityEditor.EditorApplication.isPaused = true;
 					#endif
 				}
