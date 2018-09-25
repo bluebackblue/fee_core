@@ -150,7 +150,7 @@ namespace NUi
 			this.deleter.DeleteAll();
 
 			//ターゲット解除。
-			NUi.Ui.GetInstance().UnSetTarget(this);
+			NUi.Ui.GetInstance().UnSetTargetRequest(this);
 
 			//ダウン解除。
 			if(Button_Base.s_down_instance == this){
@@ -342,7 +342,7 @@ namespace NUi
 			this.is_onover = true;
 
 			//ターゲット登録。
-			Ui.GetInstance().SetTarget(this);
+			Ui.GetInstance().SetTargetRequest(this);
 		}
 
 		/** [NEventPlate.OnOverCallBack_Base]OnOverLeave
@@ -370,7 +370,7 @@ namespace NUi
 				this.event_request = 13;
 
 				//ターゲット登録。
-				Ui.GetInstance().SetTarget(this);
+				Ui.GetInstance().SetTargetRequest(this);
 
 				//ダウンキャンセル。
 				this.down_flag = false;
@@ -389,7 +389,7 @@ namespace NUi
 
 				//ターゲット解除。
 				if(this.is_onover == false){
-					Ui.GetInstance().UnSetTarget(this);
+					Ui.GetInstance().UnSetTargetRequest(this);
 				}
 
 				//ダウンキャンセル。
@@ -407,7 +407,7 @@ namespace NUi
 
 				//ターゲット解除。
 				if(this.is_onover == false){
-					Ui.GetInstance().UnSetTarget(this);
+					Ui.GetInstance().UnSetTargetRequest(this);
 				}
 
 				//ダウンキャンセル。
@@ -433,7 +433,7 @@ namespace NUi
 				if(this.event_request == 0){
 
 					//ターゲット解除。
-					Ui.GetInstance().UnSetTarget(this);
+					Ui.GetInstance().UnSetTargetRequest(this);
 
 					//コールバック。
 					if(this.callback_click != null){
@@ -495,7 +495,7 @@ namespace NUi
 					this.SetMode(Button_Mode.On);
 				}else{
 					//ターゲット解除。
-					Ui.GetInstance().UnSetTarget(this);
+					Ui.GetInstance().UnSetTargetRequest(this);
 					this.SetMode(Button_Mode.Normal);
 				}
 			}

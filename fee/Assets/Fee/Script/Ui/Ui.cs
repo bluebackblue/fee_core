@@ -69,12 +69,24 @@ namespace NUi
 		//ターゲットリスト。
 		private List<OnTargetCallBack_Base> target_list;
 
+		//追加リスト。
+		private List<OnTargetCallBack_Base> add_list;
+
+		//削除リスト。
+		private List<OnTargetCallBack_Base> remove_list;
+
 		/** [シングルトン]constructor
 		*/
 		private Ui()
 		{
 			//target_list
 			this.target_list = new List<OnTargetCallBack_Base>();
+
+			//add_list
+			this.add_list = new List<OnTargetCallBack_Base>();
+
+			//remove_list
+			this.remove_list = new List<OnTargetCallBack_Base>();
 		}
 
 		/** [シングルトン]削除。
@@ -88,26 +100,42 @@ namespace NUi
 		public void Main()
 		{
 			try{
+				//追加。
+				for(int ii=0;ii<this.add_list.Count;ii++){
+					this.target_list.Add(this.add_list[ii]);
+				}
+				this.add_list.Clear();
+
+				//呼び出し。
 				for(int ii=0;ii<this.target_list.Count;ii++){
 					this.target_list[ii].OnTarget();
 				}
+
+				//削除。
+				for(int ii=0;ii<this.remove_list.Count;ii++){
+					this.target_list.Remove(this.remove_list[ii]);
+				}
+				this.remove_list.Clear();
+
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}
 		}
 
-		/** ターゲット。設定。
+		/** 追加リクエスト。設定。
 		*/
-		public void SetTarget(OnTargetCallBack_Base a_item)
+		public void SetTargetRequest(OnTargetCallBack_Base a_item)
 		{
-			this.target_list.Add(a_item);
+			this.add_list.Add(a_item);
+			this.remove_list.Remove(a_item);
 		}
 
-		/** ターゲット。解除。
+		/** 削除リクエスト。解除。
 		*/
-		public void UnSetTarget(OnTargetCallBack_Base a_item)
+		public void UnSetTargetRequest(OnTargetCallBack_Base a_item)
 		{
-			this.target_list.Remove(a_item);
+			this.remove_list.Add(a_item);
+			this.add_list.Remove(a_item);
 		}
 	}
 }
