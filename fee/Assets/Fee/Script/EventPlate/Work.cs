@@ -24,6 +24,14 @@ namespace NEventPlate
 		*/
 		private List<Item> list;
 
+		/** add_list
+		*/
+		private List<Item> add_list;
+
+		/** remove_list
+		*/
+		private List<Item> remove_list;
+
 		/** current
 		*/
 		private Item current;
@@ -39,6 +47,12 @@ namespace NEventPlate
 			//list
 			this.list = new List<Item>();
 
+			//add_list
+			this.add_list = new List<Item>();
+
+			//remove_list
+			this.remove_list = new List<Item>();
+
 			//current
 			this.current = null;
 
@@ -50,16 +64,16 @@ namespace NEventPlate
 		*/
 		public void Add(Item a_eventitem)
 		{
-			this.list.Add(a_eventitem);
-			this.sortrequest = true;
+			this.add_list.Add(a_eventitem);
+			this.remove_list.Remove(a_eventitem);
 		}
 
 		/** 削除。
 		*/
 		public void Remove(Item a_eventitem)
 		{
-			this.list.Remove(a_eventitem);
-			this.sortrequest = true;
+			this.remove_list.Add(a_eventitem);
+			this.add_list.Remove(a_eventitem);
 		}
 
 		/** ソート。リクエスト。
@@ -73,6 +87,25 @@ namespace NEventPlate
 		*/
 		public void Main(ref NRender2D.Pos2D<int> a_pos)
 		{
+			//追加。
+			if(this.add_list.Count > 0){
+				this.sortrequest = true;
+				for(int ii=0;ii<this.add_list.Count;ii++){
+					this.list.Add(this.add_list[ii]);
+				}
+				this.add_list.Clear();
+			}
+
+			//削除。
+			if(this.remove_list.Count > 0){
+				this.sortrequest = true;
+				for(int ii=0;ii<this.remove_list.Count;ii++){
+					this.list.Remove(this.remove_list[ii]);
+				}
+				this.remove_list.Clear();
+			}
+
+			//ソート。
 			if(this.sortrequest == true){
 				this.sortrequest = false;
 				this.list.Sort(Item.Sort_InvPriority);

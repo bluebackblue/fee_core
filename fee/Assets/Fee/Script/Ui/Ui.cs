@@ -106,17 +106,16 @@ namespace NUi
 				}
 				this.add_list.Clear();
 
-				//呼び出し。
-				for(int ii=0;ii<this.target_list.Count;ii++){
-					this.target_list[ii].OnTarget();
-				}
-
 				//削除。
 				for(int ii=0;ii<this.remove_list.Count;ii++){
 					this.target_list.Remove(this.remove_list[ii]);
 				}
 				this.remove_list.Clear();
 
+				//呼び出し。
+				for(int ii=0;ii<this.target_list.Count;ii++){
+					this.target_list[ii].OnTarget();
+				}
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}
