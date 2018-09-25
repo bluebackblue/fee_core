@@ -306,9 +306,17 @@ namespace NInput
 			}
 		}
 
-		/** リスト更新。
+		/** タッチリスト作成。
 		*/
-		public void UpdateList<TYPE>(Dictionary<TYPE,NInput.Touch_Phase> a_list)
+		public static Dictionary<TYPE,NInput.Touch_Phase> CreateTouchList<TYPE>()
+			where TYPE : Touch_Phase_Key_Base
+		{
+			return new Dictionary<TYPE,Touch_Phase>();
+		}
+
+		/** タッチリスト更新。
+		*/
+		public static void UpdateTouchList<TYPE>(Dictionary<TYPE,NInput.Touch_Phase> a_list)
 			where TYPE : Touch_Phase_Key_Base
 		{
 			List<TYPE> t_delete_keylist = null;

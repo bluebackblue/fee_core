@@ -32,6 +32,10 @@ namespace NDownLoad
 		*/
 		private string result_errorstring;
 
+		/** result_soundpool
+		*/
+		private NAudio.Pack_SoundPool result_soundpool;
+
 		/** result_assetbundle
 		*/
 		private AssetBundle result_assetbundle;
@@ -60,6 +64,9 @@ namespace NDownLoad
 
 			//result_errorstring
 			this.result_errorstring = null;
+
+			//result_soundpool
+			this.result_soundpool = null;
 
 			//result_assetbundle
 			this.result_assetbundle = null;
@@ -119,6 +126,22 @@ namespace NDownLoad
 		public string GetResultErrorString()
 		{
 			return this.result_errorstring;
+		}
+
+		/** 結果。サウンドプール。設定。
+		*/
+		public void SetResultSoundPool(NAudio.Pack_SoundPool a_soundpool)
+		{
+			this.datatype = DataType.SoundPool;
+
+			this.result_soundpool = a_soundpool;
+		}
+
+		/** 結果。サウンロプール。取得。
+		*/
+		public NAudio.Pack_SoundPool GetResultSoundPool()
+		{
+			return this.result_soundpool;
 		}
 
 		/** 結果。アセットバンドル。設定。

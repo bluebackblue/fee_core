@@ -90,6 +90,7 @@
     <Compile Include="Assets\Fee\Script\DownLoad\DataType.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\DownLoad.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Item.cs" />
+    <Compile Include="Assets\Fee\Script\DownLoad\MonoBehaviour_SoundPool.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\MonoBehaviour_WebRequest.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Tool.cs" />
     <Compile Include="Assets\Fee\Script\DownLoad\Work.cs" />

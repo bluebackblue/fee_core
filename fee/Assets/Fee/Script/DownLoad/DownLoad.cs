@@ -71,6 +71,11 @@ namespace NDownLoad
 		private GameObject webrequest_gameobject;
 		private MonoBehaviour_WebRequest webrequest_script;
 
+		/** soundpool
+		*/
+		private GameObject soundpool_gameobject;
+		private MonoBehaviour_SoundPool soundpool_script;
+
 		/** work_list
 		*/
 		private List<Work> work_list;
@@ -83,13 +88,24 @@ namespace NDownLoad
 		*/
 		private DownLoad()
 		{
+			//TODO:ルート。
+
 			//webrequest
 			{
 				this.webrequest_gameobject = new GameObject();
-				this.webrequest_gameobject.name = "DownLoad";
+				this.webrequest_gameobject.name = "DownLoad_WebRequest";
 				this.webrequest_script = this.webrequest_gameobject.AddComponent<MonoBehaviour_WebRequest>();
 
 				GameObject.DontDestroyOnLoad(this.webrequest_gameobject);
+			}
+
+			//soundpool
+			{
+				this.soundpool_gameobject = new GameObject();
+				this.soundpool_gameobject.name = "DownLoad_SoundPool";
+				this.soundpool_script = this.soundpool_gameobject.AddComponent<MonoBehaviour_SoundPool>();
+
+				GameObject.DontDestroyOnLoad(this.soundpool_gameobject);
 			}
 
 			//work_list
@@ -106,6 +122,7 @@ namespace NDownLoad
 			this.assetbundle_list.UnloadAllAssetBundle();
 
 			this.webrequest_script.DeleteRequest();
+			this.soundpool_script.DeleteRequest();
 		}
 
 		/** ウェブリクエスト。取得。
@@ -113,6 +130,13 @@ namespace NDownLoad
 		public MonoBehaviour_WebRequest GetWebRequest()
 		{
 			return this.webrequest_script;
+		}
+
+		/** サウンドプール。取得。
+		*/
+		public MonoBehaviour_SoundPool GetSoundPool()
+		{
+			return this.soundpool_script;
 		}
 
 		/** アセットバンドルリスト。取得。
@@ -141,6 +165,19 @@ namespace NDownLoad
 		public Item RequestAssetBundle(string a_url,long a_assetbundle_id,uint a_assetbundle_version)
 		{
 			Work t_work = new Work(a_url,DataType.AssetBundle,a_assetbundle_version,a_assetbundle_id);
+			this.work_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。サウンドプール。
+
+		a_url                 : アドレス。
+		a_soundpool_version   : 再ダウンロードチェック用のバージョン値。//TODO:
+
+		*/
+		public Item RequestSoundPool(string a_url,long a_soundpool_version)
+		{
+			Work t_work = new Work(a_url,DataType.SoundPool,0,Config.INVALID_ASSSETBUNDLE_ID);
 			this.work_list.Add(t_work);
 			return t_work.GetItem();
 		}

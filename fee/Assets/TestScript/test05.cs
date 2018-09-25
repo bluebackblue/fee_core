@@ -168,7 +168,7 @@ public class test05 : main_base
 		this.text_pad.SetFontSize(20);
 
 		//touch_list
-		this.touch_list = new Dictionary<TouchView,NInput.Touch_Phase>();
+		this.touch_list = NInput.Touch.CreateTouchList<TouchView>();
 	}
 
 	/** コールバック。
@@ -203,7 +203,7 @@ public class test05 : main_base
 
 		//タッチ。
 		{
-			NInput.Touch.GetInstance().UpdateList(this.touch_list);
+			NInput.Touch.UpdateTouchList(this.touch_list);
 		}
 
 		//マウス位置。

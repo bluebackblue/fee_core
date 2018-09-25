@@ -28,6 +28,10 @@ namespace NDownLoad
 		*/
 		Error,
 
+		/** サウンドプール。
+		*/
+		SoundPool,
+
 		/** アセットバンドル。
 		*/
 		AssetBundle,

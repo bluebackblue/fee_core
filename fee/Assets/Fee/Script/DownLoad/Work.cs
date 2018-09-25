@@ -28,10 +28,22 @@ namespace NDownLoad
 			*/
 			Start,
 
+			/** 開始。
+			*/
+			Start_WebRequest,
+
 			/**	実行中。
 			*/
-			Do,
-	
+			Do_WebRequest,
+
+			/** 開始。
+			*/
+			Start_SoundPool,
+
+			/** 実行中。
+			*/
+			Do_SoundPool,
+
 			/** 完了。
 			*/
 			End
@@ -98,35 +110,52 @@ namespace NDownLoad
 		*/
 		public bool Main()
 		{
-			MonoBehaviour_WebRequest t_webrequest = NDownLoad.DownLoad.GetInstance().GetWebRequest();
-
 			switch(this.mode){
 			case Mode.Start:
 				{
-					//アセットバンドルリストから取得。
-					AssetBundle t_assetbundle = null;
-					{
-						AssetBundleList t_assetbundle_list = NDownLoad.DownLoad.GetInstance().GetAssetBundleList();
-						if(this.assetbundle_id != Config.INVALID_ASSSETBUNDLE_ID){
-							t_assetbundle = t_assetbundle_list.GetAssetBundle(this.assetbundle_id);
+					if(this.datatype == DataType.AssetBundle){
+
+						//アセットバンドルリストから取得。
+						AssetBundle t_assetbundle = null;
+						{
+							AssetBundleList t_assetbundle_list = NDownLoad.DownLoad.GetInstance().GetAssetBundleList();
+							if(this.assetbundle_id != Config.INVALID_ASSSETBUNDLE_ID){
+								t_assetbundle = t_assetbundle_list.GetAssetBundle(this.assetbundle_id);
+							}
 						}
+
+						if(t_assetbundle != null){
+							Tool.Log("NDownLoad.Work","GetAssetBundle From AssetBundleList");
+
+							this.item.SetProgress(1.0f);
+							this.item.SetResultAssetBundle(t_assetbundle);
+							this.mode = Mode.End;
+							break;
+						}
+
+					}else if(this.datatype == DataType.SoundPool){
+						this.mode = Mode.Start_SoundPool;
+						break;
 					}
 
-					if(t_assetbundle == null){
-						//リクエスト。
-						if(t_webrequest.Request(this.url,this.datatype,this.assetbundle_version,this.assetbundle_id) == true){
-							this.mode = Mode.Do;
-						}
-					}else{
-						Tool.Log("NDownLoad.Work","GetAssetBundle From AssetBundleList");
+					this.mode = Mode.Start_WebRequest;
+				}break;
+			case Mode.End:
+				{
+				}return true;
+			case Mode.Start_WebRequest:
+				{
+					MonoBehaviour_WebRequest t_webrequest = NDownLoad.DownLoad.GetInstance().GetWebRequest();
 
-						this.item.SetProgress(1.0f);
-						this.item.SetResultAssetBundle(t_assetbundle);
-						this.mode = Mode.End;
+					//リクエスト。
+					if(t_webrequest.Request(this.url,this.datatype,this.assetbundle_version,this.assetbundle_id) == true){
+						this.mode = Mode.Do_WebRequest;
 					}
 				}break;
-			case Mode.Do:
+			case Mode.Do_WebRequest:
 				{
+					MonoBehaviour_WebRequest t_webrequest = NDownLoad.DownLoad.GetInstance().GetWebRequest();
+
 					if(t_webrequest.IsFix() == false){
 						this.item.SetProgress(t_webrequest.GetDownloadProgress());
 					}else{
@@ -168,9 +197,43 @@ namespace NDownLoad
 						this.mode = Mode.End;
 					}
 				}break;
-			case Mode.End:
+			case Mode.Start_SoundPool:
 				{
-				}return true;
+					MonoBehaviour_SoundPool t_soundpool = NDownLoad.DownLoad.GetInstance().GetSoundPool();
+
+					//リクエスト。
+					if(t_soundpool.Request(this.url) == true){
+						this.mode = Mode.Do_SoundPool;
+					}
+				}break;
+			case Mode.Do_SoundPool:
+				{
+					MonoBehaviour_SoundPool t_soundpool = NDownLoad.DownLoad.GetInstance().GetSoundPool();
+
+					if(t_soundpool.IsFix() == false){
+						this.item.SetProgress(t_soundpool.GetDownloadProgress());
+					}else{
+						this.item.SetProgress(t_soundpool.GetDownloadProgress());
+
+						//結果。
+						if(t_soundpool.GetResultDataType() == DataType.SoundPool){
+							this.item.SetResultSoundPool(t_soundpool.GetResultSoundPool());
+						}else{
+							string t_error_string = t_soundpool.GetResultErrorString();
+
+							if(t_error_string == null){
+								t_error_string = "";
+							}
+
+							this.item.SetResultErrorString(t_error_string);
+						}
+
+						//リクエスト待ち開始。
+						t_soundpool.WaitRequest();						
+
+						this.mode = Mode.End;
+					}
+				}break;
 			}
 
 			return false;
