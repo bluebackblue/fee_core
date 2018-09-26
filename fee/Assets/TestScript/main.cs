@@ -12,6 +12,113 @@ using UnityEngine;
 */
 
 
+/** [XTask]XSynchronizationContext
+*/
+public class XSynchronizationContext
+{
+	/** context
+	*/
+	public System.Threading.SynchronizationContext context;
+
+	/** constructor
+	*/
+	public XSynchronizationContext()
+	{
+		this.context = System.Threading.SynchronizationContext.Current;
+	}
+
+	/** 同期。
+	*/
+	public void SetSynchronizationContext()
+	{
+		System.Threading.SynchronizationContext.SetSynchronizationContext(this.context);
+	}
+
+	/** Post
+	*/
+	public void Post(System.Threading.SendOrPostCallback a_d,object a_state)
+	{
+		this.context.Post(a_d,a_state);
+	}
+
+	/** 削除。
+	*/
+	public void Delete()
+	{
+		this.context = null;
+	}
+
+};
+
+/** [XTask]XTask
+*/
+public class XTask
+{
+	public static System.Threading.Tasks.Task Delay(int millisecondsDelay)
+	{
+		return System.Threading.Tasks.Task.Delay(1000);
+	}
+}
+
+/** [XTask]XTask
+*/
+public class XTask<TResult> : XTask
+{
+	/** task
+	*/
+	System.Threading.Tasks.Task<TResult> task;
+
+	/** XTask
+	*/
+	public XTask(System.Threading.Tasks.Task<TResult> a_task)
+	{
+		this.task = a_task;
+	}
+
+	/** XTask
+	*/
+	public XTask(System.Func<System.Threading.Tasks.Task<TResult>> a_function)
+	{
+		this.task = System.Threading.Tasks.Task.Run(a_function);
+	}
+
+	/** IsCompleted
+	*/
+	public bool IsCompleted()
+	{
+		return this.task.IsCompleted;
+	}
+
+	/** IsCanceled
+	*/
+	public bool IsCanceled()
+	{
+		return this.task.IsCanceled;
+	}
+
+	/** IsFaulted
+	*/
+	public bool IsFaulted()
+	{
+		return  this.task.IsFaulted;
+	}
+
+	/** GetResult
+	*/
+	public TResult GetResult()
+	{
+		return this.task.Result;
+	}
+
+	/** Dispose
+	*/
+	public void Dispose()
+	{
+		this.task.Dispose();
+		this.task = null;
+	}
+}
+
 /** main
 */
 public class main : MonoBehaviour
@@ -24,45 +131,46 @@ public class main : MonoBehaviour
 	*/
 	private static int SCENE_COUNT = 20;
 
-	/** タスク。
+	/** [XTask]タスク。
 	*/
-	#if false
-	private System.Threading.SynchronizationContext sync_contest;
-	private System.Threading.Tasks.Task<bool> task;
+	#if true
+	private static XSynchronizationContext sync_context;
+	private XTask<bool> task;
 	private int count;
 	private int count_old;
 	#endif
 
-	/** TaskMain
+	/** [XTask]TaskMain
 	*/
-	#if false
+	#if true
 	private async System.Threading.Tasks.Task<bool> TaskMain()
 	{
-		await System.Threading.Tasks.Task.Delay(1000);
+		await XTask.Delay(1000);
 
-
-		System.Threading.SynchronizationContext.SetSynchronizationContext(this.sync_contest);
-		await System.Threading.Tasks.Task.Delay(1);
+		main.sync_context.SetSynchronizationContext();
+		await XTask.Delay(1);
 		{
 			//同期。
+
 			if(this.gameObject.GetComponent<Transform>().position.x > 1){
 				Debug.Log("x");
 			}
 		}
 
-		await System.Threading.Tasks.Task.Delay(1);
+		await XTask.Delay(1);
 
-		this.sync_contest.Post((a_state) => {
-			if(a_state != null){
-				Debug.Log("state = " + a_state.ToString());
+		main.sync_context.Post((a_state) => {
+			if(this != null){
+				this.AddCount();
+			}else{
+				Debug.Log("null");
 			}
-			this.AddCount();
 		},null);
 
-		await System.Threading.Tasks.Task.Delay(1000);
-		await System.Threading.Tasks.Task.Delay(1000);
-		await System.Threading.Tasks.Task.Delay(1000);
-		await System.Threading.Tasks.Task.Delay(1000);
+		await XTask.Delay(1000);
+		await XTask.Delay(1000);
+		await XTask.Delay(1000);
+		await XTask.Delay(1000);
 
 		Debug.Log("");
 
@@ -70,11 +178,12 @@ public class main : MonoBehaviour
 	}
 	#endif
 
-	/** 追加。
+	/** [XTask]追加。
 	*/
-	#if false
+	#if true
 	public void AddCount()
 	{
+		Debug.Log("AddCount");
 		this.count++;
 	}
 	#endif
@@ -92,15 +201,16 @@ public class main : MonoBehaviour
 		//ライブラリ停止。
 		this.DeleteLibInstance();
 
-		//タスク。
-		#if false
+		//[XTask]タスク。
+		#if true
+		main.sync_context = new XSynchronizationContext();
 		this.task = null;
 		this.count = 0;
 		this.count_old = 0;
 		#endif
 	}
 
-	/** //ライブラリ停止。
+	/** ライブラリ停止。
 	*/
 	public void DeleteLibInstance()
 	{
@@ -144,27 +254,23 @@ public class main : MonoBehaviour
 		NPerformanceCounter.PerformanceCounter.DeleteInstance();
 	}
 
-	/** FiexUpdate
+	/** [XTask]FiexUpdate
 	*/
-	#if false
+	#if true
 	private void FixedUpdate()
 	{
 		if(this.task != null){
 			if(this.count_old != this.count){
-				if(this.task.IsCompleted || this.task.IsCanceled || this.task.IsFaulted){
-					Debug.Log(this.count.ToString() + " " + this.task.Result.ToString());
-
-					this.task.Wait();
-					System.Threading.Tasks.Task.WaitAll(this.task);
-
+				if((this.task.IsCompleted() == true)||(this.task.IsCanceled() == true)||(this.task.IsFaulted() == true)){
+					Debug.Log(this.count.ToString() + " " + this.task.GetResult().ToString());
 					this.task = null;
 				}
 			}
 
 		}else{
+			Debug.Log("new Task");
 			this.count_old = this.count;
-			this.sync_contest = System.Threading.SynchronizationContext.Current;
-			this.task = System.Threading.Tasks.Task.Run<bool>(() => {return this.TaskMain();});
+			this.task = new XTask<bool>(() => {return this.TaskMain();});
 		}
 	}
 	#endif
