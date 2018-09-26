@@ -98,7 +98,13 @@ public class test11 : main_base
 
 		//ダウンロード。インスタンス作成。
 		NDownLoad.Config.LOG_ENABLE = true;
+		NDownLoad.Config.SOUNDPOOL_CHECK_DATAVERSION = false;
+		NDownLoad.Config.SOUNDPOOL_CHECL_DATAHASH = false;
 		NDownLoad.DownLoad.CreateInstance();
+
+		//セーブロード。
+		NSaveLoad.Config.LOG_ENABLE = true;
+		NSaveLoad.SaveLoad.CreateInstance();
 
 		//オーディオ。インスタンス作成。
 		NAudio.Config.LOG_ENABLE = true;
@@ -115,9 +121,6 @@ public class test11 : main_base
 
 		//イベントプレート。インスタンス作成。
 		NEventPlate.EventPlate.CreateInstance();
-
-		//セーブロード。インスタンス作成。
-		NSaveLoad.SaveLoad.CreateInstance();
 
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
@@ -191,6 +194,9 @@ public class test11 : main_base
 		//ダウンロード。
 		NDownLoad.DownLoad.GetInstance().Main();
 
+		//セーブロード。
+		NSaveLoad.SaveLoad.GetInstance().Main();
+
 		//ＵＩ。
 		NUi.Ui.GetInstance().Main();
 
@@ -199,10 +205,6 @@ public class test11 : main_base
 
 		//イベントプレート。
 		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
-
-		//セーブロード。
-		NSaveLoad.Config.LOG_ENABLE = true;
-		NSaveLoad.SaveLoad.GetInstance().Main();
 
 		switch(this.mode){
 		case Mode.Wait:
