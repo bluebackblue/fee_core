@@ -753,7 +753,7 @@ PlayerSettings:
   cloudServicesEnabled:
     UNet: 1
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 2
+  apiCompatibilityLevel: 3
   cloudProjectId: 731938ea-e07d-41bd-9113-4887805a3e30
   projectName: fee (2)
   organizationId: blueback28

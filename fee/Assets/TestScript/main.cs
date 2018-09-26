@@ -145,34 +145,40 @@ public class main : MonoBehaviour
 	#if true
 	private async System.Threading.Tasks.Task<bool> TaskMain()
 	{
-		await XTask.Delay(1000);
+		try{
+			await XTask.Delay(1000);
 
-		main.sync_context.SetSynchronizationContext();
-		await XTask.Delay(1);
-		{
-			//同期。
+			main.sync_context.SetSynchronizationContext();
+			await XTask.Delay(1);
+			{
+				//同期。
 
-			if(this.gameObject.GetComponent<Transform>().position.x > 1){
-				Debug.Log("x");
+				/*if(this != null)*/{
+					if(this.gameObject.GetComponent<Transform>().position.x > 1){
+						Debug.Log("x");
+					}
+				}
 			}
+
+			await XTask.Delay(1);
+
+			main.sync_context.Post((a_state) => {
+				if(this != null){
+					this.AddCount();
+				}else{
+					Debug.Log("null");
+				}
+			},null);
+
+			await XTask.Delay(1000);
+			await XTask.Delay(1000);
+			await XTask.Delay(1000);
+			await XTask.Delay(1000);
+
+			Debug.Log("");
+		}catch(System.Exception t_exception){
+			Debug.Log("catch : " + t_exception.ToString());
 		}
-
-		await XTask.Delay(1);
-
-		main.sync_context.Post((a_state) => {
-			if(this != null){
-				this.AddCount();
-			}else{
-				Debug.Log("null");
-			}
-		},null);
-
-		await XTask.Delay(1000);
-		await XTask.Delay(1000);
-		await XTask.Delay(1000);
-		await XTask.Delay(1000);
-
-		Debug.Log("");
 
 		return true;
 	}
