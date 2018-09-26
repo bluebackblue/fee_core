@@ -84,6 +84,20 @@ namespace NJsonItem
 
 		/** constructor
 		*/
+		public JsonItem(Value_UnsignedInt a_value)
+		{
+			this.SetUnsignedInt(a_value.value);
+		}
+
+		/** constructor
+		*/
+		public JsonItem(Value_UnsignedLong a_value)
+		{
+			this.SetUnsignedLong(a_value.value);
+		}
+
+		/** constructor
+		*/
 		public JsonItem(Value_Float a_value)
 		{
 			this.SetFloat(a_value.value);
@@ -752,6 +766,28 @@ namespace NJsonItem
 		
 			this.valuetype = ValueType.IntegerNumber;
 			this.value.integer_number = a_integer;
+		}
+
+		/** [設定]整数セット。
+		*/
+		public void SetUnsignedInt(uint a_unsigned_int)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.IntegerNumber;
+			this.value.integer_number = (long)a_unsigned_int;
+		}
+
+		/** [設定]整数セット。
+		*/
+		public void SetUnsignedLong(ulong a_unsigned_long)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.IntegerNumber;
+			this.value.integer_number = (long)a_unsigned_long;
 		}
 
 		/** [設定]少数セット。

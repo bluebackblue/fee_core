@@ -1,10 +1,10 @@
 ManifestFileVersion: 0
-CRC: 3235450892
+CRC: 412484660
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: bgm
+      Name: se
       Dependencies: {}
     Info_1:
-      Name: se
+      Name: bgm
       Dependencies: {}

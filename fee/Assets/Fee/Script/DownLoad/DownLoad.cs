@@ -80,6 +80,10 @@ namespace NDownLoad
 		*/
 		private List<Work> work_list;
 
+		/** add_list
+		*/
+		private List<Work> add_list;
+
 		/** アセットバンドルリスト。
 		*/
 		private AssetBundleList assetbundle_list;
@@ -110,6 +114,9 @@ namespace NDownLoad
 
 			//work_list
 			this.work_list = new List<Work>();
+
+			//add_list
+			this.add_list = new List<Work>();
 
 			//assetbundle_list
 			this.assetbundle_list = new AssetBundleList();
@@ -151,7 +158,7 @@ namespace NDownLoad
 		public Item Request(string a_url,DataType a_datatype)
 		{
 			Work t_work = new Work(a_url,a_datatype,0,Config.INVALID_ASSSETBUNDLE_ID);
-			this.work_list.Add(t_work);
+			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
@@ -159,26 +166,26 @@ namespace NDownLoad
 
 		a_url                 : アドレス。
 		a_assetbundle_id      : 重複チェック用のＩＤ。
-		a_assetbundle_version : 再ダウンロードチェック用のバージョン値。
+		a_data_version        : 再ダウンロードチェック用のバージョン値。
 
 		*/
-		public Item RequestAssetBundle(string a_url,long a_assetbundle_id,uint a_assetbundle_version)
+		public Item RequestAssetBundle(string a_url,long a_assetbundle_id,uint a_data_version)
 		{
-			Work t_work = new Work(a_url,DataType.AssetBundle,a_assetbundle_version,a_assetbundle_id);
-			this.work_list.Add(t_work);
+			Work t_work = new Work(a_url,DataType.AssetBundle,a_data_version,a_assetbundle_id);
+			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。サウンドプール。
 
 		a_url                 : アドレス。
-		a_soundpool_version   : 再ダウンロードチェック用のバージョン値。//TODO:
+		a_data_version        : 再ダウンロードチェック用のバージョン値。
 
 		*/
-		public Item RequestSoundPool(string a_url,long a_soundpool_version)
+		public Item RequestSoundPool(string a_url,uint a_data_version)
 		{
-			Work t_work = new Work(a_url,DataType.SoundPool,0,Config.INVALID_ASSSETBUNDLE_ID);
-			this.work_list.Add(t_work);
+			Work t_work = new Work(a_url,DataType.SoundPool,a_data_version,Config.INVALID_ASSSETBUNDLE_ID);
+			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
@@ -186,7 +193,7 @@ namespace NDownLoad
 		*/
 		public bool IsBusy()
 		{
-			if(this.work_list.Count > 0){
+			if((this.work_list.Count > 0)||(this.add_list.Count > 0)){
 				return true;
 			}
 			return false;
@@ -197,9 +204,20 @@ namespace NDownLoad
 		public void Main()
 		{
 			try{
-				if(this.work_list.Count > 0){
-					if(this.work_list[0].Main() == true){
-						this.work_list.RemoveAt(0);
+				//追加。
+				if(this.add_list.Count > 0){
+					for(int ii=0;ii<this.add_list.Count;ii++){
+						this.work_list.Add(this.add_list[ii]);
+					}
+					this.add_list.Clear();
+				}
+
+				int t_index = 0;
+				while(t_index < this.work_list.Count){
+					if(this.work_list[t_index].Main() == true){
+						this.work_list.RemoveAt(t_index);
+					}else{
+						t_index++;
 					}
 				}
 			}catch(System.Exception t_exception){

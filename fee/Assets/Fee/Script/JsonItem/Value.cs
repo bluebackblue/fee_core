@@ -107,6 +107,28 @@ namespace NJsonItem
 		}
 	}
 
+	/** 整数。
+	*/
+	public struct Value_UnsignedInt
+	{
+		public uint value;
+		public Value_UnsignedInt(uint a_value)
+		{
+			this.value = a_value;
+		}
+	}
+
+	/** 整数。
+	*/
+	public struct Value_UnsignedLong
+	{
+		public ulong value;
+		public Value_UnsignedLong(ulong a_value)
+		{
+			this.value = a_value;
+		}
+	}
+
 	/** 少数。
 	*/
 	public struct Value_Float

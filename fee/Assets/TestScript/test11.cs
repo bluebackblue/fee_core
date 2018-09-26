@@ -22,7 +22,7 @@ public class test11 : main_base
 {
 	/** DATA_VERSION
 	*/
-	private const int DATA_VERSION = 2;
+	private const int DATA_VERSION = 3;
 
 	/** ASSETBUNDLE_ID_BGM
 	*/
@@ -47,25 +47,16 @@ public class test11 : main_base
 		/** アセットバンドル。
 		*/
 		AssetBundle,
-		AssetBundle_DownLoad_Start,
-		AssetBundle_DownLoad_Now,
+		AssetBundle_Start,
+		AssetBundle_Now,
+		AssetBundle_Fix,
 
 		/** サウンドプール。
 		*/
-		SP,
-		SP_Start,
-		SP_Now,
-
-		/** SE。
-		*/
-		Se,
-		Se_DownLoad_List_Start,
-		Se_DownLoad_List_Now,
-		Se_Donwload_ListItem_Start,
-		Se_Donwload_ListItem_Now,
-		Se_Save_ListItem_Start,
-		Se_Save_ListItem_Now,
-		Se_Audio,
+		SoundPool,
+		SoundPool_Start,
+		SoundPool_Now,
+		SoundPool_Fix,
 	};
 
 	private Mode mode;
@@ -74,13 +65,13 @@ public class test11 : main_base
 	*/
 	private NDownLoad.Item download_item;
 
-	/** セーブロード。
-	*/
-	private NSaveLoad.Item saveload_item;
-
 	/** パック。
 	*/
 	private NAudio.Pack_AudioClip pack_audioclip;
+
+	/** パック。
+	*/
+	private NAudio.Pack_SoundPool pack_soundpool;
 
 	/** ステータス。
 	*/
@@ -96,16 +87,7 @@ public class test11 : main_base
 
 	/** ボタン。
 	*/
-	private NUi.Button button_se;
-
-	/** ボタン。
-	*/
 	private NUi.Button button_soundpool;
-
-	/** サウンドプール。
-	*/
-	private NAudio.Pack_SoundPool soundpool_pack;
-	private int soundpool_listitem_index;
 
 	/** Start
 	*/
@@ -146,11 +128,11 @@ public class test11 : main_base
 		//ダウンロード。
 		this.download_item = null;
 
-		//セーブロード。
-		this.saveload_item = null;
-
 		//パック。
 		this.pack_audioclip = null;
+
+		//パック。
+		this.pack_soundpool = null;
 
 		//ステータス。
 		this.status = new NRender2D.Text2D(this.deleter,null,0);
@@ -166,24 +148,14 @@ public class test11 : main_base
 		//ボタン。
 		this.button_assetbundle = new NUi.Button(this.deleter,null,0,Click_AssetBundle,-1);
 		this.button_assetbundle.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_assetbundle.SetRect(100 + 200 * 1,130,150,30);
-		this.button_assetbundle.SetText("アセットバンドル");
-
-		//ボタン。
-		this.button_se = new NUi.Button(this.deleter,null,0,Click_Se,-1);
-		this.button_se.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_se.SetRect(100 + 200 * 2,130,150,30);
-		this.button_se.SetText("ＳＥロード");
+		this.button_assetbundle.SetRect(100 + 210 * 1,130,200,30);
+		this.button_assetbundle.SetText("AssetBundleロード");
 
 		//ボタン。
 		this.button_soundpool = new NUi.Button(this.deleter,null,0,Click_SoundPool,-1);
 		this.button_soundpool.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_soundpool.SetRect(100 + 200 * 3,130,150,30);
-		this.button_soundpool.SetText("サウンドプール");
-
-		//サウンドプール。
-		this.soundpool_pack = null;
-		this.soundpool_listitem_index = 0;
+		this.button_soundpool.SetRect(100 + 210 * 2,130,200,30);
+		this.button_soundpool.SetText("SoundPoolロード");
 	}
 
 	/** クリック。
@@ -208,16 +180,7 @@ public class test11 : main_base
 	public void Click_SoundPool(int a_value)
 	{
 		if(this.mode == Mode.Wait){
-			this.mode = Mode.SP;
-		}
-	}
-
-	/** クリック。
-	*/
-	public void Click_Se(int a_value)
-	{
-		if(this.mode == Mode.Wait){
-			this.mode = Mode.Se;
+			this.mode = Mode.SoundPool;
 		}
 	}
 
@@ -247,10 +210,14 @@ public class test11 : main_base
 			}break;
 		case Mode.AssetBundle:
 			{
-				this.mode = Mode.AssetBundle_DownLoad_Start;
+				//アセットバンドル。
+
+				this.mode = Mode.AssetBundle_Start;
 			}break;
-		case Mode.AssetBundle_DownLoad_Start:
+		case Mode.AssetBundle_Start:
 			{
+				//アセットバンドル。
+
 				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
 	
 				#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
@@ -267,10 +234,12 @@ public class test11 : main_base
 
 				this.download_item = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "se",ASSETBUNDLE_ID_BGM,DATA_VERSION);
 
-				this.mode = Mode.AssetBundle_DownLoad_Now;
+				this.mode = Mode.AssetBundle_Now;
 			}break;
-		case Mode.AssetBundle_DownLoad_Now:
+		case Mode.AssetBundle_Now:
 			{
+				//アセットバンドル。
+
 				if(this.download_item.IsBusy() == true){
 					//ダウンロード中。
 					this.status.SetText(this.download_item.GetProgress().ToString());
@@ -290,38 +259,40 @@ public class test11 : main_base
 							this.download_item = null;
 							this.mode = Mode.Wait;
 						}else{
-							this.status.SetText("ClipPack : " + this.pack_audioclip.audioclip_list.Count.ToString());
 							this.download_item = null;
-
-							this.pack_audioclip = null;
-
-							this.mode = Mode.Wait;
+							this.mode = Mode.AssetBundle_Fix;
 						}
 					}else{
 						//ダウンロード失敗。
-						this.status.SetText("Error : " + this.mode.ToString());
+						this.status.SetText("Error : " + this.download_item.GetResultErrorString());
 						this.download_item = null;
 						this.mode = Mode.Wait;
 					}
 				}
 			}break;
-		case Mode.SP:
+		case Mode.AssetBundle_Fix:
+			{
+				this.status.SetText("Success");
+
+				NAudio.Audio.GetInstance().LoadSe(this.pack_audioclip,SE_ID);
+				this.pack_audioclip = null;
+				this.mode = Mode.Wait;
+			}break;
+		case Mode.SoundPool:
 			{
 				//サウンドプール。
 
-				this.mode = Mode.SP_Start;
+				this.mode = Mode.SoundPool_Start;
 			}break;
-		case Mode.SP_Start:
+		case Mode.SoundPool_Start:
 			{
 				//サウンドプール。
 
 				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/se.txt";
-	
 				this.download_item = NDownLoad.DownLoad.GetInstance().RequestSoundPool(t_url,DATA_VERSION);
-
-				this.mode = Mode.SP_Now;
+				this.mode = Mode.SoundPool_Now;
 			}break;
-		case Mode.SP_Now:
+		case Mode.SoundPool_Now:
 			{
 				//サウンドプール。
 
@@ -331,139 +302,30 @@ public class test11 : main_base
 				}else{
 					if(this.download_item.GetDataType() == NDownLoad.DataType.SoundPool){
 						//ダウンロード成功。
-						NAudio.Pack_SoundPool t_soundpool = this.download_item.GetResultSoundPool();
-						if(t_soundpool == null){
+						this.pack_soundpool = this.download_item.GetResultSoundPool();
+						if(this.pack_soundpool == null){
 							//不正なサウンドプール。
 							this.status.SetText("Error : " + this.mode.ToString());
 							this.download_item = null;
 							this.mode = Mode.Wait;
 						}else{
-							this.status.SetText("LoadSe");
-
-							this.soundpool_pack = t_soundpool;
-							NAudio.Audio.GetInstance().LoadSe(this.soundpool_pack,SE_ID);
-							this.mode = Mode.Wait;
+							this.download_item = null;
+							this.mode = Mode.SoundPool_Fix;
 						}
 					}else{
 						//ダウンロード失敗。
-						this.status.SetText("Error : " + this.mode.ToString());
+						this.status.SetText("Error : " + this.download_item.GetResultErrorString());
 						this.download_item = null;
 						this.mode = Mode.Wait;
 					}
 				}
 			}break;
-		case Mode.Se:
+		case Mode.SoundPool_Fix:
 			{
-				//ＳＥ。
+				this.status.SetText("Success");
 
-				this.status.SetText(this.mode.ToString());
-				this.mode = Mode.Se_DownLoad_List_Start;
-			}break;
-		case Mode.Se_DownLoad_List_Start:
-			{
-				//ＳＥ。リストダウンロード開始。
-
-				this.status.SetText(this.mode.ToString());
-
-				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/se.txt";
-				this.download_item = NDownLoad.DownLoad.GetInstance().Request(t_url,NDownLoad.DataType.Text);
-				this.mode = Mode.Se_DownLoad_List_Now;
-			}break;
-		case Mode.Se_DownLoad_List_Now:
-			{
-				//ＳＥ。リストダウンロード中。
-
-				if(this.download_item.IsBusy() == true){
-					//ダウンロード中。
-					this.status.SetText(this.download_item.GetProgress().ToString());
-				}else{
-					if(this.download_item.GetDataType() == NDownLoad.DataType.Text){
-						//ダウンロード成功。
-
-						this.status.SetText("DownLoad : se.txt");
-
-						NJsonItem.JsonItem t_jsonitem = new NJsonItem.JsonItem(this.download_item.GetResultText());
-						this.soundpool_pack = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(t_jsonitem);
-
-						this.download_item = null;
-
-						this.soundpool_listitem_index = 0;
-						this.mode = Mode.Se_Donwload_ListItem_Start;
-					}else{
-						//ダウンロード失敗。
-						this.status.SetText("Error : " + this.mode.ToString());
-						this.download_item = null;
-						this.mode = Mode.Wait;
-					}
-				}
-			}break;
-		case Mode.Se_Donwload_ListItem_Start:
-			{
-				//ＳＥ。リストアイテムダウンロード開始。
-
-				if(this.soundpool_listitem_index < this.soundpool_pack.name_list.Count){
-					string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/" + this.soundpool_pack.name_list[this.soundpool_listitem_index];
-					this.download_item = NDownLoad.DownLoad.GetInstance().Request(t_url,NDownLoad.DataType.Binary);
-					this.mode = Mode.Se_Donwload_ListItem_Now;
-				}else{
-					this.mode = Mode.Se_Audio;
-				}
-			}break;
-		case Mode.Se_Donwload_ListItem_Now:
-			{
-				//ＳＥ。リストアイテムダウンロード中。
-
-				if(this.download_item.IsBusy() == true){
-					//ダウンロード中。
-					this.status.SetText(this.download_item.GetProgress().ToString());
-				}else{
-					if(this.download_item.GetDataType() == NDownLoad.DataType.Binary){
-						//ダウンロード成功。
-						this.mode = Mode.Se_Save_ListItem_Start;
-					}else{
-						//ダウンロード失敗。
-						this.status.SetText("Error : " + this.mode.ToString());
-						this.download_item = null;
-						this.mode = Mode.Wait;
-					}
-				}
-			}break;
-		case Mode.Se_Save_ListItem_Start:
-			{
-				//ＳＥ。リストアイテムセーブ開始。
-
-				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalBinaryFile(this.soundpool_pack.name_list[this.soundpool_listitem_index],this.download_item.GetResultBinary());
-				this.download_item = null;
-
-				this.mode = Mode.Se_Save_ListItem_Now;
-			}break;
-		case Mode.Se_Save_ListItem_Now:
-			{
-				//ＳＥ。リストアイテムセーブ中。
-
-				if(this.saveload_item.IsBusy() == true){
-					//セーブ中。
-					this.status.SetText("SaveNow : " + this.soundpool_pack.name_list[this.soundpool_listitem_index]);
-				}else{
-					if(this.saveload_item.GetDataType() == NSaveLoad.DataType.SaveEnd){
-						//セーブ成功。
-						this.saveload_item = null;
-						this.soundpool_listitem_index++;
-						this.mode = Mode.Se_Donwload_ListItem_Start;
-					}else{
-						//セーブ失敗。
-						this.status.SetText("DataType = Error");
-						this.saveload_item = null;
-						this.mode = Mode.Wait;
-					}
-				}
-			}break;
-		case Mode.Se_Audio:
-			{
-				//ＳＥ。ロード。
-
-				this.status.SetText("LoadSe");
-				NAudio.Audio.GetInstance().LoadSe(this.soundpool_pack,SE_ID);
+				NAudio.Audio.GetInstance().LoadSe(this.pack_soundpool,SE_ID);
+				this.pack_soundpool = null;
 				this.mode = Mode.Wait;
 			}break;
 		}
@@ -488,26 +350,16 @@ public class test11 : main_base
 		this.deleter.DeleteAll();
 	}
 
-	class TEST
-	{
-		public bool[] list;
-
-		public TEST()
-		{
-			this.list = new bool[2];
-			this.list[0] = true;
-			this.list[1] = false;
-		}
-	}
-
 	/** 作成。
 	*/
 	#if(UNITY_EDITOR)
 	[UnityEditor.MenuItem("Test/test11/MekeSoundPool")]
 	private static void MekeSoundPool()
 	{
+		string t_assetbundle_name = "se";
+
 		NAudio.Pack_SoundPool t_pack_soundpool = new NAudio.Pack_SoundPool();
-		GameObject t_prefab_se = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/AssetBundleData/se.prefab");
+		GameObject t_prefab_se = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/AssetBundleData/" + t_assetbundle_name + ".prefab");
 		if(t_prefab_se != null){
 			NAudio.Pack_AudioClip t_pack_audioclip = t_prefab_se.GetComponent<NAudio.Pack_AudioClip>();
 			if(t_pack_audioclip != null){
@@ -538,6 +390,8 @@ public class test11 : main_base
 					t_pack_soundpool.volume_list.Add(t_audio_volume);
 				}
 			}
+
+			t_pack_soundpool.data_hash = t_pack_soundpool.GetHashCode();
 		}
 
 		//保存。
@@ -545,7 +399,7 @@ public class test11 : main_base
 			NJsonItem.JsonItem t_jsonitem = NJsonItem.ObjectToJson.Convert(t_pack_soundpool);
 			string t_json_string = t_jsonitem.ConvertJsonString();
 
-			string t_filename = Application.dataPath + "/AssetBundleData/se.txt";
+			string t_filename = Application.dataPath + "/AssetBundle/Raw/" + t_assetbundle_name + ".txt";
 			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(t_filename);
 			System.IO.StreamWriter t_stream_writer = null;
 
@@ -567,18 +421,6 @@ public class test11 : main_base
 			}
 
 			UnityEditor.AssetDatabase.Refresh();
-		}
-
-		{
-			TEST t_test1 = new TEST();
-			NJsonItem.JsonItem jj = NJsonItem.ObjectToJson.Convert(t_test1);
-
-			Debug.Log(jj.ConvertJsonString());
-
-			TEST t_test2 = NJsonItem.JsonToObject<TEST>.Convert(jj);
-			for(int ii=0;ii<t_test2.list.Length;ii++){
-				Debug.Log(t_test2.list[ii].ToString());
-			}
 		}
 	}
 	#endif

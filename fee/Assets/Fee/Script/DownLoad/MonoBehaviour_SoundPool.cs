@@ -81,10 +81,8 @@ namespace NDownLoad
 		private DataType request_datatype;
 		*/
 
-		/*
 		[SerializeField]
-		private uint request_assetbundle_version;
-		*/		
+		private uint request_data_version;
 
 		/*
 		[SerializeField]
@@ -138,10 +136,8 @@ namespace NDownLoad
 			//request_url
 			this.request_url = null;
 
-			//request_assetbundle_version
-			/*
-			this.request_assetbundle_version = 0;
-			*/
+			//request_data_version
+			this.request_data_version = 0;
 
 			//request_datatype
 			/*
@@ -423,23 +419,95 @@ namespace NDownLoad
 					{
 						if(this.request_flag == true){
 
-							NAudio.Pack_SoundPool t_soundpool = null;
-
-							//リスト。ダウンロード。
+							//サウンドプール名。
+							string t_soundpool_name = System.IO.Path.GetFileName(this.request_url);
+							string t_soundpool_url_root = this.request_url.Substring(0,this.request_url.Length - t_soundpool_name.Length);
 							{
-								NDownLoad.Item t_download_item = NDownLoad.DownLoad.GetInstance().Request(this.request_url,NDownLoad.DataType.Text);
+								if((t_soundpool_url_root[t_soundpool_url_root.Length - 1] != '\\')&&(t_soundpool_url_root[t_soundpool_url_root.Length - 1] != '/')){
+									t_soundpool_url_root += "/";
+								}
+								Tool.Log("SoundPoolUrlRoot",t_soundpool_url_root);
 
-								while(t_download_item.IsBusy() == true){
-									yield return null;
+								if(System.Text.RegularExpressions.Regex.IsMatch(t_soundpool_name,"[0-9a-zA-Z][0-9a-zA-Z\\.\\_\\-]*") == true){
+									Tool.Log("SoundPoolName",t_soundpool_name);
+								}else{
+									//失敗。
+									this.result_errorstring = "SoundPoolName : " + t_soundpool_name;
+									this.mode = Mode.Do_Error;
+									break;
+								}
+							}
+	
+
+							//ローカルサウンドプール管理ＪＳＯＮ。ロード。
+							NAudio.Pack_SoundPool t_local_soundpool = null;
+							{
+								{
+									NSaveLoad.Item t_saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLoaclTextFile(t_soundpool_name);
+									{
+										do{
+											yield return null;
+										}while(t_saveload_item.IsBusy() == true);
+
+										if(t_saveload_item.GetDataType() == NSaveLoad.DataType.Text){
+											t_local_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_saveload_item.GetResultText()));
+										}else{
+											t_local_soundpool = null;
+										}
+									}
 								}
 
+								if(t_local_soundpool != null){
+									if(t_local_soundpool.data_version == this.request_data_version){
+										//ローカルのものとデータバージョン一致。
+										this.result_datatype = DataType.SoundPool;
+										this.result_soundpool = t_local_soundpool;
+										this.mode = Mode.Do_Fix;
+										break;
+									}
+								}
+							}
+
+							//サウンドプール管理ＪＳＯＮ。ダウンロード。
+							NAudio.Pack_SoundPool t_soundpool = null;
+							{
+								NDownLoad.Item t_download_item = NDownLoad.DownLoad.GetInstance().Request(t_soundpool_url_root + t_soundpool_name,NDownLoad.DataType.Text);
+
+								do{
+									yield return null;
+								}while(t_download_item.IsBusy() == true);
+
 								if(t_download_item.GetDataType() == DataType.Text){
-									NJsonItem.JsonItem t_jsonitem = new NJsonItem.JsonItem(t_download_item.GetResultText());
-									t_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(t_jsonitem);
+									t_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_download_item.GetResultText()));
 									if(t_soundpool == null){
 										//失敗。
-										this.result_errorstring = t_download_item.GetResultErrorString();
+										this.result_errorstring = "SoundPoolObject == null";
 										this.mode = Mode.Do_Error;
+										break;
+									}
+									if(t_soundpool.name_list == null){
+										//失敗。
+										this.result_errorstring = "SoundPoolObject.name_list == null";
+										this.mode = Mode.Do_Error;
+										break;
+									}
+
+									for(int ii=0;ii<t_soundpool.name_list.Count;ii++){
+										if(t_soundpool.name_list[ii] == null){
+											//失敗。
+											this.result_errorstring = "SoundPoolObject.name_list == null";
+											this.mode = Mode.Do_Error;
+										}
+										if(System.Text.RegularExpressions.Regex.IsMatch(t_soundpool.name_list[ii],"[0-9a-zA-Z][0-9a-zA-Z\\.\\_\\-]*") == true){
+											Tool.Log("SoundPoolObject.name_list : " + ii.ToString(),t_soundpool.name_list[ii]);
+										}else{
+											//失敗。
+											this.result_errorstring = "SoundPoolObject.name_list : " + t_soundpool.name_list[ii];
+											this.mode = Mode.Do_Error;
+										}
+									}
+									if(this.mode == Mode.Do_Error){
+										//失敗。
 										break;
 									}
 								}else{
@@ -450,11 +518,95 @@ namespace NDownLoad
 								}
 							}
 
-							//リストアイテム。ダウンロード。
-							for(int ii=0;ii<t_soundpool.name_list.Count;ii++){
+							bool t_need_download = true;
+							if(t_local_soundpool != null){
+								if(t_local_soundpool.data_hash == t_soundpool.data_hash){
+									//ローカルのものとデータハッシュ一致。
+									t_need_download = false;
+								}
 							}
 
+							if(t_need_download == true){
+								for(int ii=0;ii<t_soundpool.name_list.Count;ii++){
+									//リストアイテム。ダウンロード。
+									byte[] t_binary = null;
+									{
+										NDownLoad.Item t_download_item = NDownLoad.DownLoad.GetInstance().Request(t_soundpool_url_root + t_soundpool.name_list[ii],NDownLoad.DataType.Binary);
+										{
+											do{
+												yield return null;
+											}while(t_download_item.IsBusy() == true);
+
+											if(t_download_item.GetDataType() == NDownLoad.DataType.Binary){
+												t_binary = t_download_item.GetResultBinary();
+												if(t_binary == null){
+													//失敗。
+													this.result_errorstring = "ListItemBianry == null";
+													this.mode = Mode.Do_Error;
+													break;
+												}else if(t_binary.Length < 1){
+													//失敗。
+													this.result_errorstring = "ListItemBianry.Length < 1";
+													this.mode = Mode.Do_Error;
+													break;
+												}
+											}else{
+												//失敗。
+												this.result_errorstring = t_download_item.GetResultErrorString();
+												this.mode = Mode.Do_Error;
+												break;
+											}
+										}
+									}
+
+									//リストアイテム。保存。
+									{
+										NSaveLoad.Item t_saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalBinaryFile(t_soundpool.name_list[ii],t_binary);
+										{
+											do{
+												yield return null;
+											}while(t_saveload_item.IsBusy() == true);
+
+											if(t_saveload_item.GetDataType() == NSaveLoad.DataType.Binary){
+											}else{
+												//失敗。
+												this.result_errorstring = "RequestSaveLocalBinaryFile : error : " + t_soundpool.name_list[ii];
+												this.mode = Mode.Do_Error;
+												break;
+											}
+										}
+									}
+								}
+							}
+
+							//サウンドプール管理ＪＳＯＮ。保存。
+							{
+								t_soundpool.data_version = this.request_data_version;
+
+								NJsonItem.JsonItem t_soundpool_json = NJsonItem.ObjectToJson.Convert(t_soundpool);
+								if(t_soundpool_json != null){
+									NSaveLoad.Item t_saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalTextFile(t_soundpool_name,t_soundpool_json.ConvertJsonString());
+									{
+										do{
+											yield return null;
+										}while(t_saveload_item.IsBusy() == true);
+
+										if(t_saveload_item.GetDataType() == NSaveLoad.DataType.Text){
+										}else{
+											//失敗。
+											this.result_errorstring = "RequestSaveLocalTextFile : error : " + t_soundpool_name;
+											this.mode = Mode.Do_Error;
+											break;
+										}
+									}
+								}else{
+									Tool.Assert(false);
+								}
+							}
+
+							this.result_datatype = DataType.SoundPool;
 							this.result_soundpool = t_soundpool;
+							this.mode = Mode.Do_Fix;
 						}
 						
 					}break;
@@ -466,10 +618,10 @@ namespace NDownLoad
 							this.result_errorstring = "error == null";
 						}
 
+						this.result_datatype = DataType.Error;
 						this.result_soundpool = null;
 
 						//終了。
-						this.result_datatype = DataType.Error;
 						this.result_download_progress = 1.0f;
 						this.result_upload_progress = 1.0f;
 						this.request_flag = false;
@@ -480,12 +632,18 @@ namespace NDownLoad
 					{
 						//正常終了。
 
+						this.result_errorstring = null;
+
 						//終了。
 						this.result_download_progress = 1.0f;
 						this.result_upload_progress = 1.0f;
 						this.request_flag = false;
 
 						this.mode = Mode.Fix;
+					}break;
+				case Mode.Fix:
+					{
+						yield return null;
 					}break;
 				}
 			}
@@ -497,7 +655,7 @@ namespace NDownLoad
 
 		/** リクエスト。
 		*/
-		public bool Request(string a_url)
+		public bool Request(string a_url,uint a_data_version)
 		{
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
@@ -507,6 +665,7 @@ namespace NDownLoad
 
 				//request
 				this.request_url = a_url;
+				this.request_data_version = a_data_version;
 
 				//result
 				this.result_errorstring = "";

@@ -78,7 +78,7 @@ namespace NDownLoad
 		private DataType request_datatype;
 
 		[SerializeField]
-		private uint request_assetbundle_version;
+		private uint request_data_version;
 
 		[SerializeField]
 		private long request_assetbundle_id;
@@ -143,8 +143,8 @@ namespace NDownLoad
 			//request_url
 			this.request_url = null;
 
-			//request_assetbundle_version
-			this.request_assetbundle_version = 0;
+			//request_data_version
+			this.request_data_version = 0;
 
 			//request_datatype
 			this.request_datatype = DataType.None;
@@ -182,8 +182,8 @@ namespace NDownLoad
 				switch(this.request_datatype){
 				case DataType.AssetBundle:
 					{
-						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_assetbundle_version.ToString() + " : " + this.request_url);
-						this.webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(this.request_url,this.request_assetbundle_version,0);
+						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_data_version.ToString() + " : " + this.request_url);
+						this.webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(this.request_url,this.request_data_version,0);
 					}break;
 				case DataType.Text:
 					{
@@ -439,6 +439,10 @@ namespace NDownLoad
 						//正常終了。
 						yield return this.Raw_DoFix();
 					}break;
+				case Mode.Fix:
+					{
+						yield return null;
+					}break;
 				}
 			}
 
@@ -449,7 +453,7 @@ namespace NDownLoad
 
 		/** リクエスト。
 		*/
-		public bool Request(string a_url,DataType a_datatype,uint a_assetbundle_version,long a_assetbundle_id)
+		public bool Request(string a_url,DataType a_datatype,uint a_data_version,long a_assetbundle_id)
 		{
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
@@ -460,7 +464,7 @@ namespace NDownLoad
 				//request
 				this.request_url = a_url;
 				this.request_datatype = a_datatype;
-				this.request_assetbundle_version = a_assetbundle_version;
+				this.request_data_version = a_data_version;
 				this.request_assetbundle_id = a_assetbundle_id;
 
 				//result

@@ -20,6 +20,14 @@ namespace NAudio
 	*/
 	public class Pack_SoundPool
 	{
+		/** データハッシュ。
+		*/
+		public int data_hash;
+
+		/** データバージョン。
+		*/
+		public uint data_version;
+
 		/** name
 		*/
 		public List<string> name_list;

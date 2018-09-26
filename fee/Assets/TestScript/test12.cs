@@ -47,7 +47,7 @@ public class test12 : main_base
 
 	/** DATA_VERSION
 	*/
-	private const int DATA_VERSION = 2;
+	private const int DATA_VERSION = 3;
 
 	/** Start
 	*/

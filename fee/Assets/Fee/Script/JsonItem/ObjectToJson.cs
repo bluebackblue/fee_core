@@ -65,6 +65,18 @@ namespace NJsonItem
 					long t_value_raw = (long)a_instance;
 
 					t_return = new JsonItem(new Value_Long(t_value_raw));
+				}else if(t_type == typeof(uint)){
+					//uint
+
+					uint t_value_raw = (uint)a_instance;
+
+					t_return = new JsonItem(new Value_UnsignedInt(t_value_raw));
+				}else if(t_type == typeof(ulong)){
+					//ulong
+
+					ulong t_value_raw = (ulong)a_instance;
+
+					t_return = new JsonItem(new Value_UnsignedLong(t_value_raw));
 				}else if(t_type == typeof(float)){
 					//float
 

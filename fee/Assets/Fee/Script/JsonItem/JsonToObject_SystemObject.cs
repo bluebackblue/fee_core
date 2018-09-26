@@ -26,6 +26,8 @@ namespace NJsonItem
 		{
 			if(
 				a_type == typeof(string) ||
+				a_type == typeof(uint) ||
+				a_type == typeof(uint) ||
 				a_type == typeof(int) ||
 				a_type == typeof(long) ||
 				a_type == typeof(float) ||
@@ -87,17 +89,27 @@ namespace NJsonItem
 						a_to_object = a_jsonitem.GetBoolData();
 					}
 				}else if(a_jsonitem.IsIntegerNumber() == true){
-					if((t_type == typeof(int))||(t_type == typeof(long))){
+					if(t_type == typeof(int)){
 						//int
+						a_to_object = (int)a_jsonitem.GetInteger();
+					}else if(t_type == typeof(long)){
 						//long
-						a_to_object = a_jsonitem.GetInteger();
+						a_to_object = (long)a_jsonitem.GetInteger();
+					}else if(t_type == typeof(uint)){
+						//uint
+						a_to_object = (uint)a_jsonitem.GetInteger();
+					}else if(t_type == typeof(ulong)){
+						//ulong
+						a_to_object = (ulong)a_jsonitem.GetInteger();
 					}
 				}else if(a_jsonitem.IsFloatNumber() == true){
-					if((t_type == typeof(float))||(t_type == typeof(double))){
+					if(t_type == typeof(float)){
 						//float
+						a_to_object = (float)a_jsonitem.GetFloat();
+					}else if(t_type == typeof(double)){
 						//double
-						a_to_object = a_jsonitem.GetFloat();
-					}
+						a_to_object = (double)a_jsonitem.GetFloat();
+					} 
 				}else if(a_jsonitem.IsIndexArray() == true){
 					if(t_type.IsGenericType == true){
 						if(t_type.GetGenericTypeDefinition() == typeof(List<>)){

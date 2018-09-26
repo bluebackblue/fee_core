@@ -61,9 +61,9 @@ namespace NDownLoad
 		*/
 		private DataType datatype;
 
-		/** assetbundle_version
+		/** data_version
 		*/
-		private uint assetbundle_version;
+		private uint data_version;
 
 		/** assetbundle_id
 		*/
@@ -75,7 +75,7 @@ namespace NDownLoad
 
 		/** constructor
 		*/
-		public Work(string a_url,DataType a_datatype,uint a_assetbundle_version,long a_assetbundle_id)
+		public Work(string a_url,DataType a_datatype,uint a_data_version,long a_assetbundle_id)
 		{
 			//mode
 			this.mode = Mode.Start;
@@ -86,8 +86,8 @@ namespace NDownLoad
 			//datatype
 			this.datatype = a_datatype;
 
-			//assetbundle_version
-			this.assetbundle_version = a_assetbundle_version;
+			//data_version
+			this.data_version = a_data_version;
 
 			//assetbundle_id
 			this.assetbundle_id = a_assetbundle_id;
@@ -148,7 +148,7 @@ namespace NDownLoad
 					MonoBehaviour_WebRequest t_webrequest = NDownLoad.DownLoad.GetInstance().GetWebRequest();
 
 					//リクエスト。
-					if(t_webrequest.Request(this.url,this.datatype,this.assetbundle_version,this.assetbundle_id) == true){
+					if(t_webrequest.Request(this.url,this.datatype,this.data_version,this.assetbundle_id) == true){
 						this.mode = Mode.Do_WebRequest;
 					}
 				}break;
@@ -202,7 +202,7 @@ namespace NDownLoad
 					MonoBehaviour_SoundPool t_soundpool = NDownLoad.DownLoad.GetInstance().GetSoundPool();
 
 					//リクエスト。
-					if(t_soundpool.Request(this.url) == true){
+					if(t_soundpool.Request(this.url,this.data_version) == true){
 						this.mode = Mode.Do_SoundPool;
 					}
 				}break;
