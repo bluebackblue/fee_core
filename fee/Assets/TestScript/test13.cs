@@ -47,7 +47,7 @@ public class test13 : main_base
 
 	/** DATA_VERSION
 	*/
-	private const int DATA_VERSION = 4;
+	private const int DATA_VERSION = 0;
 
 	/** bgm_index
 	*/
