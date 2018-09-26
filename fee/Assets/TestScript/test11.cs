@@ -14,9 +14,10 @@ using UnityEngine;
 
 /** test11
 
-	アセットバンドル作成
-	アセットバンドルダウンロード
-
+	オーディオクリップパックのアセットバンドル作成
+	サウンドプールパックの作成
+	オーディオクリップパックのアセットバンドルロード
+	サウンドプールパックのオード
 */
 public class test11 : main_base
 {
@@ -44,32 +45,28 @@ public class test11 : main_base
 		*/
 		Wait,
 
-		/** アセットバンドル。
+		/**
 		*/
-		AssetBundle,
-		AssetBundle_Start,
-		AssetBundle_Now,
-		AssetBundle_Fix,
-
-		/** サウンドプール。
-		*/
-		SoundPool,
-		SoundPool_Start,
-		SoundPool_Now,
-		SoundPool_Fix,
+		Start,
+		Now,
+		Fix,
 	};
 
 	private Mode mode;
+
+	/** soundpool_flag
+	*/
+	private bool soundpool_flag;
 
 	/** ダウンロード。
 	*/
 	private NDownLoad.Item download_item;
 
-	/** パック。
+	/** オーディオクリップパック。
 	*/
 	private NAudio.Pack_AudioClip pack_audioclip;
 
-	/** パック。
+	/** サウンドプールパック。
 	*/
 	private NAudio.Pack_SoundPool pack_soundpool;
 
@@ -128,6 +125,9 @@ public class test11 : main_base
 		//モード。
 		this.mode = Mode.Wait;
 
+		//soundpool_flag
+		this.soundpool_flag = false;
+
 		//ダウンロード。
 		this.download_item = null;
 
@@ -174,7 +174,8 @@ public class test11 : main_base
 	public void Click_AssetBundle(int a_value)
 	{
 		if(this.mode == Mode.Wait){
-			this.mode = Mode.AssetBundle;
+			this.soundpool_flag = false;
+			this.mode = Mode.Start;
 		}
 	}
 
@@ -183,7 +184,8 @@ public class test11 : main_base
 	public void Click_SoundPool(int a_value)
 	{
 		if(this.mode == Mode.Wait){
-			this.mode = Mode.SoundPool;
+			this.soundpool_flag = true;
+			this.mode = Mode.Start;
 		}
 	}
 
@@ -210,44 +212,56 @@ public class test11 : main_base
 		case Mode.Wait:
 			{
 			}break;
-		case Mode.AssetBundle:
+		case Mode.Start:
 			{
-				//アセットバンドル。
+				string t_name = "se";
 
-				this.mode = Mode.AssetBundle_Start;
-			}break;
-		case Mode.AssetBundle_Start:
-			{
-				//アセットバンドル。
-
-				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
+				if(this.soundpool_flag == true){
+					string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/" + t_name + ".txt";
+					this.download_item = NDownLoad.DownLoad.GetInstance().RequestSoundPool(t_url,DATA_VERSION);
+				}else{
+					string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
 	
-				#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
-				t_url += "StandaloneWindows/";
-				#elif(UNITY_WEBGL)
-				t_url += "WebGL/";
-				#elif(UNITY_ANDROID)
-				t_url += "Android/";
-				#elif(UNITY_IOS)
-				t_url += "iOS/";
-				#else
-				t_url += "StandaloneWindows/";
-				#endif
+					#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
+					t_url += "StandaloneWindows/";
+					#elif(UNITY_WEBGL)
+					t_url += "WebGL/";
+					#elif(UNITY_ANDROID)
+					t_url += "Android/";
+					#elif(UNITY_IOS)
+					t_url += "iOS/";
+					#else
+					t_url += "StandaloneWindows/";
+					#endif
 
-				this.download_item = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "se",ASSETBUNDLE_ID_BGM,DATA_VERSION);
+					this.download_item = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "se",ASSETBUNDLE_ID_BGM,DATA_VERSION);
+				}
 
-				this.mode = Mode.AssetBundle_Now;
+				this.mode = Mode.Now;
 			}break;
-		case Mode.AssetBundle_Now:
+		case Mode.Now:
 			{
-				//アセットバンドル。
-
 				if(this.download_item.IsBusy() == true){
 					//ダウンロード中。
 					this.status.SetText(this.download_item.GetProgress().ToString());
 				}else{
-					if(this.download_item.GetDataType() == NDownLoad.DataType.AssetBundle){
-						//ダウンロード成功。
+					if(this.download_item.GetDataType() == NDownLoad.DataType.SoundPool){
+						//ダウンロード成功。サウンドプール。
+
+						this.pack_soundpool = this.download_item.GetResultSoundPool();
+						if(this.pack_soundpool == null){
+							//不正なサウンドプールパック。
+							this.status.SetText("Error : " + this.mode.ToString());
+							this.download_item = null;
+							this.mode = Mode.Wait;
+						}else{
+							this.download_item = null;
+							this.mode = Mode.Fix;
+						}
+
+					}else if(this.download_item.GetDataType() == NDownLoad.DataType.AssetBundle){
+						//ダウンロード成功。アセットバンドル。
+
 						AssetBundle t_assetbundle = this.download_item.GetResultAssetBundle();
 						if(t_assetbundle != null){
 							GameObject t_prefab = t_assetbundle.LoadAsset<GameObject>("se");
@@ -256,13 +270,13 @@ public class test11 : main_base
 							}
 						}
 						if(this.pack_audioclip == null){
-							//不正なクリップパック。
+							//不正なオーディオクリップパック。
 							this.status.SetText("Error : " + this.mode.ToString());
 							this.download_item = null;
 							this.mode = Mode.Wait;
 						}else{
 							this.download_item = null;
-							this.mode = Mode.AssetBundle_Fix;
+							this.mode = Mode.Fix;
 						}
 					}else{
 						//ダウンロード失敗。
@@ -272,69 +286,26 @@ public class test11 : main_base
 					}
 				}
 			}break;
-		case Mode.AssetBundle_Fix:
+		case Mode.Fix:
 			{
 				this.status.SetText("Success");
 
-				NAudio.Audio.GetInstance().LoadSe(this.pack_audioclip,SE_ID);
-				this.pack_audioclip = null;
-				this.mode = Mode.Wait;
-			}break;
-		case Mode.SoundPool:
-			{
-				//サウンドプール。
-
-				this.mode = Mode.SoundPool_Start;
-			}break;
-		case Mode.SoundPool_Start:
-			{
-				//サウンドプール。
-
-				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/se.txt";
-				this.download_item = NDownLoad.DownLoad.GetInstance().RequestSoundPool(t_url,DATA_VERSION);
-				this.mode = Mode.SoundPool_Now;
-			}break;
-		case Mode.SoundPool_Now:
-			{
-				//サウンドプール。
-
-				if(this.download_item.IsBusy() == true){
-					//ダウンロード中。
-					this.status.SetText(this.download_item.GetProgress().ToString());
+				if(this.soundpool_flag == true){
+					NAudio.Audio.GetInstance().LoadSe(this.pack_soundpool,SE_ID);
 				}else{
-					if(this.download_item.GetDataType() == NDownLoad.DataType.SoundPool){
-						//ダウンロード成功。
-						this.pack_soundpool = this.download_item.GetResultSoundPool();
-						if(this.pack_soundpool == null){
-							//不正なサウンドプール。
-							this.status.SetText("Error : " + this.mode.ToString());
-							this.download_item = null;
-							this.mode = Mode.Wait;
-						}else{
-							this.download_item = null;
-							this.mode = Mode.SoundPool_Fix;
-						}
-					}else{
-						//ダウンロード失敗。
-						this.status.SetText("Error : " + this.download_item.GetResultErrorString());
-						this.download_item = null;
-						this.mode = Mode.Wait;
-					}
+					NAudio.Audio.GetInstance().LoadSe(this.pack_audioclip,SE_ID);
 				}
-			}break;
-		case Mode.SoundPool_Fix:
-			{
-				this.status.SetText("Success");
-
-				NAudio.Audio.GetInstance().LoadSe(this.pack_soundpool,SE_ID);
+				this.pack_audioclip = null;
 				this.pack_soundpool = null;
 				this.mode = Mode.Wait;
 			}break;
 		}
 
 		//再生。
-		if(NInput.Mouse.GetInstance().left.down == true){
-			NAudio.Audio.GetInstance().PlaySe(SE_ID,0);
+		if(NInput.Mouse.GetInstance().InRectCheck(ref NRender2D.Render2D.VIRTUAL_RECT_MAX)){
+			if(NInput.Mouse.GetInstance().left.down == true){
+				NAudio.Audio.GetInstance().PlaySe(SE_ID,0);
+			}
 		}
 	}
 
