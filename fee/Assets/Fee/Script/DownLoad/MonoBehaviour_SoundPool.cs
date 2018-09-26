@@ -204,7 +204,7 @@ namespace NDownLoad
 					this.result_download_progress = this.CalcProgress(0.0f);
 					yield return null;
 				}while(t_saveload_item.IsBusy() == true);
-						
+
 				if(t_saveload_item.GetDataType() == NSaveLoad.DataType.Text){
 					this.work.local_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_saveload_item.GetResultText()));
 

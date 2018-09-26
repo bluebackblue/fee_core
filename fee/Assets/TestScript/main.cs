@@ -24,6 +24,61 @@ public class main : MonoBehaviour
 	*/
 	private static int SCENE_COUNT = 20;
 
+	/** タスク。
+	*/
+	#if false
+	private System.Threading.SynchronizationContext sync_contest;
+	private System.Threading.Tasks.Task<bool> task;
+	private int count;
+	private int count_old;
+	#endif
+
+	/** TaskMain
+	*/
+	#if false
+	private async System.Threading.Tasks.Task<bool> TaskMain()
+	{
+		await System.Threading.Tasks.Task.Delay(1000);
+
+
+		System.Threading.SynchronizationContext.SetSynchronizationContext(this.sync_contest);
+		await System.Threading.Tasks.Task.Delay(1);
+		{
+			//同期。
+			if(this.gameObject.GetComponent<Transform>().position.x > 1){
+				Debug.Log("x");
+			}
+		}
+
+		await System.Threading.Tasks.Task.Delay(1);
+
+		this.sync_contest.Post((a_state) => {
+			if(a_state != null){
+				Debug.Log("state = " + a_state.ToString());
+			}
+			this.AddCount();
+		},null);
+
+		await System.Threading.Tasks.Task.Delay(1000);
+		await System.Threading.Tasks.Task.Delay(1000);
+		await System.Threading.Tasks.Task.Delay(1000);
+		await System.Threading.Tasks.Task.Delay(1000);
+
+		Debug.Log("");
+
+		return true;
+	}
+	#endif
+
+	/** 追加。
+	*/
+	#if false
+	public void AddCount()
+	{
+		this.count++;
+	}
+	#endif
+
 	/** Start
 	*/
 	void Start()
@@ -36,11 +91,13 @@ public class main : MonoBehaviour
 
 		//ライブラリ停止。
 		this.DeleteLibInstance();
-	}
 
-	struct Item
-	{
-		public int value;		
+		//タスク。
+		#if false
+		this.task = null;
+		this.count = 0;
+		this.count_old = 0;
+		#endif
 	}
 
 	/** //ライブラリ停止。
@@ -87,9 +144,34 @@ public class main : MonoBehaviour
 		NPerformanceCounter.PerformanceCounter.DeleteInstance();
 	}
 
+	/** FiexUpdate
+	*/
+	#if false
+	private void FixedUpdate()
+	{
+		if(this.task != null){
+			if(this.count_old != this.count){
+				if(this.task.IsCompleted || this.task.IsCanceled || this.task.IsFaulted){
+					Debug.Log(this.count.ToString() + " " + this.task.Result.ToString());
+
+					this.task.Wait();
+					System.Threading.Tasks.Task.WaitAll(this.task);
+
+					this.task = null;
+				}
+			}
+
+		}else{
+			this.count_old = this.count;
+			this.sync_contest = System.Threading.SynchronizationContext.Current;
+			this.task = System.Threading.Tasks.Task.Run<bool>(() => {return this.TaskMain();});
+		}
+	}
+	#endif
+
 	/** デバッグ表示。
 	*/
-    void OnGUI()
+	private void OnGUI()
     {
 		//ii_max
 		int ii_max = 50;
@@ -202,6 +284,12 @@ public class main_base : MonoBehaviour
 		bool t_ok = false;
 		while(t_ok == false){
 			t_ok = true;
+
+			if(NSaveLoad.SaveLoad.IsCreateInstance() == true){
+				if(NSaveLoad.SaveLoad.GetInstance().IsBusy() == true){
+					t_ok = false;
+				}
+			}
 
 			if(NDownLoad.DownLoad.IsCreateInstance() == true){
 				if(NDownLoad.DownLoad.GetInstance().IsBusy() == true){

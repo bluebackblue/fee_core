@@ -66,6 +66,11 @@ namespace NDownLoad
 			}
 		}
 
+		/** ルート。
+		*/
+		public GameObject root_gameobject;
+		public Transform root_transform;
+
 		/** webrequest
 		*/
 		private GameObject webrequest_gameobject;
@@ -92,15 +97,18 @@ namespace NDownLoad
 		*/
 		private DownLoad()
 		{
-			//TODO:ルート。
+			//ルート。
+			this.root_gameobject = new GameObject();
+			this.root_gameobject.name = "DownLoad";
+			GameObject.DontDestroyOnLoad(this.root_gameobject);
+			this.root_transform = this.root_gameobject.GetComponent<Transform>();
 
 			//webrequest
 			{
 				this.webrequest_gameobject = new GameObject();
 				this.webrequest_gameobject.name = "DownLoad_WebRequest";
 				this.webrequest_script = this.webrequest_gameobject.AddComponent<MonoBehaviour_WebRequest>();
-
-				GameObject.DontDestroyOnLoad(this.webrequest_gameobject);
+				this.webrequest_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
 			}
 
 			//soundpool
@@ -108,8 +116,7 @@ namespace NDownLoad
 				this.soundpool_gameobject = new GameObject();
 				this.soundpool_gameobject.name = "DownLoad_SoundPool";
 				this.soundpool_script = this.soundpool_gameobject.AddComponent<MonoBehaviour_SoundPool>();
-
-				GameObject.DontDestroyOnLoad(this.soundpool_gameobject);
+				this.soundpool_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
 			}
 
 			//work_list
@@ -126,10 +133,21 @@ namespace NDownLoad
 		*/
 		private void Delete()
 		{
+			//管理しているアセットバンドルをすべてアンロード。
 			this.assetbundle_list.UnloadAllAssetBundle();
 
+			//削除リクエスト。
+			this.webrequest_gameobject.GetComponent<Transform>().SetParent(null);
+			GameObject.DontDestroyOnLoad(this.webrequest_gameobject);
 			this.webrequest_script.DeleteRequest();
+
+			//削除リクエスト。
+			this.soundpool_gameobject.GetComponent<Transform>().SetParent(null);
+			GameObject.DontDestroyOnLoad(this.soundpool_gameobject);
 			this.soundpool_script.DeleteRequest();
+
+			//ルート削除。
+			GameObject.Destroy(this.root_gameobject);
 		}
 
 		/** ウェブリクエスト。取得。

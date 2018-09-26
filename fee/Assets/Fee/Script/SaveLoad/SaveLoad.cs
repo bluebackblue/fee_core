@@ -66,6 +66,11 @@ namespace NSaveLoad
 			}
 		}
 
+		/** ルート。
+		*/
+		public GameObject root_gameobject;
+		public Transform root_transform;
+
 		/** io
 		*/
 		private GameObject io_gameobject;
@@ -75,28 +80,46 @@ namespace NSaveLoad
 		*/
 		private List<Work> work_list;
 
+		/** add_list
+		*/
+		private List<Work> add_list;
+
 		/** [シングルトン]constructor
 		*/
 		private SaveLoad()
 		{
+			//ルート。
+			this.root_gameobject = new GameObject();
+			this.root_gameobject.name = "SaveLoad";
+			GameObject.DontDestroyOnLoad(this.root_gameobject);
+			this.root_transform = this.root_gameobject.GetComponent<Transform>();
+
 			//io
 			{
 				this.io_gameobject = new GameObject();
-				this.io_gameobject.name = "SaveLoad";
+				this.io_gameobject.name = "SaveLoad_Io";
 				this.io_script = this.io_gameobject.AddComponent<MonoBehaviour_Io>();
-
-				GameObject.DontDestroyOnLoad(this.io_gameobject);
+				this.io_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
 			}
 
 			//work_list
 			this.work_list = new List<Work>();
+
+			//add_list
+			this.add_list = new List<Work>();
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			//削除リクエスト。
+			this.io_gameobject.GetComponent<Transform>().SetParent(null);
+			GameObject.DontDestroyOnLoad(this.io_gameobject);
 			this.io_script.DeleteRequest();
+
+			//ルート削除。
+			GameObject.Destroy(this.root_gameobject);
 		}
 
 		/** Io。取得。
@@ -113,7 +136,7 @@ namespace NSaveLoad
 			Work t_work = new Work();
 			t_work.RequestSaveLocalBinaryFile(a_filename,a_binary);
 
-			this.work_list.Add(t_work);
+			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
@@ -124,7 +147,7 @@ namespace NSaveLoad
 			Work t_work = new Work();
 			t_work.RequestLoadLocalBinaryFile(a_filename);
 
-			this.work_list.Add(t_work);
+			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 	
@@ -135,7 +158,7 @@ namespace NSaveLoad
 			Work t_work = new Work();
 			t_work.RequestSaveLocalTextFile(a_filename,a_text);
 
-			this.work_list.Add(t_work);
+			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
@@ -146,7 +169,7 @@ namespace NSaveLoad
 			Work t_work = new Work();
 			t_work.RequestLoadLocalTextFile(a_filename);
 
-			this.work_list.Add(t_work);
+			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
@@ -157,7 +180,7 @@ namespace NSaveLoad
 			Work t_work = new Work();
 			t_work.RequestSaveLocalPngFile(a_filename,a_texture);
 
-			this.work_list.Add(t_work);
+			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
@@ -168,8 +191,18 @@ namespace NSaveLoad
 			Work t_work = new Work();
 			t_work.RequestLoadLocalPngFile(a_filename);
 
-			this.work_list.Add(t_work);
+			this.add_list.Add(t_work);
 			return t_work.GetItem();
+		}
+
+		/** 処理中。チェック。
+		*/
+		public bool IsBusy()
+		{
+			if((this.work_list.Count > 0)||(this.add_list.Count > 0)){
+				return true;
+			}
+			return false;
 		}
 
 		/** 更新。
@@ -177,9 +210,20 @@ namespace NSaveLoad
 		public void Main()
 		{
 			try{
-				if(this.work_list.Count > 0){
-					if(this.work_list[0].Main() == true){
-						this.work_list.RemoveAt(0);
+				//追加。
+				if(this.add_list.Count > 0){
+					for(int ii=0;ii<this.add_list.Count;ii++){
+						this.work_list.Add(this.add_list[ii]);
+					}
+					this.add_list.Clear();
+				}
+
+				int t_index = 0;
+				while(t_index < this.work_list.Count){
+					if(this.work_list[t_index].Main() == true){
+						this.work_list.RemoveAt(t_index);
+					}else{
+						t_index++;
 					}
 				}
 			}catch(System.Exception t_exception){
