@@ -194,7 +194,7 @@ namespace NDownLoad
 					this.work.urlpath += "/";
 				}
 
-				if(System.Text.RegularExpressions.Regex.IsMatch(this.work.filename,"[0-9a-zA-Z][0-9a-zA-Z\\.\\_\\-]*") == true){
+				if(System.Text.RegularExpressions.Regex.IsMatch(this.work.filename,"[0-9a-zA-Z][0-9a-zA-Z\\.\\-_]*") == true){
 				}else{
 					//失敗。
 					return false;
@@ -243,7 +243,7 @@ namespace NDownLoad
 							yield break;
 						}
 
-						if(System.Text.RegularExpressions.Regex.IsMatch(this.work.local_soundpool.name_list[ii],"[0-9a-zA-Z][0-9a-zA-Z\\.\\_\\-]*") == false){
+						if(System.Text.RegularExpressions.Regex.IsMatch(this.work.local_soundpool.name_list[ii],"[0-9a-zA-Z][0-9a-zA-Z\\.\\-_]*") == false){
 							//不正な名前。
 
 							this.work.local_soundpool = null;
@@ -302,7 +302,7 @@ namespace NDownLoad
 							yield break;
 						}
 
-						if(System.Text.RegularExpressions.Regex.IsMatch(this.work.soundpool.name_list[ii],"[0-9a-zA-Z][0-9a-zA-Z\\.\\_\\-]*") == false){
+						if(System.Text.RegularExpressions.Regex.IsMatch(this.work.soundpool.name_list[ii],"[0-9a-zA-Z][0-9a-zA-Z\\.\\-_]*") == false){
 							//不正な名前。
 
 							this.work.soundpool = null;
