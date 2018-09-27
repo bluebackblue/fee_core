@@ -45,6 +45,9 @@ public class main : MonoBehaviour
 		//オーディオ。
 		NAudio.Audio.DeleteInstance();
 
+		//ブルーム。
+		NBloom.Bloom.DeleteInstance();
+
 		//ブラー。
 		NBlur.Blur.DeleteInstance();
 

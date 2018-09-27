@@ -18,6 +18,8 @@ namespace NTaskW
 {
 	/** Task
 	*/
+	#if(UNITY_WEBGL)
+	#else
 	public class Task
 	{
 		/**　Delay
@@ -34,9 +36,12 @@ namespace NTaskW
 			return System.Threading.Tasks.Task.Yield();
 		}
 	}
+	#endif
 
 	/** Task
 	*/
+	#if(UNITY_WEBGL)
+	#else
 	public class Task<TResult> : Task
 	{
 		/** task
@@ -110,5 +115,6 @@ namespace NTaskW
 			this.task = null;
 		}
 	}
+	#endif
 }
 

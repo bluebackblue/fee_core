@@ -122,6 +122,12 @@ public class test11 : main_base
 		//イベントプレート。インスタンス作成。
 		NEventPlate.EventPlate.CreateInstance();
 
+		//フォント。
+		Font t_font = Resources.Load<Font>("mplus-1p-medium");
+		if(t_font != null){
+			NRender2D.Render2D.GetInstance().SetDefaultFont(t_font);
+		}
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 

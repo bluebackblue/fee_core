@@ -404,7 +404,11 @@ namespace NSaveLoad
 
 		/** [タスク]セーブローカル。バイナリファイル。
 		*/
+		#if(UNITY_WEBGL)
+		private bool Task_Do_SaveLocalBinaryFile(string a_full_path,byte[] a_binary)
+		#else
 		private async System.Threading.Tasks.Task<bool> Task_Do_SaveLocalBinaryFile(string a_full_path,byte[] a_binary,System.Threading.CancellationToken a_cancel)
+		#endif
 		{
 			//ファイルパス。
 			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
@@ -421,13 +425,26 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
-			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
+			#if(UNITY_WEBGL)
+			this.SetProgressFromTask(0.0f);
+			#else
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {this.SetProgressFromTask(0.0f);},null);
+			#endif
 
 			//書き込み。
 			try{
 				if(t_filestream != null){
-					await t_filestream.WriteAsync(a_binary,0,a_binary.Length,a_cancel);
-					await t_filestream.FlushAsync(a_cancel);
+
+					#if(UNITY_WEBGL)
+					{
+						t_filestream.Write(a_binary,0,a_binary.Length);
+					}
+					#else
+					{
+						await t_filestream.WriteAsync(a_binary,0,a_binary.Length,a_cancel);
+						await t_filestream.FlushAsync(a_cancel);
+					}
+					#endif
 				}
 			}catch(System.Exception t_exception){
 				Tool.Log("Task_Do_SaveLocalBinaryFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
@@ -444,7 +461,11 @@ namespace NSaveLoad
 
 		/** [タスク]ロードローカル。バイナリファイル。
 		*/
+		#if(UNITY_WEBGL)
+		private byte[] Task_Do_LoadLocalBinaryFile(string a_full_path)
+		#else
 		private async System.Threading.Tasks.Task<byte[]> Task_Do_LoadLocalBinaryFile(string a_full_path,System.Threading.CancellationToken a_cancel)
+		#endif
 		{
 			//ファイルパス。
 			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
@@ -461,14 +482,28 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
-			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
+			#if(UNITY_WEBGL)
+			this.SetProgressFromTask(0.0f);
+			#else
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {this.SetProgressFromTask(0.0f);},null);
+			#endif
 
 			//書き込み。
 			try{
 				if(t_filestream != null){
 					t_ret = new byte[t_filestream.Length];
-					await t_filestream.ReadAsync(t_ret,0,t_ret.Length,a_cancel);
-					await t_filestream.FlushAsync(a_cancel);
+
+					#if(UNITY_WEBGL)
+					{
+						t_filestream.Read(t_ret,0,t_ret.Length);
+						t_filestream.Flush();
+					}
+					#else
+					{
+						await t_filestream.ReadAsync(t_ret,0,t_ret.Length,a_cancel);
+						await t_filestream.FlushAsync(a_cancel);
+					}
+					#endif
 				}
 			}catch(System.Exception t_exception){
 				Tool.Log("Task_Do_LoadLocalBinaryFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
@@ -485,7 +520,11 @@ namespace NSaveLoad
 
 		/** [タスク]セーブローカル。テキストファイル。
 		*/
+		#if(UNITY_WEBGL)
+		private bool Task_Do_SaveLocalTextFile(string a_full_path,string a_text)
+		#else
 		private async System.Threading.Tasks.Task<bool> Task_Do_SaveLocalTextFile(string a_full_path,string a_text,System.Threading.CancellationToken a_cancel)
+		#endif
 		{
 			//ファイルパス。
 			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
@@ -502,14 +541,27 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
-			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
+			#if(UNITY_WEBGL)
+			this.SetProgressFromTask(0.0f);
+			#else
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {this.SetProgressFromTask(0.0f);},null);
+			#endif
 
 			//書き込み。
 			try{
 				if(t_filestream != null){
-					//TODO:キャンセルトークン渡せない。
-					await t_filestream.WriteAsync(a_text);
-					await t_filestream.FlushAsync();
+					#if(UNITY_WEBGL)
+					{
+						t_filestream.Write(a_text);
+						t_filestream.Flush();
+					}
+					#else
+					{
+						//TODO:キャンセルトークン渡せない。
+						await t_filestream.WriteAsync(a_text);
+						await t_filestream.FlushAsync();
+					}
+					#endif
 				}
 			}catch(System.Exception t_exception){
 				Tool.Log("Task_Do_SaveLocalTextFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
@@ -526,7 +578,11 @@ namespace NSaveLoad
 
 		/** [タスク]ロードローカル。テキストファイル。
 		*/
+		#if(UNITY_WEBGL)
+		private string Task_Do_LoadLocalTextFile(string a_full_path)
+		#else
 		private async System.Threading.Tasks.Task<string> Task_Do_LoadLocalTextFile(string a_full_path,System.Threading.CancellationToken a_cancel)
+		#endif
 		{
 			//ファイルパス。
 			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
@@ -543,13 +599,25 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
-			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
+			#if(UNITY_WEBGL)
+			this.SetProgressFromTask(0.0f);
+			#else
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {this.SetProgressFromTask(0.0f);},null);
+			#endif
 
 			//読み込み。
 			try{
 				if(t_filestream != null){
-					//TODO:キャンセルトークン渡せない。
-					t_ret = await t_filestream.ReadToEndAsync();
+					#if(UNITY_WEBGL)
+					{
+						t_ret = t_filestream.ReadToEnd();
+					}
+					#else
+					{
+						//TODO:キャンセルトークン渡せない。
+						t_ret = await t_filestream.ReadToEndAsync();
+					}
+					#endif
 				}
 			}catch(System.Exception t_exception){
 				Tool.Log("Task_Do_LoadLocalTextFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
@@ -566,7 +634,11 @@ namespace NSaveLoad
 
 		/** [タスク]セーブローカル。ＰＮＧファイル。
 		*/
+		#if(UNITY_WEBGL)
+		private bool Task_Do_SaveLocalPngFile(string a_full_path,byte[] a_binary)
+		#else
 		private async System.Threading.Tasks.Task<bool> Task_Do_SaveLocalPngFile(string a_full_path,byte[] a_binary,System.Threading.CancellationToken a_cancel)
+		#endif
 		{
 			//ファイルパス。
 			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
@@ -583,13 +655,26 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
-			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
+			#if(UNITY_WEBGL)
+			this.SetProgressFromTask(0.0f);
+			#else
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {this.SetProgressFromTask(0.0f);},null);
+			#endif
 
 			//書き込み。
 			try{
 				if(t_filestream != null){
-					await t_filestream.WriteAsync(a_binary,0,a_binary.Length,a_cancel);
-					await t_filestream.FlushAsync(a_cancel);
+					#if(UNITY_WEBGL)
+					{
+						t_filestream.Write(a_binary,0,a_binary.Length);
+						t_filestream.Flush();
+					}
+					#else
+					{
+						await t_filestream.WriteAsync(a_binary,0,a_binary.Length,a_cancel);
+						await t_filestream.FlushAsync(a_cancel);
+					}
+					#endif
 				}
 			}catch(System.Exception t_exception){
 				Tool.Log("Task_Do_SaveLocalPngFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
@@ -606,7 +691,11 @@ namespace NSaveLoad
 
 		/** [タスク]ロードローカル。ＰＮＧファイル。
 		*/
+		#if(UNITY_WEBGL)
+		private byte[] Task_Do_LoadLocalPngFile(string a_full_path)
+		#else
 		private async System.Threading.Tasks.Task<byte[]> Task_Do_LoadLocalPngFile(string a_full_path,System.Threading.CancellationToken a_cancel)
+		#endif
 		{
 			//ファイルパス。
 			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
@@ -623,14 +712,28 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
-			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
+			#if(UNITY_WEBGL)
+			this.SetProgressFromTask(0.0f);
+			#else
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {this.SetProgressFromTask(0.0f);},null);
+			#endif
 
 			//書き込み。
 			try{
 				if(t_filestream != null){
 					t_ret = new byte[t_filestream.Length];
-					await t_filestream.ReadAsync(t_ret,0,t_ret.Length,a_cancel);
-					await t_filestream.FlushAsync(a_cancel);
+
+					#if(UNITY_WEBGL)
+					{
+						t_filestream.Read(t_ret,0,t_ret.Length);
+						t_filestream.Flush();
+					}
+					#else
+					{
+						await t_filestream.ReadAsync(t_ret,0,t_ret.Length,a_cancel);
+						await t_filestream.FlushAsync(a_cancel);
+					}
+					#endif
 				}
 			}catch(System.Exception t_exception){
 				Tool.Log("Task_Do_LoadLocalPngFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
@@ -689,20 +792,31 @@ namespace NSaveLoad
 				//セーブローカル。バイナリファイル。
 				Tool.Log(this.request_type.ToString(),t_full_path);
 
-				//キャンセルトークン。
-				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
+				bool t_result = false;
 
-				//タスク起動。
-				NTaskW.Task<bool> t_task = new NTaskW.Task<bool>(() => {return this.Task_Do_SaveLocalBinaryFile(t_full_path,this.request_binary,t_cancel);});
+				#if(UNITY_WEBGL)
+				{
+					t_result = this.Task_Do_SaveLocalBinaryFile(t_full_path,this.request_binary);
+				}
+				#else
+				{
+					//キャンセルトークン。
+					System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
-				//終了待ち。
-				do{
-					yield return null;
-				}while(t_task.IsEnd() == false);
-			
+					//タスク起動。
+					NTaskW.Task<bool> t_task = new NTaskW.Task<bool>(() => {return this.Task_Do_SaveLocalBinaryFile(t_full_path,this.request_binary,t_cancel);});
+
+					//終了待ち。
+					do{
+						yield return null;
+					}while(t_task.IsEnd() == false);
+					t_result = t_task.GetResult();
+				}
+				#endif
+
 				//結果。
 				this.result_progress = 1.0f;
-				if(t_task.GetResult() == true){
+				if(t_result == true){
 					this.result_datatype = DataType.SaveEnd;
 				}else{
 					this.result_datatype = DataType.Error;
@@ -711,21 +825,32 @@ namespace NSaveLoad
 				//ロードローカル。バイナリファイル。
 				Tool.Log(this.request_type.ToString(),t_full_path);
 
-				//キャンセルトークン。
-				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
+				byte[] t_result = null;
 
-				//タスク起動。
-				NTaskW.Task<byte[]> t_task = new NTaskW.Task<byte[]>(() => {return this.Task_Do_LoadLocalBinaryFile(t_full_path,t_cancel);});
+				#if(UNITY_WEBGL)
+				{
+					t_result = this.Task_Do_LoadLocalBinaryFile(t_full_path);
+				}
+				#else
+				{
+					//キャンセルトークン。
+					System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
-				//終了待ち。
-				do{
-					yield return null;
-				}while(t_task.IsEnd() == false);
+					//タスク起動。
+					NTaskW.Task<byte[]> t_task = new NTaskW.Task<byte[]>(() => {return this.Task_Do_LoadLocalBinaryFile(t_full_path,t_cancel);});
+
+					//終了待ち。
+					do{
+						yield return null;
+					}while(t_task.IsEnd() == false);
+					t_result = t_task.GetResult();
+				}
+				#endif
 
 				//結果。
 				this.result_progress = 1.0f;
-				if(t_task.GetResult() != null){
-					this.result_binary = t_task.GetResult();
+				if(t_result != null){
+					this.result_binary = t_result;
 					this.result_datatype = DataType.Binary;
 				}else{
 					this.result_datatype = DataType.Error;
@@ -734,20 +859,39 @@ namespace NSaveLoad
 				//セーブローカル。テキストファイル。
 				Tool.Log(this.request_type.ToString(),t_full_path);
 
-				//キャンセルトークン。
-				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
+				bool t_result = false;
 
-				//タスク起動。
-				NTaskW.Task<bool> t_task = new NTaskW.Task<bool>(() => {return this.Task_Do_SaveLocalTextFile(t_full_path,this.request_text,t_cancel);});
+				#if(UNITY_WEBGL)
+				{
+					t_result = this.Task_Do_SaveLocalTextFile(t_full_path,this.request_text);
 
-				//終了待ち。
-				do{
-					yield return null;
-				}while(t_task.IsEnd() == false);
+					//結果。
+					this.result_progress = 1.0f;
+					if(t_result == true){
+						this.result_datatype = DataType.SaveEnd;
+					}else{
+						this.result_datatype = DataType.Error;
+					}
+				}
+				#else
+				{
+					//キャンセルトークン。
+					System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
+
+					//タスク起動。
+					NTaskW.Task<bool> t_task = new NTaskW.Task<bool>(() => {return this.Task_Do_SaveLocalTextFile(t_full_path,this.request_text,t_cancel);});
+
+					//終了待ち。
+					do{
+						yield return null;
+					}while(t_task.IsEnd() == false);
+					t_result = t_task.GetResult();
+				}
+				#endif
 
 				//結果。
 				this.result_progress = 1.0f;
-				if(t_task.GetResult() == true){
+				if(t_result == true){
 					this.result_datatype = DataType.SaveEnd;
 				}else{
 					this.result_datatype = DataType.Error;
@@ -756,21 +900,32 @@ namespace NSaveLoad
 				//ロードローカル。テキストファイル。
 				Tool.Log(this.request_type.ToString(),t_full_path);
 
-				//キャンセルトークン。
-				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
+				string t_result = null;
 
-				//タスク起動。
-				NTaskW.Task<string> t_task = new NTaskW.Task<string>(() => {return this.Task_Do_LoadLocalTextFile(t_full_path,t_cancel);});
+				#if(UNITY_WEBGL)
+				{
+					t_result = this.Task_Do_LoadLocalTextFile(t_full_path);
+				}
+				#else
+				{
+					//キャンセルトークン。
+					System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
-				//終了待ち。
-				do{
-					yield return null;
-				}while(t_task.IsEnd() == false);
+					//タスク起動。
+					NTaskW.Task<string> t_task = new NTaskW.Task<string>(() => {return this.Task_Do_LoadLocalTextFile(t_full_path,t_cancel);});
+
+					//終了待ち。
+					do{
+						yield return null;
+					}while(t_task.IsEnd() == false);
+					t_result = t_task.GetResult();
+				}
+				#endif
 
 				//結果。
 				this.result_progress = 1.0f;
-				if(t_task.GetResult() != null){
-					this.result_text = t_task.GetResult();
+				if(t_result != null){
+					this.result_text = t_result;
 					this.result_datatype = DataType.Text;
 				}else{
 					this.result_datatype = DataType.Error;
@@ -779,8 +934,7 @@ namespace NSaveLoad
 				//セーブローカル。ＰＮＧファイル。
 				Tool.Log(this.request_type.ToString(),t_full_path);
 
-				//キャンセルトークン。
-				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
+				bool t_result = false;
 
 				//TODO:busy
 				byte[] t_binary = null;
@@ -788,17 +942,29 @@ namespace NSaveLoad
 					t_binary = this.request_texture.EncodeToPNG();
 				}
 
-				//タスク起動。
-				NTaskW.Task<bool> t_task = new NTaskW.Task<bool>(() => {return this.Task_Do_SaveLocalPngFile(t_full_path,t_binary,t_cancel);});
+				#if(UNITY_WEBGL)
+				{
+					t_result = this.Task_Do_SaveLocalPngFile(t_full_path,t_binary);
+				}
+				#else
+				{
+					//キャンセルトークン。
+					System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
-				//終了待ち。
-				do{
-					yield return null;
-				}while(t_task.IsEnd() == false);
+					//タスク起動。
+					NTaskW.Task<bool> t_task = new NTaskW.Task<bool>(() => {return this.Task_Do_SaveLocalPngFile(t_full_path,t_binary,t_cancel);});
+
+					//終了待ち。
+					do{
+						yield return null;
+					}while(t_task.IsEnd() == false);
+					t_result = t_task.GetResult();
+				}
+				#endif
 
 				//結果。
 				this.result_progress = 1.0f;
-				if(t_task.GetResult() == true){
+				if(t_result == true){
 					this.result_datatype = DataType.SaveEnd;
 				}else{
 					this.result_datatype = DataType.Error;
@@ -807,21 +973,32 @@ namespace NSaveLoad
 				//ロードローカル。ＰＮＧファイル。
 				Tool.Log(this.request_type.ToString(),t_full_path);
 
-				//キャンセルトークン。
-				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
+				byte[] t_result = null;
 
-				//タスク起動。
-				NTaskW.Task<byte[]> t_task = new NTaskW.Task<byte[]>(() => {return this.Task_Do_LoadLocalPngFile(t_full_path,t_cancel);});
+				#if(UNITY_WEBGL)
+				{
+					t_result = this.Task_Do_LoadLocalPngFile(t_full_path);
+				}
+				#else
+				{
+					//キャンセルトークン。
+					System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
-				//終了待ち。
-				do{
-					yield return null;
-				}while(t_task.IsEnd() == false);
+					//タスク起動。
+					NTaskW.Task<byte[]> t_task = new NTaskW.Task<byte[]>(() => {return this.Task_Do_LoadLocalPngFile(t_full_path,t_cancel);});
+
+					//終了待ち。
+					do{
+						yield return null;
+					}while(t_task.IsEnd() == false);
+					t_result = t_task.GetResult();
+				}
+				#endif
 
 				//結果。
 				this.result_progress = 1.0f;
-				if(t_task.GetResult() != null){
-					byte[] t_binary = t_task.GetResult();
+				if(t_result != null){
+					byte[] t_binary = t_result;
 
 					//TODO:busy
 					Texture2D t_texture = null;

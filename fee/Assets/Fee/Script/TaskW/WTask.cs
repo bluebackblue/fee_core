@@ -68,29 +68,41 @@ namespace NTaskW
 
 		/** 同期コンテキスト。
 		*/
+		#if(UNITY_WEBGL)
+		#else
 		private Task_Sync main_sync;
+		#endif
 
 		/** [シングルトン]constructor
 		*/
 		private TaskW()
 		{
+			#if(UNITY_WEBGL)
+			#else
 			this.main_sync = new Task_Sync();
+			#endif
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			#if(UNITY_WEBGL)
+			#else
 			this.main_sync.Delete();
 			this.main_sync = null;
+			#endif
 		}
 
 		/** 同期コンテキスト。取得。
 		*/
+		#if(UNITY_WEBGL)
+		#else
 		public Task_Sync GetTaskSync()
 		{
 			return this.main_sync;
 		}
+		#endif
 	}
 }
 

@@ -18,6 +18,8 @@ namespace NTaskW
 {
 	/** Task_Sync
 	*/
+	#if(UNITY_WEBGL)
+	#else
 	public class Task_Sync
 	{
 		/** context
@@ -52,5 +54,6 @@ namespace NTaskW
 			this.context = null;
 		}
 	}
+	#endif
 }
 
