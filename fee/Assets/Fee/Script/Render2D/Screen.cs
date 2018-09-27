@@ -259,34 +259,61 @@ namespace NRender2D
 
 		/** 計算。テキスト。
 		*/
-		public void CalcTextRect(Text2D a_text)
+		public void CalcTextRect(Text2D a_text,bool a_is_calcsize)
 		{		
 			float t_w = a_text.GetW();
 			float t_h = a_text.GetH();
 
-			if(t_w <= 0.0f){
-				t_w = a_text.Raw_GetPreferredWidth();
-			}else{
-				t_w *= this.calc_ui_scale;
-			}
+			if(a_is_calcsize == true){
+				Vector2 t_sizedelta;
 
-			if(t_h <= 0.0f){
-				t_h = a_text.Raw_GetPreferredHeight();
-			}else{
-				t_h *= this.calc_ui_scale;
+				if(t_w > 0.0f){
+					t_sizedelta.x =	t_w * this.calc_ui_scale;
+				}else{
+					t_sizedelta.x = UnityEngine.Screen.width;
+				}
+
+				if(t_h > 0.0f){
+					t_sizedelta.y = t_h * this.calc_ui_scale;
+				}else{
+					t_sizedelta.y = UnityEngine.Screen.height;
+				}
+
+				//自動部分を最大設定。
+				a_text.Raw_SetRectTransformSizeDelta(ref t_sizedelta);
+
+				if((t_w <= 0.0f)||(t_h <= 0.0f)){
+
+					if(t_w <= 0.0f){
+						t_sizedelta.x = a_text.Raw_GetPreferredWidth();
+					}
+
+					if(t_h <= 0.0f){
+						t_sizedelta.y = a_text.Raw_GetPreferredHeight();
+					}
+
+					//自動部分再設定。
+					a_text.Raw_SetRectTransformSizeDelta(ref t_sizedelta);
+				}
 			}
 
 			float t_x = this.calc_ui_x + a_text.GetX() * this.calc_ui_scale;
 			float t_y = this.calc_ui_y - a_text.GetY() * this.calc_ui_scale;
 
-			if(a_text.IsCenter() == false){
-				t_x += t_w / 2;
-				t_y -= t_h / 2;
+			if(a_text.IsCenterW() == false || a_text.IsCenterH() == false){
+				//計算済みサイズ取得。
+				Vector2 t_sizedelta;
+				a_text.Raw_GetRectTransformSizeDelta(out t_sizedelta);
+
+				if(a_text.IsCenterW() == false){
+					t_x += t_sizedelta.x / 2;
+				}
+				if(a_text.IsCenterH() == false){
+					t_y -= t_sizedelta.y / 2;
+				}
 			}
 
-			Vector2 t_sizedelta = new Vector2(t_w,t_h);
 			Vector3 t_localposition = new Vector3(t_x,t_y,0.0f);
-			a_text.Raw_SetRectTransformSizeDeleta(ref t_sizedelta);
 			a_text.Raw_SetRectTransformLocalPosition(ref t_localposition);
 		}
 
@@ -307,7 +334,7 @@ namespace NRender2D
 
 			Vector2 t_sizedelta = new Vector2(t_w,t_h);
 			Vector3 t_localposition = new Vector3(t_x,t_y,0.0f);
-			a_inputfield.Raw_SetRectTransformSizeDeleta(ref t_sizedelta);
+			a_inputfield.Raw_SetRectTransformSizeDelta(ref t_sizedelta);
 			a_inputfield.Raw_SetRectTransformLocalPosition(ref t_localposition);
 		}
 	}

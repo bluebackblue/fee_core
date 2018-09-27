@@ -450,12 +450,15 @@ namespace NRender2D
 					for(int ii=t_start_index;ii<=t_last_index;ii++){
 						Text2D t_text = this.text_list[ii];
 
-						//テキスト再描画。
-						if((t_text.Raw_IsReCalc() == true)||(this.screen.IsUiReCalcFlag() == true)){
-							t_text.Raw_ResetReCalc();
-
-							//フォントサイズの設定。
+						//フォントサイズの計算が必要。
+						if((t_text.Raw_IsCalcFontSize() == true)||(this.screen.IsUiReCalcFlag() == true)){
+							t_text.Raw_SetCalcFontSizeFlag(false);
 							t_text.Raw_SetFontSize(this.screen.CalcFontSize(t_text));
+						}
+
+						//シェーダの変更が必要。
+						if((t_text.Raw_IsChangeShader() == true)||(this.screen.IsUiReCalcFlag() == true)){
+							t_text.Raw_SetChangeShaderFlag(false);
 
 							if(t_text.IsClip() == false){
 								//共通テキストマテリアル使用。
@@ -481,8 +484,15 @@ namespace NRender2D
 						}
 
 						if((t_text.GetText().Length > 0)&&(t_text.IsVisible() == true)&&(t_text.GetDrawPriority() >= 0)){
+							//サイズの計算が必要
+							bool t_is_calcsize = false;
+							if(t_text.Raw_IsCalcSize() == true){
+								t_text.Raw_SetCalcSizeFlag(false);
+								t_is_calcsize = true;
+							}
+
 							//矩形計算。
-							this.screen.CalcTextRect(t_text);
+							this.screen.CalcTextRect(t_text,t_is_calcsize);
 
 							//表示。
 							t_text.Raw_SetEnable(true);

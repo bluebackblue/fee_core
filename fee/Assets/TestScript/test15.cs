@@ -114,7 +114,7 @@ public class test15 : main_base
 			this.text = new NRender2D.Text2D(this.deleter,null,t_drawpriority + 1);
 			this.text.SetRect(t_x,t_y,0,0);
 			this.text.SetText("ESC ENTER");
-			this.text.SetCenter(true);
+			this.text.SetCenter(true,true);
 			this.text.SetColor(1.0f,0.0f,0.0f,1.0f);
 			this.text.SetFontSize(27);
 			this.text.SetShadow(true);
@@ -144,7 +144,7 @@ public class test15 : main_base
 
 			Texture2D t_texture = Resources.Load<Texture2D>("checkbutton");
 
-			this.checkbutton = new NUi.CheckButton(this.deleter,null,t_drawpriority + 2);
+			this.checkbutton = new NUi.CheckButton(this.deleter,null,t_drawpriority + 2,Click,0);
 			this.checkbutton.SetRect(t_x,t_y,t_w,t_h);
 			this.checkbutton.SetTexture(t_texture);
 		}
@@ -222,6 +222,13 @@ public class test15 : main_base
 	public void Click(int a_value)
 	{
 		Debug.Log("Click : " + a_value.ToString());
+	}
+
+	/** クリック。
+	*/
+	public void Click(int a_value,bool a_flag)
+	{
+		Debug.Log("Click : " + a_value.ToString() + " : " + a_flag.ToString());
 	}
 
 	/** 削除前。

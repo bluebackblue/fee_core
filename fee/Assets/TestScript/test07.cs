@@ -14,30 +14,20 @@ using UnityEngine;
 
 /** test07
 
-	イベントプレート
+	チェックボタン。
 
 */
-public class test07 : main_base , NEventPlate.OnOverCallBack_Base
+public class test07 : main_base
 {
 	/** 削除管理。
 	*/
 	private NDeleter.Deleter deleter;
 
-	/** text
+	/** チェックボタン。
 	*/
-	private NRender2D.Text2D text;
+	private NUi.CheckButton checkbutton_free;
+	private NUi.CheckButton checkbutton_lock;
 
-	/** sprite
-	*/
-	private NRender2D.Sprite2D[] sprite;
-
-	/** eventplate
-	*/
-	private NEventPlate.Item[] eventplate;
-
-	/** onover
-	*/
-	private bool[] onover;
 
 	/** Start
 	*/
@@ -58,6 +48,15 @@ public class test07 : main_base , NEventPlate.OnOverCallBack_Base
 		//イベントプレート。インスタンス作成。
 		NEventPlate.EventPlate.CreateInstance();
 
+		//ＵＩ。インスタンス作成。
+		NUi.Ui.CreateInstance();
+
+		//フォント。
+		Font t_font = Resources.Load<Font>("mplus-1p-medium");
+		if(t_font != null){
+			NRender2D.Render2D.GetInstance().SetDefaultFont(t_font);
+		}
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
@@ -65,34 +64,31 @@ public class test07 : main_base , NEventPlate.OnOverCallBack_Base
 		int t_layerindex = 1;
 		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
 
-		//テキスト。
-		this.text = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.text.SetRect(0,0,0,0);
+		int t_yy = 100;
 
-		//スプライト。
-		this.sprite = new NRender2D.Sprite2D[3];
-		this.eventplate = new NEventPlate.Item[3];
-		this.onover = new bool[3];
-		for(int ii=0;ii<this.sprite.Length;ii++){
-			this.sprite[ii] = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority + ii);
-			this.sprite[ii].SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-			this.sprite[ii].SetTexture(Texture2D.whiteTexture);
-			this.sprite[ii].SetRect(100*(ii + 1),100*(ii + 1),200,200);
+		//チェックボタン。
+		this.checkbutton_free = new NUi.CheckButton(this.deleter,null,t_drawpriority,this.Click,0);
+		this.checkbutton_free.SetTexture(Resources.Load<Texture2D>("checkbutton"));
+		this.checkbutton_free.SetRect(100,t_yy,30,30);
+		this.checkbutton_free.SetText("テキストボックス");
+		t_yy += 50;
 
-			this.eventplate[ii] = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,t_drawpriority + ii);
-			this.eventplate[ii].SetRect(this.sprite[ii].GetX(),this.sprite[ii].GetY(),this.sprite[ii].GetW(),this.sprite[ii].GetH());
-			this.eventplate[ii].SetOnOverCallBackValue(ii);
-			this.eventplate[ii].SetOnOverCallBack(this);
+		this.checkbutton_lock = new NUi.CheckButton(this.deleter,null,t_drawpriority,this.Click,1);
+		this.checkbutton_lock.SetTexture(Resources.Load<Texture2D>("checkbutton"));
+		this.checkbutton_lock.SetRect(100,t_yy,30,30);
+		this.checkbutton_lock.SetCheck(true);
+		this.checkbutton_lock.SetLock(true);
+		this.checkbutton_lock.SetText("テキストボックス");
+	}
 
-			if(ii % 3 == 0){
-				this.sprite[ii].SetColor(1.0f,0.0f,0.0f,1.0f);
-			}else if(ii % 3 == 1){
-				this.sprite[ii].SetColor(0.0f,1.0f,0.0f,1.0f);
-			}else{
-				this.sprite[ii].SetColor(0.0f,0.0f,1.0f,1.0f);
-			}
-
-			this.onover[ii] = false;
+	/** クリック。
+	*/
+	private void Click(int a_value,bool a_flag)
+	{
+		if(a_value == 0){
+			this.checkbutton_free.SetText("テキストボックス" + a_flag.ToString());
+		}else{
+			this.checkbutton_lock.SetText("テキストボックス" + a_flag.ToString());
 		}
 	}
 
@@ -103,11 +99,11 @@ public class test07 : main_base , NEventPlate.OnOverCallBack_Base
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
 
-		//イベントプレート。インスタンス作成。
+		//イベントプレート。
 		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
-		
-		//テキスト。
-		this.text.SetText(this.onover[0].ToString() + " " + this.onover[1].ToString() + " " + this.onover[2].ToString());
+
+		//ＵＩ。
+		NUi.Ui.GetInstance().Main();
 	}
 
 	/** 削除前。
@@ -122,20 +118,6 @@ public class test07 : main_base , NEventPlate.OnOverCallBack_Base
 	private void OnDestroy()
 	{
 		this.deleter.DeleteAll();
-	}
-
-	/** [NEventPlate.OnOverCallBack_Base]イベントプレートに入場。
-	*/
-	public void OnOverEnter(int a_value)
-	{
-		this.onover[a_value] = true;
-	}
-
-	/** [NEventPlate.OnOverCallBack_Base]イベントプレートから退場。
-	*/
-	public void OnOverLeave(int a_value)
-	{
-		this.onover[a_value] = false;
 	}
 }
 

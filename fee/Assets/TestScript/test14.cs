@@ -13,9 +13,6 @@ using UnityEngine;
 
 
 /** test14
-
-	チェックボタン
-
 */
 public class test14 : main_base
 {
@@ -25,7 +22,9 @@ public class test14 : main_base
 
 	/** checkbutton
 	*/
+	/*
 	private NUi.CheckButton[] checkbutton;
+	*/
 
 	/** Start
 	*/
@@ -54,10 +53,13 @@ public class test14 : main_base
 		this.deleter = new NDeleter.Deleter();
 
 		//drawpriority
+		/*
 		int t_layerindex = 0;
 		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
 		Texture2D t_texture = Resources.Load<Texture2D>("checkbutton");
+		*/
 
+		/*
 		this.checkbutton = new NUi.CheckButton[10];
 		for(int ii=0;ii<this.checkbutton.Length;ii++){
 			int t_w = 20;
@@ -69,6 +71,7 @@ public class test14 : main_base
 			this.checkbutton[ii].SetRect(t_x,t_y,t_w,t_h);
 			this.checkbutton[ii].SetTexture(t_texture);
 		}
+		*/
 	}
 
 	/** Update

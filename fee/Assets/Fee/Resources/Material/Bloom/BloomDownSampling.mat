@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: DownSampling
-  m_Shader: {fileID: 4800000, guid: 3c29b25fe30731f4f8f66477610c6e88, type: 3}
+  m_Name: BloomDownSampling
+  m_Shader: {fileID: 4800000, guid: 5b1592d568645184bbd288920f12eb7b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0

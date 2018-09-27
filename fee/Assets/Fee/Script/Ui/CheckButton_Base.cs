@@ -20,6 +20,10 @@ namespace NUi
 	*/
 	public abstract class CheckButton_Base : NDeleter.DeleteItem_Base , NEventPlate.OnOverCallBack_Base , NUi.OnTargetCallBack_Base
 	{
+		/** クリックコールバック。
+		*/
+		public delegate void CallBack_Click(int a_value,bool a_flag);
+
 		/** deleter
 		*/
 		protected NDeleter.Deleter deleter;
@@ -27,6 +31,11 @@ namespace NUi
 		/** eventplate
 		*/
 		protected NEventPlate.Item eventplate;
+
+		/** callback_click
+		*/
+		protected CallBack_Click callback_click;
+		protected int callback_click_value;
 
 		/** is_onover
 		*/
@@ -54,7 +63,7 @@ namespace NUi
 
 		/** constructor
 		*/
-		public CheckButton_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
+		public CheckButton_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_click_value)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
@@ -62,6 +71,10 @@ namespace NUi
 			//eventplate
 			this.eventplate = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,a_drawpriority);
 			this.eventplate.SetOnOverCallBack(this);
+
+			//callback_click
+			this.callback_click = a_callback_click;
+			this.callback_click_value = a_callback_click_value;
 
 			//is_onover
 			this.is_onover = false;
@@ -260,6 +273,30 @@ namespace NUi
 			return this.is_onover;
 		}
 
+		/** チェック。設定。
+		*/
+		public void SetCheck(bool a_flag)
+		{
+			if(this.check_flag != a_flag){
+				this.check_flag = a_flag;
+
+				//コールバック。チェック。設定。
+				this.OnSetCheckCallBack(this.check_flag);
+
+				//コールバック。
+				if(this.callback_click != null){
+					this.callback_click(this.callback_click_value,this.check_flag);
+				}
+			}
+		}
+
+		/** チェック。取得。
+		*/
+		public bool IsCheck()
+		{
+			return this.check_flag;
+		}
+
 		/** [NUi.OnTargetCallBack_Base]OnTarget
 		*/
 		public void OnTarget()
@@ -291,6 +328,11 @@ namespace NUi
 
 					//コールバック。チェック。設定。
 					this.OnSetCheckCallBack(this.check_flag);
+
+					//コールバック。
+					if(this.callback_click != null){
+						this.callback_click(this.callback_click_value,this.check_flag);
+					}
 				}
 			}else{
 				//ターゲット解除。

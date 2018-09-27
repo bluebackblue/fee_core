@@ -155,27 +155,29 @@ public class test02 : main_base
 		this.load_item = null;
 
 		//セーブデータ。
-		this.savedata = new SaveData();
+		this.savedata = null;
 	}
 
 	/** クリック。
 	*/
 	public void Click_Save(int a_value)
 	{
-		//オブジェクトをＪＳＯＮ化。
-		NJsonItem.JsonItem t_jsonitem = NJsonItem.ObjectToJson.Convert(this.savedata);
+		if(this.savedata != null){
+			//オブジェクトをＪＳＯＮ化。
+			NJsonItem.JsonItem t_jsonitem = NJsonItem.ObjectToJson.Convert(this.savedata);
 
-		//ＪＳＯＮを文字列化。
-		string t_jsonstring = t_jsonitem.ConvertJsonString();
+			//ＪＳＯＮを文字列化。
+			string t_jsonstring = t_jsonitem.ConvertJsonString();
 
-		//ローカルセーブリクエスト。
-		this.save_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalTextFile("save_" + a_value.ToString() + ".json",t_jsonstring);
-		if(this.save_item != null){
-			this.button_save1.SetLock(true);
-			this.button_save2.SetLock(true);
-			this.button_load1.SetLock(true);
-			this.button_load2.SetLock(true);
-			this.button_random.SetLock(true);
+			//ローカルセーブリクエスト。
+			this.save_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalTextFile("save_" + a_value.ToString() + ".json",t_jsonstring);
+			if(this.save_item != null){
+				this.button_save1.SetLock(true);
+				this.button_save2.SetLock(true);
+				this.button_load1.SetLock(true);
+				this.button_load2.SetLock(true);
+				this.button_random.SetLock(true);
+			}
 		}
 	}
 
@@ -198,6 +200,7 @@ public class test02 : main_base
 	*/
 	public void Click_Random(int a_value)
 	{
+		this.savedata = new SaveData();
 		this.savedata.ignore = Random.Range(0,9999);
 
 		this.savedata.maindata.a = Random.Range(0,9999);

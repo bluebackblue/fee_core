@@ -425,9 +425,9 @@ namespace NRender2D
 
 		/** [内部からの呼び出し]サイズ。設定。
 		*/
-		public void Raw_SetRectTransformSizeDeleta(ref Vector2 a_size)
+		public void Raw_SetRectTransformSizeDelta(ref Vector2 a_size)
 		{
-			this.param.Raw_SetRectTransformSizeDeleta(ref a_size);
+			this.param.Raw_SetRectTransformSizeDelta(ref a_size);
 		}
 
 		/** [内部からの呼び出し]位置。設定。

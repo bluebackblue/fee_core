@@ -115,6 +115,11 @@ namespace NRender2D
 		*/
 		public void SetW(int a_w)
 		{
+			//サイズの計算が必要。設定。
+			if(this.rect.GetW() != a_w){
+				this.param.Raw_SetCalcSizeFlag(true);
+			}
+
 			this.rect.SetW(a_w);
 		}
 
@@ -122,6 +127,11 @@ namespace NRender2D
 		*/
 		public void SetH(int a_h)
 		{
+			//サイズの計算が必要。設定。
+			if(this.rect.GetH() != a_h){
+				this.param.Raw_SetCalcSizeFlag(true);
+			}
+
 			this.rect.SetH(a_h);
 		}
 
@@ -157,6 +167,11 @@ namespace NRender2D
 		*/
 		public void SetWH(int a_w,int a_h)
 		{
+			//サイズの計算が必要。設定。
+			if((this.rect.GetW() != a_w)||(this.rect.GetH() != a_h)){
+				this.param.Raw_SetCalcSizeFlag(true);
+			}
+
 			this.rect.SetW(a_w);
 			this.rect.SetH(a_h);
 		}
@@ -165,6 +180,11 @@ namespace NRender2D
 		*/
 		public void SetRect(ref Rect2D_R<int> a_rect)
 		{
+			//サイズの計算が必要。設定。
+			if((this.rect.GetW() != a_rect.w)||(this.rect.GetH() != a_rect.h)){
+				this.param.Raw_SetCalcSizeFlag(true);
+			}
+
 			this.rect.SetRect(ref a_rect);
 		}
 
@@ -172,6 +192,11 @@ namespace NRender2D
 		*/
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
 		{
+			//サイズの計算が必要。設定。
+			if((this.rect.GetW() != a_w)||(this.rect.GetH() != a_h)){
+				this.param.Raw_SetCalcSizeFlag(true);
+			}
+
 			this.rect.SetX(a_x);
 			this.rect.SetY(a_y);
 			this.rect.SetW(a_w);
@@ -377,16 +402,23 @@ namespace NRender2D
 
 		/** センター。設定。
 		*/
-		public void SetCenter(bool a_flag)
+		public void SetCenter(bool a_flag_w,bool a_flag_h)
 		{
-			this.param.SetCenter(a_flag);
+			this.param.SetCenter(a_flag_w,a_flag_h);
 		}
 
 		/** センター。設定。
 		*/
-		public bool IsCenter()
+		public bool IsCenterW()
 		{
-			return this.param.IsCenter();
+			return this.param.IsCenterW();
+		}
+
+		/** センター。設定。
+		*/
+		public bool IsCenterH()
+		{
+			return this.param.IsCenterH();
 		}
 
 		/** フォント。設定。
@@ -447,9 +479,16 @@ namespace NRender2D
 
 		/** [内部からの呼び出し]サイズ。設定。
 		*/
-		public void Raw_SetRectTransformSizeDeleta(ref Vector2 a_size)
+		public void Raw_SetRectTransformSizeDelta(ref Vector2 a_size)
 		{
-			this.param.Raw_SetRectTransformSizeDeleta(ref a_size);
+			this.param.Raw_SetRectTransformSizeDelta(ref a_size);
+		}
+
+		/** [内部からの呼び出し]サイズ。取得。
+		*/
+		public void Raw_GetRectTransformSizeDelta(out Vector2 a_size)
+		{
+			this.param.Raw_GetRectTransformSizeDelta(out a_size);
 		}
 
 		/** [内部からの呼び出し]位置。設定。
@@ -487,18 +526,46 @@ namespace NRender2D
 			this.param.Raw_SetEnable(a_flag);
 		}
 
-		/** [内部からの呼び出し]再計算フラグ。取得。
+		/** [内部からの呼び出し]シェーダの変更が必要。取得。
 		*/
-		public bool Raw_IsReCalc()
+		public bool Raw_IsChangeShader()
 		{
-			return this.param.Raw_IsReCalc();
+			return this.param.Raw_IsChangeShader();
 		}
 
-		/** [内部からの呼び出し]再計算フラグ。設定。
+		/** [内部からの呼び出し]シェーダの変更が必要。取得。
 		*/
-		public void Raw_ResetReCalc()
+		public void Raw_SetChangeShaderFlag(bool a_flag)
 		{
-			this.param.Raw_ResetReCalc();
+			this.param.Raw_SetChangeShaderFlag(a_flag);
+		}
+
+		/** [内部からの呼び出し]サイズの計算が必要。取得。
+		*/
+		public bool Raw_IsCalcSize()
+		{
+			return this.param.Raw_IsCalcSize();
+		}
+
+		/** [内部からの呼び出し]サイズの計算が必要。設定。
+		*/
+		public void Raw_SetCalcSizeFlag(bool a_flag)
+		{
+			this.param.Raw_SetCalcSizeFlag(a_flag);
+		}
+
+		/** [内部からの呼び出し]フォントのサイズの計算が必要。取得。
+		*/
+		public bool Raw_IsCalcFontSize()
+		{
+			return this.param.Raw_IsCalcFontSize();
+		}
+
+		/** [内部からの呼び出し]フォントのサイズの計算が必要。設定。
+		*/
+		public void Raw_SetCalcFontSizeFlag(bool a_flag)
+		{
+			this.param.Raw_SetCalcFontSizeFlag(a_flag);
 		}
 	}
 }

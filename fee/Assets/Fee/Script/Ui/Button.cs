@@ -40,7 +40,7 @@ namespace NUi
 
 			//text
 			this.text = new NRender2D.Text2D(this.deleter,a_state,a_drawpriority);
-			this.text.SetCenter(true);
+			this.text.SetCenter(true,true);
 		}
 
 		/** [Button_Base]コールバック。削除。

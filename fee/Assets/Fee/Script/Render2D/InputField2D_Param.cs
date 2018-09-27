@@ -358,7 +358,7 @@ namespace NRender2D
 
 		/** [内部からの呼び出し]サイズ。設定。
 		*/
-		public void Raw_SetRectTransformSizeDeleta(ref Vector2 a_size)
+		public void Raw_SetRectTransformSizeDelta(ref Vector2 a_size)
 		{
 			this.raw_recttransform.sizeDelta = a_size;
 		}
