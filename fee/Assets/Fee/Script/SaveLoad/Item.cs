@@ -20,9 +20,9 @@ namespace NSaveLoad
 	*/
 	public class Item
 	{
-		/** datatype
+		/** result_datatype
 		*/
-		private DataType datatype;
+		private DataType result_datatype;
 
 		/** result_binary
 		*/
@@ -40,8 +40,8 @@ namespace NSaveLoad
 		*/
 		public Item()
 		{
-			//datatype
-			this.datatype = DataType.None;
+			//result_datatype
+			this.result_datatype = DataType.None;
 
 			//result_binary
 			this.result_binary = null;
@@ -57,7 +57,7 @@ namespace NSaveLoad
 		*/
 		public bool IsBusy()
 		{
-			if(this.datatype == DataType.None){
+			if(this.result_datatype == DataType.None){
 				return true;
 			}
 			return false;
@@ -65,30 +65,30 @@ namespace NSaveLoad
 
 		/** データタイプ。取得。
 		*/
-		public DataType GetDataType()
+		public DataType GetResultDataType()
 		{
-			return this.datatype;
+			return this.result_datatype;
 		}
 
 		/** 結果。セーブ完了。
 		*/
 		public void SetResultSaveEnd()
 		{
-			this.datatype = DataType.SaveEnd;
+			this.result_datatype = DataType.SaveEnd;
 		}
 
 		/** 結果。エラー。
 		*/
 		public void SetResultError()
 		{
-			this.datatype = DataType.Error;
+			this.result_datatype = DataType.Error;
 		}
 
 		/** 結果。設定。
 		*/
 		public void SetResultBinary(byte[] a_binary)
 		{
-			this.datatype = DataType.Binary;
+			this.result_datatype = DataType.Binary;
 
 			this.result_binary = a_binary;
 		}
@@ -97,7 +97,7 @@ namespace NSaveLoad
 		*/
 		public void SetResultText(string a_text)
 		{
-			this.datatype = DataType.Text;
+			this.result_datatype = DataType.Text;
 
 			this.result_text = a_text;
 		}
@@ -120,7 +120,7 @@ namespace NSaveLoad
 		*/
 		public void SetResultTexture(Texture2D a_texture)
 		{
-			this.datatype = DataType.Texture;
+			this.result_datatype = DataType.Texture;
 
 			this.result_texture = a_texture;
 		}

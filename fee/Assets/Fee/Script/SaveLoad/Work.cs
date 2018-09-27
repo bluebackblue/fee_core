@@ -232,7 +232,7 @@ namespace NSaveLoad
 					if(t_io.IsBusy() == false){
 
 						//結果。
-						switch(t_io.GetDataType()){
+						switch(t_io.GetResultDataType()){
 						case DataType.Binary:
 							{
 								//バイナリ。

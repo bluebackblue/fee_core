@@ -49,6 +49,18 @@ namespace NDownLoad
 			Fix,
 		};
 
+		/** ProgressStep
+		*/
+		private enum ProgressStep
+		{
+			Step0 = 0,
+			Step1,
+			Step2,
+			Step3,
+
+			Max,
+		};
+
 		/** Work
 		*/
 		private class Work
@@ -72,9 +84,10 @@ namespace NDownLoad
 				this.local_soundpool = null;
 				this.soundpool = null;
 				this.download_binary = null;
-
-				this.progress_step_max = 1;
-				this.progress_step = 0;
+				this.progress_step_max = (int)ProgressStep.Max;
+				this.progress_step = (int)ProgressStep.Step0;
+				this.progress_substep_max = 0;
+				this.progress_substep = 0;
 			}
 		}
 
@@ -205,7 +218,7 @@ namespace NDownLoad
 					yield return null;
 				}while(t_saveload_item.IsBusy() == true);
 
-				if(t_saveload_item.GetDataType() == NSaveLoad.DataType.Text){
+				if(t_saveload_item.GetResultDataType() == NSaveLoad.DataType.Text){
 					this.work.local_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_saveload_item.GetResultText()));
 
 					if(this.work.local_soundpool == null){
@@ -361,7 +374,7 @@ namespace NDownLoad
 					yield return null;
 				}while(t_saveload_item.IsBusy() == true);
 
-				if(t_saveload_item.GetDataType() == NSaveLoad.DataType.SaveEnd){
+				if(t_saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
 				}else{
 					//失敗。
 
@@ -404,10 +417,10 @@ namespace NDownLoad
 					yield return null;
 				}while(t_saveload_item.IsBusy() == true);
 
-				if(t_saveload_item.GetDataType() == NSaveLoad.DataType.SaveEnd){
+				if(t_saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
 				}else{
 					//失敗。
-					Tool.LogError("Raw_Do_SaveSoundPool",t_saveload_item.GetDataType().ToString());
+					Tool.LogError("Raw_Do_SaveSoundPool",t_saveload_item.GetResultDataType().ToString());
 					yield break;
 				}
 			}
@@ -431,9 +444,9 @@ namespace NDownLoad
 			}
 
 			//ローカルサウンドプール。ロード。
-			this.work.progress_step = 0;
-			this.work.progress_step_max = 1;
-			this.work.progress_step = 0;
+			this.work.progress_substep = 0;
+			this.work.progress_substep_max = 1;
+			this.work.progress_step = (int)ProgressStep.Step0;
 			yield return this.Raw_Do_LoadLocalSoundPool();
 			if(this.mode != Mode.Do){
 				//失敗。
@@ -460,9 +473,9 @@ namespace NDownLoad
 			}
 	
 			//最新サウンドプール。ダウンロード。
-			this.work.progress_step = 1;
-			this.work.progress_step_max = 1;
-			this.work.progress_step = 0;
+			this.work.progress_substep = 0;
+			this.work.progress_substep_max = 1;
+			this.work.progress_step = (int)ProgressStep.Step1;
 			yield return this.Raw_Do_DownLoadNewSoundPool();
 			if(this.mode != Mode.Do){
 				//失敗。
@@ -485,10 +498,10 @@ namespace NDownLoad
 			}
 
 			//リストアイテム。
-			this.work.progress_step = 2;
+			this.work.progress_step = (int)ProgressStep.Step2;
 			if(t_download_listitem == true){
-				this.work.progress_step_max = this.work.soundpool.name_list.Count * 2;
-				this.work.progress_step = 0;
+				this.work.progress_substep_max = this.work.soundpool.name_list.Count * 2;
+				this.work.progress_substep = 0;
 
 				for(int ii=0;ii<this.work.soundpool.name_list.Count;ii++){
 					//リストアイテム。ダウンロード。
@@ -510,9 +523,9 @@ namespace NDownLoad
 			}
 
 			//サウンドプール。セーブ。
-			this.work.progress_step = 3;
-			this.work.progress_step_max = 1;
-			this.work.progress_step = 0;
+			this.work.progress_substep = 0;
+			this.work.progress_substep_max = 1;
+			this.work.progress_step = (int)ProgressStep.Step3;
 			yield return this.Raw_Do_SaveSoundPool();
 			if(this.mode != Mode.Do){
 				//失敗。

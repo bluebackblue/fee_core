@@ -78,11 +78,6 @@ namespace NSaveLoad
 		[SerializeField]
 		private Mode mode;
 
-		/** datatype
-		*/
-		[SerializeField]
-		private DataType datatype;
-
 		/** request_type
 		*/
 		[SerializeField]
@@ -107,6 +102,11 @@ namespace NSaveLoad
 		*/
 		[SerializeField]
 		private Texture2D request_texture;
+
+		/** result_datatype
+		*/
+		[SerializeField]
+		private DataType result_datatype;
 
 		/** result_binary
 		*/
@@ -133,9 +133,6 @@ namespace NSaveLoad
 			//mode
 			this.mode = Mode.WaitRequest;
 
-			//datatype
-			this.datatype = DataType.None;
-
 			//request_type
 			this.request_type = RequestType.None;
 
@@ -150,6 +147,9 @@ namespace NSaveLoad
 
 			//request_texture
 			this.request_texture = null;
+
+			//result_datatype
+			this.result_datatype = DataType.None;
 
 			//result_binary
 			this.result_binary = null;
@@ -174,7 +174,7 @@ namespace NSaveLoad
 				this.request_text = null;
 				this.request_texture = null;
 
-				this.datatype = DataType.None;
+				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
 				this.result_texture = null;
@@ -198,7 +198,7 @@ namespace NSaveLoad
 				this.request_text = null;
 				this.request_texture = null;
 
-				this.datatype = DataType.None;
+				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
 				this.result_texture = null;
@@ -222,7 +222,7 @@ namespace NSaveLoad
 				this.request_text = a_text;
 				this.request_texture = null;
 
-				this.datatype = DataType.None;
+				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
 				this.result_texture = null;
@@ -246,7 +246,7 @@ namespace NSaveLoad
 				this.request_text = null;
 				this.request_texture = null;
 
-				this.datatype = DataType.None;
+				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
 				this.result_texture = null;
@@ -270,7 +270,7 @@ namespace NSaveLoad
 				this.request_text = null;
 				this.request_texture = a_texture;
 
-				this.datatype = DataType.None;
+				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
 				this.result_texture = null;
@@ -294,7 +294,7 @@ namespace NSaveLoad
 				this.request_text = null;
 				this.request_texture = null;
 
-				this.datatype = DataType.None;
+				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
 				this.result_texture = null;
@@ -324,9 +324,9 @@ namespace NSaveLoad
 
 		/** データタイプ。取得。
 		*/
-		public DataType GetDataType()
+		public DataType GetResultDataType()
 		{
-			return this.datatype;
+			return this.result_datatype;
 		}
 
 		/** 結果。取得。
@@ -375,6 +375,244 @@ namespace NSaveLoad
 			a_height = t_height;
 		}
 
+		/** セーブローカル。バイナリファイル。
+		*/
+		private async System.Threading.Tasks.Task<bool> Task_Do_SaveLocalBinaryFile(string a_full_path,byte[] a_binary,System.Threading.CancellationToken a_cancel)
+		{
+			//ファイルパス。
+			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
+
+			bool t_ret = true;
+
+			//開く。
+			System.IO.FileStream t_filestream = null;
+			try{
+				t_filestream = t_fileinfo.Create();
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_SaveLocalBinaryFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = false;
+			}
+
+			//TODO:プログレス。
+
+			//書き込み。
+			try{
+				if(t_filestream != null){
+					await t_filestream.WriteAsync(a_binary,0,a_binary.Length,a_cancel);
+					await t_filestream.FlushAsync(a_cancel);
+				}
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_SaveLocalBinaryFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = false;
+			}
+
+			//閉じる。
+			if(t_filestream != null){
+				t_filestream.Close();
+			}
+
+			return t_ret;
+		}
+
+		/** ロードローカル。バイナリファイル。
+		*/
+		private async System.Threading.Tasks.Task<byte[]> Task_Do_LoadLocalBinaryFile(string a_full_path,System.Threading.CancellationToken a_cancel)
+		{
+			//ファイルパス。
+			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
+
+			byte[] t_ret = null;
+
+			//開く。
+			System.IO.FileStream t_filestream = null;
+			try{
+				t_filestream = t_fileinfo.OpenRead();
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_LoadLocalBinaryFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = null;
+			}
+
+			//TODO:プログレス。
+
+			//書き込み。
+			try{
+				if(t_filestream != null){
+					t_ret = new byte[t_filestream.Length];
+					await t_filestream.ReadAsync(t_ret,0,t_ret.Length,a_cancel);
+					await t_filestream.FlushAsync(a_cancel);
+				}
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_LoadLocalBinaryFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = null;
+			}
+
+			//閉じる。
+			if(t_filestream != null){
+				t_filestream.Close();
+			}
+
+			return t_ret;
+		}
+
+		/** セーブローカル。テキストファイル。
+		*/
+		private async System.Threading.Tasks.Task<bool> Task_Do_SaveLocalTextFile(string a_full_path,string a_text,System.Threading.CancellationToken a_cancel)
+		{
+			//ファイルパス。
+			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
+
+			bool t_ret = true;
+
+			//開く。
+			System.IO.StreamWriter t_filestream = null;
+			try{
+				t_filestream = t_fileinfo.CreateText();
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_SaveLocalTextFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = false;
+			}
+
+			//TODO:プログレス。
+
+			//書き込み。
+			try{
+				if(t_filestream != null){
+					//TODO:キャンセルトークン渡せない。
+					await t_filestream.WriteAsync(a_text);
+					await t_filestream.FlushAsync();
+				}
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_SaveLocalTextFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = false;
+			}
+
+			//閉じる。
+			if(t_filestream != null){
+				t_filestream.Close();
+			}
+
+			return t_ret;
+		}
+
+		/** ロードローカル。テキストファイル。
+		*/
+		private async System.Threading.Tasks.Task<string> Task_Do_LoadLocalTextFile(string a_full_path,System.Threading.CancellationToken a_cancel)
+		{
+			//ファイルパス。
+			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
+
+			string t_ret = null;
+
+			//開く。
+			System.IO.StreamReader t_filestream = null;
+			try{
+				t_filestream = t_fileinfo.OpenText();
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_LoadLocalTextFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = null;
+			}
+
+			//TODO:プログレス。
+
+			//読み込み。
+			try{
+				if(t_filestream != null){
+					//TODO:キャンセルトークン渡せない。
+					t_ret = await t_filestream.ReadToEndAsync();
+				}
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_LoadLocalTextFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = null;
+			}
+
+			//閉じる。
+			if(t_filestream != null){
+				t_filestream.Close();
+			}
+
+			return t_ret;
+		}
+
+		/** セーブローカル。ＰＮＧファイル。
+		*/
+		private async System.Threading.Tasks.Task<bool> Task_Do_SaveLocalPngFile(string a_full_path,byte[] a_binary,System.Threading.CancellationToken a_cancel)
+		{
+			//ファイルパス。
+			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
+
+			bool t_ret = true;
+
+			//開く。
+			System.IO.FileStream t_filestream = null;
+			try{
+				t_filestream = t_fileinfo.Create();
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_SaveLocalPngFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = false;
+			}
+
+			//TODO:プログレス。
+
+			//書き込み。
+			try{
+				if(t_filestream != null){
+					await t_filestream.WriteAsync(a_binary,0,a_binary.Length,a_cancel);
+					await t_filestream.FlushAsync(a_cancel);
+				}
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_SaveLocalPngFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = false;
+			}
+
+			//閉じる。
+			if(t_filestream != null){
+				t_filestream.Close();
+			}
+
+			return t_ret;
+		}
+
+		/** ロードローカル。ＰＮＧファイル。
+		*/
+		private async System.Threading.Tasks.Task<byte[]> Task_Do_LoadLocalPngFile(string a_full_path,System.Threading.CancellationToken a_cancel)
+		{
+			//ファイルパス。
+			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
+
+			byte[] t_ret = null;
+
+			//開く。
+			System.IO.FileStream t_filestream = null;
+			try{
+				t_filestream = t_fileinfo.OpenRead();
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_LoadLocalPngFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = null;
+			}
+
+			//TODO:プログレス。
+
+			//書き込み。
+			try{
+				if(t_filestream != null){
+					t_ret = new byte[t_filestream.Length];
+					await t_filestream.ReadAsync(t_ret,0,t_ret.Length,a_cancel);
+					await t_filestream.FlushAsync(a_cancel);
+				}
+			}catch(System.Exception t_exception){
+				Tool.Log("Task_Do_LoadLocalPngFile",t_exception.StackTrace + "\n\n" + t_exception.Message);
+				t_ret = null;
+			}
+
+			//閉じる。
+			if(t_filestream != null){
+				t_filestream.Close();
+			}
+
+			return t_ret;
+		}
+
+
 		/** Start
 		*/
 		private IEnumerator Start()
@@ -418,177 +656,141 @@ namespace NSaveLoad
 
 			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(t_full_path);
 
-			DataType t_ret = DataType.Error;
-
 			if(this.request_type == RequestType.SaveLocalBinaryFile){
-				//セーブ。バイナリ。
+				//セーブローカル。バイナリファイル。
 
-				System.IO.FileStream t_filestream = null;
+				//キャンセルトークン。
+				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
-				//open
-				try{
-					t_filestream = t_fileinfo.Create();
-				}catch(System.Exception /*t_exception*/){
-					//Tool.LogError(t_exception);
-				}
+				//タスク起動。
+				NTaskW.Task<bool> t_task = new NTaskW.Task<bool>(() => {return this.Task_Do_SaveLocalBinaryFile(t_full_path,this.request_binary,t_cancel);});
 
-				yield return null;
+				//終了待ち。
+				do{
+					yield return null;
+				}while(t_task.IsEnd() == false);
 
-				//write
-				if(t_filestream != null){
-					System.IO.BinaryWriter t_binarwriter = new System.IO.BinaryWriter(t_filestream);
-					t_binarwriter.Write(this.request_binary,0,this.request_binary.Length);
-					t_binarwriter.Close();
-
-					t_ret = DataType.SaveEnd;
-				}
-
-				//close
-				if(t_filestream != null){
-					t_filestream.Close();
+				//結果。
+				if(t_task.GetResult() == true){
+					this.result_datatype = DataType.SaveEnd;
+				}else{
+					this.result_datatype = DataType.Error;
 				}
 			}else if(this.request_type == RequestType.LoadLocalBinaryFile){
-				//ロード。バイナリ。
+				//ロードローカル。バイナリファイル。
 
-				System.IO.FileStream t_filestream = null;
+				//キャンセルトークン。
+				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
-				//open
-				try{
-					t_filestream = t_fileinfo.OpenRead();
-				}catch(System.Exception /*t_exception*/){
-					//Tool.LogError(t_exception);
-				}
+				//タスク起動。
+				NTaskW.Task<byte[]> t_task = new NTaskW.Task<byte[]>(() => {return this.Task_Do_LoadLocalBinaryFile(t_full_path,t_cancel);});
 
-				yield return null;
+				//終了待ち。
+				do{
+					yield return null;
+				}while(t_task.IsEnd() == false);
 
-				//read
-				if(t_filestream != null){
-					System.IO.BinaryReader t_binaryreader = new System.IO.BinaryReader(t_filestream);
-
-					this.result_binary = t_binaryreader.ReadBytes((int)t_filestream.Length);
-
-					t_ret = DataType.Binary;
-				}
-
-				//close
-				if(t_filestream != null){
-					t_filestream.Close();
+				//結果。
+				if(t_task.GetResult() != null){
+					this.result_binary = t_task.GetResult();
+					this.result_datatype = DataType.Binary;
+				}else{
+					this.result_datatype = DataType.Error;
 				}
 			}else if(this.request_type == RequestType.SaveLocalTextFile){
-				//セーブ。テキスト。
+				//セーブローカル。テキストファイル。
 
-				System.IO.StreamWriter t_stream_writer = null;
+				//キャンセルトークン。
+				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
-				//open
-				try{
-					t_stream_writer = t_fileinfo.CreateText();
-				}catch(System.Exception /*t_exception*/){
-					//Tool.LogError(t_exception);
-				}
+				//タスク起動。
+				NTaskW.Task<bool> t_task = new NTaskW.Task<bool>(() => {return this.Task_Do_SaveLocalTextFile(t_full_path,this.request_text,t_cancel);});
 
-				yield return null;
+				//終了待ち。
+				do{
+					yield return null;
+				}while(t_task.IsEnd() == false);
 
-				//write
-				if(t_stream_writer != null){
-					t_stream_writer.Write(this.request_text);
-					t_stream_writer.Flush();
-
-					t_ret = DataType.SaveEnd;
-				}
-
-				//close
-				if(t_stream_writer != null){
-					t_stream_writer.Close();
+				//結果。
+				if(t_task.GetResult() == true){
+					this.result_datatype = DataType.SaveEnd;
+				}else{
+					this.result_datatype = DataType.Error;
 				}
 			}else if(this.request_type == RequestType.LoadLocalTextFile){
-				//ロード。テキスト。
+				//ロードローカル。テキストファイル。
 
-				System.IO.StreamReader t_stream_reader = null;
+				//キャンセルトークン。
+				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
-				//open
-				try{
-					t_stream_reader = t_fileinfo.OpenText();
-				}catch(System.Exception /*t_exception*/){
-					//Tool.LogError(t_exception);
-				}
+				//タスク起動。
+				NTaskW.Task<string> t_task = new NTaskW.Task<string>(() => {return this.Task_Do_LoadLocalTextFile(t_full_path,t_cancel);});
 
-				yield return null;
+				//終了待ち。
+				do{
+					yield return null;
+				}while(t_task.IsEnd() == false);
 
-				//read
-				if(t_stream_reader != null){
-					this.result_text = t_stream_reader.ReadToEnd();
-					t_ret = DataType.Text;
-				}
-
-				//close
-				if(t_stream_reader != null){
-					t_stream_reader.Close();
+				//結果。
+				if(t_task.GetResult() != null){
+					this.result_text = t_task.GetResult();
+					this.result_datatype = DataType.Text;
+				}else{
+					this.result_datatype = DataType.Error;
 				}
 			}else if(this.request_type == RequestType.SaveLocalPngFile){
-				//セーブ。ＰＮＧ。
+				//セーブローカル。ＰＮＧファイル。
 
-				System.IO.FileStream t_filestream = null;
+				//キャンセルトークン。
+				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
-				//open
-				try{
-					t_filestream = t_fileinfo.Create();
-				}catch(System.Exception /*t_exception*/){
-					//Tool.LogError(t_exception);
-				}
+				//TODO:busy
+				byte[] t_binary = this.request_texture.EncodeToPNG();
 
-				yield return null;
+				//タスク起動。
+				NTaskW.Task<bool> t_task = new NTaskW.Task<bool>(() => {return this.Task_Do_SaveLocalPngFile(t_full_path,t_binary,t_cancel);});
 
-				//write
-				if(t_filestream != null){
-					byte[] t_byte = this.request_texture.EncodeToPNG();
+				//終了待ち。
+				do{
+					yield return null;
+				}while(t_task.IsEnd() == false);
 
-					System.IO.BinaryWriter t_binarwriter = new System.IO.BinaryWriter(t_filestream);
-					t_binarwriter.Write(t_byte,0,t_byte.Length);
-					t_binarwriter.Close();
-
-					t_ret = DataType.SaveEnd;
-				}
-
-				//close
-				if(t_filestream != null){
-					t_filestream.Close();
+				//結果。
+				if(t_task.GetResult() == true){
+					this.result_datatype = DataType.SaveEnd;
+				}else{
+					this.result_datatype = DataType.Error;
 				}
 			}else if(this.request_type == RequestType.LoadLocalPngFile){
-				//ロード。ＰＮＧ。
+				//ロードローカル。ＰＮＧファイル。
 
-				System.IO.FileStream t_filestream = null;
+				//キャンセルトークン。
+				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
-				//open
-				try{
-					t_filestream = t_fileinfo.OpenRead();
-				}catch(System.Exception /*t_exception*/){
-					//Tool.LogError(t_exception);
-				}
+				//タスク起動。
+				NTaskW.Task<byte[]> t_task = new NTaskW.Task<byte[]>(() => {return this.Task_Do_LoadLocalPngFile(t_full_path,t_cancel);});
 
-				yield return null;
+				//終了待ち。
+				do{
+					yield return null;
+				}while(t_task.IsEnd() == false);
 
-				//read
-				if(t_filestream != null){
-					System.IO.BinaryReader t_binaryreader = new System.IO.BinaryReader(t_filestream);
+				//結果。
+				if(t_task.GetResult() != null){
+					byte[] t_binary = t_task.GetResult();
 
-					byte[] t_bytes = t_binaryreader.ReadBytes((int)t_filestream.Length);
-
+					//TODO:busy
 					int t_width;
 					int t_height;
-					this.GetSizeFromPngBinary(t_bytes,out t_width,out t_height);
+					this.GetSizeFromPngBinary(t_binary,out t_width,out t_height);
 					this.result_texture = new Texture2D(t_width,t_height);
-					this.result_texture.LoadImage(t_bytes);
+					this.result_texture.LoadImage(t_binary);
 
-					t_ret = DataType.Texture;
-				}
-
-				//close
-				if(t_filestream != null){
-					t_filestream.Close();
+					this.result_datatype = DataType.Texture;
+				}else{
+					this.result_datatype = DataType.Error;
 				}
 			}
-
-			this.datatype = t_ret;
 
 			yield break;
 		}

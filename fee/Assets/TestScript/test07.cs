@@ -43,6 +43,9 @@ public class test07 : main_base , NEventPlate.OnOverCallBack_Base
 	*/
 	private void Start()
 	{
+		//タスク。インスタンス作成。
+		NTaskW.TaskW.CreateInstance();
+
 		//パフォーマンスカウンター。インスタンス作成。
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 

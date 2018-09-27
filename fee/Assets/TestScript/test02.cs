@@ -91,6 +91,9 @@ public class test02 : main_base
 	*/
 	private void Start()
 	{
+		//タスク。インスタンス作成。
+		NTaskW.TaskW.CreateInstance();
+
 		//パフォーマンスカウンター。インスタンス作成。
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 
@@ -270,7 +273,7 @@ public class test02 : main_base
 			if(this.load_item.IsBusy() == true){
 				//ロード中。
 			}else{
-				if(this.load_item.GetDataType() != NSaveLoad.DataType.Text){
+				if(this.load_item.GetResultDataType() != NSaveLoad.DataType.Text){
 					//ロード失敗。
 					this.SetStatus("Load : Faild",this.savedata);
 				}else{
@@ -309,7 +312,7 @@ public class test02 : main_base
 			if(this.save_item.IsBusy() == true){
 				//セーブ中。
 			}else{
-				if(this.save_item.GetDataType() == NSaveLoad.DataType.SaveEnd){
+				if(this.save_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
 					//セーブ成功。
 					this.SetStatus("Save : Success",this.savedata);
 				}else{

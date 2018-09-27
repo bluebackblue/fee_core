@@ -56,6 +56,9 @@ public class test01 : main_base
 	*/
 	private void Start()
 	{
+		//タスク。インスタンス作成。
+		NTaskW.TaskW.CreateInstance();
+
 		//パフォーマンスカウンター。インスタンス作成。
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 

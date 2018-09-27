@@ -26,9 +26,33 @@ public class test04 : main_base
 	*/
 	private NDeleter.Deleter deleter;
 
+	/** Step
+	*/
+	private enum Step
+	{
+		Start,
+
+		SaveBinaryStart,
+		SaveBinaryNow,
+		LoadBinaryStart,
+		LoadBinaryNow,
+
+		SaveTextStart,
+		SaveTextNow,
+		LoadTextStart,
+		LoadTextNow,
+
+		SavePngStart,
+		SavePngNow,
+		LoadPngStart,
+		LoadPngNow,
+
+		End,
+	}
+
 	/** step
 	*/
-	private int step;
+	private Step step;
 
 	/** セーブロードアイテム。
 	*/
@@ -42,6 +66,9 @@ public class test04 : main_base
 	*/
 	private void Start()
 	{
+		//タスク。インスタンス作成。
+		NTaskW.TaskW.CreateInstance();
+
 		//パフォーマンスカウンター。インスタンス作成。
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 
@@ -49,13 +76,14 @@ public class test04 : main_base
 		NRender2D.Render2D.CreateInstance();
 
 		//セーブロード。インスタンス作成。
+		NSaveLoad.Config.LOG_ENABLE = true;
 		NSaveLoad.SaveLoad.CreateInstance();
 
 		//deleter
 		this.deleter = new NDeleter.Deleter();
 
 		//step
-		this.step = 0;
+		this.step = Step.Start;
 
 		//saveload_item
 		this.saveload_item = null;
@@ -78,77 +106,144 @@ public class test04 : main_base
 		NSaveLoad.SaveLoad.GetInstance().Main();
 
 		switch(this.step){
-		case 0:
+		case Step.Start:
 			{
-				//テキスト。セーブ開始。
-
-				string t_save_text = Random.value.ToString();
-				Debug.Log("SAVETEXT : START : " + t_save_text);
-				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalTextFile("save.txt",t_save_text);
-				this.step++;
+				this.step = Step.SaveBinaryStart;
 			}break;
-		case 1:
+		case Step.SaveBinaryStart:
 			{
-				//テキスト。セーブ中。
+				//ファイル名。
+				string t_filename = "test_binary.bin";
 
-				if(this.saveload_item != null){
-					switch(this.saveload_item.GetDataType()){
-					case NSaveLoad.DataType.None:
-						{
-							//セーブ中。
-						}break;
-					case NSaveLoad.DataType.SaveEnd:
-						{
-							//セーブ完了。
-							Debug.Log("SAVETEXT : END");
-							this.saveload_item = null;
-						}break;
-					default:
-						{
-							//不明。
-							this.saveload_item = null;
-							Debug.Log("SAVETEXT : ERROR");
-						}break;
-					}
+				//データ。
+				byte[] t_binary = new byte[1 * 1024 * 1024];
+				for(int ii=0;ii<t_binary.Length;ii++){
+					t_binary[ii] = (byte)(ii % 256);
+				}
+
+				Debug.Log("SaveBinaryStart : " + t_filename + " : size = " + t_binary.Length.ToString());
+				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalBinaryFile(t_filename,t_binary);
+				this.step = Step.SaveBinaryNow;
+			}break;
+		case Step.SaveBinaryNow:
+			{
+				if(this.saveload_item.IsBusy() == true){
+					//セーブ中。
+					Debug.Log("SaveBinaryNow");
 				}else{
-					this.step++;
+					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
+						//成功。
+						Debug.Log("SaveBinaryNow : Success");
+						this.step = Step.LoadBinaryStart;
+					}else{
+						//失敗。
+						Debug.Log("SaveBinaryNow : Faild");
+						this.step = Step.LoadBinaryStart;
+					}
 				}
 			}break;
-		case 2:
+		case Step.LoadBinaryStart:
 			{
-				//テキスト。ロード開始。
+				//ファイル名。
+				string t_filename = "test_binary.bin";
 
-				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLoaclTextFile("save.txt");
-				this.step++;
+				Debug.Log("SaveBinaryStart : " + t_filename);
+				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLoaclBinaryFile(t_filename);
+				this.step = Step.LoadBinaryNow;
 			}break;
-		case 3:
+		case Step.LoadBinaryNow:
 			{
-				//テキスト。ロード中。
-
-				if(this.saveload_item != null){
-					switch(this.saveload_item.GetDataType()){
-					case NSaveLoad.DataType.None:
-						{
-							//ロード中。
-						}break;
-					case NSaveLoad.DataType.Text:
-						{
-							//ロード完了。
-							string t_load_text = this.saveload_item.GetResultText();
-
-							this.saveload_item = null;
-
-							Debug.Log("LOADTEXT : " + t_load_text);
-						}break;
-					default:
-						{
-							Debug.Log("LOADTEXT : ERROR");
-						}break;
-					}
+				if(this.saveload_item.IsBusy() == true){
+					//セーブ中。
+					Debug.Log("LoadBinaryNow");
 				}else{
-					this.step++;
+					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.Binary){
+						//成功。
+						Debug.Log("LoadBinaryNow : Success : size = " + this.saveload_item.GetResultBinary().Length.ToString());
+						this.step = Step.SaveTextStart;
+
+						//チェック。
+						byte[] t_binary = this.saveload_item.GetResultBinary();
+						for(int ii=0;ii<t_binary.Length;ii++){
+							if(t_binary[ii] != (byte)(ii % 256)){
+								Debug.Log("LoadBinaryNow : error");
+							}
+						}
+					}else{
+						//失敗。
+						Debug.Log("LoadBinaryNow : Faild");
+						this.step = Step.SaveTextStart;
+					}
 				}
 			}break;
+		case Step.SaveTextStart:
+			{
+				//ファイル名。
+				string t_filename = "test_text.txt";
+
+				//データ。
+				string t_text = Random.value.ToString();
+
+				Debug.Log("SaveTextStart : " + t_filename + " : text = " + t_text);
+				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalTextFile(t_filename,t_text);
+				this.step = Step.SaveTextNow;
+			}break;
+		case Step.SaveTextNow:
+			{
+				if(this.saveload_item.IsBusy() == true){
+					//セーブ中。
+					Debug.Log("SaveTextNow");
+				}else{
+					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
+						//成功。
+						Debug.Log("SaveTextNow : Success");
+						this.step = Step.LoadTextStart;
+					}else{
+						//失敗。
+						Debug.Log("SaveTextNow : Faild");
+						this.step = Step.LoadTextStart;
+					}
+				}
+			}break;
+		case Step.LoadTextStart:
+			{
+				//ファイル名。
+				string t_filename = "test_text.txt";
+
+				Debug.Log("LoadTextStart : " + t_filename);
+				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLoaclTextFile(t_filename);
+				this.step = Step.LoadTextNow;
+			}break;
+		case Step.LoadTextNow:
+			{
+				if(this.saveload_item.IsBusy() == true){
+					//セーブ中。
+					Debug.Log("LoadTextNow");
+				}else{
+					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.Text){
+						//成功。
+						Debug.Log("LoadTextNow : Success : text = " + this.saveload_item.GetResultText());
+						this.step = Step.End;
+					}else{
+						//失敗。
+						Debug.Log("LoadTextNow : Faild");
+						this.step = Step.End;
+					}
+				}
+			}break;
+
+		case Step.SavePngStart:
+		case Step.SavePngNow:
+		case Step.LoadPngStart:
+		case Step.LoadPngNow:
+			{
+			}break;
+
+		case Step.End:
+			{
+			}break;
+
+		#if false
 		case 4:
 			{
 				//ＰＮＧ。セーブ開始。
@@ -237,6 +332,7 @@ public class test04 : main_base
 					this.step++;
 				}
 			}break;
+		#endif
 		}
 	}
 

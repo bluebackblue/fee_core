@@ -102,6 +102,9 @@ public class test16 : main_base , NNetwork.OnRemoteCallBack_Base
 	*/
 	private void Start()
 	{
+		//タスク。インスタンス作成。
+		NTaskW.TaskW.CreateInstance();
+
 		//パフォーマンスカウンター。インスタンス作成。
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 
