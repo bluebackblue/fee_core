@@ -682,14 +682,12 @@ namespace NSaveLoad
 		*/
 		private IEnumerator Do()
 		{
+			//ファイル名。
 			string t_full_path = Application.persistentDataPath + "/" + this.request_filename;
-
-			Tool.Log("fiename",t_full_path);
-
-			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(t_full_path);
 
 			if(this.request_type == RequestType.SaveLocalBinaryFile){
 				//セーブローカル。バイナリファイル。
+				Tool.Log(this.request_type.ToString(),t_full_path);
 
 				//キャンセルトークン。
 				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
@@ -711,6 +709,7 @@ namespace NSaveLoad
 				}
 			}else if(this.request_type == RequestType.LoadLocalBinaryFile){
 				//ロードローカル。バイナリファイル。
+				Tool.Log(this.request_type.ToString(),t_full_path);
 
 				//キャンセルトークン。
 				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
@@ -733,6 +732,7 @@ namespace NSaveLoad
 				}
 			}else if(this.request_type == RequestType.SaveLocalTextFile){
 				//セーブローカル。テキストファイル。
+				Tool.Log(this.request_type.ToString(),t_full_path);
 
 				//キャンセルトークン。
 				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
@@ -754,6 +754,7 @@ namespace NSaveLoad
 				}
 			}else if(this.request_type == RequestType.LoadLocalTextFile){
 				//ロードローカル。テキストファイル。
+				Tool.Log(this.request_type.ToString(),t_full_path);
 
 				//キャンセルトークン。
 				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
@@ -776,6 +777,7 @@ namespace NSaveLoad
 				}
 			}else if(this.request_type == RequestType.SaveLocalPngFile){
 				//セーブローカル。ＰＮＧファイル。
+				Tool.Log(this.request_type.ToString(),t_full_path);
 
 				//キャンセルトークン。
 				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
@@ -803,6 +805,7 @@ namespace NSaveLoad
 				}
 			}else if(this.request_type == RequestType.LoadLocalPngFile){
 				//ロードローカル。ＰＮＧファイル。
+				Tool.Log(this.request_type.ToString(),t_full_path);
 
 				//キャンセルトークン。
 				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();

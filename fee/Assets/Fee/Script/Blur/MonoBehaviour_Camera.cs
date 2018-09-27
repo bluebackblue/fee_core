@@ -24,14 +24,17 @@ namespace NBlur
 		*/
 		public Camera mycamera;
 
-		/** material_blur
+		/** material_blur_x
 		*/
 		private Material material_blur_x;
+
+		/** material_blur_y
+		*/
 		private Material material_blur_y;
 
 		/** work_rendertexture
 		*/
-		//private RenderTexture work_rendertexture;
+		private RenderTexture work_rendertexture;
 
 		/** 初期化。
 		*/
@@ -43,6 +46,9 @@ namespace NBlur
 			//マテリアル読み込み。
 			this.material_blur_x = Resources.Load<Material>(Config.MATERIAL_NAME_BLURX);
 			this.material_blur_y = Resources.Load<Material>(Config.MATERIAL_NAME_BLURY);
+
+			//レンダーテクスチャー。
+			this.work_rendertexture = null;
 
 			#if(UNITY_EDITOR)
 			{
@@ -78,13 +84,21 @@ namespace NBlur
 		*/
 		private void OnRenderImage(RenderTexture a_source,RenderTexture a_dest)
 		{
-			RenderTexture t_work_rendertexture = RenderTexture.GetTemporary(a_source.width/2,a_source.height/2,0,a_source.format,RenderTextureReadWrite.Default);
+			//レンダリングテクスチャー作成。
+			this.work_rendertexture = RenderTexture.GetTemporary(a_source.width/2,a_source.height/2,0,a_source.format,RenderTextureReadWrite.Default);
 
-			UnityEngine.Graphics.Blit(a_source,t_work_rendertexture,this.material_blur_x);
-			UnityEngine.Graphics.Blit(t_work_rendertexture,a_dest,this.material_blur_y);
+			try{
+				UnityEngine.Graphics.Blit(a_source,this.work_rendertexture,this.material_blur_x);
+				UnityEngine.Graphics.Blit(this.work_rendertexture,a_dest,this.material_blur_y);
+			}catch(System.Exception t_exception){
+				Tool.LogError(t_exception);
+			}
 
-			RenderTexture.ReleaseTemporary(t_work_rendertexture);
-			t_work_rendertexture = null;
+			//レンダーテクスチャー解放。
+			if(this.work_rendertexture != null){
+				RenderTexture.ReleaseTemporary(this.work_rendertexture);
+				this.work_rendertexture = null;
+			}
 		}
 	}
 }

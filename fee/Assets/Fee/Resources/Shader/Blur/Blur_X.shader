@@ -1,13 +1,13 @@
 ﻿/**
  * Copyright (c) blueback
  * Released under the MIT License
- * https://github.com/bluebackblue/brownie/blob/master/LICENSE.txt
+ * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief シェーダー。ブラー。
+ * @brief シェーダ。ブラー。
 */
 
 
-Shader "Blur/BlurY"
+Shader "Blur/BlurX"
 {
     Properties
 	{
@@ -87,22 +87,22 @@ Shader "Blur/BlurY"
 				float t_weight_7 = 0.00184f;
 				float t_weight_8 = 0.00036f;
 
-				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y *  1)).rgb * t_weight_1;
-				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y *  1)).rgb * t_weight_1;
-				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y *  3)).rgb * t_weight_2;
-				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y *  3)).rgb * t_weight_2;
-				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y *  5)).rgb * t_weight_3;
-				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y *  5)).rgb * t_weight_3;
-				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y *  7)).rgb * t_weight_4;
-				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y *  7)).rgb * t_weight_4;
-				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y *  9)).rgb * t_weight_5;
-				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y *  9)).rgb * t_weight_5;
-				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 11)).rgb * t_weight_6;
-				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 11)).rgb * t_weight_6;
-				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 13)).rgb * t_weight_7;
-				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 13)).rgb * t_weight_7;
-				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 15)).rgb * t_weight_8;
-				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 15)).rgb * t_weight_8;
+				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x *  1,0)).rgb * t_weight_1;
+				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x *  1,0)).rgb * t_weight_1;
+				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x *  3,0)).rgb * t_weight_2;
+				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x *  3,0)).rgb * t_weight_2;
+				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x *  5,0)).rgb * t_weight_3;
+				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x *  5,0)).rgb * t_weight_3;
+				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x *  7,0)).rgb * t_weight_4;
+				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x *  7,0)).rgb * t_weight_4;
+				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x *  9,0)).rgb * t_weight_5;
+				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x *  9,0)).rgb * t_weight_5;
+				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x * 11,0)).rgb * t_weight_6;
+				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x * 11,0)).rgb * t_weight_6;
+				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x * 13,0)).rgb * t_weight_7;
+				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x * 13,0)).rgb * t_weight_7;
+				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x * 15,0)).rgb * t_weight_8;
+				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x * 15,0)).rgb * t_weight_8;
 
 				return fixed4(t_color,1.0);
 			}

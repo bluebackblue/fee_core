@@ -27,9 +27,19 @@ public class test10 : main_base
 	*/
 	private NRender2D.Sprite2D sprite;
 
-	/** flag
+	/** Mode
 	*/
-	private bool flag;
+	private enum Mode
+	{
+		None,
+		Blur,
+		Bloom,
+		BlurBloom,
+	}
+
+	/** mode
+	*/
+	private Mode mode;
 
 	/** Start
 	*/
@@ -46,6 +56,9 @@ public class test10 : main_base
 
 		//ブラー。インスタンス作成。
 		NBlur.Blur.CreateInstance();
+
+		//ブルーム。インスタンス作成。
+		NBloom.Bloom.CreateInstance();
 
 		//マウス。インスタンス作成。
 		NInput.Mouse.CreateInstance();
@@ -68,7 +81,7 @@ public class test10 : main_base
 			this.sprite.SetTexture(Resources.Load<Texture2D>("IMGP8657"));
 		}
 
-		this.flag =  false;
+		this.mode = Mode.None;
 	}
 
 	/** Update
@@ -79,8 +92,37 @@ public class test10 : main_base
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
 
 		if(NInput.Mouse.GetInstance().left.down == true){
-			this.flag = !this.flag;
-			NBlur.Blur.GetInstance().SetEnable(this.flag);
+			if(NInput.Mouse.GetInstance().InRectCheck(ref NRender2D.Render2D.VIRTUAL_RECT_MAX)){
+				switch(this.mode){
+				case Mode.None:			this.mode = Mode.Blur;		break;
+				case Mode.Blur:			this.mode = Mode.Bloom;		break;
+				case Mode.Bloom:		this.mode = Mode.BlurBloom;	break;
+				case Mode.BlurBloom:	this.mode = Mode.None;		break;
+				}
+
+				switch(this.mode){
+				case Mode.None:
+					{
+						NBlur.Blur.GetInstance().SetEnable(false);
+						NBloom.Bloom.GetInstance().SetEnable(false);
+					}break;
+				case Mode.Blur:
+					{
+						NBlur.Blur.GetInstance().SetEnable(true);
+						NBloom.Bloom.GetInstance().SetEnable(false);
+					}break;
+				case Mode.Bloom:
+					{
+						NBlur.Blur.GetInstance().SetEnable(false);
+						NBloom.Bloom.GetInstance().SetEnable(true);
+					}break;
+				case Mode.BlurBloom:
+					{
+						NBlur.Blur.GetInstance().SetEnable(true);
+						NBloom.Bloom.GetInstance().SetEnable(true);
+					}break;
+				}
+			}
 		}
 	}
 

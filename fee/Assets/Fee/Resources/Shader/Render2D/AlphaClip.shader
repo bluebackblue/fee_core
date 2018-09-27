@@ -1,9 +1,9 @@
 ﻿/**
  * Copyright (c) blueback
  * Released under the MIT License
- * https://github.com/bluebackblue/brownie/blob/master/LICENSE.txt
+ * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief シェーダー。半透明。クリップ。
+ * @brief シェーダ。半透明クリップ。
 */
 
 

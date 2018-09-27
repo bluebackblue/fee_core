@@ -28,10 +28,6 @@ namespace NBlur
 		*/
 		public static bool ASSERT_ENABLE = true;
 
-		/** プレハブ名。
-		*/
-		//public static string PREFAB_NAME_CAMERA = "Prefab/Blur/Camera";
-
 		/** マテリアル名。
 		*/
 		public static string MATERIAL_NAME_BLURX = "Material/Blur/BlurX";
@@ -39,7 +35,7 @@ namespace NBlur
 
 		/** デフォルト。カメラデプス。
 		*/
-		public static float DEFAULT_CAMERA_DEPTH = 800.0f;
+		public static float DEFAULT_CAMERA_DEPTH = 800.5f;
 	}
 }
 
