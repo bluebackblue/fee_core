@@ -18,16 +18,17 @@ namespace NTaskW
 {
 	/** Task
 	*/
-	#if(UNITY_WEBGL)
-	#else
 	public class Task
 	{
 		/**　Delay
 		*/
+		#if(UNITY_WEBGL)
+		#else
 		public static System.Threading.Tasks.Task Delay(int a_milliseconds_delay)
 		{
 			return System.Threading.Tasks.Task.Delay(a_milliseconds_delay);
 		}
+		#endif
 
 		/** Yield
 		*/
@@ -36,12 +37,9 @@ namespace NTaskW
 			return System.Threading.Tasks.Task.Yield();
 		}
 	}
-	#endif
 
 	/** Task
 	*/
-	#if(UNITY_WEBGL)
-	#else
 	public class Task<TResult> : Task
 	{
 		/** task
@@ -59,7 +57,11 @@ namespace NTaskW
 		*/
 		public Task(System.Func<System.Threading.Tasks.Task<TResult>> a_function)
 		{
+			#if(UNITY_WEBGL)
+			this.task = a_function();
+			#else
 			this.task = System.Threading.Tasks.Task.Run(a_function);
+			#endif
 		}
 
 		/** タスク。終了。
@@ -115,6 +117,5 @@ namespace NTaskW
 			this.task = null;
 		}
 	}
-	#endif
 }
 
