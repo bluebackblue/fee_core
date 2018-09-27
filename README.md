@@ -31,7 +31,7 @@ https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
 * _______ SaveLoad [ローカルセーブ、ローカルロード]
 * _______ Scene [シーン管理]
 * _______ TaskW [タスク]
-* _______ Ui [ボタン、縦スクロール、横スクロール、チェックボックス]
+* _______ Ui [ボタン、縦スクロール、横スクロール、チェックボタン]
 * ___ Resources [テスト用リソース]
 * ___ TestScene [テスト用シーン]
 * ___ TestScript [テスト用スクリプト]
