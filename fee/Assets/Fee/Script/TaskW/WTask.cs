@@ -84,6 +84,13 @@ namespace NTaskW
 			this.main_sync.Delete();
 			this.main_sync = null;
 		}
+
+		/** 同期コンテキスト。取得。
+		*/
+		public Task_Sync GetTaskSync()
+		{
+			return this.main_sync;
+		}
 	}
 }
 

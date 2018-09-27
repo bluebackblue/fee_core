@@ -266,11 +266,11 @@ namespace NDownLoad
 			NDownLoad.Item t_download_item = NDownLoad.DownLoad.GetInstance().Request(this.work.urlpath + this.work.filename,NDownLoad.DataType.Text);
 			{
 				do{
-					this.result_download_progress = this.CalcProgress(t_download_item.GetProgress());
+					this.result_download_progress = this.CalcProgress(t_download_item.GetResultProgress());
 					yield return null;
 				}while(t_download_item.IsBusy() == true);
 
-				if(t_download_item.GetDataType() == DataType.Text){
+				if(t_download_item.GetResultDataType() == DataType.Text){
 					//コンバート。
 					this.work.soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_download_item.GetResultText()));
 
@@ -334,11 +334,11 @@ namespace NDownLoad
 			NDownLoad.Item t_download_item = NDownLoad.DownLoad.GetInstance().Request(this.work.urlpath + this.work.soundpool.name_list[a_index],NDownLoad.DataType.Binary);
 			{
 				do{
-					this.result_download_progress = this.CalcProgress(t_download_item.GetProgress());
+					this.result_download_progress = this.CalcProgress(t_download_item.GetResultProgress());
 					yield return null;
 				}while(t_download_item.IsBusy() == true);
 
-				if(t_download_item.GetDataType() == DataType.Binary){
+				if(t_download_item.GetResultDataType() == DataType.Binary){
 					this.work.download_binary = t_download_item.GetResultBinary();
 
 					if(this.work.download_binary == null){

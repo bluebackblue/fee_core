@@ -24,6 +24,10 @@ namespace NSaveLoad
 		*/
 		private DataType result_datatype;
 
+		/** result_progress
+		*/
+		private float result_progress;
+
 		/** result_binary
 		*/
 		private byte[] result_binary;
@@ -43,6 +47,9 @@ namespace NSaveLoad
 			//result_datatype
 			this.result_datatype = DataType.None;
 
+			//result_progress
+			this.result_progress = 0.0f;
+
 			//result_binary
 			this.result_binary = null;
 
@@ -61,6 +68,20 @@ namespace NSaveLoad
 				return true;
 			}
 			return false;
+		}
+
+		/** プログレス。設定。
+		*/
+		public void SetResultProgress(float a_result_progress)
+		{
+			this.result_progress = a_result_progress;
+		}
+
+		/** プログレス。取得。
+		*/
+		public float GetResultProgress()
+		{
+			return this.result_progress;
 		}
 
 		/** データタイプ。取得。

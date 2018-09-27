@@ -127,7 +127,7 @@ namespace NDownLoad
 						if(t_assetbundle != null){
 							Tool.Log("NDownLoad.Work","GetAssetBundle From AssetBundleList");
 
-							this.item.SetProgress(1.0f);
+							this.item.SetResultProgress(1.0f);
 							this.item.SetResultAssetBundle(t_assetbundle);
 							this.mode = Mode.End;
 							break;
@@ -157,9 +157,9 @@ namespace NDownLoad
 					MonoBehaviour_WebRequest t_webrequest = NDownLoad.DownLoad.GetInstance().GetWebRequest();
 
 					if(t_webrequest.IsFix() == false){
-						this.item.SetProgress(t_webrequest.GetDownloadProgress());
+						this.item.SetResultProgress(t_webrequest.GetDownloadProgress());
 					}else{
-						this.item.SetProgress(t_webrequest.GetDownloadProgress());
+						this.item.SetResultProgress(t_webrequest.GetDownloadProgress());
 
 						//結果。
 						switch(t_webrequest.GetResultDataType()){
@@ -211,9 +211,9 @@ namespace NDownLoad
 					MonoBehaviour_SoundPool t_soundpool = NDownLoad.DownLoad.GetInstance().GetSoundPool();
 
 					if(t_soundpool.IsFix() == false){
-						this.item.SetProgress(t_soundpool.GetDownloadProgress());
+						this.item.SetResultProgress(t_soundpool.GetDownloadProgress());
 					}else{
-						this.item.SetProgress(t_soundpool.GetDownloadProgress());
+						this.item.SetResultProgress(t_soundpool.GetDownloadProgress());
 
 						//結果。
 						if(t_soundpool.GetResultDataType() == DataType.SoundPool){

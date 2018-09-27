@@ -73,7 +73,7 @@ public class test03 : main_base
 		NDownLoad.DownLoad.GetInstance().Main();
 
 		if(this.download_item_bg != null){
-			switch(this.download_item_bg.GetDataType()){
+			switch(this.download_item_bg.GetResultDataType()){
 			case NDownLoad.DataType.None:
 				{
 					//ダウンロード中。

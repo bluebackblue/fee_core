@@ -246,9 +246,9 @@ public class test11 : main_base
 			{
 				if(this.download_item.IsBusy() == true){
 					//ダウンロード中。
-					this.status.SetText(this.download_item.GetProgress().ToString());
+					this.status.SetText(this.download_item.GetResultProgress().ToString());
 				}else{
-					if(this.download_item.GetDataType() == NDownLoad.DataType.SoundPool){
+					if(this.download_item.GetResultDataType() == NDownLoad.DataType.SoundPool){
 						//ダウンロード成功。サウンドプール。
 
 						this.pack_soundpool = this.download_item.GetResultSoundPool();
@@ -262,7 +262,7 @@ public class test11 : main_base
 							this.mode = Mode.Fix;
 						}
 
-					}else if(this.download_item.GetDataType() == NDownLoad.DataType.AssetBundle){
+					}else if(this.download_item.GetResultDataType() == NDownLoad.DataType.AssetBundle){
 						//ダウンロード成功。アセットバンドル。
 
 						AssetBundle t_assetbundle = this.download_item.GetResultAssetBundle();

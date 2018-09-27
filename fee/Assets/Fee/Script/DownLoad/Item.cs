@@ -20,13 +20,13 @@ namespace NDownLoad
 	*/
 	public class Item
 	{
-		/** datatype
+		/** result_datatype
 		*/
-		private DataType datatype;
+		private DataType result_datatype;
 
-		/** progress
+		/** result_progress
 		*/
-		private float progress;
+		private float result_progress;
 
 		/** result_errorstring
 		*/
@@ -56,11 +56,11 @@ namespace NDownLoad
 		*/
 		public Item()
 		{
-			//datatype
-			this.datatype = DataType.None;
+			//result_datatype
+			this.result_datatype = DataType.None;
 
-			//progress
-			this.progress = 0.0f;
+			//result_progress
+			this.result_progress = 0.0f;
 
 			//result_errorstring
 			this.result_errorstring = null;
@@ -85,7 +85,7 @@ namespace NDownLoad
 		*/
 		public bool IsBusy()
 		{
-			if(this.datatype == DataType.None){
+			if(this.result_datatype == DataType.None){
 				return true;
 			}
 			return false;
@@ -93,30 +93,30 @@ namespace NDownLoad
 
 		/** プログレス。設定。
 		*/
-		public void SetProgress(float a_progress)
+		public void SetResultProgress(float a_result_progress)
 		{
-			this.progress = a_progress;
+			this.result_progress = a_result_progress;
 		}
 
 		/** プログレス。取得。
 		*/
-		public float GetProgress()
+		public float GetResultProgress()
 		{
-			return this.progress;
+			return this.result_progress;
 		}
 
 		/** データタイプ。取得。
 		*/
-		public DataType GetDataType()
+		public DataType GetResultDataType()
 		{
-			return this.datatype;
+			return this.result_datatype;
 		}
 
 		/** 結果。設定。
 		*/
 		public void SetResultErrorString(string a_error_string)
 		{
-			this.datatype = DataType.Error;
+			this.result_datatype = DataType.Error;
 
 			this.result_errorstring = a_error_string;
 		}
@@ -132,7 +132,7 @@ namespace NDownLoad
 		*/
 		public void SetResultSoundPool(NAudio.Pack_SoundPool a_soundpool)
 		{
-			this.datatype = DataType.SoundPool;
+			this.result_datatype = DataType.SoundPool;
 
 			this.result_soundpool = a_soundpool;
 		}
@@ -148,7 +148,7 @@ namespace NDownLoad
 		*/
 		public void SetResultAssetBundle(AssetBundle a_assetbundle)
 		{
-			this.datatype = DataType.AssetBundle;
+			this.result_datatype = DataType.AssetBundle;
 
 			this.result_assetbundle = a_assetbundle;
 		}
@@ -164,7 +164,7 @@ namespace NDownLoad
 		*/
 		public void SetResultText(string a_text)
 		{
-			this.datatype = DataType.Text;
+			this.result_datatype = DataType.Text;
 
 			this.result_text = a_text;
 		}
@@ -180,7 +180,7 @@ namespace NDownLoad
 		*/
 		public void SetResultTexture(Texture2D a_texture)
 		{
-			this.datatype = DataType.Texture;
+			this.result_datatype = DataType.Texture;
 
 			this.result_texture = a_texture;
 		}
@@ -196,7 +196,7 @@ namespace NDownLoad
 		*/
 		public void SetResultBinary(byte[] a_binary)
 		{
-			this.datatype = DataType.Binary;
+			this.result_datatype = DataType.Binary;
 
 			this.result_binary = a_binary;
 		}

@@ -62,6 +62,10 @@ public class test04 : main_base
 	*/
 	private NRender2D.Sprite2D sprite;
 
+	/** status
+	*/
+	private NRender2D.Text2D status;
+
 	/** Start
 	*/
 	private void Start()
@@ -88,14 +92,20 @@ public class test04 : main_base
 		//saveload_item
 		this.saveload_item = null;
 
-		//sprite
+		//drawpriority
 		int t_layerindex = 0;
 		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
+
+		//sprite
 		this.sprite = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority);
-		this.sprite.SetRect(100,100,64,64);
+		this.sprite.SetRect(100,150,64,64);
 		this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 		this.sprite.SetTexture(Texture2D.whiteTexture);
 		this.sprite.SetMaterialType(NRender2D.Config.MaterialType.Alpha);
+
+		//status
+		this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
+		this.status.SetRect(100,100,0,0);
 	}
 
 	/** Update
@@ -108,6 +118,12 @@ public class test04 : main_base
 		switch(this.step){
 		case Step.Start:
 			{
+				{
+					string t_log_text = this.step.ToString();
+					this.status.SetText(t_log_text);
+					Debug.Log(t_log_text);
+				}
+
 				this.step = Step.SaveBinaryStart;
 			}break;
 		case Step.SaveBinaryStart:
@@ -121,24 +137,47 @@ public class test04 : main_base
 					t_binary[ii] = (byte)(ii % 256);
 				}
 
-				Debug.Log("SaveBinaryStart : " + t_filename + " : size = " + t_binary.Length.ToString());
 				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalBinaryFile(t_filename,t_binary);
+
+				{
+					string t_log_text = this.step.ToString() + " : " + t_filename + " : size = " + t_binary.Length.ToString();
+					this.status.SetText(t_log_text);
+					Debug.Log(t_log_text);
+				}
+
 				this.step = Step.SaveBinaryNow;
 			}break;
 		case Step.SaveBinaryNow:
 			{
 				if(this.saveload_item.IsBusy() == true){
 					//セーブ中。
-					Debug.Log("SaveBinaryNow");
+				
+					{
+						string t_log_text = this.step.ToString();
+						this.status.SetText(t_log_text);
+						Debug.Log(t_log_text); 
+					}
 				}else{
 					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
 						//成功。
-						Debug.Log("SaveBinaryNow : Success");
+
+						{
+							string t_log_text = this.step.ToString() + " : Success";
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
 						this.step = Step.LoadBinaryStart;
 					}else{
 						//失敗。
-						Debug.Log("SaveBinaryNow : Faild");
-						this.step = Step.LoadBinaryStart;
+
+						{
+							string t_log_text = this.step.ToString() + " : Faild";
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
+						this.step = Step.End;
 					}
 				}
 			}break;
@@ -147,32 +186,55 @@ public class test04 : main_base
 				//ファイル名。
 				string t_filename = "test_binary.bin";
 
-				Debug.Log("SaveBinaryStart : " + t_filename);
 				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLoaclBinaryFile(t_filename);
+
+				{
+					string t_log_text = this.step.ToString() + " : " + t_filename;
+					this.status.SetText(t_log_text);
+					Debug.Log(t_log_text); 
+				}
+
 				this.step = Step.LoadBinaryNow;
 			}break;
 		case Step.LoadBinaryNow:
 			{
 				if(this.saveload_item.IsBusy() == true){
-					//セーブ中。
-					Debug.Log("LoadBinaryNow");
+					//ロード中。
+					{
+						string t_log_text = this.step.ToString();
+						this.status.SetText(t_log_text);
+						Debug.Log(t_log_text); 
+					}
 				}else{
 					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.Binary){
 						//成功。
-						Debug.Log("LoadBinaryNow : Success : size = " + this.saveload_item.GetResultBinary().Length.ToString());
-						this.step = Step.SaveTextStart;
 
 						//チェック。
+						bool t_error = false;
 						byte[] t_binary = this.saveload_item.GetResultBinary();
 						for(int ii=0;ii<t_binary.Length;ii++){
 							if(t_binary[ii] != (byte)(ii % 256)){
-								Debug.Log("LoadBinaryNow : error");
+								t_error = true;
 							}
 						}
+
+						{
+							string t_log_text = this.step.ToString() + " : Success : size = " +  this.saveload_item.GetResultBinary().Length.ToString() + "error = " + t_error.ToString();
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
+						this.step = Step.SaveTextStart;
 					}else{
 						//失敗。
-						Debug.Log("LoadBinaryNow : Faild");
-						this.step = Step.SaveTextStart;
+
+						{
+							string t_log_text = this.step.ToString() + " : Faild";
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
+						this.step = Step.End;
 					}
 				}
 			}break;
@@ -184,24 +246,46 @@ public class test04 : main_base
 				//データ。
 				string t_text = Random.value.ToString();
 
-				Debug.Log("SaveTextStart : " + t_filename + " : text = " + t_text);
 				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalTextFile(t_filename,t_text);
+
+				{
+					string t_log_text = this.step.ToString() + " : " + t_filename + " : text = " + t_text;
+					this.status.SetText(t_log_text);
+					Debug.Log(t_log_text); 
+				}
+
 				this.step = Step.SaveTextNow;
 			}break;
 		case Step.SaveTextNow:
 			{
 				if(this.saveload_item.IsBusy() == true){
 					//セーブ中。
-					Debug.Log("SaveTextNow");
+					{
+						string t_log_text = this.step.ToString();
+						this.status.SetText(t_log_text);
+						Debug.Log(t_log_text); 
+					}
 				}else{
 					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
 						//成功。
-						Debug.Log("SaveTextNow : Success");
+
+						{
+							string t_log_text = this.step.ToString() + " : Success";
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
 						this.step = Step.LoadTextStart;
 					}else{
 						//失敗。
-						Debug.Log("SaveTextNow : Faild");
-						this.step = Step.LoadTextStart;
+
+						{
+							string t_log_text = this.step.ToString() + " : Faild";
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
+						this.step = Step.End;
 					}
 				}
 			}break;
@@ -210,129 +294,167 @@ public class test04 : main_base
 				//ファイル名。
 				string t_filename = "test_text.txt";
 
-				Debug.Log("LoadTextStart : " + t_filename);
 				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLoaclTextFile(t_filename);
+
+				{
+					string t_log_text = this.step.ToString() + " : " + t_filename;
+					this.status.SetText(t_log_text);
+					Debug.Log(t_log_text); 
+				}
+
 				this.step = Step.LoadTextNow;
 			}break;
 		case Step.LoadTextNow:
 			{
 				if(this.saveload_item.IsBusy() == true){
-					//セーブ中。
-					Debug.Log("LoadTextNow");
+					//ロード中。
+					{
+						string t_log_text = this.step.ToString();
+						this.status.SetText(t_log_text);
+						Debug.Log(t_log_text); 
+					}
 				}else{
 					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.Text){
 						//成功。
-						Debug.Log("LoadTextNow : Success : text = " + this.saveload_item.GetResultText());
+
+						{
+							string t_log_text = this.step.ToString() + " : Success : = " + this.saveload_item.GetResultText();
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
+						this.step = Step.SavePngStart;
+					}else{
+						//失敗。
+						
+						{
+							string t_log_text = this.step.ToString() + " : Faild";
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
+						this.step = Step.End;
+					}
+				}
+			}break;
+		case Step.SavePngStart:
+			{
+				//ファイル名。
+				string t_filename = "test_png.png";
+
+				Texture2D t_texture = new Texture2D(64,64);
+				{
+					t_texture.filterMode = FilterMode.Point;
+					t_texture.wrapMode = TextureWrapMode.Clamp;
+					for(int xx=0;xx<t_texture.width;xx++){
+						for(int yy=0;yy<t_texture.height;yy++){
+							t_texture.SetPixel(xx,yy,new Color((float)xx / t_texture.width,(float)yy / t_texture.height,0.0f,(float)xx / t_texture.width));
+						}
+					}
+					t_texture.Apply();
+				}
+
+				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalPngFile(t_filename,t_texture);
+
+				{
+					string t_log_text = this.step.ToString() + " : " + t_filename;
+					this.status.SetText(t_log_text);
+					Debug.Log(t_log_text); 
+				}
+
+				this.step = Step.SavePngNow;
+			}break;
+		case Step.SavePngNow:
+			{
+				if(this.saveload_item.IsBusy() == true){
+					//セーブ中。
+					{
+						string t_log_text = this.step.ToString();
+						this.status.SetText(t_log_text);
+						Debug.Log(t_log_text); 
+					}
+				}else{
+					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
+						//成功。
+
+						{
+							string t_log_text = this.step.ToString() + " : text = " + this.saveload_item.GetResultText();
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
+						this.step = Step.LoadPngStart;
+					}else{
+						//失敗。
+
+						{
+							string t_log_text = this.step.ToString() + " : Faild";
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
+						this.step = Step.End;
+					}
+				}
+			}break;
+		case Step.LoadPngStart:
+			{
+				//ファイル名。
+				string t_filename = "test_png.png";
+
+				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLocalPngFile(t_filename);
+
+				{
+					string t_log_text = this.step.ToString() + " : " + t_filename;
+					this.status.SetText(t_log_text);
+					Debug.Log(t_log_text); 
+				}
+
+				this.step = Step.LoadPngNow;
+			}break;
+		case Step.LoadPngNow:
+			{
+				if(this.saveload_item.IsBusy() == true){
+					//ロード中。
+					{
+						string t_log_text = this.step.ToString();
+						this.status.SetText(t_log_text);
+						Debug.Log(t_log_text); 
+					}
+				}else{
+					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.Texture){
+						//成功。
+
+						Texture2D t_load_texture = this.saveload_item.GetResultTexture();
+						{
+							t_load_texture.filterMode = FilterMode.Point;
+							t_load_texture.wrapMode = TextureWrapMode.Clamp;
+						}
+						this.sprite.SetTexture(t_load_texture);
+
+						{
+							string t_log_text = this.step.ToString() + " : success";
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
 						this.step = Step.End;
 					}else{
 						//失敗。
-						Debug.Log("LoadTextNow : Faild");
+
+						{
+							string t_log_text = this.step.ToString() + " : Faild";
+							this.status.SetText(t_log_text);
+							Debug.Log(t_log_text); 
+						}
+
 						this.step = Step.End;
 					}
 				}
 			}break;
-
-		case Step.SavePngStart:
-		case Step.SavePngNow:
-		case Step.LoadPngStart:
-		case Step.LoadPngNow:
-			{
-			}break;
-
 		case Step.End:
 			{
 			}break;
-
-		#if false
-		case 4:
-			{
-				//ＰＮＧ。セーブ開始。
-
-				Texture2D t_save_texture = new Texture2D(64,64);
-				t_save_texture.filterMode = FilterMode.Point;
-				t_save_texture.wrapMode = TextureWrapMode.Clamp;
-				for(int xx=0;xx<t_save_texture.width;xx++){
-					for(int yy=0;yy<t_save_texture.height;yy++){
-						t_save_texture.SetPixel(xx,yy,new Color((float)xx / t_save_texture.width,(float)yy / t_save_texture.height,0.0f,(float)xx / t_save_texture.width));
-					}
-				}
-				t_save_texture.Apply();
-
-				this.sprite.SetTexture(t_save_texture);
-
-				Debug.Log("SAVEPNG : START");
-
-				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalPngFile("save.png",t_save_texture);
-				this.step++;
-			}break;
-		case 5:
-			{
-				//ＰＮＧ。セーブ中。
-
-				if(this.saveload_item != null){
-					switch(this.saveload_item.GetDataType()){
-					case NSaveLoad.DataType.None:
-						{
-							//セーブ中。
-						}break;
-					case NSaveLoad.DataType.SaveEnd:
-						{
-							//セーブ完了。
-							Debug.Log("SAVEPNG : END");
-							this.saveload_item = null;
-						}break;
-					default:
-						{
-							//不明。
-							this.saveload_item = null;
-							Debug.Log("SAVEPNG : ERROR");
-						}break;
-					}
-				}else{
-					this.step++;
-				}
-			}break;
-		case 6:
-			{
-				//ＰＮＧ。ロード開始。
-
-				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLocalPngFile("save.png");
-				this.step++;
-
-			}break;
-		case 7:
-			{
-				//ＰＮＧ。ロード中。
-
-				if(this.saveload_item != null){
-					switch(this.saveload_item.GetDataType()){
-					case NSaveLoad.DataType.None:
-						{
-							//ロード中。
-						}break;
-					case NSaveLoad.DataType.Texture:
-						{
-							//ロード完了。
-							Texture2D t_load_texture = this.saveload_item.GetResultTexture();
-							t_load_texture.filterMode = FilterMode.Point;
-							t_load_texture.wrapMode = TextureWrapMode.Clamp;
-
-							this.sprite.SetTexture(t_load_texture);
-
-							this.saveload_item = null;
-
-							Debug.Log("LOADPNG : END");
-						}break;
-					default:
-						{
-							Debug.Log("LOADPNG : ERROR");
-						}break;
-					}
-				}else{
-					this.step++;
-				}
-			}break;
-		#endif
 		}
 	}
 

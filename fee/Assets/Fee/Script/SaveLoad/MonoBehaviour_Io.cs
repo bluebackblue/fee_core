@@ -103,6 +103,10 @@ namespace NSaveLoad
 		[SerializeField]
 		private Texture2D request_texture;
 
+		/** result_progress 
+		*/
+		private float result_progress;
+
 		/** result_datatype
 		*/
 		[SerializeField]
@@ -148,6 +152,9 @@ namespace NSaveLoad
 			//request_texture
 			this.request_texture = null;
 
+			//result_progress
+			this.result_progress = 0.0f;
+
 			//result_datatype
 			this.result_datatype = DataType.None;
 
@@ -174,6 +181,7 @@ namespace NSaveLoad
 				this.request_text = null;
 				this.request_texture = null;
 
+				this.result_progress = 0.0f;
 				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
@@ -198,6 +206,7 @@ namespace NSaveLoad
 				this.request_text = null;
 				this.request_texture = null;
 
+				this.result_progress = 0.0f;
 				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
@@ -222,6 +231,7 @@ namespace NSaveLoad
 				this.request_text = a_text;
 				this.request_texture = null;
 
+				this.result_progress = 0.0f;
 				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
@@ -246,6 +256,7 @@ namespace NSaveLoad
 				this.request_text = null;
 				this.request_texture = null;
 
+				this.result_progress = 0.0f;
 				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
@@ -270,6 +281,7 @@ namespace NSaveLoad
 				this.request_text = null;
 				this.request_texture = a_texture;
 
+				this.result_progress = 0.0f;
 				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
@@ -294,6 +306,7 @@ namespace NSaveLoad
 				this.request_text = null;
 				this.request_texture = null;
 
+				this.result_progress = 0.0f;
 				this.result_datatype = DataType.None;
 				this.result_binary = null;
 				this.result_text = null;
@@ -320,6 +333,13 @@ namespace NSaveLoad
 		public void DeleteRequest()
 		{
 			this.delete_flag = true;
+		}
+
+		/** プログレス。取得。
+		*/
+		public float GetResultProgress()
+		{
+			return this.result_progress;
 		}
 
 		/** データタイプ。取得。
@@ -375,7 +395,14 @@ namespace NSaveLoad
 			a_height = t_height;
 		}
 
-		/** セーブローカル。バイナリファイル。
+		/** プログレス。設定。
+		*/
+		private void SetProgressFromTask(float a_progress)
+		{
+			this.result_progress = a_progress;
+		}
+
+		/** [タスク]セーブローカル。バイナリファイル。
 		*/
 		private async System.Threading.Tasks.Task<bool> Task_Do_SaveLocalBinaryFile(string a_full_path,byte[] a_binary,System.Threading.CancellationToken a_cancel)
 		{
@@ -394,6 +421,7 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
 
 			//書き込み。
 			try{
@@ -414,7 +442,7 @@ namespace NSaveLoad
 			return t_ret;
 		}
 
-		/** ロードローカル。バイナリファイル。
+		/** [タスク]ロードローカル。バイナリファイル。
 		*/
 		private async System.Threading.Tasks.Task<byte[]> Task_Do_LoadLocalBinaryFile(string a_full_path,System.Threading.CancellationToken a_cancel)
 		{
@@ -433,6 +461,7 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
 
 			//書き込み。
 			try{
@@ -454,7 +483,7 @@ namespace NSaveLoad
 			return t_ret;
 		}
 
-		/** セーブローカル。テキストファイル。
+		/** [タスク]セーブローカル。テキストファイル。
 		*/
 		private async System.Threading.Tasks.Task<bool> Task_Do_SaveLocalTextFile(string a_full_path,string a_text,System.Threading.CancellationToken a_cancel)
 		{
@@ -473,6 +502,7 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
 
 			//書き込み。
 			try{
@@ -494,7 +524,7 @@ namespace NSaveLoad
 			return t_ret;
 		}
 
-		/** ロードローカル。テキストファイル。
+		/** [タスク]ロードローカル。テキストファイル。
 		*/
 		private async System.Threading.Tasks.Task<string> Task_Do_LoadLocalTextFile(string a_full_path,System.Threading.CancellationToken a_cancel)
 		{
@@ -513,6 +543,7 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
 
 			//読み込み。
 			try{
@@ -533,7 +564,7 @@ namespace NSaveLoad
 			return t_ret;
 		}
 
-		/** セーブローカル。ＰＮＧファイル。
+		/** [タスク]セーブローカル。ＰＮＧファイル。
 		*/
 		private async System.Threading.Tasks.Task<bool> Task_Do_SaveLocalPngFile(string a_full_path,byte[] a_binary,System.Threading.CancellationToken a_cancel)
 		{
@@ -552,6 +583,7 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
 
 			//書き込み。
 			try{
@@ -572,7 +604,7 @@ namespace NSaveLoad
 			return t_ret;
 		}
 
-		/** ロードローカル。ＰＮＧファイル。
+		/** [タスク]ロードローカル。ＰＮＧファイル。
 		*/
 		private async System.Threading.Tasks.Task<byte[]> Task_Do_LoadLocalPngFile(string a_full_path,System.Threading.CancellationToken a_cancel)
 		{
@@ -591,6 +623,7 @@ namespace NSaveLoad
 			}
 
 			//TODO:プログレス。
+			NTaskW.TaskW.GetInstance().GetTaskSync().Post((a_state) => {SetProgressFromTask(0.0f);},null);
 
 			//書き込み。
 			try{
@@ -611,7 +644,6 @@ namespace NSaveLoad
 
 			return t_ret;
 		}
-
 
 		/** Start
 		*/
@@ -669,8 +701,9 @@ namespace NSaveLoad
 				do{
 					yield return null;
 				}while(t_task.IsEnd() == false);
-
+			
 				//結果。
+				this.result_progress = 1.0f;
 				if(t_task.GetResult() == true){
 					this.result_datatype = DataType.SaveEnd;
 				}else{
@@ -691,6 +724,7 @@ namespace NSaveLoad
 				}while(t_task.IsEnd() == false);
 
 				//結果。
+				this.result_progress = 1.0f;
 				if(t_task.GetResult() != null){
 					this.result_binary = t_task.GetResult();
 					this.result_datatype = DataType.Binary;
@@ -712,6 +746,7 @@ namespace NSaveLoad
 				}while(t_task.IsEnd() == false);
 
 				//結果。
+				this.result_progress = 1.0f;
 				if(t_task.GetResult() == true){
 					this.result_datatype = DataType.SaveEnd;
 				}else{
@@ -732,6 +767,7 @@ namespace NSaveLoad
 				}while(t_task.IsEnd() == false);
 
 				//結果。
+				this.result_progress = 1.0f;
 				if(t_task.GetResult() != null){
 					this.result_text = t_task.GetResult();
 					this.result_datatype = DataType.Text;
@@ -745,7 +781,10 @@ namespace NSaveLoad
 				System.Threading.CancellationToken t_cancel = new System.Threading.CancellationToken();
 
 				//TODO:busy
-				byte[] t_binary = this.request_texture.EncodeToPNG();
+				byte[] t_binary = null;
+				{
+					t_binary = this.request_texture.EncodeToPNG();
+				}
 
 				//タスク起動。
 				NTaskW.Task<bool> t_task = new NTaskW.Task<bool>(() => {return this.Task_Do_SaveLocalPngFile(t_full_path,t_binary,t_cancel);});
@@ -756,6 +795,7 @@ namespace NSaveLoad
 				}while(t_task.IsEnd() == false);
 
 				//結果。
+				this.result_progress = 1.0f;
 				if(t_task.GetResult() == true){
 					this.result_datatype = DataType.SaveEnd;
 				}else{
@@ -776,17 +816,28 @@ namespace NSaveLoad
 				}while(t_task.IsEnd() == false);
 
 				//結果。
+				this.result_progress = 1.0f;
 				if(t_task.GetResult() != null){
 					byte[] t_binary = t_task.GetResult();
 
 					//TODO:busy
-					int t_width;
-					int t_height;
-					this.GetSizeFromPngBinary(t_binary,out t_width,out t_height);
-					this.result_texture = new Texture2D(t_width,t_height);
-					this.result_texture.LoadImage(t_binary);
+					Texture2D t_texture = null;
+					{
+						int t_width;
+						int t_height;
+						this.GetSizeFromPngBinary(t_binary,out t_width,out t_height);
+						t_texture = new Texture2D(t_width,t_height);
+						if(t_texture.LoadImage(t_binary) == false){
+							t_texture = null;
+						}
+					}
 
-					this.result_datatype = DataType.Texture;
+					if(t_texture == null){
+						this.result_datatype = DataType.Error;
+					}else{
+						this.result_texture = t_texture;
+						this.result_datatype = DataType.Texture;
+					}
 				}else{
 					this.result_datatype = DataType.Error;
 				}

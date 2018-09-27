@@ -223,7 +223,7 @@ public class test13 : main_base
 
 			string t_bgm_max = "";
 			if(this.download_bgm != null){
-				t_bgm_max = "DownLoad(" + this.download_bgm.GetProgress().ToString() + ")";
+				t_bgm_max = "DownLoad(" + this.download_bgm.GetResultProgress().ToString() + ")";
 			}else{
 				t_bgm_max = NAudio.Audio.GetInstance().GetBgmMax().ToString();
 			}
