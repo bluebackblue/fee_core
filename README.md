@@ -12,6 +12,26 @@ https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
 * ___ Fee
 * _____ Font [フォント]
 * _____ license [使用ライセンス関連ファイル]
+* _____ Resources [シェーダ、マテリアル、プレハブ]
+* _____ Script
+* _______ Audio [AudioClip再生、SoundPool再生、ＢＧＭクロスフェード]
+* _______ Bloom [ブルーム]
+* _______ Blur [ブラー]
+* _______ Deleter [インスタンス削除管理]
+* _______ Directory [ディレクトリ探査]
+* _______ DownLoad [AssetBundleダウンロード、SoundPoolダウンロード]
+* _______ EventPlate [イベント]
+* _______ Fade [フェード]
+* _______ Input [InputManager、InputSystem]
+* _______ Instantiate [インスタンス作成]
+* _______ JsonItem [Json]
+* _______ Network [通信]
+* _______ PerformanceCounter [パフォーマンスカウンター]
+* _______ Render2D [GLスプライト描画、テキスト位置、入力フィールド位置]
+* _______ SaveLoad [ローカルセーブ、ローカルロード]
+* _______ Scene [シーン管理]
+* _______ TaskW [タスク]
+* _______ Ui [ボタン、縦スクロール、横スクロール、チェックボックス]
 * ___ Resources [テスト用リソース]
 * ___ TestScene [テスト用シーン]
 * ___ TestScript [テスト用スクリプト]
@@ -20,7 +40,7 @@ https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
 http://bbbproject.sakura.ne.jp/www/project_webgl/fee/
 
 ## Unity Version
-2018.2.8f1
+2018.2.10f1
 
 ## 使用ライセンス
 
