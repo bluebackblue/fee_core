@@ -472,18 +472,32 @@ namespace NRender2D
 			this.param.Raw_SetEnable(a_flag);
 		}
 
-		/** [内部からの呼び出し]再計算フラグ。取得。
+		/** [内部からの呼び出し]シェーダの変更が必要。取得。
 		*/
-		public bool Raw_IsReCalc()
+		public bool Raw_IsChangeShader()
 		{
-			return this.param.Raw_IsReCalc();
+			return this.param.Raw_IsChangeShader();
 		}
 
-		/** [内部からの呼び出し]再計算フラグ。設定。
+		/** [内部からの呼び出し]シェーダの変更が必要。取得。
 		*/
-		public void Raw_ResetReCalc()
+		public void Raw_SetChangeShaderFlag(bool a_flag)
 		{
-			this.param.Raw_ResetReCalc();
+			this.param.Raw_SetChangeShaderFlag(a_flag);
+		}
+
+		/** [内部からの呼び出し]フォントのサイズの計算が必要。取得。
+		*/
+		public bool Raw_IsCalcFontSize()
+		{
+			return this.param.Raw_IsCalcFontSize();
+		}
+
+		/** [内部からの呼び出し]フォントのサイズの計算が必要。設定。
+		*/
+		public void Raw_SetCalcFontSizeFlag(bool a_flag)
+		{
+			this.param.Raw_SetCalcFontSizeFlag(a_flag);
 		}
 	}
 }

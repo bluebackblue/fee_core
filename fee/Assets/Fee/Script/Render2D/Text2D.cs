@@ -540,6 +540,20 @@ namespace NRender2D
 			this.param.Raw_SetChangeShaderFlag(a_flag);
 		}
 
+		/** [内部からの呼び出し]フォントのサイズの計算が必要。取得。
+		*/
+		public bool Raw_IsCalcFontSize()
+		{
+			return this.param.Raw_IsCalcFontSize();
+		}
+
+		/** [内部からの呼び出し]フォントのサイズの計算が必要。設定。
+		*/
+		public void Raw_SetCalcFontSizeFlag(bool a_flag)
+		{
+			this.param.Raw_SetCalcFontSizeFlag(a_flag);
+		}
+
 		/** [内部からの呼び出し]サイズの計算が必要。取得。
 		*/
 		public bool Raw_IsCalcSize()
@@ -554,19 +568,6 @@ namespace NRender2D
 			this.param.Raw_SetCalcSizeFlag(a_flag);
 		}
 
-		/** [内部からの呼び出し]フォントのサイズの計算が必要。取得。
-		*/
-		public bool Raw_IsCalcFontSize()
-		{
-			return this.param.Raw_IsCalcFontSize();
-		}
-
-		/** [内部からの呼び出し]フォントのサイズの計算が必要。設定。
-		*/
-		public void Raw_SetCalcFontSizeFlag(bool a_flag)
-		{
-			this.param.Raw_SetCalcFontSizeFlag(a_flag);
-		}
 	}
 }
 

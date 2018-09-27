@@ -28,9 +28,13 @@ namespace NRender2D
 		*/
 		private bool is_center;
 
-		/** 再計算が必要。
+		/** シェーダの変更が必要。
 		*/
-		private bool raw_is_recalc;
+		private bool raw_is_changeshader;
+
+		/** フォントサイズの計算が必要。
+		*/
+		private bool raw_is_calcfontsize;
 
 		/** クリップ。
 		*/
@@ -64,8 +68,11 @@ namespace NRender2D
 			this.clip = false;
 			this.clip_rect.Set(0,0,0,0);
 
-			//再計算が必要。
-			this.raw_is_recalc = true;
+			//シェーダの変更が必要。
+			this.raw_is_changeshader = true;
+
+			//フォントサイズの計算が必要。
+			this.raw_is_calcfontsize = true;
 
 			//raw
 			this.raw_gameobject = Render2D.GetInstance().RawInputField_Create();
@@ -106,8 +113,8 @@ namespace NRender2D
 			if(this.clip != a_flag){
 				this.clip = a_flag;
 
-				//■再計算が必要。
-				this.raw_is_recalc = true;
+				//■シェーダの変更が必要。
+				this.raw_is_changeshader = true;
 			}
 		}
 
@@ -125,8 +132,8 @@ namespace NRender2D
 			if((this.clip_rect.x != a_rect.x)||(this.clip_rect.y != a_rect.y)||(this.clip_rect.w != a_rect.w)||(this.clip_rect.h != a_rect.h)){
 				this.clip_rect = a_rect;
 
-				//■再計算が必要。
-				this.raw_is_recalc = true;
+				//■シェーダの変更が必要。
+				this.raw_is_changeshader = true;
 			}
 		}
 
@@ -137,8 +144,8 @@ namespace NRender2D
 			if((this.clip_rect.x != a_x)||(this.clip_rect.y != a_y)||(this.clip_rect.w != a_w)||(this.clip_rect.h != a_h)){
 				this.clip_rect.Set(a_x,a_y,a_w,a_h);
 
-				//■再計算が必要。
-				this.raw_is_recalc = true;
+				//■シェーダの変更が必要。
+				this.raw_is_changeshader = true;
 			}
 		}
 
@@ -230,8 +237,8 @@ namespace NRender2D
 			if(this.fontsize != a_fontsize){
 				this.fontsize = a_fontsize;
 
-				//■再計算が必要。
-				this.raw_is_recalc = true;
+				//■フォントサイズの計算が必要。
+				this.raw_is_calcfontsize = true;
 			}
 		}
 
@@ -335,6 +342,9 @@ namespace NRender2D
 			if(this.raw_text.font != a_font){
 				this.raw_text.font = a_font;
 				this.raw_placeholder_text.font = a_font;
+
+				//■フォントサイズの計算が必要。
+				this.raw_is_calcfontsize = true;
 			}
 		}
 
@@ -390,18 +400,32 @@ namespace NRender2D
 			this.raw_inputfield.enabled = a_flag;
 		}
 
-		/** [内部からの呼び出し]再計算フラグ。取得。
+		/** [内部からの呼び出し]シェーダの変更が必要。取得。
 		*/
-		public bool Raw_IsReCalc()
+		public bool Raw_IsChangeShader()
 		{
-			return this.raw_is_recalc;
+			return this.raw_is_changeshader;
 		}
 
-		/** [内部からの呼び出し]再計算フラグ。設定。
+		/** [内部からの呼び出し]シェーダの変更が必要。取得。
 		*/
-		public void Raw_ResetReCalc()
+		public void Raw_SetChangeShaderFlag(bool a_flag)
 		{
-			this.raw_is_recalc = false;
+			this.raw_is_changeshader = a_flag;
+		}
+
+		/** [内部からの呼び出し]フォントサイズの計算が必要。取得。
+		*/
+		public bool Raw_IsCalcFontSize()
+		{
+			return this.raw_is_calcfontsize;
+		}
+
+		/** [内部からの呼び出し]フォントサイズの計算が必要。取得。
+		*/
+		public void Raw_SetCalcFontSizeFlag(bool a_flag)
+		{
+			this.raw_is_calcfontsize = a_flag;
 		}
 	}
 }

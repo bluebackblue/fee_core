@@ -38,13 +38,13 @@ namespace NRender2D
 		*/
 		private bool raw_is_changeshader;
 
-		/** サイズの計算が必要。
-		*/
-		private bool raw_is_calcsize;
-
 		/** フォントサイズの計算が必要。
 		*/
 		private bool raw_is_calcfontsize;
+
+		/** サイズの計算が必要。
+		*/
+		private bool raw_is_calcsize;
 
 		/** raw
 		*/
@@ -74,11 +74,11 @@ namespace NRender2D
 			//シェーダの変更が必要。
 			this.raw_is_changeshader = true;
 
-			//サイズの計算が必要。
-			this.raw_is_calcsize = true;
-
 			//フォントサイズの計算が必要。
 			this.raw_is_calcfontsize = true;
+
+			//サイズの計算が必要。
+			this.raw_is_calcsize = true;
 
 			//raw
 			this.raw_gameobject = Render2D.GetInstance().RawText_Create();
@@ -481,20 +481,6 @@ namespace NRender2D
 			this.raw_is_changeshader = a_flag;
 		}
 
-		/** [内部からの呼び出し]サイズの計算が必要。取得。
-		*/
-		public bool Raw_IsCalcSize()
-		{
-			return this.raw_is_calcsize;
-		}
-
-		/** [内部からの呼び出し]サイズの計算が必要。設定。
-		*/
-		public void Raw_SetCalcSizeFlag(bool a_flag)
-		{
-			this.raw_is_calcsize = a_flag;
-		}
-
 		/** [内部からの呼び出し]フォントサイズの計算が必要。取得。
 		*/
 		public bool Raw_IsCalcFontSize()
@@ -507,6 +493,20 @@ namespace NRender2D
 		public void Raw_SetCalcFontSizeFlag(bool a_flag)
 		{
 			this.raw_is_calcfontsize = a_flag;
+		}
+
+		/** [内部からの呼び出し]サイズの計算が必要。取得。
+		*/
+		public bool Raw_IsCalcSize()
+		{
+			return this.raw_is_calcsize;
+		}
+
+		/** [内部からの呼び出し]サイズの計算が必要。設定。
+		*/
+		public void Raw_SetCalcSizeFlag(bool a_flag)
+		{
+			this.raw_is_calcsize = a_flag;
 		}
 	}
 }

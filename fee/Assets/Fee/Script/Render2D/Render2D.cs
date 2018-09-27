@@ -513,12 +513,15 @@ namespace NRender2D
 					for(int ii=t_start_index;ii<=t_last_index;ii++){
 						InputField2D t_inputfield = this.inputfield_list[ii];
 
-						//テキスト再描画。
-						if((t_inputfield.Raw_IsReCalc() == true)||(this.screen.IsUiReCalcFlag() == true)){
-							t_inputfield.Raw_ResetReCalc();
-
-							//フォントサイズの設定。
+						//フォントサイズの計算が必要。
+						if((t_inputfield.Raw_IsCalcFontSize() == true)||(this.screen.IsUiReCalcFlag() == true)){
+							t_inputfield.Raw_SetCalcFontSizeFlag(false);
 							t_inputfield.Raw_SetFontSize(this.screen.CalcFontSize(t_inputfield));
+						}
+
+						//シェーダの変更が必要。
+						if((t_inputfield.Raw_IsChangeShader() == true)||(this.screen.IsUiReCalcFlag() == true)){
+							t_inputfield.Raw_SetChangeShaderFlag(false);
 
 							if(t_inputfield.IsClip() == false){
 								//共通テキストマテリアル使用。
