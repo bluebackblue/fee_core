@@ -184,26 +184,31 @@ namespace NDownLoad
 					{
 						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_data_version.ToString() + " : " + this.request_url);
 						this.webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(this.request_url,this.request_data_version,0);
+						yield return null;
 					}break;
 				case DataType.Text:
 					{
 						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
-						this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);	
+						this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);
+						yield return null;
 					}break;
 				case DataType.Texture:
 					{
 						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
 						this.webrequest = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(this.request_url);
+						yield return null;
 					}break;
 				case DataType.Binary:
 					{
 						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
 						this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);
+						yield return null;
 					}break;
 				default:
 					{
 						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
 						this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);
+						yield return null;
 					}break;
 				}
 
@@ -213,8 +218,6 @@ namespace NDownLoad
 
 				this.mode = Mode.Do;
 			}
-
-			yield return null;
 
 			yield break;
 		}
@@ -319,6 +322,8 @@ namespace NDownLoad
 							Tool.LogError(t_exception);
 						}
 
+						yield return null;
+
 						if(this.result_assetbundle != null){
 
 							//アセットバンドルリストに登録。
@@ -339,6 +344,8 @@ namespace NDownLoad
 							Tool.LogError(t_exception);
 						}
 
+						yield return null;
+
 						if(this.result_text != null){
 							this.result_errorstring = "";
 							this.result_datatype = DataType.Text;
@@ -355,6 +362,8 @@ namespace NDownLoad
 							Tool.LogError(t_exception);
 						}
 
+						yield return null;
+
 						if(this.result_texture != null){
 							this.result_errorstring = "";
 							this.result_datatype = DataType.Texture;
@@ -370,6 +379,8 @@ namespace NDownLoad
 						}catch(System.Exception t_exception){
 							Tool.LogError(t_exception);
 						}
+
+						yield return null;
 
 						if(this.result_binary != null){
 							this.result_errorstring = "";
@@ -403,8 +414,6 @@ namespace NDownLoad
 
 			this.mode = Mode.Fix;
 
-			yield return null;
-
 			yield break;
 		}
 
@@ -412,12 +421,17 @@ namespace NDownLoad
 		*/
 		private IEnumerator Start()
 		{
-			while(this.delete_flag == false){
+			bool t_loop = true;
+			while(t_loop){
 				switch(this.mode){
 				case Mode.WaitRequest:
 					{
 						//リクエスト待ち。
 						yield return null;
+
+						if(this.delete_flag == true){
+							t_loop = false;
+						}
 					}break;
 				case Mode.Start:
 					{
@@ -442,6 +456,10 @@ namespace NDownLoad
 				case Mode.Fix:
 					{
 						yield return null;
+
+						if(this.delete_flag == true){
+							t_loop = false;
+						}
 					}break;
 				}
 			}

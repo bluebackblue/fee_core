@@ -216,6 +216,15 @@ namespace NDownLoad
 				do{
 					this.result_download_progress = this.CalcProgress(0.0f);
 					yield return null;
+
+					if(this.delete_flag == true){
+						//キャンセル。
+
+						Tool.LogError("Raw_Do_LoadLocalSoundPool","Cancel");
+
+						this.work.local_soundpool = null;
+						yield break;
+					}
 				}while(t_saveload_item.IsBusy() == true);
 
 				if(t_saveload_item.GetResultDataType() == NSaveLoad.DataType.Text){
@@ -268,6 +277,17 @@ namespace NDownLoad
 				do{
 					this.result_download_progress = this.CalcProgress(t_download_item.GetResultProgress());
 					yield return null;
+
+					if(this.delete_flag == true){
+						//キャンセル。
+
+						Tool.LogError("Raw_Do_DownLoadNewSoundPool","Cancel");
+
+						this.work.soundpool = null;
+						this.result_errorstring = "Raw_Do_DownLoadSoundPool : Cancel";
+						this.mode = Mode.Do_Error;
+						yield break;
+					}
 				}while(t_download_item.IsBusy() == true);
 
 				if(t_download_item.GetResultDataType() == DataType.Text){
@@ -336,6 +356,17 @@ namespace NDownLoad
 				do{
 					this.result_download_progress = this.CalcProgress(t_download_item.GetResultProgress());
 					yield return null;
+
+					if(this.delete_flag == true){
+						//キャンセル。
+
+						Tool.LogError("Raw_Do_DownLoadListItem","Cancel");
+
+						this.work.download_binary = null;
+						this.result_errorstring = "Raw_Do_DownLoadListItem : Cancel";
+						this.mode = Mode.Do_Error;
+						yield break;
+					}
 				}while(t_download_item.IsBusy() == true);
 
 				if(t_download_item.GetResultDataType() == DataType.Binary){
@@ -372,6 +403,16 @@ namespace NDownLoad
 				do{
 					this.result_download_progress = this.CalcProgress(0.0f);
 					yield return null;
+
+					if(this.delete_flag == true){
+						//キャンセル。
+
+						Tool.LogError("Raw_Do_SaveListItem","Cancel");
+
+						this.result_errorstring = "Raw_Do_SaveListItem : Cancel";
+						this.mode = Mode.Do_Error;
+						yield break;
+					}
 				}while(t_saveload_item.IsBusy() == true);
 
 				if(t_saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
@@ -415,6 +456,14 @@ namespace NDownLoad
 				do{
 					this.result_download_progress = this.CalcProgress(0.0f);
 					yield return null;
+
+					if(this.delete_flag == true){
+						//キャンセル。
+
+						Tool.LogError("Raw_Do_SaveSoundPool","Cancel");
+
+						yield break;
+					}
 				}while(t_saveload_item.IsBusy() == true);
 
 				if(t_saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
@@ -542,12 +591,17 @@ namespace NDownLoad
 		*/
 		private IEnumerator Start()
 		{
-			while(this.delete_flag == false){
+			bool t_loop = true;
+			while(t_loop){
 				switch(this.mode){
 				case Mode.WaitRequest:
 					{
 						//リクエスト待ち。
 						yield return null;
+
+						if(this.delete_flag == true){
+							t_loop = false;
+						}
 					}break;
 				case Mode.Start:
 					{
@@ -595,6 +649,10 @@ namespace NDownLoad
 				case Mode.Fix:
 					{
 						yield return null;
+
+						if(this.delete_flag == true){
+							t_loop = false;
+						}
 					}break;
 				}
 			}
