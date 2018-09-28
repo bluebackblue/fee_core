@@ -176,8 +176,15 @@ public class test11 : main_base
 		this.button_soundpool.SetText("SoundPoolロード");
 
 		//スライダー。
-		this.slider_master = new NUi.Slider(this.deleter,null,0);
+		this.slider_master = new NUi.Slider(this.deleter,null,0,this.Change_Master,0);
 		this.slider_master.SetRect(100,300,400,40);
+		this.slider_master.SetValue(0.0f);
+	}
+
+	/** 変更。
+	*/
+	public void Change_Master(int a_index,float a_value)
+	{
 	}
 
 	/** クリック。

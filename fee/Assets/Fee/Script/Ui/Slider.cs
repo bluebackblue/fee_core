@@ -30,9 +30,9 @@ namespace NUi
 
 		/** constructor
 		*/
-		public Slider(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
+		public Slider(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,Slider_Base.CallBack_Change a_callback_change,int a_callback_change_index)
 			:
-			base(a_deleter,a_state,a_drawpriority)
+			base(a_deleter,a_state,a_drawpriority,a_callback_change,a_callback_change_index)
 		{
 			//sprite_bg
 			this.sprite_bg = new ClipSprite(this.deleter,null,a_drawpriority);

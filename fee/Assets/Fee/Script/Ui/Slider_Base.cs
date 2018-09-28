@@ -20,6 +20,10 @@ namespace NUi
 	*/
 	public abstract class Slider_Base : NDeleter.DeleteItem_Base , NEventPlate.OnOverCallBack_Base , NUi.OnTargetCallBack_Base
 	{
+		/** チェンジコールバック。
+		*/
+		public delegate void CallBack_Change(int a_index,float a_value);
+
 		/** deleter
 		*/
 		protected NDeleter.Deleter deleter;
@@ -31,6 +35,11 @@ namespace NUi
 		/** eventplate
 		*/
 		protected NEventPlate.Item eventplate;
+
+		/** CallBack_Change
+		*/
+		protected CallBack_Change callback_change;
+		protected int callback_change_index;
 
 		/** is_onover
 		*/
@@ -60,7 +69,7 @@ namespace NUi
 
 		/** constructor
 		*/
-		public Slider_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
+		public Slider_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CallBack_Change a_callback_change,int a_callback_change_index)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
@@ -72,11 +81,15 @@ namespace NUi
 			this.eventplate = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,a_drawpriority);
 			this.eventplate.SetOnOverCallBack(this);
 
+			//callback_change
+			this.callback_change = a_callback_change;
+			this.callback_change_index = a_callback_change_index;
+
 			//is_onover
 			this.is_onover = false;
 
 			//value
-			this.value = 0.5f;
+			this.value = 0.0f;
 
 			//lock_flag
 			/*
@@ -346,6 +359,23 @@ namespace NUi
 			return this.is_onover;
 		}
 
+		/** 値。設定。
+		*/
+		public void SetValue(float a_value)
+		{
+			if(this.value != a_value){
+				this.value = a_value;
+
+				//コールバック。
+				this.OnChangeValue();
+
+				//コールバック。
+				if(this.callback_change != null){
+					this.callback_change(this.callback_change_index,this.value);
+				}
+			}
+		}
+
 		/** [NUi.OnTargetCallBack_Base]OnTarget
 		*/
 		public void OnTarget()
@@ -362,12 +392,7 @@ namespace NUi
 						t_value = 1.0f;
 					}
 
-					if(this.value != t_value){
-						this.value = t_value;
-
-						//コールバック。
-						this.OnChangeValue();
-					}
+					this.SetValue(t_value);
 				}
 			}
 		}
