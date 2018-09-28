@@ -486,7 +486,7 @@ namespace NRender2D
 						if((t_text.GetText().Length > 0)&&(t_text.IsVisible() == true)&&(t_text.GetDrawPriority() >= 0)){
 							//サイズの計算が必要
 							bool t_is_calcsize = false;
-							if(t_text.Raw_IsCalcSize() == true){
+							if((t_text.Raw_IsCalcSize() == true)||(this.screen.IsUiReCalcFlag() == true)){
 								t_text.Raw_SetCalcSizeFlag(false);
 								t_is_calcsize = true;
 							}
