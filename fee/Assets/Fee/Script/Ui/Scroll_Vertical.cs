@@ -50,7 +50,6 @@ namespace NUi
 			this.bar.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 			this.bar.SetColor(1.0f,1.0f,1.0f,0.3f);
 			this.bar.SetMaterialType(NRender2D.Config.MaterialType.Alpha);
-
 			this.bar.SetVisible(false);
 		}
 
@@ -59,26 +58,26 @@ namespace NUi
 		protected override void OnChangeRect()
 		{
 			this.bg.SetRect(ref this.rect);
-			this.UpdateBar();
+			this.UpdateView();
 		}
 
 		/** [Scroll_Base]コールバック。表示位置変更。
 		*/
 		protected override void OnChangeViewPosition()
 		{
-			this.UpdateBar();
+			this.UpdateView();
 		}
 
 		/** [Scroll_Base]コールバック。リスト数変更。
 		*/
 		protected override void OnChangeListCount()
 		{
-			this.UpdateBar();
+			this.UpdateView();
 		}
 
-		/** 更新。バー表示。
+		/** 更新。表示。
 		*/
-		private void UpdateBar()
+		private void UpdateView()
 		{
 			int t_position_max = this.item_length * this.list.Count - this.view_length;
 

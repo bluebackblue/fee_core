@@ -17,10 +17,13 @@ Shader "Render2D/Slice9"
 		clip_y1 ("Clip Y1", Float) = 0
 		clip_x2 ("Clip X2", Float) = 0
 		clip_y2 ("Clip Y2", Float) = 0
-		mode ("Mode", int) = 0
 		corner_size ("Corner Size", Int) = 20
 		rect_w ("Rect W", Float) = 0
 		rect_h ("Rect H", Float) = 0
+		texture_x ("Texture X", Float) = 0
+		texture_y ("Texture Y", Float) = 0
+		texture_w ("Texture W", Float) = 0.5
+		texture_h ("Texture H", Float) = 0.5
 	}
 	SubShader
 	{
@@ -82,18 +85,21 @@ Shader "Render2D/Slice9"
 			float clip_x2;
 			float clip_y2;
 
-			/** mode
-			*/
-			int mode;
-
 			/** corner_size
 			*/
 			int corner_size;
 
-			/** rect
+			/** 描画先サイズ。
 			*/
 			float rect_w;
 			float rect_h;
+
+			/** テクスチャ矩形[0.0 - 1.0]。
+			*/
+			float texture_x;
+			float texture_y;
+			float texture_w;
+			float texture_h;
 		
 			/** vert
 			*/
@@ -164,7 +170,7 @@ Shader "Render2D/Slice9"
 				}else{
 					//真ん中。
 					float t_per = float(t_to_gui_x - corner_size) / float(t_gui_w - corner_size*2);
-					t_tex_x = t_pix_x * (corner_size + t_per * (_MainTex_TexelSize.z / 2 - corner_size*2));
+					t_tex_x = t_pix_x * (corner_size + t_per * (_MainTex_TexelSize.z * texture_w - corner_size*2));
 				}
 
 				//テクスチャ参照位置。
@@ -178,30 +184,12 @@ Shader "Render2D/Slice9"
 				}else{
 					//真ん中。
 					float t_per = float(t_to_gui_y - corner_size) / float(t_gui_h - corner_size*2);
-					t_tex_y = t_pix_y * (corner_size + t_per * (_MainTex_TexelSize.w / 2 - corner_size*2));
+					t_tex_y = t_pix_y * (corner_size + t_per * (_MainTex_TexelSize.w * texture_h - corner_size*2));
 				}
 				
 				//参照位置オフセット。
-				float t_offset_x;
-				float t_offset_y;
-				if(mode == 0){
-					//通常。
-					t_offset_x = 0.0f;
-					t_offset_y = 0.0f;
-				}else if(mode == 1){
-					//オン。
-					t_offset_x = 0.5f;
-					t_offset_y = 0.0f;
-				}else if(mode == 2){
-					//ダウン。
-					t_offset_x = 0.0f;
-					t_offset_y = 0.5f;
-				}else if(mode == 3){
-					//ロック。
-					t_offset_x = 0.5f;
-					t_offset_y = 0.5f;
-				}
-
+				float t_offset_x = texture_x;
+				float t_offset_y = texture_y;
 				fixed4 t_color = tex2D(_MainTex,float2(t_tex_x + t_offset_x,1.0f - t_tex_y - t_offset_y)) * i.color;
 
 				return t_color;

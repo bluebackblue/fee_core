@@ -28,6 +28,10 @@ namespace NUi
 		*/
 		private NUi.ClipSprite sprite_value;
 
+		/** sprite_button
+		*/
+		private NUi.ClipSprite sprite_button;
+
 		/** constructor
 		*/
 		public Slider(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,Slider_Base.CallBack_Change a_callback_change,int a_callback_change_index)
@@ -41,66 +45,16 @@ namespace NUi
 			this.sprite_bg.SetColor(0.0f,0.0f,0.0f,1.0f);
 
 			//sprite_value
-			this.sprite_value = new ClipSprite(this.deleter,null,a_drawpriority);
+			this.sprite_value = new ClipSprite(this.deleter,null,a_drawpriority + 1);
 			this.sprite_value.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 			this.sprite_value.SetTexture(Texture2D.whiteTexture);
 			this.sprite_value.SetColor(0.5f,1.0f,0.5f,1.0f);
-		}
 
-		/** コールバック。削除。
-		*/
-		protected override void OnDeleteCallBack()
-		{
-		}
-
-		/** [Slider_Base]コールバック。矩形変更。
-		*/
-		protected override void OnChangeRect()
-		{
-			this.UpdateView();
-		}
-
-		/** コールバック。クリップ。設定。
-		*/
-		/*
-		protected override void OnSetClipCallBack(bool a_flag)
-		{
-			this.sprite_bg.SetClip(a_flag);
-		}
-		*/
-
-		/** コールバック。クリップ矩形。設定。
-		*/
-		/*
-		protected override void OnSetClipRectCallBack(int a_x,int a_y,int a_w,int a_h)
-		{
-			this.sprite_bg.SetClipRect(a_x,a_y,a_w,a_h);
-		}
-		*/
-
-		/** コールバック。クリップ矩形。設定。
-		*/
-		/*
-		protected override void OnSetClipRectCallBack(ref NRender2D.Rect2D_R<int> a_rect)
-		{
-			this.sprite_bg.SetClipRect(ref a_rect);
-		}
-		*/
-
-		/** コールバック。表示。設定。
-		*/
-		/*
-		protected override void OnSetVisibleCallBack(bool a_flag)
-		{
-			this.sprite_bg.SetVisible(a_flag);
-		}
-		*/
-
-		/** コールバック。描画プライオリティ。設定。
-		*/
-		protected override void OnSetDrawPriority(long a_drawpriority)
-		{
-			this.UpdateView();
+			//sprite_button
+			this.sprite_button = new ClipSprite(this.deleter,null,a_drawpriority + 2);
+			this.sprite_button.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+			this.sprite_button.SetTexture(Texture2D.whiteTexture);
+			this.sprite_button.SetColor(1.0f,1.0f,1.0f,1.0f);
 		}
 
 		/** コールバック。
@@ -110,12 +64,75 @@ namespace NUi
 			this.UpdateView();
 		}
 
+		/** [Slider_Base]コールバック。矩形変更。
+		*/
+		protected override void OnChangeRect()
+		{
+			this.UpdateView();
+		}
+
+		/** [Slider_Base]コールバック。クリップフラグ変更。
+		*/
+		protected override void OnChangeClipFlag()
+		{
+			this.sprite_bg.SetClip(this.clip_flag);
+			this.sprite_value.SetClip(this.clip_flag);
+		}
+
+		/** [Slider_Base]コールバック。クリップ矩形変更。
+		*/
+		protected override void OnChangeClipRect()
+		{
+			this.sprite_bg.SetClipRect(ref this.clip_rect);
+			this.sprite_value.SetClipRect(ref this.clip_rect);
+		}
+
+		/** [Slider_Base]コールバック。表示フラグ変更。
+		*/
+		protected override void OnChangeVisibleFlag()
+		{
+			this.sprite_bg.SetVisible(this.visible_flag);
+			this.sprite_value.SetVisible(this.visible_flag);
+		}
+
+		/** [Slider_Base]コールバック。描画プライオリティ変更。
+		*/
+		protected override void OnChangeDrawPriority()
+		{
+			this.sprite_bg.SetDrawPriority(this.drawpriority);
+			this.sprite_value.SetDrawPriority(this.drawpriority);
+		}
+
 		/** 更新。表示。
 		*/
 		public void UpdateView()
 		{
+			int t_value_w = (int)(this.rect.w * this.value);
+
 			this.sprite_bg.SetRect(ref this.rect);
-			this.sprite_value.SetRect(this.rect.x,this.rect.y,(int)(this.rect.w * this.value),this.rect.h);
+			this.sprite_value.SetRect(this.rect.x,this.rect.y,t_value_w,this.rect.h);
+			this.sprite_button.SetRect(this.rect.x + t_value_w - this.rect.h/2,this.rect.y,this.rect.h,this.rect.h);
+		}
+
+		/** ボタンテクスチャ。設定。
+		*/
+		public void SetButtonTexture(Texture2D a_texture)
+		{
+			this.sprite_button.SetTexture(a_texture);
+		}
+
+		/** 背景テクスチャ。設定。
+		*/
+		public void SetBgTexture(Texture2D a_texture)
+		{
+			this.sprite_bg.SetTexture(a_texture);
+		}
+
+		/** 値テクスチャ。設定。
+		*/
+		public void SetValueTexture(Texture2D a_texture)
+		{
+			this.sprite_value.SetTexture(a_texture);
 		}
 	}
 }

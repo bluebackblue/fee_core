@@ -193,8 +193,41 @@ namespace NUi
 
 			//モード。
 			{
-				if(a_material.GetInt("mode") != (int)this.mode){
-					a_material.SetInt("mode",(int)this.mode);
+				float t_texture_x = 0.0f;
+				float t_texture_y = 0.0f;
+
+				if(this.mode == Button_Mode.Normal){
+					//通常。
+					t_texture_x = 0.0f;
+					t_texture_y = 0.0f;
+				}else if(this.mode == Button_Mode.On){
+					//オン。
+					t_texture_x = 0.5f;
+					t_texture_y = 0.0f;
+				}else if(this.mode == Button_Mode.Down){
+					//ダウン。
+					t_texture_x = 0.0f;
+					t_texture_y = 0.5f;
+				}else if(this.mode == Button_Mode.Lock){
+					//ロック。
+					t_texture_x = 0.5f;
+					t_texture_y = 0.5f;
+				}
+
+				if(a_material.GetFloat("texture_x") != t_texture_x){
+					a_material.SetFloat("texture_x",t_texture_x);
+					t_setpass = true;
+				}
+				if(a_material.GetFloat("texture_y") != t_texture_y){
+					a_material.SetFloat("texture_y",t_texture_y);
+					t_setpass = true;
+				}
+				if(a_material.GetFloat("texture_w") != 0.5f){
+					a_material.SetFloat("texture_w",0.5f);
+					t_setpass = true;
+				}
+				if(a_material.GetFloat("texture_h") != 0.5f){
+					a_material.SetFloat("texture_h",0.5f);
 					t_setpass = true;
 				}
 			}

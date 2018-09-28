@@ -29,7 +29,7 @@ namespace NUi
 		{
 		}
 
-		/** アイテムの位置更新。スクロール方向の座標。
+		/** [Scroll_List_Base]アイテムの位置更新。スクロール方向の座標。
 		*/
 		protected override void UpdateItemPos(ITEM a_item,int a_index)
 		{
@@ -37,14 +37,14 @@ namespace NUi
 			a_item.SetX(t_x);
 		}
 
-		/** アイテムの位置更新。スクロール方向ではない座標。
+		/** [Scroll_List_Base]アイテムの位置更新。スクロール方向ではない座標。
 		*/
 		protected override void UpdateItemOtherPos(ITEM a_item,int a_index)
 		{
 			a_item.SetY(this.rect.y);
 		}
 
-		/** 表示幅更新。
+		/** [Scroll_List_Base]表示幅更新。
 		*/
 		protected override void UpdateViewLength()
 		{

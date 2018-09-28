@@ -32,6 +32,10 @@ namespace NUi
 		*/
 		protected NRender2D.Rect2D_R<int> rect;
 
+		/** drawpriority
+		*/
+		protected long drawpriority;
+
 		/** eventplate
 		*/
 		protected NEventPlate.Item eventplate;
@@ -49,23 +53,21 @@ namespace NUi
 		*/
 		protected float value;
 
-		/** lock_flag
-		*/
-		/*
-		protected bool lock_flag;
-		*/
-
 		/** clip_flag
 		*/
-		/*
 		protected bool clip_flag;
-		*/
 
-		/** visible
+		/** clip_rect
 		*/
-		/*
-		protected bool visible;
+		protected NRender2D.Rect2D_R<int> clip_rect;
+
+		/** visible_flag
 		*/
+		protected bool visible_flag;
+
+		/** down_flag
+		*/
+		protected bool down_flag;
 
 		/** constructor
 		*/
@@ -75,10 +77,13 @@ namespace NUi
 			this.deleter = new NDeleter.Deleter();
 
 			//rect
-			this.rect = new NRender2D.Rect2D_R<int>(0,0,0,0);
+			this.rect.Set(0,0,0,0);
+
+			//drawpriority
+			this.drawpriority = a_drawpriority;
 
 			//eventplate
-			this.eventplate = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,a_drawpriority);
+			this.eventplate = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,this.drawpriority);
 			this.eventplate.SetOnOverCallBack(this);
 
 			//callback_change
@@ -91,20 +96,17 @@ namespace NUi
 			//value
 			this.value = 0.0f;
 
-			//lock_flag
-			/*
-			this.lock_flag = false;
-			*/
-
 			//clip_flag
-			/*
 			this.clip_flag = false;
-			*/
 
-			//visible
-			/*
-			this.visible = true;
-			*/
+			//clip_rect
+			this.clip_rect.Set(0,0,0,0);
+
+			//visible_flag
+			this.visible_flag = true;
+
+			//down_flag
+			this.down_flag = false;
 
 			//削除管理。
 			if(a_deleter != null){
@@ -112,115 +114,83 @@ namespace NUi
 			}
 		}
 
-		/** [Slider_Base]コールバック。削除。
+		/** コールバック。値変更。
 		*/
-		protected abstract void OnDeleteCallBack();
+		protected abstract void OnChangeValue();
 
 		/** [Slider_Base]コールバック。矩形変更。
 		*/
 		protected abstract void OnChangeRect();
 
-		/** [Slider_Base]コールバック。クリップ。設定。
+		/** [Slider_Base]コールバック。クリップフラグ変更。
 		*/
-		/*
-		protected abstract void OnSetClipCallBack(bool a_flag);
-		*/
+		protected abstract void OnChangeClipFlag();
 
-		/** [Slider_Base]コールバック。クリップ矩形。設定。
+		/** [Slider_Base]コールバック。クリップ矩形変更。
 		*/
-		/*
-		protected abstract void OnSetClipRectCallBack(int a_x,int a_y,int a_w,int a_h);
-		*/
+		protected abstract void OnChangeClipRect();
 
-		/** [Slider_Base]コールバック。クリップ矩形。設定。
+		/** [Slider_Base]コールバック。表示フラグ変更。
 		*/
-		/*
-		protected abstract void OnSetClipRectCallBack(ref NRender2D.Rect2D_R<int> a_rect);
-		*/
+		protected abstract void OnChangeVisibleFlag();
 
-		/** [Slider_Base]コールバック。表示。設定。
+		/** [Slider_Base]コールバック。描画プライオリティ変更。
 		*/
-		/*
-		protected abstract void OnSetVisibleCallBack(bool a_flag);
-		*/
-
-		/** [Slider_Base]コールバック。描画プライオリティ。設定。
-		*/
-		protected abstract void OnSetDrawPriority(long a_drawpriority);
-
-		/** コールバック。値変更。
-		*/
-		protected abstract void OnChangeValue();
+		protected abstract void OnChangeDrawPriority();
 
 		/** 削除。
 		*/
 		public void Delete()
 		{
 			this.deleter.DeleteAll();
-
-			//コールバック。削除。
-			this.OnDeleteCallBack();
 		}
 
 		/** 描画プライオリティ。設定。
 		*/
 		public void SetDrawPriority(long a_drawpriority)
 		{
-			this.eventplate.SetPriority(a_drawpriority);
+			if(this.drawpriority != a_drawpriority){
+				this.eventplate.SetPriority(a_drawpriority);
 
-			//コールバック。描画プライオリティ。設定。
-			this.OnSetDrawPriority(a_drawpriority);
-		}
-
-		/** ロック。設定。
-		*/
-		/*
-		public void SetLock(bool a_flag)
-		{
-			if(this.lock_flag != a_flag){
-				this.lock_flag = a_flag;
+				//コールバック。描画プライオリティ変更。
+				this.OnChangeDrawPriority();
 			}
 		}
-		*/
 
 		/** クリップ。設定。
 		*/
-		/*
 		public void SetClip(bool a_flag)
 		{
 			if(this.clip_flag != a_flag){
 				this.clip_flag = a_flag;
 				this.eventplate.SetClip(a_flag);
 
-				//コールバック。クリップ。設定。
-				this.OnSetClipCallBack(a_flag);
+				//コールバック。クリップフラグ変更。
+				this.OnChangeClipFlag();
 			}
 		}
-		*/
 
 		/** クリップ矩形。設定。
 		*/
-		/*
 		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
 		{
+			this.clip_rect = a_rect;
 			this.eventplate.SetClipRect(ref a_rect);
 
-			//コールバック。クリップ矩形。設定。
-			this.OnSetClipRectCallBack(ref a_rect);
+			//コールバック。クリップ矩形変更。
+			this.OnChangeClipRect();
 		}
-		*/
 
 		/** クリップ矩形。設定。
 		*/
-		/*
 		public void SetClipRect(int a_x,int a_y,int a_w,int a_h)
 		{
+			this.clip_rect.Set(a_x,a_y,a_w,a_h);
 			this.eventplate.SetClipRect(a_x,a_y,a_w,a_h);
 
-			//コールバック。クリップ矩形。設定。
-			this.OnSetClipRectCallBack(a_x,a_y,a_w,a_h);
+			//コールバック。クリップ矩形変更。
+			this.OnChangeClipRect();
 		}
-		*/
 
 		/** 矩形。設定。
 		*/
@@ -318,18 +288,16 @@ namespace NUi
 
 		/** 表示。設定。
 		*/
-		/*
 		public void SetVisible(bool a_flag)
 		{
-			if(this.visible != a_flag){
-				this.visible = a_flag;
+			if(this.visible_flag != a_flag){
+				this.visible_flag = a_flag;
 				this.eventplate.SetEnable(a_flag);
 
-				//コールバック。表示。設定。
-				this.OnSetVisibleCallBack(a_flag);
+				//コールバック。表示フラグ変更。
+				this.OnChangeVisibleFlag();
 			}
 		}
-		*/
 
 		/** [NEventPlate.OnOverCallBack_Base]OnOverEnter
 		*/
@@ -380,20 +348,55 @@ namespace NUi
 		*/
 		public void OnTarget()
 		{
-			if(this.is_onover == false){
-				//ターゲット解除。
-				Ui.GetInstance().UnSetTargetRequest(this);
-			}else{
-				if(NInput.Mouse.GetInstance().left.down == true){
+			if((this.is_onover == true)&&(this.down_flag == false)&&(NInput.Mouse.GetInstance().left.down == true)){
+				//ダウン。
+
+				//ダウン開始。
+				this.down_flag = true;
+
+				{
 					float t_value = ((float)(NInput.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
 					if(t_value < 0.0f){
 						t_value = 0.0f;
 					}else if(t_value > 1.0f){
 						t_value = 1.0f;
 					}
-
 					this.SetValue(t_value);
 				}
+			}else if((this.down_flag == true)&&(NInput.Mouse.GetInstance().left.on == false)){
+				//アップ。
+
+				//ダウンキャンセル。
+				this.down_flag = false;
+			}else if((this.is_onover == true)&&(this.down_flag == true)){
+				//ダウン中オーバー中。
+
+				{
+					float t_value = ((float)(NInput.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
+					if(t_value < 0.0f){
+						t_value = 0.0f;
+					}else if(t_value > 1.0f){
+						t_value = 1.0f;
+					}
+					this.SetValue(t_value);
+				}
+			}else if(this.is_onover == true){
+				//オーバー中。
+			}else if(this.down_flag == true){
+				//範囲外ダウン中。
+
+				{
+					float t_value = ((float)(NInput.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
+					if(t_value < 0.0f){
+						t_value = 0.0f;
+					}else if(t_value > 1.0f){
+						t_value = 1.0f;
+					}
+					this.SetValue(t_value);
+				}
+			}else{
+				//ターゲット解除。
+				Ui.GetInstance().UnSetTargetRequest(this);
 			}
 		}
 	}

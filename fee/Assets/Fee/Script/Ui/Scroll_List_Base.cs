@@ -42,15 +42,15 @@ namespace NUi
 			this.capture_list = new List<ITEM>();
 		}
 
-		/** アイテムの位置更新。スクロール方向の座標。
+		/** [Scroll_List_Base]アイテムの位置更新。スクロール方向の座標。
 		*/
 		protected abstract void UpdateItemPos(ITEM a_item,int a_index);
 
-		/** アイテムの位置更新。スクロール方向ではない座標。
+		/** [Scroll_List_Base]アイテムの位置更新。スクロール方向ではない座標。
 		*/
 		protected abstract void UpdateItemOtherPos(ITEM a_item,int a_index);
 
-		/** 表示幅更新。
+		/** [Scroll_List_Base]表示幅更新。
 		*/
 		protected abstract void UpdateViewLength();
 

@@ -32,6 +32,14 @@ namespace NUi
 		*/
 		protected NDeleter.Deleter deleter;
 
+		/** 矩形。
+		*/
+		protected NRender2D.Rect2D_R<int> rect;
+
+		/** drawpriority
+		*/
+		protected long drawpriority;
+
 		/** eventplate
 		*/
 		protected NEventPlate.Item eventplate;
@@ -57,9 +65,13 @@ namespace NUi
 		*/
 		protected bool clip_flag;
 
-		/** visible
+		/** clip_rect
 		*/
-		protected bool visible;
+		protected NRender2D.Rect2D_R<int> clip_rect;
+
+		/** visible_flag
+		*/
+		protected bool visible_flag;
 
 		/** event_request
 		*/
@@ -76,8 +88,14 @@ namespace NUi
 			//deleter
 			this.deleter = new NDeleter.Deleter();
 
+			//rect
+			this.rect.Set(0,0,0,0);
+
+			//drawpriority
+			this.drawpriority = a_drawpriority;
+
 			//eventplate
-			this.eventplate = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,a_drawpriority);
+			this.eventplate = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,this.drawpriority);
 			this.eventplate.SetOnOverCallBack(this);
 
 			//callback_click
@@ -96,8 +114,11 @@ namespace NUi
 			//clip_flag
 			this.clip_flag = false;
 
-			//visible
-			this.visible = true;
+			//clip_rect
+			this.clip_rect.Set(0,0,0,0);
+
+			//visible_flag
+			this.visible_flag = true;
 
 			//event_request
 			this.event_request = 0;
@@ -111,41 +132,29 @@ namespace NUi
 			}
 		}
 
-		/** コールバック。削除。
+		/** [Button_Base]コールバック。矩形変更。
 		*/
-		protected abstract void OnDeleteCallBack();
+		protected abstract void OnChangeRect();
 
-		/** コールバック。矩形。設定。
+		/** [Button_Base]コールバック。モード変更。
 		*/
-		protected abstract void OnSetRectCallBack(int a_x,int a_y,int a_w,int a_h);
+		protected abstract void OnChangeMode();
 
-		/** コールバック。矩形。設定。
+		/** [Button_Base]コールバック。クリップフラグ変更。
 		*/
-		protected abstract void OnSetRectCallBack(ref NRender2D.Rect2D_R<int> a_rect);
+		protected abstract void OnChangeClipFlag();
 
-		/** コールバック。モード。設定。
+		/** [Button_Base]コールバック。クリップ矩形変更。
 		*/
-		protected abstract void OnSetModeCallBack(Button_Mode a_mode);
+		protected abstract void OnChangeClipRect();
 
-		/** コールバック。クリップ。設定。
+		/** [Button_Base]コールバック。表示フラグ変更。
 		*/
-		protected abstract void OnSetClipCallBack(bool a_flag);
+		protected abstract void OnChangeVisibleFlag();
 
-		/** コールバック。クリップ矩形。設定。
+		/** [Slider_Base]コールバック。描画プライオリティ変更。
 		*/
-		protected abstract void OnSetClipRectCallBack(int a_x,int a_y,int a_w,int a_h);
-
-		/** コールバック。クリップ矩形。設定。
-		*/
-		protected abstract void OnSetClipRectCallBack(ref NRender2D.Rect2D_R<int> a_rect);
-
-		/** コールバック。表示。設定。
-		*/
-		protected abstract void OnSetVisibleCallBack(bool a_flag);
-
-		/** コールバック。描画プライオリティ。設定。
-		*/
-		protected abstract void OnSetDrawPriority(long a_drawpriority);
+		protected abstract void OnChangeDrawPriority();
 
 		/** 削除。
 		*/
@@ -160,9 +169,6 @@ namespace NUi
 			if(Button_Base.s_down_instance == this){
 				Button_Base.s_down_instance = null;
 			}
-
-			//コールバック。削除。
-			this.OnDeleteCallBack();
 		}
 
 		/** モード。設定。
@@ -172,8 +178,8 @@ namespace NUi
 			if(this.mode != a_mode){
 				this.mode = a_mode;
 
-				//コールバック。モード。設定。
-				this.OnSetModeCallBack(a_mode);
+				//コールバック。モード変更。
+				this.OnChangeMode();
 			}
 		}
 
@@ -181,10 +187,12 @@ namespace NUi
 		*/
 		public void SetDrawPriority(long a_drawpriority)
 		{
-			this.eventplate.SetPriority(a_drawpriority);
+			if(this.drawpriority != a_drawpriority){
+				this.eventplate.SetPriority(a_drawpriority);
 
-			//コールバック。描画プライオリティ。設定。
-			this.OnSetDrawPriority(a_drawpriority);
+				//コールバック。描画プライオリティ変更。
+				this.OnChangeDrawPriority();
+			}
 		}
 
 		/** ロック。設定。
@@ -214,8 +222,8 @@ namespace NUi
 				this.clip_flag = a_flag;
 				this.eventplate.SetClip(a_flag);
 
-				//コールバック。クリップ。設定。
-				this.OnSetClipCallBack(a_flag);
+				//コールバック。クリップフラグ変更。
+				this.OnChangeClipFlag();
 			}
 		}
 		
@@ -223,120 +231,128 @@ namespace NUi
 		*/
 		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
 		{
+			this.clip_rect = a_rect;
 			this.eventplate.SetClipRect(ref a_rect);
 
-			//コールバック。クリップ矩形。設定。
-			this.OnSetClipRectCallBack(ref a_rect);
+			//コールバック。クリップ矩形変更。
+			this.OnChangeClipRect();
 		}
 
 		/** クリップ矩形。設定。
 		*/
 		public void SetClipRect(int a_x,int a_y,int a_w,int a_h)
 		{
+			this.clip_rect.Set(a_x,a_y,a_w,a_h);
 			this.eventplate.SetClipRect(a_x,a_y,a_w,a_h);
 
-			//コールバック。クリップ矩形。設定。
-			this.OnSetClipRectCallBack(a_x,a_y,a_w,a_h);
+			//コールバック。クリップ矩形変更。
+			this.OnChangeClipRect();
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetRect(ref NRender2D.Rect2D_R<int> a_rect)
 		{
+			this.rect = a_rect;
 			this.eventplate.SetRect(ref a_rect);
 
-			//コールバック。矩形。設定。
-			this.OnSetRectCallBack(ref a_rect);
+			//コールバック。矩形変更。
+			this.OnChangeRect();
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
 		{
+			this.rect.Set(a_x,a_y,a_w,a_h);
 			this.eventplate.SetRect(a_x,a_y,a_w,a_h);
 
-			//コールバック。矩形。設定。
-			this.OnSetRectCallBack(a_x,a_y,a_w,a_h);
+			//コールバック。矩形変更。
+			this.OnChangeRect();
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetX(int a_x)
 		{
+			this.rect.x = a_x;
 			this.eventplate.SetX(a_x);
 
-			//コールバック。矩形。設定。
-			this.OnSetRectCallBack(this.eventplate.GetX(),this.eventplate.GetY(),this.eventplate.GetW(),this.eventplate.GetH());
+			//コールバック。矩形変更。
+			this.OnChangeRect();
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetY(int a_y)
 		{
+			this.rect.x = a_y;
 			this.eventplate.SetY(a_y);
 
-			//コールバック。矩形。設定。
-			this.OnSetRectCallBack(this.eventplate.GetX(),this.eventplate.GetY(),this.eventplate.GetW(),this.eventplate.GetH());
+			//コールバック。矩形変更。
+			this.OnChangeRect();
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetW(int a_w)
 		{
+			this.rect.w = a_w;
 			this.eventplate.SetW(a_w);
 
-			//コールバック。矩形。設定。
-			this.OnSetRectCallBack(this.eventplate.GetX(),this.eventplate.GetY(),this.eventplate.GetW(),this.eventplate.GetH());
+			//コールバック。矩形変更。
+			this.OnChangeRect();
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetH(int a_h)
 		{
+			this.rect.h = a_h;
 			this.eventplate.SetH(a_h);
 
-			//コールバック。矩形。設定。
-			this.OnSetRectCallBack(this.eventplate.GetX(),this.eventplate.GetY(),this.eventplate.GetW(),this.eventplate.GetH());
+			//コールバック。矩形変更。
+			this.OnChangeRect();
 		}
 
 		/** 矩形。取得。
 		*/
 		public int GetX()
 		{
-			return this.eventplate.GetX();
+			return this.rect.x;
 		}
 
 		/** 矩形。取得。
 		*/
 		public int GetY()
 		{
-			return this.eventplate.GetY();
+			return this.rect.y;
 		}
 
 		/** 矩形。取得。
 		*/
 		public int GetW()
 		{
-			return this.eventplate.GetW();
+			return this.rect.w;
 		}
 
 		/** 矩形。取得。
 		*/
 		public int GetH()
 		{
-			return this.eventplate.GetH();
+			return this.rect.h;
 		}
 
 		/** 表示。設定。
 		*/
 		public void SetVisible(bool a_flag)
 		{
-			if(this.visible != a_flag){
-				this.visible = a_flag;
+			if(this.visible_flag != a_flag){
+				this.visible_flag = a_flag;
 				this.eventplate.SetEnable(a_flag);
 
-				//コールバック。表示。設定。
-				this.OnSetVisibleCallBack(a_flag);
+				//コールバック。表示フラグ変更。
+				this.OnChangeVisibleFlag();
 			}
 		}
 
@@ -372,7 +388,7 @@ namespace NUi
 		*/
 		public void ClickEventRequest()
 		{
-			if((this.lock_flag == false)&&(this.visible == true)){
+			if((this.lock_flag == false)&&(this.visible_flag == true)){
 				//イベントリクエスト。
 				this.event_request = 13;
 
@@ -409,7 +425,7 @@ namespace NUi
 				this.event_request = 0;
 
 				this.SetMode(Button_Mode.Lock);
-			}else if(this.visible == false){
+			}else if(this.visible_flag == false){
 				//非表示。
 
 				//ターゲット解除。
@@ -464,7 +480,7 @@ namespace NUi
 					Button_Base.s_down_instance = this;
 
 					this.SetMode(Button_Mode.Down);
-				}else if((this.down_flag == true)&&(NInput.Mouse.GetInstance().left.up == true)){
+				}else if((this.down_flag == true)&&(NInput.Mouse.GetInstance().left.on == false)){
 					//アップ。
 
 					//ダウンキャンセル。
@@ -498,7 +514,7 @@ namespace NUi
 						this.SetMode(Button_Mode.Normal);
 					}
 				}else if(this.down_flag == true){
-					//ダウン中。
+					//範囲外ダウン中。
 					this.SetMode(Button_Mode.On);
 				}else{
 					//ターゲット解除。

@@ -90,19 +90,19 @@ namespace NUi
 			}
 		}
 
-		/** コールバック。リスト数。取得。
+		/** [Scroll_Base]コールバック。リスト数。取得。
 		*/
 		public abstract int GetListCount();
 
-		/** コールバック。リスト数変更。
+		/** [Scroll_Base]コールバック。リスト数変更。
 		*/
 		protected abstract void OnChangeListCount();
 
-		/** コールバック。矩形変更。
+		/** [Scroll_Base]コールバック。矩形変更。
 		*/
 		protected abstract void OnChangeRect();
 
-		/** コールバック。表示位置変更。
+		/** [Scroll_Base]コールバック。表示位置変更。
 		*/
 		protected abstract void OnChangeViewPosition();
 

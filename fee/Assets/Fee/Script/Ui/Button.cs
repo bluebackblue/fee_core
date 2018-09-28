@@ -43,75 +43,50 @@ namespace NUi
 			this.text.SetCenter(true,true);
 		}
 
-		/** コールバック。削除。
+		/** [Button_Base]コールバック。矩形。設定。
 		*/
-		protected override void OnDeleteCallBack()
+		protected override void OnChangeRect()
 		{
+			this.UpdateView();
 		}
 
-		/** コールバック。矩形。設定。
+		/** [Button_Base]コールバック。モード変更。
 		*/
-		protected override void OnSetRectCallBack(int a_x,int a_y,int a_w,int a_h)
+		protected override void OnChangeMode()
 		{
-			this.sprite.SetRect(a_x,a_y,a_w,a_h);
-
-			this.text.SetRect(a_x+a_w/2,a_y+a_h/2,0,0);
+			this.sprite.SetMode(this.mode);
 		}
 
-		/** コールバック。矩形。設定。
+		/** [Button_Base]コールバック。クリップフラグ変更。
 		*/
-		protected override void OnSetRectCallBack(ref NRender2D.Rect2D_R<int> a_rect)
+		protected override void OnChangeClipFlag()
 		{
-			this.sprite.SetRect(ref a_rect);
-
-			this.text.SetRect(a_rect.x+a_rect.w/2,a_rect.y+a_rect.h/2,0,0);
+			this.sprite.SetClip(this.clip_flag);
+			this.text.SetClip(this.clip_flag);
 		}
 
-		/** コールバック。モード。設定。
+		/** [Button_Base]コールバック。クリップ矩形変更。
 		*/
-		protected override void OnSetModeCallBack(Button_Mode a_mode)
+		protected override void OnChangeClipRect()
 		{
-			this.sprite.SetMode(a_mode);
+			this.sprite.SetClipRect(ref this.clip_rect);
+			this.text.SetClipRect(ref this.clip_rect);
 		}
 
-		/** コールバック。クリップ。設定。
+		/** [Button_Base]コールバック。表示フラグ変更。
 		*/
-		protected override void OnSetClipCallBack(bool a_flag)
+		protected override void OnChangeVisibleFlag()
 		{
-			this.sprite.SetClip(a_flag);
-			this.text.SetClip(a_flag);
+			this.sprite.SetVisible(this.visible_flag);
+			this.text.SetVisible(this.visible_flag);
 		}
 
-		/** コールバック。クリップ矩形。設定。
+		/** [Button_Base]コールバック。描画プライオリティ変更。
 		*/
-		protected override void OnSetClipRectCallBack(int a_x,int a_y,int a_w,int a_h)
+		protected override void OnChangeDrawPriority()
 		{
-			this.sprite.SetClipRect(a_x,a_y,a_w,a_h);
-			this.text.SetClipRect(a_x,a_y,a_w,a_h);
-		}
-
-		/** コールバック。クリップ矩形。設定。
-		*/
-		protected override void OnSetClipRectCallBack(ref NRender2D.Rect2D_R<int> a_rect)
-		{
-			this.sprite.SetClipRect(ref a_rect);
-			this.text.SetClipRect(ref a_rect);
-		}
-
-		/** コールバック。表示。設定。
-		*/
-		protected override void OnSetVisibleCallBack(bool a_flag)
-		{
-			this.sprite.SetVisible(a_flag);
-			this.text.SetVisible(a_flag);
-		}
-
-		/** コールバック。描画プライオリティ。設定。
-		*/
-		protected override void OnSetDrawPriority(long a_drawpriority)
-		{
-			this.sprite.SetDrawPriority(a_drawpriority);
-			this.text.SetDrawPriority(a_drawpriority);
+			this.sprite.SetDrawPriority(this.drawpriority);
+			this.text.SetDrawPriority(this.drawpriority);
 		}
 
 		/** テクスチャ設定。
@@ -133,6 +108,14 @@ namespace NUi
 		public void SetTextureCornerSize(int a_corner_size)
 		{
 			this.sprite.SetCornerSize(a_corner_size);
+		}
+
+		/** 更新。表示。
+		*/
+		public void UpdateView()
+		{
+			this.sprite.SetRect(ref this.rect);
+			this.text.SetRect(this.rect.x+this.rect.w/2,this.rect.y+this.rect.h/2,0,0);
 		}
 	}
 }
