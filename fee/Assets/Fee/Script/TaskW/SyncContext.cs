@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief タスク。同期。
+ * @brief タスク。同期コンテキスト。
 */
 
 
@@ -16,9 +16,9 @@ using UnityEngine;
 */
 namespace NTaskW
 {
-	/** Task_Sync
+	/** SyncContext
 	*/
-	public class Task_Sync
+	public class SyncContext
 	{
 		/** context
 		*/
@@ -26,7 +26,7 @@ namespace NTaskW
 
 		/** constructor
 		*/
-		public Task_Sync()
+		public SyncContext()
 		{
 			this.context = System.Threading.SynchronizationContext.Current;
 		}

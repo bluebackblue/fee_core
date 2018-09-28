@@ -170,6 +170,7 @@ public class test06 : main_base
 	private void Update()
 	{
 		//パフォーマンスカウンター。インスタンス作成。
+		NPerformanceCounter.Config.LOG_ENABLE = true;
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 
 		//フェード。

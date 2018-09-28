@@ -36,6 +36,10 @@ namespace NPerformanceCounter
 		/** デフォルト。カメラデプス。
 		*/
 		public static float DEFAULT_CAMERA_DEPTH = 900.0f;
+
+		/** ログプレフィックス。
+		*/
+		public static string LOG_TAGNAME_STRING = "-------- PerformanceCounter --------";
 		
 	}
 }

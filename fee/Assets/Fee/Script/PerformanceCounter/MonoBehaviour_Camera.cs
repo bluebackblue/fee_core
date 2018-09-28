@@ -82,6 +82,7 @@ namespace NPerformanceCounter
 					float t_y_4 = 1.0f - t_h;
 
 					if(t_per >= 2.0f){
+						Tool.Log(Config.LOG_TAGNAME_STRING,t_per.ToString());
 						UnityEngine.GL.Color(new Color(1.0f,0.0f,0.0f,1.0f));
 					}else{
 						UnityEngine.GL.Color(new Color(1.0f,1.0f,1.0f,1.0f));

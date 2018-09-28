@@ -59,6 +59,7 @@ public class test15 : main_base
 		NTaskW.TaskW.CreateInstance();
 
 		//パフォーマンスカウンター。インスタンス作成。
+		NPerformanceCounter.Config.LOG_ENABLE = true;
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 
 		//２Ｄ描画。インスタンス作成。

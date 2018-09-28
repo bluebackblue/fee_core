@@ -27,6 +27,14 @@ namespace NSaveLoad
 		/** アサート。
 		*/
 		public static bool ASSERT_ENABLE = true;
+
+		/** USE_ASYNC
+		*/
+		#if(UNITY_WEBGL)
+		public static bool USE_ASYNC = false;
+		#else
+		public static bool USE_ASYNC = true;
+		#endif
 	}
 }
 

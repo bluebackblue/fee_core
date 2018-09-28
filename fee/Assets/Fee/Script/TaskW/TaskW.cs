@@ -68,28 +68,28 @@ namespace NTaskW
 
 		/** 同期コンテキスト。
 		*/
-		private Task_Sync main_sync;
+		private SyncContext synccontext;
 
 		/** [シングルトン]constructor
 		*/
 		private TaskW()
 		{
-			this.main_sync = new Task_Sync();
+			this.synccontext = new SyncContext();
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
-			this.main_sync.Delete();
-			this.main_sync = null;
+			this.synccontext.Delete();
+			this.synccontext = null;
 		}
 
-		/** 同期コンテキスト。取得。
+		/** Post
 		*/
-		public Task_Sync GetTaskSync()
+		public void Post(System.Threading.SendOrPostCallback a_d,object a_state)
 		{
-			return this.main_sync;
+			this.synccontext.Post(a_d,a_state);
 		}
 	}
 }

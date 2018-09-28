@@ -29,6 +29,8 @@ public class test04 : main_base
 	*/
 	private enum Step
 	{
+		None,
+
 		Start,
 
 		SaveBinaryStart,
@@ -65,6 +67,10 @@ public class test04 : main_base
 	*/
 	private NRender2D.Text2D status;
 
+	/** button
+	*/
+	private NUi.Button button;
+
 	/** Start
 	*/
 	private void Start()
@@ -73,6 +79,7 @@ public class test04 : main_base
 		NTaskW.TaskW.CreateInstance();
 
 		//パフォーマンスカウンター。インスタンス作成。
+		NPerformanceCounter.Config.LOG_ENABLE = true;
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 
 		//２Ｄ描画。インスタンス作成。
@@ -82,11 +89,20 @@ public class test04 : main_base
 		NSaveLoad.Config.LOG_ENABLE = true;
 		NSaveLoad.SaveLoad.CreateInstance();
 
+		//マウス。インスタンス作成。
+		NInput.Mouse.CreateInstance();
+
+		//イベントプレート。インスタンス作成。
+		NEventPlate.EventPlate.CreateInstance();
+
+		//ＵＩ。インスタンス作成。
+		NUi.Ui.CreateInstance();
+	
 		//deleter
 		this.deleter = new NDeleter.Deleter();
 
 		//step
-		this.step = Step.Start;
+		this.step = Step.None;
 
 		//saveload_item
 		this.saveload_item = null;
@@ -97,7 +113,7 @@ public class test04 : main_base
 
 		//sprite
 		this.sprite = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority);
-		this.sprite.SetRect(100,150,64,64);
+		this.sprite.SetRect(100,300,64,64);
 		this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 		this.sprite.SetTexture(Texture2D.whiteTexture);
 		this.sprite.SetMaterialType(NRender2D.Config.MaterialType.Alpha);
@@ -105,6 +121,21 @@ public class test04 : main_base
 		//status
 		this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.status.SetRect(100,100,0,0);
+
+		//button
+		this.button = new NUi.Button(this.deleter,null,t_drawpriority,Click,0);
+		this.button.SetRect(100,150,100,100);
+		this.button.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button.SetText("Start");
+	}
+
+	/** クリック。
+	*/
+	public void Click(int a_value)
+	{
+		if(this.step == Step.None){
+			this.step = Step.Start;
+		}
 	}
 
 	/** Update
@@ -113,6 +144,15 @@ public class test04 : main_base
 	{
 		//セーブロード。
 		NSaveLoad.SaveLoad.GetInstance().Main();
+
+		//マウス。インスタンス作成。
+		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
+
+		//イベントプレート。インスタンス作成。
+		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
+
+		//ＵＩ。インスタンス作成。
+		NUi.Ui.GetInstance().Main();
 
 		switch(this.step){
 		case Step.Start:
@@ -131,7 +171,7 @@ public class test04 : main_base
 				string t_filename = "test_binary.bin";
 
 				//データ。
-				byte[] t_binary = new byte[1 * 1024 * 1024];
+				byte[] t_binary = new byte[1 * 1024 * 1024 * 100];
 				for(int ii=0;ii<t_binary.Length;ii++){
 					t_binary[ii] = (byte)(ii % 256);
 				}
@@ -211,6 +251,7 @@ public class test04 : main_base
 						//チェック。
 						bool t_error = false;
 						byte[] t_binary = this.saveload_item.GetResultBinary();
+
 						for(int ii=0;ii<t_binary.Length;ii++){
 							if(t_binary[ii] != (byte)(ii % 256)){
 								t_error = true;
@@ -218,7 +259,7 @@ public class test04 : main_base
 						}
 
 						{
-							string t_log_text = this.step.ToString() + " : Success : size = " +  this.saveload_item.GetResultBinary().Length.ToString() + "error = " + t_error.ToString();
+							string t_log_text = this.step.ToString() + " : Success : size = " +  this.saveload_item.GetResultBinary().Length.ToString() + " error = " + t_error.ToString();
 							this.status.SetText(t_log_text);
 							Debug.Log(t_log_text); 
 						}
@@ -377,7 +418,7 @@ public class test04 : main_base
 						//成功。
 
 						{
-							string t_log_text = this.step.ToString() + " : text = " + this.saveload_item.GetResultText();
+							string t_log_text = this.step.ToString() + " : Success";
 							this.status.SetText(t_log_text);
 							Debug.Log(t_log_text); 
 						}
@@ -453,6 +494,7 @@ public class test04 : main_base
 			}break;
 		case Step.End:
 			{
+				this.step = Step.None;
 			}break;
 		}
 	}

@@ -106,6 +106,7 @@ public class test16 : main_base , NNetwork.OnRemoteCallBack_Base
 		NTaskW.TaskW.CreateInstance();
 
 		//パフォーマンスカウンター。インスタンス作成。
+		NPerformanceCounter.Config.LOG_ENABLE = true;
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 
 		//２Ｄ描画。インスタンス作成。

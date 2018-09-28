@@ -25,6 +25,14 @@ namespace NPerformanceCounter
 	{
 		public float start_time;
 		public float end_time;
+
+		/** constructor
+		*/
+		public FrameData()
+		{
+			this.start_time = Time.realtimeSinceStartup;
+			this.end_time = Time.realtimeSinceStartup;
+		}
 	}
 }
 

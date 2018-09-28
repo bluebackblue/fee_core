@@ -96,7 +96,17 @@ namespace NTaskW
 		*/
 		public bool IsEnd()
 		{
-			if(this.IsCompleted()||this.IsCanceled()||this.IsFaulted()){
+			if((this.IsCompleted() == true)||(this.IsCanceled() == true)||(this.IsFaulted() == true)){
+				return true;
+			}
+			return false;
+		}
+
+		/** IsSuccess
+		*/
+		public bool IsSuccess()
+		{
+			if((this.IsCompleted() == true)&&(this.IsCanceled() == false)&&(this.IsFaulted() == false)){
 				return true;
 			}
 			return false;

@@ -27,6 +27,7 @@ public class test08 : main_base
 		NTaskW.TaskW.CreateInstance();
 
 		//パフォーマンスカウンター。インスタンス作成。
+		NPerformanceCounter.Config.LOG_ENABLE = true;
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 
 		NDirectory.Item t_item_root = NDirectory.Directory.GetDirectoryItem(Application.dataPath);

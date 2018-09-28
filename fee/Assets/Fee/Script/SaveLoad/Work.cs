@@ -229,7 +229,7 @@ namespace NSaveLoad
 				{
 					MonoBehaviour_Io t_io = NSaveLoad.SaveLoad.GetInstance().GetIo();
 
-					if(t_io.IsBusy() == true){
+					if(t_io.IsFix() == false){
 						//処理中。
 						this.item.SetResultProgress(t_io.GetResultProgress());
 					}else{
@@ -261,6 +261,9 @@ namespace NSaveLoad
 								this.item.SetResultError();
 							}break;
 						}
+
+						//リクエスト待ち開始。
+						t_io.WaitRequest();
 
 						this.mode = Mode.End;
 					}
