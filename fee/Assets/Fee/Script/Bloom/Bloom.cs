@@ -124,29 +124,14 @@ namespace NBloom
 		*/
 		public void SetThreshold(float a_threshold)
 		{
-			/* TODO:
-			this.camera_monobehaviour.threshold = a_threshold;
-
-			if(this.camera_monobehaviour.threshold < 0.0f){
-				this.camera_monobehaviour.threshold = 0.0f;
-			}else if(this.camera_monobehaviour.threshold > 1.0f){
-				this.camera_monobehaviour.threshold = 1.0f;
-			}
-			*/
+			this.camera_monobehaviour.SetThreshold(a_threshold);
 		}
 
 		/** 加算強度。設定。
 		*/
 		public void SetIntensity(float a_intensity)
 		{
-			//TODO:
-			/*
-			this.camera_monobehaviour.intensity = a_intensity;
-
-			if(this.camera_monobehaviour.intensity < 0.0f){
-				this.camera_monobehaviour.intensity = 0.0f;
-			}
-			*/
+			this.camera_monobehaviour.SetIntensity(a_intensity);
 		}
 	}
 }
