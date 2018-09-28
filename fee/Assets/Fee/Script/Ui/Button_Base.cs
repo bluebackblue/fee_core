@@ -139,9 +139,13 @@ namespace NUi
 		*/
 		protected abstract void OnSetClipRectCallBack(ref NRender2D.Rect2D_R<int> a_rect);
 
-		/** コーブラック。表示。設定。
+		/** コールバック。表示。設定。
 		*/
 		protected abstract void OnSetVisibleCallBack(bool a_flag);
+
+		/** コールバック。描画プライオリティ。設定。
+		*/
+		protected abstract void OnSetDrawPriority(long a_drawpriority);
 
 		/** 削除。
 		*/
@@ -178,6 +182,9 @@ namespace NUi
 		public void SetDrawPriority(long a_drawpriority)
 		{
 			this.eventplate.SetPriority(a_drawpriority);
+
+			//コールバック。描画プライオリティ。設定。
+			this.OnSetDrawPriority(a_drawpriority);
 		}
 
 		/** ロック。設定。

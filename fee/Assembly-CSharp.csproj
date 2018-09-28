@@ -221,6 +221,8 @@
     <Compile Include="Assets\Fee\Script\Ui\Scroll_Vertical.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Scroll_Vertical_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\ScrollItem_Base.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Slider.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Slider_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Ui.cs" />
     <Compile Include="Assets\TestScript\main.cs" />

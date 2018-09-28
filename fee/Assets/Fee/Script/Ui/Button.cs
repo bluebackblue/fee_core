@@ -43,7 +43,7 @@ namespace NUi
 			this.text.SetCenter(true,true);
 		}
 
-		/** [Button_Base]コールバック。削除。
+		/** コールバック。削除。
 		*/
 		protected override void OnDeleteCallBack()
 		{
@@ -98,12 +98,20 @@ namespace NUi
 			this.text.SetClipRect(ref a_rect);
 		}
 
-		/** コーブラック。表示。設定。
+		/** コールバック。表示。設定。
 		*/
 		protected override void OnSetVisibleCallBack(bool a_flag)
 		{
 			this.sprite.SetVisible(a_flag);
 			this.text.SetVisible(a_flag);
+		}
+
+		/** コールバック。描画プライオリティ。設定。
+		*/
+		protected override void OnSetDrawPriority(long a_drawpriority)
+		{
+			this.sprite.SetDrawPriority(a_drawpriority);
+			this.text.SetDrawPriority(a_drawpriority);
 		}
 
 		/** テクスチャ設定。

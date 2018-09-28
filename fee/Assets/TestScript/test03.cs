@@ -16,7 +16,6 @@ using UnityEngine;
 
 	ダウンロードしたＪＰＧを表示。
 
-
 */
 public class test03 : main_base
 {

@@ -86,6 +86,10 @@ public class test11 : main_base
 	*/
 	private NUi.Button button_soundpool;
 
+	/** スライダー。
+	*/
+	private NUi.Slider slider_master;
+
 	/** Start
 	*/
 	private void Start()
@@ -115,6 +119,7 @@ public class test11 : main_base
 		NRender2D.Render2D.CreateInstance();
 
 		//ＵＩ。インスタンス作成。
+		NUi.Config.LOG_ENABLE = true;
 		NUi.Ui.CreateInstance();
 
 		//マウス。インスタンス作成。
@@ -169,6 +174,10 @@ public class test11 : main_base
 		this.button_soundpool.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_soundpool.SetRect(100 + 210 * 2,130,200,30);
 		this.button_soundpool.SetText("SoundPoolロード");
+
+		//スライダー。
+		this.slider_master = new NUi.Slider(this.deleter,null,0);
+		this.slider_master.SetRect(100,300,400,40);
 	}
 
 	/** クリック。
