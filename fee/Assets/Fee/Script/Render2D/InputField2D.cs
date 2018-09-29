@@ -430,6 +430,13 @@ namespace NRender2D
 			this.param.Raw_SetRectTransformSizeDelta(ref a_size);
 		}
 
+		/** [内部からの呼び出し]サイズ。取得。
+		*/
+		public void Raw_GetRectTransformSizeDelta(out Vector2 a_size)
+		{
+			this.param.Raw_GetRectTransformSizeDelta(out a_size);
+		}
+
 		/** [内部からの呼び出し]位置。設定。
 		*/
 		public void Raw_SetRectTransformLocalPosition(ref Vector3 a_position)

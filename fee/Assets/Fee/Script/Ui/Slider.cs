@@ -57,7 +57,7 @@ namespace NUi
 			this.sprite_button.SetColor(1.0f,1.0f,1.0f,1.0f);
 		}
 
-		/** コールバック。
+		/** [Slider_Base]コールバック。値変更。
 		*/
 		protected override void OnChangeValue()
 		{

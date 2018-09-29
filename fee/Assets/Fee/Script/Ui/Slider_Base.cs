@@ -114,7 +114,7 @@ namespace NUi
 			}
 		}
 
-		/** コールバック。値変更。
+		/** [Slider_Base]コールバック。値変更。
 		*/
 		protected abstract void OnChangeValue();
 

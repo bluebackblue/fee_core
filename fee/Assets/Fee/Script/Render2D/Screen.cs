@@ -261,19 +261,20 @@ namespace NRender2D
 		*/
 		public void CalcTextRect(Text2D a_text,bool a_is_calcsize)
 		{		
-			float t_w = a_text.GetW();
-			float t_h = a_text.GetH();
-
+			//サイズ計算。
 			if(a_is_calcsize == true){
+				int t_w = a_text.GetW();
+				int t_h = a_text.GetH();
+
 				Vector2 t_sizedelta;
 
-				if(t_w > 0.0f){
+				if(t_w > 0){
 					t_sizedelta.x =	t_w * this.calc_ui_scale;
 				}else{
 					t_sizedelta.x = UnityEngine.Screen.width;
 				}
 
-				if(t_h > 0.0f){
+				if(t_h > 0){
 					t_sizedelta.y = t_h * this.calc_ui_scale;
 				}else{
 					t_sizedelta.y = UnityEngine.Screen.height;
@@ -282,13 +283,13 @@ namespace NRender2D
 				//自動部分を最大設定。
 				a_text.Raw_SetRectTransformSizeDelta(ref t_sizedelta);
 
-				if((t_w <= 0.0f)||(t_h <= 0.0f)){
+				if((t_w <= 0)||(t_h <= 0)){
 
-					if(t_w <= 0.0f){
+					if(t_w <= 0){
 						t_sizedelta.x = a_text.Raw_GetPreferredWidth();
 					}
 
-					if(t_h <= 0.0f){
+					if(t_h <= 0){
 						t_sizedelta.y = a_text.Raw_GetPreferredHeight();
 					}
 
@@ -297,44 +298,43 @@ namespace NRender2D
 				}
 			}
 
-			float t_x = this.calc_ui_x + a_text.GetX() * this.calc_ui_scale;
-			float t_y = this.calc_ui_y - a_text.GetY() * this.calc_ui_scale;
-
-			if(a_text.IsCenterW() == false || a_text.IsCenterH() == false){
+			//位置計算。
+			Vector3 t_localposition = new Vector3(this.calc_ui_x + a_text.GetX() * this.calc_ui_scale,this.calc_ui_y - a_text.GetY() * this.calc_ui_scale,0.0f);
+			if((a_text.IsCenterW() == false)||(a_text.IsCenterH() == false)){
 				//計算済みサイズ取得。
 				Vector2 t_sizedelta;
 				a_text.Raw_GetRectTransformSizeDelta(out t_sizedelta);
 
 				if(a_text.IsCenterW() == false){
-					t_x += t_sizedelta.x / 2;
+					t_localposition.x += t_sizedelta.x / 2;
 				}
 				if(a_text.IsCenterH() == false){
-					t_y -= t_sizedelta.y / 2;
+					t_localposition.y -= t_sizedelta.y / 2;
 				}
 			}
-
-			Vector3 t_localposition = new Vector3(t_x,t_y,0.0f);
 			a_text.Raw_SetRectTransformLocalPosition(ref t_localposition);
 		}
 
 		/** 計算。入力フィールド。
 		*/
-		public void CalcInputFieldRect(InputField2D a_inputfield)
+		public void CalcInputFieldRect(InputField2D a_inputfield,bool a_is_calcsize)
 		{
-			float t_w = a_inputfield.GetW() * this.calc_ui_scale;
-			float t_h = a_inputfield.GetH() * this.calc_ui_scale;
-
-			float t_x = this.calc_ui_x + a_inputfield.GetX() * this.calc_ui_scale;
-			float t_y = this.calc_ui_y - a_inputfield.GetY() * this.calc_ui_scale;
-
-			if(a_inputfield.IsCenter() == false){
-				t_x += t_w / 2;
-				t_y -= t_h / 2;
+			//サイズ計算。
+			if(a_is_calcsize == true){
+				Vector2 t_sizedelta = new Vector2(a_inputfield.GetW() * this.calc_ui_scale,a_inputfield.GetH() * this.calc_ui_scale);
+				a_inputfield.Raw_SetRectTransformSizeDelta(ref t_sizedelta);
 			}
 
-			Vector2 t_sizedelta = new Vector2(t_w,t_h);
-			Vector3 t_localposition = new Vector3(t_x,t_y,0.0f);
-			a_inputfield.Raw_SetRectTransformSizeDelta(ref t_sizedelta);
+			//位置計算。
+			Vector3 t_localposition = new Vector3(this.calc_ui_x + a_inputfield.GetX() * this.calc_ui_scale,this.calc_ui_y - a_inputfield.GetY() * this.calc_ui_scale,0.0f);
+			if(a_inputfield.IsCenter() == false){
+				//計算済みサイズ取得。
+				Vector2 t_sizedelta;
+				a_inputfield.Raw_GetRectTransformSizeDelta(out t_sizedelta);
+
+				t_localposition.x += t_sizedelta.x / 2;
+				t_localposition.y -= t_sizedelta.y / 2;
+			}
 			a_inputfield.Raw_SetRectTransformLocalPosition(ref t_localposition);
 		}
 	}

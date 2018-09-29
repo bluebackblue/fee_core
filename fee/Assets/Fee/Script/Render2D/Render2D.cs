@@ -565,8 +565,11 @@ namespace NRender2D
 						}
 
 						if((t_inputfield.IsVisible() == true)&&(t_inputfield.GetDrawPriority() >= 0)){
+							//サイズの計算が必要
+							bool t_is_calcsize = true;
+
 							//矩形計算。
-							this.screen.CalcInputFieldRect(t_inputfield);
+							this.screen.CalcInputFieldRect(t_inputfield,t_is_calcsize);
 
 							//表示。
 							t_inputfield.Raw_SetEnable(true);
