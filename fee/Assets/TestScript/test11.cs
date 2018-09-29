@@ -179,12 +179,17 @@ public class test11 : main_base
 		this.slider_master = new NUi.Slider(this.deleter,null,0,this.Change_Master,0);
 		this.slider_master.SetRect(100,300,400,40);
 		this.slider_master.SetValue(0.0f);
+		this.slider_master.SetButtonTexture(Resources.Load<Texture2D>("button"));
+		this.slider_master.SetButtonSize(10,80);
+		this.slider_master.SetButtonTextureCornerSize(2);
+		this.slider_master.SetBgTexture(Resources.Load<Texture2D>("slider"));
 	}
 
 	/** 変更。
 	*/
 	public void Change_Master(int a_index,float a_value)
 	{
+		Debug.Log(a_index.ToString() + " : " + a_value.ToString());
 	}
 
 	/** クリック。

@@ -27,6 +27,18 @@ namespace NUi
 		/** アサート。
 		*/
 		public static bool ASSERT_ENABLE = true;
+
+		/** デフォルト。コーナーサイズ。
+		*/
+		public static int DEFAULT_BUTTON_CORNER_SIZE = 20;
+
+		/** デフォルト。コーナーサイズ。
+		*/
+		public static int DEFAULT_SLIDER_BG_CORNER_SIZE = 20;
+
+		/** デフォルト。コーナーサイズ。
+		*/
+		public static int DEFAULT_SLIDER_BUTTON_CORNER_SIZE = 20;
 	}
 }
 

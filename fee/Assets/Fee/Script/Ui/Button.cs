@@ -22,7 +22,7 @@ namespace NUi
 	{
 		/** sprite
 		*/
-		private Button_Sprite2D sprite;
+		private NUi.Button_Sprite2D sprite;
 
 		/** text
 		*/
@@ -35,7 +35,7 @@ namespace NUi
 			base(a_deleter,a_state,a_drawpriority,a_callback_click,a_callback_click_value)
 		{
 			//sprite
-			this.sprite = new Button_Sprite2D(this.deleter,a_state,a_drawpriority);
+			this.sprite = new NUi.Button_Sprite2D(this.deleter,a_state,a_drawpriority);
 			this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 
 			//text

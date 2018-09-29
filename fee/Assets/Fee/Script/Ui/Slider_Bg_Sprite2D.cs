@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＩ。ボタン。
+ * @brief ＵＩ。スライダー。
 */
 
 
@@ -16,9 +16,9 @@ using UnityEngine;
 */
 namespace NUi
 {
-	/** Button_Sprite2D
+	/** Slider_Bg_Sprite2D
 	*/
-	public class Button_Sprite2D : NRender2D.Sprite2D
+	public class Slider_Bg_Sprite2D : NRender2D.Sprite2D
 	{
 		/** is_clip
 		*/
@@ -32,13 +32,9 @@ namespace NUi
 		*/
 		private NRender2D.Rect2D_R<int> clip_rect;
 
-		/** mode
-		*/
-		private Button_Mode mode;
-
 		/** constructor。
 		*/
-		public Button_Sprite2D(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
+		public Slider_Bg_Sprite2D(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
 			:
 			base(a_deleter,a_state,a_drawpriority)
 		{
@@ -46,13 +42,10 @@ namespace NUi
 			this.is_clip = false;
 
 			//corner_size
-			this.corner_size = Config.DEFAULT_BUTTON_CORNER_SIZE;
+			this.corner_size = Config.DEFAULT_SLIDER_BG_CORNER_SIZE;
 
 			//clip_rect
 			this.clip_rect.Set(0,0,0,0);
-
-			//mode
-			this.mode = Button_Mode.Normal;
 
 			//マテリアル設定。
 			this.SetMaterialType(NRender2D.Config.MaterialType.Slice9);
@@ -117,13 +110,6 @@ namespace NUi
 			return this.clip_rect.h;
 		}
 
-		/** モード。設定。
-		*/
-		public void SetMode(Button_Mode a_mode)
-		{
-			this.mode = a_mode;
-		}
-
 		/** マテリアルを更新する。
 
 		戻り値 = true : 変更あり。直後にSetPassの呼び出しが行われます。
@@ -164,6 +150,7 @@ namespace NUi
 				}
 
 				if(t_clip_flag > 0){
+
 					if(a_material.GetFloat("clip_x1") != t_clip_x1){
 						a_material.SetFloat("clip_x1",t_clip_x1);
 						t_setpass = true;
@@ -191,28 +178,9 @@ namespace NUi
 				t_setpass = true;						
 			}
 
-			//モード。
 			{
 				float t_texture_x = 0.0f;
 				float t_texture_y = 0.0f;
-
-				if(this.mode == Button_Mode.Normal){
-					//通常。
-					t_texture_x = 0.0f;
-					t_texture_y = 0.0f;
-				}else if(this.mode == Button_Mode.On){
-					//オン。
-					t_texture_x = 0.5f;
-					t_texture_y = 0.0f;
-				}else if(this.mode == Button_Mode.Down){
-					//ダウン。
-					t_texture_x = 0.0f;
-					t_texture_y = 0.5f;
-				}else if(this.mode == Button_Mode.Lock){
-					//ロック。
-					t_texture_x = 0.5f;
-					t_texture_y = 0.5f;
-				}
 
 				if(a_material.GetFloat("texture_x") != t_texture_x){
 					a_material.SetFloat("texture_x",t_texture_x);
