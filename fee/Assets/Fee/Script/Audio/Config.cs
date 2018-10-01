@@ -30,15 +30,15 @@ namespace NAudio
 
 		/** デフォルトボリューム。マスター。
 		*/
-		public static float DEFAULT_VOLUME_MASTER = 0.8f;
+		public static float DEFAULT_VOLUME_MASTER = 0.7f;
 
 		/** デフォルトボリューム。ＳＥ。
 		*/
-		public static float DEFAULT_VOLUME_SE = 0.8f;
+		public static float DEFAULT_VOLUME_SE = 0.7f;
 
 		/** デフォルトボリューム。ＢＧＭ。
 		*/
-		public static float DEFAULT_VOLUME_BGM = 0.8f;
+		public static float DEFAULT_VOLUME_BGM = 0.7f;
 
 		/** クロスフェード速度。
 		*/
