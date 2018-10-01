@@ -286,7 +286,7 @@ namespace NUi
 		*/
 		public void SetY(int a_y)
 		{
-			this.rect.x = a_y;
+			this.rect.y = a_y;
 			this.eventplate.SetY(a_y);
 
 			//コールバック。矩形変更。

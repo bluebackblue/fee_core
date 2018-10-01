@@ -82,17 +82,17 @@ namespace NAudio
 			//list
 			this.list = new Dictionary<string,Item>();
 
-			//読み込み最大数。
-			int t_max_stream = 64;
-
-			//ストリームタイプ。
-			int t_stream_type = (int)StreamType.STREAM_MUSIC;
-
-			//0固定。
-			int t_src_quality = (int)SoundPoolConvertQuality.RESERVATION;
-
 			#if(UNITY_ANDROID)
 			{
+				//読み込み最大数。
+				int t_max_stream = 64;
+
+				//ストリームタイプ。
+				int t_stream_type = (int)StreamType.STREAM_MUSIC;
+
+				//0固定。
+				int t_src_quality = (int)SoundPoolConvertQuality.RESERVATION;
+
 				//新。
 				/*
 				AudioAttributes attr = new AudioAttributes.Builder()
@@ -125,14 +125,20 @@ namespace NAudio
 			}
 
 			if(t_item == null){
-				//1固定。
-				int t_priority = (int)LoadPriority.RESERVATION;
+
+				int t_sound_id;
 
 				//読み込み。
 				#if(UNITY_ANDROID)
-				int t_sound_id = this.java_soundpool.Call<int>("load",Application.persistentDataPath + "/" + a_name,t_priority);
+				{
+					//1固定。
+					int t_priority = (int)LoadPriority.RESERVATION;
+					int t_sound_id = this.java_soundpool.Call<int>("load",Application.persistentDataPath + "/" + a_name,t_priority);
+				}
 				#else
-				int t_sound_id = 0;
+				{
+					t_sound_id = 0;
+				}
 				#endif
 
 				//追加。
@@ -161,11 +167,10 @@ namespace NAudio
 			}
 
 			if(t_item != null){
-				int t_sound_id = t_item.sound_id;
-
 				//アンロード。
 				#if(UNITY_ANDROID)
 				{
+					int t_sound_id = t_item.sound_id;
 					bool t_ret = this.java_soundpool.Call<bool>("unload",t_sound_id);
 					if(t_ret == false){
 						Tool.LogError("SoundPool","unload : error : " + a_name);
