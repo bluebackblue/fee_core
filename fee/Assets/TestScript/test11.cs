@@ -45,10 +45,16 @@ public class test11 : main_base
 		*/
 		Wait,
 
-		/**
+		/** Start
 		*/
 		Start,
+
+		/** Now
+		*/
 		Now,
+
+		/** Fix
+		*/
 		Fix,
 	};
 
@@ -326,6 +332,7 @@ public class test11 : main_base
 				}else{
 					NAudio.Audio.GetInstance().LoadSe(this.pack_audioclip,SE_ID);
 				}
+
 				this.pack_audioclip = null;
 				this.pack_soundpool = null;
 				this.mode = Mode.Wait;

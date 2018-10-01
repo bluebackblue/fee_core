@@ -198,11 +198,13 @@ namespace NAudio
 		public void Update()
 		{
 			if(this.load_worklist.Count > 0){
+				//ロード。
 				if(this.load_worklist[0].LoadMain() == true){
 					this.load_worklist.RemoveAt(0);
 				}
 			}else if(this.unload_worklist.Count > 0){
-				if(this.unload_worklist[0].LoadMain() == true){
+				//アンロード。
+				if(this.unload_worklist[0].UnloadMain() == true){
 					this.unload_worklist.RemoveAt(0);
 				}
 			}

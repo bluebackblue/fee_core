@@ -40,7 +40,7 @@ namespace NAudio
 				this.sound_id = a_sound_id;
 
 				//reference_count
-				this.reference_count = 0;
+				this.reference_count = 1;
 			}
 		}
 
@@ -82,6 +82,7 @@ namespace NAudio
 			//list
 			this.list = new Dictionary<string,Item>();
 
+			//サウンドプールインスタンス。作成。
 			#if(UNITY_ANDROID)
 			{
 				//読み込み最大数。
@@ -141,6 +142,8 @@ namespace NAudio
 				}
 				#endif
 
+				Tool.Log("SoundPool","Load : " + a_name);
+
 				//追加。
 				this.list.Add(a_name,new Item(t_sound_id));
 			}
@@ -161,22 +164,24 @@ namespace NAudio
 						}
 					}
 				}
-
-				//リストから削除。
-				this.list.Remove(a_name);
 			}
 
 			if(t_item != null){
+
+				Tool.Log("SoundPool","UnLoad : " + a_name);
+
 				//アンロード。
 				#if(UNITY_ANDROID)
 				{
-					int t_sound_id = t_item.sound_id;
-					bool t_ret = this.java_soundpool.Call<bool>("unload",t_sound_id);
+					bool t_ret = this.java_soundpool.Call<bool>("unload",t_item.sound_id);
 					if(t_ret == false){
 						Tool.LogError("SoundPool","unload : error : " + a_name);
 					}
 				}
 				#endif
+
+				//リストから削除。
+				this.list.Remove(a_name);
 			}
 		}
 
