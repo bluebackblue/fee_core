@@ -135,6 +135,41 @@ namespace NUi
 			this.sprite.SetH(a_h);
 		}
 
+		/** 矩形。設定。
+		*/
+		public void SetWH(int a_w,int a_h)
+		{
+			this.sprite.SetWH(a_w,a_h);
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetX()
+		{
+			return this.sprite.GetX();
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetY()
+		{
+			return this.sprite.GetY();
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetW()
+		{
+			return this.sprite.GetW();
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetH()
+		{
+			return this.sprite.GetH();
+		}
+
 		/** 回転。設定。
 		*/
 		public void SetRotate(bool a_flag)

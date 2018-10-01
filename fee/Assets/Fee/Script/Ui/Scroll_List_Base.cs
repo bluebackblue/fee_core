@@ -125,7 +125,7 @@ namespace NUi
 		*/
 		private void InitItem(ITEM a_item,int a_index)
 		{
-			//クリック矩形。設定。
+			//クリップ矩形。設定。
 			a_item.SetClipRect(ref this.rect);
 
 			//アイテムの位置更新。スクロール方向ではない座標。

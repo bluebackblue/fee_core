@@ -71,7 +71,7 @@ namespace NUi
 		*/
 		public abstract void SetX(int a_x);
 
-		/** [NUi.ScrollItem_Base]クリック。矩形。
+		/** [NUi.ScrollItem_Base]クリップ矩形。設定。
 		*/
 		public abstract void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect);
 

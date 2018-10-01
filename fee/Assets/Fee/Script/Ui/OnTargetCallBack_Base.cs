@@ -20,7 +20,7 @@ namespace NUi
 	*/
 	public interface OnTargetCallBack_Base
 	{
-		/** ターゲット中。
+		/** [NUi.OnTargetCallBack_Base]ターゲット中。
 		*/
 		void OnTarget();
 	}

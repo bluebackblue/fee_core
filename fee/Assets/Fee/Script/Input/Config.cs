@@ -85,11 +85,11 @@ namespace NInput
 		*/
 		public static UnityEngine.Experimental.Input.Key KEY_SUB2 = UnityEngine.Experimental.Input.Key.LeftCtrl;
 
-		/** キー。左セレクト。
+		/** キー。左メニュー。
 		*/
 		public static UnityEngine.Experimental.Input.Key KEY_LEFT_MENU = UnityEngine.Experimental.Input.Key.Space;
 
-		/** キー。右セレクト。
+		/** キー。右メニュー。
 		*/
 		public static UnityEngine.Experimental.Input.Key KEY_RIGHT_MENU = UnityEngine.Experimental.Input.Key.Backspace;
 	}

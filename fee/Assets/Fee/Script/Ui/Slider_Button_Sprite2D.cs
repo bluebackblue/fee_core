@@ -58,7 +58,7 @@ namespace NUi
 			this.corner_size = a_corner_size;
 		}
 
-		/** クリック。設定。
+		/** クリップ。設定。
 		*/
 		public void SetClip(bool a_flag)
 		{
