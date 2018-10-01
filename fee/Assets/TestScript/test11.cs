@@ -29,6 +29,10 @@ public class test11 : main_base
 	*/
 	private const long ASSETBUNDLE_ID_BGM = 0x00000001;
 
+	/** ASSETBUNDLE_ID_SE
+	*/
+	private const long ASSETBUNDLE_ID_SE = 0x00000002;
+
 	/** SE_ID
 	*/
 	private const long SE_ID = 0x00000001;
@@ -66,7 +70,11 @@ public class test11 : main_base
 
 	/** ダウンロード。
 	*/
-	private NDownLoad.Item download_item;
+	private NDownLoad.Item download_item_se;
+
+	/** ダウンロード。
+	*/
+	private NDownLoad.Item download_item_bgm;
 
 	/** オーディオクリップパック。
 	*/
@@ -92,9 +100,21 @@ public class test11 : main_base
 	*/
 	private NUi.Button button_soundpool;
 
+	/** ボタン。
+	*/
+	private NUi.Button button_bgm;
+
 	/** スライダー。
 	*/
 	private NUi.Slider slider_master;
+
+	/** スライダー。
+	*/
+	private NUi.Slider slider_bgm;
+
+	/** slider_se
+	*/
+	private NUi.Slider slider_se;
 
 	/** Start
 	*/
@@ -150,7 +170,10 @@ public class test11 : main_base
 		this.soundpool_flag = false;
 
 		//ダウンロード。
-		this.download_item = null;
+		this.download_item_se = null;
+
+		//ダウンロード。
+		this.download_item_bgm = null;
 
 		//パック。
 		this.pack_audioclip = null;
@@ -163,39 +186,94 @@ public class test11 : main_base
 		this.status.SetRect(100,100,0,0);
 		this.status.SetText("-");
 
+		int t_xx = 0;
+
 		//ボタン。
 		this.button_cacheclear = new NUi.Button(this.deleter,null,0,Click_ClearAllCacheFile,-1);
 		this.button_cacheclear.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_cacheclear.SetRect(100 + 200 * 0,130,150,30);
+		this.button_cacheclear.SetRect(t_xx,130,170,30);
 		this.button_cacheclear.SetText("キャッシュクリア");
+
+		t_xx += 210;
 
 		//ボタン。
 		this.button_assetbundle = new NUi.Button(this.deleter,null,0,Click_AssetBundle,-1);
 		this.button_assetbundle.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_assetbundle.SetRect(100 + 210 * 1,130,200,30);
+		this.button_assetbundle.SetRect(t_xx,130,170,30);
 		this.button_assetbundle.SetText("AssetBundleロード");
+
+		t_xx += 210;
 
 		//ボタン。
 		this.button_soundpool = new NUi.Button(this.deleter,null,0,Click_SoundPool,-1);
 		this.button_soundpool.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_soundpool.SetRect(100 + 210 * 2,130,200,30);
+		this.button_soundpool.SetRect(t_xx,130,170,30);
 		this.button_soundpool.SetText("SoundPoolロード");
+
+		t_xx += 210;
+
+		//ボタン。
+		this.button_bgm = new NUi.Button(this.deleter,null,0,Click_Bgm,-1);
+		this.button_bgm.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_bgm.SetRect(t_xx,130,170,30);
+		this.button_bgm.SetText("ＢＧＭ");
+
+		int t_yy = 300;
 
 		//スライダー。
 		this.slider_master = new NUi.Slider(this.deleter,null,0,this.Change_Master,0);
-		this.slider_master.SetRect(100,300,400,40);
+		this.slider_master.SetRect(100,t_yy,400,40);
 		this.slider_master.SetValue(0.0f);
 		this.slider_master.SetButtonTexture(Resources.Load<Texture2D>("button"));
 		this.slider_master.SetButtonSize(10,80);
 		this.slider_master.SetButtonTextureCornerSize(2);
 		this.slider_master.SetBgTexture(Resources.Load<Texture2D>("slider"));
+		this.slider_master.SetValue(NAudio.Audio.GetInstance().GetMasterVolume());
+
+		t_yy += 60;
+
+		//スライダー。
+		this.slider_bgm = new NUi.Slider(this.deleter,null,0,this.Change_Bgm,0);
+		this.slider_bgm.SetRect(100,t_yy,400,40);
+		this.slider_bgm.SetValue(0.0f);
+		this.slider_bgm.SetButtonTexture(Resources.Load<Texture2D>("button"));
+		this.slider_bgm.SetButtonSize(10,80);
+		this.slider_bgm.SetButtonTextureCornerSize(2);
+		this.slider_bgm.SetBgTexture(Resources.Load<Texture2D>("slider"));
+		this.slider_bgm.SetValue(NAudio.Audio.GetInstance().GetBgmVolume());
+
+		t_yy += 60;
+
+		//スライダー。
+		this.slider_se = new NUi.Slider(this.deleter,null,0,this.Change_Se,0);
+		this.slider_se.SetRect(100,t_yy,400,40);
+		this.slider_se.SetValue(0.0f);
+		this.slider_se.SetButtonTexture(Resources.Load<Texture2D>("button"));
+		this.slider_se.SetButtonSize(10,80);
+		this.slider_se.SetButtonTextureCornerSize(2);
+		this.slider_se.SetBgTexture(Resources.Load<Texture2D>("slider"));
+		this.slider_se.SetValue(NAudio.Audio.GetInstance().GetSeVolume());
 	}
 
 	/** 変更。
 	*/
 	public void Change_Master(int a_index,float a_value)
 	{
-		Debug.Log(a_index.ToString() + " : " + a_value.ToString());
+		NAudio.Audio.GetInstance().SetMasterVolume(a_value);
+	}
+
+	/** 変更。
+	*/
+	public void Change_Bgm(int a_index,float a_value)
+	{
+		NAudio.Audio.GetInstance().SetBgmVolume(a_value);
+	}
+
+	/** 変更。
+	*/
+	public void Change_Se(int a_index,float a_value)
+	{
+		NAudio.Audio.GetInstance().SetSeVolume(a_value);
 	}
 
 	/** クリック。
@@ -226,6 +304,29 @@ public class test11 : main_base
 		}
 	}
 
+	/** クリック。
+	*/
+	public void Click_Bgm(int a_value)
+	{
+		if(this.download_item_bgm == null){
+			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
+	
+			#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
+			t_url += "StandaloneWindows/";
+			#elif(UNITY_WEBGL)
+			t_url += "WebGL/";
+			#elif(UNITY_ANDROID)
+			t_url += "Android/";
+			#elif(UNITY_IOS)
+			t_url += "iOS/";
+			#else
+			t_url += "StandaloneWindows/";
+			#endif
+
+			this.download_item_bgm = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
+		}
+	}
+
 	/** Update
 	*/
 	private void Update()
@@ -245,6 +346,30 @@ public class test11 : main_base
 		//イベントプレート。
 		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
 
+		//ＢＧＭ。
+		if(this.download_item_bgm != null){
+			if(this.download_item_bgm.IsBusy() == true){
+				//ダウンロード中。
+			}else{
+				if(this.download_item_bgm.GetResultDataType() == NDownLoad.DataType.AssetBundle){
+					//ダウンロード成功。アセットバンドル。
+					AssetBundle t_assetbundle = this.download_item_bgm.GetResultAssetBundle();
+					if(t_assetbundle != null){
+						GameObject t_prefab = t_assetbundle.LoadAsset<GameObject>("bgm");
+						if(t_prefab != null){
+							NAudio.Pack_AudioClip t_pack_audioclip = t_prefab.GetComponent<NAudio.Pack_AudioClip>();
+							if(t_pack_audioclip != null){
+								NAudio.Audio.GetInstance().LoadBgm(t_pack_audioclip);
+								NAudio.Audio.GetInstance().PlayBgm(0);
+							}
+						}
+					}
+				}
+				this.download_item_bgm = null;
+			}
+		}
+
+
 		switch(this.mode){
 		case Mode.Wait:
 			{
@@ -255,7 +380,7 @@ public class test11 : main_base
 
 				if(this.soundpool_flag == true){
 					string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/" + t_name + ".txt";
-					this.download_item = NDownLoad.DownLoad.GetInstance().RequestSoundPool(t_url,DATA_VERSION);
+					this.download_item_se = NDownLoad.DownLoad.GetInstance().RequestSoundPool(t_url,DATA_VERSION);
 				}else{
 					string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
 	
@@ -271,35 +396,34 @@ public class test11 : main_base
 					t_url += "StandaloneWindows/";
 					#endif
 
-					this.download_item = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "se",ASSETBUNDLE_ID_BGM,DATA_VERSION);
+					this.download_item_se = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "se",ASSETBUNDLE_ID_SE,DATA_VERSION);
 				}
 
 				this.mode = Mode.Now;
 			}break;
 		case Mode.Now:
 			{
-				if(this.download_item.IsBusy() == true){
+				if(this.download_item_se.IsBusy() == true){
 					//ダウンロード中。
-					this.status.SetText(this.download_item.GetResultProgress().ToString());
+					this.status.SetText(this.download_item_se.GetResultProgress().ToString());
 				}else{
-					if(this.download_item.GetResultDataType() == NDownLoad.DataType.SoundPool){
+					if(this.download_item_se.GetResultDataType() == NDownLoad.DataType.SoundPool){
 						//ダウンロード成功。サウンドプール。
 
-						this.pack_soundpool = this.download_item.GetResultSoundPool();
+						this.pack_soundpool = this.download_item_se.GetResultSoundPool();
 						if(this.pack_soundpool == null){
 							//不正なサウンドプールパック。
 							this.status.SetText("Error : " + this.mode.ToString());
-							this.download_item = null;
+							this.download_item_se = null;
 							this.mode = Mode.Wait;
 						}else{
-							this.download_item = null;
+							this.download_item_se = null;
 							this.mode = Mode.Fix;
 						}
-
-					}else if(this.download_item.GetResultDataType() == NDownLoad.DataType.AssetBundle){
+					}else if(this.download_item_se.GetResultDataType() == NDownLoad.DataType.AssetBundle){
 						//ダウンロード成功。アセットバンドル。
 
-						AssetBundle t_assetbundle = this.download_item.GetResultAssetBundle();
+						AssetBundle t_assetbundle = this.download_item_se.GetResultAssetBundle();
 						if(t_assetbundle != null){
 							GameObject t_prefab = t_assetbundle.LoadAsset<GameObject>("se");
 							if(t_prefab != null){
@@ -309,16 +433,16 @@ public class test11 : main_base
 						if(this.pack_audioclip == null){
 							//不正なオーディオクリップパック。
 							this.status.SetText("Error : " + this.mode.ToString());
-							this.download_item = null;
+							this.download_item_se = null;
 							this.mode = Mode.Wait;
 						}else{
-							this.download_item = null;
+							this.download_item_se = null;
 							this.mode = Mode.Fix;
 						}
 					}else{
 						//ダウンロード失敗。
-						this.status.SetText("Error : " + this.download_item.GetResultErrorString());
-						this.download_item = null;
+						this.status.SetText("Error : " + this.download_item_se.GetResultErrorString());
+						this.download_item_se = null;
 						this.mode = Mode.Wait;
 					}
 				}
