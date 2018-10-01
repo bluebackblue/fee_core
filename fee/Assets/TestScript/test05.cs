@@ -39,7 +39,8 @@ public class test05 : main_base
 
 	/** テキスト。
 	*/
-	private NRender2D.Text2D text_pad;
+	private NRender2D.Text2D text_pad_1;
+	private NRender2D.Text2D text_pad_2;
 
 	/** タッチビューＩＤ。
 	*/
@@ -158,18 +159,23 @@ public class test05 : main_base
 
 		//テキスト。
 		this.text_mouse = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.text_mouse.SetRect(10,10 + 50 * 0,0,0);
+		this.text_mouse.SetRect(10,100 + 50 * 0,0,0);
 		this.text_mouse.SetFontSize(17);
 
 		//テキスト。
 		this.text_key = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.text_key.SetRect(10,200 + 50 * 1,0,0);
+		this.text_key.SetRect(10,100 + 50 * 1,0,0);
 		this.text_key.SetFontSize(20);
 
 		//テキスト。
-		this.text_pad = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.text_pad.SetRect(10,200 + 50 * 2,0,0);
-		this.text_pad.SetFontSize(20);
+		this.text_pad_1 = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
+		this.text_pad_1.SetRect(10,100 + 50 * 2,0,0);
+		this.text_pad_1.SetFontSize(20);
+
+		//テキスト。
+		this.text_pad_2 = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
+		this.text_pad_2.SetRect(10,100 + 50 * 3,0,0);
+		this.text_pad_2.SetFontSize(20);
 
 		//touch_list
 		this.touch_list = NInput.Touch.CreateTouchList<TouchView>();
@@ -215,21 +221,21 @@ public class test05 : main_base
 			string t_text = "";
 
 			if(NInput.Mouse.GetInstance().left.on == true){
-				t_text += "[o]";
+				t_text += "l[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "l[ ]";
 			}
 
 			if(NInput.Mouse.GetInstance().right.on == true){
-				t_text += "[o]";
+				t_text += "r[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "r[ ]";
 			}
 
 			if(NInput.Mouse.GetInstance().middle.on == true){
-				t_text += "[o]";
+				t_text += "m[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "m[ ]";
 			}
 
 			t_text += "x = " + NInput.Mouse.GetInstance().pos.x.ToString() + " ";
@@ -244,51 +250,67 @@ public class test05 : main_base
 			string t_text = "";
 
 			if(NInput.Key.GetInstance().enter.on == true){
-				t_text += "[o]";
+				t_text += "enter[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "enter[ ]";
 			}
 
 			if(NInput.Key.GetInstance().escape.on == true){
-				t_text += "[o]";
+				t_text += "escape[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "escape[ ]";
 			}
 
 			if(NInput.Key.GetInstance().sub1.on == true){
-				t_text += "[o]";
+				t_text += "sub1[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "sub1[ ]";
 			}
 
 			if(NInput.Key.GetInstance().sub2.on == true){
-				t_text += "[o]";
+				t_text += "sub2[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "sub2[ ]";
 			}
 
+			t_text += " ";
+
 			if(NInput.Key.GetInstance().left.on == true){
-				t_text += "[o]";
+				t_text += "l[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "l[ ]";
 			}
 
 			if(NInput.Key.GetInstance().right.on == true){
-				t_text += "[o]";
+				t_text += "r[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "r[ ]";
 			}
 
 			if(NInput.Key.GetInstance().up.on == true){
-				t_text += "[o]";
+				t_text += "u[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "u[ ]";
 			}
 
 			if(NInput.Key.GetInstance().down.on == true){
-				t_text += "[o]";
+				t_text += "d[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "d[ ]";
+			}
+
+			t_text += " ";
+
+			if(NInput.Key.GetInstance().left_menu.on == true){
+				t_text += "left_menu[o]";
+			}else{
+				t_text += "left_menu[ ]";
+			}
+
+			if(NInput.Key.GetInstance().right_menu.on == true){
+				t_text += "right_menu[o]";
+			}else{
+				t_text += "right_menu[ ]";
 			}
 
 			this.text_key.SetText(t_text);
@@ -299,114 +321,120 @@ public class test05 : main_base
 			string t_text = "";
 
 			if(NInput.Pad.GetInstance().enter.on == true){
-				t_text += "[o]";
+				t_text += "enter[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "enter[ ]";
 			}
 
 			if(NInput.Pad.GetInstance().escape.on == true){
-				t_text += "[o]";
+				t_text += "escape[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "escape[ ]";
 			}
 
 			if(NInput.Pad.GetInstance().sub1.on == true){
-				t_text += "[o]";
+				t_text += "sub1[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "sub1[ ]";
 			}
 
 			if(NInput.Pad.GetInstance().sub2.on == true){
-				t_text += "[o]";
+				t_text += "sub2[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "sub2[ ]";
 			}
 
+			t_text += " ";
+
 			if(NInput.Pad.GetInstance().left.on == true){
-				t_text += "[o]";
+				t_text += "l[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "l[ ]";
 			}
 
 			if(NInput.Pad.GetInstance().right.on == true){
-				t_text += "[o]";
+				t_text += "r[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "r[ ]";
 			}
 
 			if(NInput.Pad.GetInstance().up.on == true){
-				t_text += "[o]";
+				t_text += "u[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "u[ ]";
 			}
 
 			if(NInput.Pad.GetInstance().down.on == true){
-				t_text += "[o]";
+				t_text += "d[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "d[ ]";
 			}
 
+			t_text += " ";
+
 			if(NInput.Pad.GetInstance().left_menu.on == true){
-				t_text += "[o]";
+				t_text += "left_menu[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "left_menu[ ]";
 			}
 
 			if(NInput.Pad.GetInstance().right_menu.on == true){
-				t_text += "[o]";
+				t_text += "right_menu[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "right_menu[ ]";
 			}
 
-			t_text += "\n";
+			this.text_pad_1.SetText(t_text);
+		}
+
+		{
+			string t_text = "";
 
 			if(NInput.Pad.GetInstance().left_stick_button.on == true){
-				t_text += "[o]";
+				t_text += "l_stick[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "l_stick[ ]";
 			}
 
 			if(NInput.Pad.GetInstance().right_stick_button.on == true){
-				t_text += "[o]";
+				t_text += "r_stick[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "r_stick[ ]";
 			}
 
-			t_text += "\n";
-
-			t_text += ((int)(NInput.Pad.GetInstance().left_stick.x * 100)).ToString() + " " + ((int)(NInput.Pad.GetInstance().left_stick.y * 100)).ToString() + " ";
-			t_text += ((int)(NInput.Pad.GetInstance().right_stick.x * 100)).ToString() + " " + ((int)(NInput.Pad.GetInstance().right_stick.y * 100)).ToString() + " ";
-			t_text += ((int)(NInput.Pad.GetInstance().left_trigger2_button.value * 100)).ToString() + " " + ((int)(NInput.Pad.GetInstance().right_trigger2_button.value * 100)).ToString() + " ";
-			
-			t_text += "\n";
-
 			if(NInput.Pad.GetInstance().left_trigger1_button.on == true){
-				t_text += "[o]";
+				t_text += "l_trigger1[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "l_trigger1[ ]";
 			}
 
 			if(NInput.Pad.GetInstance().right_trigger1_button.on == true){
-				t_text += "[o]";
+				t_text += "r_trigger1[o]";
 			}else{
-				t_text += "[ ]";
+				t_text += "r_trigger1[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().left_trigger2_button.on == true){
+				t_text += "l_trigger2[o]";
+			}else{
+				t_text += "l_trigger2[ ]";
+			}
+
+			if(NInput.Pad.GetInstance().right_trigger2_button.on == true){
+				t_text += "r_trigger2[o]";
+			}else{
+				t_text += "r_trigger2[ ]";
 			}
 
 			t_text += "\n";
 
-			if(NInput.Pad.GetInstance().left_trigger2_button.on == true){
-				t_text += "[o]";
-			}else{
-				t_text += "[ ]";
-			}
+			t_text += "l stick = " + ((int)(NInput.Pad.GetInstance().left_stick.x * 100)).ToString() + " " + ((int)(NInput.Pad.GetInstance().left_stick.y * 100)).ToString() + "\n";
 
-			if(NInput.Pad.GetInstance().right_trigger2_button.on == true){
-				t_text += "[o]";
-			}else{
-				t_text += "[ ]";
-			}
+			t_text += "r stick = " + ((int)(NInput.Pad.GetInstance().right_stick.x * 100)).ToString() + " " + ((int)(NInput.Pad.GetInstance().right_stick.y * 100)).ToString() + "\n";
 
-			this.text_pad.SetText(t_text);
+			t_text += "trigger2 = "+ ((int)(NInput.Pad.GetInstance().left_trigger2_button.value * 100)).ToString() + " " + ((int)(NInput.Pad.GetInstance().right_trigger2_button.value * 100)).ToString() + "\n";
+
+			this.text_pad_2.SetText(t_text);
 		}
 	}
 

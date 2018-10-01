@@ -133,7 +133,7 @@ namespace NAudio
 				{
 					//1固定。
 					int t_priority = (int)LoadPriority.RESERVATION;
-					int t_sound_id = this.java_soundpool.Call<int>("load",Application.persistentDataPath + "/" + a_name,t_priority);
+					t_sound_id = this.java_soundpool.Call<int>("load",Application.persistentDataPath + "/" + a_name,t_priority);
 				}
 				#else
 				{
