@@ -361,6 +361,67 @@ public class test11 : main_base
 		this.deleter.DeleteAll();
 	}
 
+	/** ファイルコピー。
+	*/
+	#if(UNITY_EDITOR)
+	private static void CopyFile(string a_filename,string a_path_from,string a_path_to)
+	{
+		byte[] t_binary = null;
+
+		{
+			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_path_from + "/" + a_filename);
+			t_binary = new byte[t_fileinfo.Length];
+
+			System.IO.FileStream t_filestream_read = null;
+
+			try{
+				//open
+				t_filestream_read = t_fileinfo.OpenRead();
+
+				//read
+				if(t_filestream_read != null){
+					t_filestream_read.Read(t_binary,0,t_binary.Length);
+				}
+			}catch(System.Exception){
+				t_binary = null;
+
+				Debug.Assert(false);
+			}
+
+			//close
+			if(t_filestream_read != null){
+				t_filestream_read.Close();
+				t_filestream_read = null;
+			}
+		}
+
+		if(t_binary != null){
+			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_path_to + "/" + a_filename);
+			System.IO.FileStream t_filestream_write = null;
+
+			try{
+				//open
+				t_filestream_write = t_fileinfo.OpenWrite();
+
+				//write
+				if(t_filestream_write != null){
+					t_filestream_write.Write(t_binary,0,t_binary.Length);
+				}
+			}catch(System.Exception){
+				Debug.Assert(false);
+			}
+
+			//close
+			if(t_filestream_write != null){
+				t_filestream_write.Close();
+				t_filestream_write = null;
+			}
+		}else{
+			Debug.Assert(false);
+		}
+	}
+	#endif
+
 	/** 作成。
 	*/
 	#if(UNITY_EDITOR)
@@ -383,6 +444,7 @@ public class test11 : main_base
 					}
 
 					//name
+					string t_asset_fullpath = "";
 					string t_audio_name = "";
 					if(t_pack_audioclip.audioclip_list[ii] != null){
 						string t_asset_path = UnityEditor.AssetDatabase.GetAssetPath(t_pack_audioclip.audioclip_list[ii]);
@@ -391,6 +453,7 @@ public class test11 : main_base
 							if(t_name != null){
 								t_audio_name = t_name;
 							}
+							t_asset_fullpath = Application.dataPath + "/" + System.IO.Path.GetDirectoryName(t_asset_path).Substring(7);
 						}
 					}
 
@@ -399,40 +462,45 @@ public class test11 : main_base
 
 					//name
 					t_pack_soundpool.volume_list.Add(t_audio_volume);
+
+					//Rawフォルダにコピー。
+					if(t_asset_fullpath != null){
+						CopyFile(t_audio_name,t_asset_fullpath,Application.dataPath + "/AssetBundle/Raw");
+					}
 				}
 			}
 
 			t_pack_soundpool.data_hash = t_pack_soundpool.GetHashCode();
 		}
 
-		//保存。
+		//Rawフォルダに保存。
 		{
 			NJsonItem.JsonItem t_jsonitem = NJsonItem.ObjectToJson.Convert(t_pack_soundpool);
 			string t_json_string = t_jsonitem.ConvertJsonString();
 
-			string t_filename = Application.dataPath + "/AssetBundle/Raw/" + t_assetbundle_name + ".txt";
-			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(t_filename);
+			System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(Application.dataPath + "/AssetBundle/Raw/" + t_assetbundle_name + ".txt");
 			System.IO.StreamWriter t_stream_writer = null;
 
-			//open
 			try{
+				//open
 				t_stream_writer = t_fileinfo.CreateText();
-			}catch(System.Exception){
-			}
 
-			//write
-			if(t_stream_writer != null){
-				t_stream_writer.Write(t_json_string);
-				t_stream_writer.Flush();
+				//write
+				if(t_stream_writer != null){
+					t_stream_writer.Write(t_json_string);
+					t_stream_writer.Flush();
+				}
+			}catch(System.Exception){
 			}
 
 			//close
 			if(t_stream_writer != null){
 				t_stream_writer.Close();
+				t_stream_writer = null;
 			}
-
-			UnityEditor.AssetDatabase.Refresh();
 		}
+
+		UnityEditor.AssetDatabase.Refresh();
 	}
 	#endif
 

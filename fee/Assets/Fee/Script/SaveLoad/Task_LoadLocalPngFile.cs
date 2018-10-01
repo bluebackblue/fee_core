@@ -45,7 +45,6 @@ namespace NSaveLoad
 						await t_filestream.FlushAsync(a_cancel);
 					}else{
 						t_filestream.Read(t_ret,0,t_ret.Length);
-						t_filestream.Flush();
 					}
 				}			
 			}catch(System.Exception /*t_exception*/){
