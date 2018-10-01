@@ -631,13 +631,12 @@ public class test11 : main_base
 	/** 作成。
 	*/
 	#if(UNITY_EDITOR)
-	[UnityEditor.MenuItem("Test/test11/MakeAssetBundle/All")]
-	private static void MakeAssetBundle_All()
+	[UnityEditor.MenuItem("Test/test11/MakeAssetBundle/SWA")]
+	private static void MakeAssetBundle_SWA()
 	{
 		MakeAssetBundle_StandaloneWindows();
 		MakeAssetBundle_WebGL();
 		MakeAssetBundle_Android();
-		MakeAssetBundle_iOS();
 	}
 	#endif
 
