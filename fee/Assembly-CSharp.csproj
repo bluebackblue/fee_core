@@ -225,6 +225,7 @@
     <Compile Include="Assets\Fee\Script\Ui\Slider_Base.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Slider_Bg_Sprite2D.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Slider_Button_Sprite2D.cs" />
+    <Compile Include="Assets\Fee\Script\Ui\Slider_Value_Sprite2D.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Ui.cs" />
     <Compile Include="Assets\TestScript\main.cs" />

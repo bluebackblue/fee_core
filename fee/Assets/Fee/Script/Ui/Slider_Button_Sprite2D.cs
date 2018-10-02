@@ -32,6 +32,10 @@ namespace NUi
 		*/
 		private NRender2D.Rect2D_R<int> clip_rect;
 
+		/** lock_flag
+		*/
+		private bool lock_flag;
+
 		/** constructor。
 		*/
 		public Slider_Button_Sprite2D(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
@@ -47,8 +51,18 @@ namespace NUi
 			//clip_rect
 			this.clip_rect.Set(0,0,0,0);
 
+			//lock_flag
+			this.lock_flag = false;
+
 			//マテリアル設定。
 			this.SetMaterialType(NRender2D.Config.MaterialType.Slice9);
+		}
+
+		/** ロックフラグ。設定。
+		*/
+		public void SetLock(bool a_flag)
+		{
+			this.lock_flag = a_flag;
 		}
 
 		/** コーナーサイズ。設定。
@@ -182,25 +196,10 @@ namespace NUi
 				float t_texture_x = 0.0f;
 				float t_texture_y = 0.0f;
 
-				/*
-				if(this.mode == Button_Mode.Normal){
-					//通常。
-					t_texture_x = 0.0f;
-					t_texture_y = 0.0f;
-				}else if(this.mode == Button_Mode.On){
-					//オン。
-					t_texture_x = 0.5f;
-					t_texture_y = 0.0f;
-				}else if(this.mode == Button_Mode.Down){
-					//ダウン。
-					t_texture_x = 0.0f;
-					t_texture_y = 0.5f;
-				}else if(this.mode == Button_Mode.Lock){
-					//ロック。
+				if(this.lock_flag == true){
 					t_texture_x = 0.5f;
 					t_texture_y = 0.5f;
 				}
-				*/
 
 				if(a_material.GetFloat("texture_x") != t_texture_x){
 					a_material.SetFloat("texture_x",t_texture_x);

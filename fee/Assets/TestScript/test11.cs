@@ -227,8 +227,7 @@ public class test11 : main_base
 		this.slider_master.SetButtonTexture(Resources.Load<Texture2D>("button"));
 		this.slider_master.SetButtonSize(10,80);
 		this.slider_master.SetButtonTextureCornerSize(2);
-		this.slider_master.SetBgTexture(Resources.Load<Texture2D>("slider"));
-		this.slider_master.SetValue(NAudio.Audio.GetInstance().GetMasterVolume());
+		this.slider_master.SetTexture(Resources.Load<Texture2D>("slider"));
 
 		t_yy += 60;
 
@@ -239,8 +238,7 @@ public class test11 : main_base
 		this.slider_bgm.SetButtonTexture(Resources.Load<Texture2D>("button"));
 		this.slider_bgm.SetButtonSize(10,80);
 		this.slider_bgm.SetButtonTextureCornerSize(2);
-		this.slider_bgm.SetBgTexture(Resources.Load<Texture2D>("slider"));
-		this.slider_bgm.SetValue(NAudio.Audio.GetInstance().GetBgmVolume());
+		this.slider_bgm.SetTexture(Resources.Load<Texture2D>("slider"));
 
 		t_yy += 60;
 
@@ -251,7 +249,11 @@ public class test11 : main_base
 		this.slider_se.SetButtonTexture(Resources.Load<Texture2D>("button"));
 		this.slider_se.SetButtonSize(10,80);
 		this.slider_se.SetButtonTextureCornerSize(2);
-		this.slider_se.SetBgTexture(Resources.Load<Texture2D>("slider"));
+		this.slider_se.SetTexture(Resources.Load<Texture2D>("slider"));
+
+		//値設定。
+		this.slider_master.SetValue(NAudio.Audio.GetInstance().GetMasterVolume());
+		this.slider_bgm.SetValue(NAudio.Audio.GetInstance().GetBgmVolume());
 		this.slider_se.SetValue(NAudio.Audio.GetInstance().GetSeVolume());
 	}
 
@@ -260,6 +262,14 @@ public class test11 : main_base
 	public void Change_Master(int a_index,float a_value)
 	{
 		NAudio.Audio.GetInstance().SetMasterVolume(a_value);
+
+		if(a_value == 0.0f){
+			this.slider_bgm.SetLock(true);
+			this.slider_se.SetLock(true);
+		}else{
+			this.slider_bgm.SetLock(false);
+			this.slider_se.SetLock(false);
+		}
 	}
 
 	/** 変更。

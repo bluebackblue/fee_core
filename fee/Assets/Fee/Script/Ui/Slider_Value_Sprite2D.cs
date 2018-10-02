@@ -16,9 +16,9 @@ using UnityEngine;
 */
 namespace NUi
 {
-	/** Slider_Bg_Sprite2D
+	/** Slider_Value_Sprite2D
 	*/
-	public class Slider_Bg_Sprite2D : NRender2D.Sprite2D
+	public class Slider_Value_Sprite2D : NRender2D.Sprite2D
 	{
 		/** is_clip
 		*/
@@ -38,7 +38,7 @@ namespace NUi
 
 		/** constructor。
 		*/
-		public Slider_Bg_Sprite2D(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
+		public Slider_Value_Sprite2D(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
 			:
 			base(a_deleter,a_state,a_drawpriority)
 		{
@@ -193,7 +193,7 @@ namespace NUi
 
 			{
 				float t_texture_x = 0.0f;
-				float t_texture_y = 0.0f;
+				float t_texture_y = 0.5f;
 
 				if(this.lock_flag == true){
 					t_texture_x = 0.5f;

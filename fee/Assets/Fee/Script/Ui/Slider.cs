@@ -26,15 +26,11 @@ namespace NUi
 
 		/** sprite
 		*/
-		private NUi.ClipSprite sprite_value;
+		private NUi.Slider_Value_Sprite2D sprite_value;
 
 		/** button_sprite
 		*/
 		private NUi.Slider_Button_Sprite2D button_sprite;
-
-		/** button_size
-		*/
-		private NRender2D.Size2D<int> button_size;		
 
 		/** constructor
 		*/
@@ -46,29 +42,25 @@ namespace NUi
 			this.bg_sprite = new NUi.Slider_Bg_Sprite2D(this.deleter,null,a_drawpriority + 0);
 			this.bg_sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 			this.bg_sprite.SetTexture(Texture2D.whiteTexture);
-			this.bg_sprite.SetColor(0.0f,0.0f,0.0f,1.0f);
 
 			//sprite_value
-			this.sprite_value = new ClipSprite(this.deleter,null,a_drawpriority + 1);
+			this.sprite_value = new NUi.Slider_Value_Sprite2D(this.deleter,null,a_drawpriority + 1);
 			this.sprite_value.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 			this.sprite_value.SetTexture(Texture2D.whiteTexture);
-			this.sprite_value.SetColor(0.5f,1.0f,0.5f,1.0f);
 
 			//button_sprite
 			this.button_sprite = new Slider_Button_Sprite2D(this.deleter,null,a_drawpriority + 2);
 			this.button_sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 			this.button_sprite.SetTexture(Texture2D.whiteTexture);
-			this.button_sprite.SetColor(1.0f,1.0f,1.0f,1.0f);
-
-			//button_size
-			this.button_size.Set(0,0);
 		}
 
-		/** [Slider_Base]コールバック。値変更。
+		/** [Slider_Base]コールバック。ロックフラグ変更。
 		*/
-		protected override void OnChangeValue()
+		protected override void OnChangeLockFlag()
 		{
-			this.UpdateView();
+			this.bg_sprite.SetLock(this.lock_flag);
+			this.sprite_value.SetLock(this.lock_flag);
+			this.button_sprite.SetLock(this.lock_flag);
 		}
 
 		/** [Slider_Base]コールバック。矩形変更。
@@ -119,21 +111,23 @@ namespace NUi
 
 			this.bg_sprite.SetRect(ref this.rect);
 			this.sprite_value.SetRect(this.rect.x,this.rect.y,t_value_w,this.rect.h);
+			this.button_sprite.SetRect(this.eventplate_button.GetX(),this.eventplate_button.GetY(),this.eventplate_button.GetW(),this.eventplate_button.GetH());
+		}
 
-			{
-				int t_w = this.button_size.w;
-				int t_h = this.button_size.h;
+		/** テクスチャ。設定。
+		*/
+		public void SetTexture(Texture2D a_texture)
+		{
+			this.bg_sprite.SetTexture(a_texture);
+			this.sprite_value.SetTexture(a_texture);
+		}
 
-				if(t_w <= 0){
-					t_w = this.rect.h;
-				}
-
-				if(t_h <= 0){
-					t_h = this.rect.h;
-				}
-
-				this.button_sprite.SetRect(this.rect.x + t_value_w - t_w / 2,this.rect.y + (this.rect.h - t_h) / 2,t_w,t_h);
-			}
+		/**　ボタンテクスチャーコーナーサイズ。設定。
+		*/
+		public void SetTextureCornerSize(int a_corner_size)
+		{
+			this.bg_sprite.SetCornerSize(a_corner_size);
+			this.sprite_value.SetCornerSize(a_corner_size);
 		}
 
 		/** ボタンテクスチャ。設定。
@@ -143,54 +137,12 @@ namespace NUi
 			this.button_sprite.SetTexture(a_texture);
 		}
 
-		/** ボタンサイズ。設定。
-		*/
-		public void SetButtonSize(int a_w,int a_h)
-		{
-			this.button_size.Set(a_w,a_h);
-
-			this.UpdateView();
-		}
-
 		/**　ボタンテクスチャーコーナーサイズ。設定。
 		*/
 		public void SetButtonTextureCornerSize(int a_corner_size)
 		{
 			this.button_sprite.SetCornerSize(a_corner_size);
 		}
-
-		/** 背景テクスチャ。設定。
-		*/
-		public void SetBgTexture(Texture2D a_texture)
-		{
-			this.bg_sprite.SetTexture(a_texture);
-		}
-
-		/**　ボタンテクスチャーコーナーサイズ。設定。
-		*/
-		public void SetBgTextureCornerSize(int a_corner_size)
-		{
-			this.bg_sprite.SetCornerSize(a_corner_size);
-		}
-
-
-		/** 背景テクスチャ。設定。
-		*/
-		/*
-		public void SetBgTexture(Texture2D a_texture)
-		{
-			this.sprite_bg.SetTexture(a_texture);
-		}
-		*/
-
-		/** 値テクスチャ。設定。
-		*/
-		/*
-		public void SetValueTexture(Texture2D a_texture)
-		{
-			this.sprite_value.SetTexture(a_texture);
-		}
-		*/
 	}
 }
 
