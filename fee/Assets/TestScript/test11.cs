@@ -92,9 +92,9 @@ public class test11 : main_base
 	*/
 	private NRender2D.Text2D status_2;
 
-	/** ボタン。キャッシュクリア。
+	/** ボタン。アンロード。
 	*/
-	private NUi.Button button_cacheclear;
+	private NUi.Button button_unload;
 
 	/** ボタン。
 	*/
@@ -198,10 +198,10 @@ public class test11 : main_base
 		int t_xx = 0;
 
 		//ボタン。
-		this.button_cacheclear = new NUi.Button(this.deleter,null,0,Click_ClearAllCacheFile,-1);
-		this.button_cacheclear.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_cacheclear.SetRect(t_xx,130,170,30);
-		this.button_cacheclear.SetText("キャッシュクリア");
+		this.button_unload = new NUi.Button(this.deleter,null,0,Click_Unload,-1);
+		this.button_unload.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_unload.SetRect(t_xx,130,170,30);
+		this.button_unload.SetText("アンロード");
 
 		t_xx += 210;
 
@@ -297,10 +297,13 @@ public class test11 : main_base
 
 	/** クリック。
 	*/
-	public void Click_ClearAllCacheFile(int a_value)
+	public void Click_Unload(int a_value)
 	{
-		//すべてのキャッシュファイル削除。
-		NDownLoad.AssetBundleList.ClearAllCacheFile();
+		//ＳＥのアンロード。
+		NAudio.Audio.GetInstance().UnLoadSe(SE_ID);
+
+		//アセットバンドルのアンロード。
+		NDownLoad.DownLoad.GetInstance().GetAssetBundleList().UnloadAssetBundle(ASSETBUNDLE_ID_SE);
 	}
 
 	/** クリック。

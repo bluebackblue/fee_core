@@ -84,25 +84,6 @@ namespace NDownLoad
 				this.UnloadAssetBundle(t_keylist[ii]);
 			}
 		}
-
-		/** メモリ中のすべてのアセットバンドルをアンロード。
-		*/
-		public static void UnloadAllAssetBundleFromMemory()
-		{
-			//アセットバンドル。全破棄。
-			AssetBundle.UnloadAllAssetBundles(false);
-		}
-
-		/** すべてのキャッシュファイル削除。
-		*/
-		public static void ClearAllCacheFile()
-		{
-			AssetBundleList.UnloadAllAssetBundleFromMemory();
-
-			bool t_ret = UnityEngine.Caching.ClearCache();
-			Tool.Log("NDownLoad.AssetBundleList","UnityEngine.Caching.ClearCache() : " +  t_ret.ToString());
-		}
-
 	}
 }
 
