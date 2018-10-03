@@ -31,6 +31,13 @@ namespace NDownLoad
 			this.list = new Dictionary<long,AssetBundle>();
 		}
 
+		/** リスト数。
+		*/
+		public int GetCount()
+		{
+			return this.list.Count;
+		}
+
 		/** アセットバンドル。登録。
 		*/
 		public void Regist(long a_assetbundle_id,AssetBundle a_assetbundle)
@@ -90,6 +97,8 @@ namespace NDownLoad
 		*/
 		public static void ClearAllCacheFile()
 		{
+			AssetBundleList.UnloadAllAssetBundleFromMemory();
+
 			bool t_ret = UnityEngine.Caching.ClearCache();
 			Tool.Log("NDownLoad.AssetBundleList","UnityEngine.Caching.ClearCache() : " +  t_ret.ToString());
 		}

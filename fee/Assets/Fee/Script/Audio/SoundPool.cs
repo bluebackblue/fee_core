@@ -75,6 +75,17 @@ namespace NAudio
 			RESERVATION = 0,
 		};
 
+		private enum UsageType
+		{
+			USAGE_MEDIA = 1,
+			USAGE_GAME = 14,
+		};
+
+		private enum ContentType
+		{
+			CONTENT_TYPE_MUSIC = 2,
+		};
+
 		/** constructor
 		*/
 		public SoundPool()
@@ -85,32 +96,80 @@ namespace NAudio
 			//サウンドプールインスタンス。作成。
 			#if(UNITY_ANDROID)
 			{
+				this.java_soundpool = null;
+
 				//読み込み最大数。
 				int t_max_stream = 64;
 
-				//ストリームタイプ。
-				int t_stream_type = (int)StreamType.STREAM_MUSIC;
+				#if(true)
+				{
+					//UsageType
+					int t_usage_type = (int)UsageType.USAGE_GAME;
 
-				//0固定。
-				int t_src_quality = (int)SoundPoolConvertQuality.RESERVATION;
+					//ContentType
+					int t_content_type = (int)ContentType.CONTENT_TYPE_MUSIC;
 
-				//新。
-				/*
-				AudioAttributes attr = new AudioAttributes.Builder()
-					.setUsage(AudioAttributes.USAGE_MEDIA)
-					.setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-					.build();
+					try{
+						AndroidJavaObject t_attribute = null;
 
-				SoundPool pool = new SoundPool.Builder()
-					.setAudioAttributes(attr)
-					.setMaxStreams(SOUND_POOL_MAX)
-					.build();
-				*/
+						{
+							using(AndroidJavaObject t_jave_attribute_builder = new AndroidJavaObject("android.media.AudioAttributes$Builder")){
+								if(t_jave_attribute_builder != null){
+									t_jave_attribute_builder.Call<AndroidJavaObject>("setUsage",t_usage_type);
+									t_jave_attribute_builder.Call<AndroidJavaObject>("setContentType",t_content_type);
 
-				//旧。
-				this.java_soundpool = new AndroidJavaObject("android.media.SoundPool",t_max_stream,t_stream_type,t_src_quality);
+									t_attribute = t_jave_attribute_builder.Call<AndroidJavaObject>("build");
+
+									t_jave_attribute_builder.Dispose();
+								}else{
+									Tool.LogError("SoundPool","android.media.AudioAttributes$Builder == null");
+								}
+							}
+						}
+
+						if(t_attribute != null){
+							using(AndroidJavaObject t_java_soundpool_builder = new AndroidJavaObject("android.media.SoundPool$Builder")){
+								if(t_java_soundpool_builder != null){
+									t_java_soundpool_builder.Call<AndroidJavaObject>("setAudioAttributes",t_attribute);
+									t_java_soundpool_builder.Call<AndroidJavaObject>("setMaxStreams",t_max_stream);
+
+									this.java_soundpool = t_java_soundpool_builder.Call<AndroidJavaObject>("build");
+
+								}else{
+									Tool.LogError("SoundPool","android.media.SoundPool$Builder == null");
+								}
+							}
+						}else{
+							Tool.LogError("SoundPool","android.media.AudioAttributes == null");
+						}
+					}catch(System.Exception t_exception){
+						Tool.LogError(t_exception);
+					}
+
+					if(this.java_soundpool == null){
+						Tool.LogError("SoundPool","android.media.SoundPool == null");
+					}
+				}
+				#else
+				{
+					//ストリームタイプ。
+					int t_stream_type = (int)StreamType.STREAM_MUSIC;
+
+					//0固定。
+					int t_src_quality = (int)SoundPoolConvertQuality.RESERVATION;
+
+					this.java_soundpool = new AndroidJavaObject("android.media.SoundPool",t_max_stream,t_stream_type,t_src_quality);
+				}
+				#endif
 			}
 			#endif
+		}
+
+		/** リスト数。
+		*/
+		public int GetCount()
+		{
+			return this.list.Count;
 		}
 
 		/** ロード。
@@ -127,18 +186,18 @@ namespace NAudio
 
 			if(t_item == null){
 
-				int t_sound_id;
+				int t_sound_id = 0;
 
 				//読み込み。
 				#if(UNITY_ANDROID)
-				{
+				try{
 					//1固定。
 					int t_priority = (int)LoadPriority.RESERVATION;
-					t_sound_id = this.java_soundpool.Call<int>("load",Application.persistentDataPath + "/" + a_name,t_priority);
-				}
-				#else
-				{
-					t_sound_id = 0;
+					if(this.java_soundpool != null){
+						t_sound_id = this.java_soundpool.Call<int>("load",Application.persistentDataPath + "/" + a_name,t_priority);
+					}
+				}catch(System.Exception t_exception){
+					Tool.LogError(t_exception);
 				}
 				#endif
 
@@ -172,11 +231,18 @@ namespace NAudio
 
 				//アンロード。
 				#if(UNITY_ANDROID)
-				{
-					bool t_ret = this.java_soundpool.Call<bool>("unload",t_item.sound_id);
+				try{
+					bool t_ret = false;
+
+					if(this.java_soundpool != null){
+						t_ret = this.java_soundpool.Call<bool>("unload",t_item.sound_id);
+					}
+
 					if(t_ret == false){
 						Tool.LogError("SoundPool","unload : error : " + a_name);
 					}
+				}catch(System.Exception t_exception){
+					Tool.LogError(t_exception);
 				}
 				#endif
 
@@ -211,9 +277,18 @@ namespace NAudio
 				//ピッチ。
 				float t_pitch = 1.0f;
 
-				int t_ret = this.java_soundpool.Call<int>("play",t_sound_id,t_left_volume,t_right_volume,t_priority,t_loop,t_pitch);
-				if(t_ret == 0){
-					Tool.LogError("SoundPool","play : error : " + a_name);
+				try{
+					int t_ret = 0;
+
+					if(this.java_soundpool != null){
+						t_ret = this.java_soundpool.Call<int>("play",t_sound_id,t_left_volume,t_right_volume,t_priority,t_loop,t_pitch);
+					}
+
+					if(t_ret == 0){
+						Tool.LogError("SoundPool","play : error : " + a_name);
+					}
+				}catch(System.Exception t_exception){
+					Tool.LogError(t_exception);
 				}
 			}
 			#endif
@@ -238,10 +313,14 @@ namespace NAudio
 
 			//サウンドプールインスタンス。解放。
 			#if(UNITY_ANDROID)
-			if(this.java_soundpool != null){
-				this.java_soundpool.Call("release");
-				this.java_soundpool.Dispose();
-				this.java_soundpool = null;
+			try{
+				if(this.java_soundpool != null){
+					this.java_soundpool.Call("release");
+					this.java_soundpool.Dispose();
+					this.java_soundpool = null;
+				}
+			}catch(System.Exception t_exception){
+				Tool.LogError(t_exception);
 			}
 			#endif
 		}

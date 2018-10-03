@@ -160,6 +160,13 @@ namespace NAudio
 			return this.soundpool;
 		}
 
+		/** サウンドプール数。取得。
+		*/
+		public int GetSoundPoolCount()
+		{
+			return this.soundpool.GetCount();
+		}
+
 		/** マスターボリューム。設定。
 		*/
 		public void SetMasterVolume(float a_volume)

@@ -25,32 +25,49 @@ public class test02 : main_base
 	*/
 	private class SaveData
 	{
+		/** セーブから除外。
+		*/
 		[NJsonItem.Ignore]
 		public int ignore;
 
+		/** SubSubData
+		*/
 		public class SubSubData
 		{
 			public int a;
 		}
+
+		/** SubData
+		*/
 		public class SubData
 		{
 			public int a;
 			public SubSubData subsub;
 		}
+
+		/** MainData
+		*/
 		public struct MainData
 		{
 			public int a;
 			public SubData sub;
 		}
-		public MainData maindata;
 
+		/** Item
+		*/
 		public class Item
 		{
 			public SubSubData subsub;
+
+			/** constructor
+			*/
 			public Item()
 			{
 				this.subsub = null;
 			}
+
+			/** constructor
+			*/
 			public Item(int a_a)
 			{
 				this.subsub = new SubSubData();
@@ -58,7 +75,16 @@ public class test02 : main_base
 			}
 		}
 
+		/** maindata
+		*/
+		public MainData maindata;
+
+		/** data_dictionary
+		*/
 		public Dictionary<string,Item> data_dictionary;
+
+		/** data_list
+		*/
 		public List<Item> data_list;
 	}
 
@@ -217,7 +243,6 @@ public class test02 : main_base
 		this.savedata.data_list.Add(new SaveData.Item(Random.Range(0,9999)));
 
 		this.SetStatus("Random",this.savedata);
-
 	}
 
 	/** ステータス表示。

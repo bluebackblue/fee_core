@@ -51,6 +51,10 @@ public class test15 : main_base
 	*/
 	private NRender2D.InputField2D inputfield;
 
+	/** slider
+	*/
+	private NUi.Slider slider;
+
 	/** Start
 	*/
 	private void Start()
@@ -161,6 +165,20 @@ public class test15 : main_base
 			this.inputfield.SetRect(t_x,t_y,t_w,t_h);
 		}
 
+		//slider
+		{
+			int t_w = 300;
+			int t_h = 20;
+			int t_x = (NRender2D.Render2D.VIRTUAL_W - t_w) /2;
+			int t_y = 350;
+
+			this.slider = new NUi.Slider(this.deleter,null,t_drawpriority + 2,Change,0);
+			this.slider.SetRect(t_x,t_y,t_w,t_h);
+			this.slider.SetTexture(Resources.Load<Texture2D>("slider"));
+			this.slider.SetButtonTexture(Resources.Load<Texture2D>("button"));
+			this.slider.SetButtonSize(0,30);
+		}
+
 		//is_clip
 		{
 			this.clipsprite.SetClip(this.is_clip);
@@ -168,6 +186,7 @@ public class test15 : main_base
 			this.button.SetClip(this.is_clip);
 			this.checkbutton.SetClip(this.is_clip);
 			this.inputfield.SetClip(this.is_clip);
+			this.slider.SetClip(this.is_clip);
 		}
 	}
 
@@ -195,6 +214,7 @@ public class test15 : main_base
 			this.button.SetClip(this.is_clip);
 			this.checkbutton.SetClip(this.is_clip);
 			this.inputfield.SetClip(this.is_clip);
+			this.slider.SetClip(this.is_clip);
 		}
 
 		if(NInput.Key.GetInstance().escape.down == true){
@@ -215,21 +235,29 @@ public class test15 : main_base
 			this.button.SetClipRect(ref t_cliprect);
 			this.checkbutton.SetClipRect(ref t_cliprect);
 			this.inputfield.SetClipRect(ref t_cliprect);
+			this.slider.SetClipRect(ref t_cliprect);
 		}
 	}
 
 	/** クリック。
 	*/
-	public void Click(int a_value)
+	public void Click(int a_index)
 	{
-		Debug.Log("Click : " + a_value.ToString());
+		Debug.Log("Click : " + a_index.ToString());
 	}
 
 	/** クリック。
 	*/
-	public void Click(int a_value,bool a_flag)
+	public void Click(int a_index,bool a_flag)
 	{
-		Debug.Log("Click : " + a_value.ToString() + " : " + a_flag.ToString());
+		Debug.Log("Click : " + a_index.ToString() + " : " + a_flag.ToString());
+	}
+
+	/** クリック。
+	*/
+	public void Change(int a_index,float a_value)
+	{
+		Debug.Log("Change : " + a_index.ToString() + " : " + a_value.ToString());
 	}
 
 	/** 削除前。

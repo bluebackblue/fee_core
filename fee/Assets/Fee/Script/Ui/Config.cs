@@ -30,15 +30,15 @@ namespace NUi
 
 		/** デフォルト。コーナーサイズ。
 		*/
-		public static int DEFAULT_BUTTON_CORNER_SIZE = 20;
+		public static int DEFAULT_BUTTON_CORNER_SIZE = 10;
 
 		/** デフォルト。コーナーサイズ。
 		*/
-		public static int DEFAULT_SLIDER_BG_CORNER_SIZE = 20;
+		public static int DEFAULT_SLIDER_BG_CORNER_SIZE = 10;
 
 		/** デフォルト。コーナーサイズ。
 		*/
-		public static int DEFAULT_SLIDER_BUTTON_CORNER_SIZE = 20;
+		public static int DEFAULT_SLIDER_BUTTON_CORNER_SIZE = 10;
 	}
 }
 

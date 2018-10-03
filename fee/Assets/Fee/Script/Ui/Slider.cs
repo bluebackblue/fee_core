@@ -76,6 +76,7 @@ namespace NUi
 		{
 			this.bg_sprite.SetClip(this.clip_flag);
 			this.sprite_value.SetClip(this.clip_flag);
+			this.button_sprite.SetClip(this.clip_flag);
 		}
 
 		/** [Slider_Base]コールバック。クリップ矩形変更。
@@ -84,6 +85,7 @@ namespace NUi
 		{
 			this.bg_sprite.SetClipRect(ref this.clip_rect);
 			this.sprite_value.SetClipRect(ref this.clip_rect);
+			this.button_sprite.SetClipRect(ref this.clip_rect);
 		}
 
 		/** [Slider_Base]コールバック。表示フラグ変更。
@@ -92,6 +94,7 @@ namespace NUi
 		{
 			this.bg_sprite.SetVisible(this.visible_flag);
 			this.sprite_value.SetVisible(this.visible_flag);
+			this.button_sprite.SetVisible(this.visible_flag);
 		}
 
 		/** [Slider_Base]コールバック。描画プライオリティ変更。

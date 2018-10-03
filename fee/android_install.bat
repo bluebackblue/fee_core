@@ -9,5 +9,5 @@ CD %HOME%
 %ANDROID_ADB% devices
 @PAUSE
 
-%ANDROID_ADB% install -r -d fee.apk
+%ANDROID_ADB% install fee.apk
 @PAUSE

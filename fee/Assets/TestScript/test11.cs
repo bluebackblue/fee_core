@@ -88,6 +88,10 @@ public class test11 : main_base
 	*/
 	private NRender2D.Text2D status;
 
+	/** ステータス。
+	*/
+	private NRender2D.Text2D status_2;
+
 	/** ボタン。キャッシュクリア。
 	*/
 	private NUi.Button button_cacheclear;
@@ -183,8 +187,13 @@ public class test11 : main_base
 
 		//ステータス。
 		this.status = new NRender2D.Text2D(this.deleter,null,0);
-		this.status.SetRect(100,100,0,0);
+		this.status.SetRect(100,50,0,0);
 		this.status.SetText("-");
+
+		//ステータス。
+		this.status_2 = new NRender2D.Text2D(this.deleter,null,0);
+		this.status_2.SetRect(100,100,0,0);
+		this.status_2.SetText("-");
 
 		int t_xx = 0;
 
@@ -360,6 +369,7 @@ public class test11 : main_base
 		if(this.download_item_bgm != null){
 			if(this.download_item_bgm.IsBusy() == true){
 				//ダウンロード中。
+				this.status.SetText("bgm : " + this.download_item_bgm.GetResultProgress().ToString());
 			}else{
 				if(this.download_item_bgm.GetResultDataType() == NDownLoad.DataType.AssetBundle){
 					//ダウンロード成功。アセットバンドル。
@@ -376,9 +386,10 @@ public class test11 : main_base
 					}
 				}
 				this.download_item_bgm = null;
+
+				this.status.SetText("bgm : end");
 			}
 		}
-
 
 		switch(this.mode){
 		case Mode.Wait:
@@ -415,7 +426,7 @@ public class test11 : main_base
 			{
 				if(this.download_item_se.IsBusy() == true){
 					//ダウンロード中。
-					this.status.SetText(this.download_item_se.GetResultProgress().ToString());
+					this.status.SetText("se : " + this.download_item_se.GetResultProgress().ToString());
 				}else{
 					if(this.download_item_se.GetResultDataType() == NDownLoad.DataType.SoundPool){
 						//ダウンロード成功。サウンドプール。
@@ -479,6 +490,8 @@ public class test11 : main_base
 				NAudio.Audio.GetInstance().PlaySe(SE_ID,0);
 			}
 		}
+
+		this.status_2.SetText("soundpool = " + NAudio.Audio.GetInstance().GetSoundPoolCount().ToString() + " assetbundle = " + NDownLoad.DownLoad.GetInstance().GetAssetBundleCount().ToString());
 	}
 
 	/** 削除前。

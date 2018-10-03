@@ -217,6 +217,13 @@ namespace NDownLoad
 			return false;
 		}
 
+		/** アセットバンドル数。取得。
+		*/
+		public int GetAssetBundleCount()
+		{
+			return this.assetbundle_list.GetCount();
+		}
+
 		/** 更新。
 		*/
 		public void Main()
