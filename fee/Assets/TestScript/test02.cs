@@ -144,27 +144,27 @@ public class test02 : main_base
 
 		//ボタン。
 		{
-			this.button_save1 = new NUi.Button(this.deleter,null,0,Click_Save,1);
+			this.button_save1 = new NUi.Button(this.deleter,null,0,this.CallBack_Click_Save,1);
 			this.button_save1.SetTexture(Resources.Load<Texture2D>("button"));
 			this.button_save1.SetRect(100 + 110 * 0,100,100,50);
 			this.button_save1.SetText("Save1");
 
-			this.button_save2 = new NUi.Button(this.deleter,null,0,Click_Save,2);
+			this.button_save2 = new NUi.Button(this.deleter,null,0,this.CallBack_Click_Save,2);
 			this.button_save2.SetTexture(Resources.Load<Texture2D>("button"));
 			this.button_save2.SetRect(100 + 110 * 1,100,100,50);
 			this.button_save2.SetText("Save2");
 
-			this.button_load1 = new NUi.Button(this.deleter,null,0,Click_Load,1);
+			this.button_load1 = new NUi.Button(this.deleter,null,0,this.CallBack_Click_Load,1);
 			this.button_load1.SetTexture(Resources.Load<Texture2D>("button"));
 			this.button_load1.SetRect(100 + 110 * 2,100,100,50);
 			this.button_load1.SetText("Load1");
 
-			this.button_load2 = new NUi.Button(this.deleter,null,0,Click_Load,2);
+			this.button_load2 = new NUi.Button(this.deleter,null,0,this.CallBack_Click_Load,2);
 			this.button_load2.SetTexture(Resources.Load<Texture2D>("button"));
 			this.button_load2.SetRect(100 + 110 * 3,100,100,50);
 			this.button_load2.SetText("Load2");
 
-			this.button_random = new NUi.Button(this.deleter,null,0,Click_Random,-1);
+			this.button_random = new NUi.Button(this.deleter,null,0,this.CallBack_Click_Random,-1);
 			this.button_random.SetTexture(Resources.Load<Texture2D>("button"));
 			this.button_random.SetRect(600,100,100,50);
 			this.button_random.SetText("Random");
@@ -185,9 +185,9 @@ public class test02 : main_base
 		this.savedata = null;
 	}
 
-	/** クリック。
+	/** [Button_Base]コールバック。クリック。
 	*/
-	public void Click_Save(int a_value)
+	private void CallBack_Click_Save(int a_id)
 	{
 		if(this.savedata != null){
 			//オブジェクトをＪＳＯＮ化。
@@ -197,7 +197,7 @@ public class test02 : main_base
 			string t_jsonstring = t_jsonitem.ConvertJsonString();
 
 			//ローカルセーブリクエスト。
-			this.save_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalTextFile("save_" + a_value.ToString() + ".json",t_jsonstring);
+			this.save_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalTextFile("save_" + a_id.ToString() + ".json",t_jsonstring);
 			if(this.save_item != null){
 				this.button_save1.SetLock(true);
 				this.button_save2.SetLock(true);
@@ -208,12 +208,12 @@ public class test02 : main_base
 		}
 	}
 
-	/** クリック。
+	/** [Button_Base]コールバック。クリック。
 	*/
-	public void Click_Load(int a_value)
+	private void CallBack_Click_Load(int a_id)
 	{
 		//ローカルロードリクエスト。
-		this.load_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLoaclTextFile("save_" + a_value.ToString() + ".json");
+		this.load_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLoaclTextFile("save_" + a_id.ToString() + ".json");
 		if(this.load_item != null){
 			this.button_save1.SetLock(true);
 			this.button_save2.SetLock(true);
@@ -223,9 +223,9 @@ public class test02 : main_base
 		}
 	}
 
-	/** クリック。
+	/** [Button_Base]コールバック。クリック。
 	*/
-	public void Click_Random(int a_value)
+	private void CallBack_Click_Random(int a_id)
 	{
 		this.savedata = new SaveData();
 		this.savedata.ignore = Random.Range(0,9999);

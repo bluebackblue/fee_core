@@ -184,7 +184,7 @@ public class test16 : main_base , NNetwork.OnRemoteCallBack_Base
 
 			Texture2D t_texture = Resources.Load<Texture2D>("button");
 
-			this.start_button = new NUi.Button(this.deleter,null,t_drawpriority,Click_Start,0);
+			this.start_button = new NUi.Button(this.deleter,null,t_drawpriority,this.CallBack_Click_Start,0);
 			this.start_button.SetRect(t_x,t_y,t_w,t_h);
 			this.start_button.SetTexture(t_texture);
 			this.start_button.SetText("接続");
@@ -200,7 +200,7 @@ public class test16 : main_base , NNetwork.OnRemoteCallBack_Base
 
 			Texture2D t_texture = Resources.Load<Texture2D>("button");
 
-			this.end_button = new NUi.Button(this.deleter,null,t_drawpriority,Click_End,0);
+			this.end_button = new NUi.Button(this.deleter,null,t_drawpriority,this.CallBack_Click_End,0);
 			this.end_button.SetRect(t_x,t_y,t_w,t_h);
 			this.end_button.SetTexture(t_texture);
 			this.end_button.SetText("切断");
@@ -214,18 +214,18 @@ public class test16 : main_base , NNetwork.OnRemoteCallBack_Base
 		this.inputmode = InputMode.Position;
 	}
 
-	/** クリック。開始。
+	/** [Button_Base]コールバック。クリック。開始。
 	*/
-	public void Click_Start(int a_value)
+	private void CallBack_Click_Start(int a_id)
 	{
 		if(this.mode == Mode.Wait){
 			this.mode = Mode.Start;
 		}
 	}
 
-	/** クリック。終了。
+	/** [Button_Base]コールバック。クリック。終了。
 	*/
-	public void Click_End(int a_value)
+	private void CallBack_Click_End(int a_id)
 	{
 		if(this.mode == Mode.Do){
 			this.mode = Mode.DisConnect;

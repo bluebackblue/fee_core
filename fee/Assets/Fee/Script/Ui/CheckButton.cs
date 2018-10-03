@@ -38,9 +38,9 @@ namespace NUi
 
 		/** constructor
 		*/
-		public CheckButton(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CheckButton_Base.CallBack_Click a_callback_click,int a_callback_click_value)
+		public CheckButton(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CheckButton_Base.CallBack_Change a_callback_chnage,int a_callback_id)
 			:
-			base(a_deleter,a_state,a_drawpriority,a_callback_click,a_callback_click_value)
+			base(a_deleter,a_state,a_drawpriority,a_callback_chnage,a_callback_id)
 		{
 			//sprite_bg
 			this.sprite_bg = new NUi.ClipSprite(this.deleter,a_state,a_drawpriority);

@@ -20,9 +20,9 @@ namespace NUi
 	*/
 	public abstract class Button_Base : NDeleter.DeleteItem_Base , NEventPlate.OnOverCallBack_Base , NUi.OnTargetCallBack_Base
 	{
-		/** クリックコールバック。
+		/** [Button_Base]コールバック。クリック。
 		*/
-		public delegate void CallBack_Click(int a_value);
+		public delegate void CallBack_Click(int a_id);
 
 		/** s_down_instance
 		*/
@@ -47,7 +47,7 @@ namespace NUi
 		/** callback_click
 		*/
 		protected CallBack_Click callback_click;
-		protected int callback_click_value;
+		protected int callback_id;
 
 		/** is_onover
 		*/
@@ -83,7 +83,7 @@ namespace NUi
 
 		/** constructor
 		*/
-		public Button_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_click_value)
+		public Button_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_id)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
@@ -100,7 +100,7 @@ namespace NUi
 
 			//callback_click
 			this.callback_click = a_callback_click;
-			this.callback_click_value = a_callback_click_value;
+			this.callback_id = a_callback_id;
 
 			//is_onover
 			this.is_onover = false;
@@ -152,7 +152,7 @@ namespace NUi
 		*/
 		protected abstract void OnChangeVisibleFlag();
 
-		/** [Slider_Base]コールバック。描画プライオリティ変更。
+		/** [Button_Base]コールバック。描画プライオリティ変更。
 		*/
 		protected abstract void OnChangeDrawPriority();
 
@@ -460,7 +460,7 @@ namespace NUi
 
 					//コールバック。
 					if(this.callback_click != null){
-						this.callback_click(this.callback_click_value);
+						this.callback_click(this.callback_id);
 					}
 
 					if(this.is_onover == true){
@@ -492,7 +492,7 @@ namespace NUi
 					//コールバック。
 					if(this.is_onover == true){
 						if(this.callback_click != null){
-							this.callback_click(this.callback_click_value);
+							this.callback_click(this.callback_id);
 						}
 					}
 

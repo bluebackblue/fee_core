@@ -154,39 +154,39 @@ public class test01 : main_base
 			int t_xx = 150;
 			int t_yy = 10;
 
-			this.button_log = new NUi.Button(this.deleter,null,t_drawpriority + 1,Click,100);
+			this.button_log = new NUi.Button(this.deleter,null,t_drawpriority + 1,this.CallBack_Click,100);
 			this.button_log.SetTexture(Resources.Load<Texture2D>("button"));
 			this.button_log.SetRect(t_xx,t_yy,80,50);
 			this.button_log.SetText("Log");
 
 			t_xx += 100;
 
-			this.button_logerror = new NUi.Button(this.deleter,null,t_drawpriority + 1,Click,200);
+			this.button_logerror = new NUi.Button(this.deleter,null,t_drawpriority + 1,this.CallBack_Click,200);
 			this.button_logerror.SetTexture(Resources.Load<Texture2D>("button"));
 			this.button_logerror.SetRect(t_xx,t_yy,80,50);
 			this.button_logerror.SetText("LogError");
 
 			t_xx += 100;
 
-			this.button_assert = new NUi.Button(this.deleter,null,t_drawpriority + 1,Click,300);
+			this.button_assert = new NUi.Button(this.deleter,null,t_drawpriority + 1,this.CallBack_Click,300);
 			this.button_assert.SetTexture(Resources.Load<Texture2D>("button"));
 			this.button_assert.SetRect(t_xx,t_yy,80,50);
 			this.button_assert.SetText("Assert");
 		}
 	}
 
-	/** クリック。
+	/** [Button_Base]コールバック。クリック。
 	*/
-	private void Click(int a_value)
+	private void CallBack_Click(int a_id)
 	{
-		switch(a_value){
+		switch(a_id){
 		case 100:
 			{
-				NRender2D.Tool.Log("Click","Log");
+				NRender2D.Tool.Log("CallBack_Click","Log");
 			}break;
 		case 200:
 			{
-				NRender2D.Tool.LogError("Click","LogError");
+				NRender2D.Tool.LogError("CallBack_Click","LogError");
 			}break;
 		case 300:
 			{

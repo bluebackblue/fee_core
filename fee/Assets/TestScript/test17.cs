@@ -104,7 +104,7 @@ public class test17 : main_base
 			this.text.SetVisible(false);
 
 			//button
-			this.button = new NUi.Button(this.deleter,null,t_drawpriority + 1,this.Click,-1);
+			this.button = new NUi.Button(this.deleter,null,t_drawpriority + 1,this.CallBack_Click,-1);
 			this.button.SetRect(0,0,20,20);
 			this.button.SetClipRect(0,0,0,0);
 			this.button.SetText("o");
@@ -178,9 +178,9 @@ public class test17 : main_base
 			return this.create_id;
 		}
 
-		/** クリック。
+		/** [Button_Base]コールバック。クリック。
 		*/
-		public void Click(int a_value)
+		private void CallBack_Click(int a_id)
 		{
 			this.callback(this);
 		}
@@ -290,7 +290,7 @@ public class test17 : main_base
 		int t_y_index = 0;
 
 		//button_push
-		this.button_push = new NUi.Button(this.deleter,null,0,Click,9000);
+		this.button_push = new NUi.Button(this.deleter,null,0,this.CallBack_Click,9000);
 		this.button_push.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_push.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_push.SetText("最後尾追加");
@@ -298,7 +298,7 @@ public class test17 : main_base
 		t_y_index++;
 
 		//button_pop
-		this.button_pop = new NUi.Button(this.deleter,null,0,Click,9001);
+		this.button_pop = new NUi.Button(this.deleter,null,0,this.CallBack_Click,9001);
 		this.button_pop.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_pop.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_pop.SetText("最後尾削除");
@@ -306,7 +306,7 @@ public class test17 : main_base
 		t_y_index++;
 
 		//button_insert_top
-		this.button_insert_top = new NUi.Button(this.deleter,null,0,Click,9002);
+		this.button_insert_top = new NUi.Button(this.deleter,null,0,this.CallBack_Click,9002);
 		this.button_insert_top.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_insert_top.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_insert_top.SetText("先頭追加");
@@ -314,7 +314,7 @@ public class test17 : main_base
 		t_y_index++;
 
 		//button_remove_top
-		this.button_remove_top = new NUi.Button(this.deleter,null,0,Click,9003);
+		this.button_remove_top = new NUi.Button(this.deleter,null,0,this.CallBack_Click,9003);
 		this.button_remove_top.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_remove_top.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_remove_top.SetText("先頭削除");
@@ -322,7 +322,7 @@ public class test17 : main_base
 		t_y_index++;
 
 		//button_insert_top_5
-		this.button_insert_top_5 = new NUi.Button(this.deleter,null,0,Click,9004);
+		this.button_insert_top_5 = new NUi.Button(this.deleter,null,0,this.CallBack_Click,9004);
 		this.button_insert_top_5.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_insert_top_5.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_insert_top_5.SetText("挿入(５番目)");
@@ -330,7 +330,7 @@ public class test17 : main_base
 		t_y_index++;
 
 		//button_remove_top_5
-		this.button_remove_top_5 = new NUi.Button(this.deleter,null,0,Click,9005);
+		this.button_remove_top_5 = new NUi.Button(this.deleter,null,0,this.CallBack_Click,9005);
 		this.button_remove_top_5.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_remove_top_5.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_remove_top_5.SetText("削除(５番目)");
@@ -338,7 +338,7 @@ public class test17 : main_base
 		t_y_index++;
 
 		//button_insert_last_5
-		this.button_insert_last_5 = new NUi.Button(this.deleter,null,0,Click,9006);
+		this.button_insert_last_5 = new NUi.Button(this.deleter,null,0,this.CallBack_Click,9006);
 		this.button_insert_last_5.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_insert_last_5.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_insert_last_5.SetText("挿入(後５)");
@@ -346,7 +346,7 @@ public class test17 : main_base
 		t_y_index++;
 
 		//button_remove_last_5
-		this.button_remove_last_5 = new NUi.Button(this.deleter,null,0,Click,9007);
+		this.button_remove_last_5 = new NUi.Button(this.deleter,null,0,this.CallBack_Click,9007);
 		this.button_remove_last_5.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_remove_last_5.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_remove_last_5.SetText("削除(後５)");
@@ -354,7 +354,7 @@ public class test17 : main_base
 		t_y_index++;
 
 		//button_up
-		this.button_up = new NUi.Button(this.deleter,null,0,Click,1000);
+		this.button_up = new NUi.Button(this.deleter,null,0,this.CallBack_Click,1000);
 		this.button_up.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_up.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_up.SetText("前方に移動");
@@ -362,7 +362,7 @@ public class test17 : main_base
 		t_y_index++;
 
 		//button_down
-		this.button_down = new NUi.Button(this.deleter,null,0,Click,1001);
+		this.button_down = new NUi.Button(this.deleter,null,0,this.CallBack_Click,1001);
 		this.button_down.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_down.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_down.SetText("後方に移動");
@@ -370,7 +370,7 @@ public class test17 : main_base
 		t_y_index++;
 
 		//button_sort
-		this.button_sort_a = new NUi.Button(this.deleter,null,0,Click,2000);
+		this.button_sort_a = new NUi.Button(this.deleter,null,0,this.CallBack_Click,2000);
 		this.button_sort_a.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_sort_a.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_sort_a.SetText("ソート");
@@ -378,15 +378,15 @@ public class test17 : main_base
 		t_y_index++;
 
 		//button_sort
-		this.button_sort_b = new NUi.Button(this.deleter,null,0,Click,2001);
+		this.button_sort_b = new NUi.Button(this.deleter,null,0,this.CallBack_Click,2001);
 		this.button_sort_b.SetRect(10,100 + 30 * t_y_index,100,30);
 		this.button_sort_b.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_sort_b.SetText("ソート");
 	}
 
-	/** Click_V_Item
+	/** CallBack_ScrollItem_V
 	*/
-	public void Click_V_Item(ScrollItem a_item)
+	private void CallBack_ScrollItem_V(ScrollItem a_item)
 	{
 		this.status_text.SetText("Vertical :" + a_item.GetCreateID().ToString());
 
@@ -395,9 +395,9 @@ public class test17 : main_base
 		this.v_scrollview.Swap(t_index,t_index+1);
 	}
 
-	/** Click_H_Item
+	/** CallBack_ScrollItem_H
 	*/
-	public void Click_H_Item(ScrollItem a_item)
+	private void CallBack_ScrollItem_H(ScrollItem a_item)
 	{
 		this.status_text.SetText("Horizontal : " + a_item.GetCreateID().ToString());
 
@@ -406,11 +406,11 @@ public class test17 : main_base
 		this.h_scrollview.Swap(t_index,t_index+1);
 	}
 
-	/** Clip
+	/** [Button_Base]コールバック。クリック。
 	*/
-	public void Click(int a_value)
+	private void CallBack_Click(int a_id)
 	{
-		switch(a_value){
+		switch(a_id){
 		case 1000:
 			{
 				//上に移動。
@@ -441,11 +441,11 @@ public class test17 : main_base
 
 				{
 					this.v_scrollview_create_id++;
-					this.v_scrollview.PushItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,Click_V_Item));
+					this.v_scrollview.PushItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,CallBack_ScrollItem_V));
 				}
 				{
 					this.h_scrollview_create_id++;
-					this.h_scrollview.PushItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,Click_H_Item));
+					this.h_scrollview.PushItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,CallBack_ScrollItem_H));
 				}
 			}break;
 		case 9001:
@@ -476,12 +476,12 @@ public class test17 : main_base
 				{
 					int t_index = 0;
 					this.v_scrollview_create_id++;
-					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,Click_V_Item),t_index);
+					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,CallBack_ScrollItem_V),t_index);
 				}
 				{
 					int t_index = 0;
 					this.h_scrollview_create_id++;
-					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,Click_H_Item),t_index);
+					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,CallBack_ScrollItem_H),t_index);
 				}
 			}break;
 		case 9003:
@@ -514,12 +514,12 @@ public class test17 : main_base
 				{
 					int t_index = 4;
 					this.v_scrollview_create_id++;
-					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,Click_V_Item),t_index);
+					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,CallBack_ScrollItem_V),t_index);
 				}
 				{
 					int t_index = 4;
 					this.h_scrollview_create_id++;
-					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,Click_H_Item),t_index);
+					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,CallBack_ScrollItem_H),t_index);
 				}
 			}break;
 		case 9005:
@@ -552,12 +552,12 @@ public class test17 : main_base
 				{
 					int t_index = this.v_scrollview.GetListCount() - 5;
 					this.v_scrollview_create_id++;
-					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,Click_V_Item),t_index);
+					this.v_scrollview.AddItem(new ScrollItem(this.deleter,this.v_scrollview_create_id,CallBack_ScrollItem_V),t_index);
 				}
 				{
 					int t_index = this.h_scrollview.GetListCount() - 5;
 					this.h_scrollview_create_id++;
-					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,Click_H_Item),t_index);
+					this.h_scrollview.AddItem(new ScrollItem(this.deleter,this.h_scrollview_create_id,CallBack_ScrollItem_H),t_index);
 				}
 			}break;
 		case 9007:

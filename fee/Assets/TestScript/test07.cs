@@ -68,13 +68,13 @@ public class test07 : main_base
 		int t_yy = 100;
 
 		//チェックボタン。
-		this.checkbutton_free = new NUi.CheckButton(this.deleter,null,t_drawpriority,this.Click,0);
+		this.checkbutton_free = new NUi.CheckButton(this.deleter,null,t_drawpriority,this.CallBack_Change,0);
 		this.checkbutton_free.SetTexture(Resources.Load<Texture2D>("checkbutton"));
 		this.checkbutton_free.SetRect(100,t_yy,30,30);
 		this.checkbutton_free.SetText("テキストボックス");
 		t_yy += 50;
 
-		this.checkbutton_lock = new NUi.CheckButton(this.deleter,null,t_drawpriority,this.Click,1);
+		this.checkbutton_lock = new NUi.CheckButton(this.deleter,null,t_drawpriority,this.CallBack_Change,1);
 		this.checkbutton_lock.SetTexture(Resources.Load<Texture2D>("checkbutton"));
 		this.checkbutton_lock.SetRect(100,t_yy,30,30);
 		this.checkbutton_lock.SetCheck(true);
@@ -82,11 +82,11 @@ public class test07 : main_base
 		this.checkbutton_lock.SetText("テキストボックス");
 	}
 
-	/** クリック。
+	/** [CheckButton_Base]コールバック。変更。
 	*/
-	private void Click(int a_value,bool a_flag)
+	private void CallBack_Change(int a_id,bool a_flag)
 	{
-		if(a_value == 0){
+		if(a_id == 0){
 			this.checkbutton_free.SetText("テキストボックス" + a_flag.ToString());
 		}else{
 			this.checkbutton_lock.SetText("テキストボックス" + a_flag.ToString());

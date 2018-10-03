@@ -72,7 +72,7 @@ public class test09 : main_base
 
 			int t_layerindex = 0;
 			long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP + 0;
-			this.button = new NUi.Button(this.deleter,null,t_drawpriority,Click,0);
+			this.button = new NUi.Button(this.deleter,null,t_drawpriority,this.CallBack_Click,0);
 			this.button.SetRect(t_x,t_y,t_w,t_h);
 			this.button.SetTexture(t_texture);
 		}
@@ -122,9 +122,9 @@ public class test09 : main_base
 
 	/** クリック。
 	*/
-	public void Click(int a_value)
+	private void CallBack_Click(int a_id)
 	{
-		Debug.Log("Click :" + a_value);
+		Debug.Log("Click :" + a_id);
 	}
 }
 

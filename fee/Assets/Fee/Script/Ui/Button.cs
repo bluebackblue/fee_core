@@ -30,9 +30,9 @@ namespace NUi
 
 		/** constructor
 		*/
-		public Button(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,Button_Base.CallBack_Click a_callback_click,int a_callback_click_value)
+		public Button(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,Button_Base.CallBack_Click a_callback_click,int a_callback_id)
 			:
-			base(a_deleter,a_state,a_drawpriority,a_callback_click,a_callback_click_value)
+			base(a_deleter,a_state,a_drawpriority,a_callback_click,a_callback_id)
 		{
 			//sprite
 			this.sprite = new NUi.Button_Sprite2D(this.deleter,a_state,a_drawpriority);

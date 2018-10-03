@@ -198,7 +198,7 @@ public class test11 : main_base
 		int t_xx = 0;
 
 		//ボタン。
-		this.button_unload = new NUi.Button(this.deleter,null,0,Click_Unload,-1);
+		this.button_unload = new NUi.Button(this.deleter,null,0,this.CallBack_Click_Unload,-1);
 		this.button_unload.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_unload.SetRect(t_xx,130,170,30);
 		this.button_unload.SetText("アンロード");
@@ -206,7 +206,7 @@ public class test11 : main_base
 		t_xx += 210;
 
 		//ボタン。
-		this.button_assetbundle = new NUi.Button(this.deleter,null,0,Click_AssetBundle,-1);
+		this.button_assetbundle = new NUi.Button(this.deleter,null,0,this.CallBack_Click_AssetBundle,-1);
 		this.button_assetbundle.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_assetbundle.SetRect(t_xx,130,170,30);
 		this.button_assetbundle.SetText("AssetBundleロード");
@@ -214,7 +214,7 @@ public class test11 : main_base
 		t_xx += 210;
 
 		//ボタン。
-		this.button_soundpool = new NUi.Button(this.deleter,null,0,Click_SoundPool,-1);
+		this.button_soundpool = new NUi.Button(this.deleter,null,0,this.CallBack_Click_SoundPool,-1);
 		this.button_soundpool.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_soundpool.SetRect(t_xx,130,170,30);
 		this.button_soundpool.SetText("SoundPoolロード");
@@ -222,7 +222,7 @@ public class test11 : main_base
 		t_xx += 210;
 
 		//ボタン。
-		this.button_bgm = new NUi.Button(this.deleter,null,0,Click_Bgm,-1);
+		this.button_bgm = new NUi.Button(this.deleter,null,0,this.CallBack_Click_Bgm,-1);
 		this.button_bgm.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button_bgm.SetRect(t_xx,130,170,30);
 		this.button_bgm.SetText("ＢＧＭ");
@@ -230,7 +230,7 @@ public class test11 : main_base
 		int t_yy = 300;
 
 		//スライダー。
-		this.slider_master = new NUi.Slider(this.deleter,null,0,this.Change_Master,0);
+		this.slider_master = new NUi.Slider(this.deleter,null,0,this.CallBack_Change_Master,0);
 		this.slider_master.SetRect(100,t_yy,400,40);
 		this.slider_master.SetValue(0.0f);
 		this.slider_master.SetButtonTexture(Resources.Load<Texture2D>("button"));
@@ -241,7 +241,7 @@ public class test11 : main_base
 		t_yy += 60;
 
 		//スライダー。
-		this.slider_bgm = new NUi.Slider(this.deleter,null,0,this.Change_Bgm,0);
+		this.slider_bgm = new NUi.Slider(this.deleter,null,0,this.CallBack_Change_Bgm,0);
 		this.slider_bgm.SetRect(100,t_yy,400,40);
 		this.slider_bgm.SetValue(0.0f);
 		this.slider_bgm.SetButtonTexture(Resources.Load<Texture2D>("button"));
@@ -252,7 +252,7 @@ public class test11 : main_base
 		t_yy += 60;
 
 		//スライダー。
-		this.slider_se = new NUi.Slider(this.deleter,null,0,this.Change_Se,0);
+		this.slider_se = new NUi.Slider(this.deleter,null,0,this.CallBack_Change_Se,0);
 		this.slider_se.SetRect(100,t_yy,400,40);
 		this.slider_se.SetValue(0.0f);
 		this.slider_se.SetButtonTexture(Resources.Load<Texture2D>("button"));
@@ -266,9 +266,9 @@ public class test11 : main_base
 		this.slider_se.SetValue(NAudio.Audio.GetInstance().GetSeVolume());
 	}
 
-	/** 変更。
+	/** [Slider_Base]コールバック。変更。
 	*/
-	public void Change_Master(int a_index,float a_value)
+	private void CallBack_Change_Master(int a_id,float a_value)
 	{
 		NAudio.Audio.GetInstance().SetMasterVolume(a_value);
 
@@ -281,23 +281,23 @@ public class test11 : main_base
 		}
 	}
 
-	/** 変更。
+	/** [Slider_Base]コールバック。変更。
 	*/
-	public void Change_Bgm(int a_index,float a_value)
+	private void CallBack_Change_Bgm(int a_id,float a_value)
 	{
 		NAudio.Audio.GetInstance().SetBgmVolume(a_value);
 	}
 
-	/** 変更。
+	/** [Slider_Base]コールバック。変更。
 	*/
-	public void Change_Se(int a_index,float a_value)
+	private void CallBack_Change_Se(int a_id,float a_value)
 	{
 		NAudio.Audio.GetInstance().SetSeVolume(a_value);
 	}
 
-	/** クリック。
+	/** [Button_Base]コールバック。クリック。
 	*/
-	public void Click_Unload(int a_value)
+	private void CallBack_Click_Unload(int a_id)
 	{
 		//ＳＥのアンロード。
 		NAudio.Audio.GetInstance().UnLoadSe(SE_ID);
@@ -306,9 +306,9 @@ public class test11 : main_base
 		NDownLoad.DownLoad.GetInstance().GetAssetBundleList().UnloadAssetBundle(ASSETBUNDLE_ID_SE);
 	}
 
-	/** クリック。
+	/** [Button_Base]コールバック。クリック。
 	*/
-	public void Click_AssetBundle(int a_value)
+	private void CallBack_Click_AssetBundle(int a_id)
 	{
 		if(this.mode == Mode.Wait){
 			this.soundpool_flag = false;
@@ -316,9 +316,9 @@ public class test11 : main_base
 		}
 	}
 
-	/** クリック。
+	/** [Button_Base]コールバック。クリック。
 	*/
-	public void Click_SoundPool(int a_value)
+	private void CallBack_Click_SoundPool(int a_id)
 	{
 		if(this.mode == Mode.Wait){
 			this.soundpool_flag = true;
@@ -326,9 +326,9 @@ public class test11 : main_base
 		}
 	}
 
-	/** クリック。
+	/** [Button_Base]コールバック。クリック。
 	*/
-	public void Click_Bgm(int a_value)
+	private void CallBack_Click_Bgm(int a_id)
 	{
 		if(this.download_item_bgm == null){
 			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";

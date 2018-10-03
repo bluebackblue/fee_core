@@ -20,9 +20,9 @@ namespace NUi
 	*/
 	public abstract class CheckButton_Base : NDeleter.DeleteItem_Base , NEventPlate.OnOverCallBack_Base , NUi.OnTargetCallBack_Base
 	{
-		/** クリックコールバック。
+		/** [CheckButton_Base]コールバック。変更。
 		*/
-		public delegate void CallBack_Click(int a_value,bool a_flag);
+		public delegate void CallBack_Change(int a_id,bool a_flag);
 
 		/** deleter
 		*/
@@ -32,10 +32,10 @@ namespace NUi
 		*/
 		protected NEventPlate.Item eventplate;
 
-		/** callback_click
+		/** callback_change
 		*/
-		protected CallBack_Click callback_click;
-		protected int callback_click_value;
+		protected CallBack_Change callback_change;
+		protected int callback_id;
 
 		/** is_onover
 		*/
@@ -63,7 +63,7 @@ namespace NUi
 
 		/** constructor
 		*/
-		public CheckButton_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_click_value)
+		public CheckButton_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CallBack_Change a_callback_change,int a_callback_id)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
@@ -72,9 +72,9 @@ namespace NUi
 			this.eventplate = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,a_drawpriority);
 			this.eventplate.SetOnOverCallBack(this);
 
-			//callback_click
-			this.callback_click = a_callback_click;
-			this.callback_click_value = a_callback_click_value;
+			//callback_change
+			this.callback_change = a_callback_change;
+			this.callback_id = a_callback_id;
 
 			//is_onover
 			this.is_onover = false;
@@ -284,8 +284,8 @@ namespace NUi
 				this.OnSetCheckCallBack(this.check_flag);
 
 				//コールバック。
-				if(this.callback_click != null){
-					this.callback_click(this.callback_click_value,this.check_flag);
+				if(this.callback_change != null){
+					this.callback_change(this.callback_id,this.check_flag);
 				}
 			}
 		}
@@ -330,8 +330,8 @@ namespace NUi
 					this.OnSetCheckCallBack(this.check_flag);
 
 					//コールバック。
-					if(this.callback_click != null){
-						this.callback_click(this.callback_click_value,this.check_flag);
+					if(this.callback_change != null){
+						this.callback_change(this.callback_id,this.check_flag);
 					}
 				}
 			}else{

@@ -20,9 +20,9 @@ namespace NUi
 	*/
 	public abstract class Slider_Base : NDeleter.DeleteItem_Base , NEventPlate.OnOverCallBack_Base , NUi.OnTargetCallBack_Base
 	{
-		/** チェンジコールバック。
+		/** [Slider_Base]コールバック。変更。
 		*/
-		public delegate void CallBack_Change(int a_index,float a_value);
+		public delegate void CallBack_Change(int a_id,float a_value);
 
 		/** deleter
 		*/
@@ -48,10 +48,10 @@ namespace NUi
 		*/
 		protected NEventPlate.Item eventplate_button;
 
-		/** CallBack_Change
+		/** callback_change
 		*/
 		protected CallBack_Change callback_change;
-		protected int callback_change_index;
+		protected int callback_id;
 
 		/** is_onover
 		*/
@@ -87,7 +87,7 @@ namespace NUi
 
 		/** constructor
 		*/
-		public Slider_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CallBack_Change a_callback_change,int a_callback_change_index)
+		public Slider_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CallBack_Change a_callback_change,int a_callback_id)
 		{
 			//deleter
 			this.deleter = new NDeleter.Deleter();
@@ -113,7 +113,7 @@ namespace NUi
 
 			//callback_change
 			this.callback_change = a_callback_change;
-			this.callback_change_index = a_callback_change_index;
+			this.callback_id = a_callback_id;
 
 			//is_onover
 			this.is_onover = false;
@@ -459,7 +459,7 @@ namespace NUi
 
 				//コールバック。
 				if(this.callback_change != null){
-					this.callback_change(this.callback_change_index,this.value);
+					this.callback_change(this.callback_id,this.value);
 				}
 			}
 		}

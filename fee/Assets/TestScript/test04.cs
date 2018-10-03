@@ -123,15 +123,15 @@ public class test04 : main_base
 		this.status.SetRect(100,100,0,0);
 
 		//button
-		this.button = new NUi.Button(this.deleter,null,t_drawpriority,Click,0);
+		this.button = new NUi.Button(this.deleter,null,t_drawpriority,this.CallBack_Click,0);
 		this.button.SetRect(100,150,100,100);
 		this.button.SetTexture(Resources.Load<Texture2D>("button"));
 		this.button.SetText("Start");
 	}
 
-	/** クリック。
+	/** [Button_Base]コールバック。クリック。
 	*/
-	public void Click(int a_value)
+	private void CallBack_Click(int a_id)
 	{
 		if(this.step == Step.None){
 			this.step = Step.Start;

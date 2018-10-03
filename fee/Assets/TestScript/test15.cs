@@ -135,7 +135,7 @@ public class test15 : main_base
 
 			Texture2D t_texture = Resources.Load<Texture2D>("button");
 
-			this.button = new NUi.Button(this.deleter,null,t_drawpriority + 2,Click,0);
+			this.button = new NUi.Button(this.deleter,null,t_drawpriority + 2,this.CallBack_Click,0);
 			this.button.SetRect(t_x,t_y,t_w,t_h);
 			this.button.SetTexture(t_texture);
 		}
@@ -149,7 +149,7 @@ public class test15 : main_base
 
 			Texture2D t_texture = Resources.Load<Texture2D>("checkbutton");
 
-			this.checkbutton = new NUi.CheckButton(this.deleter,null,t_drawpriority + 2,Click,0);
+			this.checkbutton = new NUi.CheckButton(this.deleter,null,t_drawpriority + 2,this.CallBack_Change,0);
 			this.checkbutton.SetRect(t_x,t_y,t_w,t_h);
 			this.checkbutton.SetTexture(t_texture);
 		}
@@ -172,7 +172,7 @@ public class test15 : main_base
 			int t_x = (NRender2D.Render2D.VIRTUAL_W - t_w) /2;
 			int t_y = 350;
 
-			this.slider = new NUi.Slider(this.deleter,null,t_drawpriority + 2,Change,0);
+			this.slider = new NUi.Slider(this.deleter,null,t_drawpriority + 2,this.CallBack_Change,0);
 			this.slider.SetRect(t_x,t_y,t_w,t_h);
 			this.slider.SetTexture(Resources.Load<Texture2D>("slider"));
 			this.slider.SetButtonTexture(Resources.Load<Texture2D>("button"));
@@ -239,25 +239,25 @@ public class test15 : main_base
 		}
 	}
 
-	/** クリック。
+	/** [Button_Base]コールバック。クリック。
 	*/
-	public void Click(int a_index)
+	private void CallBack_Click(int a_id)
 	{
-		Debug.Log("Click : " + a_index.ToString());
+		Debug.Log("CallBack_Click : " + a_id.ToString());
 	}
 
-	/** クリック。
+	/** [CheckButton_Base]コールバック。変更。
 	*/
-	public void Click(int a_index,bool a_flag)
+	private void CallBack_Change(int a_id,bool a_flag)
 	{
-		Debug.Log("Click : " + a_index.ToString() + " : " + a_flag.ToString());
+		Debug.Log("CallBack_Click : " + a_id.ToString() + " : " + a_flag.ToString());
 	}
 
-	/** クリック。
+	/** [Slider_Base]コールバック。変更。
 	*/
-	public void Change(int a_index,float a_value)
+	private void CallBack_Change(int a_id,float a_value)
 	{
-		Debug.Log("Change : " + a_index.ToString() + " : " + a_value.ToString());
+		Debug.Log("CallBack_Change : " + a_id.ToString() + " : " + a_value.ToString());
 	}
 
 	/** 削除前。
