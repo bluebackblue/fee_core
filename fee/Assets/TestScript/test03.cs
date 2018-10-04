@@ -116,8 +116,7 @@ public class test03 : main_base
 			if(t_model != null){
 				GameObject.Destroy(t_model);
 			}
-
-			this.download_item = NDownLoad.DownLoad.GetInstance().Request("http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx",NDownLoad.DataType.Binary);
+			this.download_item = NDownLoad.DownLoad.GetInstance().Request(this.inputfield.GetText(),NDownLoad.DataType.Binary);
 		}
 	}
 
