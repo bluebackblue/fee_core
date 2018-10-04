@@ -14,7 +14,6 @@ using UnityEngine;
 
 /** NVrm
 */
-#if(USE_UNIVRM) || true
 namespace NUniVrm
 {
 	/** UniVrm
@@ -84,7 +83,26 @@ namespace NUniVrm
 		public void Main()
 		{
 		}
+
+		/** 作成。
+		*/
+		public void Create(byte[] a_binary)
+		{
+			#if(USE_UNIVRM)
+			{
+				//context
+				VRM.VRMImporterContext t_context = new VRM.VRMImporterContext(/*UniGLTF.UnityPath.FromFullpath(t_full_path)*/);
+
+				//parse
+				t_context.ParseGlb(a_binary);
+
+				VRM.VRMImporter.LoadVrmAsync(t_context,(GameObject a_gameobject) => {
+					//ロード完了。
+					a_gameobject.transform.rotation = Quaternion.Euler(0,180,0);
+				});
+			}
+			#endif
+		}
 	}
 }
-#endif
 

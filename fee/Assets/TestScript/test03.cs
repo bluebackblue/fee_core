@@ -14,7 +14,7 @@ using UnityEngine;
 
 /** test03
 
-	ダウンロードしたＪＰＧを表示。
+	ＵＮＩＶＲＭ。
 
 */
 public class test03 : main_base
@@ -23,15 +23,18 @@ public class test03 : main_base
 	*/
 	private NDeleter.Deleter deleter;
 
-	/** スプライト。
+	/** ステータス。
 	*/
-	private NRender2D.Sprite2D sprite;
+	private NRender2D.Text2D status;
 
 	/** ダウンロードアイテム。
 	*/
-	private NDownLoad.Item download_item_bg;
-	private NDownLoad.Item download_item_text;
-	
+	private NDownLoad.Item download_item;
+
+	/** バイナリ。
+	*/
+	private byte[] binary;
+
 	/** Start
 	*/
 	private void Start()
@@ -46,61 +49,79 @@ public class test03 : main_base
 		//２Ｄ描画。インスタンス作成。
 		NRender2D.Render2D.CreateInstance();
 
+		//マウス。インスタンス作成。
+		NInput.Mouse.CreateInstance();
+
+		//イベントプレート。インスタンス作成。
+		NEventPlate.EventPlate.CreateInstance();
+
+		//ＵＩ。インスタンス作成。
+		NUi.Ui.CreateInstance();
+
 		//ダウンロード。インスタンス作成。
 		NDownLoad.DownLoad.CreateInstance();
+
+		//ＵＮＩＶＲＭ。インスタンス作成。
+		NUniVrm.UniVrm.CreateInstance();
 
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
-		//スプライト。
+		//layerindex
 		int t_layerindex = 0;
-		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
-		this.sprite = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority);
-		this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-		this.sprite.SetRect(ref NRender2D.Render2D.VIRTUAL_RECT_MAX);
-		this.sprite.SetTexture(null);	
 
-		//ダウンロードアイテム。
-		this.download_item_bg = NDownLoad.DownLoad.GetInstance().Request("http://bbbproject.sakura.ne.jp/wordpress/wp-content/uploads/2016/06/IMGP8657.jpg",NDownLoad.DataType.Texture);
-		this.download_item_text = NDownLoad.DownLoad.GetInstance().Request("http://bbbproject.sakura.ne.jp/wordpress/gallery",NDownLoad.DataType.Text);
+		//drawpriority
+		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
+
+		//ステータス。
+		this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
+		this.status.SetRect(100,100,0,0);
+
+		//string t_full_path = Application.streamingAssetsPath + "/nana.vrmx";
+		#if(true)
+		this.download_item = NDownLoad.DownLoad.GetInstance().Request("http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx",NDownLoad.DataType.Binary);
+		this.binary = null;
+		#else
+		this.download_item = null;
+		this.binary = System.IO.File.ReadAllBytes(t_full_path);
+		#endif
 	}
 
 	/** Update
 	*/
 	private void Update()
 	{
+		//マウス。
+		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
+
+		//イベントプレート。
+		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
+
+		//ＵＩ。
+		NUi.Ui.GetInstance().Main();
+
 		//ダウンロード。
 		NDownLoad.DownLoad.GetInstance().Main();
 
-		if(this.download_item_bg != null){
-			switch(this.download_item_bg.GetResultDataType()){
-			case NDownLoad.DataType.None:
-				{
-					//ダウンロード中。
-				}break;
-			case NDownLoad.DataType.Texture:
-				{
-					//ダウンロード完了。
-					this.sprite.SetTexture(this.download_item_bg.GetResultTexture());
-					this.download_item_bg = null;
-				}break;
-			case NDownLoad.DataType.Error:
-				{
-					//ダウンロード失敗。
-					this.download_item_bg = null;
-				}break;
-			default:
-				{
-					//不明なタイプ。
-					this.download_item_bg = null;
-				}break;
+		if(this.download_item != null){
+			if(this.download_item.IsBusy() == true){
+				//ダウンロード中。
+				this.status.SetText("Download : " + this.download_item.GetResultProgress().ToString());
+			}else{
+				//ダウンロード完了。
+				if(this.download_item.GetResultDataType() == NDownLoad.DataType.Binary){
+					this.binary = this.download_item.GetResultBinary();
+				}else{
+					this.status.SetText("Download : Error");
+				}
+				this.download_item = null;
 			}
 		}
-
-		if(this.download_item_text != null){
-			if(this.download_item_text.IsBusy() == false){
-				this.download_item_text = null;
-			}
+		
+		if(this.binary != null){
+			this.status.SetText("Create : size = " + this.binary.Length.ToString());
+			NUniVrm.UniVrm.GetInstance().Create(this.binary);
+			this.binary = null;
 		}
 	}
 
