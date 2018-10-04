@@ -69,7 +69,7 @@ http://bbbproject.sakura.ne.jp/www/project_webgl/fee/
 ### UniVRM
 このリポジトリにUniVRMは含まれていません。
 * 使用しない場合は、PlayerSettings => OthersSettings => ScriptingDefineSymbols の USE_UNIVRM を削除。
-* https://github.com/bluebackblue/fee/tree/master/fee/Assets/Fee/license/vrm
+* https://github.com/bluebackblue/fee/tree/master/fee/Assets/Fee/license/univrm
 * https://github.com/dwango/UniVRM
 
 
