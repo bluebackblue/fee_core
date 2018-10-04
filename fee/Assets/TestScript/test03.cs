@@ -23,6 +23,14 @@ public class test03 : main_base
 	*/
 	private NDeleter.Deleter deleter;
 
+	/** button
+	*/
+	private NUi.Button button;
+
+	/** inputfield
+	*/
+	private NRender2D.InputField2D inputfield;
+
 	/** ステータス。
 	*/
 	private NRender2D.Text2D status;
@@ -34,6 +42,10 @@ public class test03 : main_base
 	/** バイナリ。
 	*/
 	private byte[] binary;
+
+	/** mycamera
+	*/
+	private GameObject mycamera;
 
 	/** Start
 	*/
@@ -73,18 +85,40 @@ public class test03 : main_base
 		//drawpriority
 		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
 
+		//button
+		this.button = new NUi.Button(this.deleter,null,t_drawpriority,this.CallBack_Click,0);
+		this.button.SetRect(130,10,50,50);
+		this.button.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button.SetText("Load");
+
+		//inputfield
+		this.inputfield = new NRender2D.InputField2D(this.deleter,null,t_drawpriority);
+		this.inputfield.SetRect(130 + 50 + 10,10,700,50);
+		this.inputfield.SetText("http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx");
+
 		//ステータス。
 		this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.status.SetRect(100,100,0,0);
 
-		//string t_full_path = Application.streamingAssetsPath + "/nana.vrmx";
-		#if(true)
-		this.download_item = NDownLoad.DownLoad.GetInstance().Request("http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx",NDownLoad.DataType.Binary);
-		this.binary = null;
-		#else
 		this.download_item = null;
-		this.binary = System.IO.File.ReadAllBytes(t_full_path);
-		#endif
+		this.binary = null;
+
+		//カメラ。
+		this.mycamera = GameObject.Find("Main Camera");
+	}
+
+	/** [Button_Base]コールバック。クリック。
+	*/
+	private void CallBack_Click(int a_id)
+	{
+		if((this.download_item == null)&&(this.binary == null)){
+			GameObject t_model = GameObject.Find("Model");
+			if(t_model != null){
+				GameObject.Destroy(t_model);
+			}
+
+			this.download_item = NDownLoad.DownLoad.GetInstance().Request("http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx",NDownLoad.DataType.Binary);
+		}
 	}
 
 	/** Update
@@ -122,6 +156,19 @@ public class test03 : main_base
 			this.status.SetText("Create : size = " + this.binary.Length.ToString());
 			NUniVrm.UniVrm.GetInstance().Create(this.binary);
 			this.binary = null;
+		}
+
+		//カメラを回す。
+		if(this.mycamera != null){
+
+			float t_time = Time.realtimeSinceStartup;
+
+			Vector3 t_position = new Vector3(Mathf.Sin(t_time) * 2.0f,1.0f,Mathf.Cos(t_time) * 2.0f);
+
+			Transform t_camera_transform = this.mycamera.GetComponent<Transform>();
+
+			t_camera_transform.position = t_position;
+			t_camera_transform.LookAt(new Vector3(0.0f,1.0f,0.0f));
 		}
 	}
 
