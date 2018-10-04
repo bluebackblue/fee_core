@@ -228,6 +228,112 @@
     <Compile Include="Assets\Fee\Script\Ui\Slider_Value_Sprite2D.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Ui.cs" />
+    <Compile Include="Assets\Fee\Script\UniVrm\Config.cs" />
+    <Compile Include="Assets\Fee\Script\UniVrm\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\UniVrm\UniVrm.cs" />
+    <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChannelSelector.cs" />
+    <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChatAppIdCheckerUI.cs" />
+    <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChatGui.cs" />
+    <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\FriendItem.cs" />
+    <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\IgnoreUiRaycastWhenInactive.cs" />
+    <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs" />
+    <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoAsteroids\Scripts\AsteroidsGame.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoAsteroids\Scripts\Game\Asteroid.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoAsteroids\Scripts\Game\AsteroidsGameManager.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoAsteroids\Scripts\Game\Bullet.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoAsteroids\Scripts\Game\PlayerOverviewPanel.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoAsteroids\Scripts\Game\Spaceship.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoAsteroids\Scripts\Lobby\LobbyMainPanel.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoAsteroids\Scripts\Lobby\LobbyTopPanel.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoAsteroids\Scripts\Lobby\PlayerListEntry.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoAsteroids\Scripts\Lobby\RoomListEntry.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoHub\Scripts\DemoHubManager.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoHub\Scripts\ToDemoHubButton.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoProcedural\Scripts\Block.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoProcedural\Scripts\Cluster.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoProcedural\Scripts\IngameControlPanel.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoProcedural\Scripts\Noise.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoProcedural\Scripts\ProceduralController.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoProcedural\Scripts\WorldGenerator.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\Bezier.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\BezierControlPointMode.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\BezierCurve.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\BezierSpline.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\Line.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\SplinePosition.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\SplineWalker.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\PlayerControl.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\SlotLanes.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\SlotRacerSplashScreen.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunBasics-Tutorial\Scripts\CameraWork.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunBasics-Tutorial\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunBasics-Tutorial\Scripts\Launcher.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunBasics-Tutorial\Scripts\LoaderAnime.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunBasics-Tutorial\Scripts\PlayerAnimatorManager.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunBasics-Tutorial\Scripts\PlayerManager.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunBasics-Tutorial\Scripts\PlayerNameInputField.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunBasics-Tutorial\Scripts\PlayerUI.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Forms\ConnectToRegionUIForm.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Forms\CreateRoomUiForm.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Forms\SetRoomCustomPropertyUIForm.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Forms\UserIdUiForm.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\PunCockpit.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\BackgroundTimeOutField.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\CrcCheckToggle.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\DocLinkButton.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\GameVersionField.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\Generic\BoolInputField.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\Generic\IntInputField.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\Generic\StringInputField.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\Generic\ToggleExpand.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\LayoutElementMatchSize.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\NickNameField.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\OnlineDocButton.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\SendRateField.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Autonomous UI\SendRateOnSerializeField.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Controllers\PlayerDetailsController.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\InfosPanelPlaceholder.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Lists\FriendListCell.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Lists\FriendListView.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Lists\PlayerListCell.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Lists\PlayerListView.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Lists\PropertyCell.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Lists\RegionListCell.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Lists\RegionListView.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Lists\RoomListCell.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\Lists\RoomListView.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\PropertyFields\UserIdField.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\AppVersionProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\BestRegionInPrefsProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CloudRegionProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CountOfPlayersInRoomProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CountOfPlayersOnMasterProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CountOfPlayersProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CountOfRoomsProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomAutoCleanupProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomEmptyRoomTtlProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomExpectedUsersProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomIsOfflineProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomIsOpenProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomIsVisibleProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomMasterClientIdProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomMaxPlayersProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomNameProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomPlayerCountProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomPlayerTtlProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\CurrentRoomPropertiesListedInLobbyProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\GameVersionProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\IsConnectedAndReadyProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\IsConnectedProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\OfflineModeProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\PingProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\PropertyListenerBase.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\ServerAddressProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ReadOnlyProperties\ServerProperty.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ScoreHelper.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\PunCockpit\Scripts\ThirdParty\PunCockpitEmbed.cs" />
+    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\Shared Assets\Scripts\DocLinks.cs" />
     <Compile Include="Assets\TestScript\main.cs" />
     <Compile Include="Assets\TestScript\test01.cs" />
     <Compile Include="Assets\TestScript\test02.cs" />
@@ -249,26 +355,229 @@
     <Compile Include="Assets\TestScript\test18.cs" />
     <Compile Include="Assets\TestScript\test19.cs" />
     <Compile Include="Assets\TestScript\test20.cs" />
+    <Compile Include="Assets\VRM.Samples\Scripts\CanvasManager.cs" />
+    <Compile Include="Assets\VRM.Samples\Scripts\FileDialogForWindows.cs" />
+    <Compile Include="Assets\VRM.Samples\Scripts\RokuroCamera.cs" />
+    <Compile Include="Assets\VRM.Samples\Scripts\TargetMover.cs" />
+    <Compile Include="Assets\VRM.Samples\Scripts\ViewerUI.cs" />
+    <Compile Include="Assets\VRM.Samples\Scripts\VRMRuntimeExporter.cs" />
+    <Compile Include="Assets\VRM.Samples\Scripts\VRMRuntimeLoader.cs" />
+    <Compile Include="Assets\VRM.Samples\Scripts\VRMRuntimeLoaderNet4.cs" />
+    <Compile Include="Assets\VRM\Scripts\BlendShape\AIUEO.cs" />
+    <Compile Include="Assets\VRM\Scripts\BlendShape\BlendShapeAvatar.cs" />
+    <Compile Include="Assets\VRM\Scripts\BlendShape\BlendShapeClip.cs" />
+    <Compile Include="Assets\VRM\Scripts\BlendShape\BlendShapeClipHandler.cs" />
+    <Compile Include="Assets\VRM\Scripts\BlendShape\BlendShapeKey.cs" />
+    <Compile Include="Assets\VRM\Scripts\BlendShape\BlendShapeMerger.cs" />
+    <Compile Include="Assets\VRM\Scripts\BlendShape\Blinker.cs" />
+    <Compile Include="Assets\VRM\Scripts\BlendShape\MeshPreviewItem.cs" />
+    <Compile Include="Assets\VRM\Scripts\BlendShape\PreviewSceneManager.cs" />
+    <Compile Include="Assets\VRM\Scripts\BlendShape\VRMBlendShapeManipulator.cs" />
+    <Compile Include="Assets\VRM\Scripts\BlendShape\VRMBlendShapeProxy.cs" />
+    <Compile Include="Assets\VRM\Scripts\EnumUtil.cs" />
+    <Compile Include="Assets\VRM\Scripts\FirstPerson\VRMFirstPerson.cs" />
+    <Compile Include="Assets\VRM\Scripts\FirstPerson\VRMFirstPersonCameraManager.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\glTF_VRM_BlendShape.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\glTF_VRM_FirstPerson.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\glTF_VRM_Humanoid.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\glTF_VRM_Material.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\glTF_VRM_Meta.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\glTF_VRM_SecondaryAnimation.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMException.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMExporSettings.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMExporter.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMExportObject.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMFormat.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMImporter.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMImporterContext.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMMaterialExporter.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMMaterialImporter.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMPreShaderPropExporter.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMVersion.cs" />
+    <Compile Include="Assets\VRM\Scripts\Format\VRMVersionPartial.cs" />
+    <Compile Include="Assets\VRM\Scripts\Humanoid\VRMHumanoidDescription.cs" />
+    <Compile Include="Assets\VRM\Scripts\IVRMComponent.cs" />
+    <Compile Include="Assets\VRM\Scripts\LookAt\CurveMapper.cs" />
+    <Compile Include="Assets\VRM\Scripts\LookAt\LookAtTargetSwitcher.cs" />
+    <Compile Include="Assets\VRM\Scripts\LookAt\LookTarget.cs" />
+    <Compile Include="Assets\VRM\Scripts\LookAt\Matrix4x4Extensions.cs" />
+    <Compile Include="Assets\VRM\Scripts\LookAt\OffsetOnTransform.cs" />
+    <Compile Include="Assets\VRM\Scripts\LookAt\VRMLookAt.cs" />
+    <Compile Include="Assets\VRM\Scripts\LookAt\VRMLookAtBlendShapeApplyer.cs" />
+    <Compile Include="Assets\VRM\Scripts\LookAt\VRMLookAtBoneApplyer.cs" />
+    <Compile Include="Assets\VRM\Scripts\LookAt\VRMLookAtHead.cs" />
+    <Compile Include="Assets\VRM\Scripts\Meta\VRMMeta.cs" />
+    <Compile Include="Assets\VRM\Scripts\Meta\VRMMetaInformation.cs" />
+    <Compile Include="Assets\VRM\Scripts\Meta\VRMMetaObject.cs" />
+    <Compile Include="Assets\VRM\Scripts\PreExportShaderProps\VRM_MToon.cs" />
+    <Compile Include="Assets\VRM\Scripts\PreExportShaderProps\VRM_UnlitCutout.cs" />
+    <Compile Include="Assets\VRM\Scripts\PreExportShaderProps\VRM_UnlitTexture.cs" />
+    <Compile Include="Assets\VRM\Scripts\PreExportShaderProps\VRM_UnlitTransparent.cs" />
+    <Compile Include="Assets\VRM\Scripts\PreExportShaderProps\VRM_UnlitTransparentZWrite.cs" />
+    <Compile Include="Assets\VRM\Scripts\SkinnedMeshUtility\BoneMeshEraser.cs" />
+    <Compile Include="Assets\VRM\Scripts\SkinnedMeshUtility\BoneNormalizer.cs" />
+    <Compile Include="Assets\VRM\Scripts\SkinnedMeshUtility\MeshExtensions.cs" />
+    <Compile Include="Assets\VRM\Scripts\SkinnedMeshUtility\VRMBindposeGizmo.cs" />
+    <Compile Include="Assets\VRM\Scripts\SpringBone\VRMSpringBone.cs" />
+    <Compile Include="Assets\VRM\Scripts\SpringBone\VRMSpringBoneColliderGroup.cs" />
+    <Compile Include="Assets\VRM\Scripts\SpringBone\VRMSpringUtility.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Extensions\ArrayExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Extensions\glTFExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Extensions\JsonParserExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Extensions\StringExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Extensions\UnityExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\BytesBuffer.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\ExtensionsAndExtras\glTFCameraExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\ExtensionsAndExtras\glTFExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\ExtensionsAndExtras\glTFMesh.Primitives.extras.targetNames.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\ExtensionsAndExtras\glTFNode.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\ExtensionsAndExtras\KHR_draco_mesh_compression.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\ExtensionsAndExtras\KHR_materials_unlit.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glbTypes.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glEnum.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glTF.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glTFAnimation.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glTFAssets.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glTFBuffer.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glTFCamera.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glTFMaterial.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glTFMesh.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glTFNode.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glTFSkin.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\glTFTexture.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\JsonFormatter.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\JsonSerializableBase.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Format\MonoBehaviourComparator.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\BytesReader.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\glbImporter.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\gltfExporter.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\gltfImporter.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\ImporterContext.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\IStorage.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\MaterialExporter.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\MaterialImporter.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\MeshImporter.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\MeshWithMaterials.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\ShaderPropExporter\PreShaderPropExporter.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\ShaderPropExporter\ShaderProps.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\ShaderStore.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\TextureIO.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\TextureItem.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\TextureSamplerUtil.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\TriangleUtil.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\UnityPath.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\IO\ZipArchiveStorage.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\PreExportShaderProps\Standard.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\PreExportShaderProps\Unlit_Color.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\PreExportShaderProps\Unlit_Texture.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\PreExportShaderProps\Unlit_Transparent.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\PreExportShaderProps\Unlit_Transparent_Cutout.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\UniGLTFException.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\UniGLTFVersion.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\UniGLTFVersion_partial.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\Functor.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\LockQueue.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\MainThreadDispatcher.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\MonitorQueue.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\Schedulable.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\Scheduler.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\Scheduler\CurrentThreadScheduler.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\Scheduler\StepScheduler.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\Scheduler\ThreadPoolScheduler.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\Scheduler\ThreadScheduler.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\TaskChain.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\DepthFirstScheduler\Unit.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\PoseModifier\HandPose.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\PoseModifier\HandRig.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\PoseModifier\IPoseModifier.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\AnimationClipUtility.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\AvatarDescription.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\BoneGizmoDrawer.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\BoneMapping.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\Format\Bvh.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\HumanPoseClip.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\HumanPoseTransfer.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\IO\BvhAnimationClip.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\IO\BvhImporter.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\IO\Extensions\BvhExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\IO\Extensions\UnityExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\IO\ImporterContext.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\MuscleDebug.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\SkeletonEstimator.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\SkeletonMeshUtility.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Unity2017\SingleAnimation.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\ActionDisposer.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\Exceptions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\Extensions\ArraySegmentExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\Extensions\ByteExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\Extensions\EnumExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\Extensions\ObjectExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\Extensions\StringExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\Extensions\TypeExtensions.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\IFileSystemAccessor.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\IStore\IStore.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\IStore\StreamStore.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\IStore\StringBuilderStore.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonDeserializer.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonFormatter.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonNode.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonParser.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSchema.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSchemaAttribute.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSchemaValidator\IJsonSchemaValidator.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSchemaValidator\JsonArrayValidator.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSchemaValidator\JsonBoolValidator.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSchemaValidator\JsonEnumValidator.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSchemaValidator\JsonNumberValidator.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSchemaValidator\JsonObjectValidator.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSchemaValidator\JsonSchemaValidator.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSchemaValidator\JsonSchemaValidatorFactory.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSchemaValidator\JsonStringValidator.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonSerializer.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonString.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\JsonValue.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\SimpleJSON.cs" />
+    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Scripts\StringSegment.cs" />
     <None Include="Assets\Fee\license\pun2free\readme.txt" />
+    <None Include="Assets\VRM\Resources\Shaders\VRMUnlitTransparent.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\AlphaClip.shader" />
+    <None Include="Assets\VRM\UniGLTF\Resources\Shaders\StandardVColor.shader" />
+    <None Include="Assets\VRM\MToon\MToon\Resources\Shaders\MToonCore.cginc" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\UiText.shader" />
+    <None Include="Assets\Photon\PhotonUnityNetworking\link.xml" />
     <None Include="Assets\Fee\Resources\Shader\PerformanceCounter\Sprite.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Slice9.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Simple.shader" />
+    <None Include="Assets\VRM\Resources\Shaders\VRMUnlitTransparentZWrite.shader" />
     <None Include="Assets\Fee\Resources\Shader\Bloom\Bloom_LastAddUpSampling.shader" />
+    <None Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Kenney Assets\Copyrights.txt" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\UiImage.shader" />
+    <None Include="Assets\Photon\PhotonLibs\Photon3Unity3D.xml" />
     <None Include="Assets\Fee\license\maoudamashii\maoudamashii.txt" />
     <None Include="Assets\Fee\Resources\Shader\Bloom\Bloom_DownSampling.shader" />
+    <None Include="Assets\Photon\PhotonLibs\release_history.txt" />
+    <None Include="Assets\VRM\UniGLTF\Resources\Shaders\Dxt5Decoder.shader" />
     <None Include="Assets\Fee\Resources\Shader\Bloom\Bloom_AddUpSampling.shader" />
+    <None Include="Assets\VRM\Resources\Shaders\VRMUnlitTexture.shader" />
+    <None Include="Assets\Photon\PhotonUnityNetworking\Demos\Shared Assets\Skin\eurof_tt.txt" />
     <None Include="Assets\Fee\LICENSE.txt" />
+    <None Include="Assets\VRM\MToon\MToon\Resources\Shaders\MToonSM4.cginc" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha.shader" />
+    <None Include="Assets\VRM\Resources\Shaders\VRMUnlitCutout.shader" />
     <None Include="Assets\Fee\license\soundeffect-lab\soundeffect-lab.txt" />
     <None Include="Assets\Fee\Resources\Shader\Blur\Blur_X.shader" />
+    <None Include="Assets\Photon\PhotonUnityNetworking\Demos\Shared Assets\Skin\3dText.shader" />
     <None Include="Assets\AssetBundle\Raw\se.txt" />
+    <None Include="Assets\Photon\PhotonUnityNetworking\readme.txt" />
+    <None Include="Assets\VRM\LICENSE.txt" />
     <None Include="Assets\Fee\license\vrm\LICENSE.txt" />
+    <None Include="Assets\VRM\MToon\MToon\Resources\Shaders\MToon.shader" />
     <None Include="Assets\Fee\Resources\Shader\Blur\Blur_Y.shader" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Add.shader" />
+    <None Include="Assets\VRM\UniGLTF\UniUnlit\Resources\UniUnlit.shader" />
+    <None Include="Assets\Photon\PhotonUnityNetworking\changelog.txt" />
     <None Include="Assets\Fee\Resources\Shader\Bloom\Bloom_FirstDownSampling.shader" />
+    <None Include="Assets\VRM\MToon\MToon\Resources\Shaders\MToonSM3.cginc" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/work/github/fee/fee/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
@@ -484,6 +793,12 @@
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/blueback/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="Photon3Unity3D">
+      <HintPath>C:/work/github/fee/fee/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>C:/work/github/fee/fee/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.10f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -835,6 +1150,38 @@
     <ProjectReference Include="Unity.InputSystem.csproj">
       <Project>{8DF884EA-6AF9-B427-80AB-D20D6E9C218B}</Project>
       <Name>Unity.InputSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj">
+      <Project>{DFBDBC98-F709-D182-6D23-A1D3E9E446EC}</Project>
+      <Name>PhotonUnityNetworking.Utilities.PhotonPlayer.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonUnityNetworking.Utilities.csproj">
+      <Project>{32B987E5-7F85-8398-CAF1-C2711C4B06FA}</Project>
+      <Name>PhotonUnityNetworking.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonWebSocket.csproj">
+      <Project>{B175529E-B59E-36FC-A9F6-3A2DF688C2D9}</Project>
+      <Name>PhotonWebSocket</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonRealtime.csproj">
+      <Project>{3F8E6387-8645-26EF-D8D7-663493B79FBE}</Project>
+      <Name>PhotonRealtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonUnityNetworking.csproj">
+      <Project>{893F2618-21BB-0FCD-FC6B-175A9512A9A4}</Project>
+      <Name>PhotonUnityNetworking</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonChat.csproj">
+      <Project>{3A361627-BF3B-6302-AABB-0E0F74B7579F}</Project>
+      <Name>PhotonChat</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonUnityNetworking.Utilities.Culling.Editor.csproj">
+      <Project>{E9C37972-A4F7-658C-A320-93A193FA51DE}</Project>
+      <Name>PhotonUnityNetworking.Utilities.Culling.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
+      <Project>{6981ECC6-4FB8-75E6-7EF4-85C24B468A9A}</Project>
+      <Name>PhotonUnityNetworking.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
