@@ -62,7 +62,7 @@ http://bbbproject.sakura.ne.jp/www/project_webgl/fee/
 ### PUN 2 - FREE
 このリポジトリにアセットは含まれていません。
 * 使用しない場合は、PlayerSettings => OthersSettings => ScriptingDefineSymbols の USE_PUN を削除。
-* https://github.com/bluebackblue/fee/tree/master/fee/Assets/Fee/license/pun2
+* https://github.com/bluebackblue/fee/tree/master/fee/Assets/Fee/license/pun2free
 * https://assetstore.unity.com/packages/tools/network/pun-2-free-119922
 * https://dashboard.photonengine.com/ja-jp/Account/Terms
 
