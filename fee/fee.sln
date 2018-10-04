@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.InputSystem", "Unity.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.InputSystem.Tests", "Unity.InputSystem.Tests.csproj", "{223D6E6A-9114-B5DF-A624-2CC285B0C354}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{16C1E4CB-B5E0-5E4D-5AD0-2E1ADB82D895}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{223D6E6A-9114-B5DF-A624-2CC285B0C354}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{223D6E6A-9114-B5DF-A624-2CC285B0C354}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{223D6E6A-9114-B5DF-A624-2CC285B0C354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16C1E4CB-B5E0-5E4D-5AD0-2E1ADB82D895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16C1E4CB-B5E0-5E4D-5AD0-2E1ADB82D895}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16C1E4CB-B5E0-5E4D-5AD0-2E1ADB82D895}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16C1E4CB-B5E0-5E4D-5AD0-2E1ADB82D895}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
