@@ -448,6 +448,7 @@
     <None Include="Assets\VRM\UniGLTF\Resources\Shaders\Dxt5Decoder.shader" />
     <None Include="Assets\Fee\Resources\Shader\Bloom\Bloom_AddUpSampling.shader" />
     <None Include="Assets\VRM\Resources\Shaders\VRMUnlitTexture.shader" />
+    <None Include="Assets\Fee\LICENSE.txt" />
     <None Include="Assets\VRM\MToon\MToon\Resources\Shaders\MToonSM4.cginc" />
     <None Include="Assets\Fee\Resources\Shader\Render2D\Alpha.shader" />
     <None Include="Assets\VRM\Resources\Shaders\VRMUnlitCutout.shader" />
