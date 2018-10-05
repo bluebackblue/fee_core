@@ -50,6 +50,11 @@ namespace NSaveLoad
 				}			
 			}catch(System.Exception /*t_exception*/){
 				t_ret = false;
+
+				//エラー文字列。
+				NTaskW.TaskW.GetInstance().Post((a_state) => {
+					a_instance.SetErrorStringFromTask("System.Exception");
+				},null);
 			}
 
 			//閉じる。
@@ -59,6 +64,12 @@ namespace NSaveLoad
 
 			if(a_cancel.IsCancellationRequested == true){
 				t_ret = false;
+
+				//エラー文字列。
+				NTaskW.TaskW.GetInstance().Post((a_state) => {
+					a_instance.SetErrorStringFromTask("Cancel");
+				},null);
+
 				a_cancel.ThrowIfCancellationRequested();
 			}
 

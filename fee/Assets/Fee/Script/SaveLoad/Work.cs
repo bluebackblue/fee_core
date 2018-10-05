@@ -313,8 +313,11 @@ namespace NSaveLoad
 				{
 					MonoBehaviour_DownLoad t_download = NSaveLoad.SaveLoad.GetInstance().GetDownLoad();
 
-					if(t_download.Request(this.filename) == true){
-						this.mode = Mode.Do_Download;
+					//リクエスト。
+					if(this.type == Type.LoadStreamingAssetsBinaryFile){
+						if(t_download.RequestLoadStreamingAssetsBinaryFile(this.filename) == true){
+							this.mode = Mode.Do_Download;
+						}
 					}
 				}break;
 			case Mode.Do_Download:

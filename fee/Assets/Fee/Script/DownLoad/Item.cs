@@ -52,6 +52,10 @@ namespace NDownLoad
 		*/
 		private byte[] result_binary;
 
+		/** cancel_flag
+		*/
+		private bool cancel_flag;
+
 		/** constructor
 		*/
 		public Item()
@@ -79,6 +83,9 @@ namespace NDownLoad
 
 			//result_binary
 			this.result_binary = null;
+
+			//cancel_flag
+			this.cancel_flag = false;
 		}
 
 		/** 処理中。チェック。
@@ -89,6 +96,20 @@ namespace NDownLoad
 				return true;
 			}
 			return false;
+		}
+
+		/** キャンセル。設定。
+		*/
+		public void Cancel()
+		{
+			this.cancel_flag = true;
+		}
+
+		/** キャンセル。取得。
+		*/
+		public bool IsCancel()
+		{
+			return this.cancel_flag;
 		}
 
 		/** プログレス。設定。

@@ -20,240 +20,166 @@ namespace NSaveLoad
 	*/
 	public class MonoBehaviour_DownLoad : MonoBehaviour_Base
 	{
-		/** delete_flag
+		/** リクエストタイプ。
 		*/
-		//[SerializeField]
-		//private bool delete_flag;
+		private enum RequestType
+		{
+			None = -1,
 
-		/** mode
+			/** ロードストリーミングアセット。バイナリファイル。
+			*/
+			LoadStreamingAssetsBinaryFile,
+		};
+
+		/** request_type
 		*/
-		//[SerializeField]
-		//private Mode mode;
+		[SerializeField]
+		private RequestType request_type;
 
-		/** reqest_filename
+		/** request_filename
 		*/
 		[SerializeField]
 		private string request_filename;
 
-		/** result_errorstring
+		/** [MonoBehaviour_Base]コールバック。初期化。
 		*/
-		//[SerializeField]
-		//private string result_errorstring;
-
-		/** result_progress 
-		*/
-		//[SerializeField]
-		//private float result_progress;
-
-		/** result_datatype
-		*/
-		//[SerializeField]
-		//private DataType result_datatype;
-
-		/** result_binary
-		*/
-		[SerializeField]
-		private byte[] result_binary;
-
-		/** Awake
-		*/
-		private void Awake()
+		protected override void OnInitialize()
 		{
-			//delete_flag
-			this.delete_flag = false;
+			//request_type
+			this.request_type = RequestType.None;
 
-			//mode
-			this.mode = Mode.WaitRequest;
-
-			//reqest_filename
+			//request_filename
 			this.request_filename = null;
+		}
 
-			//result_errorstring
-			this.result_errorstring = null;
+		/** [MonoBehaviour_Base]コールバック。開始。
+		*/
+		protected override IEnumerator OnStart()
+		{
+			switch(this.request_type){
+			case RequestType.LoadStreamingAssetsBinaryFile:
+				{
+					Tool.Log("Monobehaviour_DownLoad",this.request_type.ToString());
+					this.mode = Mode.Do;
+				}break;
+			default:
+				{
+					//不明なリクエスト。
+					this.result_datatype = DataType.Error;
+					this.result_errorstring = "request_type == " + this.request_type.ToString();
+					Tool.Assert(false);
+				}break;
+			}
 
-			//result_progress 
-			this.result_progress = 0.0f;
+			yield break;
+		}
 
-			//result_datatype
-			this.result_datatype = DataType.None;
+		/** [MonoBehaviour_Base]コールバック。実行。
+		*/
+		protected override IEnumerator OnDo()
+		{
+			switch(this.request_type){
+			case RequestType.LoadStreamingAssetsBinaryFile:
+				{
+					yield return this.Raw_Do_LoadStreamingAssetsBinaryFile();
 
-			//result_binary
-			this.result_binary = null;
+					if(this.result_datatype == DataType.SaveEnd){
+						this.mode = Mode.Do_Success;
+						yield break;
+					}
+				}break;
+			}
+
+			{
+				this.result_datatype = DataType.Error;
+				if(this.result_errorstring == null){
+					this.result_errorstring = "errorstring == null";
+				}
+			}
+
+			this.mode = Mode.Do_Error;
+			yield break;
+		}
+
+		/** [MonoBehaviour_Base]コールバック。エラー終了。
+		*/
+		protected override IEnumerator OnDoError()
+		{
+			this.result_progress = 1.0f;
+
+			this.mode = Mode.Fix;
+			yield break;
+		}
+
+		/** [MonoBehaviour_Base]コールバック。正常終了。
+		*/
+		protected override IEnumerator OnDoSuccess()
+		{
+			this.result_progress = 1.0f;
+
+			this.mode = Mode.Fix;
+			yield break;
 		}
 
 		/** リクエスト。
 		*/
-		public bool Request(string a_filename)
+		public bool RequestLoadStreamingAssetsBinaryFile(string a_filename)
 		{
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
+				this.ResetFlag();
 
+				this.request_type = RequestType.LoadStreamingAssetsBinaryFile;
 				this.request_filename = a_filename;
 
-				this.result_errorstring = null;
-				this.result_progress = 0.0f;
-				this.result_datatype = DataType.None;
-				this.result_binary = null;
-
 				return true;
+			}else{
+				return false;
 			}
-			return false;
-		}
-
-		/** 完了チェック。
-		*/
-		public bool IsFix()
-		{
-			if(this.mode == Mode.Fix){
-				return true;
-			}
-			return false;
-		}
-
-		/** リクエスト待ち開始。
-		*/
-		public void WaitRequest()
-		{
-			if(this.mode == Mode.Fix){
-				this.mode = Mode.WaitRequest;
-			}
-		}
-
-		/** DeleteRequest
-		*/
-		public void DeleteRequest()
-		{
-			this.delete_flag = true;
-		}
-
-		/** プログレス。取得。
-		*/
-		/*
-		public float GetResultProgress()
-		{
-			return this.result_progress;
-		}
-		*/
-
-		/** データタイプ。取得。
-		*/
-		/*
-		public DataType GetResultDataType()
-		{
-			return this.result_datatype;
-		}
-		*/
-
-		/** 結果。取得。
-		*/
-		public byte[] GetResultBinary()
-		{
-			return this.result_binary;
-		}
-
-		/** エラー文字。取得。
-		*/
-		/*
-		public string GetResultErrorString()
-		{
-			return this.result_errorstring;
-		}
-		*/
-
-		/** プログレス。設定。
-		*/
-		public void SetProgressFromTask(float a_progress)
-		{
-			Tool.Log("MonoBehaviour_DownLoad","progress = " + a_progress.ToString());
-			this.result_progress = a_progress;
 		}
 
 		/** [内部からの呼び出し]実行中。ロードストリーミングアセット。バイナリファイル。
 		*/
 		private IEnumerator Raw_Do_LoadStreamingAssetsBinaryFile()
 		{
-			NDownLoad.Item t_download_item = NDownLoad.DownLoad.GetInstance().Request(Application.streamingAssetsPath + "/" + this.request_filename,NDownLoad.DataType.Binary);
+			string t_full_path = Application.streamingAssetsPath + "/" + this.request_filename;
+			Tool.Log(this.request_type.ToString(),t_full_path);
+
+			byte[] t_result = null;
+
 			{
+				NDownLoad.Item t_download_item = NDownLoad.DownLoad.GetInstance().Request(t_full_path,NDownLoad.DataType.Binary);
+
 				do{
 					this.result_progress = t_download_item.GetResultProgress();
 
 					if(this.delete_flag == true){
-						//キャンセル。
-
-						Tool.LogError("Raw_Do_LoadStreamingAssetsBinaryFile","Cancel");
-
-						this.result_errorstring = "Raw_Do_LoadStreamingAssetsBinaryFile : Cancel";
-						this.mode = Mode.Fix;
-						yield break;
+						Tool.Log("Raw_Do_LoadStreamingAssetsBinaryFile","Cancel");
+						t_download_item.Cancel();
 					}
+					yield return null;
 				}while(t_download_item.IsBusy() == true);
 
 				if(t_download_item.GetResultDataType() == NDownLoad.DataType.Binary){
-					this.result_binary = t_download_item.GetResultBinary();
-
-					if(this.result_binary == null){
-						//エラー。
-
-						this.result_errorstring = "Raw_Do_LoadStreamingAssetsBinaryFile : binary == null";
-						this.mode = Mode.Fix;
-						yield break;
+					if(t_download_item.GetResultBinary() != null){
+						if(t_download_item.GetResultBinary().Length > 0){
+							t_result = t_download_item.GetResultBinary();
+						}
 					}
+				}
 
-					if(this.result_binary.Length <= 0){
-						//エラー。
-
-						this.result_errorstring = "Raw_Do_LoadStreamingAssetsBinaryFile : binary.length <= 0";
-						this.mode = Mode.Fix;
-						yield break;
-					}
-				}else{
-					//失敗。
-
-					this.result_errorstring = t_download_item.GetResultErrorString();
-					this.mode = Mode.Fix;
-					yield break;
+				if(t_download_item.GetResultErrorString() != null){
+					this.result_errorstring = t_download_item.GetResultErrorString();	
 				}
 			}
 
-			//成功。
-			this.result_errorstring = null;
-			this.mode = Mode.Fix;
-			yield break;
-		}
-
-		/** Start
-		*/
-		private IEnumerator Start()
-		{
-			bool t_loop = true;
-			while(t_loop){
-				switch(this.mode){
-				case Mode.WaitRequest:
-					{
-						//リクエスト待ち。
-						yield return null;
-
-						if(this.delete_flag == true){
-							t_loop = false;
-						}
-					}break;
-				case Mode.Start:
-					{
-						this.mode = Mode.Do;
-					}break;
-				case Mode.Fix:
-					{
-						yield return null;
-
-						if(this.delete_flag == true){
-							t_loop = false;
-						}
-					}break;
-				}
+			//結果。
+			if(t_result != null){
+				this.SetResultBinary(t_result);
+				this.result_datatype = DataType.Binary;
+			}else{
+				this.result_datatype = DataType.Error;
 			}
-
-			Tool.Log("MonoBehaviour_DownLoad","GameObject.Destroy");
-			GameObject.Destroy(this.gameObject);
 		}
 	}
 }

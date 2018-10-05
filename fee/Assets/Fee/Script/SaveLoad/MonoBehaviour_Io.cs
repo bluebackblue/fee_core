@@ -48,116 +48,153 @@ namespace NSaveLoad
 
 			/** ロードローカル。ＰＮＧファイル。
 			*/
-			LoadLocalPngFile,	
-		}
-
-		/** delete_flag
-		*/
-		//[SerializeField]
-		//private bool delete_flag;
-
-		/** mode
-		*/
-		//[SerializeField]
-		//private Mode mode;
+			LoadLocalPngFile,
+		};
 
 		/** request_type
 		*/
 		[SerializeField]
 		private RequestType request_type;
 
-		/** reqest_filename
+		/** request_filename
 		*/
 		[SerializeField]
 		private string request_filename;
 
-		/** request_binary
+		/** [MonoBehaviour_Base]コールバック。初期化。
 		*/
-		[SerializeField]
-		private byte[] request_binary;
-
-		/** request_text
-		*/
-		[SerializeField]
-		private string request_text;
-
-		/** request_texture
-		*/
-		[SerializeField]
-		private Texture2D request_texture;
-
-		/** result_errorstring
-		*/
-		//[SerializeField]
-		//private string result_errorstring;
-
-		/** result_progress 
-		*/
-		//[SerializeField]
-		//private float result_progress;
-
-		/** result_datatype
-		*/
-		//[SerializeField]
-		//private DataType result_datatype;
-
-		/** result_binary
-		*/
-		[SerializeField]
-		private byte[] result_binary;
-
-		/** result_text
-		*/
-		[SerializeField]
-		private string result_text;
-
-		/** result_texture
-		*/
-		[SerializeField]
-		private Texture2D result_texture;
-
-		/** Awake
-		*/
-		private void Awake()
+		protected override void OnInitialize()
 		{
-			//delete_flag
-			this.delete_flag = false;
-
-			//mode
-			this.mode = Mode.WaitRequest;
-
 			//request_type
 			this.request_type = RequestType.None;
 
 			//request_filename
 			this.request_filename = null;
+		}
 
-			//request_binary
-			this.request_binary = null;
+		/** [MonoBehaviour_Base]コールバック。開始。
+		*/
+		protected override IEnumerator OnStart()
+		{
+			switch(this.request_type){
+			case RequestType.SaveLocalBinaryFile:
+			case RequestType.LoadLocalBinaryFile:
+			case RequestType.SaveLocalTextFile:
+			case RequestType.LoadLocalTextFile:
+			case RequestType.SaveLocalPngFile:
+			case RequestType.LoadLocalPngFile:
+				{
+					Tool.Log("MonoBehaviour_Io",this.request_type.ToString());
+					this.mode = Mode.Do;
+				}break;
+			default:
+				{
+					//不明なリクエスト。
+					this.result_datatype = DataType.Error;
+					this.result_errorstring = "request_type == " + this.request_type.ToString();
+					Tool.Assert(false);
+				}break;
+			}
 
-			//request_text
-			this.request_text = null;
+			yield break;
+		}
 
-			//request_texture
-			this.request_texture = null;
+		/** [MonoBehaviour_Base]コールバック。実行。
+		*/
+		protected override IEnumerator OnDo()
+		{
+			switch(this.request_type){
+			case RequestType.SaveLocalBinaryFile:
+				{
+					yield return this.Raw_Do_SaveLocalBinaryFile();
 
-			//result_errorstring
-			this.result_errorstring = "";
+					if(this.result_datatype == DataType.SaveEnd){
+						this.mode = Mode.Do_Success;
+						yield break;
+					}
+				}break;
+			case RequestType.LoadLocalBinaryFile:
+				{
+					yield return this.Raw_Do_LoadLocalBinaryFile();
 
-			//result_progress
-			this.result_progress = 0.0f;
+					if(this.result_datatype == DataType.Binary){
+						if(this.GetResultBinary() != null){
+							this.mode = Mode.Do_Success;
+							yield break;
+						}
+					}
+				}break;
+			case RequestType.SaveLocalTextFile:
+				{
+					yield return this.Raw_Do_SaveLocalTextFile();
 
-			//result_datatype
-			this.result_datatype = DataType.None;
+					if(this.result_datatype == DataType.SaveEnd){
+						this.mode = Mode.Do_Success;
+						yield break;
+					}
+				}break;
+			case RequestType.LoadLocalTextFile:
+				{
+					yield return this.Raw_Do_LoadLocalTextFile();
 
-			//result_binary
-			this.result_binary = null;
+					if(this.result_datatype == DataType.Text){
+						if(this.GetResultText() != null){
+							this.mode = Mode.Do_Success;
+							yield break;
+						}
+					}
+				}break;
+			case RequestType.SaveLocalPngFile:
+				{
+					yield return this.Raw_Do_SaveLocalPngFile();
 
-			//result_text
-			this.result_text = null;
+					if(this.result_datatype == DataType.SaveEnd){
+						this.mode = Mode.Do_Success;
+						yield break;
+					}
+				}break;
+			case RequestType.LoadLocalPngFile:
+				{
+					yield return this.Raw_Do_LoadLocalPngFile();
 
-			//result_texture
-			this.result_texture = null;
+					if(this.result_datatype == DataType.Texture){
+						if(this.GetResultTexture() != null){
+							this.mode = Mode.Do_Success;
+							yield break;
+						}
+					}
+				}break;
+			}
+
+			{
+				this.result_datatype = DataType.Error;
+				if(this.result_errorstring == null){
+					this.result_errorstring = "errorstring == null";
+				}
+			}
+
+			this.mode = Mode.Do_Error;
+			yield break;
+		}
+
+		/** [MonoBehaviour_Base]コールバック。エラー終了。
+		*/
+		protected override IEnumerator OnDoError()
+		{
+			this.result_progress = 1.0f;
+
+			this.mode = Mode.Fix;
+			yield break;
+		}
+
+		/** [MonoBehaviour_Base]コールバック。正常終了。
+		*/
+		protected override IEnumerator OnDoSuccess()
+		{
+			this.result_progress = 1.0f;
+
+			this.mode = Mode.Fix;
+			yield break;
 		}
 
 		/** リクエスト。
@@ -166,18 +203,11 @@ namespace NSaveLoad
 		{
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
+				this.ResetFlag();
 
 				this.request_type = RequestType.SaveLocalBinaryFile;
 				this.request_filename = a_filename;
 				this.request_binary = a_binary;
-				this.request_text = null;
-				this.request_texture = null;
-
-				this.result_progress = 0.0f;
-				this.result_datatype = DataType.None;
-				this.result_binary = null;
-				this.result_text = null;
-				this.result_texture = null;
 
 				return true;
 			}else{
@@ -191,18 +221,10 @@ namespace NSaveLoad
 		{
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
+				this.ResetFlag();
 
 				this.request_type = RequestType.LoadLocalBinaryFile;
 				this.request_filename = a_filename;
-				this.request_binary = null;
-				this.request_text = null;
-				this.request_texture = null;
-
-				this.result_progress = 0.0f;
-				this.result_datatype = DataType.None;
-				this.result_binary = null;
-				this.result_text = null;
-				this.result_texture = null;
 
 				return true;
 			}else{
@@ -216,18 +238,11 @@ namespace NSaveLoad
 		{
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
+				this.ResetFlag();
 
 				this.request_type = RequestType.SaveLocalTextFile;
 				this.request_filename = a_filename;
-				this.request_binary = null;
 				this.request_text = a_text;
-				this.request_texture = null;
-
-				this.result_progress = 0.0f;
-				this.result_datatype = DataType.None;
-				this.result_binary = null;
-				this.result_text = null;
-				this.result_texture = null;
 
 				return true;
 			}else{
@@ -241,18 +256,10 @@ namespace NSaveLoad
 		{
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
+				this.ResetFlag();
 
 				this.request_type = RequestType.LoadLocalTextFile;
 				this.request_filename = a_filename;
-				this.request_binary = null;
-				this.request_text = null;
-				this.request_texture = null;
-
-				this.result_progress = 0.0f;
-				this.result_datatype = DataType.None;
-				this.result_binary = null;
-				this.result_text = null;
-				this.result_texture = null;
 
 				return true;
 			}else{
@@ -266,18 +273,11 @@ namespace NSaveLoad
 		{
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
+				this.ResetFlag();
 
 				this.request_type = RequestType.SaveLocalPngFile;
 				this.request_filename = a_filename;
-				this.request_binary = null;
-				this.request_text = null;
 				this.request_texture = a_texture;
-
-				this.result_progress = 0.0f;
-				this.result_datatype = DataType.None;
-				this.result_binary = null;
-				this.result_text = null;
-				this.result_texture = null;
 
 				return true;
 			}else{
@@ -291,88 +291,15 @@ namespace NSaveLoad
 		{
 			if(this.mode == Mode.WaitRequest){
 				this.mode = Mode.Start;
+				this.ResetFlag();
 
 				this.request_type = RequestType.LoadLocalPngFile;
 				this.request_filename = a_filename;
-				this.request_binary = null;
-				this.request_text = null;
-				this.request_texture = null;
-
-				this.result_progress = 0.0f;
-				this.result_datatype = DataType.None;
-				this.result_binary = null;
-				this.result_text = null;
-				this.result_texture = null;
 
 				return true;
 			}else{
 				return false;
 			}
-		}
-
-		/** 完了チェック。
-		*/
-		public bool IsFix()
-		{
-			if(this.mode == Mode.Fix){
-				return true;
-			}
-			return false;
-		}
-
-		/** リクエスト待ち開始。
-		*/
-		public void WaitRequest()
-		{
-			if(this.mode == Mode.Fix){
-				this.mode = Mode.WaitRequest;
-			}
-		}
-
-		/** DeleteRequest
-		*/
-		public void DeleteRequest()
-		{
-			this.delete_flag = true;
-		}
-
-		/** プログレス。取得。
-		*/
-		/*
-		public float GetResultProgress()
-		{
-			return this.result_progress;
-		}
-		*/
-
-		/** データタイプ。取得。
-		*/
-		/*
-		public DataType GetResultDataType()
-		{
-			return this.result_datatype;
-		}
-		*/
-
-		/** 結果。取得。
-		*/
-		public byte[] GetResultBinary()
-		{
-			return this.result_binary;
-		}
-
-		/** 結果。取得。
-		*/
-		public string GetResultText()
-		{
-			return this.result_text;
-		}
-
-		/** 結果。取得。
-		*/
-		public Texture2D GetResultTexture()
-		{
-			return this.result_texture;
 		}
 
 		/** ＰＮＧのサイズをバイトバイナリから取得する。
@@ -404,8 +331,14 @@ namespace NSaveLoad
 		*/
 		public void SetProgressFromTask(float a_progress)
 		{
-			Tool.Log("MonoBehaviour_Io","progress = " + a_progress.ToString());
 			this.result_progress = a_progress;
+		}
+
+		/** エラー文字列。設定。
+		*/
+		public void SetErrorStringFromTask(string a_string)
+		{
+			this.result_errorstring = a_string;
 		}
 
 		/** [内部からの呼び出し]実行中。セーブローカル。バイナリファイル。
@@ -442,7 +375,6 @@ namespace NSaveLoad
 			}
 
 			//結果。
-			this.result_progress = 1.0f;
 			if(t_result == true){
 				this.result_datatype = DataType.SaveEnd;
 			}else{
@@ -484,14 +416,10 @@ namespace NSaveLoad
 			}
 
 			//結果。
-			this.result_progress = 1.0f;
 			if(t_result != null){
-				this.result_binary = t_result;
+				this.SetResultBinary(t_result);
 				this.result_datatype = DataType.Binary;
 			}else{
-				if(this.result_errorstring == null){
-					this.result_errorstring = "error == null";
-				}
 				this.result_datatype = DataType.Error;
 			}
 		}
@@ -530,7 +458,6 @@ namespace NSaveLoad
 			}
 
 			//結果。
-			this.result_progress = 1.0f;
 			if(t_result == true){
 				this.result_datatype = DataType.SaveEnd;
 			}else{
@@ -572,9 +499,8 @@ namespace NSaveLoad
 			}
 
 			//結果。
-			this.result_progress = 1.0f;
 			if(t_result != null){
-				this.result_text = t_result;
+				this.SetResultText(t_result);
 				this.result_datatype = DataType.Text;
 			}else{
 				this.result_datatype = DataType.Error;
@@ -621,7 +547,6 @@ namespace NSaveLoad
 			}
 
 			//結果。
-			this.result_progress = 1.0f;
 			if(t_result == true){
 				this.result_datatype = DataType.SaveEnd;
 			}else{
@@ -663,7 +588,6 @@ namespace NSaveLoad
 			}
 
 			//結果。
-			this.result_progress = 1.0f;
 			if(t_result != null){
 				byte[] t_binary = t_result;
 
@@ -682,91 +606,12 @@ namespace NSaveLoad
 				if(t_texture == null){
 					this.result_datatype = DataType.Error;
 				}else{
-					this.result_texture = t_texture;
+					this.SetResultTexture(t_texture);
 					this.result_datatype = DataType.Texture;
 				}
 			}else{
 				this.result_datatype = DataType.Error;
 			}
-		}
-
-		/** Start
-		*/
-		private IEnumerator Start()
-		{
-			bool t_loop = true;
-			while(t_loop){
-				switch(this.mode){
-				case Mode.WaitRequest:
-					{
-						//リクエスト待ち。
-						yield return null;
-
-						if(this.delete_flag == true){
-							t_loop = false;
-						}
-					}break;
-				case Mode.Start:
-					{
-						Tool.Log("MonoBehaviour_Io",this.request_type.ToString());
-						this.mode = Mode.Do;
-					}break;
-				case Mode.Do:
-					{
-						switch(this.request_type){
-						case RequestType.SaveLocalBinaryFile:
-							{
-								yield return this.Raw_Do_SaveLocalBinaryFile();
-							}break;
-						case RequestType.LoadLocalBinaryFile:
-							{
-								yield return this.Raw_Do_LoadLocalBinaryFile();
-							}break;
-						case RequestType.SaveLocalTextFile:
-							{
-								yield return this.Raw_Do_SaveLocalTextFile();
-							}break;
-						case RequestType.LoadLocalTextFile:
-							{
-								yield return this.Raw_Do_LoadLocalTextFile();
-							}break;
-						case RequestType.SaveLocalPngFile:
-							{
-								yield return this.Raw_Do_SaveLocalPngFile();
-							}break;
-						case RequestType.LoadLocalPngFile:
-							{
-								yield return this.Raw_Do_LoadLocalPngFile();
-							}break;
-						default:
-							{
-								this.result_datatype = DataType.Error;
-								this.result_errorstring = "request_type == " + this.request_type.ToString();
-								Tool.Assert(false);
-							}break;
-						}
-
-						if(this.result_datatype == DataType.Error){
-							if(this.result_errorstring == null){
-								this.result_errorstring = "error == null";
-							}
-						}
-
-						this.mode = Mode.Fix;
-					}break;
-				case Mode.Fix:
-					{
-						yield return null;
-
-						if(this.delete_flag == true){
-							t_loop = false;
-						}
-					}break;
-				}
-			}
-
-			Tool.Log("MonoBehaviour_Io","GameObject.Destroy");
-			GameObject.Destroy(this.gameObject);
 		}
 	}
 }
