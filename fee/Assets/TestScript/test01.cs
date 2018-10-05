@@ -144,6 +144,18 @@ public class test01 : main_base
 			t_text += "Streaming Assets = "	+ Application.streamingAssetsPath + "\n";
 			t_text += "Temporary Cache = "	+ Application.temporaryCachePath + "\n";
 
+			#if(USE_PUN)
+			t_text += "USE_PUN = true\n";
+			#else
+			t_text += "USE_PUN = false\n";
+			#endif
+
+			#if(USE_UNIVRM)
+			t_text += "USE_PUN = true\n";
+			#else
+			t_text += "USE_PUN = false\n";
+			#endif
+
 			this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 			this.status.SetRect(10,100,0,0);
 			this.status.SetFontSize(15);

@@ -100,7 +100,10 @@ public class test03 : main_base
 		this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.status.SetRect(100,100,0,0);
 
+		//download
 		this.download_item = null;
+
+		//binary
 		this.binary = null;
 
 		//カメラ。
