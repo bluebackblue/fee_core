@@ -307,6 +307,9 @@ namespace NSaveLoad
 						t_io.WaitRequest();
 
 						this.mode = Mode.End;
+					}else if(this.item.IsCancel() == true){
+						//キャンセル。
+						t_io.Cancel();
 					}
 				}break;
 			case Mode.Start_Download:
@@ -339,8 +342,10 @@ namespace NSaveLoad
 						t_download.WaitRequest();
 
 						this.mode = Mode.End;
+					}else if(this.item.IsCancel() == true){
+						//キャンセル。
+						t_download.Cancel();
 					}
-
 				}break;
 			}
 

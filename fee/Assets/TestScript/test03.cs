@@ -143,6 +143,11 @@ public class test03 : main_base
 			if(this.download_item.IsBusy() == true){
 				//ダウンロード中。
 				this.status.SetText("Download : " + this.download_item.GetResultProgress().ToString());
+
+				//キャンセル。
+				if(this.IsChangeScene() == true){
+					this.download_item.Cancel();
+				}
 			}else{
 				//ダウンロード完了。
 				if(this.download_item.GetResultDataType() == NDownLoad.DataType.Binary){

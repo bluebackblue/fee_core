@@ -254,7 +254,7 @@ namespace NDownLoad
 			{
 				do{
 					//プログレス。
-					this.SetResultProgress(this.CalcProgress(0.5f));
+					this.SetResultProgress(this.CalcProgress(t_saveload_item.GetResultProgress()));
 					
 					//キャンセル。
 					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
@@ -439,7 +439,7 @@ namespace NDownLoad
 			{
 				do{
 					//プログレス。
-					this.SetResultProgress(this.CalcProgress(0.5f));
+					this.SetResultProgress(this.CalcProgress(t_saveload_item.GetResultProgress()));
 					
 					//キャンセル。
 					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
@@ -486,7 +486,7 @@ namespace NDownLoad
 			{
 				do{
 					//プログレス。
-					this.SetResultProgress(this.CalcProgress(0.5f));
+					this.SetResultProgress(this.CalcProgress(t_saveload_item.GetResultProgress()));
 					
 					//キャンセル。
 					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){

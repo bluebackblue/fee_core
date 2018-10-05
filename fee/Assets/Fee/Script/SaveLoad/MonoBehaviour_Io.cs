@@ -407,7 +407,6 @@ namespace NSaveLoad
 			Tool.Log(this.request_type.ToString(),t_full_path);
 
 			bool t_result = false;
-			string t_errorstring = null;
 
 			{
 				//キャンセルトークン。
@@ -434,7 +433,6 @@ namespace NSaveLoad
 					t_result = t_task.GetResult();
 				}else{
 					t_result = false;
-					t_errorstring = "error";
 				}
 			}
 
@@ -443,13 +441,10 @@ namespace NSaveLoad
 				this.SetResultSaveEnd();
 				yield break;
 			}else{
-				if(t_errorstring != null){
-					this.SetResultErrorString(t_errorstring);
-					yield break;
-				}else{
+				if(this.GetResultDataType() != DataType.Error){
 					this.SetResultErrorString("null");
-					yield break;
 				}
+				yield break;
 			}
 		}
 
@@ -461,7 +456,6 @@ namespace NSaveLoad
 			Tool.Log(this.request_type.ToString(),t_full_path);
 
 			byte[] t_result = null;
-			string t_errorstring = null;
 
 			{
 				//キャンセルトークン。
@@ -488,7 +482,6 @@ namespace NSaveLoad
 					t_result = t_task.GetResult();
 				}else{
 					t_result = null;
-					t_errorstring = "error";
 				}
 			}
 
@@ -497,13 +490,10 @@ namespace NSaveLoad
 				this.SetResultBinary(t_result);
 				yield break;
 			}else{
-				if(t_errorstring != null){
-					this.SetResultErrorString(t_errorstring);
-					yield break;
-				}else{
+				if(this.GetResultDataType() != DataType.Error){
 					this.SetResultErrorString("null");
-					yield break;
 				}
+				yield break;
 			}
 		}
 
@@ -515,7 +505,6 @@ namespace NSaveLoad
 			Tool.Log(this.request_type.ToString(),t_full_path);
 
 			bool t_result = false;
-			string t_errorstring = null;
 
 			{
 				//キャンセルトークン。
@@ -542,7 +531,6 @@ namespace NSaveLoad
 					t_result = t_task.GetResult();
 				}else{
 					t_result = false;
-					t_errorstring = "error";
 				}
 			}
 
@@ -551,13 +539,10 @@ namespace NSaveLoad
 				this.SetResultSaveEnd();
 				yield break;
 			}else{
-				if(t_errorstring != null){
-					this.SetResultErrorString(t_errorstring);
-					yield break;
-				}else{
+				if(this.GetResultDataType() != DataType.Error){
 					this.SetResultErrorString("null");
-					yield break;
 				}
+				yield break;
 			}
 		}
 
@@ -569,7 +554,6 @@ namespace NSaveLoad
 			Tool.Log(this.request_type.ToString(),t_full_path);
 
 			string t_result = null;
-			string t_errorstring = null;
 
 			{
 				//キャンセルトークン。
@@ -596,7 +580,6 @@ namespace NSaveLoad
 					t_result = t_task.GetResult();
 				}else{
 					t_result = null;
-					t_errorstring = "error";
 				}
 			}
 
@@ -605,13 +588,10 @@ namespace NSaveLoad
 				this.SetResultText(t_result);
 				yield break;
 			}else{
-				if(t_errorstring != null){
-					this.SetResultErrorString(t_errorstring);
-					yield break;
-				}else{
+				if(this.GetResultDataType() != DataType.Error){
 					this.SetResultErrorString("null");
-					yield break;
 				}
+				yield break;
 			}
 		}
 
@@ -623,7 +603,6 @@ namespace NSaveLoad
 			Tool.Log(this.request_type.ToString(),t_full_path);
 
 			bool t_result = false;
-			string t_errorstring = null;
 
 			//TODO:busy
 			byte[] t_binary = null;
@@ -656,7 +635,6 @@ namespace NSaveLoad
 					t_result = t_task.GetResult();
 				}else{
 					t_result = false;
-					t_errorstring = "error";
 				}
 			}
 
@@ -665,13 +643,10 @@ namespace NSaveLoad
 				this.SetResultSaveEnd();
 				yield break;
 			}else{
-				if(t_errorstring != null){
-					this.SetResultErrorString(t_errorstring);
-					yield break;
-				}else{
+				if(this.GetResultDataType() != DataType.Error){
 					this.SetResultErrorString("null");
-					yield break;
 				}
+				yield break;
 			}
 		}
 
@@ -683,7 +658,6 @@ namespace NSaveLoad
 			Tool.Log(this.request_type.ToString(),t_full_path);
 
 			Texture2D t_result = null;
-			string t_errorstring = null;
 
 			{
 				//キャンセルトークン。
@@ -712,7 +686,6 @@ namespace NSaveLoad
 					t_result_binary = t_task.GetResult();
 				}else{
 					t_result_binary = null;
-					t_errorstring = "error";
 				}
 
 				//TODO:busy
@@ -723,7 +696,7 @@ namespace NSaveLoad
 					t_result = new Texture2D(t_width,t_height);
 					if(t_result.LoadImage(t_result_binary) == false){
 						t_result = null;
-						t_errorstring = "error : LoadImage";
+						this.SetResultErrorString("error : LoadImage");
 					}
 				}
 			}
@@ -733,13 +706,10 @@ namespace NSaveLoad
 				this.SetResultTexture(t_result);
 				yield break;
 			}else{
-				if(t_errorstring != null){
-					this.SetResultErrorString(t_errorstring);
-					yield break;
-				}else{
+				if(this.GetResultDataType() != DataType.Error){
 					this.SetResultErrorString("null");
-					yield break;
 				}
+				yield break;
 			}
 		}
 	}

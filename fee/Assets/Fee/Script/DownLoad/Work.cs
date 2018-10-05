@@ -193,6 +193,9 @@ namespace NDownLoad
 						t_webrequest.WaitRequest();						
 
 						this.mode = Mode.End;
+					}else if(this.item.IsCancel() == true){
+						//キャンセル。
+						t_webrequest.Cancel();
 					}
 				}break;
 			case Mode.Start_SoundPool:
@@ -228,6 +231,9 @@ namespace NDownLoad
 						t_soundpool.WaitRequest();						
 
 						this.mode = Mode.End;
+					}else if(this.item.IsCancel() == true){
+						//キャンセル。
+						t_soundpool.Cancel();
 					}
 				}break;
 			}
