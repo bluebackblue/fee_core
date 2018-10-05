@@ -76,6 +76,11 @@ namespace NSaveLoad
 		private GameObject io_gameobject;
 		private MonoBehaviour_Io io_script;
 
+		/** download
+		*/
+		private GameObject download_gameobject;
+		private MonoBehaviour_DownLoad download_script;
+
 		/** work_list
 		*/
 		private List<Work> work_list;
@@ -102,6 +107,14 @@ namespace NSaveLoad
 				this.io_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
 			}
 
+			//download
+			{
+				this.download_gameobject = new GameObject();
+				this.download_gameobject.name = "SaveLoad_DownLoad";
+				this.download_script = this.download_gameobject.AddComponent<MonoBehaviour_DownLoad>();
+				this.download_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
+			}
+
 			//work_list
 			this.work_list = new List<Work>();
 
@@ -118,6 +131,11 @@ namespace NSaveLoad
 			GameObject.DontDestroyOnLoad(this.io_gameobject);
 			this.io_script.DeleteRequest();
 
+			//削除リクエスト。
+			this.download_gameobject.GetComponent<Transform>().SetParent(null);
+			GameObject.DontDestroyOnLoad(this.download_gameobject);
+			this.download_script.DeleteRequest();
+
 			//ルート削除。
 			GameObject.Destroy(this.root_gameobject);
 		}
@@ -127,6 +145,13 @@ namespace NSaveLoad
 		public MonoBehaviour_Io GetIo()
 		{
 			return this.io_script;
+		}
+
+		/** DownLoad。取得。
+		*/
+		public MonoBehaviour_DownLoad GetDownLoad()
+		{
+			return this.download_script;
 		}
 
 		/** リクエスト。セーブローカル。バイナリファイル。
@@ -190,6 +215,17 @@ namespace NSaveLoad
 		{
 			Work t_work = new Work();
 			t_work.RequestLoadLocalPngFile(a_filename);
+
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。ロードストリーミングアセット。バイナリファイル。
+		*/
+		public Item RequestLoadStreamingAssetsBinaryFile(string a_filename)
+		{
+			Work t_work = new Work();
+			t_work.RequestLoadStreamingAssetsBinaryFile(a_filename);
 
 			this.add_list.Add(t_work);
 			return t_work.GetItem();

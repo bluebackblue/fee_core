@@ -28,9 +28,21 @@ namespace NSaveLoad
 			*/
 			Start,
 
+			/** 開始。
+			*/
+			Start_Io,
+
+			/** 実行中。
+			*/
+			Do_Io,
+
+			/** 開始。
+			*/
+			Start_Download,
+
 			/**	実行中。
 			*/
-			Do,
+			Do_Download,
 	
 			/** 完了。
 			*/
@@ -66,6 +78,10 @@ namespace NSaveLoad
 			/** ロードローカル。ＰＮＧファイル。
 			*/
 			LoadLocalPngFile,
+
+			/** ロードストリーミングアセット。バイナリファイル。
+			*/
+			LoadStreamingAssetsBinaryFile,
 		}
 
 		/** mode
@@ -173,41 +189,19 @@ namespace NSaveLoad
 			this.filename = a_filename;
 		}
 
+		/** ロードストリーミングアセット。バイナリファイル。
+		*/
+		public void RequestLoadStreamingAssetsBinaryFile(string a_filename)
+		{
+			this.type = Type.LoadStreamingAssetsBinaryFile;
+			this.filename = a_filename;
+		}
+
 		/** アイテム。
 		*/
 		public Item GetItem()
 		{
 			return this.item;
-		}
-
-		/** リクエスト。
-		*/
-		private bool Request()
-		{
-			MonoBehaviour_Io t_io = NSaveLoad.SaveLoad.GetInstance().GetIo();
-
-			switch(this.type){
-			case Type.SaveLocalBinaryFile:
-				{
-				}return t_io.RequestSaveLocalBinaryFile(this.filename,this.binary);
-			case Type.LoadLocalBinaryFile:
-				{
-				}return t_io.RequestLoadLocalBinaryFile(this.filename);
-			case Type.SaveLocalTextFile:
-				{
-				}return t_io.RequestSaveLocalTextFile(this.filename,this.text);
-			case Type.LoadLocalTextFile:
-				{
-				}return t_io.RequestLoadLocalTextFile(this.filename);
-			case Type.SaveLocalPngFile:
-				{
-				}return t_io.RequestSaveLocalPngFile(this.filename,this.texture);
-			case Type.LoadLocalPngFile:
-				{
-				}return t_io.RequestLoadLocalPngFile(this.filename);
-			}
-
-			return false;
 		}
 
 		/** 更新。
@@ -220,20 +214,67 @@ namespace NSaveLoad
 			switch(this.mode){
 			case Mode.Start:
 				{
-					if(this.Request() == true){
-						//開始。
-						this.mode = Mode.Do;
+					if(this.type == Type.LoadStreamingAssetsBinaryFile){
+						this.mode = Mode.Start_Download;
+						break;
 					}
+
+					this.mode = Mode.Start_Io;
 				}break;
-			case Mode.Do:
+			case Mode.End:
+				{
+				}return true;
+			case Mode.Start_Io:
 				{
 					MonoBehaviour_Io t_io = NSaveLoad.SaveLoad.GetInstance().GetIo();
 
-					if(t_io.IsFix() == false){
-						//処理中。
-						this.item.SetResultProgress(t_io.GetResultProgress());
-					}else{
+					//リクエスト。
+					switch(this.type){
+					case Type.SaveLocalBinaryFile:
+						{
+							if(t_io.RequestSaveLocalBinaryFile(this.filename,this.binary) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+					case Type.LoadLocalBinaryFile:
+						{
+							if(t_io.RequestLoadLocalBinaryFile(this.filename) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+					case Type.SaveLocalTextFile:
+						{
+							if(t_io.RequestSaveLocalTextFile(this.filename,this.text) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+					case Type.LoadLocalTextFile:
+						{
+							if(t_io.RequestLoadLocalTextFile(this.filename) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+					case Type.SaveLocalPngFile:
+						{
+							if(t_io.RequestSaveLocalPngFile(this.filename,this.texture) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+					case Type.LoadLocalPngFile:
+						{
+							if(t_io.RequestLoadLocalPngFile(this.filename) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+					}
+				}break;
+			case Mode.Do_Io:
+				{
+					MonoBehaviour_Io t_io = NSaveLoad.SaveLoad.GetInstance().GetIo();
 
+					this.item.SetResultProgress(t_io.GetResultProgress());
+
+					if(t_io.IsFix() == true){
 						//結果。
 						switch(t_io.GetResultDataType()){
 						case DataType.Binary:
@@ -268,9 +309,36 @@ namespace NSaveLoad
 						this.mode = Mode.End;
 					}
 				}break;
-			case Mode.End:
+			case Mode.Start_Download:
 				{
-				}return true;
+					MonoBehaviour_DownLoad t_download = NSaveLoad.SaveLoad.GetInstance().GetDownLoad();
+
+					if(t_download.Request(this.filename) == true){
+						this.mode = Mode.Do_Download;
+					}
+				}break;
+			case Mode.Do_Download:
+				{
+					MonoBehaviour_DownLoad t_download = NSaveLoad.SaveLoad.GetInstance().GetDownLoad();
+
+					this.item.SetResultProgress(t_download.GetResultProgress());
+
+					if(t_download.IsFix() == true){
+						//結果。
+
+						if(t_download.GetResultDataType() == DataType.Binary){
+							this.item.SetResultBinary(t_download.GetResultBinary());
+						}else{
+							this.item.SetResultError();
+						}
+
+						//リクエスト待ち開始。
+						t_download.WaitRequest();
+
+						this.mode = Mode.End;
+					}
+
+				}break;
 			}
 
 			return false;

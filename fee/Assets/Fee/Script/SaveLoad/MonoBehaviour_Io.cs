@@ -18,29 +18,8 @@ namespace NSaveLoad
 {
 	/** MonoBehaviour_Io
 	*/
-	public class MonoBehaviour_Io : MonoBehaviour
+	public class MonoBehaviour_Io : MonoBehaviour_Base
 	{
-		/** Mode
-		*/
-		private enum Mode
-		{
-			/** リクエスト待ち。
-			*/
-			WaitRequest,
-
-			/** 開始。
-			*/
-			Start,
-
-			/** 実行中。
-			*/
-			Do,
-
-			/** 完了。
-			*/
-			Fix,
-		};
-
 		/**  リクエストタイプ。
 		*/
 		private enum RequestType
@@ -74,13 +53,13 @@ namespace NSaveLoad
 
 		/** delete_flag
 		*/
-		[SerializeField]
-		private bool delete_flag;
+		//[SerializeField]
+		//private bool delete_flag;
 
 		/** mode
 		*/
-		[SerializeField]
-		private Mode mode;
+		//[SerializeField]
+		//private Mode mode;
 
 		/** request_type
 		*/
@@ -109,17 +88,18 @@ namespace NSaveLoad
 
 		/** result_errorstring
 		*/
-		[SerializeField]
-		private string result_errorstring;
+		//[SerializeField]
+		//private string result_errorstring;
 
 		/** result_progress 
 		*/
-		private float result_progress;
+		//[SerializeField]
+		//private float result_progress;
 
 		/** result_datatype
 		*/
-		[SerializeField]
-		private DataType result_datatype;
+		//[SerializeField]
+		//private DataType result_datatype;
 
 		/** result_binary
 		*/
@@ -358,17 +338,21 @@ namespace NSaveLoad
 
 		/** プログレス。取得。
 		*/
+		/*
 		public float GetResultProgress()
 		{
 			return this.result_progress;
 		}
+		*/
 
 		/** データタイプ。取得。
 		*/
+		/*
 		public DataType GetResultDataType()
 		{
 			return this.result_datatype;
 		}
+		*/
 
 		/** 結果。取得。
 		*/

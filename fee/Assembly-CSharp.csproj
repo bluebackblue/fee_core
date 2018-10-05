@@ -183,6 +183,8 @@
     <Compile Include="Assets\Fee\Script\SaveLoad\Config.cs" />
     <Compile Include="Assets\Fee\Script\SaveLoad\DataType.cs" />
     <Compile Include="Assets\Fee\Script\SaveLoad\Item.cs" />
+    <Compile Include="Assets\Fee\Script\SaveLoad\MonoBehaviour_Base.cs" />
+    <Compile Include="Assets\Fee\Script\SaveLoad\MonoBehaviour_DownLoad.cs" />
     <Compile Include="Assets\Fee\Script\SaveLoad\MonoBehaviour_Io.cs" />
     <Compile Include="Assets\Fee\Script\SaveLoad\SaveLoad.cs" />
     <Compile Include="Assets\Fee\Script\SaveLoad\Task_LoadLocalBinaryFile.cs" />

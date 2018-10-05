@@ -91,7 +91,7 @@ namespace NUniVrm
 			#if(USE_UNIVRM)
 			{
 				//context
-				VRM.VRMImporterContext t_context = new VRM.VRMImporterContext(/*UniGLTF.UnityPath.FromFullpath(t_full_path)*/);
+				VRM.VRMImporterContext t_context = new VRM.VRMImporterContext();
 
 				//parse
 				t_context.ParseGlb(a_binary);

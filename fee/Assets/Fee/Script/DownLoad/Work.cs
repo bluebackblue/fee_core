@@ -156,9 +156,9 @@ namespace NDownLoad
 				{
 					MonoBehaviour_WebRequest t_webrequest = NDownLoad.DownLoad.GetInstance().GetWebRequest();
 
-					if(t_webrequest.IsFix() == false){
-						this.item.SetResultProgress(t_webrequest.GetDownloadProgress());
-					}else{
+					this.item.SetResultProgress(t_webrequest.GetDownloadProgress());
+
+					if(t_webrequest.IsFix() == true){
 						this.item.SetResultProgress(t_webrequest.GetDownloadProgress());
 
 						//結果。
@@ -210,11 +210,9 @@ namespace NDownLoad
 				{
 					MonoBehaviour_SoundPool t_soundpool = NDownLoad.DownLoad.GetInstance().GetSoundPool();
 
-					if(t_soundpool.IsFix() == false){
-						this.item.SetResultProgress(t_soundpool.GetDownloadProgress());
-					}else{
-						this.item.SetResultProgress(t_soundpool.GetDownloadProgress());
+					this.item.SetResultProgress(t_soundpool.GetDownloadProgress());
 
+					if(t_soundpool.IsFix() == true){
 						//結果。
 						if(t_soundpool.GetResultDataType() == DataType.SoundPool){
 							this.item.SetResultSoundPool(t_soundpool.GetResultSoundPool());
