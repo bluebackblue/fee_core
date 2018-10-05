@@ -31,6 +31,11 @@ namespace NSaveLoad
 			LoadStreamingAssetsBinaryFile,
 		};
 
+		/** cancel_flag
+		*/
+		[SerializeField]
+		private bool cancel_flag;
+
 		/** request_type
 		*/
 		[SerializeField]
@@ -45,6 +50,9 @@ namespace NSaveLoad
 		*/
 		protected override void OnInitialize()
 		{
+			//cancel_flag
+			this.cancel_flag = false;
+
 			//request_type
 			this.request_type = RequestType.None;
 
@@ -60,14 +68,13 @@ namespace NSaveLoad
 			case RequestType.LoadStreamingAssetsBinaryFile:
 				{
 					Tool.Log("Monobehaviour_DownLoad",this.request_type.ToString());
-					this.mode = Mode.Do;
+					this.SetModeDo();
 				}break;
 			default:
 				{
 					//不明なリクエスト。
-					this.result_datatype = DataType.Error;
-					this.result_errorstring = "request_type == " + this.request_type.ToString();
-					Tool.Assert(false);
+					this.SetResultErrorString("request_type == " + this.request_type.ToString());
+					this.SetModeDoError();
 				}break;
 			}
 
@@ -83,21 +90,14 @@ namespace NSaveLoad
 				{
 					yield return this.Raw_Do_LoadStreamingAssetsBinaryFile();
 
-					if(this.result_datatype == DataType.SaveEnd){
-						this.mode = Mode.Do_Success;
+					if(this.GetResultDataType() == DataType.SaveEnd){
+						this.SetModeDoSuccess();
 						yield break;
 					}
 				}break;
 			}
 
-			{
-				this.result_datatype = DataType.Error;
-				if(this.result_errorstring == null){
-					this.result_errorstring = "errorstring == null";
-				}
-			}
-
-			this.mode = Mode.Do_Error;
+			this.SetModeDoError();
 			yield break;
 		}
 
@@ -105,9 +105,9 @@ namespace NSaveLoad
 		*/
 		protected override IEnumerator OnDoError()
 		{
-			this.result_progress = 1.0f;
+			this.SetResultProgress(1.0f);
 
-			this.mode = Mode.Fix;
+			this.SetModeFix();
 			yield break;
 		}
 
@@ -115,30 +115,39 @@ namespace NSaveLoad
 		*/
 		protected override IEnumerator OnDoSuccess()
 		{
-			this.result_progress = 1.0f;
+			this.SetResultProgress(1.0f);
 
-			this.mode = Mode.Fix;
+			this.SetModeFix();
 			yield break;
+		}
+
+		/** キャンセル。
+		*/
+		public void Cancel()
+		{
+			this.cancel_flag = true;
 		}
 
 		/** リクエスト。
 		*/
 		public bool RequestLoadStreamingAssetsBinaryFile(string a_filename)
 		{
-			if(this.mode == Mode.WaitRequest){
-				this.mode = Mode.Start;
-				this.ResetFlag();
+			if(this.IsWaitRequest() == true){
+				this.SetModeStart();
+				this.ResetResultFlag();
+
+				this.cancel_flag = false;
 
 				this.request_type = RequestType.LoadStreamingAssetsBinaryFile;
 				this.request_filename = a_filename;
 
 				return true;
-			}else{
-				return false;
 			}
+
+			return false;
 		}
 
-		/** [内部からの呼び出し]実行中。ロードストリーミングアセット。バイナリファイル。
+		/** [内部からの呼び出し]ロードストリーミングアセット。バイナリファイル。
 		*/
 		private IEnumerator Raw_Do_LoadStreamingAssetsBinaryFile()
 		{
@@ -146,17 +155,20 @@ namespace NSaveLoad
 			Tool.Log(this.request_type.ToString(),t_full_path);
 
 			byte[] t_result = null;
+			string t_errorstring = null;
 
 			{
 				NDownLoad.Item t_download_item = NDownLoad.DownLoad.GetInstance().Request(t_full_path,NDownLoad.DataType.Binary);
 
 				do{
-					this.result_progress = t_download_item.GetResultProgress();
+					//プログレス。
+					this.SetResultProgress(t_download_item.GetResultProgress());
 
-					if(this.delete_flag == true){
-						Tool.Log("Raw_Do_LoadStreamingAssetsBinaryFile","Cancel");
+					//キャンセル。
+					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
 						t_download_item.Cancel();
 					}
+
 					yield return null;
 				}while(t_download_item.IsBusy() == true);
 
@@ -169,16 +181,22 @@ namespace NSaveLoad
 				}
 
 				if(t_download_item.GetResultErrorString() != null){
-					this.result_errorstring = t_download_item.GetResultErrorString();	
+					t_errorstring = t_download_item.GetResultErrorString();	
 				}
 			}
 
 			//結果。
 			if(t_result != null){
 				this.SetResultBinary(t_result);
-				this.result_datatype = DataType.Binary;
+				yield break;
 			}else{
-				this.result_datatype = DataType.Error;
+				if(t_errorstring != null){
+					this.SetResultErrorString(t_errorstring);
+					yield break;
+				}else{
+					this.SetResultErrorString("null");
+					yield break;
+				}
 			}
 		}
 	}

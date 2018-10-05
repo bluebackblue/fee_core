@@ -151,9 +151,9 @@ public class test01 : main_base
 			#endif
 
 			#if(USE_UNIVRM)
-			t_text += "USE_PUN = true\n";
+			t_text += "USE_UNIVRM = true\n";
 			#else
-			t_text += "USE_PUN = false\n";
+			t_text += "USE_UNIVRM = false\n";
 			#endif
 
 			this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority);

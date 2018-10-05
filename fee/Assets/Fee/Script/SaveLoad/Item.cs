@@ -40,6 +40,10 @@ namespace NSaveLoad
 		*/
 		private Texture2D result_texture;
 
+		/** cancel_flag
+		*/
+		private bool cancel_flag;
+
 		/** constructor
 		*/
 		public Item()
@@ -58,6 +62,9 @@ namespace NSaveLoad
 
 			//result_texture
 			this.result_texture = null;
+
+			//cancel_flag
+			this.cancel_flag = false;
 		}
 
 		/** 処理中。チェック。
@@ -68,6 +75,20 @@ namespace NSaveLoad
 				return true;
 			}
 			return false;
+		}
+
+		/** キャンセル。設定。
+		*/
+		public void Cancel()
+		{
+			this.cancel_flag = true;
+		}
+
+		/** キャンセル。取得。
+		*/
+		public bool IsCancel()
+		{
+			return this.cancel_flag;
 		}
 
 		/** プログレス。設定。

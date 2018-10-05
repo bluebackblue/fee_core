@@ -8,13 +8,13 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief セーブロード。
+ * @brief ダウンロード。
 */
 
 
-/** NSaveLoad
+/** NDownLoad
 */
-namespace NSaveLoad
+namespace NDownLoad
 {
 	/** MonoBehaviour_Base
 	*/
@@ -109,6 +109,16 @@ namespace NSaveLoad
 		[SerializeField]
 		private Texture2D result_texture;
 
+		/** result_soundpool
+		*/
+		[SerializeField]
+		private NAudio.Pack_SoundPool result_soundpool;
+
+		/** result_assetbundle
+		*/
+		[SerializeField]
+		private AssetBundle result_assetbundle;
+
 		/** 結果フラグリセット。
 		*/
 		protected void ResetResultFlag()
@@ -120,6 +130,9 @@ namespace NSaveLoad
 			this.result_binary = null;
 			this.result_text = null;
 			this.result_texture = null;
+
+			this.result_soundpool = null;
+			this.result_assetbundle = null;
 		}
 
 		/** プログレス。取得。
@@ -232,13 +245,6 @@ namespace NSaveLoad
 
 		/** 結果。設定。
 		*/
-		public void SetResultSaveEnd()
-		{
-			this.result_datatype = DataType.SaveEnd;
-		}
-
-		/** 結果。設定。
-		*/
 		public void SetResultErrorString(string a_error_string)
 		{
 			this.result_datatype = DataType.Error;
@@ -290,6 +296,36 @@ namespace NSaveLoad
 			return this.result_texture;
 		}
 
+		/** 結果。設定。
+		*/
+		public void SetResultSoundPool(NAudio.Pack_SoundPool a_soundpool)
+		{
+			this.result_datatype = DataType.SoundPool;
+			this.result_soundpool = a_soundpool;
+		}
+
+		/** 結果。取得。
+		*/
+		public NAudio.Pack_SoundPool GetResultSoundPool()
+		{
+			return this.result_soundpool;
+		}
+
+		/** 結果。設定。
+		*/
+		public void SetResultAssetBundle(AssetBundle a_assetbundle)
+		{
+			this.result_datatype = DataType.AssetBundle;
+			this.result_assetbundle = a_assetbundle;
+		}
+
+		/** 結果。取得。
+		*/
+		public AssetBundle GetResultAssetBundle()
+		{
+			return this.result_assetbundle;
+		}
+
 		/** Awake
 		*/
 		private void Awake()
@@ -303,6 +339,9 @@ namespace NSaveLoad
 			this.result_binary = null;
 			this.result_text = null;
 			this.result_texture = null;
+
+			this.result_soundpool = null;
+			this.result_assetbundle = null;
 
 			this.OnInitialize();
 		}

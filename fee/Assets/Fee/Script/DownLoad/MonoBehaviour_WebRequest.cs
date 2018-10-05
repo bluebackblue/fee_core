@@ -18,127 +18,65 @@ namespace NDownLoad
 {
 	/** MonoBehaviour_WebRequest
 	*/
-	public class MonoBehaviour_WebRequest : MonoBehaviour
+	public class MonoBehaviour_WebRequest : MonoBehaviour_Base
 	{
-		/** Mode
+		/** リクエストタイプ。
 		*/
-		private enum Mode
+		private enum RequestType
 		{
-			/** リクエスト待ち。
-			*/
-			WaitRequest,
+			None = -1,
 
-			/** 開始。
+			/** ダウンロード。アセットバンドル。
 			*/
-			Start,
+			DownLoadAssetBundle,
 
-			/** 実行中。
+			/** ダウンロード。バイナリ。
 			*/
-			Do,
+			DownLoadBinary,
 
-			/** エラー終了。
+			/** ダウンロード。テキスト。
 			*/
-			Do_Error,
+			DownLoadText,
 
-			/** 正常終了。
+			/** ダウンロード。テクスチャ。
 			*/
-			Do_Fix,
-
-			/** 完了。
-			*/
-			Fix,
+			DownLoadTexture,
 		};
 
-		/** delete_flag
+		/** cancel_flag
 		*/
 		[SerializeField]
-		private bool delete_flag;
+		private bool cancel_flag;
 
-		/** mode
+		/** request_type
 		*/
 		[SerializeField]
-		private Mode mode;
-
-		/** webrequest
-		*/
-		private UnityEngine.Networking.UnityWebRequest webrequest;
-		private UnityEngine.Networking.UnityWebRequestAsyncOperation webrequest_async;
-
-		/** request_flag
-		*/
-		[SerializeField]
-		private bool request_flag;
+		private RequestType request_type;
 
 		/** request_url
 		*/
 		[SerializeField]
 		private string request_url;
 
-		[SerializeField]
-		private DataType request_datatype;
-
+		/** request_data_version
+		*/
 		[SerializeField]
 		private uint request_data_version;
 
+		/** request_assetbundle_id
+		*/
 		[SerializeField]
 		private long request_assetbundle_id;
 
-		/** result_errorstring
+		/** [MonoBehaviour_Base]コールバック。初期化。
 		*/
-		[SerializeField]
-		private string result_errorstring;
-
-		/** result_download_progress
-		*/
-		[SerializeField]
-		private float result_download_progress;
-
-		/** result_upload_progress
-		*/
-		[SerializeField]
-		private float result_upload_progress;
-
-		/** result_datatype
-		*/
-		[SerializeField]
-		private DataType result_datatype;
-
-		/** result_assetbundle
-		*/
-		[SerializeField]
-		private AssetBundle result_assetbundle;
-
-		/** result_text
-		*/
-		[SerializeField]
-		private string result_text;
-
-		/** result_texture
-		*/
-		[SerializeField]
-		private Texture2D result_texture;
-
-		/** result_binary
-		*/
-		[SerializeField]
-		private byte[] result_binary;
-
-		/** Awake
-		*/
-		private void Awake()
+		protected override void OnInitialize()
 		{
-			//delete_flag
-			this.delete_flag = false;
+			//cancel_flag
+			this.cancel_flag = false;
 
-			//mode
-			this.mode = Mode.WaitRequest;
-
-			//webrequest
-			this.webrequest = null;
-			this.webrequest_async = null;
-
-			//result_datatype
-			this.result_datatype = DataType.None;
+			//request_type
+			this.request_type = RequestType.None;
 
 			//request_url
 			this.request_url = null;
@@ -146,441 +84,472 @@ namespace NDownLoad
 			//request_data_version
 			this.request_data_version = 0;
 
-			//request_datatype
-			this.request_datatype = DataType.None;
-
 			//request_assetbundle_id
 			this.request_assetbundle_id = Config.INVALID_ASSSETBUNDLE_ID;
-
-			//result_errorstring
-			this.result_errorstring = "";
-
-			//result_download_progress
-			this.result_download_progress = 0.0f;
-
-			//result_upload_progress
-			this.result_upload_progress = 0.0f;
-
-			//result_assetbundle
-			this.result_assetbundle = null;
-
-			//result_text
-			this.result_text = null;
-
-			//result_texture
-			this.result_texture = null;
-
-			//result_binary
-			this.result_binary = null;
 		}
 
-		/**  [内部からの呼び出し]開始。
+		/** [MonoBehaviour_Base]コールバック。開始。
 		*/
-		private IEnumerator Raw_Start()
+		protected override IEnumerator OnStart()
 		{
-			if(this.request_flag == true){
-				switch(this.request_datatype){
-				case DataType.AssetBundle:
-					{
-						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_data_version.ToString() + " : " + this.request_url);
-						this.webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(this.request_url,this.request_data_version,0);
-						yield return null;
-					}break;
-				case DataType.Text:
-					{
-						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
-						this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);
-						yield return null;
-					}break;
-				case DataType.Texture:
-					{
-						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
-						this.webrequest = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(this.request_url);
-						yield return null;
-					}break;
-				case DataType.Binary:
-					{
-						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
-						this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);
-						yield return null;
-					}break;
-				default:
-					{
-						Tool.Log("MonoBehaviour_WebRequest",this.request_datatype.ToString() + " : " + this.request_url);
-						this.webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url);
-						yield return null;
-					}break;
-				}
-
-				if(this.webrequest != null){
-					this.webrequest_async = this.webrequest.SendWebRequest();
-				}
-
-				this.mode = Mode.Do;
+			switch(this.request_type){
+			case RequestType.DownLoadAssetBundle:
+			case RequestType.DownLoadBinary:
+			case RequestType.DownLoadText:
+			case RequestType.DownLoadTexture:
+				{
+					Tool.Log("MonoBehaviour_WebRequest",this.request_type.ToString());
+					this.SetModeDo();
+				}break;
+			default:
+				{
+					//不明なリクエスト。
+					this.SetResultErrorString("request_type == " + this.request_type.ToString());
+					this.SetModeDoError();
+				}break;
 			}
 
 			yield break;
 		}
 
-		/** [内部からの呼び出し]実行中。
+		/** [MonoBehaviour_Base]コールバック。実行。
 		*/
-		private IEnumerator Raw_Do()
+		protected override IEnumerator OnDo()
 		{
-			//エラーチェック。
-			if((this.webrequest.isNetworkError == true)||(this.webrequest.isHttpError == true)){
-				//エラー終了。
-				this.mode = Mode.Do_Error;
-				yield break;
+			switch(this.request_type){
+			case RequestType.DownLoadAssetBundle:
+				{
+					yield return this.Raw_Do_DownLoadAssetBundle();
+
+					if(this.GetResultDataType() == DataType.AssetBundle){
+						if(this.GetResultAssetBundle() != null){
+							this.SetModeDoSuccess();
+							yield break;
+						}
+					}
+				}break;
+			case RequestType.DownLoadBinary:
+				{
+					yield return this.Raw_Do_DownLoadBinary();
+
+					if(this.GetResultDataType() == DataType.Binary){
+						if(this.GetResultBinary() != null){
+							this.SetModeDoSuccess();
+							yield break;
+						}
+					}
+				}break;
+			case RequestType.DownLoadText:
+				{
+					yield return this.Raw_Do_DownLoadText();
+
+					if(this.GetResultDataType() == DataType.Text){
+						if(this.GetResultText() != null){
+							this.SetModeDoSuccess();
+							yield break;
+						}
+					}
+				}break;
+			case RequestType.DownLoadTexture:
+				{
+					yield return this.Raw_Do_DownLoadTexture();
+
+					if(this.GetResultDataType() == DataType.Texture){
+						if(this.GetResultTexture() != null){
+							this.SetModeDoSuccess();
+							yield break;
+						}
+					}
+				}break;
 			}
 
-			//実行中チェック。
-			if(this.webrequest.isDone == false){
-				this.result_download_progress = this.webrequest.downloadProgress;
-				this.result_upload_progress = this.webrequest.uploadProgress;
-
-				if(this.result_download_progress >= 0.999f){
-					this.result_download_progress = 0.999f;
-				}else if(this.result_download_progress < 0.0f){
-					this.result_download_progress = 0.0f;
-				}
-
-				if(this.result_upload_progress >= 0.999f){
-					this.result_upload_progress = 0.999f;
-				}else if(this.result_upload_progress < 0.0f){
-					this.result_upload_progress = 0.0f;
-				}
-			}else{
-				if((this.webrequest.isNetworkError == true)||(this.webrequest.isHttpError == true)){
-					//エラー終了。
-					this.mode = Mode.Do_Error;
-					yield break;
-				}else{
-					//正常終了。
-					this.mode = Mode.Do_Fix;
-					yield break;
-				}
-			}
-
-			yield return null;
-
+			this.SetModeDoError();
 			yield break;
 		}
 
-		/** [内部からの呼び出し]エラー終了。
+		/** [MonoBehaviour_Base]コールバック。エラー終了。
 		*/
-		private IEnumerator Raw_DoError()
+		protected override IEnumerator OnDoError()
 		{
-			//終了確認。
-			if(this.webrequest_async != null){
-				yield return this.webrequest_async;
-			}
+			this.SetResultProgress(1.0f);
 
-			{
-				this.result_datatype = DataType.Error;
-				this.result_errorstring = this.webrequest.error;
-				if(this.result_errorstring == null){
-					this.result_errorstring = "error == null";
-				}
-			}
-
-			//解放。
-			{
-				this.webrequest_async = null;
-				this.webrequest.Dispose();
-				this.webrequest = null;
-			}
-
-			//終了。
-			this.result_download_progress = 1.0f;
-			this.result_upload_progress = 1.0f;
-			this.request_flag = false;
-
-			this.mode = Mode.Fix;
-
-			yield return null;
-
+			this.SetModeFix();
 			yield break;
 		}
 
-		/** [内部からの呼び出し]終了。
+		/** [MonoBehaviour_Base]コールバック。正常終了。
 		*/
-		private IEnumerator Raw_DoFix()
+		protected override IEnumerator OnDoSuccess()
 		{
-			//終了確認。
-			if(this.webrequest_async != null){
-				yield return this.webrequest_async;
-			}
+			this.SetResultProgress(1.0f);
 
-			//コンバート。
-			{
-				switch(this.request_datatype){
-				case DataType.AssetBundle:
-					{
-						try{
-							this.result_assetbundle = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(this.webrequest);
-						}catch(System.Exception t_exception){
-							Tool.LogError(t_exception);
-						}
-
-						yield return null;
-
-						if(this.result_assetbundle != null){
-
-							//アセットバンドルリストに登録。
-							NDownLoad.DownLoad.GetInstance().GetAssetBundleList().Regist(this.request_assetbundle_id,this.result_assetbundle);
-
-							this.result_errorstring = "";
-							this.result_datatype = DataType.AssetBundle;
-						}else{
-							this.result_errorstring = "ConvertError : AssetBundle";
-							this.result_datatype = DataType.Error;
-						}
-					}break;
-				case DataType.Text:
-					{
-						try{
-							this.result_text = this.webrequest.downloadHandler.text;
-						}catch(System.Exception t_exception){
-							Tool.LogError(t_exception);
-						}
-
-						yield return null;
-
-						if(this.result_text != null){
-							this.result_errorstring = "";
-							this.result_datatype = DataType.Text;
-						}else{
-							this.result_errorstring = "ConvertError : Text";
-							this.result_datatype = DataType.Error;
-						}
-					}break;
-				case DataType.Texture:
-					{
-						try{
-							this.result_texture = UnityEngine.Networking.DownloadHandlerTexture.GetContent(this.webrequest);
-						}catch(System.Exception t_exception){
-							Tool.LogError(t_exception);
-						}
-
-						yield return null;
-
-						if(this.result_texture != null){
-							this.result_errorstring = "";
-							this.result_datatype = DataType.Texture;
-						}else{
-							this.result_errorstring = "ConvertError : Texture";
-							this.result_datatype = DataType.Error;
-						}
-					}break;
-				case DataType.Binary:
-					{
-						try{
-							this.result_binary = this.webrequest.downloadHandler.data;
-						}catch(System.Exception t_exception){
-							Tool.LogError(t_exception);
-						}
-
-						yield return null;
-
-						if(this.result_binary != null){
-							this.result_errorstring = "";
-							this.result_datatype = DataType.Binary;
-						}else{
-							this.result_errorstring = "ConvertError : Binary";
-							this.result_datatype = DataType.Error;
-						}
-					}break;
-				default:
-					{
-						this.result_errorstring = "ConvertError : Unknown";
-						this.result_datatype = DataType.Error;
-					}break;
-				}
-
-				Tool.Log("MonoBehaviour_WebRequest","Convert : " + this.result_datatype.ToString());
-			}
-
-			//解放。
-			{
-				this.webrequest_async = null;
-				this.webrequest.Dispose();
-				this.webrequest = null;
-			}
-
-			//終了。
-			this.result_download_progress = 1.0f;
-			this.result_upload_progress = 1.0f;
-			this.request_flag = false;
-
-			this.mode = Mode.Fix;
-
+			this.SetModeFix();
 			yield break;
 		}
 
-		/** Start
+		/** キャンセル。
 		*/
-		private IEnumerator Start()
+		public void Cancel()
 		{
-			bool t_loop = true;
-			while(t_loop){
-				switch(this.mode){
-				case Mode.WaitRequest:
-					{
-						//リクエスト待ち。
-						yield return null;
-
-						if(this.delete_flag == true){
-							t_loop = false;
-						}
-					}break;
-				case Mode.Start:
-					{
-						//開始。
-						yield return this.Raw_Start();
-					}break;
-				case Mode.Do:
-					{
-						//実行。
-						yield return this.Raw_Do();
-					}break;
-				case Mode.Do_Error:
-					{
-						//エラー終了。
-						yield return this.Raw_DoError();
-					}break;
-				case Mode.Do_Fix:
-					{
-						//正常終了。
-						yield return this.Raw_DoFix();
-					}break;
-				case Mode.Fix:
-					{
-						yield return null;
-
-						if(this.delete_flag == true){
-							t_loop = false;
-						}
-					}break;
-				}
-			}
-
-			//削除。
-			Tool.Log("MonoBehaviour_WebRequest","GameObject.Destroy");
-			GameObject.Destroy(this.gameObject);
+			this.cancel_flag = true;
 		}
 
 		/** リクエスト。
 		*/
 		public bool Request(string a_url,DataType a_datatype,uint a_data_version,long a_assetbundle_id)
 		{
-			if(this.mode == Mode.WaitRequest){
-				this.mode = Mode.Start;
+			if(this.IsWaitRequest() == true){
+				this.SetModeStart();
+				this.ResetResultFlag();
 
-				//開始。
-				this.request_flag = true;
+				this.cancel_flag = false;
+	
+				switch(a_datatype){
+				case DataType.AssetBundle:
+					{
+						this.request_type = RequestType.DownLoadAssetBundle;
+					}break;
+				case DataType.Binary:
+					{
+						this.request_type = RequestType.DownLoadBinary;
+					}break;
+				case DataType.Text:
+					{
+						this.request_type = RequestType.DownLoadText;
+					}break;
+				case DataType.Texture:
+					{
+						this.request_type = RequestType.DownLoadTexture;
+					}break;
+				default:
+					{
+						this.request_type = RequestType.None;
+					}break;
+				}
 
-				//request
 				this.request_url = a_url;
-				this.request_datatype = a_datatype;
 				this.request_data_version = a_data_version;
 				this.request_assetbundle_id = a_assetbundle_id;
 
-				//result
-				this.result_errorstring = "";
-				this.result_download_progress = 0.0f;
-				this.result_upload_progress = 0.0f;
-				this.result_datatype = DataType.None;
-				this.result_assetbundle = null;
-				this.result_text = null;
-				this.result_texture = null;
-				this.result_binary = null;
-
-				return true;
-			}else{
-				return false;
-			}
-		}
-
-		/** 完了チェック。
-		*/
-		public bool IsFix()
-		{
-			if(this.mode == Mode.Fix){
 				return true;
 			}
+
 			return false;
 		}
 
-		/** リクエスト待ち開始。
+		/** [内部からの呼び出し]ダウンロード。アセットバンドル。
 		*/
-		public void WaitRequest()
+		private IEnumerator Raw_Do_DownLoadAssetBundle()
 		{
-			if(this.mode == Mode.Fix){
-				this.mode = Mode.WaitRequest;
+			Tool.Log("MonoBehaviour_WebRequest",this.request_data_version.ToString() + " : " + this.request_url);
+
+			AssetBundle t_result = null;
+			string t_errorstring = null;
+
+			using(UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(this.request_url,this.request_data_version,0)){
+				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
+
+				if(t_webrequest != null){
+					t_webrequest_async = t_webrequest.SendWebRequest();
+					if(t_webrequest_async == null){
+						this.SetResultErrorString("webrequest_async == null");
+						yield break;
+					}
+				}else{
+					this.SetResultErrorString("webrequest == null");
+					yield break;
+				}
+
+				while(true){
+					//プログレス。
+					{
+						float t_progress = t_webrequest.downloadProgress;
+						if(t_progress >= 0.999f){
+							t_progress = 0.999f;
+						}else if(t_progress < 0.0f){
+							t_progress = 0.0f;
+						}
+						this.SetResultProgress(t_progress);
+					}
+
+					//エラーチェック。
+					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
+						//エラー終了。
+						this.SetResultErrorString(t_webrequest.error);
+						yield break;
+					}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
+						//正常終了。
+						break;
+					}
+
+					//キャンセル。
+					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+						t_webrequest.Abort();
+					}
+
+					yield return null;
+				}
+
+				if(t_webrequest_async != null){
+					yield return t_webrequest_async;
+				}
+
+				try{
+					t_result = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(t_webrequest);
+				}catch(System.Exception t_exception){
+					Tool.LogError(t_exception);
+				}
+			}
+
+			if(t_result != null){
+				//アセットバンドルリストに登録。
+				NDownLoad.DownLoad.GetInstance().GetAssetBundleList().Regist(this.request_assetbundle_id,t_result);
+
+				this.SetResultAssetBundle(t_result);
+				yield break;
+			}else{
+				if(t_errorstring != null){
+					this.SetResultErrorString(t_errorstring);
+					yield break;
+				}else{
+					this.SetResultErrorString("null");
+					yield break;
+				}
 			}
 		}
 
-		/** DeleteRequest
+		/** [内部からの呼び出し]ダウンロード。バイナリ。
 		*/
-		public void DeleteRequest()
+		private IEnumerator Raw_Do_DownLoadBinary()
 		{
-			this.delete_flag = true;
+			Tool.Log("MonoBehaviour_WebRequest",this.request_url);
+
+			byte[] t_result = null;
+			string t_errorstring = null;
+
+			using(UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url)){
+				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
+
+				if(t_webrequest != null){
+					t_webrequest_async = t_webrequest.SendWebRequest();
+					if(t_webrequest_async == null){
+						this.SetResultErrorString("webrequest_async == null");
+						yield break;
+					}
+				}else{
+					this.SetResultErrorString("webrequest == null");
+					yield break;
+				}
+
+				while(true){
+					//プログレス。
+					{
+						float t_progress = t_webrequest.downloadProgress;
+						if(t_progress >= 0.999f){
+							t_progress = 0.999f;
+						}else if(t_progress < 0.0f){
+							t_progress = 0.0f;
+						}
+						this.SetResultProgress(t_progress);
+					}
+
+					//エラーチェック。
+					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
+						//エラー終了。
+						this.SetResultErrorString(t_webrequest.error);
+						yield break;
+					}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
+						//正常終了。
+						break;
+					}
+
+					//キャンセル。
+					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+						t_webrequest.Abort();
+					}
+
+					yield return null;
+				}
+
+				if(t_webrequest_async != null){
+					yield return t_webrequest_async;
+				}
+
+				try{
+					t_result = t_webrequest.downloadHandler.data;
+				}catch(System.Exception t_exception){
+					Tool.LogError(t_exception);
+				}
+			}
+
+			if(t_result != null){
+				this.SetResultBinary(t_result);
+				yield break;
+			}else{
+				if(t_errorstring != null){
+					this.SetResultErrorString(t_errorstring);
+					yield break;
+				}else{
+					this.SetResultErrorString("null");
+					yield break;
+				}
+			}
 		}
 
-		/** データタイプ。取得。
+		/** [内部からの呼び出し]ダウンロード。テキスト。
 		*/
-		public DataType GetResultDataType()
+		private IEnumerator Raw_Do_DownLoadText()
 		{
-			return this.result_datatype;
+			Tool.Log("MonoBehaviour_WebRequest",this.request_url);
+
+			string t_result = null;
+			string t_errorstring = null;
+
+			using(UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequest.Get(this.request_url)){
+				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
+
+				if(t_webrequest != null){
+					t_webrequest_async = t_webrequest.SendWebRequest();
+					if(t_webrequest_async == null){
+						this.SetResultErrorString("webrequest_async == null");
+						yield break;
+					}
+				}else{
+					this.SetResultErrorString("webrequest == null");
+					yield break;
+				}
+
+				while(true){
+					//プログレス。
+					{
+						float t_progress = t_webrequest.downloadProgress;
+						if(t_progress >= 0.999f){
+							t_progress = 0.999f;
+						}else if(t_progress < 0.0f){
+							t_progress = 0.0f;
+						}
+						this.SetResultProgress(t_progress);
+					}
+
+					//エラーチェック。
+					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
+						//エラー終了。
+						this.SetResultErrorString(t_webrequest.error);
+						yield break;
+					}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
+						//正常終了。
+						break;
+					}
+
+					//キャンセル。
+					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+						t_webrequest.Abort();
+					}
+
+					yield return null;
+				}
+
+				if(t_webrequest_async != null){
+					yield return t_webrequest_async;
+				}
+
+				try{
+					t_result = t_webrequest.downloadHandler.text;
+				}catch(System.Exception t_exception){
+					Tool.LogError(t_exception);
+				}
+			}
+
+			if(t_result != null){
+				this.SetResultText(t_result);
+				yield break;
+			}else{
+				if(t_errorstring != null){
+					this.SetResultErrorString(t_errorstring);
+					yield break;
+				}else{
+					this.SetResultErrorString("null");
+					yield break;
+				}
+			}
 		}
 
-		/** エラー文字。取得。
+		/** [内部からの呼び出し]ダウンロード。テクスチャ。
 		*/
-		public string GetResultErrorString()
+		private IEnumerator Raw_Do_DownLoadTexture()
 		{
-			return this.result_errorstring;
-		}
+			Tool.Log("MonoBehaviour_WebRequest",this.request_url);
 
-		/** プログレス。取得。
-		*/
-		public float GetDownloadProgress()
-		{
-			return this.result_download_progress;
-		}
+			Texture2D t_result = null;
+			string t_errorstring = null;
 
-		/** プログレス。取得。
-		*/
-		public float GetUploadProgress()
-		{
-			return this.result_upload_progress;
-		}
+			using(UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(this.request_url)){
+				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
 
-		/** 結果。取得。
-		*/
-		public AssetBundle GetResultAssetBundle()
-		{
-			return this.result_assetbundle;
-		}
+				if(t_webrequest != null){
+					t_webrequest_async = t_webrequest.SendWebRequest();
+					if(t_webrequest_async == null){
+						this.SetResultErrorString("webrequest_async == null");
+						yield break;
+					}
+				}else{
+					this.SetResultErrorString("webrequest == null");
+					yield break;
+				}
 
-		/** 結果。取得。
-		*/
-		public string GetResultText()
-		{
-			return this.result_text;
-		}
+				while(true){
+					//プログレス。
+					{
+						float t_progress = t_webrequest.downloadProgress;
+						if(t_progress >= 0.999f){
+							t_progress = 0.999f;
+						}else if(t_progress < 0.0f){
+							t_progress = 0.0f;
+						}
+						this.SetResultProgress(t_progress);
+					}
 
-		/** 結果。取得。
-		*/
-		public Texture2D GetResultTexture()
-		{
-			return this.result_texture;
-		}
+					//エラーチェック。
+					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
+						//エラー終了。
+						this.SetResultErrorString(t_webrequest.error);
+						yield break;
+					}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
+						//正常終了。
+						break;
+					}
 
-		/** 結果。取得。
-		*/
-		public byte[] GetResultBinary()
-		{
-			return this.result_binary;
+					//キャンセル。
+					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+						t_webrequest.Abort();
+					}
+
+					yield return null;
+				}
+
+				if(t_webrequest_async != null){
+					yield return t_webrequest_async;
+				}
+
+				try{
+					t_result = UnityEngine.Networking.DownloadHandlerTexture.GetContent(t_webrequest);
+				}catch(System.Exception t_exception){
+					Tool.LogError(t_exception);
+				}
+			}
+
+			if(t_result != null){
+				this.SetResultTexture(t_result);
+				yield break;
+			}else{
+				if(t_errorstring != null){
+					this.SetResultErrorString(t_errorstring);
+					yield break;
+				}else{
+					this.SetResultErrorString("null");
+					yield break;
+				}
+			}
 		}
 	}
 }

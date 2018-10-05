@@ -156,11 +156,9 @@ namespace NDownLoad
 				{
 					MonoBehaviour_WebRequest t_webrequest = NDownLoad.DownLoad.GetInstance().GetWebRequest();
 
-					this.item.SetResultProgress(t_webrequest.GetDownloadProgress());
+					this.item.SetResultProgress(t_webrequest.GetResultProgress());
 
 					if(t_webrequest.IsFix() == true){
-						this.item.SetResultProgress(t_webrequest.GetDownloadProgress());
-
 						//結果。
 						switch(t_webrequest.GetResultDataType()){
 						case DataType.AssetBundle:
@@ -210,7 +208,7 @@ namespace NDownLoad
 				{
 					MonoBehaviour_SoundPool t_soundpool = NDownLoad.DownLoad.GetInstance().GetSoundPool();
 
-					this.item.SetResultProgress(t_soundpool.GetDownloadProgress());
+					this.item.SetResultProgress(t_soundpool.GetResultProgress());
 
 					if(t_soundpool.IsFix() == true){
 						//結果。
