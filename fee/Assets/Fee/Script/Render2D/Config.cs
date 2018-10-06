@@ -62,13 +62,22 @@ namespace NRender2D
 		*/
 		public static float CAMERADEPTH_STEP = 0.01f;
 
+		/** カメラデプス。レイヤーごとの基準値からのオフセット値。
+		*/
+		public static float CAMERADEPTH_OFFSET_BEFORE = 0.000f;
+
 		/** カメラデプス。ＧＬカメラのレイヤーごとの基準値からのオフセット値。
 		*/
 		public static float CAMERADEPTH_OFFSET_GL = 0.001f;
 
 		/** カメラデプス。ＵＩカメラのレイヤーごとの基準値からのオフセット値。
 		*/
-		public static float CAMERADEPTJ_OFFSET_UI = 0.002f;
+		public static float CAMERADEPTH_OFFSET_UI = 0.002f;
+
+		/** カメラデプス。レイヤーごとの基準値からのオフセット値。
+		*/
+		public static float CAMERADEPTH_OFFSET_AFTER = 0.003f;
+
 
 		/** プレハブ名。
 		*/

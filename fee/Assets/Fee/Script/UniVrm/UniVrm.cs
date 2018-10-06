@@ -192,6 +192,27 @@ namespace NUniVrm
 				}
 			}
 		}
+
+		/** [内部からの呼び出し]レイヤー。設定。
+		*/
+		private static void Raw_SetLayer(Transform a_transform,int a_layer)
+		{
+			GameObject t_gameobject = a_transform.gameObject;
+			if(t_gameobject != null){
+				t_gameobject.layer = a_layer;
+			}
+
+			foreach(Transform t_transform in a_transform){
+				Raw_SetLayer(t_transform,a_layer);
+			}
+		}
+
+		/** レイヤー。設定。
+		*/
+		public void SetLayer(string a_layername)
+		{
+			Raw_SetLayer(this.context.Root.transform,LayerMask.NameToLayer(a_layername));
+		}
 	}
 }
 

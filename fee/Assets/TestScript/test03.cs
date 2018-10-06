@@ -31,6 +31,14 @@ public class test03 : main_base
 	*/
 	private NRender2D.InputField2D inputfield;
 
+	/** bg
+	*/
+	private NRender2D.Sprite2D bg;
+
+	/** window
+	*/
+	private NRender2D.Sprite2D window;
+
 	/** ステータス。
 	*/
 	private NRender2D.Text2D status;
@@ -47,6 +55,15 @@ public class test03 : main_base
 	/** mycamera
 	*/
 	private GameObject mycamera;
+
+	enum LayerIndex
+	{
+		LayerIndex_Bg = 0,
+
+		LayerIndex_Model = 0,
+
+		LayerIndex_Ui = 1,
+	}
 
 	/** Start
 	*/
@@ -83,26 +100,49 @@ public class test03 : main_base
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
-		//layerindex
-		int t_layerindex = 0;
+		{
+			//layerindex
+			int t_layerindex_ui = (int)LayerIndex.LayerIndex_Ui;
 
-		//drawpriority
-		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
+			//drawpriority
+			long t_drawpriority_ui = t_layerindex_ui * NRender2D.Render2D.DRAWPRIORITY_STEP;
 
-		//button
-		this.button = new NUi.Button(this.deleter,null,t_drawpriority,this.CallBack_Click,0);
-		this.button.SetRect(130,10,50,50);
-		this.button.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button.SetText("Load");
+			//button
+			this.button = new NUi.Button(this.deleter,null,t_drawpriority_ui,this.CallBack_Click,0);
+			this.button.SetRect(130,10,50,50);
+			this.button.SetTexture(Resources.Load<Texture2D>("button"));
+			this.button.SetText("Load");
 
-		//inputfield
-		this.inputfield = new NRender2D.InputField2D(this.deleter,null,t_drawpriority);
-		this.inputfield.SetRect(130 + 50 + 10,10,700,50);
-		this.inputfield.SetText("http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx");
+			//inputfield
+			this.inputfield = new NRender2D.InputField2D(this.deleter,null,t_drawpriority_ui);
+			this.inputfield.SetRect(130 + 50 + 10,10,700,50);
+			this.inputfield.SetText("http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx");
 
-		//ステータス。
-		this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
-		this.status.SetRect(100,100,0,0);
+			//ステータス。
+			this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority_ui);
+			this.status.SetRect(100,100,0,0);
+
+			//window
+			this.window = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority_ui);
+			this.window.SetTexture(Texture2D.whiteTexture);
+			this.window.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+			this.window.SetRect(300,300,200,200);
+			this.window.SetColor(1.0f,0.1f,0.1f,0.5f);
+			this.window.SetMaterialType(NRender2D.Config.MaterialType.Alpha);
+		}
+
+		//bg
+		{
+			int t_layerindex_bg = (int)LayerIndex.LayerIndex_Bg;
+
+			long t_drawpriority_bg = t_layerindex_bg * NRender2D.Render2D.DRAWPRIORITY_STEP;
+
+			this.bg = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority_bg);
+			this.bg.SetTexture(Texture2D.whiteTexture);
+			this.bg.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+			this.bg.SetRect(ref NRender2D.Render2D.VIRTUAL_RECT_MAX);
+			this.bg.SetColor(0.1f,0.1f,0.1f,1.0f);
+		}
 
 		//download
 		this.download_item = null;
@@ -113,6 +153,16 @@ public class test03 : main_base
 
 		//カメラ。
 		this.mycamera = GameObject.Find("Main Camera");
+		Camera t_camera = this.mycamera.GetComponent<Camera>();
+		if(t_camera != null){
+			//クリアしない。
+			t_camera.clearFlags = CameraClearFlags.Nothing;
+
+			//モデルを表示。
+			t_camera.cullingMask = (1 << LayerMask.NameToLayer("Model"));
+
+			t_camera.depth = NRender2D.Render2D.GetInstance().GetCameraAfterDepth((int)LayerIndex.LayerIndex_Model);
+		}
 	}
 
 	/** [Button_Base]コールバック。クリック。
@@ -131,8 +181,6 @@ public class test03 : main_base
 			this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadStreamingAssetsBinaryFile("nana.vrmx");
 			#endif
 		}
-
-
 	}
 
 	/** Update
@@ -201,12 +249,14 @@ public class test03 : main_base
 			this.status.SetText("Create : size = " + this.binary.Length.ToString());
 			NUniVrm.UniVrm.GetInstance().Create(this.binary);
 			this.binary = null;
+
+			NUniVrm.UniVrm.GetInstance().SetLayer("Model");
 		}
 
 		//カメラを回す。
 		if(this.mycamera != null){
 
-			float t_time = Time.realtimeSinceStartup;
+			float t_time = Time.realtimeSinceStartup / 3;
 
 			Vector3 t_position = new Vector3(Mathf.Sin(t_time) * 2.0f,1.0f,Mathf.Cos(t_time) * 2.0f);
 
@@ -214,6 +264,17 @@ public class test03 : main_base
 
 			t_camera_transform.position = t_position;
 			t_camera_transform.LookAt(new Vector3(0.0f,1.0f,0.0f));
+
+			GameObject t_gameobject = GameObject.Find("J_Bip_R_Hand");
+			if(t_gameobject != null){
+				Vector2 t_gui_pos = RectTransformUtility.WorldToScreenPoint(this.mycamera.GetComponent<Camera>(),t_gameobject.GetComponent<Transform>().position);
+
+				int t_x;
+				int t_y;
+				NRender2D.Render2D.GetInstance().GuiScreenToVirtualScreen((int)t_gui_pos.x,(int)(Screen.height - t_gui_pos.y),out t_x,out t_y);
+				this.window.SetX(t_x - this.window.GetW()/2);
+				this.window.SetY(t_y - this.window.GetH()/2);
+			}
 		}
 	}
 

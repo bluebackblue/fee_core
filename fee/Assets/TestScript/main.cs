@@ -69,7 +69,13 @@ public class main : MonoBehaviour
 		//パッド。
 		NInput.Pad.DeleteInstance();
 
-		//２Ｄ描画。インスタンス削除。
+		//ネットワーク。
+		NNetwork.Network.DeleteInstance();
+
+		//パフォーマンスカウンター。
+		NPerformanceCounter.PerformanceCounter.DeleteInstance();
+
+		//２Ｄ描画。
 		NRender2D.Render2D.DeleteInstance();
 
 		//セーブロード。
@@ -78,14 +84,14 @@ public class main : MonoBehaviour
 		//シーン。
 		NScene.Scene.DeleteInstance();
 
-		//ネットワーク。
-		NNetwork.Network.DeleteInstance();
-
-		//パフォーマンスカウンター。
-		NPerformanceCounter.PerformanceCounter.DeleteInstance();
-
 		//タスク。
 		NTaskW.TaskW.DeleteInstance();
+
+		//ＵＩ。
+		NUi.Ui.DeleteInstance();
+
+		//ＵＮＩＶＲＭ。
+		NUniVrm.UniVrm.DeleteInstance();
 	}
 
 	/** デバッグ表示。

@@ -326,18 +326,32 @@ namespace NRender2D
 			return this.screen.GetScreenCalcSpriteH();
 		}
 
-		/** コールバック。設定。
+		/** カメラデプス。取得。
 		*/
 		public float GetGLCameraDepth(int a_layerindex)
 		{
 			return this.layerlist.GetGLCameraDepth(a_layerindex);
 		}
 
-		/** コールバック。設定。
+		/** カメラデプス。取得。
 		*/
 		public float GetUICameraDepth(int a_layerindex)
 		{
 			return this.layerlist.GetUICameraDepth(a_layerindex);
+		}
+
+		/** カメラデプス。取得。
+		*/
+		public float GetCameraBeforeDepth(int a_layerindex)
+		{
+			return Config.CAMERADEPTH_START + a_layerindex * Config.CAMERADEPTH_STEP + Config.CAMERADEPTH_OFFSET_BEFORE;
+		}
+
+		/** カメラデプス。取得。
+		*/
+		public float GetCameraAfterDepth(int a_layerindex)
+		{
+			return Config.CAMERADEPTH_START + a_layerindex * Config.CAMERADEPTH_STEP + Config.CAMERADEPTH_OFFSET_AFTER;
 		}
 
 		/** 描画前処理。

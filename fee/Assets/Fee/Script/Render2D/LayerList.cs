@@ -55,7 +55,7 @@ namespace NRender2D
 
 				//描画順序。
 				float t_gl_depth = Config.CAMERADEPTH_START + ii * Config.CAMERADEPTH_STEP + Config.CAMERADEPTH_OFFSET_GL;
-				float t_ui_depth = Config.CAMERADEPTH_START + ii * Config.CAMERADEPTH_STEP + Config.CAMERADEPTJ_OFFSET_UI;
+				float t_ui_depth = Config.CAMERADEPTH_START + ii * Config.CAMERADEPTH_STEP + Config.CAMERADEPTH_OFFSET_UI;
 
 				//カメラ。ＧＬ描画。
 				GameObject t_gameobject_camera_gl = NInstantiate.Instantiate.CreateOrthographicCameraObject("Camera_" + ii.ToString() + "_GL",a_transform_root,t_gl_depth);
