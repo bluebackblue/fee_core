@@ -117,6 +117,7 @@ public class test03 : main_base
 			this.inputfield = new NRender2D.InputField2D(this.deleter,null,t_drawpriority_ui);
 			this.inputfield.SetRect(130 + 50 + 10,10,700,50);
 			this.inputfield.SetText("http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx");
+			this.inputfield.SetMultiLine(false);
 
 			//ステータス。
 			this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority_ui);
@@ -175,7 +176,7 @@ public class test03 : main_base
 				GameObject.Destroy(t_model);
 			}
 
-			#if(false)
+			#if(true)
 			this.download_item = NDownLoad.DownLoad.GetInstance().Request(this.inputfield.GetText(),NDownLoad.DataType.Binary);
 			#else
 			this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadStreamingAssetsBinaryFile("nana.vrmx");
