@@ -64,8 +64,19 @@ public class test10 : main_base
 		//マウス。インスタンス作成。
 		NInput.Mouse.CreateInstance();
 
+		//イベントプレート。インスタンス作成。
+		NEventPlate.EventPlate.CreateInstance();
+
+		//ＵＩ。インスタンス作成。
+		//NUi.Config.LOG_ENABLE = true;
+		NUi.Ui.CreateInstance();
+
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
+
+		//戻るボタン作成。
+		this.CreateReturnButton(this.deleter,(NRender2D.Render2D.MAX_LAYER - 1) * NRender2D.Render2D.DRAWPRIORITY_STEP);
 
 		//スプライト。
 		{
@@ -85,12 +96,18 @@ public class test10 : main_base
 		this.mode = Mode.None;
 	}
 
-	/** Update
+	/** FixedUpdate
 	*/
-	private void Update()
+	private void FixedUpdate()
 	{
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
+
+		//イベントプレート。
+		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
+
+		//ＵＩ。
+		NUi.Ui.GetInstance().Main();
 
 		if(NInput.Mouse.GetInstance().left.down == true){
 			if(NInput.Mouse.GetInstance().InRectCheck(ref NRender2D.Render2D.VIRTUAL_RECT_MAX)){

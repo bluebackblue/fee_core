@@ -142,6 +142,9 @@ public class test02 : main_base
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
+		//戻るボタン作成。
+		this.CreateReturnButton(this.deleter,(NRender2D.Render2D.MAX_LAYER - 1) * NRender2D.Render2D.DRAWPRIORITY_STEP);
+
 		//ボタン。
 		{
 			this.button_save1 = new NUi.Button(this.deleter,null,0,this.CallBack_Click_Save,1);
@@ -282,9 +285,9 @@ public class test02 : main_base
 		this.status.SetText(t_text);
 	}
 
-	/** Update
+	/** FixedUpdate
 	*/
-	private void Update()
+	private void FixedUpdate()
 	{
 		//ＵＩ。
 		NUi.Ui.GetInstance().Main();

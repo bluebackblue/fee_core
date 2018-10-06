@@ -24,6 +24,14 @@ public class main : MonoBehaviour
 	*/
 	private static int SCENE_COUNT = 20;
 
+	/** deleter
+	*/
+	NDeleter.Deleter deleter;
+
+	/** button
+	*/
+	NUi.Button[] button;
+
 	/** Start
 	*/
 	void Start()
@@ -36,6 +44,54 @@ public class main : MonoBehaviour
 
 		//ライブラリ停止。
 		this.DeleteLibInstance();
+
+		//インスタンス作成。
+		{
+			//２Ｄ描画。
+			NRender2D.Render2D.CreateInstance();
+
+			//ＵＩ。
+			NUi.Ui.CreateInstance();
+
+			//イベントプレート。
+			NEventPlate.EventPlate.CreateInstance();
+
+			//マウス。
+			NInput.Mouse.CreateInstance();
+		}
+
+		{
+			//deleter
+			this.deleter = new NDeleter.Deleter();
+
+			//button
+			this.button = new NUi.Button[this.scene_list.Length];
+			for(int ii=0;ii<this.button.Length;ii++){
+
+				int t_xx_max = 9;
+
+				int t_xx = ii % t_xx_max;
+				int t_yy = ii / t_xx_max;
+
+				int t_x = 30 + t_xx * 100;
+				int t_y = 30 + t_yy * 60;
+				int t_w = 80;
+				int t_h = 40;
+
+				string t_name = null;
+
+				if(ii < this.scene_list.Length){
+					t_name = this.scene_list[ii];
+				}else{
+					t_name = "-";
+				}
+
+				this.button[ii] = new NUi.Button(this.deleter,null,0,Click,ii);
+				this.button[ii].SetTexture(Resources.Load<Texture2D>("button"));
+				this.button[ii].SetRect(t_x,t_y,t_w,t_h);
+				this.button[ii].SetText(t_name);
+			}
+		}
 	}
 
 	/** ライブラリ停止。
@@ -94,40 +150,35 @@ public class main : MonoBehaviour
 		NUniVrm.UniVrm.DeleteInstance();
 	}
 
-	/** デバッグ表示。
+	/** 更新。
 	*/
-	private void OnGUI()
-    {
-		//ii_max
-		int ii_max = 50;
+	private void FixedUpdate()
+	{
+		//マウス。
+		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
 
-		for(int ii=0;ii<ii_max;ii++){
-			int t_xx_max = Screen.width / 100;
-			int t_xx = ii % t_xx_max;
-			int t_yy = ii / t_xx_max;
+		//イベントプレート。
+		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
 
-			string t_name = null;
-			
-			if(ii < this.scene_list.Length){
-				t_name = this.scene_list[ii];
-			}
+		//ＵＩ。
+		NUi.Ui.GetInstance().Main();
+	}
 
-			int t_x = 30 + t_xx * 100;
-			int t_y = 30 + t_yy * 60;
-			int t_w = 80;
-			int t_h = 40;
+	/** クリック。
+	*/
+	public void Click(int a_id)
+	{
+		UnityEngine.SceneManagement.SceneManager.LoadScene(this.scene_list[a_id]);
+	}
 
-			string t_button_string = t_name;
-			if(t_button_string == null){
-				t_button_string = "-";
-			}
-			
-			if(GUI.Button(new Rect(t_x,t_y,t_w,t_h),t_button_string) == true){
-				if(t_name != null){
-					UnityEngine.SceneManagement.SceneManager.LoadScene(t_name);
-				}
-			}
-		}
+	/** シーン遷移。
+	*/
+	private void OnDestroy()
+	{
+		this.deleter.DeleteAll();
+
+		//ライブラリ停止。
+		this.DeleteLibInstance();
 	}
 
 	/** シーン名。
@@ -156,6 +207,7 @@ public class main : MonoBehaviour
 	#endif
 }
 
+
 /** main_base
 */
 public class main_base : MonoBehaviour
@@ -164,27 +216,26 @@ public class main_base : MonoBehaviour
 	*/
 	public bool is_changescene = false;
 
-	/** 開始。
+	/** 戻るボタン。
 	*/
-	private void Start()
+	NUi.Button return_button = null;
+
+	/** 戻るボタン作成。
+	*/
+	public void CreateReturnButton(NDeleter.Deleter a_deleter,long a_drawpriority)
 	{
+		this.return_button = new NUi.Button(a_deleter,null,a_drawpriority,Click,0);
+		this.return_button.SetTexture(Resources.Load<Texture2D>("button"));
+		this.return_button.SetText("Return");
+		this.return_button.SetRect(0,0,80,40);
 	}
 
-	/** デバッグ描画。
+	/** クリック。
 	*/
-	public void OnGUI()
-    {
-		if(this.is_changescene == false){
-			int t_x = 30;
-			int t_y = 30;
-			int t_w = 80;
-			int t_h = 40;
-
-			if(GUI.Button(new Rect(t_x,t_y,t_w,t_h),"return") == true){
-				this.is_changescene = true;
-				StartCoroutine(ChangeScene());
-			}
-		}
+	public void Click(int a_id)
+	{
+		this.is_changescene = true;
+		this.StartCoroutine(ChangeScene());	
 	}
 
 	/** 削除前。

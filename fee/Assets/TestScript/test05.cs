@@ -144,8 +144,19 @@ public class test05 : main_base
 		NInput.Touch.CreateInstance();
 		NInput.Touch.GetInstance().SetCallBack(CallBack_OnTouch);
 
+		//イベントプレート。
+		NEventPlate.Config.LOG_ENABLE = true;
+		NEventPlate.EventPlate.CreateInstance();
+
+		//ＵＩ。インスタンス作成。
+		NUi.Config.LOG_ENABLE = true;
+		NUi.Ui.CreateInstance();
+
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
+
+		//戻るボタン作成。
+		this.CreateReturnButton(this.deleter,(NRender2D.Render2D.MAX_LAYER - 1) * NRender2D.Render2D.DRAWPRIORITY_STEP);
 
 		//背景。
 		int t_layerindex = 0;
@@ -189,9 +200,9 @@ public class test05 : main_base
 		this.touch_list.Add(new TouchView(this.touchview_id,this.deleter,a_touch_phase),a_touch_phase);
 	}
 
-	/** Update
+	/** FixedUpdate
 	*/
-	private void Update()
+	private void FixedUpdate()
 	{
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
@@ -204,6 +215,12 @@ public class test05 : main_base
 
 		//タッチ。
 		NInput.Touch.GetInstance().Main(NRender2D.Render2D.GetInstance());
+
+		//イベントプレート。
+		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
+
+		//ＵＩ。
+		NUi.Ui.GetInstance().Main();
 
 		//モーター。
 		{

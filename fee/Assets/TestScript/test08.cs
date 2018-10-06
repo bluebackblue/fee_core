@@ -19,6 +19,10 @@ using UnityEngine;
 */
 public class test08 : main_base
 {
+	/** 削除管理。
+	*/
+	private NDeleter.Deleter deleter;
+
 	/** Start
 	*/
 	private void Start()
@@ -26,9 +30,30 @@ public class test08 : main_base
 		//タスク。インスタンス作成。
 		NTaskW.TaskW.CreateInstance();
 
+		//２Ｄ描画。インスタンス作成。
+		NRender2D.Render2D.CreateInstance();
+
 		//パフォーマンスカウンター。インスタンス作成。
 		NPerformanceCounter.Config.LOG_ENABLE = true;
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
+
+		//マウス。インスタンス作成。
+		NInput.Config.LOG_ENABLE = true;
+		NInput.Mouse.CreateInstance();
+
+		//イベントプレート。
+		NEventPlate.Config.LOG_ENABLE = true;
+		NEventPlate.EventPlate.CreateInstance();
+
+		//ＵＩ。インスタンス作成。
+		NUi.Config.LOG_ENABLE = true;
+		NUi.Ui.CreateInstance();
+
+		//削除管理。
+		this.deleter = new NDeleter.Deleter();
+
+		//戻るボタン作成。
+		this.CreateReturnButton(this.deleter,(NRender2D.Render2D.MAX_LAYER - 1) * NRender2D.Render2D.DRAWPRIORITY_STEP);
 
 		NDirectory.Item t_item_root = NDirectory.Directory.GetDirectoryItem(Application.dataPath);
 
@@ -71,10 +96,18 @@ public class test08 : main_base
 		}
 	}
 
-	/** Update
+	/** FixedUpdate
 	*/
-	private void Update()
+	private void FixedUpdate()
 	{
+		//マウス。
+		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
+
+		//イベントプレート。
+		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
+
+		//ＵＩ。
+		NUi.Ui.GetInstance().Main();
 	}
 
 	/** 削除前。
@@ -88,6 +121,7 @@ public class test08 : main_base
 	*/
 	private void OnDestroy()
 	{
+		this.deleter.DeleteAll();
 	}
 }
 

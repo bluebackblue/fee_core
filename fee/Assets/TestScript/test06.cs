@@ -141,12 +141,24 @@ public class test06 : main_base
 		}
 	};
 
+	/** 削除管理。
+	*/
+	private NDeleter.Deleter deleter;
+
 	/** Start
 	*/
 	private void Start()
 	{
 		//２Ｄ描画。インスタンス作成。
 		NRender2D.Render2D.CreateInstance();
+
+		//イベントプレート。
+		NEventPlate.Config.LOG_ENABLE = true;
+		NEventPlate.EventPlate.CreateInstance();
+
+		//ＵＩ。インスタンス作成。
+		NUi.Config.LOG_ENABLE = true;
+		NUi.Ui.CreateInstance();
 
 		//フェード。インスタンス作成。
 		NFade.Fade.CreateInstance();
@@ -161,13 +173,19 @@ public class test06 : main_base
 		//シーン。インスタンス作成。
 		NScene.Scene.CreateInstance();
 
+		//削除管理。
+		this.deleter = new NDeleter.Deleter();
+
+		//戻るボタン作成。
+		this.CreateReturnButton(this.deleter,(NRender2D.Render2D.MAX_LAYER - 1) * NRender2D.Render2D.DRAWPRIORITY_STEP);
+
 		//シーンＡ。
 		NScene.Scene.GetInstance().SetNextScene(new SceneA());
 	}
 
-	/** Update
+	/** FixedUpdate
 	*/
-	private void Update()
+	private void FixedUpdate()
 	{
 		//パフォーマンスカウンター。インスタンス作成。
 		NPerformanceCounter.Config.LOG_ENABLE = true;
@@ -179,6 +197,12 @@ public class test06 : main_base
 
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
+
+		//イベントプレート。
+		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
+
+		//ＵＩ。
+		NUi.Ui.GetInstance().Main();
 
 		//シーン。
 		NScene.Scene.GetInstance().Main();
@@ -195,6 +219,7 @@ public class test06 : main_base
 	*/
 	private void OnDestroy()
 	{
+		this.deleter.DeleteAll();
 	}
 }
 

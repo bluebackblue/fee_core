@@ -53,6 +53,9 @@ public class test14 : main_base
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
+		//戻るボタン作成。
+		this.CreateReturnButton(this.deleter,(NRender2D.Render2D.MAX_LAYER - 1) * NRender2D.Render2D.DRAWPRIORITY_STEP);
+
 		//drawpriority
 		/*
 		int t_layerindex = 0;
@@ -75,9 +78,9 @@ public class test14 : main_base
 		*/
 	}
 
-	/** Update
+	/** FixedUpdate
 	*/
-	private void Update()
+	private void FixedUpdate()
 	{
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());

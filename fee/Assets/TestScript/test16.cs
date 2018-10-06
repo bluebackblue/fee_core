@@ -138,6 +138,9 @@ public class test16 : main_base , NNetwork.OnRemoteCallBack_Base
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
+		//戻るボタン作成。
+		this.CreateReturnButton(this.deleter,(NRender2D.Render2D.MAX_LAYER - 1) * NRender2D.Render2D.DRAWPRIORITY_STEP);
+
 		//layerindex
 		int t_layerindex = 0;
 		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
@@ -232,9 +235,9 @@ public class test16 : main_base , NNetwork.OnRemoteCallBack_Base
 		}
 	}
 
-	/** Update
+	/** FixedUpdate
 	*/
-	private void Update()
+	private void FixedUpdate()
 	{
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());

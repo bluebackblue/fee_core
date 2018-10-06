@@ -167,6 +167,9 @@ public class test11 : main_base
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
+		//戻るボタン作成。
+		this.CreateReturnButton(this.deleter,(NRender2D.Render2D.MAX_LAYER - 1) * NRender2D.Render2D.DRAWPRIORITY_STEP);
+
 		//モード。
 		this.mode = Mode.Wait;
 
@@ -349,9 +352,9 @@ public class test11 : main_base
 		}
 	}
 
-	/** Update
+	/** FixedUpdate
 	*/
-	private void Update()
+	private void FixedUpdate()
 	{
 		//ダウンロード。
 		NDownLoad.DownLoad.GetInstance().Main();

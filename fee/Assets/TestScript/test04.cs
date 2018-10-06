@@ -101,6 +101,9 @@ public class test04 : main_base
 		//deleter
 		this.deleter = new NDeleter.Deleter();
 
+		//戻るボタン作成。
+		this.CreateReturnButton(this.deleter,(NRender2D.Render2D.MAX_LAYER - 1) * NRender2D.Render2D.DRAWPRIORITY_STEP);
+
 		//step
 		this.step = Step.None;
 
@@ -138,9 +141,9 @@ public class test04 : main_base
 		}
 	}
 
-	/** Update
+	/** FixedUpdate
 	*/
-	private void Update()
+	private void FixedUpdate()
 	{
 		//セーブロード。
 		NSaveLoad.SaveLoad.GetInstance().Main();
