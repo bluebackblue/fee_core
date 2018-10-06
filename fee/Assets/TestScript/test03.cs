@@ -38,6 +38,7 @@ public class test03 : main_base
 	/** ダウンロードアイテム。
 	*/
 	private NDownLoad.Item download_item;
+	private NSaveLoad.Item saveload_item;
 
 	/** バイナリ。
 	*/
@@ -73,6 +74,9 @@ public class test03 : main_base
 		//ダウンロード。インスタンス作成。
 		NDownLoad.DownLoad.CreateInstance();
 
+		//セーブロード。インスタンス作成。
+		NSaveLoad.SaveLoad.CreateInstance();
+
 		//ＵＮＩＶＲＭ。インスタンス作成。
 		NUniVrm.UniVrm.CreateInstance();
 
@@ -102,6 +106,7 @@ public class test03 : main_base
 
 		//download
 		this.download_item = null;
+		this.saveload_item = null;
 
 		//binary
 		this.binary = null;
@@ -114,13 +119,20 @@ public class test03 : main_base
 	*/
 	private void CallBack_Click(int a_id)
 	{
-		if((this.download_item == null)&&(this.binary == null)){
+		if((this.saveload_item == null)&&(this.download_item == null)&&(this.binary == null)){
 			GameObject t_model = GameObject.Find("Model");
 			if(t_model != null){
 				GameObject.Destroy(t_model);
 			}
+
+			#if(false)
 			this.download_item = NDownLoad.DownLoad.GetInstance().Request(this.inputfield.GetText(),NDownLoad.DataType.Binary);
+			#else
+			this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadStreamingAssetsBinaryFile("nana.vrmx");
+			#endif
 		}
+
+
 	}
 
 	/** Update
@@ -138,6 +150,12 @@ public class test03 : main_base
 
 		//ダウンロード。
 		NDownLoad.DownLoad.GetInstance().Main();
+
+		//セーブロード。
+		NSaveLoad.SaveLoad.GetInstance().Main();
+
+		//ＵＮＩＶＲＭ。
+		NUniVrm.UniVrm.GetInstance().Main();
 
 		if(this.download_item != null){
 			if(this.download_item.IsBusy() == true){
@@ -159,6 +177,26 @@ public class test03 : main_base
 			}
 		}
 		
+		if(this.saveload_item != null){
+			if(this.saveload_item.IsBusy() == true){
+				//ダウンロード中。
+				this.status.SetText("SaveLoad : " + this.saveload_item.GetResultProgress().ToString());
+
+				//キャンセル。
+				if(this.IsChangeScene() == true){
+					this.saveload_item.Cancel();
+				}
+			}else{
+				//ダウンロード完了。
+				if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.Binary){
+					this.binary = this.saveload_item.GetResultBinary();
+				}else{
+					this.status.SetText("SaveLoad : Error");
+				}
+				this.saveload_item = null;
+			}
+		}
+
 		if(this.binary != null){
 			this.status.SetText("Create : size = " + this.binary.Length.ToString());
 			NUniVrm.UniVrm.GetInstance().Create(this.binary);

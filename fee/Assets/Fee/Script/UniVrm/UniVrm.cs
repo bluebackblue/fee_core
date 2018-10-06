@@ -66,6 +66,10 @@ namespace NUniVrm
 			}
 		}
 
+		#if(USE_UNIVRM)
+		VRM.VRMImporterContext context;
+		#endif
+
 		/** [シングルトン]constructor
 		*/
 		private UniVrm()
@@ -75,12 +79,6 @@ namespace NUniVrm
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
-		{
-		}
-
-		/** 更新。
-		*/
-		public void Main()
 		{
 		}
 
@@ -167,9 +165,32 @@ namespace NUniVrm
 					t_context.Root.name = "Model";
 					t_context.ShowMeshes();
 					t_context.Root.transform.rotation = Quaternion.Euler(0,180,0);
+
+					Animator t_animator = t_context.Root.GetComponent<Animator>();
+					if(t_animator != null){
+						t_animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Anime/AnimatorController");
+					}
+
+					this.context = t_context;
 				}
 			}
 			#endif
+		}
+
+		/** 更新。
+		*/
+		public void Main()
+		{
+			if(this.context != null){
+				Animator t_animator = this.context.Root.GetComponent<Animator>();
+				if(t_animator != null){
+					if(NInput.Mouse.GetInstance().left.down == true){
+						t_animator.Play("unarmed_run_forward_inPlace");
+					}else if(NInput.Mouse.GetInstance().right.down == true){
+						t_animator.Play("unarmed_walk_back_inPlace");
+					}
+				}
+			}
 		}
 	}
 }
