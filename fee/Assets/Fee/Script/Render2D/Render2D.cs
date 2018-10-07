@@ -163,6 +163,14 @@ namespace NRender2D
 			this.screen.VirtualScreenToGuiScreen(a_virtual_x,a_virtual_y,out a_gui_x,out a_gui_y);
 		}
 
+		/** ワールド座標 => 仮想スクリーン座標。
+		*/
+		public void WorldToVirtualScreen(Camera a_camera,ref Vector3 a_position,out int a_virtual_x,out int a_virtual_y)
+		{
+			Vector2 t_gui_pos = RectTransformUtility.WorldToScreenPoint(a_camera,a_position);
+			NRender2D.Render2D.GetInstance().GuiScreenToVirtualScreen((int)t_gui_pos.x,(int)(this.screen.GetGuiH() - t_gui_pos.y),out a_virtual_x,out a_virtual_y);
+		}
+
 		/** ＧＵＩスクリーン。取得。
 		*/
 		public int GetGuiW()

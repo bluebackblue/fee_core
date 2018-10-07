@@ -54,7 +54,8 @@ public class test03 : main_base
 
 	/** mycamera
 	*/
-	private GameObject mycamera;
+	private GameObject mycamera_gameobject;
+	private Camera mycamera;
 
 	enum LayerIndex
 	{
@@ -156,16 +157,17 @@ public class test03 : main_base
 		this.binary = null;
 
 		//カメラ。
-		this.mycamera = GameObject.Find("Main Camera");
-		Camera t_camera = this.mycamera.GetComponent<Camera>();
-		if(t_camera != null){
+		this.mycamera_gameobject = GameObject.Find("Main Camera");
+		this.mycamera = this.mycamera_gameobject.GetComponent<Camera>();
+		if(this.mycamera != null){
 			//クリアしない。
-			t_camera.clearFlags = CameraClearFlags.Nothing;
+			this.mycamera.clearFlags = CameraClearFlags.Nothing;
 
-			//モデルを表示。
-			t_camera.cullingMask = (1 << LayerMask.NameToLayer("Model"));
+			//モデルだけを表示。
+			this.mycamera.cullingMask = (1 << LayerMask.NameToLayer("Model"));
 
-			t_camera.depth = NRender2D.Render2D.GetInstance().GetCameraAfterDepth((int)LayerIndex.LayerIndex_Model);
+			//デプスを２Ｄ描画の合わせる。
+			this.mycamera.depth = NRender2D.Render2D.GetInstance().GetCameraAfterDepth((int)LayerIndex.LayerIndex_Model);
 		}
 	}
 
@@ -259,26 +261,30 @@ public class test03 : main_base
 
 		//カメラを回す。
 		if(this.mycamera != null){
-
 			float t_time = Time.realtimeSinceStartup / 3;
-
 			Vector3 t_position = new Vector3(Mathf.Sin(t_time) * 2.0f,1.0f,Mathf.Cos(t_time) * 2.0f);
-
-			Transform t_camera_transform = this.mycamera.GetComponent<Transform>();
-
+			Transform t_camera_transform = this.mycamera_gameobject.GetComponent<Transform>();
 			t_camera_transform.position = t_position;
 			t_camera_transform.LookAt(new Vector3(0.0f,1.0f,0.0f));
+		}
 
-			GameObject t_gameobject = GameObject.Find("J_Bip_R_Hand");
-			if(t_gameobject != null){
-				Vector2 t_gui_pos = RectTransformUtility.WorldToScreenPoint(this.mycamera.GetComponent<Camera>(),t_gameobject.GetComponent<Transform>().position);
-
-				int t_x;
-				int t_y;
-				NRender2D.Render2D.GetInstance().GuiScreenToVirtualScreen((int)t_gui_pos.x,(int)(Screen.height - t_gui_pos.y),out t_x,out t_y);
-				this.window.SetX(t_x - this.window.GetW()/2);
-				this.window.SetY(t_y - this.window.GetH()/2);
+		//右手。
+		Vector3 t_position_hand = Vector3.zero;
+		GameObject t_gameobject_hand = GameObject.Find("J_Bip_R_Hand");
+		if(t_gameobject_hand != null){
+			Transform t_transcorm_hand = t_gameobject_hand.GetComponent<Transform>();
+			if(t_transcorm_hand != null){
+				t_position_hand = t_transcorm_hand.position;
 			}
+		}
+
+		//スクリーン座標計算。
+		if(this.mycamera != null){
+			int t_x;
+			int t_y;
+			NRender2D.Render2D.GetInstance().WorldToVirtualScreen(this.mycamera,ref t_position_hand,out t_x,out t_y);
+			this.window.SetX(t_x - this.window.GetW()/2);
+			this.window.SetY(t_y - this.window.GetH()/2);
 		}
 	}
 
