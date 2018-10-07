@@ -55,7 +55,7 @@ public class test03 : main_base
 	/** mycamera
 	*/
 	private GameObject mycamera_gameobject;
-	private Camera mycamera;
+	private Camera mycamera_camera;
 
 	enum LayerIndex
 	{
@@ -158,16 +158,16 @@ public class test03 : main_base
 
 		//カメラ。
 		this.mycamera_gameobject = GameObject.Find("Main Camera");
-		this.mycamera = this.mycamera_gameobject.GetComponent<Camera>();
-		if(this.mycamera != null){
+		this.mycamera_camera = this.mycamera_gameobject.GetComponent<Camera>();
+		if(this.mycamera_camera != null){
 			//クリアしない。
-			this.mycamera.clearFlags = CameraClearFlags.Nothing;
+			this.mycamera_camera.clearFlags = CameraClearFlags.Nothing;
 
 			//モデルだけを表示。
-			this.mycamera.cullingMask = (1 << LayerMask.NameToLayer("Model"));
+			this.mycamera_camera.cullingMask = (1 << LayerMask.NameToLayer("Model"));
 
 			//デプスを２Ｄ描画の合わせる。
-			this.mycamera.depth = NRender2D.Render2D.GetInstance().GetCameraAfterDepth((int)LayerIndex.LayerIndex_Model);
+			this.mycamera_camera.depth = NRender2D.Render2D.GetInstance().GetCameraAfterDepth((int)LayerIndex.LayerIndex_Model);
 		}
 	}
 
@@ -260,7 +260,7 @@ public class test03 : main_base
 		}
 
 		//カメラを回す。
-		if(this.mycamera != null){
+		if(this.mycamera_gameobject != null){
 			float t_time = Time.realtimeSinceStartup / 3;
 			Vector3 t_position = new Vector3(Mathf.Sin(t_time) * 2.0f,1.0f,Mathf.Cos(t_time) * 2.0f);
 			Transform t_camera_transform = this.mycamera_gameobject.GetComponent<Transform>();
@@ -279,10 +279,10 @@ public class test03 : main_base
 		}
 
 		//スクリーン座標計算。
-		if(this.mycamera != null){
+		if(this.mycamera_camera != null){
 			int t_x;
 			int t_y;
-			NRender2D.Render2D.GetInstance().WorldToVirtualScreen(this.mycamera,ref t_position_hand,out t_x,out t_y);
+			NRender2D.Render2D.GetInstance().WorldToVirtualScreen(this.mycamera_camera,ref t_position_hand,out t_x,out t_y);
 			this.window.SetX(t_x - this.window.GetW()/2);
 			this.window.SetY(t_y - this.window.GetH()/2);
 		}
