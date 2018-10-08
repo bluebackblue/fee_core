@@ -48,6 +48,10 @@ public class test03 : main_base
 	private NDownLoad.Item download_item;
 	private NSaveLoad.Item saveload_item;
 
+	/** ＶＲＭアイテム。
+	*/
+	private NUniVrm.Item vrm_item;
+
 	/** バイナリ。
 	*/
 	private byte[] binary;
@@ -250,6 +254,29 @@ public class test03 : main_base
 				this.saveload_item = null;
 			}
 		}
+
+		if(this.vrm_item != null){
+			if(this.vrm_item.IsBusy() == true){
+				//ダウンロード中。
+				//TODO:this.status.SetText("SaveLoad : " + this.vrm_item.GetResultProgress().ToString());
+
+				//キャンセル。
+				if(this.IsChangeScene() == true){
+					this.vrm_item.Cancel();
+				}
+			}else{
+				//ダウンロード完了。
+				/* TODO:
+				if(this.vrm_item.GetResultDataType() == NSaveLoad.DataType.Binary){
+					this.binary = this.vrm_item.GetResultBinary();
+				}else{
+					this.status.SetText("SaveLoad : Error");
+				}
+				*/
+				this.vrm_item = null;
+			}
+		}
+
 
 		if(this.binary != null){
 			this.status.SetText("Create : size = " + this.binary.Length.ToString());

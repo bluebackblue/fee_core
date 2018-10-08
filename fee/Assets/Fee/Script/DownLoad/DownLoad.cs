@@ -68,8 +68,8 @@ namespace NDownLoad
 
 		/** ルート。
 		*/
-		public GameObject root_gameobject;
-		public Transform root_transform;
+		private GameObject root_gameobject;
+		private Transform root_transform;
 
 		/** webrequest
 		*/

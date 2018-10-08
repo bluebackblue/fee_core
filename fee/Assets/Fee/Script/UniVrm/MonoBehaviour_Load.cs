@@ -49,6 +49,11 @@ namespace NUniVrm
 			Fix,
 		};
 
+		/** cancel_flag
+		*/
+		[SerializeField]
+		private bool cancel_flag;
+
 		/** mode
 		*/
 		[SerializeField]
@@ -67,11 +72,22 @@ namespace NUniVrm
 		/** result_context
 		*/
 		[SerializeField]
+		#if(USE_UNIVRM)
 		private VRM.VRMImporterContext result_context;
+		#endif
+
+		/** 結果フラグリセット。
+		*/
+		protected void ResetResultFlag()
+		{
+			#if(USE_UNIVRM)
+			this.result_context = null;
+			#endif
+		}
 
 		/** リクエスト待ち開始。
 		*/
-		private void WaitRequest()
+		public void WaitRequest()
 		{
 			if(this.mode == Mode.Fix){
 				this.mode = Mode.WaitRequest;
@@ -127,7 +143,7 @@ namespace NUniVrm
 
 		/** 完了チェック。
 		*/
-		private bool IsFix()
+		public bool IsFix()
 		{
 			if(this.mode == Mode.Fix){
 				return true;
@@ -137,7 +153,7 @@ namespace NUniVrm
 
 		/** 削除リクエスト。設定。
 		*/
-		private void DeleteRequest()
+		public void DeleteRequest()
 		{
 			this.delete_flag = true;
 		}
@@ -153,11 +169,15 @@ namespace NUniVrm
 		*/
 		private void Awake()
 		{
+			this.cancel_flag = false;
 			this.mode = Mode.WaitRequest;
 			this.delete_flag = false;
 
 			this.request_binary = null;
+
+			#if(USE_UNIVRM)
 			this.result_context = null;
+			#endif
 		}
 
 		/** Start
@@ -209,7 +229,6 @@ namespace NUniVrm
 		*/
 		private IEnumerator OnStart()
 		{
-
 			this.SetModeDo();
 			yield break;
 		}
@@ -218,11 +237,13 @@ namespace NUniVrm
 		*/
 		private IEnumerator OnDo()
 		{
+			#if(USE_UNIVRM)
 			yield return this.Raw_Do_Load_Parse();
 			yield return this.Raw_Do_Load_MaterialTexture();
 			yield return this.Raw_Do_Load_Mesh();
 			yield return this.Raw_Do_Load_Node();
 			yield return this.Raw_Do_Load_Model();
+			#endif
 
 			this.SetModeDoSuccess();
 			yield break;
@@ -243,17 +264,45 @@ namespace NUniVrm
 			yield break;
 		}
 
+		/** キャンセル。
+		*/
+		public void Cancel()
+		{
+			this.cancel_flag = true;
+		}
+
+		/** リクエスト。
+		*/
+		public bool Request(byte[] a_binary)
+		{
+			if(this.IsWaitRequest() == true){
+				this.SetModeStart();
+				this.ResetResultFlag();
+
+				this.cancel_flag = false;
+
+				this.request_binary = a_binary;
+				return true;
+			}
+
+			return false;
+		}
+
 		/** [内部からの呼び出し]ロード。Parse。
 		*/
+		#if(USE_UNIVRM)
 		private IEnumerator Raw_Do_Load_Parse()
 		{
 			this.result_context = new VRM.VRMImporterContext();
 			this.result_context.ParseGlb(this.request_binary);
+
 			yield break;
 		}
+		#endif
 
 		/** [内部からの呼び出し]ロード。MaterialTexture。
 		*/
+		#if(USE_UNIVRM)
 		private IEnumerator Raw_Do_Load_MaterialTexture()
 		{
 			//MaterialImporter
@@ -285,9 +334,11 @@ namespace NUniVrm
 
 			yield break;
 		}
+		#endif
 
 		/** [内部からの呼び出し]ロード。Mesh。
 		*/
+		#if(USE_UNIVRM)
 		private IEnumerator Raw_Do_Load_Mesh()
 		{
 			//AddMesh
@@ -300,9 +351,11 @@ namespace NUniVrm
 
 			yield break;
 		}
+		#endif
 
 		/** [内部からの呼び出し]ロード。Node。
 		*/
+		#if(USE_UNIVRM)
 		private IEnumerator Raw_Do_Load_Node()
 		{
 			//AddNode
@@ -335,9 +388,11 @@ namespace NUniVrm
 
 			yield break;
 		}
+		#endif
 
 		/** [内部からの呼び出し]ロード。Model。
 		*/
+		#if(USE_UNIVRM)
 		private IEnumerator Raw_Do_Load_Model()
 		{
 			//OnLoadModel
@@ -345,7 +400,7 @@ namespace NUniVrm
 
 			yield break;
 		}
-
+		#endif
 	}
 }
 

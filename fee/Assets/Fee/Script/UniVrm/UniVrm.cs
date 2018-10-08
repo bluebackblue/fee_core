@@ -12,7 +12,7 @@ using UnityEngine;
 */
 
 
-/** NVrm
+/** NUniVrm
 */
 namespace NUniVrm
 {
@@ -66,6 +66,24 @@ namespace NUniVrm
 			}
 		}
 
+		/** ルート。
+		*/
+		private GameObject root_gameobject;
+		private Transform root_transform;
+
+		/** load
+		*/
+		private GameObject load_gameobject;
+		private MonoBehaviour_Load load_script;
+
+		/** work_list
+		*/
+		private List<Work> work_list;
+
+		/** add_list
+		*/
+		private List<Work> add_list;
+
 		#if(USE_UNIVRM)
 		VRM.VRMImporterContext context;
 		#endif
@@ -74,16 +92,61 @@ namespace NUniVrm
 		*/
 		private UniVrm()
 		{
+			//ルート。
+			this.root_gameobject = new GameObject();
+			this.root_gameobject.name = "UniVrm";
+			GameObject.DontDestroyOnLoad(this.root_gameobject);
+			this.root_transform = this.root_gameobject.GetComponent<Transform>();
+
+			//load
+			{
+				this.load_gameobject = new GameObject();
+				this.load_gameobject.name = "UniVrm_Load";
+				this.load_script = this.load_gameobject.AddComponent<MonoBehaviour_Load>();
+				this.load_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
+			}
+
+			//work_list
+			this.work_list = new List<Work>();
+
+			//add_list
+			this.add_list = new List<Work>();
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			//削除リクエスト。
+			this.load_gameobject.GetComponent<Transform>().SetParent(null);
+			GameObject.DontDestroyOnLoad(this.load_gameobject);
+			this.load_script.DeleteRequest();
+
+			//ルート削除。
+			GameObject.Destroy(this.root_gameobject);
+		}
+
+		/** Load。取得。
+		*/
+		public MonoBehaviour_Load GetLoad()
+		{
+			return this.load_script;
+		}
+
+		/** リクエスト。ロード。
+		*/
+		public Item Request(byte[] a_binary)
+		{
+			Work t_work = new Work();
+			t_work.Request(a_binary);
+
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
 		}
 
 		/** 作成。
 		*/
+		#if(false)
 		public void Create(byte[] a_binary)
 		{
 			#if(USE_UNIVRM)
@@ -176,11 +239,44 @@ namespace NUniVrm
 			}
 			#endif
 		}
+		#endif
+
+		/** 処理中。チェック。
+		*/
+		public bool IsBusy()
+		{
+			if((this.work_list.Count > 0)||(this.add_list.Count > 0)){
+				return true;
+			}
+			return false;
+		}
 
 		/** 更新。
 		*/
 		public void Main()
 		{
+			try{
+				//追加。
+				if(this.add_list.Count > 0){
+					for(int ii=0;ii<this.add_list.Count;ii++){
+						this.work_list.Add(this.add_list[ii]);
+					}
+					this.add_list.Clear();
+				}
+
+				int t_index = 0;
+				while(t_index < this.work_list.Count){
+					if(this.work_list[t_index].Main() == true){
+						this.work_list.RemoveAt(t_index);
+					}else{
+						t_index++;
+					}
+				}
+			}catch(System.Exception t_exception){
+				Tool.LogError(t_exception);
+			}
+
+			/*
 			if(this.context != null){
 				Animator t_animator = this.context.Root.GetComponent<Animator>();
 				if(t_animator != null){
@@ -191,9 +287,10 @@ namespace NUniVrm
 					}
 				}
 			}
+			*/
 		}
 
-		/** [内部からの呼び出し]レイヤー。設定。
+		/** TODO:[内部からの呼び出し]レイヤー。設定。
 		*/
 		private static void Raw_SetLayer(Transform a_transform,int a_layer)
 		{
@@ -207,7 +304,7 @@ namespace NUniVrm
 			}
 		}
 
-		/** レイヤー。設定。
+		/** TODO:レイヤー。設定。
 		*/
 		public void SetLayer(string a_layername)
 		{

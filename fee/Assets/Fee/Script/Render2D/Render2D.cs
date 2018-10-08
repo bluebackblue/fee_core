@@ -68,16 +68,16 @@ namespace NRender2D
 
 		/** ルート。
 		*/
-		public GameObject root_gameobject;
-		public Transform root_transform;
+		private GameObject root_gameobject;
+		private Transform root_transform;
 
 		/** スクリーン。
 		*/
-		public Screen screen;
+		private Screen screen;
 
 		/** マテリアルリスト。
 		*/
-		public MaterialList materiallist;
+		private MaterialList materiallist;
 
 		/** スプライト。
 		*/
