@@ -257,33 +257,33 @@ public class test03 : main_base
 
 		if(this.vrm_item != null){
 			if(this.vrm_item.IsBusy() == true){
-				//ダウンロード中。
-				//TODO:this.status.SetText("SaveLoad : " + this.vrm_item.GetResultProgress().ToString());
+				//ロード中。
+				this.status.SetText("LoavVrm : " + this.vrm_item.GetResultProgress().ToString());
 
 				//キャンセル。
 				if(this.IsChangeScene() == true){
 					this.vrm_item.Cancel();
 				}
 			}else{
-				//ダウンロード完了。
-				/* TODO:
-				if(this.vrm_item.GetResultDataType() == NSaveLoad.DataType.Binary){
-					this.binary = this.vrm_item.GetResultBinary();
+				//ロード完了。
+				if(this.vrm_item.GetResultDataType() == NUniVrm.Item.ResultType.Context){
+
+					this.vrm_item.SetLayer("Model");
+					this.vrm_item.Show();
+
 				}else{
-					this.status.SetText("SaveLoad : Error");
+					this.status.SetText("LoavVrm : Error");
 				}
-				*/
 				this.vrm_item = null;
 			}
 		}
 
-
 		if(this.binary != null){
 			this.status.SetText("Create : size = " + this.binary.Length.ToString());
-			NUniVrm.UniVrm.GetInstance().Create(this.binary);
+			{
+				this.vrm_item = NUniVrm.UniVrm.GetInstance().Request(this.binary);
+			}
 			this.binary = null;
-
-			NUniVrm.UniVrm.GetInstance().SetLayer("Model");
 		}
 
 		//カメラを回す。

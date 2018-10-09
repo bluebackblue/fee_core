@@ -100,12 +100,12 @@ namespace NUniVrm
 				{
 					MonoBehaviour_Load t_load = NUniVrm.UniVrm.GetInstance().GetLoad();
 
-					//this.item.SetResultProgress(t_io.GetResultProgress());
+					this.item.SetResultProgress(t_load.GetResultProgress());
 
 					if(t_load.IsFix() == true){
 						//結果。
 
-						//TODO:this.item.SetResultContext(t_load.GetResultContext());
+						this.item.SetResultContext(t_load.GetResultContext());
 
 						//リクエスト待ち開始。
 						t_load.WaitRequest();
