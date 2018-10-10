@@ -84,10 +84,6 @@ namespace NUniVrm
 		*/
 		private List<Work> add_list;
 
-		#if(USE_UNIVRM)
-		VRM.VRMImporterContext context;
-		#endif
-
 		/** [シングルトン]constructor
 		*/
 		private UniVrm()

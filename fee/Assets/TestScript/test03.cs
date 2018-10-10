@@ -227,6 +227,7 @@ public class test03 : main_base
 			}else{
 				//ダウンロード完了。
 				if(this.download_item.GetResultDataType() == NDownLoad.DataType.Binary){
+					this.status.SetText("Download : Fix");
 					this.binary = this.download_item.GetResultBinary();
 				}else{
 					this.status.SetText("Download : Error");
@@ -247,6 +248,7 @@ public class test03 : main_base
 			}else{
 				//ダウンロード完了。
 				if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.Binary){
+					this.status.SetText("SaveLoad : Fix");
 					this.binary = this.saveload_item.GetResultBinary();
 				}else{
 					this.status.SetText("SaveLoad : Error");
@@ -267,6 +269,7 @@ public class test03 : main_base
 			}else{
 				//ロード完了。
 				if(this.vrm_item.GetResultDataType() == NUniVrm.Item.ResultType.Context){
+					this.status.SetText("LoavVrm : Fix");
 
 					this.vrm_item.SetLayer("Model");
 					this.vrm_item.Show();

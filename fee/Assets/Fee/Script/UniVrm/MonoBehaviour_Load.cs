@@ -37,9 +37,6 @@ namespace NUniVrm
 		{
 			Step0 = 0,
 			Step1,
-			Step2,
-			Step3,
-			Step4,
 
 			Max,
 		};
@@ -50,6 +47,8 @@ namespace NUniVrm
 		{
 			#if(USE_UNIVRM)
 			public VRM.VRMImporterContext context;
+			#else
+			public string context;
 			#endif
 
 			public int progress_step_max;
@@ -61,9 +60,7 @@ namespace NUniVrm
 			*/
 			public Work()
 			{
-				#if(USE_UNIVRM)
 				this.context = null;
-				#endif
 
 				this.progress_step_max = (int)ProgressStep.Max;
 				this.progress_step = (int)ProgressStep.Step0;
@@ -127,57 +124,32 @@ namespace NUniVrm
 		{
 			#if(USE_UNIVRM)
 			{
-				this.SetResultProgress(0.1f);
-
-				this.work.progress_step = (int)ProgressStep.Step0;
-				this.work.progress_substep = 0;
-				this.work.progress_substep_max = 1;
-
-				yield return this.Raw_Do_Load_Parse();
-				if(this.GetResultType() == ResultType.Error){
-					this.SetModeDoError();
-					yield break;
+				{
+					this.work.progress_step = (int)ProgressStep.Step0;
+					this.work.progress_substep = 0;
+					this.work.progress_substep_max = 1;
+					yield return this.Raw_Do_Load_Parse();
+					if(this.GetResultType() == ResultType.Error){
+						this.SetModeDoError();
+						yield break;
+					}
 				}
 
-				this.work.progress_step = (int)ProgressStep.Step1;
-				this.work.progress_substep = 0;
-				this.work.progress_substep_max = 1;
-
-				yield return this.Raw_Do_Load_MaterialTexture();
-				if(this.GetResultType() == ResultType.Error){
-					this.SetModeDoError();
-					yield break;
+				{
+					this.work.progress_step = (int)ProgressStep.Step1;
+					this.work.progress_substep = 0;
+					this.work.progress_substep_max = 1;
+					yield return this.Raw_Do_Load_Create();
+					if(this.GetResultType() == ResultType.Error){
+						this.SetModeDoError();
+						yield break;
+					}
 				}
-
-				this.work.progress_step = (int)ProgressStep.Step2;
-				this.work.progress_substep = 0;
-				this.work.progress_substep_max = 1;
-
-				yield return this.Raw_Do_Load_Mesh();
-				if(this.GetResultType() == ResultType.Error){
-					this.SetModeDoError();
-					yield break;
-				}
-
-				this.work.progress_step = (int)ProgressStep.Step3;
-				this.work.progress_substep = 0;
-				this.work.progress_substep_max = 1;
-
-				yield return this.Raw_Do_Load_Node();
-				if(this.GetResultType() == ResultType.Error){
-					this.SetModeDoError();
-					yield break;
-				}
-
-				this.work.progress_step = (int)ProgressStep.Step4;
-				this.work.progress_substep = 0;
-				this.work.progress_substep_max = 1;
-
-				yield return this.Raw_Do_Load_Model();
-				if(this.GetResultType() == ResultType.Error){
-					this.SetModeDoError();
-					yield break;
-				}
+			}
+			#else
+			if(this.work.context == null){
+				this.SetModeDoError();
+				yield break;
 			}
 			#endif
 
@@ -249,72 +221,52 @@ namespace NUniVrm
 		}
 		#endif
 
-		/** [内部からの呼び出し]ロード。MaterialTexture。
+		/** [内部からの呼び出し]ロード。作成。
 		*/
 		#if(USE_UNIVRM)
-		private IEnumerator Raw_Do_Load_MaterialTexture()
+		private IEnumerator Raw_Do_Load_Create()
 		{
 			//プログレス。
 			this.SetResultProgress(this.CalcProgress(0.0f));
 
-			//MaterialImporter
-			List<VRM.glTF_VRM_Material> t_material_list = VRM.glTF_VRM_Material.Parse(this.work.context.Json);
-			this.work.context.MaterialImporter = new VRM.VRMMaterialImporter(this.work.context,t_material_list);
-
-			//AddTexture
-			for(int ii=0;ii<this.work.context.GLTF.textures.Count;ii++){
-				UniGLTF.TextureItem t_texture = new UniGLTF.TextureItem(this.work.context.GLTF,ii);
-				t_texture.Process(this.work.context.GLTF,this.work.context.Storage);
-				this.work.context.AddTexture(t_texture);
-			}
-
-			//AddMaterial
 			{
-				bool t_add = false;
-				if(this.work.context.GLTF.materials != null){
-					if(this.work.context.GLTF.materials.Count > 0){
-						t_add = true;
-						for(int ii=0;ii<this.work.context.GLTF.materials.Count;ii++){
-							this.work.context.AddMaterial(this.work.context.MaterialImporter.CreateMaterial(ii,this.work.context.GLTF.materials[ii]));
+				//MaterialImporter
+				List<VRM.glTF_VRM_Material> t_material_list = VRM.glTF_VRM_Material.Parse(this.work.context.Json);
+				this.work.context.MaterialImporter = new VRM.VRMMaterialImporter(this.work.context,t_material_list);
+
+				//AddTexture
+				for(int ii=0;ii<this.work.context.GLTF.textures.Count;ii++){
+					UniGLTF.TextureItem t_texture = new UniGLTF.TextureItem(this.work.context.GLTF,ii);
+					t_texture.Process(this.work.context.GLTF,this.work.context.Storage);
+					this.work.context.AddTexture(t_texture);
+				}
+
+				//AddMaterial
+				{
+					bool t_add = false;
+					if(this.work.context.GLTF.materials != null){
+						if(this.work.context.GLTF.materials.Count > 0){
+							t_add = true;
+							for(int ii=0;ii<this.work.context.GLTF.materials.Count;ii++){
+								this.work.context.AddMaterial(this.work.context.MaterialImporter.CreateMaterial(ii,this.work.context.GLTF.materials[ii]));
+							}
 						}
 					}
-				}
-				if(t_add == false){
-					this.work.context.AddMaterial(this.work.context.MaterialImporter.CreateMaterial(0,null));
+					if(t_add == false){
+						this.work.context.AddMaterial(this.work.context.MaterialImporter.CreateMaterial(0,null));
+					}
 				}
 			}
-
-			yield break;
-		}
-		#endif
-
-		/** [内部からの呼び出し]ロード。Mesh。
-		*/
-		#if(USE_UNIVRM)
-		private IEnumerator Raw_Do_Load_Mesh()
-		{
-			//プログレス。
-			this.SetResultProgress(this.CalcProgress(0.0f));
 
 			//AddMesh
-			UniGLTF.MeshImporter t_meshimporter = new UniGLTF.MeshImporter();
-			for(int ii=0;ii<this.work.context.GLTF.meshes.Count;ii++){
-				UniGLTF.MeshImporter.MeshContext t_mesh_context = t_meshimporter.ReadMesh(this.work.context,ii);
-				UniGLTF.MeshWithMaterials t_mesh_with_material = UniGLTF.gltfImporter.BuildMesh(this.work.context,t_mesh_context);
-				this.work.context.Meshes.Add(t_mesh_with_material);
+			{
+				UniGLTF.MeshImporter t_meshimporter = new UniGLTF.MeshImporter();
+				for(int ii=0;ii<this.work.context.GLTF.meshes.Count;ii++){
+					UniGLTF.MeshImporter.MeshContext t_mesh_context = t_meshimporter.ReadMesh(this.work.context,ii);
+					UniGLTF.MeshWithMaterials t_mesh_with_material = UniGLTF.gltfImporter.BuildMesh(this.work.context,t_mesh_context);
+					this.work.context.Meshes.Add(t_mesh_with_material);
+				}
 			}
-
-			yield break;
-		}
-		#endif
-
-		/** [内部からの呼び出し]ロード。Node。
-		*/
-		#if(USE_UNIVRM)
-		private IEnumerator Raw_Do_Load_Node()
-		{
-			//プログレス。
-			this.SetResultProgress(this.CalcProgress(0.0f));
 
 			//AddNode
 			{
@@ -322,7 +274,7 @@ namespace NUniVrm
 					this.work.context.Nodes.Add(UniGLTF.gltfImporter.ImportNode(t_item).transform);
 				}
 			}
-				
+
 			//SetParent
 			{
 				List<UniGLTF.gltfImporter.TransformWithSkin> t_node_list = new List<UniGLTF.gltfImporter.TransformWithSkin>();
@@ -343,18 +295,6 @@ namespace NUniVrm
 					t_transform.SetParent(this.work.context.Root.transform,false);
 				}
 			}
-
-			yield break;
-		}
-		#endif
-
-		/** [内部からの呼び出し]ロード。Model。
-		*/
-		#if(USE_UNIVRM)
-		private IEnumerator Raw_Do_Load_Model()
-		{
-			//プログレス。
-			this.SetResultProgress(this.CalcProgress(0.0f));
 
 			//OnLoadModel
 			VRM.VRMImporter.OnLoadModel(this.work.context);

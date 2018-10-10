@@ -47,6 +47,8 @@ namespace NUniVrm
 		*/
 		#if(USE_UNIVRM)
 		private VRM.VRMImporterContext result_context;
+		#else
+		private string result_context;
 		#endif
 
 		/** cancel_flag
@@ -64,9 +66,7 @@ namespace NUniVrm
 			this.result_progress = 0.0f;
 
 			//result_context
-			#if(USE_UNIVRM)
 			this.result_context = null;
-			#endif
 
 			//cancel_flag
 			this.cancel_flag = false;
@@ -137,12 +137,14 @@ namespace NUniVrm
 		*/
 		#if(USE_UNIVRM)
 		public void SetResultContext(VRM.VRMImporterContext a_context)
+		#else
+		public void SetResultContext(string a_context)
+		#endif
 		{
 			this.result_type = ResultType.Context;
 
 			this.result_context = a_context;
 		}
-		#endif
 
 		/** TODO:[内部からの呼び出し]レイヤー。設定。
 		*/
