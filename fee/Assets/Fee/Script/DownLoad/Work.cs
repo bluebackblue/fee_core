@@ -160,20 +160,20 @@ namespace NDownLoad
 
 					if(t_webrequest.IsFix() == true){
 						//結果。
-						switch(t_webrequest.GetResultDataType()){
-						case DataType.AssetBundle:
+						switch(t_webrequest.GetResultType()){
+						case MonoBehaviour_Base.ResultType.AssetBundle:
 							{
 								this.item.SetResultAssetBundle(t_webrequest.GetResultAssetBundle());
 							}break;
-						case DataType.Text:
+						case MonoBehaviour_Base.ResultType.Text:
 							{
 								this.item.SetResultText(t_webrequest.GetResultText());
 							}break;
-						case DataType.Texture:
+						case MonoBehaviour_Base.ResultType.Texture:
 							{		
 								this.item.SetResultTexture(t_webrequest.GetResultTexture());
 							}break;
-						case DataType.Binary:
+						case MonoBehaviour_Base.ResultType.Binary:
 							{
 								this.item.SetResultBinary(t_webrequest.GetResultBinary());
 							}break;
@@ -215,7 +215,7 @@ namespace NDownLoad
 
 					if(t_soundpool.IsFix() == true){
 						//結果。
-						if(t_soundpool.GetResultDataType() == DataType.SoundPool){
+						if(t_soundpool.GetResultType() == MonoBehaviour_Base.ResultType.SoundPool){
 							this.item.SetResultSoundPool(t_soundpool.GetResultSoundPool());
 						}else{
 							string t_error_string = t_soundpool.GetResultErrorString();

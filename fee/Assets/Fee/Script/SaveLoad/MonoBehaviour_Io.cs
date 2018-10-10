@@ -51,11 +51,6 @@ namespace NSaveLoad
 			LoadLocalPngFile,
 		};
 
-		/** cancel_flag
-		*/
-		[SerializeField]
-		private bool cancel_flag;
-
 		/** request_type
 		*/
 		[SerializeField]
@@ -85,9 +80,6 @@ namespace NSaveLoad
 		*/
 		protected override void OnInitialize()
 		{
-			//cancel_flag
-			this.cancel_flag = false;
-
 			//request_type
 			this.request_type = RequestType.None;
 
@@ -118,14 +110,12 @@ namespace NSaveLoad
 				{
 					Tool.Log("MonoBehaviour_Io",this.request_type.ToString());
 					this.SetModeDo();
-				}break;
-			default:
-				{
-					//不明なリクエスト。
-					this.SetResultErrorString("request_type == " + this.request_type.ToString());
-					this.SetModeDoError();
-				}break;
+				}yield break;
 			}
+
+			//不明なリクエスト。
+			this.SetResultErrorString("request_type == " + this.request_type.ToString());
+			this.SetModeDoError();
 
 			yield break;
 		}
@@ -139,7 +129,7 @@ namespace NSaveLoad
 				{
 					yield return this.Raw_Do_SaveLocalBinaryFile();
 
-					if(this.GetResultDataType() == DataType.SaveEnd){
+					if(this.GetResultType() == ResultType.SaveEnd){
 						this.SetModeDoSuccess();
 						yield break;
 					}
@@ -148,7 +138,7 @@ namespace NSaveLoad
 				{
 					yield return this.Raw_Do_LoadLocalBinaryFile();
 
-					if(this.GetResultDataType() == DataType.Binary){
+					if(this.GetResultType() == ResultType.Binary){
 						if(this.GetResultBinary() != null){
 							this.SetModeDoSuccess();
 							yield break;
@@ -159,7 +149,7 @@ namespace NSaveLoad
 				{
 					yield return this.Raw_Do_SaveLocalTextFile();
 
-					if(this.GetResultDataType() == DataType.SaveEnd){
+					if(this.GetResultType() == ResultType.SaveEnd){
 						this.SetModeDoSuccess();
 						yield break;
 					}
@@ -168,7 +158,7 @@ namespace NSaveLoad
 				{
 					yield return this.Raw_Do_LoadLocalTextFile();
 
-					if(this.GetResultDataType() == DataType.Text){
+					if(this.GetResultType() == ResultType.Text){
 						if(this.GetResultText() != null){
 							this.SetModeDoSuccess();
 							yield break;
@@ -179,7 +169,7 @@ namespace NSaveLoad
 				{
 					yield return this.Raw_Do_SaveLocalPngFile();
 
-					if(this.GetResultDataType() == DataType.SaveEnd){
+					if(this.GetResultType() == ResultType.SaveEnd){
 						this.SetModeDoSuccess();
 						yield break;
 					}
@@ -188,7 +178,7 @@ namespace NSaveLoad
 				{
 					yield return this.Raw_Do_LoadLocalPngFile();
 
-					if(this.GetResultDataType() == DataType.Texture){
+					if(this.GetResultType() == ResultType.Texture){
 						if(this.GetResultTexture() != null){
 							this.SetModeDoSuccess();
 							yield break;
@@ -221,13 +211,6 @@ namespace NSaveLoad
 			yield break;
 		}
 
-		/** キャンセル。
-		*/
-		public void Cancel()
-		{
-			this.cancel_flag = true;
-		}
-
 		/** リクエスト。
 		*/
 		public bool RequestSaveLocalBinaryFile(string a_filename,byte[] a_binary)
@@ -235,8 +218,6 @@ namespace NSaveLoad
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
 				this.ResetResultFlag();
-
-				this.cancel_flag = false;
 
 				this.request_type = RequestType.SaveLocalBinaryFile;
 				this.request_filename = a_filename;
@@ -258,8 +239,6 @@ namespace NSaveLoad
 				this.SetModeStart();
 				this.ResetResultFlag();
 
-				this.cancel_flag = false;
-
 				this.request_type = RequestType.LoadLocalBinaryFile;
 				this.request_filename = a_filename;
 				this.request_binary = null;
@@ -279,8 +258,6 @@ namespace NSaveLoad
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
 				this.ResetResultFlag();
-
-				this.cancel_flag = false;
 
 				this.request_type = RequestType.SaveLocalTextFile;
 				this.request_filename = a_filename;
@@ -302,8 +279,6 @@ namespace NSaveLoad
 				this.SetModeStart();
 				this.ResetResultFlag();
 
-				this.cancel_flag = false;
-
 				this.request_type = RequestType.LoadLocalTextFile;
 				this.request_filename = a_filename;
 				this.request_binary = null;
@@ -324,8 +299,6 @@ namespace NSaveLoad
 				this.SetModeStart();
 				this.ResetResultFlag();
 
-				this.cancel_flag = false;
-
 				this.request_type = RequestType.SaveLocalPngFile;
 				this.request_filename = a_filename;
 				this.request_binary = null;
@@ -345,8 +318,6 @@ namespace NSaveLoad
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
 				this.ResetResultFlag();
-
-				this.cancel_flag = false;
 
 				this.request_type = RequestType.LoadLocalPngFile;
 				this.request_filename = a_filename;
@@ -421,7 +392,7 @@ namespace NSaveLoad
 					this.SetResultProgress(0.5f);
 
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_cancel_token.Cancel();
 					}
 
@@ -441,7 +412,7 @@ namespace NSaveLoad
 				this.SetResultSaveEnd();
 				yield break;
 			}else{
-				if(this.GetResultDataType() != DataType.Error){
+				if(this.GetResultType() != ResultType.Error){
 					this.SetResultErrorString("null");
 				}
 				yield break;
@@ -470,7 +441,7 @@ namespace NSaveLoad
 					this.SetResultProgress(0.5f);
 
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_cancel_token.Cancel();
 					}
 
@@ -490,7 +461,7 @@ namespace NSaveLoad
 				this.SetResultBinary(t_result);
 				yield break;
 			}else{
-				if(this.GetResultDataType() != DataType.Error){
+				if(this.GetResultType() != ResultType.Error){
 					this.SetResultErrorString("null");
 				}
 				yield break;
@@ -519,7 +490,7 @@ namespace NSaveLoad
 					this.SetResultProgress(0.5f);
 
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_cancel_token.Cancel();
 					}
 
@@ -539,7 +510,7 @@ namespace NSaveLoad
 				this.SetResultSaveEnd();
 				yield break;
 			}else{
-				if(this.GetResultDataType() != DataType.Error){
+				if(this.GetResultType() != ResultType.Error){
 					this.SetResultErrorString("null");
 				}
 				yield break;
@@ -568,7 +539,7 @@ namespace NSaveLoad
 					this.SetResultProgress(0.5f);
 
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_cancel_token.Cancel();
 					}
 
@@ -588,7 +559,7 @@ namespace NSaveLoad
 				this.SetResultText(t_result);
 				yield break;
 			}else{
-				if(this.GetResultDataType() != DataType.Error){
+				if(this.GetResultType() != ResultType.Error){
 					this.SetResultErrorString("null");
 				}
 				yield break;
@@ -623,7 +594,7 @@ namespace NSaveLoad
 					this.SetResultProgress(0.5f);
 
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_cancel_token.Cancel();
 					}
 
@@ -643,7 +614,7 @@ namespace NSaveLoad
 				this.SetResultSaveEnd();
 				yield break;
 			}else{
-				if(this.GetResultDataType() != DataType.Error){
+				if(this.GetResultType() != ResultType.Error){
 					this.SetResultErrorString("null");
 				}
 				yield break;
@@ -672,7 +643,7 @@ namespace NSaveLoad
 					this.SetResultProgress(0.5f);
 
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_cancel_token.Cancel();
 					}
 
@@ -706,7 +677,7 @@ namespace NSaveLoad
 				this.SetResultTexture(t_result);
 				yield break;
 			}else{
-				if(this.GetResultDataType() != DataType.Error){
+				if(this.GetResultType() != ResultType.Error){
 					this.SetResultErrorString("null");
 				}
 				yield break;

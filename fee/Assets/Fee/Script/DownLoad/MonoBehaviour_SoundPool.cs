@@ -68,15 +68,10 @@ namespace NDownLoad
 				this.download_binary = null;
 				this.progress_step_max = (int)ProgressStep.Max;
 				this.progress_step = (int)ProgressStep.Step0;
-				this.progress_substep_max = 0;
+				this.progress_substep_max = 1;
 				this.progress_substep = 0;
 			}
 		}
-
-		/** cancel_flag
-		*/
-		[SerializeField]
-		private bool cancel_flag;
 
 		/** request_type
 		*/
@@ -95,15 +90,13 @@ namespace NDownLoad
 
 		/** work
 		*/
+		[SerializeField]
 		private Work work;
 
 		/** [MonoBehaviour_Base]コールバック。初期化。
 		*/
 		protected override void OnInitialize()
 		{
-			//cancel_flag
-			this.cancel_flag = false;
-
 			//request_type
 			this.request_type = RequestType.None;
 
@@ -125,20 +118,14 @@ namespace NDownLoad
 			case RequestType.DownLoadSoundPool:
 				{
 					Tool.Log("MonoBehaviour_SoundPool",this.request_type.ToString());
-
 					this.work = new Work();
-					this.work.progress_step_max = 3;
-					this.work.progress_step_max = 1;
-
 					this.SetModeDo();
-				}break;
-			default:
-				{
-					//不明なリクエスト。
-					this.SetResultErrorString("request_type == " + this.request_type.ToString());
-					this.SetModeDoError();
-				}break;
+				}yield break;
 			}
+
+			//不明なリクエスト。
+			this.SetResultErrorString("request_type == " + this.request_type.ToString());
+			this.SetModeDoError();
 
 			yield break;
 		}
@@ -152,7 +139,7 @@ namespace NDownLoad
 				{
 					yield return this.Raw_Do_DownLoadSoundPool();
 
-					if(this.GetResultDataType() == DataType.SoundPool){
+					if(this.GetResultType() == ResultType.SoundPool){
 						if(this.GetResultSoundPool() != null){
 							this.SetModeDoSuccess();
 							yield break;
@@ -186,13 +173,6 @@ namespace NDownLoad
 			yield break;
 		}
 
-		/** キャンセル。
-		*/
-		public void Cancel()
-		{
-			this.cancel_flag = true;
-		}
-
 		/** リクエスト。
 		*/
 		public bool Request(string a_url,uint a_data_version)
@@ -200,8 +180,6 @@ namespace NDownLoad
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
 				this.ResetResultFlag();
-
-				this.cancel_flag = false;
 
 				this.request_type = RequestType.DownLoadSoundPool;
 				this.request_url = a_url;
@@ -220,7 +198,7 @@ namespace NDownLoad
 		{
 			float t_progress = 0.0f;
 			t_progress += ((float)this.work.progress_step) / this.work.progress_step_max;
-			t_progress += (float)a_progress / this.work.progress_step_max;
+			t_progress += (a_progress + (float)this.work.progress_substep) / (this.work.progress_step_max * this.work.progress_substep_max);
 			return t_progress;
 		}
 
@@ -257,7 +235,7 @@ namespace NDownLoad
 					this.SetResultProgress(this.CalcProgress(t_saveload_item.GetResultProgress()));
 					
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_saveload_item.Cancel();
 					}
 
@@ -324,7 +302,7 @@ namespace NDownLoad
 					this.SetResultProgress(this.CalcProgress(t_download_item.GetResultProgress()));
 					
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_download_item.Cancel();
 					}
 
@@ -399,7 +377,7 @@ namespace NDownLoad
 					this.SetResultProgress(this.CalcProgress(t_download_item.GetResultProgress()));
 					
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_download_item.Cancel();
 					}
 
@@ -442,7 +420,7 @@ namespace NDownLoad
 					this.SetResultProgress(this.CalcProgress(t_saveload_item.GetResultProgress()));
 					
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_saveload_item.Cancel();
 					}
 
@@ -489,7 +467,7 @@ namespace NDownLoad
 					this.SetResultProgress(this.CalcProgress(t_saveload_item.GetResultProgress()));
 					
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_saveload_item.Cancel();
 					}
 
@@ -526,7 +504,7 @@ namespace NDownLoad
 			this.work.progress_substep_max = 1;
 			this.work.progress_step = (int)ProgressStep.Step0;
 			yield return this.Raw_Do_DownLoadSoundPool_LoadLocalSoundPool();
-			if(this.GetResultDataType() == DataType.Error){
+			if(this.GetResultType() == ResultType.Error){
 				//失敗。
 				yield break;
 			}
@@ -553,7 +531,7 @@ namespace NDownLoad
 			this.work.progress_substep_max = 1;
 			this.work.progress_step = (int)ProgressStep.Step1;
 			yield return this.Raw_Do_DownLoadSoundPool_DownLoadNewSoundPool();
-			if(this.GetResultDataType() == DataType.Error){
+			if(this.GetResultType() == ResultType.Error){
 				//失敗。
 				yield break;
 			}
@@ -581,17 +559,17 @@ namespace NDownLoad
 
 				for(int ii=0;ii<this.work.soundpool.name_list.Count;ii++){
 					//リストアイテム。ダウンロード。
-					this.work.progress_step = ii * 2;
+					this.work.progress_substep = ii * 2;
 					yield return this.Raw_Do_DownLoadSoundPool_DownLoadItem(ii);
-					if(this.GetResultDataType() == DataType.Error){
+					if(this.GetResultType() == ResultType.Error){
 						//失敗。
 						yield break;
 					}
 
 					//リストアイテム。セーブ。
-					this.work.progress_step = ii * 2 + 1;
+					this.work.progress_substep = ii * 2 + 1;
 					yield return this.Raw_Do_DownLoadSoundPool_SaveLocalItem(ii);
-					if(this.GetResultDataType() == DataType.Error){
+					if(this.GetResultType() == ResultType.Error){
 						//失敗。
 						yield break;
 					}
@@ -603,7 +581,7 @@ namespace NDownLoad
 			this.work.progress_substep_max = 1;
 			this.work.progress_step = (int)ProgressStep.Step3;
 			yield return this.Raw_Do_DownLoadSoundPool_SaveLocalSoundPool();
-			if(this.GetResultDataType() == DataType.Error){
+			if(this.GetResultType() == ResultType.Error){
 				//失敗。
 				yield break;
 			}

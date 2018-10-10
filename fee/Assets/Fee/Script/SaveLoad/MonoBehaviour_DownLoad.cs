@@ -31,11 +31,6 @@ namespace NSaveLoad
 			LoadStreamingAssetsBinaryFile,
 		};
 
-		/** cancel_flag
-		*/
-		[SerializeField]
-		private bool cancel_flag;
-
 		/** request_type
 		*/
 		[SerializeField]
@@ -50,9 +45,6 @@ namespace NSaveLoad
 		*/
 		protected override void OnInitialize()
 		{
-			//cancel_flag
-			this.cancel_flag = false;
-
 			//request_type
 			this.request_type = RequestType.None;
 
@@ -69,14 +61,12 @@ namespace NSaveLoad
 				{
 					Tool.Log("Monobehaviour_DownLoad",this.request_type.ToString());
 					this.SetModeDo();
-				}break;
-			default:
-				{
-					//不明なリクエスト。
-					this.SetResultErrorString("request_type == " + this.request_type.ToString());
-					this.SetModeDoError();
-				}break;
+				}yield break;
 			}
+
+			//不明なリクエスト。
+			this.SetResultErrorString("request_type == " + this.request_type.ToString());
+			this.SetModeDoError();
 
 			yield break;
 		}
@@ -90,7 +80,7 @@ namespace NSaveLoad
 				{
 					yield return this.Raw_Do_LoadStreamingAssetsBinaryFile();
 
-					if(this.GetResultDataType() == DataType.SaveEnd){
+					if(this.GetResultType() == ResultType.SaveEnd){
 						this.SetModeDoSuccess();
 						yield break;
 					}
@@ -121,13 +111,6 @@ namespace NSaveLoad
 			yield break;
 		}
 
-		/** キャンセル。
-		*/
-		public void Cancel()
-		{
-			this.cancel_flag = true;
-		}
-
 		/** リクエスト。
 		*/
 		public bool RequestLoadStreamingAssetsBinaryFile(string a_filename)
@@ -135,8 +118,6 @@ namespace NSaveLoad
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
 				this.ResetResultFlag();
-
-				this.cancel_flag = false;
 
 				this.request_type = RequestType.LoadStreamingAssetsBinaryFile;
 				this.request_filename = a_filename;
@@ -165,7 +146,7 @@ namespace NSaveLoad
 					this.SetResultProgress(t_download_item.GetResultProgress());
 
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_download_item.Cancel();
 					}
 

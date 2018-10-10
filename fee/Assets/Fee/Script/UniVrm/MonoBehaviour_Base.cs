@@ -64,7 +64,7 @@ namespace NUniVrm
 			/** コンテキスト。
 			*/
 			Context,
-		}
+		};
 
 		/** [MonoBehaviour_Base]コールバック。初期化。
 		*/
@@ -90,6 +90,11 @@ namespace NUniVrm
 		*/
 		[SerializeField]
 		private Mode mode;
+
+		/** cancel_flag
+		*/
+		[SerializeField]
+		private bool cancel_flag;
 
 		/** delete_flag
 		*/
@@ -122,6 +127,8 @@ namespace NUniVrm
 		*/
 		protected void ResetResultFlag()
 		{
+			this.cancel_flag = false;
+
 			this.result_progress = 0.0f;
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
@@ -129,6 +136,20 @@ namespace NUniVrm
 			#if(USE_UNIVRM)
 			this.result_context = null;
 			#endif
+		}
+
+		/** キャンセル。設定。
+		*/
+		public void Cancel()
+		{
+			this.cancel_flag = true;
+		}
+
+		/** キャンセル。取得。
+		*/
+		public bool IsCancel()
+		{
+			return this.cancel_flag;
 		}
 
 		/** プログレス。取得。
@@ -152,7 +173,7 @@ namespace NUniVrm
 			return this.result_errorstring;
 		}
 
-		/** データタイプ。取得。
+		/** 結果タイプ。取得。
 		*/
 		public ResultType GetResultType()
 		{
@@ -271,6 +292,7 @@ namespace NUniVrm
 		private void Awake()
 		{
 			this.mode = Mode.WaitRequest;
+			this.cancel_flag = false;
 			this.delete_flag = false;
 			this.result_progress = 0.0f;
 			this.result_errorstring = null;

@@ -43,11 +43,6 @@ namespace NDownLoad
 			DownLoadTexture,
 		};
 
-		/** cancel_flag
-		*/
-		[SerializeField]
-		private bool cancel_flag;
-
 		/** request_type
 		*/
 		[SerializeField]
@@ -72,9 +67,6 @@ namespace NDownLoad
 		*/
 		protected override void OnInitialize()
 		{
-			//cancel_flag
-			this.cancel_flag = false;
-
 			//request_type
 			this.request_type = RequestType.None;
 
@@ -100,14 +92,12 @@ namespace NDownLoad
 				{
 					Tool.Log("MonoBehaviour_WebRequest",this.request_type.ToString());
 					this.SetModeDo();
-				}break;
-			default:
-				{
-					//不明なリクエスト。
-					this.SetResultErrorString("request_type == " + this.request_type.ToString());
-					this.SetModeDoError();
-				}break;
+				}yield break;
 			}
+
+			//不明なリクエスト。
+			this.SetResultErrorString("request_type == " + this.request_type.ToString());
+			this.SetModeDoError();
 
 			yield break;
 		}
@@ -121,7 +111,7 @@ namespace NDownLoad
 				{
 					yield return this.Raw_Do_DownLoadAssetBundle();
 
-					if(this.GetResultDataType() == DataType.AssetBundle){
+					if(this.GetResultType() == ResultType.AssetBundle){
 						if(this.GetResultAssetBundle() != null){
 							this.SetModeDoSuccess();
 							yield break;
@@ -132,7 +122,7 @@ namespace NDownLoad
 				{
 					yield return this.Raw_Do_DownLoadBinary();
 
-					if(this.GetResultDataType() == DataType.Binary){
+					if(this.GetResultType() == ResultType.Binary){
 						if(this.GetResultBinary() != null){
 							this.SetModeDoSuccess();
 							yield break;
@@ -143,7 +133,7 @@ namespace NDownLoad
 				{
 					yield return this.Raw_Do_DownLoadText();
 
-					if(this.GetResultDataType() == DataType.Text){
+					if(this.GetResultType() == ResultType.Text){
 						if(this.GetResultText() != null){
 							this.SetModeDoSuccess();
 							yield break;
@@ -154,7 +144,7 @@ namespace NDownLoad
 				{
 					yield return this.Raw_Do_DownLoadTexture();
 
-					if(this.GetResultDataType() == DataType.Texture){
+					if(this.GetResultType() == ResultType.Texture){
 						if(this.GetResultTexture() != null){
 							this.SetModeDoSuccess();
 							yield break;
@@ -187,13 +177,6 @@ namespace NDownLoad
 			yield break;
 		}
 
-		/** キャンセル。
-		*/
-		public void Cancel()
-		{
-			this.cancel_flag = true;
-		}
-
 		/** リクエスト。
 		*/
 		public bool Request(string a_url,DataType a_datatype,uint a_data_version,long a_assetbundle_id)
@@ -202,8 +185,6 @@ namespace NDownLoad
 				this.SetModeStart();
 				this.ResetResultFlag();
 
-				this.cancel_flag = false;
-	
 				switch(a_datatype){
 				case DataType.AssetBundle:
 					{
@@ -283,7 +264,7 @@ namespace NDownLoad
 					}
 
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_webrequest.Abort();
 					}
 
@@ -364,7 +345,7 @@ namespace NDownLoad
 					}
 
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_webrequest.Abort();
 					}
 
@@ -442,7 +423,7 @@ namespace NDownLoad
 					}
 
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_webrequest.Abort();
 					}
 
@@ -520,7 +501,7 @@ namespace NDownLoad
 					}
 
 					//キャンセル。
-					if((this.cancel_flag == true)||(this.IsDeleteRequest() == true)){
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
 						t_webrequest.Abort();
 					}
 

@@ -276,23 +276,23 @@ namespace NSaveLoad
 
 					if(t_io.IsFix() == true){
 						//結果。
-						switch(t_io.GetResultDataType()){
-						case DataType.Binary:
+						switch(t_io.GetResultType()){
+						case MonoBehaviour_Base.ResultType.Binary:
 							{
 								//バイナリ。
 								this.item.SetResultBinary(t_io.GetResultBinary());
 							}break;
-						case DataType.Text:
+						case MonoBehaviour_Base.ResultType.Text:
 							{
 								//テキスト。
 								this.item.SetResultText(t_io.GetResultText());
 							}break;
-						case DataType.Texture:
+						case MonoBehaviour_Base.ResultType.Texture:
 							{
 								//テクスチャ。
 								this.item.SetResultTexture(t_io.GetResultTexture());
 							}break;
-						case DataType.SaveEnd:
+						case MonoBehaviour_Base.ResultType.SaveEnd:
 							{
 								//セーブ完了。
 								this.item.SetResultSaveEnd();
@@ -332,7 +332,7 @@ namespace NSaveLoad
 					if(t_download.IsFix() == true){
 						//結果。
 
-						if(t_download.GetResultDataType() == DataType.Binary){
+						if(t_download.GetResultType() == MonoBehaviour_Base.ResultType.Binary){
 							this.item.SetResultBinary(t_download.GetResultBinary());
 						}else{
 							this.item.SetResultError();

@@ -49,6 +49,35 @@ namespace NSaveLoad
 			Fix,
 		};
 
+		/** ResultType
+		*/
+		public enum ResultType
+		{
+			/** 未定義。
+			*/
+			None,
+
+			/** エラー。
+			*/
+			Error,
+
+			/** セーブ完了。
+			*/
+			SaveEnd,
+
+			/** バイナリー。
+			*/
+			Binary,
+
+			/** テキスト。
+			*/
+			Text,
+
+			/** テクスチャ。
+			*/
+			Texture,
+		};
+
 		/** [MonoBehaviour_Base]コールバック。初期化。
 		*/
 		protected abstract void OnInitialize();
@@ -74,6 +103,11 @@ namespace NSaveLoad
 		[SerializeField]
 		private Mode mode;
 
+		/** cancel_flag
+		*/
+		[SerializeField]
+		private bool cancel_flag;
+
 		/** delete_flag
 		*/
 		[SerializeField]
@@ -89,10 +123,10 @@ namespace NSaveLoad
 		[SerializeField]
 		private string result_errorstring;
 
-		/** result_datatype
+		/** result_type
 		*/
 		[SerializeField]
-		private DataType result_datatype;
+		private ResultType result_type;
 
 		/** result_binary
 		*/
@@ -113,13 +147,29 @@ namespace NSaveLoad
 		*/
 		protected void ResetResultFlag()
 		{
+			this.cancel_flag = false;
+
 			this.result_progress = 0.0f;
 			this.result_errorstring = null;
-			this.result_datatype = DataType.None;
+			this.result_type = ResultType.None;
 
 			this.result_binary = null;
 			this.result_text = null;
 			this.result_texture = null;
+		}
+
+		/** キャンセル。設定。
+		*/
+		public void Cancel()
+		{
+			this.cancel_flag = true;
+		}
+
+		/** キャンセル。取得。
+		*/
+		public bool IsCancel()
+		{
+			return this.cancel_flag;
 		}
 
 		/** プログレス。取得。
@@ -143,11 +193,11 @@ namespace NSaveLoad
 			return this.result_errorstring;
 		}
 
-		/** データタイプ。取得。
+		/** 結果タイプ。取得。
 		*/
-		public DataType GetResultDataType()
+		public ResultType GetResultType()
 		{
-			return this.result_datatype;
+			return this.result_type;
 		}
 
 		/** リクエスト待ち開始。
@@ -234,14 +284,14 @@ namespace NSaveLoad
 		*/
 		public void SetResultSaveEnd()
 		{
-			this.result_datatype = DataType.SaveEnd;
+			this.result_type = ResultType.SaveEnd;
 		}
 
 		/** 結果。設定。
 		*/
 		public void SetResultErrorString(string a_error_string)
 		{
-			this.result_datatype = DataType.Error;
+			this.result_type = ResultType.Error;
 			this.result_errorstring = a_error_string;
 		}
 
@@ -249,7 +299,7 @@ namespace NSaveLoad
 		*/
 		public void SetResultBinary(byte[] a_binary)
 		{
-			this.result_datatype = DataType.Binary;
+			this.result_type = ResultType.Binary;
 			this.result_binary = a_binary;
 		}
 
@@ -264,7 +314,7 @@ namespace NSaveLoad
 		*/
 		public void SetResultText(string a_text)
 		{
-			this.result_datatype = DataType.Text;
+			this.result_type = ResultType.Text;
 			this.result_text = a_text;
 		}
 
@@ -279,7 +329,7 @@ namespace NSaveLoad
 		*/
 		public void SetResultTexture(Texture2D a_texture)
 		{
-			this.result_datatype = DataType.Texture;
+			this.result_type = ResultType.Texture;
 			this.result_texture = a_texture;
 		}
 
@@ -295,10 +345,11 @@ namespace NSaveLoad
 		private void Awake()
 		{
 			this.mode = Mode.WaitRequest;
+			this.cancel_flag = false;
 			this.delete_flag = false;
 			this.result_progress = 0.0f;
 			this.result_errorstring = null;
-			this.result_datatype = DataType.None;
+			this.result_type = ResultType.None;
 
 			this.result_binary = null;
 			this.result_text = null;

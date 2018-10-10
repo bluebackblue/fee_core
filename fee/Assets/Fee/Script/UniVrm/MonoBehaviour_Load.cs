@@ -20,6 +20,29 @@ namespace NUniVrm
 	*/
 	public class MonoBehaviour_Load : MonoBehaviour_Base
 	{
+		/** リクエストタイプ。
+		*/
+		private enum RequestType
+		{
+			None = -1,
+
+			/** ロード。
+			*/
+			Load,
+		};
+
+		/** ProgressStep
+		*/
+		private enum ProgressStep
+		{
+			Step0 = 0,
+			Step1,
+			Step2,
+			Step3,
+			Step4,
+
+			Max,
+		};
 
 		/** Work
 		*/
@@ -29,18 +52,30 @@ namespace NUniVrm
 			public VRM.VRMImporterContext context;
 			#endif
 
+			public int progress_step_max;
+			public int progress_step;
+			public int progress_substep_max;
+			public int progress_substep;
+
 			/** constructor
 			*/
 			public Work()
 			{
+				#if(USE_UNIVRM)
 				this.context = null;
+				#endif
+
+				this.progress_step_max = (int)ProgressStep.Max;
+				this.progress_step = (int)ProgressStep.Step0;
+				this.progress_substep_max = 1;
+				this.progress_substep = 0;
 			}
 		};
 
-		/** cancel_flag
+		/** request_type
 		*/
 		[SerializeField]
-		private bool cancel_flag;
+		private RequestType request_type;
 
 		/** request_binary
 		*/
@@ -49,14 +84,15 @@ namespace NUniVrm
 
 		/** work
 		*/
+		[SerializeField]
 		private Work work;
 
 		/** [MonoBehaviour_Base]コールバック。初期化。
 		*/
 		protected override void OnInitialize()
 		{
-			//cancel_flag
-			this.cancel_flag = false;
+			//request_type
+			this.request_type = RequestType.None;
 
 			//request_binary
 			this.request_binary = null;
@@ -69,9 +105,19 @@ namespace NUniVrm
 		*/
 		protected override IEnumerator OnStart()
 		{
-			this.work = new Work();
+			switch(this.request_type){
+			case RequestType.Load:
+				{
+					Tool.Log("MonoBehaviour_Load",this.request_type.ToString());
+					this.work = new Work();
+					this.SetModeDo();
+				}yield break;
+			}
 
-			this.SetModeDo();
+			//不明なリクエスト。
+			this.SetResultErrorString("request_type == " + this.request_type.ToString());
+			this.SetModeDoError();
+			
 			yield break;
 		}
 
@@ -80,17 +126,60 @@ namespace NUniVrm
 		protected override IEnumerator OnDo()
 		{
 			#if(USE_UNIVRM)
-			yield return this.Raw_Do_Load_Parse();
-			yield return this.Raw_Do_Load_MaterialTexture();
-			yield return this.Raw_Do_Load_Mesh();
-			yield return this.Raw_Do_Load_Node();
-			yield return this.Raw_Do_Load_Model();
-			#endif
+			{
+				this.SetResultProgress(0.1f);
 
-			if(this.GetResultType() == ResultType.Error){
-				this.SetModeDoError();
-				yield break;
-			}	
+				this.work.progress_step = (int)ProgressStep.Step0;
+				this.work.progress_substep = 0;
+				this.work.progress_substep_max = 1;
+
+				yield return this.Raw_Do_Load_Parse();
+				if(this.GetResultType() == ResultType.Error){
+					this.SetModeDoError();
+					yield break;
+				}
+
+				this.work.progress_step = (int)ProgressStep.Step1;
+				this.work.progress_substep = 0;
+				this.work.progress_substep_max = 1;
+
+				yield return this.Raw_Do_Load_MaterialTexture();
+				if(this.GetResultType() == ResultType.Error){
+					this.SetModeDoError();
+					yield break;
+				}
+
+				this.work.progress_step = (int)ProgressStep.Step2;
+				this.work.progress_substep = 0;
+				this.work.progress_substep_max = 1;
+
+				yield return this.Raw_Do_Load_Mesh();
+				if(this.GetResultType() == ResultType.Error){
+					this.SetModeDoError();
+					yield break;
+				}
+
+				this.work.progress_step = (int)ProgressStep.Step3;
+				this.work.progress_substep = 0;
+				this.work.progress_substep_max = 1;
+
+				yield return this.Raw_Do_Load_Node();
+				if(this.GetResultType() == ResultType.Error){
+					this.SetModeDoError();
+					yield break;
+				}
+
+				this.work.progress_step = (int)ProgressStep.Step4;
+				this.work.progress_substep = 0;
+				this.work.progress_substep_max = 1;
+
+				yield return this.Raw_Do_Load_Model();
+				if(this.GetResultType() == ResultType.Error){
+					this.SetModeDoError();
+					yield break;
+				}
+			}
+			#endif
 
 			this.SetResultContext(this.work.context);
 			this.SetModeDoSuccess();
@@ -117,13 +206,6 @@ namespace NUniVrm
 			yield break;
 		}
 
-		/** キャンセル。
-		*/
-		public void Cancel()
-		{
-			this.cancel_flag = true;
-		}
-
 		/** リクエスト。
 		*/
 		public bool Request(byte[] a_binary)
@@ -132,8 +214,7 @@ namespace NUniVrm
 				this.SetModeStart();
 				this.ResetResultFlag();
 
-				this.cancel_flag = false;
-
+				this.request_type = RequestType.Load;
 				this.request_binary = a_binary;
 				this.work = null;
 
@@ -143,11 +224,24 @@ namespace NUniVrm
 			return false;
 		}
 
+		/** プログレス計算。
+		*/
+		private float CalcProgress(float a_progress)
+		{
+			float t_progress = 0.0f;
+			t_progress += ((float)this.work.progress_step) / this.work.progress_step_max;
+			t_progress += (a_progress + (float)this.work.progress_substep) / (this.work.progress_step_max * this.work.progress_substep_max);
+			return t_progress;
+		}
+
 		/** [内部からの呼び出し]ロード。Parse。
 		*/
 		#if(USE_UNIVRM)
 		private IEnumerator Raw_Do_Load_Parse()
 		{
+			//プログレス。
+			this.SetResultProgress(this.CalcProgress(0.0f));
+
 			this.work.context = new VRM.VRMImporterContext();
 			this.work.context.ParseGlb(this.request_binary);
 
@@ -160,6 +254,9 @@ namespace NUniVrm
 		#if(USE_UNIVRM)
 		private IEnumerator Raw_Do_Load_MaterialTexture()
 		{
+			//プログレス。
+			this.SetResultProgress(this.CalcProgress(0.0f));
+
 			//MaterialImporter
 			List<VRM.glTF_VRM_Material> t_material_list = VRM.glTF_VRM_Material.Parse(this.work.context.Json);
 			this.work.context.MaterialImporter = new VRM.VRMMaterialImporter(this.work.context,t_material_list);
@@ -196,6 +293,9 @@ namespace NUniVrm
 		#if(USE_UNIVRM)
 		private IEnumerator Raw_Do_Load_Mesh()
 		{
+			//プログレス。
+			this.SetResultProgress(this.CalcProgress(0.0f));
+
 			//AddMesh
 			UniGLTF.MeshImporter t_meshimporter = new UniGLTF.MeshImporter();
 			for(int ii=0;ii<this.work.context.GLTF.meshes.Count;ii++){
@@ -213,6 +313,9 @@ namespace NUniVrm
 		#if(USE_UNIVRM)
 		private IEnumerator Raw_Do_Load_Node()
 		{
+			//プログレス。
+			this.SetResultProgress(this.CalcProgress(0.0f));
+
 			//AddNode
 			{
 				foreach(UniGLTF.glTFNode t_item in this.work.context.GLTF.nodes){
@@ -250,6 +353,9 @@ namespace NUniVrm
 		#if(USE_UNIVRM)
 		private IEnumerator Raw_Do_Load_Model()
 		{
+			//プログレス。
+			this.SetResultProgress(this.CalcProgress(0.0f));
+
 			//OnLoadModel
 			VRM.VRMImporter.OnLoadModel(this.work.context);
 

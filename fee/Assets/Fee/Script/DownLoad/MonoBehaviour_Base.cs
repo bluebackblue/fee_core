@@ -49,6 +49,43 @@ namespace NDownLoad
 			Fix,
 		};
 
+		/** ResultType
+		*/
+		public enum ResultType
+		{
+			/** 未定義。
+			*/
+			None,
+
+			/** エラー。
+			*/
+			Error,
+
+			/** セーブ完了。
+			*/
+			SaveEnd,
+
+			/** バイナリー。
+			*/
+			Binary,
+
+			/** テキスト。
+			*/
+			Text,
+
+			/** テクスチャ。
+			*/
+			Texture,
+
+			/** サウンドプール。
+			*/
+			SoundPool,
+
+			/** アセットバンドル。
+			*/
+			AssetBundle,
+		};
+
 		/** [MonoBehaviour_Base]コールバック。初期化。
 		*/
 		protected abstract void OnInitialize();
@@ -74,6 +111,11 @@ namespace NDownLoad
 		[SerializeField]
 		private Mode mode;
 
+		/** cancel_flag
+		*/
+		[SerializeField]
+		private bool cancel_flag;
+
 		/** delete_flag
 		*/
 		[SerializeField]
@@ -89,10 +131,10 @@ namespace NDownLoad
 		[SerializeField]
 		private string result_errorstring;
 
-		/** result_datatype
+		/** result_type
 		*/
 		[SerializeField]
-		private DataType result_datatype;
+		private ResultType result_type;
 
 		/** result_binary
 		*/
@@ -123,16 +165,31 @@ namespace NDownLoad
 		*/
 		protected void ResetResultFlag()
 		{
+			this.cancel_flag = false;
+
 			this.result_progress = 0.0f;
 			this.result_errorstring = null;
-			this.result_datatype = DataType.None;
+			this.result_type = ResultType.None;
 
 			this.result_binary = null;
 			this.result_text = null;
 			this.result_texture = null;
-
 			this.result_soundpool = null;
 			this.result_assetbundle = null;
+		}
+
+		/** キャンセル。設定。
+		*/
+		public void Cancel()
+		{
+			this.cancel_flag = true;
+		}
+
+		/** キャンセル。取得。
+		*/
+		public bool IsCancel()
+		{
+			return this.cancel_flag;
 		}
 
 		/** プログレス。取得。
@@ -156,11 +213,11 @@ namespace NDownLoad
 			return this.result_errorstring;
 		}
 
-		/** データタイプ。取得。
+		/** 結果タイプ。取得。
 		*/
-		public DataType GetResultDataType()
+		public ResultType GetResultType()
 		{
-			return this.result_datatype;
+			return this.result_type;
 		}
 
 		/** リクエスト待ち開始。
@@ -247,7 +304,7 @@ namespace NDownLoad
 		*/
 		public void SetResultErrorString(string a_error_string)
 		{
-			this.result_datatype = DataType.Error;
+			this.result_type = ResultType.Error;
 			this.result_errorstring = a_error_string;
 		}
 
@@ -255,7 +312,7 @@ namespace NDownLoad
 		*/
 		public void SetResultBinary(byte[] a_binary)
 		{
-			this.result_datatype = DataType.Binary;
+			this.result_type = ResultType.Binary;
 			this.result_binary = a_binary;
 		}
 
@@ -270,7 +327,7 @@ namespace NDownLoad
 		*/
 		public void SetResultText(string a_text)
 		{
-			this.result_datatype = DataType.Text;
+			this.result_type = ResultType.Text;
 			this.result_text = a_text;
 		}
 
@@ -285,7 +342,7 @@ namespace NDownLoad
 		*/
 		public void SetResultTexture(Texture2D a_texture)
 		{
-			this.result_datatype = DataType.Texture;
+			this.result_type = ResultType.Texture;
 			this.result_texture = a_texture;
 		}
 
@@ -300,7 +357,7 @@ namespace NDownLoad
 		*/
 		public void SetResultSoundPool(NAudio.Pack_SoundPool a_soundpool)
 		{
-			this.result_datatype = DataType.SoundPool;
+			this.result_type = ResultType.SoundPool;
 			this.result_soundpool = a_soundpool;
 		}
 
@@ -315,7 +372,7 @@ namespace NDownLoad
 		*/
 		public void SetResultAssetBundle(AssetBundle a_assetbundle)
 		{
-			this.result_datatype = DataType.AssetBundle;
+			this.result_type = ResultType.AssetBundle;
 			this.result_assetbundle = a_assetbundle;
 		}
 
@@ -331,10 +388,11 @@ namespace NDownLoad
 		private void Awake()
 		{
 			this.mode = Mode.WaitRequest;
+			this.cancel_flag = false;
 			this.delete_flag = false;
 			this.result_progress = 0.0f;
 			this.result_errorstring = null;
-			this.result_datatype = DataType.None;
+			this.result_type = ResultType.None;
 
 			this.result_binary = null;
 			this.result_text = null;
