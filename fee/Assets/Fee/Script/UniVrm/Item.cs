@@ -24,10 +24,16 @@ namespace NUniVrm
 		*/
 		public enum ResultType
 		{
+			/** 未定義。
+			*/
 			None,
 
+			/** エラー。
+			*/
 			Error,
 
+			/** コンテキスト。
+			*/
 			Context,
 		}
 
@@ -43,17 +49,13 @@ namespace NUniVrm
 		*/
 		private string result_errorstring;
 
-		/** result_context
-		*/
-		#if(USE_UNIVRM)
-		private VRM.VRMImporterContext result_context;
-		#else
-		private string result_context;
-		#endif
-
 		/** cancel_flag
 		*/
 		private bool cancel_flag;
+
+		/** result_context
+		*/
+		private VRM.VRMImporterContext result_context;
 
 		/** constructor
 		*/
@@ -65,11 +67,25 @@ namespace NUniVrm
 			//result_progress
 			this.result_progress = 0.0f;
 
-			//result_context
-			this.result_context = null;
+			//result_errorstring
+			this.result_errorstring = null;
 
 			//cancel_flag
 			this.cancel_flag = false;
+
+			//result_context
+			this.result_context = null;
+		}
+
+		/** 削除。
+		*/
+		public void Delete()
+		{
+			#if(USE_UNIVRM)
+			if(this.result_context != null){
+				this.result_context.Destroy(false);
+			}
+			#endif
 		}
 
 		/** 処理中。チェック。
@@ -96,6 +112,13 @@ namespace NUniVrm
 			return this.cancel_flag;
 		}
 
+		/** 結果。タイプ。取得。
+		*/
+		public ResultType GetResultType()
+		{
+			return this.result_type;
+		}
+
 		/** プログレス。設定。
 		*/
 		public void SetResultProgress(float a_result_progress)
@@ -110,14 +133,7 @@ namespace NUniVrm
 			return this.result_progress;
 		}
 
-		/** データタイプ。取得。
-		*/
-		public ResultType GetResultDataType()
-		{
-			return this.result_type;
-		}
-
-		/** 結果。設定。
+		/** 結果。エラー文字。設定。
 		*/
 		public void SetResultErrorString(string a_error_string)
 		{
@@ -126,27 +142,30 @@ namespace NUniVrm
 			this.result_errorstring = a_error_string;
 		}
 
-		/** 結果。取得。
+		/** 結果。エラー文字。取得。
 		*/
 		public string GetResultErrorString()
 		{
 			return this.result_errorstring;
 		}
 
-		/** 結果。設定。
+		/** 結果。コンテキスト。設定。
 		*/
-		#if(USE_UNIVRM)
 		public void SetResultContext(VRM.VRMImporterContext a_context)
-		#else
-		public void SetResultContext(string a_context)
-		#endif
 		{
 			this.result_type = ResultType.Context;
 
 			this.result_context = a_context;
 		}
 
-		/** TODO:[内部からの呼び出し]レイヤー。設定。
+		/** 結果。コンテキスト。取得。
+		*/
+		public VRM.VRMImporterContext GetResultContext()
+		{
+			return this.result_context;
+		}
+
+		/** [内部からの呼び出し]レイヤー。設定。
 		*/
 		private static void Raw_SetLayer(Transform a_transform,int a_layer)
 		{
@@ -160,19 +179,31 @@ namespace NUniVrm
 			}
 		}
 
-		/** TODO:レイヤー。設定。
+		/** レイヤー。設定。
 		*/
 		public void SetLayer(string a_layername)
 		{
-			Raw_SetLayer(this.result_context.Root.transform,LayerMask.NameToLayer(a_layername));
+			#if(USE_UNIVRM)
+			{
+				Raw_SetLayer(this.result_context.Root.transform,LayerMask.NameToLayer(a_layername));
+			}
+			#endif
 		}
 
-		/** 表示。
+		/** 表示。設定。
 		*/
-		public void Show()
+		public void SetRendererEnable(bool a_flag)
 		{
-			this.result_context.ShowMeshes();
-		} 
+			#if(USE_UNIVRM)
+			for(int ii=0;ii<this.result_context.Meshes.Count;ii++){
+				if(this.result_context.Meshes[ii] != null){
+					if(this.result_context.Meshes[ii].Renderer != null){
+						this.result_context.Meshes[ii].Renderer.enabled = a_flag;
+					}
+				}
+			}
+			#endif
+		}
 	}
 }
 

@@ -153,7 +153,7 @@ namespace NSaveLoad
 					yield return null;
 				}while(t_download_item.IsBusy() == true);
 
-				if(t_download_item.GetResultDataType() == NDownLoad.DataType.Binary){
+				if(t_download_item.GetResultType() == NDownLoad.Item.ResultType.Binary){
 					if(t_download_item.GetResultBinary() != null){
 						if(t_download_item.GetResultBinary().Length > 0){
 							t_result = t_download_item.GetResultBinary();

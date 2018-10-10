@@ -12,6 +12,10 @@ using UnityEngine;
 */
 
 
+//Async block lacks `await' operator and will run synchronously.
+#pragma warning disable 1998
+
+
 /** NSaveLoad
 */
 namespace NSaveLoad

@@ -377,7 +377,7 @@ public class test11 : main_base
 				//ダウンロード中。
 				this.status.SetText("bgm : " + this.download_item_bgm.GetResultProgress().ToString());
 			}else{
-				if(this.download_item_bgm.GetResultDataType() == NDownLoad.DataType.AssetBundle){
+				if(this.download_item_bgm.GetResultType() == NDownLoad.Item.ResultType.AssetBundle){
 					//ダウンロード成功。アセットバンドル。
 					AssetBundle t_assetbundle = this.download_item_bgm.GetResultAssetBundle();
 					if(t_assetbundle != null){
@@ -434,7 +434,7 @@ public class test11 : main_base
 					//ダウンロード中。
 					this.status.SetText("se : " + this.download_item_se.GetResultProgress().ToString());
 				}else{
-					if(this.download_item_se.GetResultDataType() == NDownLoad.DataType.SoundPool){
+					if(this.download_item_se.GetResultType() == NDownLoad.Item.ResultType.SoundPool){
 						//ダウンロード成功。サウンドプール。
 
 						this.pack_soundpool = this.download_item_se.GetResultSoundPool();
@@ -447,7 +447,7 @@ public class test11 : main_base
 							this.download_item_se = null;
 							this.mode = Mode.Fix;
 						}
-					}else if(this.download_item_se.GetResultDataType() == NDownLoad.DataType.AssetBundle){
+					}else if(this.download_item_se.GetResultType() == NDownLoad.Item.ResultType.AssetBundle){
 						//ダウンロード成功。アセットバンドル。
 
 						AssetBundle t_assetbundle = this.download_item_se.GetResultAssetBundle();

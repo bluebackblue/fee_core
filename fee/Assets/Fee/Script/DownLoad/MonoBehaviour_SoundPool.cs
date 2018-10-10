@@ -242,7 +242,7 @@ namespace NDownLoad
 					yield return null;
 				}while(t_saveload_item.IsBusy() == true);
 
-				if(t_saveload_item.GetResultDataType() == NSaveLoad.DataType.Text){
+				if(t_saveload_item.GetResultType() == NSaveLoad.Item.ResultType.Text){
 					this.work.local_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_saveload_item.GetResultText()));
 
 					if(this.work.local_soundpool == null){
@@ -309,7 +309,7 @@ namespace NDownLoad
 					yield return null;
 				}while(t_download_item.IsBusy() == true);
 
-				if(t_download_item.GetResultDataType() == DataType.Text){
+				if(t_download_item.GetResultType() == Item.ResultType.Text){
 					//コンバート。
 					this.work.soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_download_item.GetResultText()));
 
@@ -384,7 +384,7 @@ namespace NDownLoad
 					yield return null;
 				}while(t_download_item.IsBusy() == true);
 
-				if(t_download_item.GetResultDataType() == DataType.Binary){
+				if(t_download_item.GetResultType() == Item.ResultType.Binary){
 					this.work.download_binary = t_download_item.GetResultBinary();
 
 					if(this.work.download_binary == null){
@@ -427,7 +427,7 @@ namespace NDownLoad
 					yield return null;
 				}while(t_saveload_item.IsBusy() == true);
 
-				if(t_saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
+				if(t_saveload_item.GetResultType() == NSaveLoad.Item.ResultType.SaveEnd){
 				}else{
 					//失敗。
 
@@ -474,7 +474,7 @@ namespace NDownLoad
 					yield return null;
 				}while(t_saveload_item.IsBusy() == true);
 
-				if(t_saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
+				if(t_saveload_item.GetResultType() == NSaveLoad.Item.ResultType.SaveEnd){
 				}else{
 					//失敗。
 					this.SetResultErrorString("error : Raw_Do_SaveSoundPool != NSaveLoad.DataType.SaveEnd");

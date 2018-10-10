@@ -51,6 +51,7 @@ public class test03 : main_base
 	/** ＶＲＭアイテム。
 	*/
 	private NUniVrm.Item vrm_item;
+	private bool vrm_item_load;
 
 	/** バイナリ。
 	*/
@@ -157,6 +158,10 @@ public class test03 : main_base
 		this.download_item = null;
 		this.saveload_item = null;
 
+		//vrm
+		this.vrm_item = null;
+		this.vrm_item_load = false;
+
 		//binary
 		this.binary = null;
 
@@ -226,7 +231,7 @@ public class test03 : main_base
 				}
 			}else{
 				//ダウンロード完了。
-				if(this.download_item.GetResultDataType() == NDownLoad.DataType.Binary){
+				if(this.download_item.GetResultType() == NDownLoad.Item.ResultType.Binary){
 					this.status.SetText("Download : Fix");
 					this.binary = this.download_item.GetResultBinary();
 				}else{
@@ -247,7 +252,7 @@ public class test03 : main_base
 				}
 			}else{
 				//ダウンロード完了。
-				if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.Binary){
+				if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.Binary){
 					this.status.SetText("SaveLoad : Fix");
 					this.binary = this.saveload_item.GetResultBinary();
 				}else{
@@ -257,34 +262,42 @@ public class test03 : main_base
 			}
 		}
 
-		if(this.vrm_item != null){
-			if(this.vrm_item.IsBusy() == true){
-				//ロード中。
-				this.status.SetText("LoavVrm : " + this.vrm_item.GetResultProgress().ToString());
+		if(this.vrm_item_load == true){
+			if(this.vrm_item != null){
+				if(this.vrm_item.IsBusy() == true){
+					//ロード中。
+					this.status.SetText("LoavVrm : " + this.vrm_item.GetResultProgress().ToString());
 
-				//キャンセル。
-				if(this.IsChangeScene() == true){
-					this.vrm_item.Cancel();
-				}
-			}else{
-				//ロード完了。
-				if(this.vrm_item.GetResultDataType() == NUniVrm.Item.ResultType.Context){
-					this.status.SetText("LoavVrm : Fix");
-
-					this.vrm_item.SetLayer("Model");
-					this.vrm_item.Show();
-
+					//キャンセル。
+					if(this.IsChangeScene() == true){
+						this.vrm_item.Cancel();
+					}
 				}else{
-					this.status.SetText("LoavVrm : Error");
+					//ロード完了。
+					if(this.vrm_item.GetResultType() == NUniVrm.Item.ResultType.Context){
+						this.status.SetText("LoavVrm : Fix");
+
+						this.vrm_item.SetLayer("Model");
+						this.vrm_item.SetRendererEnable(true);
+
+					}else{
+						this.status.SetText("LoavVrm : Error");
+					}
+					this.vrm_item_load = false;
 				}
-				this.vrm_item = null;
 			}
 		}
 
 		if(this.binary != null){
 			this.status.SetText("Create : size = " + this.binary.Length.ToString());
 			{
+				if(this.vrm_item != null){
+					this.vrm_item.Delete();
+					this.vrm_item = null;
+				}
+
 				this.vrm_item = NUniVrm.UniVrm.GetInstance().Request(this.binary);
+				this.vrm_item_load = true;
 			}
 			this.binary = null;
 		}

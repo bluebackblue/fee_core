@@ -200,7 +200,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
+					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.SaveEnd){
 						//成功。
 
 						{
@@ -248,7 +248,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.Binary){
+					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.Binary){
 						//成功。
 
 						//チェック。
@@ -309,7 +309,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
+					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.SaveEnd){
 						//成功。
 
 						{
@@ -357,7 +357,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.Text){
+					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.Text){
 						//成功。
 
 						{
@@ -417,7 +417,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.SaveEnd){
+					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.SaveEnd){
 						//成功。
 
 						{
@@ -465,7 +465,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultDataType() == NSaveLoad.DataType.Texture){
+					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.Texture){
 						//成功。
 
 						Texture2D t_load_texture = this.saveload_item.GetResultTexture();

@@ -232,6 +232,7 @@
     <Compile Include="Assets\Fee\Script\Ui\Tool.cs" />
     <Compile Include="Assets\Fee\Script\Ui\Ui.cs" />
     <Compile Include="Assets\Fee\Script\UniVrm\Config.cs" />
+    <Compile Include="Assets\Fee\Script\UniVrm\Dummy.cs" />
     <Compile Include="Assets\Fee\Script\UniVrm\Item.cs" />
     <Compile Include="Assets\Fee\Script\UniVrm\MonoBehaviour_Base.cs" />
     <Compile Include="Assets\Fee\Script\UniVrm\MonoBehaviour_Vrm.cs" />

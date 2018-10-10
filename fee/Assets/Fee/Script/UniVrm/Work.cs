@@ -105,7 +105,11 @@ namespace NUniVrm
 					if(t_vrm.IsFix() == true){
 						//結果。
 
-						this.item.SetResultContext(t_vrm.GetResultContext());
+						if(t_vrm.GetResultType() == MonoBehaviour_Base.ResultType.Context){
+							this.item.SetResultContext(t_vrm.GetResultContext());
+						}else{
+							this.item.SetResultErrorString(t_vrm.GetResultErrorString());
+						}
 
 						//リクエスト待ち開始。
 						t_vrm.WaitRequest();

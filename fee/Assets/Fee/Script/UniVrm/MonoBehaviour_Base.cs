@@ -118,12 +118,8 @@ namespace NUniVrm
 
 		/** result_context
 		*/
-		#if(USE_UNIVRM)
 		[SerializeField]
 		private VRM.VRMImporterContext result_context;
-		#else
-		private string result_context;
-		#endif
 
 		/** 結果フラグリセット。
 		*/
@@ -270,11 +266,7 @@ namespace NUniVrm
 
 		/** 結果。設定。
 		*/
-		#if(USE_UNIVRM)
 		public void SetResultContext(VRM.VRMImporterContext a_context)
-		#else
-		public void SetResultContext(string a_context)
-		#endif
 		{
 			this.result_type = ResultType.Context;
 			this.result_context = a_context;
@@ -282,11 +274,7 @@ namespace NUniVrm
 
 		/** 結果。取得。
 		*/
-		#if(USE_UNIVRM)
 		public VRM.VRMImporterContext GetResultContext()
-		#else
-		public string GetResultContext()
-		#endif
 		{
 			return this.result_context;
 		}

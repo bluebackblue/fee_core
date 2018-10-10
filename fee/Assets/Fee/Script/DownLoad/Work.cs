@@ -161,31 +161,45 @@ namespace NDownLoad
 					if(t_webrequest.IsFix() == true){
 						//結果。
 						switch(t_webrequest.GetResultType()){
-						case MonoBehaviour_Base.ResultType.AssetBundle:
-							{
-								this.item.SetResultAssetBundle(t_webrequest.GetResultAssetBundle());
-							}break;
 						case MonoBehaviour_Base.ResultType.Text:
 							{
-								this.item.SetResultText(t_webrequest.GetResultText());
+								//テキスト。
+								if(t_webrequest.GetResultText() != null){
+									this.item.SetResultText(t_webrequest.GetResultText());
+								}else{
+									this.item.SetResultErrorString("null");
+								}
 							}break;
 						case MonoBehaviour_Base.ResultType.Texture:
-							{		
-								this.item.SetResultTexture(t_webrequest.GetResultTexture());
+							{
+								//テクスチャ。	
+								if(t_webrequest.GetResultTexture() != null){
+									this.item.SetResultTexture(t_webrequest.GetResultTexture());
+								}else{
+									this.item.SetResultErrorString("null");
+								}
 							}break;
 						case MonoBehaviour_Base.ResultType.Binary:
 							{
-								this.item.SetResultBinary(t_webrequest.GetResultBinary());
+								//バイナリ。
+								if(t_webrequest.GetResultBinary() != null){
+									this.item.SetResultBinary(t_webrequest.GetResultBinary());
+								}else{
+									this.item.SetResultErrorString("null");
+								}
+							}break;
+						case MonoBehaviour_Base.ResultType.AssetBundle:
+							{
+								//アセットバンドル。
+								if(t_webrequest.GetResultAssetBundle() != null){
+									this.item.SetResultAssetBundle(t_webrequest.GetResultAssetBundle());
+								}else{
+									this.item.SetResultErrorString("null");
+								}
 							}break;
 						default:
 							{
-								string t_error_string = t_webrequest.GetResultErrorString();
-
-								if(t_error_string == null){
-									t_error_string = "";
-								}
-
-								this.item.SetResultErrorString(t_error_string);
+								this.item.SetResultErrorString(t_webrequest.GetResultErrorString());
 							}break;
 						}
 
@@ -216,15 +230,13 @@ namespace NDownLoad
 					if(t_soundpool.IsFix() == true){
 						//結果。
 						if(t_soundpool.GetResultType() == MonoBehaviour_Base.ResultType.SoundPool){
-							this.item.SetResultSoundPool(t_soundpool.GetResultSoundPool());
-						}else{
-							string t_error_string = t_soundpool.GetResultErrorString();
-
-							if(t_error_string == null){
-								t_error_string = "";
+							if(t_soundpool.GetResultSoundPool() != null){
+								this.item.SetResultSoundPool(t_soundpool.GetResultSoundPool());
+							}else{
+								this.item.SetResultErrorString("null");
 							}
-
-							this.item.SetResultErrorString(t_error_string);
+						}else{
+							this.item.SetResultErrorString(t_soundpool.GetResultErrorString());
 						}
 
 						//リクエスト待ち開始。

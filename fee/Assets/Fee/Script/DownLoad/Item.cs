@@ -20,9 +20,46 @@ namespace NDownLoad
 	*/
 	public class Item
 	{
-		/** result_datatype
+		/** ResultType
 		*/
-		private DataType result_datatype;
+		public enum ResultType
+		{
+			/** 未定義。
+			*/
+			None,
+
+			/** セーブ完了。
+			*/
+			SaveEnd,
+
+			/** エラー。
+			*/
+			Error,
+
+			/** バイナリ。
+			*/
+			Binary,
+
+			/** テキスト。
+			*/
+			Text,
+
+			/** テクスチャ。
+			*/
+			Texture,
+
+			/** サウンドプール。
+			*/
+			SoundPool,
+
+			/** アセットバンドル。
+			*/
+			AssetBundle,
+		}
+
+		/** result_type
+		*/
+		private ResultType result_type;
 
 		/** result_progress
 		*/
@@ -32,13 +69,13 @@ namespace NDownLoad
 		*/
 		private string result_errorstring;
 
-		/** result_soundpool
+		/** cancel_flag
 		*/
-		private NAudio.Pack_SoundPool result_soundpool;
+		private bool cancel_flag;
 
-		/** result_assetbundle
+		/** result_binary
 		*/
-		private AssetBundle result_assetbundle;
+		private byte[] result_binary;
 
 		/** result_text
 		*/
@@ -48,20 +85,20 @@ namespace NDownLoad
 		*/
 		private Texture2D result_texture;
 
-		/** result_binary
+		/** result_soundpool
 		*/
-		private byte[] result_binary;
+		private NAudio.Pack_SoundPool result_soundpool;
 
-		/** cancel_flag
+		/** result_assetbundle
 		*/
-		private bool cancel_flag;
+		private AssetBundle result_assetbundle;
 
 		/** constructor
 		*/
 		public Item()
 		{
-			//result_datatype
-			this.result_datatype = DataType.None;
+			//result_type
+			this.result_type = ResultType.None;
 
 			//result_progress
 			this.result_progress = 0.0f;
@@ -69,11 +106,11 @@ namespace NDownLoad
 			//result_errorstring
 			this.result_errorstring = null;
 
-			//result_soundpool
-			this.result_soundpool = null;
+			//cancel_flag
+			this.cancel_flag = false;
 
-			//result_assetbundle
-			this.result_assetbundle = null;
+			//result_binary
+			this.result_binary = null;
 
 			//result_text
 			this.result_text = null;
@@ -81,18 +118,24 @@ namespace NDownLoad
 			//result_texture
 			this.result_texture = null;
 
-			//result_binary
-			this.result_binary = null;
+			//result_soundpool
+			this.result_soundpool = null;
 
-			//cancel_flag
-			this.cancel_flag = false;
+			//result_assetbundle
+			this.result_assetbundle = null;
+		}
+
+		/** 削除。
+		*/
+		private void Delete()
+		{
 		}
 
 		/** 処理中。チェック。
 		*/
 		public bool IsBusy()
 		{
-			if(this.result_datatype == DataType.None){
+			if(this.result_type == ResultType.None){
 				return true;
 			}
 			return false;
@@ -112,6 +155,14 @@ namespace NDownLoad
 			return this.cancel_flag;
 		}
 
+
+		/** 結果。タイプ。取得。
+		*/
+		public ResultType GetResultType()
+		{
+			return this.result_type;
+		}
+
 		/** プログレス。設定。
 		*/
 		public void SetResultProgress(float a_result_progress)
@@ -126,66 +177,44 @@ namespace NDownLoad
 			return this.result_progress;
 		}
 
-		/** データタイプ。取得。
-		*/
-		public DataType GetResultDataType()
-		{
-			return this.result_datatype;
-		}
 
-		/** 結果。設定。
+		/** 結果。エラー文字。設定。
 		*/
 		public void SetResultErrorString(string a_error_string)
 		{
-			this.result_datatype = DataType.Error;
+			this.result_type = ResultType.Error;
 
 			this.result_errorstring = a_error_string;
 		}
 
-		/** 結果。取得。
+		/** 結果。エラー文字。取得。
 		*/
 		public string GetResultErrorString()
 		{
 			return this.result_errorstring;
 		}
 
-		/** 結果。サウンドプール。設定。
+		/** 結果。バイナリ。設定。
 		*/
-		public void SetResultSoundPool(NAudio.Pack_SoundPool a_soundpool)
+		public void SetResultBinary(byte[] a_binary)
 		{
-			this.result_datatype = DataType.SoundPool;
+			this.result_type = ResultType.Binary;
 
-			this.result_soundpool = a_soundpool;
+			this.result_binary = a_binary;
 		}
 
-		/** 結果。サウンロプール。取得。
+		/** 結果。バイナリ。取得。
 		*/
-		public NAudio.Pack_SoundPool GetResultSoundPool()
+		public byte[] GetResultBinary()
 		{
-			return this.result_soundpool;
-		}
-
-		/** 結果。アセットバンドル。設定。
-		*/
-		public void SetResultAssetBundle(AssetBundle a_assetbundle)
-		{
-			this.result_datatype = DataType.AssetBundle;
-
-			this.result_assetbundle = a_assetbundle;
-		}
-
-		/** 結果。アセットバンドル。取得。
-		*/
-		public AssetBundle GetResultAssetBundle()
-		{
-			return this.result_assetbundle;
+			return this.result_binary;
 		}
 
 		/** 結果。テキスト。設定。
 		*/
 		public void SetResultText(string a_text)
 		{
-			this.result_datatype = DataType.Text;
+			this.result_type = ResultType.Text;
 
 			this.result_text = a_text;
 		}
@@ -201,7 +230,7 @@ namespace NDownLoad
 		*/
 		public void SetResultTexture(Texture2D a_texture)
 		{
-			this.result_datatype = DataType.Texture;
+			this.result_type = ResultType.Texture;
 
 			this.result_texture = a_texture;
 		}
@@ -213,20 +242,36 @@ namespace NDownLoad
 			return this.result_texture;
 		}
 
-		/** 結果。バイナリ。設定。
+		/** 結果。サウンドプール。設定。
 		*/
-		public void SetResultBinary(byte[] a_binary)
+		public void SetResultSoundPool(NAudio.Pack_SoundPool a_soundpool)
 		{
-			this.result_datatype = DataType.Binary;
+			this.result_type = ResultType.SoundPool;
 
-			this.result_binary = a_binary;
+			this.result_soundpool = a_soundpool;
 		}
 
-		/** 結果。バイナリ。取得。
+		/** 結果。サウンロプール。取得。
 		*/
-		public byte[] GetResultBinary()
+		public NAudio.Pack_SoundPool GetResultSoundPool()
 		{
-			return this.result_binary;
+			return this.result_soundpool;
+		}
+
+		/** 結果。アセットバンドル。設定。
+		*/
+		public void SetResultAssetBundle(AssetBundle a_assetbundle)
+		{
+			this.result_type = ResultType.AssetBundle;
+
+			this.result_assetbundle = a_assetbundle;
+		}
+
+		/** 結果。アセットバンドル。取得。
+		*/
+		public AssetBundle GetResultAssetBundle()
+		{
+			return this.result_assetbundle;
 		}
 	}
 }

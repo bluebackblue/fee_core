@@ -280,17 +280,29 @@ namespace NSaveLoad
 						case MonoBehaviour_Base.ResultType.Binary:
 							{
 								//バイナリ。
-								this.item.SetResultBinary(t_io.GetResultBinary());
+								if(t_io.GetResultBinary() != null){
+									this.item.SetResultBinary(t_io.GetResultBinary());
+								}else{
+									this.item.SetResultErrorString("null");
+								}
 							}break;
 						case MonoBehaviour_Base.ResultType.Text:
 							{
 								//テキスト。
-								this.item.SetResultText(t_io.GetResultText());
+								if(t_io.GetResultText() != null){
+									this.item.SetResultText(t_io.GetResultText());
+								}else{
+									this.item.SetResultErrorString("null");
+								}
 							}break;
 						case MonoBehaviour_Base.ResultType.Texture:
 							{
 								//テクスチャ。
-								this.item.SetResultTexture(t_io.GetResultTexture());
+								if(t_io.GetResultTexture() != null){
+									this.item.SetResultTexture(t_io.GetResultTexture());
+								}else{
+									this.item.SetResultErrorString("null");
+								}
 							}break;
 						case MonoBehaviour_Base.ResultType.SaveEnd:
 							{
@@ -299,7 +311,7 @@ namespace NSaveLoad
 							}break;
 						default:
 							{
-								this.item.SetResultError();
+								this.item.SetResultErrorString("null");
 							}break;
 						}
 
@@ -335,7 +347,7 @@ namespace NSaveLoad
 						if(t_download.GetResultType() == MonoBehaviour_Base.ResultType.Binary){
 							this.item.SetResultBinary(t_download.GetResultBinary());
 						}else{
-							this.item.SetResultError();
+							this.item.SetResultErrorString(t_download.GetResultErrorString());
 						}
 
 						//リクエスト待ち開始。

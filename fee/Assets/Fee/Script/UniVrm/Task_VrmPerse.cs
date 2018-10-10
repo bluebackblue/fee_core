@@ -12,6 +12,10 @@ using UnityEngine;
 */
 
 
+//Async block lacks `await' operator and will run synchronously.
+#pragma warning disable 1998
+
+
 /** NUniVrm
 */
 namespace NUniVrm
@@ -22,11 +26,7 @@ namespace NUniVrm
 	{
 		/** TaskMain
 		*/
-		#if(USE_UNIVRM)
 		private static async System.Threading.Tasks.Task<bool> TaskMain(MonoBehaviour_Vrm a_instance,VRM.VRMImporterContext a_context,byte[] a_binary,System.Threading.CancellationToken a_cancel)
-		#else
-		private static async System.Threading.Tasks.Task<bool> TaskMain(MonoBehaviour_Vrm a_instance,string a_context,byte[] a_binary,System.Threading.CancellationToken a_cancel)
-		#endif
 		{
 			bool t_ret = true;
 
@@ -64,11 +64,7 @@ namespace NUniVrm
 
 		/** 実行。
 		*/
-		#if(USE_UNIVRM)
 		public static NTaskW.Task<bool> Run(MonoBehaviour_Vrm a_instance,VRM.VRMImporterContext a_context,byte[] a_binary,NTaskW.CancelToken a_cancel)
-		#else
-		public static NTaskW.Task<bool> Run(MonoBehaviour_Vrm a_instance,string a_context,byte[] a_binary,NTaskW.CancelToken a_cancel)
-		#endif
 		{
 			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
 
