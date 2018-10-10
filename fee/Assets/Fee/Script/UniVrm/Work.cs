@@ -87,9 +87,9 @@ namespace NUniVrm
 			switch(this.mode){
 			case Mode.Start:
 				{
-					MonoBehaviour_Load t_load = NUniVrm.UniVrm.GetInstance().GetLoad();
+					MonoBehaviour_Vrm t_vrm = NUniVrm.UniVrm.GetInstance().GetVrm();
 
-					if(t_load.Request(this.binary) == true){
+					if(t_vrm.RequestLoad(this.binary) == true){
 						this.mode = Mode.Do;
 					}
 				}break;
@@ -98,22 +98,22 @@ namespace NUniVrm
 				}return true;
 			case Mode.Do:
 				{
-					MonoBehaviour_Load t_load = NUniVrm.UniVrm.GetInstance().GetLoad();
+					MonoBehaviour_Vrm t_vrm = NUniVrm.UniVrm.GetInstance().GetVrm();
 
-					this.item.SetResultProgress(t_load.GetResultProgress());
+					this.item.SetResultProgress(t_vrm.GetResultProgress());
 
-					if(t_load.IsFix() == true){
+					if(t_vrm.IsFix() == true){
 						//結果。
 
-						this.item.SetResultContext(t_load.GetResultContext());
+						this.item.SetResultContext(t_vrm.GetResultContext());
 
 						//リクエスト待ち開始。
-						t_load.WaitRequest();
+						t_vrm.WaitRequest();
 
 						this.mode = Mode.End;
 					}else if(this.item.IsCancel() == true){
 						//キャンセル。
-						t_load.Cancel();
+						t_vrm.Cancel();
 					}
 				}break;
 			}

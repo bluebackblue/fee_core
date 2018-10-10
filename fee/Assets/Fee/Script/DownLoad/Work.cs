@@ -202,8 +202,8 @@ namespace NDownLoad
 				{
 					MonoBehaviour_SoundPool t_soundpool = NDownLoad.DownLoad.GetInstance().GetSoundPool();
 
-					//リクエスト。
-					if(t_soundpool.Request(this.url,this.data_version) == true){
+					//リクエスト。ダウンロード。
+					if(t_soundpool.RequestDownLoad(this.url,this.data_version) == true){
 						this.mode = Mode.Do_SoundPool;
 					}
 				}break;

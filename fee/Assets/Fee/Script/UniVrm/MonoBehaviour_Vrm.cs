@@ -16,9 +16,9 @@ using UnityEngine;
 */
 namespace NUniVrm
 {
-	/** MonoBehaviour_Load
+	/** MonoBehaviour_Vrm
 	*/
-	public class MonoBehaviour_Load : MonoBehaviour_Base
+	public class MonoBehaviour_Vrm : MonoBehaviour_Base
 	{
 		/** リクエストタイプ。
 		*/
@@ -124,6 +124,8 @@ namespace NUniVrm
 		{
 			#if(USE_UNIVRM)
 			{
+				this.work.context = new VRM.VRMImporterContext();
+
 				{
 					this.work.progress_step = (int)ProgressStep.Step0;
 					this.work.progress_substep = 0;
@@ -178,9 +180,9 @@ namespace NUniVrm
 			yield break;
 		}
 
-		/** リクエスト。
+		/** リクエスト。ロード。
 		*/
-		public bool Request(byte[] a_binary)
+		public bool RequestLoad(byte[] a_binary)
 		{
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
@@ -194,6 +196,20 @@ namespace NUniVrm
 			}
 
 			return false;
+		}
+
+		/** プログレス。設定。
+		*/
+		public void SetProgressFromTask(float a_progress)
+		{
+			this.SetResultProgress(this.CalcProgress(a_progress));
+		}
+
+		/** エラー文字列。設定。
+		*/
+		public void SetErrorStringFromTask(string a_error_string)
+		{
+			this.SetResultErrorString(a_error_string);
 		}
 
 		/** プログレス計算。
@@ -214,8 +230,44 @@ namespace NUniVrm
 			//プログレス。
 			this.SetResultProgress(this.CalcProgress(0.0f));
 
-			this.work.context = new VRM.VRMImporterContext();
-			this.work.context.ParseGlb(this.request_binary);
+			bool t_result = false;
+
+			{
+				//キャンセルトークン。
+				NTaskW.CancelToken t_cancel_token = new NTaskW.CancelToken();
+
+				//タスク起動。
+				NTaskW.Task<bool> t_task = Task_VrmParse.Run(this,this.work.context,this.request_binary,t_cancel_token);
+
+				//終了待ち。
+				do{
+					//プログレス。
+					this.SetResultProgress(0.5f);
+
+					//キャンセル。
+					if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
+						t_cancel_token.Cancel();
+					}
+
+					yield return null;
+				}while(t_task.IsEnd() == false);
+
+				Tool.Log("Raw_Do_Load_Parse","Completed = " + t_task.IsCompleted() + " Canceled = " + t_task.IsCanceled().ToString() + " Faulted = " + t_task.IsFaulted().ToString());
+				if(t_task.IsSuccess()){
+					t_result = t_task.GetResult();
+				}else{
+					t_result = false;
+				}
+			}
+
+			//結果。
+			if(t_result == true){
+				yield break;
+			}else{
+				if(this.GetResultType() != ResultType.Error){
+					this.SetResultErrorString("null");
+				}
+			}
 
 			yield break;
 		}

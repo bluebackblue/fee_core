@@ -234,7 +234,8 @@
     <Compile Include="Assets\Fee\Script\UniVrm\Config.cs" />
     <Compile Include="Assets\Fee\Script\UniVrm\Item.cs" />
     <Compile Include="Assets\Fee\Script\UniVrm\MonoBehaviour_Base.cs" />
-    <Compile Include="Assets\Fee\Script\UniVrm\MonoBehaviour_Load.cs" />
+    <Compile Include="Assets\Fee\Script\UniVrm\MonoBehaviour_Vrm.cs" />
+    <Compile Include="Assets\Fee\Script\UniVrm\Task_VrmPerse.cs" />
     <Compile Include="Assets\Fee\Script\UniVrm\Tool.cs" />
     <Compile Include="Assets\Fee\Script\UniVrm\UniVrm.cs" />
     <Compile Include="Assets\Fee\Script\UniVrm\Work.cs" />

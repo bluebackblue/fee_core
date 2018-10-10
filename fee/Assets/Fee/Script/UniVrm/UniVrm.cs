@@ -73,8 +73,8 @@ namespace NUniVrm
 
 		/** load
 		*/
-		private GameObject load_gameobject;
-		private MonoBehaviour_Load load_script;
+		private GameObject vrm_gameobject;
+		private MonoBehaviour_Vrm vrm_script;
 
 		/** work_list
 		*/
@@ -94,12 +94,12 @@ namespace NUniVrm
 			GameObject.DontDestroyOnLoad(this.root_gameobject);
 			this.root_transform = this.root_gameobject.GetComponent<Transform>();
 
-			//load
+			//vrm
 			{
-				this.load_gameobject = new GameObject();
-				this.load_gameobject.name = "UniVrm_Load";
-				this.load_script = this.load_gameobject.AddComponent<MonoBehaviour_Load>();
-				this.load_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
+				this.vrm_gameobject = new GameObject();
+				this.vrm_gameobject.name = "UniVrm_Vrm";
+				this.vrm_script = this.vrm_gameobject.AddComponent<MonoBehaviour_Vrm>();
+				this.vrm_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
 			}
 
 			//work_list
@@ -114,19 +114,19 @@ namespace NUniVrm
 		private void Delete()
 		{
 			//削除リクエスト。
-			this.load_gameobject.GetComponent<Transform>().SetParent(null);
-			GameObject.DontDestroyOnLoad(this.load_gameobject);
-			this.load_script.DeleteRequest();
+			this.vrm_gameobject.GetComponent<Transform>().SetParent(null);
+			GameObject.DontDestroyOnLoad(this.vrm_gameobject);
+			this.vrm_script.DeleteRequest();
 
 			//ルート削除。
 			GameObject.Destroy(this.root_gameobject);
 		}
 
-		/** Load。取得。
+		/** Vrm。取得。
 		*/
-		public MonoBehaviour_Load GetLoad()
+		public MonoBehaviour_Vrm GetVrm()
 		{
-			return this.load_script;
+			return this.vrm_script;
 		}
 
 		/** リクエスト。ロード。

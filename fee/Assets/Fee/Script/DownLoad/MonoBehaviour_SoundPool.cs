@@ -173,9 +173,9 @@ namespace NDownLoad
 			yield break;
 		}
 
-		/** リクエスト。
+		/** リクエスト。ダウンロード。
 		*/
-		public bool Request(string a_url,uint a_data_version)
+		public bool RequestDownLoad(string a_url,uint a_data_version)
 		{
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
