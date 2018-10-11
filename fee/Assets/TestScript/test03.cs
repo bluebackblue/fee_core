@@ -277,8 +277,14 @@ public class test03 : main_base
 					if(this.vrm_item.GetResultType() == NUniVrm.Item.ResultType.Context){
 						this.status.SetText("LoavVrm : Fix");
 
+						//レイヤー。設定。
 						this.vrm_item.SetLayer("Model");
+
+						//表示。設定。
 						this.vrm_item.SetRendererEnable(true);
+
+						//アニメータコントローラ。設定。
+						this.vrm_item.SetAnimatorController(Resources.Load<RuntimeAnimatorController>("Anime/AnimatorController"));
 
 					}else{
 						this.status.SetText("LoavVrm : Error");
@@ -300,6 +306,15 @@ public class test03 : main_base
 				this.vrm_item_load = true;
 			}
 			this.binary = null;
+		}
+
+		//マウスイベント。
+		if(NInput.Mouse.GetInstance().left.down == true){
+			if(this.vrm_item != null){
+				if(this.vrm_item.IsBusy() == false){
+					this.vrm_item.SetAnime(Animator.StringToHash("Base Layer.standing_walk_forward_inPlace"));
+				}
+			}
 		}
 
 		//カメラを回す。

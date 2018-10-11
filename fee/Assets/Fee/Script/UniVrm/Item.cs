@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//using System.IO;
+//using UnityEngine;
+using System.Linq;
+//using System;
 
 /**
  * Copyright (c) blueback
@@ -16,6 +20,49 @@ using UnityEngine;
 */
 namespace NUniVrm
 {
+    public static class UnityExtensions
+    {
+        public static Quaternion ReverseX(this Quaternion quaternion)
+        {
+            float angle;
+            Vector3 axis;
+            quaternion.ToAngleAxis(out angle, out axis);
+
+            return Quaternion.AngleAxis(-angle, new Vector3(-axis.x, axis.y, axis.z));
+        }
+
+        public static IEnumerable<Transform> GetChildren(this Transform parent)
+        {
+            foreach (Transform child in parent)
+            {
+                yield return child;
+            }
+        }
+
+        public static IEnumerable<Transform> Traverse(this Transform parent)
+        {
+            yield return parent;
+
+            foreach (Transform child in parent)
+            {
+                foreach (Transform descendant in Traverse(child))
+                {
+                    yield return descendant;
+                }
+            }
+        }
+
+        public static SkeletonBone ToSkeletonBone(this Transform t)
+        {
+            var sb = new SkeletonBone();
+            sb.name = t.name;
+            sb.position = t.localPosition;
+            sb.rotation = t.localRotation;
+            sb.scale = t.localScale;
+            return sb;
+        }
+	}
+
 	/** Item
 	*/
 	public class Item
@@ -57,6 +104,10 @@ namespace NUniVrm
 		*/
 		private VRM.VRMImporterContext result_context;
 
+		/** result_animetor
+		*/
+		private Animator result_animator;
+
 		/** constructor
 		*/
 		public Item()
@@ -75,6 +126,9 @@ namespace NUniVrm
 
 			//result_context
 			this.result_context = null;
+
+			//result_animator
+			this.result_animator = null;
 		}
 
 		/** 削除。
@@ -156,6 +210,13 @@ namespace NUniVrm
 			this.result_type = ResultType.Context;
 
 			this.result_context = a_context;
+			this.result_animator = null;
+
+			if(this.result_context != null){
+				if(this.result_context.Root != null){
+					this.result_animator = this.result_context.Root.GetComponent<Animator>();
+				}
+			}
 		}
 
 		/** 結果。コンテキスト。取得。
@@ -184,7 +245,7 @@ namespace NUniVrm
 		public void SetLayer(string a_layername)
 		{
 			#if(USE_UNIVRM)
-			{
+			if(this.result_context != null){
 				Raw_SetLayer(this.result_context.Root.transform,LayerMask.NameToLayer(a_layername));
 			}
 			#endif
@@ -195,15 +256,46 @@ namespace NUniVrm
 		public void SetRendererEnable(bool a_flag)
 		{
 			#if(USE_UNIVRM)
-			for(int ii=0;ii<this.result_context.Meshes.Count;ii++){
-				if(this.result_context.Meshes[ii] != null){
-					if(this.result_context.Meshes[ii].Renderer != null){
-						this.result_context.Meshes[ii].Renderer.enabled = a_flag;
+			if(this.result_context != null){
+				for(int ii=0;ii<this.result_context.Meshes.Count;ii++){
+					if(this.result_context.Meshes[ii] != null){
+						if(this.result_context.Meshes[ii].Renderer != null){
+							this.result_context.Meshes[ii].Renderer.enabled = a_flag;
+						}
 					}
 				}
 			}
 			#endif
 		}
+
+		public static Transform[] To(Transform a_transform)
+		{
+			return a_transform.Traverse().ToArray();
+		}
+
+		/** アニメータコントローラ。設定。
+		*/
+		public void SetAnimatorController(RuntimeAnimatorController a_animator_Controller)
+		{
+			if(this.result_animator != null){
+				this.result_animator.runtimeAnimatorController = a_animator_Controller;
+			}
+		}
+
+		/** アニメ。設定。
+		*/
+		public void SetAnime(string a_state_name)
+		{
+			this.result_animator.Play(a_state_name);
+		}
+
+		/** アニメ。設定。
+		*/
+		public void SetAnime(int a_state_name_hash)
+		{
+			this.result_animator.Play(a_state_name_hash);
+		}
+
 	}
 }
 
