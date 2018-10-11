@@ -170,7 +170,7 @@ public class test03 : main_base
 		this.mycamera_camera = this.mycamera_gameobject.GetComponent<Camera>();
 		if(this.mycamera_camera != null){
 			//クリアしない。
-			this.mycamera_camera.clearFlags = CameraClearFlags.Nothing;
+			this.mycamera_camera.clearFlags = CameraClearFlags.Depth;
 
 			//モデルだけを表示。
 			this.mycamera_camera.cullingMask = (1 << LayerMask.NameToLayer("Model"));
