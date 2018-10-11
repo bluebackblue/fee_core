@@ -5,9 +5,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{58DC22B5-B627-DBE6-6E01-BCE08702A5FE}</ProjectGuid>
+    <ProjectGuid>{C12CEEC6-100C-58A2-DE36-314E4DE5E40B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <AssemblyName>Unity.CollabProxy.Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
@@ -244,15 +244,6 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.0b5/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.TestRunner">
-      <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.0b5/Editor/Data/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TestRunner">
-      <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.0b5/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.0b5/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Timeline">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.0b5/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
@@ -670,119 +661,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="fee.csproj">
-      <Project>{22B4A769-F9D4-5BED-C4A0-41909089A053}</Project>
-      <Name>fee</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj">
-      <Project>{5434E390-48BD-22AD-7204-8E8348643A28}</Project>
-      <Name>PhotonUnityNetworking.Utilities.PhotonPlayer.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonUnityNetworking.Utilities.csproj">
-      <Project>{77446C08-6EE1-25B9-8EE1-B0E3B884AF4C}</Project>
-      <Name>PhotonUnityNetworking.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.InputSystem.csproj">
-      <Project>{6DC5BF4B-76C6-D81C-D2ED-DCF0BFB1AA66}</Project>
-      <Name>Unity.InputSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.TextMeshPro.Editor.csproj">
-      <Project>{3A848AB7-9891-EDDA-D555-BF184C2F81F4}</Project>
-      <Name>Unity.TextMeshPro.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Analytics.Android.Editor.csproj">
-      <Project>{1DAFA655-A0D1-7D0E-9403-558A7B5754C5}</Project>
-      <Name>Unity.Analytics.Android.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.PackageManagerUI.Editor.csproj">
-      <Project>{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}</Project>
-      <Name>Unity.PackageManagerUI.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonWebSocket.csproj">
-      <Project>{E0F4D774-A2FF-449E-153A-671502DD07F1}</Project>
-      <Name>PhotonWebSocket</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.CollabProxy.Editor.csproj">
-      <Project>{C12CEEC6-100C-58A2-DE36-314E4DE5E40B}</Project>
-      <Name>Unity.CollabProxy.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonRealtime.csproj">
-      <Project>{46CD5C6C-EEB1-9647-EFDC-AECB90EB247F}</Project>
-      <Name>PhotonRealtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{0DDAA233-0E0C-843C-A686-46B229F8EDB6}</Project>
-      <Name>PhotonUnityNetworking</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonChat.csproj">
-      <Project>{C2E4545A-CFD8-1C54-CC06-23208DF43373}</Project>
-      <Name>PhotonChat</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.TextMeshPro.csproj">
-      <Project>{07A21C90-D344-AE1A-8456-9910C203B41A}</Project>
-      <Name>Unity.TextMeshPro</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonUnityNetworking.Utilities.Culling.Editor.csproj">
-      <Project>{41237C29-56BB-3231-379F-9E2DD1841B8B}</Project>
-      <Name>PhotonUnityNetworking.Utilities.Culling.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
-      <Project>{5F1D0165-5AE6-C4DA-5508-CA9D8D5A57A5}</Project>
-      <Name>PhotonUnityNetworking.Editor</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoHub\Editor\PunStartup.cs" />
-    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\Editor\BezierCurveInspector.cs" />
-    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\Editor\BezierSplineInspector.cs" />
-    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\Editor\LineInspector.cs" />
-    <Compile Include="Assets\VRM.Samples\Editor\VRMExportUnityPackage.cs" />
-    <Compile Include="Assets\VRM.Samples\Editor\VRMImportExportTests.cs" />
-    <Compile Include="Assets\VRM.Samples\Editor\VRMMaterialTests.cs" />
-    <Compile Include="Assets\VRM\MToon\MToon\Editor\MToonInspector.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\BlendShapeAvatarEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\BlendShapeClipEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\PreviewEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\PreviewFaceRenderer.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\VRMBlendShapeManipulatorEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\VRMBlnedShapeProxyEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\Editor\Tests\EnumUtilTest.cs" />
-    <Compile Include="Assets\VRM\Scripts\Editor\Tests\MeshTests.cs" />
-    <Compile Include="Assets\VRM\Scripts\Editor\Tests\VRMBlendShapeKeyTest.cs" />
-    <Compile Include="Assets\VRM\Scripts\Editor\VRMMonoBehaviourComparator.cs" />
-    <Compile Include="Assets\VRM\Scripts\Editor\VRMTest.cs" />
-    <Compile Include="Assets\VRM\Scripts\FirstPerson\Editor\RendererFirstPersonFlagsDrawer.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\vrmAssetPostprocessor.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMAssetWriter.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMExporterMenu.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMExportObjectEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMHumanoidNormalizerMenu.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMImporterMenu.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMVersionMenu.cs" />
-    <Compile Include="Assets\VRM\Scripts\LookAt\Editor\VRMLookAtHeadEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\Meta\Editor\VRMMetaEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\SkinnedMeshUtility\Editor\BoneMeshEraserWizard.cs" />
-    <Compile Include="Assets\VRM\Scripts\SkinnedMeshUtility\Editor\MeshIntegrator.cs" />
-    <Compile Include="Assets\VRM\Scripts\SkinnedMeshUtility\Editor\MeshIntegratorWizard.cs" />
-    <Compile Include="Assets\VRM\Scripts\SpringBone\Editor\VRMSpringBoneColliderGroupEditor.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\Core\Editor\MaterialTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\Core\Editor\UniGLTFTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Editor\gltfAssetPostprocessor.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Editor\ImporterMenu.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Editor\UniGLTFVersionMenu.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\Editor\BoneMappingEditor.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\Editor\bvhAssetPostprocessor.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\Editor\HumanPoseTransferEditor.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\Editor\Tests\BvhLoaderTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\IWriteStreamTest.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\JsonDiffTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\JsonFormatterTest.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\JsonParserTest.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\ParserTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\SchemaTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\SerializerTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\ValidatorTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniUnlit\Editor\UniUnlitEditor.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\AssemblyInfo.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Bootstrap.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\CollabAnalytics.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\CollabHistoryWindow.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\CollabToolbarButton.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\CollabToolbarWindow.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Presenters\CollabHistoryPresenter.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Views\BuildStatusButton.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Views\CollabHistoryDropDown.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Views\CollabHistoryDropDownItem.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Views\CollabHistoryItem.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Views\CollabHistoryItemFactory.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Views\CollabHistoryRevisionLine.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Views\HistoryProgressSpinner.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Views\ICollabHistoryItemFactory.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Views\PagedListView.cs" />
+    <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Views\StatusView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AssetBundle\Raw\se.txt" />
