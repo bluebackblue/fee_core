@@ -145,129 +145,277 @@ namespace NInput
 			}
 		}
 
+		/** 更新。インプットシステムゲームパッド。デジタルボタン。
+		*/
+		private bool Main_InputSystemGamePad_DigitalButton()
+		{
+			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
+			if(t_gamepad_current != null){
+				//デバイス。
+				bool t_left_on = t_gamepad_current.dpad.left.isPressed;
+				bool t_right_on = t_gamepad_current.dpad.right.isPressed;
+				bool t_up_on = t_gamepad_current.dpad.up.isPressed;
+				bool t_down_on = t_gamepad_current.dpad.down.isPressed;
+				bool t_enter_on = t_gamepad_current.buttonEast.isPressed;
+				bool t_escape_on = t_gamepad_current.buttonSouth.isPressed;
+				bool t_sub1_on = t_gamepad_current.buttonNorth.isPressed;
+				bool t_sub2_on = t_gamepad_current.buttonWest.isPressed;
+				bool t_left_menu_on = t_gamepad_current.selectButton.isPressed;
+				bool t_right_menu_on = t_gamepad_current.startButton.isPressed;
+
+				//設定。
+				this.left.Set(t_left_on);
+				this.right.Set(t_right_on);
+				this.up.Set(t_up_on);
+				this.down.Set(t_down_on);
+				this.enter.Set(t_enter_on);
+				this.escape.Set(t_escape_on);
+				this.sub1.Set(t_sub1_on);
+				this.sub2.Set(t_sub2_on);
+				this.left_menu.Set(t_left_menu_on);
+				this.right_menu.Set(t_right_menu_on);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 更新。インプットマネージャゲームパッド。デジタルボタン。
+		*/
+		#if(true)
+		private bool Main_InputManagerGamePad_DigitalButton()
+		{
+			bool t_left_on = (UnityEngine.Input.GetAxis("left") < -0.5f) ? true : false;
+			bool t_right_on = (UnityEngine.Input.GetAxis("right") > 0.5f) ? true : false;
+			bool t_up_on = (UnityEngine.Input.GetAxis("up") > 0.5f) ? true : false;
+			bool t_down_on = (UnityEngine.Input.GetAxis("down") < -0.5f) ? true : false;
+			bool t_enter_on = UnityEngine.Input.GetButton("enter");
+			bool t_escape_on = UnityEngine.Input.GetButton("escape");
+			bool t_sub1_on = UnityEngine.Input.GetButton("sub1");
+			bool t_sub2_on = UnityEngine.Input.GetButton("sub2");
+			bool t_left_menu_on = UnityEngine.Input.GetButton("left_menu");
+			bool t_right_menu_on = UnityEngine.Input.GetButton("right_menu");
+
+			//設定。
+			this.left.Set(t_left_on);
+			this.right.Set(t_right_on);
+			this.up.Set(t_up_on);
+			this.down.Set(t_down_on);
+			this.enter.Set(t_enter_on);
+			this.escape.Set(t_escape_on);
+			this.sub1.Set(t_sub1_on);
+			this.sub2.Set(t_sub2_on);
+			this.left_menu.Set(t_left_menu_on);
+			this.right_menu.Set(t_right_menu_on);
+
+			return true;
+		}
+		#endif
+
+		/** 更新。インプットシステムゲームパッド。スティック。
+		*/
+		public bool Main_InputSystemGamePad_Stick()
+		{
+			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
+			if(t_gamepad_current != null){
+				//デバイス。
+				float t_l_x = t_gamepad_current.leftStick.x.ReadValue();
+				float t_l_y = t_gamepad_current.leftStick.y.ReadValue();
+				float t_r_x = t_gamepad_current.rightStick.x.ReadValue();
+				float t_r_y = t_gamepad_current.rightStick.y.ReadValue();
+				bool t_l_on = t_gamepad_current.leftStickButton.isPressed;
+				bool t_r_on = t_gamepad_current.rightStickButton.isPressed;
+
+				//設定。
+				this.left_stick.Set(t_l_x,t_l_y);
+				this.right_stick.Set(t_r_x,t_r_y);
+				this.left_stick_button.Set(t_l_on);
+				this.right_stick_button.Set(t_r_on);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 更新。インプットマネージャゲームパッド。スティック。
+		*/
+		public bool Main_InputManagerGamePad_Stick()
+		{
+			//デバイス。
+			float t_l_x = UnityEngine.Input.GetAxis("left_stick_axis_x");
+			float t_l_y = UnityEngine.Input.GetAxis("left_stick_axis_y");
+			float t_r_x = UnityEngine.Input.GetAxis("right_stick_axis_x");
+			float t_r_y = UnityEngine.Input.GetAxis("right_stick_axis_y");
+			bool t_l_on = UnityEngine.Input.GetButton("left_stick_button");
+			bool t_r_on = UnityEngine.Input.GetButton("right_stick_button");
+
+			//設定。
+			this.left_stick.Set(t_l_x,t_l_y);
+			this.right_stick.Set(t_r_x,t_r_y);
+			this.left_stick_button.Set(t_l_on);
+			this.right_stick_button.Set(t_r_on);
+
+			return true;
+		}
+
+		/** 更新。インプットシステムゲームパッド。トリガー。
+		*/
+		public bool Main_InputSystemGamePad_Trigger()
+		{
+			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
+			if(t_gamepad_current != null){
+				//デバイス。
+				bool t_l_1 = t_gamepad_current.leftShoulder.isPressed;
+				bool t_r_1 = t_gamepad_current.rightShoulder.isPressed;
+				float t_l_2 = t_gamepad_current.leftTrigger.ReadValue();
+				float t_r_2 = t_gamepad_current.rightTrigger.ReadValue();
+
+				//設定。
+				this.left_trigger1_button.Set(t_l_1);
+				this.right_trigger1_button.Set(t_r_1);
+				this.left_trigger2_button.Set(t_l_2);
+				this.right_trigger2_button.Set(t_r_2);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 更新。インプットマネージャゲームパッド。トリガー。
+		*/
+		public bool Main_InputManagerGamePad_Trigger()
+		{
+			//デバイス。
+			bool t_l_1 = UnityEngine.Input.GetButton("left_trigger1_button");
+			bool t_r_1 = UnityEngine.Input.GetButton("right_trigger1_button");
+			float t_l_2 = UnityEngine.Input.GetAxis("left_trigger2_axis");
+			float t_r_2 = UnityEngine.Input.GetAxis("right_trigger2_axis");
+
+			if(t_l_2 < 0.0f){
+				t_l_2 = 0.0f;
+			}
+
+			if(t_r_2 < 0.0f){
+				t_r_2 = 0.0f;
+			}
+
+			//設定。
+			this.left_trigger1_button.Set(t_l_1);
+			this.right_trigger1_button.Set(t_r_1);
+			this.left_trigger2_button.Set(t_l_2);
+			this.right_trigger2_button.Set(t_r_2);
+
+			return true;
+		}
+
+		/** 更新。インプットシステムゲームパッド。モータ。
+		*/
+		public bool Main_InputSystemGamePad_Motor()
+		{
+			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
+			if(t_gamepad_current != null){
+				float t_value_low = this.moter_low.GetValue();
+				float t_value_high = this.moter_high.GetValue();			
+				float t_raw_value_low = this.moter_low.GetRawValue();
+				float t_raw_value_high = this.moter_high.GetRawValue();
+
+				if((t_value_low != t_raw_value_low)||(t_value_high != t_raw_value_high)){
+					this.moter_low.SetRawValue(t_value_low);
+					this.moter_high.SetRawValue(t_value_high);
+					t_gamepad_current.SetMotorSpeeds(t_value_low,t_value_high);
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 更新。デジタルボタン。
+		*/
+		public void Main_DigitalButton()
+		{
+			//インプットシステムゲームパッド。デジタルボタン。
+			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
+				if(this.Main_InputSystemGamePad_DigitalButton() == true){
+					return;
+				}
+			}
+
+			//インプットマネージャゲームパッド。デジタルボタン。
+			if(Config.USE_INPUTMANAGER_GAMEPAD == true){
+				if(this.Main_InputManagerGamePad_DigitalButton() == true){
+					return;
+				}
+			}
+		}
+
+		/** 更新。スティック。
+		*/
+		public void Main_Stick()
+		{
+			//インプットシステムゲームパッド。スティック。
+			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
+				if(this.Main_InputSystemGamePad_Stick() == true){
+					return;
+				}
+			}
+
+			//インプットマネージャゲームパッド。スティック。
+			if(Config.USE_INPUTMANAGER_GAMEPAD == true){
+				if(this.Main_InputManagerGamePad_Stick() == true){
+					return;
+				}
+			}
+		}
+
+		/** 更新。トリガー。
+		*/
+		public void Main_Trigger()
+		{
+			//インプットシステムゲームパッド。トリガー。
+			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
+				if(this.Main_InputSystemGamePad_Trigger() == true){
+					return;
+				}
+			}
+
+			//インプットマネージャゲームパッド。トリガー。
+			if(Config.USE_INPUTMANAGER_GAMEPAD == true){
+				if(this.Main_InputManagerGamePad_Trigger() == true){
+					return;
+				}
+			}
+		}
+
+		/** 更新。モータ。
+		*/
+		public void Main_Moter()
+		{
+			//インプットシステムゲームパッド。モータ。
+			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
+				if(this.Main_InputSystemGamePad_Motor() == true){
+					return;
+				}
+			}
+		}
+
 		/** 更新。
 		*/
 		public void Main()
 		{
 			try{
-				UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
+				//デジタルボタン。更新。
+				this.Main_DigitalButton();
 
-				//デジタルボタン。
-				if(t_gamepad_current != null){
-					//デバイス。
-					bool t_left_on = t_gamepad_current.dpad.left.isPressed;
-					bool t_right_on = t_gamepad_current.dpad.right.isPressed;
-					bool t_up_on = t_gamepad_current.dpad.up.isPressed;
-					bool t_down_on = t_gamepad_current.dpad.down.isPressed;
-					bool t_enter_on = t_gamepad_current.buttonEast.isPressed;
-					bool t_escape_on = t_gamepad_current.buttonSouth.isPressed;
-					bool t_sub1_on = t_gamepad_current.buttonNorth.isPressed;
-					bool t_sub2_on = t_gamepad_current.buttonWest.isPressed;
-					bool t_left_menu_on = t_gamepad_current.selectButton.isPressed;
-					bool t_right_menu_on = t_gamepad_current.startButton.isPressed;
+				//トリガー。更新。
+				this.Main_Trigger();
 
-					//設定。
-					this.left.Set(t_left_on);
-					this.right.Set(t_right_on);
-					this.up.Set(t_up_on);
-					this.down.Set(t_down_on);
-					this.enter.Set(t_enter_on);
-					this.escape.Set(t_escape_on);
-					this.sub1.Set(t_sub1_on);
-					this.sub2.Set(t_sub2_on);
-					this.left_menu.Set(t_left_menu_on);
-					this.right_menu.Set(t_right_menu_on);
-				}else{
-					#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
-					{
-						//bool t_enter_on = UnityEngine.Input.GetButton("Fire1");
-						//bool t_escape_on = UnityEngine.Input.GetButton("Fire2");
-						//bool t_sub1_on = UnityEngine.Input.GetButton("Fire3");
-						//bool t_sub2_on = UnityEngine.Input.GetButton("Jump");
-
-						//設定。
-						this.left.Set(false);
-						this.right.Set(false);
-						this.up.Set(false);
-						this.down.Set(false);
-						this.enter.Set(false);
-						this.escape.Set(false);
-						this.sub1.Set(false);
-						this.sub2.Set(false);
-					}
-					#else
-					{
-						//設定。
-						this.left.Set(false);
-						this.right.Set(false);
-						this.up.Set(false);
-						this.down.Set(false);
-						this.enter.Set(false);
-						this.escape.Set(false);
-						this.sub1.Set(false);
-						this.sub2.Set(false);
-					}
-					#endif
-				}
-
-				//アナログスティック。
-				if(t_gamepad_current != null){
-					//デバイス。
-					float t_l_x = t_gamepad_current.leftStick.x.ReadValue();
-					float t_l_y = t_gamepad_current.leftStick.y.ReadValue();
-					float t_r_x = t_gamepad_current.rightStick.x.ReadValue();
-					float t_r_y = t_gamepad_current.rightStick.y.ReadValue();
-					bool t_l_on = t_gamepad_current.leftStickButton.isPressed;
-					bool t_r_on = t_gamepad_current.rightStickButton.isPressed;
-
-					//設定。
-					this.left_stick.Set(t_l_x,t_l_y);
-					this.right_stick.Set(t_r_x,t_r_y);
-					this.left_stick_button.Set(t_l_on);
-					this.right_stick_button.Set(t_r_on);
-				}else{
-					#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
-					{
-						float t_l_x = UnityEngine.Input.GetAxis("Horizontal");
-						float t_l_y = UnityEngine.Input.GetAxis("Vertical");
-
-						//設定。
-						this.left_stick.Set(t_l_x,t_l_y);
-						this.right_stick.Set(0.0f,0.0f);
-						this.left_stick_button.Set(false);
-						this.right_stick_button.Set(false);
-					}
-					#else
-					{
-						//設定。
-						this.left_stick.Set(0.0f,0.0f);
-						this.right_stick.Set(0.0f,0.0f);
-						this.left_stick_button.Set(false);
-						this.right_stick_button.Set(false);
-					}
-					#endif
-				}
-
-				//トリガーボタン。
-				if(t_gamepad_current != null){
-					//デバイス。
-					bool t_l_1 = t_gamepad_current.leftShoulder.isPressed;
-					bool t_r_1 = t_gamepad_current.rightShoulder.isPressed;
-					float t_l_2 = t_gamepad_current.leftTrigger.ReadValue();
-					float t_r_2 = t_gamepad_current.rightTrigger.ReadValue();
-
-					//設定。
-					this.left_trigger1_button.Set(t_l_1);
-					this.right_trigger1_button.Set(t_r_1);
-					this.left_trigger2_button.Set(t_l_2);
-					this.right_trigger2_button.Set(t_r_2);
-				}else{
-					//設定。
-					this.left_trigger1_button.Set(false);
-					this.right_trigger1_button.Set(false);
-					this.left_trigger2_button.Set(0.0f);
-					this.right_trigger2_button.Set(0.0f);
-				}
+				//スティック。更新。
+				this.Main_Stick();
 
 				//更新。
 				{
@@ -295,28 +443,13 @@ namespace NInput
 					this.left_trigger2_button.Main();
 					this.right_trigger2_button.Main();
 
-					//モーター。
-					{
-						this.moter_low.Main(1);
-						this.moter_high.Main(1);
-
-						if(t_gamepad_current != null){
-							float t_value_low = this.moter_low.GetValue();
-							float t_value_high = this.moter_high.GetValue();			
-							float t_raw_value_low = this.moter_low.GetRawValue();
-							float t_raw_value_high = this.moter_high.GetRawValue();
-
-							if((t_value_low != t_raw_value_low)||(t_value_high != t_raw_value_high)){
-								this.moter_low.SetRawValue(t_value_low);
-								this.moter_high.SetRawValue(t_value_high);
-								t_gamepad_current.SetMotorSpeeds(t_value_low,t_value_high);
-							}
-						}else{
-							this.moter_low.SetRawValue(0.0f);
-							this.moter_high.SetRawValue(0.0f);
-						}
-					}
+					//モータ。
+					this.moter_low.Main(1);
+					this.moter_high.Main(1);
 				}
+
+				//モーター。更新。
+				this.Main_Moter();
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}

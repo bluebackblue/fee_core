@@ -251,7 +251,7 @@ namespace NUi
 
 		/** アイテム削除後。表示範囲更新。
 		*/
-		protected void UpdateView_Remove(int a_removed_index)
+		protected void UpdateView_Remove()
 		{
 			int t_list_count = this.GetListCount();
 

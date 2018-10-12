@@ -122,9 +122,9 @@ namespace NInput
 			}
 		}
 
-		/** 更新。ポインター。位置。
+		/** 更新。インプットシステムポインター。位置。
 		*/
-		private bool Main_Pointer_Position(NRender2D.Render2D a_render2d)
+		private bool Main_InputSystemPointer_Position(NRender2D.Render2D a_render2d)
 		{
 			UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.Pointer.current;
 			if(t_pointer_current != null){
@@ -145,7 +145,51 @@ namespace NInput
 			return false;
 		}
 
-		/** 更新。ペン。ボタン。
+		/** 更新。インプットシステムマウス。位置。
+		*/
+		private bool Main_InputSystemMouse_Position(NRender2D.Render2D a_render2d)
+		{
+			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
+			if(t_mouse_current != null){
+				//デバイス。
+				int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
+				int t_mouse_y = (int)(Screen.height - t_mouse_current.position.y.ReadValue());
+
+				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+				int t_x;
+				int t_y;
+				a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
+
+				//設定。
+				this.pos.Set(t_x,t_y);
+
+				return true;
+			}
+			return false;
+		}
+
+		/** 更新。インプットマネージャマウス。位置。
+		*/
+		#if(true)
+		private bool Main_InputManagerMouse_Position(NRender2D.Render2D a_render2d)
+		{
+			//デバイス。
+			int t_mouse_x = (int)UnityEngine.Input.mousePosition.x;
+			int t_mouse_y = Screen.height - (int)UnityEngine.Input.mousePosition.y;
+
+			//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+			int t_x;
+			int t_y;
+			a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
+
+			//設定。
+			this.pos.Set(t_x,t_y);
+
+			return true;
+		}
+		#endif
+
+		/** 更新。ポインター。ボタン。
 		*/
 		private bool Main_Pointer_Button()
 		{
@@ -185,29 +229,6 @@ namespace NInput
 			return false;
 		}
 
-		/** 更新。マウス。位置。
-		*/
-		private bool Main_Mouse_Position(NRender2D.Render2D a_render2d)
-		{
-			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
-			if(t_mouse_current != null){
-				//デバイス。
-				int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
-				int t_mouse_y = (int)(Screen.height - t_mouse_current.position.y.ReadValue());
-
-				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-				int t_x;
-				int t_y;
-				a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
-
-				//設定。
-				this.pos.Set(t_x,t_y);
-
-				return true;
-			}
-			return false;
-		}
-
 		/** 更新。マウス。ボタン。
 		*/
 		private bool Main_Mouse_Button()
@@ -229,92 +250,75 @@ namespace NInput
 			return false;
 		}
 
+		/** 更新。インプットマネージャ。ボタン。
+		*/
+		#if(true)
+		private bool Main_InputManager_Button()
+		{
+			//デバイス。
+			bool t_l_on = UnityEngine.Input.GetMouseButton(0);
+			bool t_r_on = UnityEngine.Input.GetMouseButton(1);
+			bool t_m_on = UnityEngine.Input.GetMouseButton(2);
+
+			//設定。
+			this.left.Set(t_l_on);
+			this.right.Set(t_r_on);
+			this.middle.Set(t_m_on);
+
+			return true;
+		}
+		#endif
+
 		/** 更新。位置。
 		*/
 		private void Main_Pos(NRender2D.Render2D a_render2d)
 		{
-			#if((!UNITY_EDITOR)&&(UNITY_ANDROID))
-			{
-				//Android
-
-				//TODO:マウスが接続されていないアンドロイドでもカレントマウスがtrueを返す。
-
-				if(this.Main_Pointer_Position(a_render2d) == true){
-					//ペンが有効。
-				}else if(this.Main_Mouse_Position(a_render2d) == true){
-					//マウスが有効。
+			//インプットシステム。マウス。
+			if(Config.USE_INPUTSYSTEM_MOUSE == true){
+				if(this.Main_InputSystemMouse_Position(a_render2d) == true){
+					return;
 				}
 			}
-			#elif((!UNITY_EDITOR)&&(UNITY_WEBGL))
-			{
-				//WebGL
 
-				//TODO:旧InputMnager使用。
-
-				//デバイス。
-				int t_mouse_x = (int)UnityEngine.Input.mousePosition.x;
-				int t_mouse_y = Screen.height - (int)UnityEngine.Input.mousePosition.y;
-
-				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-				int t_x;
-				int t_y;
-				a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
-
-				//設定。
-				this.pos.Set(t_x,t_y);
-			}
-			#else
-			{
-				if(this.Main_Mouse_Position(a_render2d) == true){
-					//マウスが有効。
-				}else if(this.Main_Pointer_Position(a_render2d) == true){
-					//ペンが有効。
+			//インプットシステム。ポインター。
+			if(Config.USE_INPUTSYSTEM_POINTER == true){
+				if(this.Main_InputSystemPointer_Position(a_render2d) == true){
+					return;
 				}
 			}
-			#endif
+
+			//インプットマネージャ。マウス。
+			if(Config.USE_INPUTMANAGER_MOUSE == true){
+				if(this.Main_InputManagerMouse_Position(a_render2d) == true){
+					return;
+				}
+			}
 		}
 
 		/** 更新。ボタン。
 		*/
 		private void Main_Button()
 		{
-			#if((!UNITY_EDITOR)&&(UNITY_ANDROID))
-			{
-				//Android
-
-				//TODO:マウスが接続されていないアンドロイドでもカレントマウスがtrueを返す。
-
-				if(this.Main_Pointer_Button() == true){
-					//ペンが有効。
-				}else if(this.Main_Mouse_Button() == true){
-					//マウスが有効。
+			//インプットシステム。マウス。
+			if(Config.USE_INPUTSYSTEM_MOUSE == true){
+				if(this.Main_Mouse_Button() == true){
+					return;
 				}
 			}
-			#elif((!UNITY_EDITOR)&&(UNITY_WEBGL))
-			{
-				//WebGL
 
-				//TODO:旧InputMnager使用。
-
-				//デバイス。
-				bool t_l_on = UnityEngine.Input.GetMouseButton(0);
-				bool t_r_on = UnityEngine.Input.GetMouseButton(1);
-				bool t_m_on = UnityEngine.Input.GetMouseButton(2);
-
-				//設定。
-				this.left.Set(t_l_on);
-				this.right.Set(t_r_on);
-				this.middle.Set(t_m_on);
+			//インプットシステム。ポインター。
+			if(Config.USE_INPUTSYSTEM_POINTER == true){
+				if(this.Main_Pointer_Button() == true){
+					return;
+				}
 			}
-			#else
-			{
-				if(this.Main_Mouse_Button() == true){
-					//マウスが有効。
-				}else if(this.Main_Pointer_Button() == true){
-					//ペンが有効。
-				} 
+
+			//インプットマネージャ。マウス。
+			if(Config.USE_INPUTMANAGER_MOUSE == true){
+				if(this.Main_InputManager_Button() == true){
+					return;
+				}
 			}
-			#endif
 		}
 
 		/** 更新。

@@ -159,7 +159,7 @@ namespace NUi
 				this.list.RemoveAt(t_list_index);
 
 				//表示範囲更新。
-				this.UpdateView_Remove(t_list_index);
+				this.UpdateView_Remove();
 
 				//コールバック。リスト数変更。
 				this.OnChangeListCount();
@@ -197,7 +197,7 @@ namespace NUi
 				this.list.RemoveAt(a_index);
 
 				//表示範囲更新。
-				this.UpdateView_Remove(a_index);
+				this.UpdateView_Remove();
 
 				//コールバック。リスト数変更。
 				this.OnChangeListCount();
@@ -205,6 +205,20 @@ namespace NUi
 				return t_item;
 			}
 			return null;
+		}
+
+		/** 全削除。
+		*/
+		public void RemoveAllItem()
+		{
+			//削除。
+			this.list.Clear();
+
+			//表示範囲更新。
+			this.UpdateView_Remove();
+
+			//コールバック。リスト数変更。
+			this.OnChangeListCount();
 		}
 
 		/** 表示範囲内のアイテムをキャプチャ。

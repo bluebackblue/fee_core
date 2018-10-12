@@ -25,8 +25,6 @@ namespace NInput
 		private Input()
 		{
 		}
-
-		
 	}
 }
 

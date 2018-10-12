@@ -479,78 +479,174 @@ public class test05 : main_base
 		{
 			List<NInput.EditInputManager_Item> t_list = t_inputmaanger.GetList();
 
-			bool t_find_axis6 = false;
-			bool t_find_axis7 = false;
-			bool t_find_axis8 = false;
-			bool t_find_button0 = false;
-			bool t_find_button1 = false;
-			bool t_find_button2 = false;
-			bool t_find_button3 = false;
+			bool t_find_left = false;
+			bool t_find_right = false;
+			bool t_find_up = false;
+			bool t_find_down = false;
+
+			bool t_find_enter = false;
+			bool t_find_escape = false;
+			bool t_find_sub1 = false;
+			bool t_find_sub2 = false;
+
+			bool t_find_left_menu = false;
+			bool t_find_right_menu = false;
+
+			bool t_left_stick_axis_x = false;
+			bool t_left_stick_axis_y = false;
+			bool t_right_stick_axis_x = false;
+			bool t_right_stick_axis_y = false;
+
+			bool t_left_stick_button = false;
+			bool t_right_stick_button = false;
+
+			bool t_left_trigger1_button = false;
+			bool t_right_trigger1_button = false;
+			bool t_left_trigger2_axis = false;
+			bool t_right_trigger2_axis = false;
 
 			for(int ii=0;ii<t_list.Count;ii++){
-				if(t_list[ii].m_Name == "Axis6"){
-					t_find_axis6 = true;
-				}
-				if(t_list[ii].m_Name == "Axis7"){
-					t_find_axis7 = true;
-				}
-				if(t_list[ii].m_Name == "Axis8"){
-					t_find_axis8 = true;
-				}
-				if(t_list[ii].m_Name == "Button0"){
-					t_find_button0 = true;
-				}
-				if(t_list[ii].m_Name == "Button1"){
-					t_find_button1 = true;
-				}
-				if(t_list[ii].m_Name == "Button2"){
-					t_find_button2 = true;
-				}
-				if(t_list[ii].m_Name == "Button3"){
-					t_find_button3 = true;
+				switch(t_list[ii].m_Name){
+				case NInput.EditInputManager_Item.ButtonName.LEFT:					t_find_left				= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.RIGHT:					t_find_right			= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.UP:					t_find_up				= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.DOWN:					t_find_down				= true;		break;
+
+				case NInput.EditInputManager_Item.ButtonName.ENTER:					t_find_enter			= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.ESCAPE:				t_find_escape			= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.SUB1:					t_find_sub1				= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.SUB2:					t_find_sub2				= true;		break;
+
+				case NInput.EditInputManager_Item.ButtonName.LEFT_MENU:				t_find_left_menu		= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.RIGHT_MENU:			t_find_right_menu		= true;		break;
+
+				case NInput.EditInputManager_Item.ButtonName.LEFT_STICK_AXIS_X:		t_left_stick_axis_x		= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.LEFT_STICK_AXIS_Y:		t_left_stick_axis_y		= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.RIGHT_STICK_AXIS_X:	t_right_stick_axis_x	= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.RIGHT_STICK_AXIS_Y:	t_right_stick_axis_y	= true;		break;
+
+				case NInput.EditInputManager_Item.ButtonName.LEFT_STICK_BUTTON:		t_left_stick_button		= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.RIGHT_STICK_BUTTON:	t_right_stick_button	= true;		break;
+
+				case NInput.EditInputManager_Item.ButtonName.LEFT_TRIGGER1_BUTTON:	t_left_trigger1_button	= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.RIGHT_TRIGGER1_BUTTON:	t_right_trigger1_button	= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.LEFT_TRIGGER2_AXIS:	t_left_trigger2_axis	= true;		break;
+				case NInput.EditInputManager_Item.ButtonName.RIGHT_TRIGGER2_AXIS:	t_right_trigger2_axis	= true;		break;
 				}
 			}
+			
+			{
+				//デジタルボタン。上下左右。
+				if(t_find_left == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateDigitalButtonLeft();
+					t_list.Add(t_item);
+				}
+				if(t_find_right == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateDigitalButtonRight();
+					t_list.Add(t_item);
+				}
+				if(t_find_up == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateDigitalButtonUp();
+					t_list.Add(t_item);
+				}
+				if(t_find_down == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateDigitalButtonDown();
+					t_list.Add(t_item);
+				}
 
-			if(t_find_axis6 == false){
-				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
-				t_item.CreateJoyAixs6();
-				t_list.Add(t_item);
-			}
+				//デジタルボタン。
+				if(t_find_enter == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateDigitalButtonEnter();
+					t_list.Add(t_item);
+				}
+				if(t_find_escape == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateDigitalButtonEscape();
+					t_list.Add(t_item);
+				}
+				if(t_find_sub1 == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateDigitalButtonSub1();
+					t_list.Add(t_item);
+				}
+				if(t_find_sub2 == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateDigitalButtonSub2();
+					t_list.Add(t_item);
+				}
 
-			if(t_find_axis7 == false){
-				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
-				t_item.CreateJoyAixs7();
-				t_list.Add(t_item);
-			}
+				//デジタルボタン。
+				if(t_find_left_menu == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateDigitalButtonLeftMenu();
+					t_list.Add(t_item);
+				}
+				if(t_find_right_menu == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateDigitalButtonRightMenu();
+					t_list.Add(t_item);
+				}
 
-			if(t_find_axis8 == false){
-				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
-				t_item.CreateJoyAixs8();
-				t_list.Add(t_item);
-			}
+				//スティック。方向。
+				if(t_left_stick_axis_x == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateLeftStickAxisX();
+					t_list.Add(t_item);
+				}
+				if(t_left_stick_axis_y == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateLeftStickAxisY();
+					t_list.Add(t_item);
+				}
+				if(t_right_stick_axis_x == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateRightStickAxisX();
+					t_list.Add(t_item);
+				}
+				if(t_right_stick_axis_y == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateRightStickAxisY();
+					t_list.Add(t_item);
+				}
 
-			if(t_find_button0 == false){
-				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
-				t_item.CreateJoyButton0();
-				t_list.Add(t_item);
-			}
+				//スティック。ボタン。
+				if(t_left_stick_button == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateLeftStickButton();
+					t_list.Add(t_item);
+				}
+				if(t_right_stick_button == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateRightStickButton();
+					t_list.Add(t_item);
+				}
 
-			if(t_find_button1 == false){
-				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
-				t_item.CreateJoyButton1();
-				t_list.Add(t_item);
-			}
-
-			if(t_find_button2 == false){
-				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
-				t_item.CreateJoyButton2();
-				t_list.Add(t_item);
-			}
-
-			if(t_find_button3 == false){
-				NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
-				t_item.CreateJoyButton3();
-				t_list.Add(t_item);
+				//トリガー。
+				if(t_left_trigger1_button == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateLeftTrigger1Button();
+					t_list.Add(t_item);
+				}
+				if(t_right_trigger1_button == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateRightTrigger1Button();
+					t_list.Add(t_item);
+				}
+				if(t_left_trigger2_axis == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateLeftTrigger2Button();
+					t_list.Add(t_item);
+				}
+				if(t_right_trigger2_axis == false){
+					NInput.EditInputManager_Item t_item = new NInput.EditInputManager_Item();
+					t_item.CreateRightTrigger2Button();
+					t_list.Add(t_item);
+				}
 			}
 		}
 		t_inputmaanger.Save();

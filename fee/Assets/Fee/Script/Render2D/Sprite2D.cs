@@ -272,6 +272,14 @@ namespace NRender2D
 
 		/** 矩形。設定。
 		*/
+		public void SetXY(int a_x,int a_y)
+		{
+			this.rect.SetX(a_x);
+			this.rect.SetY(a_y);
+		}
+
+		/** 矩形。設定。
+		*/
 		public void SetW(int a_w)
 		{
 			this.rect.SetW(a_w);

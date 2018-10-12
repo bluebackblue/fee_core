@@ -28,6 +28,30 @@ namespace NInput
 		*/
 		public static bool ASSERT_ENABLE = true;
 
+		/** インプットシステム。マウス。
+		*/
+		public static bool USE_INPUTSYSTEM_MOUSE = true;
+
+		/** インプットシステム。ポインター。
+		*/
+		public static bool USE_INPUTSYSTEM_POINTER = true;
+
+		/** インプットマネージャ。マウス。
+		*/
+		public static bool USE_INPUTMANAGER_MOUSE = true;
+
+		/** インプットシステム。ゲームパッド。
+		*/
+		#if(UNITY_WEBGL)
+		public static bool USE_INPUTSYSTEM_GAMEPAD = false;
+		#else
+		public static bool USE_INPUTSYSTEM_GAMEPAD = true;
+		#endif
+
+		/** インプットマネージャ。ゲームパッド。
+		*/
+		public static bool USE_INPUTMANAGER_GAMEPAD = true;
+
 		/** ドラッグ判定閾値。4方向。
 		*/
 		public static float DRAG_DIR4_DOT = 0.5f;

@@ -52,9 +52,11 @@ namespace NInput
 			if((this.on == true)&&(this.on_old == false)){
 				//ダウン。
 				this.down = true;
+				this.up = false;
 			}else if((this.on == false)&&(this.on_old == true)){
 				//アップ。
 				this.up = true;
+				this.down = false;
 			}else{
 				this.down = false;
 				this.up = false;
