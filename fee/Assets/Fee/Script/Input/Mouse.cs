@@ -78,7 +78,6 @@ namespace NInput
 
 		/** マウスホイール。
 		*/
-		public bool mouse_wheel_action;
 		public Mouse_Pos mouse_wheel;
 
 		/** [シングルトン]constructor
@@ -94,7 +93,6 @@ namespace NInput
 			this.middle.Reset();
 
 			//ホイール。
-			this.mouse_wheel_action = false;
 			this.mouse_wheel.Reset();
 		}
 
@@ -142,6 +140,7 @@ namespace NInput
 
 				return true;
 			}
+
 			return false;
 		}
 
@@ -189,9 +188,9 @@ namespace NInput
 		}
 		#endif
 
-		/** 更新。ポインター。ボタン。
+		/** 更新。インプットシステムポインター。ボタン。
 		*/
-		private bool Main_Pointer_Button()
+		private bool Main_InputSystemPointer_Button()
 		{
 			UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.Pointer.current;
 			if(t_pointer_current != null){
@@ -226,12 +225,13 @@ namespace NInput
 				//設定。
 				return true;
 			}
+
 			return false;
 		}
 
-		/** 更新。マウス。ボタン。
+		/** 更新。インプットシステムマウス。ボタン。
 		*/
-		private bool Main_Mouse_Button()
+		private bool Main_InputSystemMouse_Button()
 		{
 			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
 			if(t_mouse_current != null){
@@ -247,13 +247,14 @@ namespace NInput
 
 				return true;
 			}
+
 			return false;
 		}
 
-		/** 更新。インプットマネージャ。ボタン。
+		/** 更新。インプットマネージャマウス。ボタン。
 		*/
 		#if(true)
-		private bool Main_InputManager_Button()
+		private bool Main_InputManagerMouse_Button()
 		{
 			//デバイス。
 			bool t_l_on = UnityEngine.Input.GetMouseButton(0);
@@ -266,6 +267,46 @@ namespace NInput
 			this.middle.Set(t_m_on);
 
 			return true;
+		}
+		#endif
+
+		/** 更新。インプットシステムマウス。ホイール。
+		*/
+		private bool Main_InputSystemMouse_Wheel()
+		{
+			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
+			if(t_mouse_current != null){
+				//デバイス。
+				int t_x = (int)UnityEngine.Experimental.Input.Mouse.current.scroll.ReadValue().x;
+				int t_y = (int)UnityEngine.Experimental.Input.Mouse.current.scroll.ReadValue().y;
+
+				//設定。
+				this.mouse_wheel.Set(t_x,t_y);
+
+				return true;
+			}
+
+			return false;
+		}		
+
+		/** 更新。インプットマネージャマウス。ホイール。
+		*/
+		#if(true)
+		private bool Main_InputManagerMouse_Wheel()
+		{
+			//デバイス。
+			float t_wheel = UnityEngine.Input.GetAxis("Mouse ScrollWheel");
+
+			//設定。
+			if(t_wheel > 0.0f){
+				this.mouse_wheel.Set(0,20);
+			}else if(t_wheel < 0.0f){
+				this.mouse_wheel.Set(0,-20);
+			}else{
+				this.mouse_wheel.Set(0,0);
+			}
+
+			return false;
 		}
 		#endif
 
@@ -299,23 +340,42 @@ namespace NInput
 		*/
 		private void Main_Button()
 		{
-			//インプットシステム。マウス。
+			//インプットシステムマウス。
 			if(Config.USE_INPUTSYSTEM_MOUSE == true){
-				if(this.Main_Mouse_Button() == true){
+				if(this.Main_InputSystemMouse_Button() == true){
 					return;
 				}
 			}
 
-			//インプットシステム。ポインター。
+			//インプットシステムポインター。
 			if(Config.USE_INPUTSYSTEM_POINTER == true){
-				if(this.Main_Pointer_Button() == true){
+				if(this.Main_InputSystemPointer_Button() == true){
 					return;
 				}
 			}
 
-			//インプットマネージャ。マウス。
+			//インプットマネージャマウス。
 			if(Config.USE_INPUTMANAGER_MOUSE == true){
-				if(this.Main_InputManager_Button() == true){
+				if(this.Main_InputManagerMouse_Button() == true){
+					return;
+				}
+			}
+		}
+
+		/** 更新。ホイール。
+		*/
+		private void Main_Wheel()
+		{
+			//インプットシステムマウス。
+			if(Config.USE_INPUTSYSTEM_MOUSE == true){
+				if(this.Main_InputSystemMouse_Wheel() == true){
+					return;
+				}
+			}
+
+			//インプットマネージャマウス。
+			if(Config.USE_INPUTMANAGER_MOUSE == true){
+				if(this.Main_InputManagerMouse_Wheel() == true){
 					return;
 				}
 			}
@@ -333,31 +393,13 @@ namespace NInput
 				this.Main_Button();
 
 				//マウスホイール。
-				{
-					UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
-					if(t_mouse_current != null){
-						//デバイス。
-						int t_x = (int)UnityEngine.Experimental.Input.Mouse.current.scroll.ReadValue().x;
-						int t_y = (int)UnityEngine.Experimental.Input.Mouse.current.scroll.ReadValue().y;
-
-						//設定。
-						this.mouse_wheel.Set(t_x,t_y);
-					}else{
-						//設定。
-						this.mouse_wheel.Set(0,0);
-					}
-
-					if((this.mouse_wheel.x != this.mouse_wheel.x_old)||(this.mouse_wheel.y != this.mouse_wheel.y_old)){
-						this.mouse_wheel_action = true;
-					}else{
-						this.mouse_wheel_action = false;
-					}
-				}
+				this.Main_Wheel();
 
 				//更新。
 				this.left.Main(ref this.pos);
 				this.right.Main(ref this.pos);
 				this.middle.Main(ref this.pos);
+				this.mouse_wheel.Main();
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}

@@ -26,6 +26,7 @@ namespace NInput
 		public int y;
 		public int x_old;
 		public int y_old;
+		public bool action;
 
 		/** リセット。
 		*/
@@ -35,6 +36,7 @@ namespace NInput
 			this.y = 0;
 			this.x_old = 0;
 			this.y_old = 0;
+			this.action = false;
 		}
 
 		/** 設定。
@@ -45,6 +47,17 @@ namespace NInput
 			this.y_old = this.y;
 			this.x = a_x;
 			this.y = a_y;
+		}
+
+		/** 更新。
+		*/
+		public void Main()
+		{
+			if((this.x != this.x_old)||(this.y != this.y_old)){
+				this.action = true;
+			}else{
+				this.action = false;
+			}
 		}
 	}
 }
