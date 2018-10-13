@@ -56,6 +56,10 @@ namespace NInput
 		*/
 		public static bool USE_INPUTSYSTEM_TOUCHSCREEN = true;
 
+		/** インプットシステム。キー。
+		*/
+		public static bool USE_INPUTSYSTEM_KEY = true;
+
 		/** インプットマネージャ。マウス。
 		*/
 		public static bool USE_INPUTMANAGER_MOUSE = true;
@@ -71,6 +75,10 @@ namespace NInput
 		#else
 		public static bool USE_INPUTMANAGER_TOUCH = true;
 		#endif
+
+		/** インプットマネージャ。キー。
+		*/
+		public static bool USE_INPUTMANAGER_KEY = true;
 
 		/** ドラッグ判定閾値。4方向。
 		*/

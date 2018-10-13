@@ -102,81 +102,99 @@ namespace NInput
 		{
 		}
 
+		/** 更新。インプットシステムキー。
+		*/
+		public bool Main_InputSystemKey_Key()
+		{
+			UnityEngine.Experimental.Input.Keyboard t_key_current = UnityEngine.Experimental.Input.Keyboard.current;
+			if(t_key_current != null){
+				//デバイス。
+				bool t_enter_on = t_key_current[Config.KEY_ENTER].isPressed;
+				bool t_escape_on = t_key_current[Config.KEY_ESCAPE].isPressed;
+				bool t_sub1_on = t_key_current[Config.KEY_SUB1].isPressed;
+				bool t_sub2_on = t_key_current[Config.KEY_SUB2].isPressed;
+				bool t_left_on = t_key_current[Config.KEY_LEFT].isPressed;
+				bool t_right_on = t_key_current[Config.KEY_RIGHT].isPressed;
+				bool t_up_on = t_key_current[Config.KEY_UP].isPressed;
+				bool t_down_on = t_key_current[Config.KEY_DOWN].isPressed;
+				bool t_left_menu_on = t_key_current[Config.KEY_LEFT_MENU].isPressed;
+				bool t_right_menu_on = t_key_current[Config.KEY_RIGHT_MENU].isPressed;
+
+				//設定。
+				this.enter.Set(t_enter_on);
+				this.escape.Set(t_escape_on);
+				this.sub1.Set(t_sub1_on);
+				this.sub2.Set(t_sub2_on);
+				this.left.Set(t_left_on);
+				this.right.Set(t_right_on);
+				this.up.Set(t_up_on);
+				this.down.Set(t_down_on);
+				this.left_menu.Set(t_left_menu_on);
+				this.right_menu.Set(t_right_menu_on);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 更新。インプットマネージャキーボード。
+		*/
+		public bool Main_InputManagerKey_Key()
+		{
+			//デバイス。
+			bool t_enter_on = UnityEngine.Input.GetKey(KeyCode.Return);
+			bool t_escape_on = UnityEngine.Input.GetKey(KeyCode.Escape);
+			bool t_sub1_on = UnityEngine.Input.GetKey(KeyCode.LeftShift);
+			bool t_sub2_on = UnityEngine.Input.GetKey(KeyCode.LeftControl);
+			bool t_left_on = UnityEngine.Input.GetKey(KeyCode.A);
+			bool t_right_on = UnityEngine.Input.GetKey(KeyCode.D);
+			bool t_up_on = UnityEngine.Input.GetKey(KeyCode.W);
+			bool t_down_on = UnityEngine.Input.GetKey(KeyCode.S);
+			bool t_left_menu_on = UnityEngine.Input.GetKey(KeyCode.Space);
+			bool t_right_menu_on = UnityEngine.Input.GetKey(KeyCode.Backspace);
+
+			//設定。
+			this.enter.Set(t_enter_on);
+			this.escape.Set(t_escape_on);
+			this.sub1.Set(t_sub1_on);
+			this.sub2.Set(t_sub2_on);
+			this.left.Set(t_left_on);
+			this.right.Set(t_right_on);
+			this.up.Set(t_up_on);
+			this.down.Set(t_down_on);
+			this.left_menu.Set(t_left_menu_on);
+			this.right_menu.Set(t_right_menu_on);
+
+			return true;	
+		}
+
+		/** 更新。キー。
+		*/
+		public void Main_Key()
+		{
+			//インプットシステム。キー。
+			if(Config.USE_INPUTSYSTEM_KEY == true){
+				if(this.Main_InputSystemKey_Key() == true){
+					return;
+				}
+			}
+
+			//インプットマネージャ。キー。
+			if(Config.USE_INPUTMANAGER_KEY == true){
+				if(this.Main_InputManagerKey_Key() == true){
+					return;
+				}
+			}
+		}
+
 		/** 更新。
 		*/
 		public void Main()
 		{
 			try{
-				//設定。
-				UnityEngine.Experimental.Input.Keyboard t_key_current = UnityEngine.Experimental.Input.Keyboard.current;
-
-				if(t_key_current != null){
-					//デバイス。
-					bool t_enter_on = t_key_current[Config.KEY_ENTER].isPressed;
-					bool t_escape_on = t_key_current[Config.KEY_ESCAPE].isPressed;
-					bool t_sub1_on = t_key_current[Config.KEY_SUB1].isPressed;
-					bool t_sub2_on = t_key_current[Config.KEY_SUB2].isPressed;
-					bool t_left_on = t_key_current[Config.KEY_LEFT].isPressed;
-					bool t_right_on = t_key_current[Config.KEY_RIGHT].isPressed;
-					bool t_up_on = t_key_current[Config.KEY_UP].isPressed;
-					bool t_down_on = t_key_current[Config.KEY_DOWN].isPressed;
-					bool t_left_menu_on = t_key_current[Config.KEY_LEFT_MENU].isPressed;
-					bool t_right_menu_on = t_key_current[Config.KEY_RIGHT_MENU].isPressed;
-
-					//設定。
-					this.enter.Set(t_enter_on);
-					this.escape.Set(t_escape_on);
-					this.sub1.Set(t_sub1_on);
-					this.sub2.Set(t_sub2_on);
-					this.left.Set(t_left_on);
-					this.right.Set(t_right_on);
-					this.up.Set(t_up_on);
-					this.down.Set(t_down_on);
-					this.left_menu.Set(t_left_menu_on);
-					this.right_menu.Set(t_right_menu_on);
-				}else{
-					#if((!UNITY_EDITOR)&&(UNITY_WEBGL)) || true
-					{
-						//デバイス。
-						bool t_enter_on = UnityEngine.Input.GetKey(KeyCode.Return);
-						bool t_escape_on = UnityEngine.Input.GetKey(KeyCode.Escape);
-						bool t_sub1_on = UnityEngine.Input.GetKey(KeyCode.LeftShift);
-						bool t_sub2_on = UnityEngine.Input.GetKey(KeyCode.LeftControl);
-						bool t_left_on = UnityEngine.Input.GetKey(KeyCode.A);
-						bool t_right_on = UnityEngine.Input.GetKey(KeyCode.D);
-						bool t_up_on = UnityEngine.Input.GetKey(KeyCode.W);
-						bool t_down_on = UnityEngine.Input.GetKey(KeyCode.S);
-						bool t_left_menu_on = UnityEngine.Input.GetKey(KeyCode.Space);
-						bool t_right_menu_on = UnityEngine.Input.GetKey(KeyCode.Backspace);
-
-						//設定。
-						this.enter.Set(t_enter_on);
-						this.escape.Set(t_escape_on);
-						this.sub1.Set(t_sub1_on);
-						this.sub2.Set(t_sub2_on);
-						this.left.Set(t_left_on);
-						this.right.Set(t_right_on);
-						this.up.Set(t_up_on);
-						this.down.Set(t_down_on);
-						this.left_menu.Set(t_left_menu_on);
-						this.right_menu.Set(t_right_menu_on);
-					}
-					#else
-					{
-						//設定。
-						this.enter.Set(false);
-						this.escape.Set(false);
-						this.sub1.Set(false);
-						this.sub2.Set(false);
-						this.left.Set(false);
-						this.right.Set(false);
-						this.up.Set(false);
-						this.down.Set(false);
-						this.left_menu.Set(false);
-						this.right_menu.Set(false);
-					}
-					#endif
-				}
+				//更新。キー。
+				this.Main_Key();
 
 				//更新。
 				this.enter.Main();
