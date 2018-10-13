@@ -30,27 +30,47 @@ namespace NInput
 
 		/** インプットシステム。マウス。
 		*/
+		#if(UNITY_EDITOR)
 		public static bool USE_INPUTSYSTEM_MOUSE = true;
+		#elif(UNITY_ANDROID)
+		public static bool USE_INPUTSYSTEM_MOUSE = false;
+		#else
+		public static bool USE_INPUTSYSTEM_MOUSE = true;
+		#endif
 
 		/** インプットシステム。ポインター。
 		*/
 		public static bool USE_INPUTSYSTEM_POINTER = true;
 
-		/** インプットマネージャ。マウス。
-		*/
-		public static bool USE_INPUTMANAGER_MOUSE = true;
-
 		/** インプットシステム。ゲームパッド。
 		*/
-		#if(UNITY_WEBGL)
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTSYSTEM_GAMEPAD = true;
+		#elif(UNITY_WEBGL)
 		public static bool USE_INPUTSYSTEM_GAMEPAD = false;
 		#else
 		public static bool USE_INPUTSYSTEM_GAMEPAD = true;
 		#endif
 
+		/** インプットシステム。タッチスクリーン。
+		*/
+		public static bool USE_INPUTSYSTEM_TOUCHSCREEN = true;
+
+		/** インプットマネージャ。マウス。
+		*/
+		public static bool USE_INPUTMANAGER_MOUSE = true;
+
 		/** インプットマネージャ。ゲームパッド。
 		*/
 		public static bool USE_INPUTMANAGER_GAMEPAD = true;
+
+		/** インプットマネージャ。タッチ。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTMANAGER_TOUCH = false;
+		#else
+		public static bool USE_INPUTMANAGER_TOUCH = true;
+		#endif
 
 		/** ドラッグ判定閾値。4方向。
 		*/

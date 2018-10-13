@@ -20,6 +20,27 @@ namespace NInput
 	*/
 	public class Touch_Phase
 	{
+		/** PhaseType
+		*/
+		public enum PhaseType
+		{
+			/** 
+			*/
+			None,
+
+			/** 
+			*/
+			Began,
+
+			/** 
+			*/
+			Moved,
+
+			/** 
+			*/
+			Stationary,
+		};
+
 		/** value_x
 		*/
 		public int value_x;
@@ -36,9 +57,9 @@ namespace NInput
 		*/
 		public int fadeoutframe;
 
-		/** phase_string
+		/** phasetype
 		*/
-		public string phase_string;
+		public PhaseType phasetype;
 
 		/** pressure
 		*/
@@ -56,6 +77,10 @@ namespace NInput
 		*/
 		public float angle_azimuth;
 
+		/** raw_id
+		*/
+		public int raw_id;
+
 		/** リセット。
 		*/
 		public void Reset()
@@ -72,8 +97,8 @@ namespace NInput
 			//fadeoutframe
 			this.fadeoutframe = 0;
 
-			//phase_string
-			this.phase_string = "n";
+			//phasetype
+			this.phasetype = PhaseType.None;
 
 			//pressure
 			this.pressure = 0.0f;
@@ -86,11 +111,14 @@ namespace NInput
 
 			//angle_azimuth
 			this.angle_azimuth = 0.0f;
+
+			//raw_id
+			this.raw_id = 0;
 		}
 
 		/** 設定。
 		*/
-		public void Set(int a_value_x,int a_value_y,string a_phase_string)
+		public void Set(int a_value_x,int a_value_y,PhaseType a_phasetype)
 		{
 			//value_x
 			this.value_x = a_value_x;
@@ -98,8 +126,8 @@ namespace NInput
 			//value_y
 			this.value_y = a_value_y;
 
-			//phase_string
-			this.phase_string = a_phase_string;
+			//phasetype
+			this.phasetype = a_phasetype;
 		}
 
 		/** 圧力。
@@ -127,6 +155,13 @@ namespace NInput
 
 			//angle_azimuth
 			this.angle_azimuth = a_angle_azimuth;
+		}
+
+		/** RawID。
+		*/
+		public void SetRawID(int a_raw_id)
+		{
+			this.raw_id = a_raw_id;
 		}
 
 		/** 更新。
