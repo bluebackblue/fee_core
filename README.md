@@ -19,16 +19,17 @@ https://github.com/bluebackblue/fee/blob/master/fee/Assets/Fee/LICENSE.txt
 * _______ Blur [ブラー]
 * _______ Deleter [インスタンス削除管理]
 * _______ Directory [ディレクトリ探査]
-* _______ DownLoad [AssetBundleダウンロード、SoundPoolダウンロード]
+* _______ DownLoad [（削除予定）AssetBundleダウンロード、SoundPoolダウンロード]
 * _______ EventPlate [イベント]
 * _______ Fade [フェード]
+* _______ File [ローカセーブロード、アセットバンドルダウンロード、サウンドプールダウンロード]
 * _______ Input [InputManager、InputSystem]
 * _______ Instantiate [インスタンス作成]
 * _______ JsonItem [Json]
 * _______ Network [通信]
 * _______ PerformanceCounter [パフォーマンスカウンター]
 * _______ Render2D [GLスプライト描画、テキスト位置、入力フィールド位置]
-* _______ SaveLoad [ローカルセーブ、ローカルロード]
+* _______ SaveLoad [（削除予定）ローカルセーブ、ローカルロード]
 * _______ Scene [シーン管理]
 * _______ TaskW [タスク]
 * _______ Ui [ボタン、縦スクロール、横スクロール、チェックボタン]
@@ -40,7 +41,7 @@ https://github.com/bluebackblue/fee/blob/master/fee/Assets/Fee/LICENSE.txt
 http://bbbproject.sakura.ne.jp/www/project_webgl/fee/
 
 ## Unity Version
-2018.2.10f1
+2018.3.0b5
 
 ## 使用ライセンス
 
