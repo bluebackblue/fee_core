@@ -93,10 +93,12 @@ public class test05 : main_base
 			t_text += this.touch_phase.phasetype.ToString().Substring(0,1) + " ";
 			t_text += "rawid = " + this.touch_phase.raw_id.ToString() + " ";
 
+			/*
 			t_text += "pressure = " + this.touch_phase.pressure.ToString() + " ";
 			t_text += "radius = " + this.touch_phase.radius.ToString() + " ";
 			t_text += "altitude = " + this.touch_phase.angle_altitude.ToString() + " ";
 			t_text += "azimuth = " + this.touch_phase.angle_azimuth.ToString() + " ";
+			*/
 
 			this.text.SetText(t_text);
 		}

@@ -104,10 +104,13 @@ public class test02 : main_base
 	*/
 	private NRender2D.Text2D status;
 
-	/** セーブロード処理。
+	/** セーブ。
 	*/
-	private NSaveLoad.Item save_item;
-	private NSaveLoad.Item load_item;
+	private NFile.Item save_item;
+
+	/** ロード。
+	*/
+	private NFile.Item load_item;
 
 	/** セーブデータ。
 	*/
@@ -136,8 +139,8 @@ public class test02 : main_base
 		//イベントプレート。インスタンス作成。
 		NEventPlate.EventPlate.CreateInstance();
 
-		//セーブロード。インスタンス作成。
-		NSaveLoad.SaveLoad.CreateInstance();
+		//ファイル。インスタンス作成。
+		NFile.File.CreateInstance();
 
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
@@ -180,8 +183,10 @@ public class test02 : main_base
 			this.status.SetText("");
 		}
 
-		//セーブロード処理。
+		//セーブ。
 		this.save_item = null;
+
+		//ロード。
 		this.load_item = null;
 
 		//セーブデータ。
@@ -200,7 +205,7 @@ public class test02 : main_base
 			string t_jsonstring = t_jsonitem.ConvertJsonString();
 
 			//ローカルセーブリクエスト。
-			this.save_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalTextFile("save_" + a_id.ToString() + ".json",t_jsonstring);
+			this.save_item = NFile.File.GetInstance().RequestSaveLocalTextFile("save_" + a_id.ToString() + ".json",t_jsonstring);
 			if(this.save_item != null){
 				this.button_save1.SetLock(true);
 				this.button_save2.SetLock(true);
@@ -216,7 +221,7 @@ public class test02 : main_base
 	private void CallBack_Click_Load(int a_id)
 	{
 		//ローカルロードリクエスト。
-		this.load_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLoaclTextFile("save_" + a_id.ToString() + ".json");
+		this.load_item = NFile.File.GetInstance().RequestLoadLocalTextFile("save_" + a_id.ToString() + ".json");
 		if(this.load_item != null){
 			this.button_save1.SetLock(true);
 			this.button_save2.SetLock(true);
@@ -298,14 +303,14 @@ public class test02 : main_base
 		//イベントプレート。
 		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
 
-		//セーブロード。
-		NSaveLoad.SaveLoad.GetInstance().Main();
+		//ファイル。
+		NFile.File.GetInstance().Main();
 
 		if(this.load_item != null){
 			if(this.load_item.IsBusy() == true){
 				//ロード中。
 			}else{
-				if(this.load_item.GetResultType() != NSaveLoad.Item.ResultType.Text){
+				if(this.load_item.GetResultType() != NFile.Item.ResultType.Text){
 					//ロード失敗。
 					this.SetStatus("Load : Faild",this.savedata);
 				}else{
@@ -344,7 +349,7 @@ public class test02 : main_base
 			if(this.save_item.IsBusy() == true){
 				//セーブ中。
 			}else{
-				if(this.save_item.GetResultType() == NSaveLoad.Item.ResultType.SaveEnd){
+				if(this.save_item.GetResultType() == NFile.Item.ResultType.SaveEnd){
 					//セーブ成功。
 					this.SetStatus("Save : Success",this.savedata);
 				}else{

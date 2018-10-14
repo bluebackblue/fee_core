@@ -75,25 +75,33 @@ namespace NInput
 			public int y;
 			public Touch_Phase.PhaseType phasetype;
 
-			/** pressure
-			*/
-			public float pressure;
-
-			/** radius
-			*/
-			public float radius;
-
-			/** angle_altitude
-			*/
-			public float angle_altitude;
-
-			/** angle_azimuth
-			*/
-			public float angle_azimuth;
-
 			/** raw_id
 			*/
 			public int raw_id;
+
+			/** pressure
+			*/
+			/*
+			public float pressure;
+			*/
+
+			/** radius
+			*/
+			/*
+			public float radius;
+			*/
+
+			/** angle_altitude
+			*/
+			/*
+			public float angle_altitude;
+			*/
+
+			/** angle_azimuth
+			*/
+			/*
+			public float angle_azimuth;
+			*/
 		}
 
 		/** タッチコールバック。
@@ -219,11 +227,13 @@ namespace NInput
 					this.device_item_list[this.device_item_list_count].link = false;
 
 					//追加情報。
+					this.device_item_list[this.device_item_list_count].raw_id = t_touch_id;
+					/*
 					this.device_item_list[this.device_item_list_count].pressure = t_touch.pressure.ReadValue();
 					this.device_item_list[this.device_item_list_count].radius = 0.0f;
 					this.device_item_list[this.device_item_list_count].angle_altitude = t_touch.radius.ReadValue().x;
 					this.device_item_list[this.device_item_list_count].angle_azimuth = t_touch.radius.ReadValue().y;
-					this.device_item_list[this.device_item_list_count].raw_id = t_touch_id;
+					*/
 
 					this.device_item_list_count++;
 				}
@@ -271,11 +281,13 @@ namespace NInput
 						this.device_item_list[this.device_item_list_count].link = false;
 
 						//追加情報。
+						this.device_item_list[this.device_item_list_count].raw_id = -1;
+						/*
 						this.device_item_list[this.device_item_list_count].pressure = t_touch.pressure;
 						this.device_item_list[this.device_item_list_count].radius = t_touch.radius;
 						this.device_item_list[this.device_item_list_count].angle_altitude = t_touch.altitudeAngle;
 						this.device_item_list[this.device_item_list_count].angle_azimuth = t_touch.azimuthAngle;
-						this.device_item_list[this.device_item_list_count].raw_id = -1;
+						*/
 
 						this.device_item_list_count++;
 					}break;
@@ -311,11 +323,13 @@ namespace NInput
 				this.device_item_list[this.device_item_list_count].link = false;
 
 				//追加情報。
+				this.device_item_list[this.device_item_list_count].raw_id = -2;
+				/*
 				this.device_item_list[this.device_item_list_count].pressure = 0.0f;
 				this.device_item_list[this.device_item_list_count].radius = 0.0f;
 				this.device_item_list[this.device_item_list_count].angle_altitude = 0.0f;
 				this.device_item_list[this.device_item_list_count].angle_azimuth = 0.0f;
-				this.device_item_list[this.device_item_list_count].raw_id = -2;
+				*/
 
 				this.device_item_list_count++;
 			}
@@ -372,10 +386,12 @@ namespace NInput
 
 							//設定。
 							this.list[t_index].Set(this.device_item_list[ii].x,this.device_item_list[ii].y,this.device_item_list[ii].phasetype);
+							this.list[t_index].SetRawID(this.device_item_list[ii].raw_id);
+							/*
 							this.list[t_index].SetAngle(this.device_item_list[ii].angle_altitude,this.device_item_list[ii].angle_azimuth);
 							this.list[t_index].SetPressure(this.device_item_list[ii].pressure);
 							this.list[t_index].SetRadius(this.device_item_list[ii].radius);
-							this.list[t_index].SetRawID(this.device_item_list[ii].raw_id);
+							*/
 							this.list[t_index].update = true;
 							this.list[t_index].fadeoutframe = 0;
 						}
@@ -391,10 +407,12 @@ namespace NInput
 
 							//設定。
 							this.list[t_index].Set(this.device_item_list[ii].x,this.device_item_list[ii].y,this.device_item_list[ii].phasetype);
+							this.list[t_index].SetRawID(this.device_item_list[ii].raw_id);
+							/*
 							this.list[t_index].SetAngle(this.device_item_list[ii].angle_altitude,this.device_item_list[ii].angle_azimuth);
 							this.list[t_index].SetPressure(this.device_item_list[ii].pressure);
-							this.list[t_index].SetRadius(this.device_item_list[ii].radius);
-							this.list[t_index].SetRawID(this.device_item_list[ii].raw_id);
+							ths.list[t_index].SetRadius(this.device_item_list[ii].radius);
+							*/
 							this.list[t_index].update = true;
 							this.list[t_index].fadeoutframe = 0;
 						}else{
@@ -407,10 +425,12 @@ namespace NInput
 
 								//設定。
 								this.list[t_index].Set(this.device_item_list[ii].x,this.device_item_list[ii].y,this.device_item_list[ii].phasetype);
+								this.list[t_index].SetRawID(this.device_item_list[ii].raw_id);
+								/*
 								this.list[t_index].SetAngle(this.device_item_list[ii].angle_altitude,this.device_item_list[ii].angle_azimuth);
 								this.list[t_index].SetPressure(this.device_item_list[ii].pressure);
 								this.list[t_index].SetRadius(this.device_item_list[ii].radius);
-								this.list[t_index].SetRawID(this.device_item_list[ii].raw_id);
+								*/
 								this.list[t_index].update = true;
 								this.list[t_index].fadeoutframe = 0;
 							}
