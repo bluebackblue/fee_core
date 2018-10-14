@@ -18,7 +18,7 @@ namespace NFile
 {
 	/** MonoBehaviour_WebRequest
 	*/
-	public class MonoBehaviour_WebRequest : MonoBehaviour_Base
+	public class MonoBehaviour_WebRequest : MonoBehaviour_Base , OnCoroutine_CallBack
 	{
 		/**  リクエストタイプ。
 		*/
@@ -76,6 +76,21 @@ namespace NFile
 		*/
 		[SerializeField]
 		private uint request_data_crc;
+
+		/** [NFile.OnCoroutine_CallBack]コルーチン実行中。
+
+		戻り値 == false : キャンセル。
+
+		*/
+		public bool OnCoroutine(float a_progress)
+		{
+			if((this.IsCancel() == true)||(this.IsDeleteRequest() == true)){
+				return false;
+			}
+
+			this.SetResultProgress(a_progress);
+			return true;
+		}
 
 		/** [MonoBehaviour_Base]コールバック。初期化。
 		*/

@@ -25,7 +25,7 @@ namespace NFile
 		戻り値 == false : キャンセル。
 
 		*/
-		bool OnCoroutine();
+		bool OnCoroutine(float a_progress);
 	}
 }
 

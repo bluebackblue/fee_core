@@ -18,7 +18,7 @@ namespace NFile
 {
 	/** ダウンロード。サウンドプール。
 	*/
-	public class Coroutine_DownLoadSoundPool
+	public class Coroutine_DownLoadSoundPool : OnCoroutine_CallBack
 	{
 		/** ResultType
 		*/
@@ -40,6 +40,10 @@ namespace NFile
 		*/
 		public ResultType result;
 
+		/** callback
+		*/
+		public OnCoroutine_CallBack callback;
+
 		/** ＵＲＬをファイル名とパスに分ける。
 		*/
 		public static bool ParseUrl(string a_url,ref string a_filename,ref string a_url_path)
@@ -60,6 +64,58 @@ namespace NFile
 			return false;
 		}
 
+		/** サウンドプールチェック。
+		*/
+		public static bool CheckSoundPool(NAudio.Pack_SoundPool a_soundpool,out string a_errorstring)
+		{
+			//name_listチェック。
+			if(a_soundpool != null){
+				if(a_soundpool.name_list != null){
+					for(int ii=0;ii<a_soundpool.name_list.Count;ii++){
+						if(a_soundpool.name_list[ii] != null){
+							if(a_soundpool.name_list[ii].Length > 0){
+								if(System.Text.RegularExpressions.Regex.IsMatch(a_soundpool.name_list[ii],"[0-9a-zA-Z][0-9a-zA-Z\\.\\-_]*") == true){
+									Tool.Log("Coroutine_DownLoadSoundPool",ii.ToString() + " = " + a_soundpool.name_list[ii]);
+								}else{
+									a_errorstring = "[" + ii.ToString() + "]Regex.IsMatch == false";
+									return false;
+								}
+							}else{
+								a_errorstring = "name_list[" + ii.ToString() + "].Length <= 0";
+								return false;
+							}
+						}else{
+							a_errorstring = "name_list[" + ii.ToString() + "] == null";
+							return false;
+						}
+					}
+				}else{
+					a_errorstring = "name_list == null";
+					return false;
+				}
+			}else{
+				//null。
+				a_errorstring = "soundpool == null";
+				return false;
+			}
+
+			a_errorstring = null;
+			return true;
+		}
+
+		/** [NFile.OnCoroutine_CallBack]コルーチン実行中。
+
+		戻り値 == false : キャンセル。
+
+		*/
+		public bool OnCoroutine(float a_progress)
+		{
+			if(this.callback != null){
+				return this.callback.OnCoroutine(a_progress);
+			}
+			return true;
+		}
+
 		/** CoroutineMain
 		*/
 		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url,uint a_data_version)
@@ -67,85 +123,154 @@ namespace NFile
 			//result
 			this.result = new ResultType();
 
+			//callback
+			this.callback = a_instance;
+
 			//ファイル名。
 			string t_filename = null;
 			string t_url_path = null;
 			if(ParseUrl(a_url,ref t_filename,ref t_url_path) == false){
 				//失敗。
-				this.result.errorstring = "null";
+				this.result.errorstring = "ParseUrl";
 				yield break;
 			}
 
-			/* TODO:
-			yield return Coroutine_LoadLocalTextFile.CoroutineMain(a_instance,t_filename);
+			//ロードローカルサウンドプール。
+			NAudio.Pack_SoundPool t_local_soundpool = null;
+			{
+				Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
+				yield return t_coroutine.CoroutineMain(this,t_filename);
 
-			using(UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(a_url)){
-				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
-				if(t_webrequest != null){
-					t_webrequest_async = t_webrequest.SendWebRequest();
-					if(t_webrequest_async == null){
-						this.result.errorstring = "webrequest_async == null");
+				if(t_coroutine.result.text != null){
+					t_local_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_coroutine.result.text));
+
+					string t_errorstring;
+					bool t_check = CheckSoundPool(t_local_soundpool,out t_errorstring);
+
+					if(t_check == false){
+						t_local_soundpool = null;
+					}
+				}else{
+					//続行。
+				}
+			}
+
+			//ローカルサウンドプール。チェック。
+			if(Config.SOUNDPOOL_CHECK_DATAVERSION == true){
+				if(t_local_soundpool!= null){
+					if(t_local_soundpool.data_version == a_data_version){
+						//ローカルサウンドプールとデータバージョンが一致。
+
+						//最新を取得する必要なし。
+						this.result.soundpool = t_local_soundpool;
+						yield break;
+					}else{
+						//ローカルサウンドプール。バージョンが古い。
+					}
+				}else{
+					//ローカルサウンドプール。なし。
+				}
+			}
+
+			//ダウンロードサウンドプール。
+			NAudio.Pack_SoundPool t_download_soundpool = null;
+			{
+				Coroutine_DownLoadTextFile t_coroutine = new Coroutine_DownLoadTextFile();
+				yield return t_coroutine.CoroutineMain(this,t_url_path + t_filename);
+
+				if(t_coroutine.result.text != null){
+					t_download_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_coroutine.result.text));
+
+					string t_errorstring;
+					bool t_check = CheckSoundPool(t_download_soundpool,out t_errorstring);
+
+					if(t_check == false){
+						t_download_soundpool = null;
+						this.result.errorstring = t_errorstring;
 						yield break;
 					}
 				}else{
-					this.result.errorstring = "webrequest == null");
+					this.result.errorstring = t_coroutine.result.errorstring;
 					yield break;
 				}
 
-				while(true){
-					//プログレス。
-					{
-						float t_progress = t_webrequest.downloadProgress;
-						if(t_progress >= 0.999f){
-							t_progress = 0.999f;
-						}else if(t_progress < 0.0f){
-							t_progress = 0.0f;
-						}
-						a_instance.SetResultProgress(t_progress);
-					}
-
-					//エラーチェック。
-					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
-						//エラー終了。
-						this.result.errorstring = t_webrequest.error);
-						yield break;
-					}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
-						//正常終了。
-						break;
-					}
-
-					//キャンセル。
-					if((a_instance.IsCancel() == true)||(a_instance.IsDeleteRequest() == true)){
-						t_webrequest.Abort();
-					}
-
-					yield return null;
-				}
-
-				if(t_webrequest_async != null){
-					yield return t_webrequest_async;
-				}
-
-				//コンバート。
-				Texture2D t_result = null;
-				try{
-					t_result = UnityEngine.Networking.DownloadHandlerTexture.GetContent(t_webrequest);
-				}catch(System.Exception t_exception){
-					this.result.errorstring = t_exception.Message);
+				if(t_download_soundpool == null){
+					this.result.errorstring = "t_download_soundpool == null";
 					yield break;
 				}
-
-				//成功。
-				if(t_result != null){
-					a_instance.SetResultTexture(t_result);
-					yield break;
-				}
-
-				//失敗。
-				this.result.errorstring = "null");
-				yield break;
 			}
-			*/
+
+			//ダウンロードサウンドプール。チェック。
+			bool t_download_listitem = true;
+			if(Config.SOUNDPOOL_CHECL_DATAHASH == true){
+				if(t_local_soundpool != null){
+					if(t_download_soundpool.data_hash == t_local_soundpool.data_hash){
+						//ローカルサウンドプールとデータハッシュが一致。
+						t_download_listitem = false;
+					}
+				}
+			}
+
+			if(t_download_listitem == true){
+				for(int ii=0;ii<t_download_soundpool.name_list.Count;ii++){
+
+					byte[] t_binary = null;
+
+					//ダウンロード。
+					{
+						Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
+						yield return t_coroutine.CoroutineMain(this,t_url_path + t_download_soundpool.name_list[ii]);
+
+						if(t_coroutine.result.binary != null){
+							t_binary = t_coroutine.result.binary;
+						}else{
+							this.result.errorstring = t_coroutine.result.errorstring;
+							yield break;
+						}
+					}
+
+					//セーブ。
+					{
+						Coroutine_SaveLocalBinaryFile t_coroutine = new Coroutine_SaveLocalBinaryFile();
+						yield return t_coroutine.CoroutineMain(this,t_download_soundpool.name_list[ii],t_binary);
+
+						if(t_coroutine.result.saveend == true){
+							//続行。
+						}else{
+							this.result.errorstring = t_coroutine.result.errorstring;
+							yield break;
+						}
+					}
+				}
+			}
+
+			//セーブローカルサウンドプール。
+			{
+				NJsonItem.JsonItem t_json = NJsonItem.ObjectToJson.Convert(t_download_soundpool);
+				if(t_json == null){
+					this.result.errorstring = "NJsonItem.ObjectToJson.Convert(t_download_soundpool) == null";
+					yield break;
+				}
+
+				string t_json_string = t_json.ConvertJsonString();
+				if(t_json_string == null){
+					this.result.errorstring = "t_json.ConvertJsonString() == null";
+					yield break;
+				}
+
+				Coroutine_SaveLocalTextFile t_coroutine = new Coroutine_SaveLocalTextFile();
+				yield return t_coroutine.CoroutineMain(this,t_filename,t_json_string);
+
+				if(t_coroutine.result.saveend == true){
+					//続行。
+				}else{
+					this.result.errorstring = t_coroutine.result.errorstring;
+					yield break;
+				}
+			}
+
+			this.result.soundpool = t_download_soundpool;
+			yield break;
 		}
 	}
 }

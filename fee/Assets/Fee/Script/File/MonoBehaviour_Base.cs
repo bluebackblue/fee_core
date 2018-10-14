@@ -18,7 +18,7 @@ namespace NFile
 {
 	/** MonoBehaviour_Base
 	*/
-	public abstract class MonoBehaviour_Base : MonoBehaviour , OnCoroutine_CallBack
+	public abstract class MonoBehaviour_Base : MonoBehaviour
 	{
 		/** Mode
 		*/
@@ -176,17 +176,6 @@ namespace NFile
 			this.result_texture = null;
 			this.result_assetbundle = null;
 			this.result_soundpool = null;
-		}
-
-		/** [NFile.OnCoroutine_CallBack]コルーチン実行中。
-		*/
-		public bool OnCoroutine()
-		{
-			if((this.cancel_flag == true)||(this.delete_flag == true)){
-				return false;
-			}
-
-			return true;
 		}
 
 		/** キャンセル。設定。

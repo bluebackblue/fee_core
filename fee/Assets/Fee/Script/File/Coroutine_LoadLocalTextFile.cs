@@ -40,12 +40,19 @@ namespace NFile
 		*/
 		public ResultType result;
 
+		/** taskprogress
+		*/
+		public float taskprogress;
+
 		/** CoroutineMain
 		*/
 		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_full_path)
 		{
 			//result
 			this.result = new ResultType();
+
+			//taskprogress
+			this.taskprogress = 0.0f;
 
 			//キャンセルトークン。
 			NTaskW.CancelToken t_cancel_token = new NTaskW.CancelToken();
@@ -56,16 +63,13 @@ namespace NFile
 			//終了待ち。
 			do{
 				//キャンセル。
-				if(a_instance.OnCoroutine() == false){
-					t_cancel_token.Cancel();
+				if(a_instance != null){
+					if(a_instance.OnCoroutine(this.taskprogress) == false){
+						t_cancel_token.Cancel();
+					}
 				}
 				yield return null;
 			}while(t_task.IsEnd() == false);
-
-			//プログレス。
-			/*
-			a_instance.SetResultProgress(0.999f);
-			*/
 
 			//結果。
 			Task_LoadLocalTextFile.ResultType t_result = t_task.GetResult();

@@ -61,19 +61,6 @@ namespace NFile
 				}
 
 				while(true){
-					//プログレス。
-					/*
-					{
-						float t_progress = t_webrequest.downloadProgress;
-						if(t_progress >= 0.999f){
-							t_progress = 0.999f;
-						}else if(t_progress < 0.0f){
-							t_progress = 0.0f;
-						}
-						a_instance.SetResultProgress(t_progress);
-					}
-					*/
-
 					//エラーチェック。
 					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
 						//エラー終了。
@@ -85,8 +72,10 @@ namespace NFile
 					}
 
 					//キャンセル。
-					if(a_instance.OnCoroutine() == false){
-						t_webrequest.Abort();
+					if(a_instance != null){
+						if(a_instance.OnCoroutine(t_webrequest.downloadProgress) == false){
+							t_webrequest.Abort();
+						}
 					}
 
 					yield return null;
