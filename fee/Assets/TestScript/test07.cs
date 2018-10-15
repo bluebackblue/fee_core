@@ -28,7 +28,6 @@ public class test07 : main_base
 	private NUi.CheckButton checkbutton_free;
 	private NUi.CheckButton checkbutton_lock;
 
-
 	/** Start
 	*/
 	private void Start()

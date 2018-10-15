@@ -57,7 +57,7 @@ public class test04 : main_base
 
 	/** セーブロードアイテム。
 	*/
-	private NSaveLoad.Item saveload_item;
+	private NFile.Item saveload_item;
 
 	/** sprite
 	*/
@@ -85,9 +85,9 @@ public class test04 : main_base
 		//２Ｄ描画。インスタンス作成。
 		NRender2D.Render2D.CreateInstance();
 
-		//セーブロード。インスタンス作成。
-		NSaveLoad.Config.LOG_ENABLE = true;
-		NSaveLoad.SaveLoad.CreateInstance();
+		//ファイル。インスタンス作成。
+		NFile.Config.LOG_ENABLE = true;
+		NFile.File.CreateInstance();
 
 		//マウス。インスタンス作成。
 		NInput.Mouse.CreateInstance();
@@ -145,8 +145,8 @@ public class test04 : main_base
 	*/
 	private void FixedUpdate()
 	{
-		//セーブロード。
-		NSaveLoad.SaveLoad.GetInstance().Main();
+		//ファイル。
+		NFile.File.GetInstance().Main();
 
 		//マウス。インスタンス作成。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
@@ -179,7 +179,7 @@ public class test04 : main_base
 					t_binary[ii] = (byte)(ii % 256);
 				}
 
-				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalBinaryFile(t_filename,t_binary);
+				this.saveload_item = NFile.File.GetInstance().RequestSaveLocalBinaryFile(t_filename,t_binary);
 
 				{
 					string t_log_text = this.step.ToString() + " : " + t_filename + " : size = " + t_binary.Length.ToString();
@@ -200,7 +200,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.SaveEnd){
+					if(this.saveload_item.GetResultType() == NFile.Item.ResultType.SaveEnd){
 						//成功。
 
 						{
@@ -228,7 +228,7 @@ public class test04 : main_base
 				//ファイル名。
 				string t_filename = "test_binary.bin";
 
-				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLoaclBinaryFile(t_filename);
+				this.saveload_item = NFile.File.GetInstance().RequestLoadLocalBinaryFile(t_filename);
 
 				{
 					string t_log_text = this.step.ToString() + " : " + t_filename;
@@ -248,7 +248,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.Binary){
+					if(this.saveload_item.GetResultType() == NFile.Item.ResultType.Binary){
 						//成功。
 
 						//チェック。
@@ -289,7 +289,7 @@ public class test04 : main_base
 				//データ。
 				string t_text = Random.value.ToString();
 
-				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalTextFile(t_filename,t_text);
+				this.saveload_item = NFile.File.GetInstance().RequestSaveLocalTextFile(t_filename,t_text);
 
 				{
 					string t_log_text = this.step.ToString() + " : " + t_filename + " : text = " + t_text;
@@ -309,7 +309,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.SaveEnd){
+					if(this.saveload_item.GetResultType() == NFile.Item.ResultType.SaveEnd){
 						//成功。
 
 						{
@@ -337,7 +337,7 @@ public class test04 : main_base
 				//ファイル名。
 				string t_filename = "test_text.txt";
 
-				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLoaclTextFile(t_filename);
+				this.saveload_item = NFile.File.GetInstance().RequestLoadLocalTextFile(t_filename);
 
 				{
 					string t_log_text = this.step.ToString() + " : " + t_filename;
@@ -357,7 +357,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.Text){
+					if(this.saveload_item.GetResultType() == NFile.Item.ResultType.Text){
 						//成功。
 
 						{
@@ -397,7 +397,7 @@ public class test04 : main_base
 					t_texture.Apply();
 				}
 
-				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestSaveLocalPngFile(t_filename,t_texture);
+				this.saveload_item = NFile.File.GetInstance().RequestSaveLocalTextureFile(t_filename,t_texture);
 
 				{
 					string t_log_text = this.step.ToString() + " : " + t_filename;
@@ -417,7 +417,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.SaveEnd){
+					if(this.saveload_item.GetResultType() == NFile.Item.ResultType.SaveEnd){
 						//成功。
 
 						{
@@ -445,7 +445,7 @@ public class test04 : main_base
 				//ファイル名。
 				string t_filename = "test_png.png";
 
-				this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadLocalPngFile(t_filename);
+				this.saveload_item = NFile.File.GetInstance().RequestLoadLocalTextureFile(t_filename);
 
 				{
 					string t_log_text = this.step.ToString() + " : " + t_filename;
@@ -465,7 +465,7 @@ public class test04 : main_base
 						Debug.Log(t_log_text); 
 					}
 				}else{
-					if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.Texture){
+					if(this.saveload_item.GetResultType() == NFile.Item.ResultType.Texture){
 						//成功。
 
 						Texture2D t_load_texture = this.saveload_item.GetResultTexture();

@@ -35,7 +35,7 @@ public class test13 : main_base
 
 	/** download_bgm
 	*/
-	private NDownLoad.Item download_bgm;
+	private NFile.Item download_bgm;
 
 	/** text
 	*/
@@ -84,8 +84,8 @@ public class test13 : main_base
 		NAudio.Audio.CreateInstance();
 
 		//ダウンロード。インスタンス作成。
-		NDownLoad.Config.LOG_ENABLE = true;
-		NDownLoad.DownLoad.CreateInstance();
+		NFile.Config.LOG_ENABLE = true;
+		NFile.File.CreateInstance();
 
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
@@ -109,7 +109,7 @@ public class test13 : main_base
 			t_url += "StandaloneWindows/";
 			#endif
 
-			this.download_bgm = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
+			this.download_bgm = NFile.File.GetInstance().RequestDownLoadAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
 		}
 
 		//ＢＧＭインデックス。
@@ -175,7 +175,7 @@ public class test13 : main_base
 		NUi.Ui.GetInstance().Main();
 
 		//ダウンロード。
-		NDownLoad.DownLoad.GetInstance().Main();
+		NFile.File.GetInstance().Main();
 
 		//ダウンロード。
 		if(this.download_bgm != null){

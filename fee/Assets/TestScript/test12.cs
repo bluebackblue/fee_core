@@ -35,7 +35,7 @@ public class test12 : main_base
 
 	/** download_se
 	*/
-	private NDownLoad.Item download_se;
+	private NFile.Item download_se;
 
 	/** SE_ID_TESTDATA
 	*/
@@ -76,8 +76,8 @@ public class test12 : main_base
 		//オーディオ。インスタンス作成。
 		NAudio.Audio.CreateInstance();
 
-		//ダウンロード。インスタンス作成。
-		NDownLoad.DownLoad.CreateInstance();
+		//ファイル。インスタンス作成。
+		NFile.File.CreateInstance();
 
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
@@ -101,7 +101,7 @@ public class test12 : main_base
 			t_url += "StandaloneWindows/";
 			#endif
 
-			this.download_se = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "se",ASSETBUNDLE_ID_SE,DATA_VERSION);
+			this.download_se = NFile.File.GetInstance().RequestDownLoadAssetBundle(t_url + "se",ASSETBUNDLE_ID_SE,DATA_VERSION);
 		}
 
 		{
@@ -156,8 +156,8 @@ public class test12 : main_base
 		//ＵＩ。
 		NUi.Ui.GetInstance().Main();
 
-		//ダウンロード。
-		NDownLoad.DownLoad.GetInstance().Main();
+		//ファイル。
+		NFile.File.GetInstance().Main();
 
 		//クリックチェック。
 		bool t_onover_volume = false;

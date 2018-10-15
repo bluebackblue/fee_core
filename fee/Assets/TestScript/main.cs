@@ -107,14 +107,14 @@ public class main : MonoBehaviour
 		//ブラー。
 		NBlur.Blur.DeleteInstance();
 
-		//ダウンロード。
-		NDownLoad.DownLoad.DeleteInstance();
-
 		//イベントプレート。
 		NEventPlate.EventPlate.DeleteInstance();
 
 		//フェード。
 		NFade.Fade.DeleteInstance();
+
+		//ファイル。
+		NFile.File.DeleteInstance();
 
 		//マスウ。
 		NInput.Mouse.DeleteInstance();
@@ -133,9 +133,6 @@ public class main : MonoBehaviour
 
 		//２Ｄ描画。
 		NRender2D.Render2D.DeleteInstance();
-
-		//セーブロード。
-		NSaveLoad.SaveLoad.DeleteInstance();
 
 		//シーン。
 		NScene.Scene.DeleteInstance();
@@ -267,18 +264,12 @@ public class main_base : MonoBehaviour
 		while(t_ok == false){
 			t_ok = true;
 
-			if(NSaveLoad.SaveLoad.IsCreateInstance() == true){
-				if(NSaveLoad.SaveLoad.GetInstance().IsBusy() == true){
+			if(NFile.File.IsCreateInstance() == true){
+				if(NFile.File.GetInstance().IsBusy() == true){
 					t_ok = false;
 				}
 			}
 
-			if(NDownLoad.DownLoad.IsCreateInstance() == true){
-				if(NDownLoad.DownLoad.GetInstance().IsBusy() == true){
-					t_ok = false;
-				}
-			}
-		
 			if(NNetwork.Network.IsCreateInstance() == true){
 				if(NNetwork.Network.GetInstance().IsBusy() == true){
 					t_ok = false;

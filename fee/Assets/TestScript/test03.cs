@@ -43,10 +43,9 @@ public class test03 : main_base
 	*/
 	private NRender2D.Text2D status;
 
-	/** ダウンロードアイテム。
+	/** ロードアイテム。
 	*/
-	private NDownLoad.Item download_item;
-	private NSaveLoad.Item saveload_item;
+	private NFile.Item load_item;
 
 	/** ＶＲＭアイテム。
 	*/
@@ -62,12 +61,12 @@ public class test03 : main_base
 	private GameObject mycamera_gameobject;
 	private Camera mycamera_camera;
 
+	/** LayerIndex
+	*/
 	enum LayerIndex
 	{
 		LayerIndex_Bg = 0,
-
 		LayerIndex_Model = 0,
-
 		LayerIndex_Ui = 1,
 	}
 
@@ -94,11 +93,8 @@ public class test03 : main_base
 		//ＵＩ。インスタンス作成。
 		NUi.Ui.CreateInstance();
 
-		//ダウンロード。インスタンス作成。
-		NDownLoad.DownLoad.CreateInstance();
-
-		//セーブロード。インスタンス作成。
-		NSaveLoad.SaveLoad.CreateInstance();
+		//ファイル。インスタンス作成。
+		NFile.File.CreateInstance();
 
 		//ＵＮＩＶＲＭ。インスタンス作成。
 		NUniVrm.UniVrm.CreateInstance();
@@ -154,9 +150,8 @@ public class test03 : main_base
 			this.bg.SetColor(0.1f,0.1f,0.1f,1.0f);
 		}
 
-		//download
-		this.download_item = null;
-		this.saveload_item = null;
+		//load_item
+		this.load_item = null;
 
 		//vrm
 		this.vrm_item = null;
@@ -184,16 +179,16 @@ public class test03 : main_base
 	*/
 	private void CallBack_Click(int a_id)
 	{
-		if((this.saveload_item == null)&&(this.download_item == null)&&(this.binary == null)){
+		if((this.load_item == null)&&(this.binary == null)){
 			GameObject t_model = GameObject.Find("Model");
 			if(t_model != null){
 				GameObject.Destroy(t_model);
 			}
 
 			#if(true)
-			this.download_item = NDownLoad.DownLoad.GetInstance().Request(this.inputfield.GetText(),NDownLoad.DataType.Binary);
+			this.load_item = NFile.File.GetInstance().RequestDownLoadBinaryFile(this.inputfield.GetText());
 			#else
-			this.saveload_item = NSaveLoad.SaveLoad.GetInstance().RequestLoadStreamingAssetsBinaryFile("nana.vrmx");
+			this.load_item = NFile.File.GetInstance().RequestLoadStreamingAssetsBinaryFile("nana.vrmx");
 			#endif
 		}
 	}
@@ -211,57 +206,33 @@ public class test03 : main_base
 		//ＵＩ。
 		NUi.Ui.GetInstance().Main();
 
-		//ダウンロード。
-		NDownLoad.DownLoad.GetInstance().Main();
-
-		//セーブロード。
-		NSaveLoad.SaveLoad.GetInstance().Main();
+		//ファイル。
+		NFile.File.GetInstance().Main();
 
 		//ＵＮＩＶＲＭ。
 		NUniVrm.UniVrm.GetInstance().Main();
 
-		if(this.download_item != null){
-			if(this.download_item.IsBusy() == true){
+		if(this.load_item != null){
+			if(this.load_item.IsBusy() == true){
 				//ダウンロード中。
-				this.status.SetText("Download : " + this.download_item.GetResultProgress().ToString());
+				this.status.SetText("Load : " + this.load_item.GetResultProgress().ToString());
 
 				//キャンセル。
 				if(this.IsChangeScene() == true){
-					this.download_item.Cancel();
+					this.load_item.Cancel();
 				}
 			}else{
 				//ダウンロード完了。
-				if(this.download_item.GetResultType() == NDownLoad.Item.ResultType.Binary){
-					this.status.SetText("Download : Fix");
-					this.binary = this.download_item.GetResultBinary();
+				if(this.load_item.GetResultType() == NFile.Item.ResultType.Binary){
+					this.status.SetText("Load : Fix");
+					this.binary = this.load_item.GetResultBinary();
 				}else{
-					this.status.SetText("Download : Error");
+					this.status.SetText("Load : Error");
 				}
-				this.download_item = null;
+				this.load_item = null;
 			}
 		}
 		
-		if(this.saveload_item != null){
-			if(this.saveload_item.IsBusy() == true){
-				//ダウンロード中。
-				this.status.SetText("SaveLoad : " + this.saveload_item.GetResultProgress().ToString());
-
-				//キャンセル。
-				if(this.IsChangeScene() == true){
-					this.saveload_item.Cancel();
-				}
-			}else{
-				//ダウンロード完了。
-				if(this.saveload_item.GetResultType() == NSaveLoad.Item.ResultType.Binary){
-					this.status.SetText("SaveLoad : Fix");
-					this.binary = this.saveload_item.GetResultBinary();
-				}else{
-					this.status.SetText("SaveLoad : Error");
-				}
-				this.saveload_item = null;
-			}
-		}
-
 		if(this.vrm_item_load == true){
 			if(this.vrm_item != null){
 				if(this.vrm_item.IsBusy() == true){

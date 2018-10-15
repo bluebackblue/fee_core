@@ -70,11 +70,11 @@ public class test11 : main_base
 
 	/** ダウンロード。
 	*/
-	private NDownLoad.Item download_item_se;
+	private NFile.Item download_item_se;
 
 	/** ダウンロード。
 	*/
-	private NDownLoad.Item download_item_bgm;
+	private NFile.Item download_item_bgm;
 
 	/** オーディオクリップパック。
 	*/
@@ -131,15 +131,12 @@ public class test11 : main_base
 		NPerformanceCounter.Config.LOG_ENABLE = true;
 		NPerformanceCounter.PerformanceCounter.CreateInstance();
 
-		//ダウンロード。インスタンス作成。
-		NDownLoad.Config.LOG_ENABLE = true;
-		NDownLoad.Config.SOUNDPOOL_CHECK_DATAVERSION = false;
-		NDownLoad.Config.SOUNDPOOL_CHECL_DATAHASH = false;
-		NDownLoad.DownLoad.CreateInstance();
+		//ファイル。インスタンス作成。
+		NFile.Config.LOG_ENABLE = true;
+		NFile.Config.SOUNDPOOL_CHECK_DATAVERSION = false;
+		NFile.Config.SOUNDPOOL_CHECL_DATAHASH = false;
+		NFile.File.CreateInstance();
 
-		//セーブロード。
-		NSaveLoad.Config.LOG_ENABLE = true;
-		NSaveLoad.SaveLoad.CreateInstance();
 
 		//オーディオ。インスタンス作成。
 		NAudio.Config.LOG_ENABLE = true;
@@ -306,7 +303,7 @@ public class test11 : main_base
 		NAudio.Audio.GetInstance().UnLoadSe(SE_ID);
 
 		//アセットバンドルのアンロード。
-		NDownLoad.DownLoad.GetInstance().GetAssetBundleList().UnloadAssetBundle(ASSETBUNDLE_ID_SE);
+		NFile.File.GetInstance().GetAssetBundleList().UnloadAssetBundle(ASSETBUNDLE_ID_SE);
 	}
 
 	/** [Button_Base]コールバック。クリック。
@@ -348,7 +345,7 @@ public class test11 : main_base
 			t_url += "StandaloneWindows/";
 			#endif
 
-			this.download_item_bgm = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
+			this.download_item_bgm = NFile.File.GetInstance().RequestDownLoadAssetBundle(t_url + "bgm",ASSETBUNDLE_ID_BGM,DATA_VERSION);
 		}
 	}
 
@@ -356,11 +353,8 @@ public class test11 : main_base
 	*/
 	private void FixedUpdate()
 	{
-		//ダウンロード。
-		NDownLoad.DownLoad.GetInstance().Main();
-
-		//セーブロード。
-		NSaveLoad.SaveLoad.GetInstance().Main();
+		//ファイル。
+		NFile.File.GetInstance().Main();
 
 		//ＵＩ。
 		NUi.Ui.GetInstance().Main();
@@ -377,7 +371,7 @@ public class test11 : main_base
 				//ダウンロード中。
 				this.status.SetText("bgm : " + this.download_item_bgm.GetResultProgress().ToString());
 			}else{
-				if(this.download_item_bgm.GetResultType() == NDownLoad.Item.ResultType.AssetBundle){
+				if(this.download_item_bgm.GetResultType() == NFile.Item.ResultType.AssetBundle){
 					//ダウンロード成功。アセットバンドル。
 					AssetBundle t_assetbundle = this.download_item_bgm.GetResultAssetBundle();
 					if(t_assetbundle != null){
@@ -407,7 +401,7 @@ public class test11 : main_base
 
 				if(this.soundpool_flag == true){
 					string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/" + t_name + ".txt";
-					this.download_item_se = NDownLoad.DownLoad.GetInstance().RequestSoundPool(t_url,DATA_VERSION);
+					this.download_item_se = NFile.File.GetInstance().RequestDownLoadSoundPool(t_url,DATA_VERSION);
 				}else{
 					string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
 	
@@ -423,7 +417,7 @@ public class test11 : main_base
 					t_url += "StandaloneWindows/";
 					#endif
 
-					this.download_item_se = NDownLoad.DownLoad.GetInstance().RequestAssetBundle(t_url + "se",ASSETBUNDLE_ID_SE,DATA_VERSION);
+					this.download_item_se = NFile.File.GetInstance().RequestDownLoadAssetBundle(t_url + "se",ASSETBUNDLE_ID_SE,DATA_VERSION);
 				}
 
 				this.mode = Mode.Now;
@@ -434,7 +428,7 @@ public class test11 : main_base
 					//ダウンロード中。
 					this.status.SetText("se : " + this.download_item_se.GetResultProgress().ToString());
 				}else{
-					if(this.download_item_se.GetResultType() == NDownLoad.Item.ResultType.SoundPool){
+					if(this.download_item_se.GetResultType() == NFile.Item.ResultType.SoundPool){
 						//ダウンロード成功。サウンドプール。
 
 						this.pack_soundpool = this.download_item_se.GetResultSoundPool();
@@ -447,7 +441,7 @@ public class test11 : main_base
 							this.download_item_se = null;
 							this.mode = Mode.Fix;
 						}
-					}else if(this.download_item_se.GetResultType() == NDownLoad.Item.ResultType.AssetBundle){
+					}else if(this.download_item_se.GetResultType() == NFile.Item.ResultType.AssetBundle){
 						//ダウンロード成功。アセットバンドル。
 
 						AssetBundle t_assetbundle = this.download_item_se.GetResultAssetBundle();
@@ -497,7 +491,7 @@ public class test11 : main_base
 			}
 		}
 
-		this.status_2.SetText("soundpool = " + NAudio.Audio.GetInstance().GetSoundPoolCount().ToString() + " assetbundle = " + NDownLoad.DownLoad.GetInstance().GetAssetBundleCount().ToString());
+		this.status_2.SetText("soundpool = " + NAudio.Audio.GetInstance().GetSoundPoolCount().ToString() + " assetbundle = " + NFile.File.GetInstance().GetAssetBundleCount().ToString());
 	}
 
 	/** 削除前。

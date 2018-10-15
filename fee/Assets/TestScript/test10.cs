@@ -71,7 +71,6 @@ public class test10 : main_base
 		//NUi.Config.LOG_ENABLE = true;
 		NUi.Ui.CreateInstance();
 
-
 		//削除管理。
 		this.deleter = new NDeleter.Deleter();
 
