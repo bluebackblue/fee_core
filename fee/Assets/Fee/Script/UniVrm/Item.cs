@@ -212,11 +212,13 @@ namespace NUniVrm
 			this.result_context = a_context;
 			this.result_animator = null;
 
+			#if(USE_UNIVRM)
 			if(this.result_context != null){
 				if(this.result_context.Root != null){
 					this.result_animator = this.result_context.Root.GetComponent<Animator>();
 				}
 			}
+			#endif
 		}
 
 		/** 結果。コンテキスト。取得。
