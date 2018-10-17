@@ -239,20 +239,8 @@ namespace NFile
 
 			//セーブローカルサウンドプール。
 			{
-				NJsonItem.JsonItem t_json = NJsonItem.ObjectToJson.Convert(t_download_soundpool);
-				if(t_json == null){
-					this.result.errorstring = "NJsonItem.ObjectToJson.Convert(t_download_soundpool) == null";
-					yield break;
-				}
-
-				string t_json_string = t_json.ConvertJsonString();
-				if(t_json_string == null){
-					this.result.errorstring = "t_json.ConvertJsonString() == null";
-					yield break;
-				}
-
-				Coroutine_SaveLocalTextFile t_coroutine = new Coroutine_SaveLocalTextFile();
-				yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + t_filename,t_json_string);
+				Coroutine_SaveLocalSoundPool t_coroutine = new Coroutine_SaveLocalSoundPool();
+				yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + t_filename,t_download_soundpool);
 
 				if(t_coroutine.result.saveend == true){
 					//続行。

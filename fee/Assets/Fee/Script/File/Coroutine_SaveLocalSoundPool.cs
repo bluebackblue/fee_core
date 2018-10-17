@@ -16,22 +16,22 @@ using UnityEngine;
 */
 namespace NFile
 {
-	/** ロードローカル。サウンドプール。
+	/** セーブローカル。サウンドプーツ。
 	*/
-	public class Coroutine_LoadLocalSoundPool
+	public class Coroutine_SaveLocalSoundPool
 	{
 		/** ResultType
 		*/
 		public class ResultType
 		{
-			public NAudio.Pack_SoundPool soundpool;
+			public bool saveend;
 			public string errorstring;
 
 			/** constructor
 			*/
 			public ResultType()
 			{
-				this.soundpool = null;
+				this.saveend = false;
 				this.errorstring = null;
 			}
 		}
@@ -46,7 +46,7 @@ namespace NFile
 
 		/** CoroutineMain
 		*/
-		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_full_path)
+		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_full_path,NAudio.Pack_SoundPool a_soundpool)
 		{
 			//result
 			this.result = new ResultType();
@@ -54,11 +54,32 @@ namespace NFile
 			//taskprogress
 			this.taskprogress = 0.0f;
 
+			//サウンドプール。
+			string t_soundpool_json_string = null;
+			{
+				if(a_soundpool != null){
+					NJsonItem.JsonItem t_json = NJsonItem.ObjectToJson.Convert(a_soundpool);
+					if(t_json != null){
+						t_soundpool_json_string = t_json.ConvertJsonString();
+					}else{
+						this.result.errorstring = "Coroutine_SaveLocalSoundPool : t_json == null";
+						yield break;
+					}
+				}else{
+					this.result.errorstring = "Coroutine_SaveLocalSoundPool : a_soundpool == null";
+					yield break;
+				}
+				if(t_soundpool_json_string == null){
+					this.result.errorstring = "Coroutine_SaveLocalSoundPool : t_soundpool_json_string == null";
+					yield break;
+				}
+			}
+
 			//キャンセルトークン。
 			NTaskW.CancelToken t_cancel_token = new NTaskW.CancelToken();
 
 			//タスク起動。
-			NTaskW.Task<Task_LoadLocalTextFile.ResultType> t_task = Task_LoadLocalTextFile.Run(a_full_path,t_cancel_token);
+			NTaskW.Task<Task_SaveLocalTextFile.ResultType> t_task = Task_SaveLocalTextFile.Run(a_full_path,t_soundpool_json_string,t_cancel_token);
 
 			//終了待ち。
 			do{
@@ -72,21 +93,13 @@ namespace NFile
 			}while(t_task.IsEnd() == false);
 
 			//結果。
-			Task_LoadLocalTextFile.ResultType t_result = t_task.GetResult();
+			Task_SaveLocalTextFile.ResultType t_result = t_task.GetResult();
 
 			//成功。
 			if(t_task.IsSuccess() == true){
-				if(t_result.text != null){
-					NAudio.Pack_SoundPool t_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_result.text));
-
-					string t_errorstring;
-					if(NAudio.Pack_SoundPool.CheckSoundPool(t_soundpool,out t_errorstring) == true){
-						this.result.soundpool = t_soundpool;
-						yield break;
-					}else{
-						this.result.errorstring = t_errorstring;
-						yield break;
-					}
+				if(t_result.saveend == true){
+					this.result.saveend = true;
+					yield break;
 				}
 			}
 
@@ -95,7 +108,7 @@ namespace NFile
 				this.result.errorstring = t_result.errorstring;
 				yield break;
 			}else{
-				this.result.errorstring = "Coroutine_LoadLocalSoundPool : null";
+				this.result.errorstring = "Coroutine_SaveLocalSoundPool : null";
 				yield break;
 			}
 		}

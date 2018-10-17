@@ -51,6 +51,9 @@ namespace NFile
 			//result
 			this.result = new ResultType();
 
+			//taskprogress
+			this.taskprogress = 0.0f;
+
 			//キャンセルトークン。
 			NTaskW.CancelToken t_cancel_token = new NTaskW.CancelToken();
 

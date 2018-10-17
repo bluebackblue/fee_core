@@ -113,6 +113,7 @@
     <Compile Include="Assets\Fee\Script\File\Coroutine_LoadLocalTextFile.cs" />
     <Compile Include="Assets\Fee\Script\File\Coroutine_LoadLocalTextureFile.cs" />
     <Compile Include="Assets\Fee\Script\File\Coroutine_SaveLocalBinaryFile.cs" />
+    <Compile Include="Assets\Fee\Script\File\Coroutine_SaveLocalSoundPool.cs" />
     <Compile Include="Assets\Fee\Script\File\Coroutine_SaveLocalTextFile.cs" />
     <Compile Include="Assets\Fee\Script\File\Coroutine_SaveLocalTextureFile.cs" />
     <Compile Include="Assets\Fee\Script\File\File.cs" />
