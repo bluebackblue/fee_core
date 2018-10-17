@@ -232,7 +232,7 @@ namespace NFile
 					//セーブ。
 					{
 						Coroutine_SaveLocalBinaryFile t_coroutine = new Coroutine_SaveLocalBinaryFile();
-						yield return t_coroutine.CoroutineMain(this,t_download_soundpool.name_list[ii],t_binary);
+						yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + t_download_soundpool.name_list[ii],t_binary);
 
 						if(t_coroutine.result.saveend == true){
 							//続行。
@@ -259,7 +259,7 @@ namespace NFile
 				}
 
 				Coroutine_SaveLocalTextFile t_coroutine = new Coroutine_SaveLocalTextFile();
-				yield return t_coroutine.CoroutineMain(this,t_filename,t_json_string);
+				yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + t_filename,t_json_string);
 
 				if(t_coroutine.result.saveend == true){
 					//続行。
