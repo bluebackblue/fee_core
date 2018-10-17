@@ -64,12 +64,12 @@ namespace NFile
 						t_ret.saveend = true;
 					}else{
 						t_ret.saveend = false;
-						t_ret.errorstring = "binary == null";
+						t_ret.errorstring = "Task_SaveLocalBinaryFile : binary == null";
 					}
 				}			
 			}catch(System.Exception t_exception){
 				t_ret.saveend = false;
-				t_ret.errorstring = t_exception.Message;
+				t_ret.errorstring = "Task_SaveLocalBinaryFile : " + t_exception.Message;
 			}
 
 			//閉じる。
@@ -79,14 +79,14 @@ namespace NFile
 
 			if(a_cancel.IsCancellationRequested == true){
 				t_ret.saveend = false;
-				t_ret.errorstring = "Cancel";
+				t_ret.errorstring = "Task_SaveLocalBinaryFile : Cancel";
 
 				a_cancel.ThrowIfCancellationRequested();
 			}
 
 			if(t_ret.saveend == false){
 				if(t_ret.errorstring == null){
-					t_ret.errorstring = "null";
+					t_ret.errorstring = "Task_SaveLocalBinaryFile : null";
 				}
 			}
 

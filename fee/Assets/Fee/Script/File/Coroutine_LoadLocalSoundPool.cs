@@ -16,22 +16,22 @@ using UnityEngine;
 */
 namespace NFile
 {
-	/** ロードローカル。バイナリファイル。
+	/** ロードローカル。サウンドプール。
 	*/
-	public class Coroutine_LoadLocalBinaryFile
+	public class Coroutine_LoadLocalSoundPool
 	{
 		/** ResultType
 		*/
 		public class ResultType
 		{
-			public byte[] binary;
+			public NAudio.Pack_SoundPool soundpool;
 			public string errorstring;
 
 			/** constructor
 			*/
 			public ResultType()
 			{
-				this.binary = null;
+				this.soundpool = null;
 				this.errorstring = null;
 			}
 		}
@@ -58,7 +58,7 @@ namespace NFile
 			NTaskW.CancelToken t_cancel_token = new NTaskW.CancelToken();
 
 			//タスク起動。
-			NTaskW.Task<Task_LoadLocalBinaryFile.ResultType> t_task = Task_LoadLocalBinaryFile.Run(a_full_path,t_cancel_token);
+			NTaskW.Task<Task_LoadLocalTextFile.ResultType> t_task = Task_LoadLocalTextFile.Run(a_full_path,t_cancel_token);
 
 			//終了待ち。
 			do{
@@ -72,13 +72,21 @@ namespace NFile
 			}while(t_task.IsEnd() == false);
 
 			//結果。
-			Task_LoadLocalBinaryFile.ResultType t_result = t_task.GetResult();
+			Task_LoadLocalTextFile.ResultType t_result = t_task.GetResult();
 
 			//成功。
 			if(t_task.IsSuccess() == true){
-				if(t_result.binary != null){
-					this.result.binary = t_result.binary;
-					yield break;
+				if(t_result.text != null){
+					NAudio.Pack_SoundPool t_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_result.text));
+
+					string t_errorstring;
+					if(NAudio.Pack_SoundPool.CheckSoundPool(t_soundpool,out t_errorstring) == true){
+						this.result.soundpool = t_soundpool;
+						yield break;
+					}else{
+						this.result.errorstring = t_errorstring;
+						yield break;
+					}
 				}
 			}
 
@@ -87,7 +95,7 @@ namespace NFile
 				this.result.errorstring = t_result.errorstring;
 				yield break;
 			}else{
-				this.result.errorstring = "Coroutine_LoadLocalBinaryFile : null";
+				this.result.errorstring = "Coroutine_LoadLocalTextFile : null";
 				yield break;
 			}
 		}

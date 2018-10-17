@@ -479,6 +479,13 @@ namespace NFile
 									t_success = true;
 								}
 							}break;
+						case MonoBehaviour_Base.ResultType.AssetBundle:
+							{
+								if(t_webrequest.GetResultAssetBundle() != null){
+									this.item.SetResultAssetBundle(t_webrequest.GetResultAssetBundle());
+									t_success = true;
+								}
+							}break;
 						case MonoBehaviour_Base.ResultType.SaveEnd:
 							{
 								this.item.SetResultSaveEnd();

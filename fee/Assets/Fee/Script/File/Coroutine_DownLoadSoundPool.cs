@@ -138,18 +138,11 @@ namespace NFile
 			//ロードローカルサウンドプール。
 			NAudio.Pack_SoundPool t_local_soundpool = null;
 			{
-				Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
-				yield return t_coroutine.CoroutineMain(this,t_filename);
+				Coroutine_LoadLocalSoundPool t_coroutine = new Coroutine_LoadLocalSoundPool();
+				yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + t_filename);
 
-				if(t_coroutine.result.text != null){
-					t_local_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_coroutine.result.text));
-
-					string t_errorstring;
-					bool t_check = CheckSoundPool(t_local_soundpool,out t_errorstring);
-
-					if(t_check == false){
-						t_local_soundpool = null;
-					}
+				if(t_coroutine.result.soundpool != null){
+					t_local_soundpool = t_coroutine.result.soundpool;
 				}else{
 					//続行。
 				}

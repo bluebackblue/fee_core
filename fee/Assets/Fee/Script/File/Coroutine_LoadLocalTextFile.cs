@@ -87,7 +87,7 @@ namespace NFile
 				this.result.errorstring = t_result.errorstring;
 				yield break;
 			}else{
-				this.result.errorstring = "null";
+				this.result.errorstring = "Coroutine_LoadLocalTextFile : null";
 				yield break;
 			}
 		}

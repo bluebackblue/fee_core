@@ -61,12 +61,12 @@ namespace NFile
 					try{
 						t_binary_png = a_texture.EncodeToPNG();
 					}catch(System.Exception t_exception){
-						this.result.errorstring = t_exception.Message;
+						this.result.errorstring = "Coroutine_SaveLocalTextureFile : " + t_exception.Message;
 						yield break;
 					}
 				}
 				if(t_binary_png == null){
-					this.result.errorstring = "binary_png == null";
+					this.result.errorstring = "Coroutine_SaveLocalTextureFile : binary_png == null";
 					yield break;
 				}
 			}
@@ -104,7 +104,7 @@ namespace NFile
 				this.result.errorstring = t_result.errorstring;
 				yield break;
 			}else{
-				this.result.errorstring = "null";
+				this.result.errorstring = "Coroutine_SaveLocalTextureFile : null";
 				yield break;
 			}
 		}

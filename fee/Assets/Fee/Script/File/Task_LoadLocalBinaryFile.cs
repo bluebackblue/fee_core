@@ -63,7 +63,7 @@ namespace NFile
 				}			
 			}catch(System.Exception t_exception){
 				t_ret.binary = null;
-				t_ret.errorstring = t_exception.Message;
+				t_ret.errorstring = "Task_LoadLocalBinaryFile : " + t_exception.Message;
 			}
 
 			//閉じる。
@@ -73,14 +73,14 @@ namespace NFile
 
 			if(a_cancel.IsCancellationRequested == true){
 				t_ret.binary = null;
-				t_ret.errorstring = "Cancel";
+				t_ret.errorstring = "Task_LoadLocalBinaryFile : Cancel";
 
 				a_cancel.ThrowIfCancellationRequested();
 			}
 
 			if(t_ret.binary == null){
 				if(t_ret.errorstring == null){
-					t_ret.errorstring = "null";
+					t_ret.errorstring = "Task_LoadLocalBinaryFile : null";
 				}
 			}
 

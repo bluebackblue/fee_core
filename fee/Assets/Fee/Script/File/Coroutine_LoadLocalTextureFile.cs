@@ -112,15 +112,15 @@ namespace NFile
 								this.result.texture = t_result_texture;
 								yield break;
 							}else{
-								this.result.errorstring = "LoadImage == false";
+								this.result.errorstring = "Coroutine_LoadLocalTextureFile : LoadImage == false";
 								yield break;
 							}
 						}else{
-							this.result.errorstring = "new Texture2D == null";
+							this.result.errorstring = "Coroutine_LoadLocalTextureFile : new Texture2D == null";
 							yield break;
 						}
 					}else{
-						this.result.errorstring = "width == " + t_width.ToString() + " : height == " + t_height.ToString();
+						this.result.errorstring = "Coroutine_LoadLocalTextureFile : width == " + t_width.ToString() + " : height == " + t_height.ToString();
 						yield break;
 					}
 				}
@@ -131,7 +131,7 @@ namespace NFile
 				this.result.errorstring = t_result.errorstring;
 				yield break;
 			}else{
-				this.result.errorstring = "null";
+				this.result.errorstring = "Coroutine_LoadLocalTextureFile : null";
 				yield break;
 			}
 		}

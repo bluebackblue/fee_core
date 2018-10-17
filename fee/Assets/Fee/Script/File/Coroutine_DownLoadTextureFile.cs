@@ -52,11 +52,11 @@ namespace NFile
 				if(t_webrequest != null){
 					t_webrequest_async = t_webrequest.SendWebRequest();
 					if(t_webrequest_async == null){
-						this.result.errorstring = "webrequest_async == null";
+						this.result.errorstring = "Coroutine_DownLoadTextureFile : webrequest_async == null";
 						yield break;
 					}
 				}else{
-					this.result.errorstring = "webrequest == null";
+					this.result.errorstring = "Coroutine_DownLoadTextureFile : webrequest == null";
 					yield break;
 				}
 
@@ -64,7 +64,7 @@ namespace NFile
 					//エラーチェック。
 					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
 						//エラー終了。
-						this.result.errorstring = t_webrequest.error;
+						this.result.errorstring = "Coroutine_DownLoadTextureFile : " + t_webrequest.error;
 						yield break;
 					}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
 						//正常終了。
@@ -90,7 +90,7 @@ namespace NFile
 				try{
 					t_result = UnityEngine.Networking.DownloadHandlerTexture.GetContent(t_webrequest);
 				}catch(System.Exception t_exception){
-					this.result.errorstring = t_exception.Message;
+					this.result.errorstring = "Coroutine_DownLoadTextureFile : " + t_exception.Message;
 					yield break;
 				}
 
@@ -101,7 +101,7 @@ namespace NFile
 				}
 
 				//失敗。
-				this.result.errorstring = "null";
+				this.result.errorstring = "Coroutine_DownLoadTextureFile : null";
 				yield break;
 			}
 		}

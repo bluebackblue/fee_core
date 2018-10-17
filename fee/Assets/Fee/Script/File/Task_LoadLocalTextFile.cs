@@ -61,7 +61,7 @@ namespace NFile
 				}	
 			}catch(System.Exception t_exception){
 				t_ret.text = null;
-				t_ret.errorstring = t_exception.Message;
+				t_ret.errorstring = "Task_LoadLocalTextFile : " + t_exception.Message;
 			}
 
 			//閉じる。
@@ -71,14 +71,14 @@ namespace NFile
 
 			if(a_cancel.IsCancellationRequested == true){
 				t_ret.text = null;
-				t_ret.errorstring = "Cancel";
+				t_ret.errorstring = "Task_LoadLocalTextFile : Cancel";
 
 				a_cancel.ThrowIfCancellationRequested();
 			}
 
 			if(t_ret.text == null){
 				if(t_ret.errorstring == null){
-					t_ret.errorstring = "null";
+					t_ret.errorstring = "Task_LoadLocalTextFile : null";
 				}
 			}
 
