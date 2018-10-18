@@ -35,9 +35,12 @@ public class test03 : main_base
 	*/
 	private NRender2D.Sprite2D bg;
 
-	/** window
+	/** bone
 	*/
-	private NRender2D.Sprite2D window;
+	private HumanBodyBones[] bone_index;
+	private NRender2D.Sprite2D[] bone_sprite;
+	private NRender2D.Text2D[] bone_name;
+	private NEventPlate.Item[] bone_eventplate;
 
 	/** ステータス。
 	*/
@@ -128,13 +131,84 @@ public class test03 : main_base
 			this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority_ui);
 			this.status.SetRect(100,100,0,0);
 
-			//window
-			this.window = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority_ui);
-			this.window.SetTexture(Texture2D.whiteTexture);
-			this.window.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-			this.window.SetRect(300,300,200,200);
-			this.window.SetColor(1.0f,0.1f,0.1f,0.5f);
-			this.window.SetMaterialType(NRender2D.Config.MaterialType.Alpha);
+			//bone
+			{
+				this.bone_index = new HumanBodyBones[]{
+					HumanBodyBones.Hips,
+					HumanBodyBones.LeftUpperLeg,
+					HumanBodyBones.RightUpperLeg,
+					HumanBodyBones.LeftLowerLeg,
+					HumanBodyBones.RightLowerLeg,
+					HumanBodyBones.LeftFoot,
+					HumanBodyBones.RightFoot,
+					HumanBodyBones.Spine,
+					HumanBodyBones.Chest,
+					HumanBodyBones.Neck,
+					HumanBodyBones.Head,
+					HumanBodyBones.LeftShoulder,
+					HumanBodyBones.RightShoulder,
+					HumanBodyBones.LeftUpperArm,
+					HumanBodyBones.RightUpperArm,
+					HumanBodyBones.LeftLowerArm,
+					HumanBodyBones.RightLowerArm,
+					HumanBodyBones.LeftHand,
+					HumanBodyBones.RightHand,
+					HumanBodyBones.LeftToes,
+					HumanBodyBones.RightToes,
+					HumanBodyBones.LeftEye,
+					HumanBodyBones.RightEye,
+					HumanBodyBones.Jaw,
+					HumanBodyBones.LeftThumbProximal,
+					HumanBodyBones.LeftThumbIntermediate,
+					HumanBodyBones.LeftThumbDistal,
+					HumanBodyBones.LeftIndexProximal,
+					HumanBodyBones.LeftIndexIntermediate,
+					HumanBodyBones.LeftIndexDistal,
+					HumanBodyBones.LeftMiddleProximal,
+					HumanBodyBones.LeftMiddleIntermediate,
+					HumanBodyBones.LeftMiddleDistal,
+					HumanBodyBones.LeftRingProximal,
+					HumanBodyBones.LeftRingIntermediate,
+					HumanBodyBones.LeftRingDistal,
+					HumanBodyBones.LeftLittleProximal,
+					HumanBodyBones.LeftLittleIntermediate,
+					HumanBodyBones.LeftLittleDistal,
+					HumanBodyBones.RightThumbProximal,
+					HumanBodyBones.RightThumbIntermediate,
+					HumanBodyBones.RightThumbDistal,
+					HumanBodyBones.RightIndexProximal,
+					HumanBodyBones.RightIndexIntermediate,
+					HumanBodyBones.RightIndexDistal,
+					HumanBodyBones.RightMiddleProximal,
+					HumanBodyBones.RightMiddleIntermediate,
+					HumanBodyBones.RightMiddleDistal,
+					HumanBodyBones.RightRingProximal,
+					HumanBodyBones.RightRingIntermediate,
+					HumanBodyBones.RightRingDistal,
+					HumanBodyBones.RightLittleProximal,
+					HumanBodyBones.RightLittleIntermediate,
+					HumanBodyBones.RightLittleDistal,
+					HumanBodyBones.UpperChest,
+				};
+				this.bone_sprite = new NRender2D.Sprite2D[this.bone_index.Length];
+				this.bone_name = new NRender2D.Text2D[this.bone_index.Length];
+				this.bone_eventplate = new NEventPlate.Item[this.bone_index.Length];
+
+				for(int ii=0;ii<this.bone_index.Length;ii++){
+					this.bone_sprite[ii] = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority_ui);
+					this.bone_sprite[ii].SetTexture(Resources.Load<Texture2D>("maru"));
+					this.bone_sprite[ii].SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+					this.bone_sprite[ii].SetRect(300,300,50,50);
+					this.bone_sprite[ii].SetMaterialType(NRender2D.Config.MaterialType.Alpha);
+
+					this.bone_name[ii] = new NRender2D.Text2D(this.deleter,null,t_drawpriority_ui);
+					this.bone_name[ii].SetText(this.bone_index[ii].ToString());
+					this.bone_name[ii].SetRect(0,0,0,0);
+
+					this.bone_eventplate[ii] = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,t_drawpriority_ui);
+					this.bone_eventplate[ii].SetEnable(false);
+				}
+			}
 		}
 
 		//bg
@@ -297,23 +371,41 @@ public class test03 : main_base
 			t_camera_transform.LookAt(new Vector3(0.0f,1.0f,0.0f));
 		}
 
-		//右手。
-		Vector3 t_position_hand = Vector3.zero;
-		GameObject t_gameobject_hand = GameObject.Find("J_Bip_R_Hand");
-		if(t_gameobject_hand != null){
-			Transform t_transcorm_hand = t_gameobject_hand.GetComponent<Transform>();
-			if(t_transcorm_hand != null){
-				t_position_hand = t_transcorm_hand.position;
-			}
-		}
+		int t_none_index = 0;
 
-		//スクリーン座標計算。
-		if(this.mycamera_camera != null){
-			int t_x;
-			int t_y;
-			NRender2D.Render2D.GetInstance().WorldToVirtualScreen(this.mycamera_camera,ref t_position_hand,out t_x,out t_y);
-			this.window.SetX(t_x - this.window.GetW()/2);
-			this.window.SetY(t_y - this.window.GetH()/2);
+		for(int ii=0;ii<this.bone_sprite.Length;ii++){
+
+			Transform t_transcorm_hand = null;
+			if(this.vrm_item != null){
+				if(this.mycamera_camera != null){
+					t_transcorm_hand = this.vrm_item.GetBoneTransform(this.bone_index[ii]);
+				}
+			}
+
+			if(t_transcorm_hand != null){
+				//位置。
+				Vector3 t_position = t_transcorm_hand.position;
+
+				//スクリーン座標計算。
+				{
+					int t_x;
+					int t_y;
+					NRender2D.Render2D.GetInstance().WorldToVirtualScreen(this.mycamera_camera,ref t_position,out t_x,out t_y);
+					this.bone_sprite[ii].SetVisible(true);
+					this.bone_sprite[ii].SetX(t_x - this.bone_sprite[ii].GetW()/2);
+					this.bone_sprite[ii].SetY(t_y - this.bone_sprite[ii].GetH()/2);
+
+					this.bone_name[ii].SetVisible(true);
+					this.bone_name[ii].SetRect(t_x,t_y,0,0);
+				}
+			}else{
+				this.bone_sprite[ii].SetVisible(false);
+				this.bone_eventplate[ii].SetEnable(false);
+
+				this.bone_name[ii].SetVisible(true);
+				this.bone_name[ii].SetRect(10,100 + t_none_index * 20,0,0);
+				t_none_index++;
+			}
 		}
 	}
 

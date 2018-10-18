@@ -122,9 +122,9 @@ namespace NUniVrm
 			GameObject.Destroy(this.root_gameobject);
 		}
 
-		/** Vrm。取得。
+		/** MonoVrm。取得。
 		*/
-		public MonoBehaviour_Vrm GetVrm()
+		public MonoBehaviour_Vrm GetMonoVrm()
 		{
 			return this.vrm_script;
 		}

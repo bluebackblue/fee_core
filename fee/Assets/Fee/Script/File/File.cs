@@ -168,23 +168,23 @@ namespace NFile
 			GameObject.Destroy(this.root_gameobject);
 		}
 
-		/** ＩＯ。取得。
+		/** MonoIo。取得。
 		*/
-		public MonoBehaviour_Io GetIo()
+		public MonoBehaviour_Io GetMonoIo()
 		{
 			return this.io_script;
 		}
 
-		/** ウェブリクエスト。取得。
+		/** MonoWebRequest。取得。
 		*/
-		public MonoBehaviour_WebRequest GetWebRequest()
+		public MonoBehaviour_WebRequest GetMonoWebRequest()
 		{
 			return this.webrequest_script;
 		}
 
-		/** サウンドプール。取得。
+		/** MonoSoundPool。取得。
 		*/
-		public MonoBehaviour_SoundPool GetSoundPool()
+		public MonoBehaviour_SoundPool GetMonoSoundPool()
 		{
 			return this.soundpool_script;
 		}

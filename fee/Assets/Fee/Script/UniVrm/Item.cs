@@ -20,49 +20,6 @@ using System.Linq;
 */
 namespace NUniVrm
 {
-    public static class UnityExtensions
-    {
-        public static Quaternion ReverseX(this Quaternion quaternion)
-        {
-            float angle;
-            Vector3 axis;
-            quaternion.ToAngleAxis(out angle, out axis);
-
-            return Quaternion.AngleAxis(-angle, new Vector3(-axis.x, axis.y, axis.z));
-        }
-
-        public static IEnumerable<Transform> GetChildren(this Transform parent)
-        {
-            foreach (Transform child in parent)
-            {
-                yield return child;
-            }
-        }
-
-        public static IEnumerable<Transform> Traverse(this Transform parent)
-        {
-            yield return parent;
-
-            foreach (Transform child in parent)
-            {
-                foreach (Transform descendant in Traverse(child))
-                {
-                    yield return descendant;
-                }
-            }
-        }
-
-        public static SkeletonBone ToSkeletonBone(this Transform t)
-        {
-            var sb = new SkeletonBone();
-            sb.name = t.name;
-            sb.position = t.localPosition;
-            sb.rotation = t.localRotation;
-            sb.scale = t.localScale;
-            return sb;
-        }
-	}
-
 	/** Item
 	*/
 	public class Item
@@ -270,11 +227,6 @@ namespace NUniVrm
 			#endif
 		}
 
-		public static Transform[] To(Transform a_transform)
-		{
-			return a_transform.Traverse().ToArray();
-		}
-
 		/** アニメータコントローラ。設定。
 		*/
 		public void SetAnimatorController(RuntimeAnimatorController a_animator_Controller)
@@ -288,16 +240,30 @@ namespace NUniVrm
 		*/
 		public void SetAnime(string a_state_name)
 		{
-			this.result_animator.Play(a_state_name);
+			if(this.result_animator != null){
+				this.result_animator.Play(a_state_name);
+			}
 		}
 
 		/** アニメ。設定。
 		*/
 		public void SetAnime(int a_state_name_hash)
 		{
-			this.result_animator.Play(a_state_name_hash);
+			if(this.result_animator != null){
+				this.result_animator.Play(a_state_name_hash);
+			}
 		}
 
+		/** GetBoneTransform
+		*/
+		public Transform GetBoneTransform(UnityEngine.HumanBodyBones a_bone)
+		{
+			if(this.result_animator != null){
+				return this.result_animator.GetBoneTransform(a_bone);
+			}
+
+			return null;
+		}
 	}
 }
 
