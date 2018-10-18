@@ -403,7 +403,7 @@ public class test03 : main_base
 				this.bone_eventplate[ii].SetEnable(false);
 
 				this.bone_name[ii].SetVisible(true);
-				this.bone_name[ii].SetRect(10,100 + t_none_index * 20,0,0);
+				this.bone_name[ii].SetRect(NRender2D.Render2D.VIRTUAL_W - 150,100 + t_none_index * 20,0,0);
 				t_none_index++;
 			}
 		}
