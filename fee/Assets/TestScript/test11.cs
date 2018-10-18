@@ -134,9 +134,7 @@ public class test11 : main_base
 		//ファイル。インスタンス作成。
 		NFile.Config.LOG_ENABLE = true;
 		NFile.Config.SOUNDPOOL_CHECK_DATAVERSION = false;
-		NFile.Config.SOUNDPOOL_CHECL_DATAHASH = false;
 		NFile.File.CreateInstance();
-
 
 		//オーディオ。インスタンス作成。
 		NAudio.Config.LOG_ENABLE = true;

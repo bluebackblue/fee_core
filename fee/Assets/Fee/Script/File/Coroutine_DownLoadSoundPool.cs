@@ -42,7 +42,14 @@ namespace NFile
 
 		/** callback
 		*/
-		public OnCoroutine_CallBack callback;
+		private OnCoroutine_CallBack callback;
+
+		/** step
+		*/
+		private int step;
+		private int step_max;
+		private int substep;
+		private int substep_max;
 
 		/** ＵＲＬをファイル名とパスに分ける。
 		*/
@@ -64,45 +71,6 @@ namespace NFile
 			return false;
 		}
 
-		/** サウンドプールチェック。
-		*/
-		public static bool CheckSoundPool(NAudio.Pack_SoundPool a_soundpool,out string a_errorstring)
-		{
-			//name_listチェック。
-			if(a_soundpool != null){
-				if(a_soundpool.name_list != null){
-					for(int ii=0;ii<a_soundpool.name_list.Count;ii++){
-						if(a_soundpool.name_list[ii] != null){
-							if(a_soundpool.name_list[ii].Length > 0){
-								if(System.Text.RegularExpressions.Regex.IsMatch(a_soundpool.name_list[ii],"[0-9a-zA-Z][0-9a-zA-Z\\.\\-_]*") == true){
-									Tool.Log("Coroutine_DownLoadSoundPool",ii.ToString() + " = " + a_soundpool.name_list[ii]);
-								}else{
-									a_errorstring = "[" + ii.ToString() + "]Regex.IsMatch == false";
-									return false;
-								}
-							}else{
-								a_errorstring = "name_list[" + ii.ToString() + "].Length <= 0";
-								return false;
-							}
-						}else{
-							a_errorstring = "name_list[" + ii.ToString() + "] == null";
-							return false;
-						}
-					}
-				}else{
-					a_errorstring = "name_list == null";
-					return false;
-				}
-			}else{
-				//null。
-				a_errorstring = "soundpool == null";
-				return false;
-			}
-
-			a_errorstring = null;
-			return true;
-		}
-
 		/** [NFile.OnCoroutine_CallBack]コルーチン実行中。
 
 		戻り値 == false : キャンセル。
@@ -110,8 +78,17 @@ namespace NFile
 		*/
 		public bool OnCoroutine(float a_progress)
 		{
+			float t_progress = 0.0f;
+	
+			t_progress += (float)this.step / this.step_max;
+			t_progress += ((float)this.substep + a_progress) / (this.step_max * this.substep_max);
+
+			if(t_progress > 1.0f){
+				t_progress = 1.0f;
+			}
+
 			if(this.callback != null){
-				return this.callback.OnCoroutine(a_progress);
+				return this.callback.OnCoroutine(t_progress);
 			}
 			return true;
 		}
@@ -126,10 +103,16 @@ namespace NFile
 			//callback
 			this.callback = a_instance;
 
+			//step
+			this.step = 0;
+			this.step_max = 4;
+			this.substep = 0;
+			this.substep_max = 1;
+
 			//ファイル名。
 			string t_filename = null;
 			string t_url_path = null;
-			if(ParseUrl(a_url,ref t_filename,ref t_url_path) == false){
+			if(Coroutine_DownLoadSoundPool.ParseUrl(a_url,ref t_filename,ref t_url_path) == false){
 				//失敗。
 				this.result.errorstring = "ParseUrl";
 				yield break;
@@ -150,7 +133,7 @@ namespace NFile
 
 			//ローカルサウンドプール。チェック。
 			if(Config.SOUNDPOOL_CHECK_DATAVERSION == true){
-				if(t_local_soundpool!= null){
+				if(t_local_soundpool != null){
 					if(t_local_soundpool.data_version == a_data_version){
 						//ローカルサウンドプールとデータバージョンが一致。
 
@@ -165,6 +148,10 @@ namespace NFile
 				}
 			}
 
+			this.step = 1;
+			this.substep = 0;
+			this.substep_max = 1;
+
 			//ダウンロードサウンドプール。
 			NAudio.Pack_SoundPool t_download_soundpool = null;
 			{
@@ -175,9 +162,7 @@ namespace NFile
 					t_download_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_coroutine.result.text));
 
 					string t_errorstring;
-					bool t_check = CheckSoundPool(t_download_soundpool,out t_errorstring);
-
-					if(t_check == false){
+					if(NAudio.Pack_SoundPool.CheckSoundPool(t_download_soundpool,out t_errorstring) == false){
 						t_download_soundpool = null;
 						this.result.errorstring = t_errorstring;
 						yield break;
@@ -193,21 +178,18 @@ namespace NFile
 				}
 			}
 
-			//ダウンロードサウンドプール。チェック。
-			bool t_download_listitem = true;
-			if(Config.SOUNDPOOL_CHECL_DATAHASH == true){
-				if(t_local_soundpool != null){
-					if(t_download_soundpool.data_hash == t_local_soundpool.data_hash){
-						//ローカルサウンドプールとデータハッシュが一致。
-						t_download_listitem = false;
-					}
-				}
-			}
+			this.step = 2;
+			this.substep = 0;
+			this.substep_max = 1;
 
-			if(t_download_listitem == true){
+			{
+				this.substep_max = t_download_soundpool.name_list.Count * 2;
+
 				for(int ii=0;ii<t_download_soundpool.name_list.Count;ii++){
 
 					byte[] t_binary = null;
+
+					this.substep = ii * 2 + 0;
 
 					//ダウンロード。
 					{
@@ -221,6 +203,8 @@ namespace NFile
 							yield break;
 						}
 					}
+
+					this.substep = ii * 2 + 1;
 
 					//セーブ。
 					{
@@ -236,6 +220,10 @@ namespace NFile
 					}
 				}
 			}
+
+			this.step = 3;
+			this.substep = 0;
+			this.substep_max = 1;
 
 			//セーブローカルサウンドプール。
 			{

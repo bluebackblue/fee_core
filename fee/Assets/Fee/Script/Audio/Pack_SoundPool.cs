@@ -81,7 +81,6 @@ namespace NAudio
 					return false;
 				}
 			}else{
-				//null。
 				a_errorstring = "CheckSoundPool : soundpool == null";
 				return false;
 			}

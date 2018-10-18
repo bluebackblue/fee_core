@@ -39,10 +39,6 @@ namespace NFile
 		/** サウンドプールダウンロード前にデータバージョンのチェックを行う。
 		*/
 		public static bool SOUNDPOOL_CHECK_DATAVERSION = true;
-
-		/** サウンドプールリストアイテムダウンロード前にデータハッシュのチェックを行う。
-		*/
-		public static bool SOUNDPOOL_CHECL_DATAHASH = true;
 	}
 }
 
