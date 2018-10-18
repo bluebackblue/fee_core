@@ -128,31 +128,31 @@ namespace NRender2D
 				if(((float)Config.VIRTUAL_W / Config.VIRTUAL_H) < ((float)this.gui_size.w / this.gui_size.h)){
 					//左右に余白。
 
-					this.calc_sprite_w = (Config.VIRTUAL_H * this.gui_size.w) / this.gui_size.h;
+					this.calc_sprite_w = ((float)Config.VIRTUAL_H * (float)this.gui_size.w) / (float)this.gui_size.h;
 					this.calc_sprite_h = Config.VIRTUAL_H;
 
-					this.calc_sprite_x = (this.gui_size.w - ((float)this.gui_size.h * Config.VIRTUAL_W) / Config.VIRTUAL_H) / (2 * this.gui_size.w);
+					this.calc_sprite_x = ((float)this.gui_size.w - ((float)this.gui_size.h * (float)Config.VIRTUAL_W) / (float)Config.VIRTUAL_H) / (2 * (float)this.gui_size.w);
 					this.calc_sprite_y = 0.0f;
 
-					this.calc_ui_scale = (float)this.gui_size.h / Config.VIRTUAL_H;
+					this.calc_ui_scale = (float)this.gui_size.h / (float)Config.VIRTUAL_H;
 
-					this.calc_ui_x = (this.calc_sprite_x - 0.5f) * this.gui_size.w;
-					this.calc_ui_y = (0.5f - this.calc_sprite_y) * this.gui_size.h;
+					this.calc_ui_x = (this.calc_sprite_x - 0.5f) * (float)this.gui_size.w;
+					this.calc_ui_y = (0.5f - this.calc_sprite_y) * (float)this.gui_size.h;
 
 					this.calc_ui_recalcflag = true;
 				}else{
 					//上下に余白。
 
 					this.calc_sprite_w = Config.VIRTUAL_W;
-					this.calc_sprite_h = (Config.VIRTUAL_W * this.gui_size.h) / this.gui_size.w;
+					this.calc_sprite_h = ((float)Config.VIRTUAL_W * (float)this.gui_size.h) / (float)this.gui_size.w;
 
 					this.calc_sprite_x = 0.0f;
-					this.calc_sprite_y = (this.gui_size.h - ((float)this.gui_size.w * Config.VIRTUAL_H) / Config.VIRTUAL_W) / (2 * this.gui_size.h);
+					this.calc_sprite_y = ((float)this.gui_size.h - ((float)this.gui_size.w * (float)Config.VIRTUAL_H) / (float)Config.VIRTUAL_W) / (2 * (float)this.gui_size.h);
 
-					this.calc_ui_scale = (float)this.gui_size.w / Config.VIRTUAL_W;
+					this.calc_ui_scale = (float)this.gui_size.w / (float)Config.VIRTUAL_W;
 
-					this.calc_ui_x = (this.calc_sprite_x - 0.5f) * this.gui_size.w;
-					this.calc_ui_y = (0.5f - this.calc_sprite_y) * this.gui_size.h;
+					this.calc_ui_x = (this.calc_sprite_x - 0.5f) * (float)this.gui_size.w;
+					this.calc_ui_y = (0.5f - this.calc_sprite_y) * (float)this.gui_size.h;
 
 					this.calc_ui_recalcflag = true;
 				}

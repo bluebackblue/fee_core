@@ -42,6 +42,10 @@ public class test05 : main_base
 	private NRender2D.Text2D text_pad_1;
 	private NRender2D.Text2D text_pad_2;
 
+	/** mouse_sprite
+	*/
+	private NRender2D.Sprite2D mouse_sprite;
+
 	/** タッチビューＩＤ。
 	*/
 	private int touchview_id;
@@ -130,8 +134,8 @@ public class test05 : main_base
 		NTaskW.TaskW.CreateInstance();
 
 		//パフォーマンスカウンター。インスタンス作成。
-		NPerformanceCounter.Config.LOG_ENABLE = true;
-		NPerformanceCounter.PerformanceCounter.CreateInstance();
+		//NPerformanceCounter.Config.LOG_ENABLE = true;
+		//NPerformanceCounter.PerformanceCounter.CreateInstance();
 
 		//２Ｄ描画。
 		NRender2D.Render2D.CreateInstance();
@@ -171,7 +175,7 @@ public class test05 : main_base
 		this.sprite_bg.SetTexture(Texture2D.whiteTexture);
 		this.sprite_bg.SetRect(ref NRender2D.Render2D.VIRTUAL_RECT_MAX);
 		this.sprite_bg.SetMaterialType(NRender2D.Config.MaterialType.Alpha);
-		this.sprite_bg.SetColor(0.0f,0.0f,0.0f,0.5f);
+		this.sprite_bg.SetColor(0.0f,0.0f,0.0f,1.0f);
 
 		//テキスト。
 		this.text_mouse = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
@@ -192,6 +196,13 @@ public class test05 : main_base
 		this.text_pad_2 = new NRender2D.Text2D(this.deleter,null,t_drawpriority);
 		this.text_pad_2.SetRect(10,100 + 50 * 3,0,0);
 		this.text_pad_2.SetFontSize(20);
+
+		//スプライト。
+		this.mouse_sprite = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority + 1);
+		this.mouse_sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+		this.mouse_sprite.SetTexture(Texture2D.whiteTexture);
+		this.mouse_sprite.SetRect(0,0,10,10);
+		this.mouse_sprite.SetColor(1.0f,1.0f,1.0f,1.0f);
 
 		//touch_list
 		this.touch_list = NInput.Touch.CreateTouchList<TouchView>();
@@ -265,6 +276,8 @@ public class test05 : main_base
 			t_text += "m = " + NInput.Mouse.GetInstance().mouse_wheel.y.ToString() + " ";
 
 			this.text_mouse.SetText(t_text);
+
+			this.mouse_sprite.SetXY(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
 		}
 
 		//キー。

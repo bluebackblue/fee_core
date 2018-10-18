@@ -40,7 +40,13 @@ namespace NInput
 
 		/** インプットシステム。ポインター。
 		*/
+		#if(UNITY_EDITOR)
 		public static bool USE_INPUTSYSTEM_POINTER = true;
+		#elif(UNITY_ANDROID)
+		public static bool USE_INPUTSYSTEM_POINTER = true;
+		#else
+		public static bool USE_INPUTSYSTEM_POINTER = true;
+		#endif
 
 		/** インプットシステム。ゲームパッド。
 		*/
@@ -54,19 +60,35 @@ namespace NInput
 
 		/** インプットシステム。タッチスクリーン。
 		*/
+		#if(UNITY_EDITOR)
 		public static bool USE_INPUTSYSTEM_TOUCHSCREEN = true;
+		#else
+		public static bool USE_INPUTSYSTEM_TOUCHSCREEN = true;
+		#endif
 
 		/** インプットシステム。キー。
 		*/
+		#if(UNITY_EDITOR)
 		public static bool USE_INPUTSYSTEM_KEY = true;
+		#else
+		public static bool USE_INPUTSYSTEM_KEY = true;
+		#endif
 
 		/** インプットマネージャ。マウス。
 		*/
+		#if(UNITY_EDITOR)
 		public static bool USE_INPUTMANAGER_MOUSE = true;
+		#else
+		public static bool USE_INPUTMANAGER_MOUSE = true;
+		#endif
 
 		/** インプットマネージャ。ゲームパッド。
 		*/
+		#if(UNITY_EDITOR)
 		public static bool USE_INPUTMANAGER_GAMEPAD = true;
+		#else
+		public static bool USE_INPUTMANAGER_GAMEPAD = true;
+		#endif
 
 		/** インプットマネージャ。タッチ。
 		*/
@@ -78,7 +100,11 @@ namespace NInput
 
 		/** インプットマネージャ。キー。
 		*/
+		#if(UNITY_EDITOR)
 		public static bool USE_INPUTMANAGER_KEY = true;
+		#else
+		public static bool USE_INPUTMANAGER_KEY = true;
+		#endif
 
 		/** ドラッグ判定閾値。4方向。
 		*/

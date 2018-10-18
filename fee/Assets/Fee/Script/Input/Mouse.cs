@@ -128,7 +128,11 @@ namespace NInput
 			if(t_pointer_current != null){
 				//デバイス。
 				int t_pointer_x = (int)t_pointer_current.position.x.ReadValue();
-				int t_pointer_y = (int)t_pointer_current.position.y.ReadValue();
+				#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
+				int t_pointer_y = (int)(Screen.height - t_pointer_current.position.y.ReadValue());
+				#else
+				int t_pointer_y = (int)(t_pointer_current.position.y.ReadValue());
+				#endif
 
 				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 				int t_x;
@@ -152,7 +156,11 @@ namespace NInput
 			if(t_mouse_current != null){
 				//デバイス。
 				int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
+				#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
 				int t_mouse_y = (int)(Screen.height - t_mouse_current.position.y.ReadValue());
+				#else
+				int t_mouse_y = (int)(t_mouse_current.position.y.ReadValue());
+				#endif
 
 				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 				int t_x;

@@ -17,7 +17,7 @@ using UnityEngine;
 	ＵＮＩＶＲＭ。
 
 */
-public class test03 : main_base
+public class test03 : main_base , NEventPlate.OnOverCallBack_Base
 {
 	/** 削除管理。
 	*/
@@ -71,7 +71,14 @@ public class test03 : main_base
 		LayerIndex_Bg = 0,
 		LayerIndex_Model = 0,
 		LayerIndex_Ui = 1,
-	}
+	};
+
+	/** drawpriority
+	*/
+	long drawpriority_bg;
+	long drawpriority_mode;
+	long drawpriority_ui;
+	long drawpriority_ui2;
 
 	/** Start
 	*/
@@ -89,6 +96,9 @@ public class test03 : main_base
 
 		//マウス。インスタンス作成。
 		NInput.Mouse.CreateInstance();
+
+		//キー。インスタンス作成。
+		NInput.Key.CreateInstance();
 
 		//イベントプレート。インスタンス作成。
 		NEventPlate.EventPlate.CreateInstance();
@@ -108,27 +118,27 @@ public class test03 : main_base
 		//戻るボタン作成。
 		this.CreateReturnButton(this.deleter,(NRender2D.Render2D.MAX_LAYER - 1) * NRender2D.Render2D.DRAWPRIORITY_STEP);
 
+		//drawpriority
+		this.drawpriority_bg = (int)LayerIndex.LayerIndex_Bg * NRender2D.Render2D.DRAWPRIORITY_STEP;
+		this.drawpriority_mode = (int)LayerIndex.LayerIndex_Model * NRender2D.Render2D.DRAWPRIORITY_STEP;
+		this.drawpriority_ui = (int)LayerIndex.LayerIndex_Ui * NRender2D.Render2D.DRAWPRIORITY_STEP;
+		this.drawpriority_ui2 = ((int)LayerIndex.LayerIndex_Ui + 1) * NRender2D.Render2D.DRAWPRIORITY_STEP;
+
 		{
-			//layerindex
-			int t_layerindex_ui = (int)LayerIndex.LayerIndex_Ui;
-
-			//drawpriority
-			long t_drawpriority_ui = t_layerindex_ui * NRender2D.Render2D.DRAWPRIORITY_STEP;
-
 			//button
-			this.button = new NUi.Button(this.deleter,null,t_drawpriority_ui,this.CallBack_Click,0);
+			this.button = new NUi.Button(this.deleter,null,this.drawpriority_ui,this.CallBack_Click,0);
 			this.button.SetRect(130,10,50,50);
 			this.button.SetTexture(Resources.Load<Texture2D>("button"));
 			this.button.SetText("Load");
 
 			//inputfield
-			this.inputfield = new NRender2D.InputField2D(this.deleter,null,t_drawpriority_ui);
+			this.inputfield = new NRender2D.InputField2D(this.deleter,null,this.drawpriority_ui);
 			this.inputfield.SetRect(130 + 50 + 10,10,700,50);
 			this.inputfield.SetText("http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx");
 			this.inputfield.SetMultiLine(false);
 
 			//ステータス。
-			this.status = new NRender2D.Text2D(this.deleter,null,t_drawpriority_ui);
+			this.status = new NRender2D.Text2D(this.deleter,null,this.drawpriority_ui);
 			this.status.SetRect(100,100,0,0);
 
 			//bone
@@ -195,17 +205,22 @@ public class test03 : main_base
 				this.bone_eventplate = new NEventPlate.Item[this.bone_index.Length];
 
 				for(int ii=0;ii<this.bone_index.Length;ii++){
-					this.bone_sprite[ii] = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority_ui);
+					this.bone_sprite[ii] = new NRender2D.Sprite2D(this.deleter,null,this.drawpriority_ui + ii);
 					this.bone_sprite[ii].SetTexture(Resources.Load<Texture2D>("maru"));
 					this.bone_sprite[ii].SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-					this.bone_sprite[ii].SetRect(300,300,50,50);
+					this.bone_sprite[ii].SetRect(0,0,50,20);
 					this.bone_sprite[ii].SetMaterialType(NRender2D.Config.MaterialType.Alpha);
+					this.bone_sprite[ii].SetVisible(false);
 
-					this.bone_name[ii] = new NRender2D.Text2D(this.deleter,null,t_drawpriority_ui);
+					this.bone_name[ii] = new NRender2D.Text2D(this.deleter,null,this.drawpriority_ui + ii);
 					this.bone_name[ii].SetText(this.bone_index[ii].ToString());
 					this.bone_name[ii].SetRect(0,0,0,0);
+					this.bone_name[ii].SetVisible(false);
 
-					this.bone_eventplate[ii] = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,t_drawpriority_ui);
+					this.bone_eventplate[ii] = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,this.drawpriority_ui + ii);
+					this.bone_eventplate[ii].SetOnOverCallBack(this);
+					this.bone_eventplate[ii].SetOnOverCallBackValue(ii);
+					this.bone_eventplate[ii].SetRect(0,0,50,20);
 					this.bone_eventplate[ii].SetEnable(false);
 				}
 			}
@@ -213,11 +228,7 @@ public class test03 : main_base
 
 		//bg
 		{
-			int t_layerindex_bg = (int)LayerIndex.LayerIndex_Bg;
-
-			long t_drawpriority_bg = t_layerindex_bg * NRender2D.Render2D.DRAWPRIORITY_STEP;
-
-			this.bg = new NRender2D.Sprite2D(this.deleter,null,t_drawpriority_bg);
+			this.bg = new NRender2D.Sprite2D(this.deleter,null,this.drawpriority_bg);
 			this.bg.SetTexture(Texture2D.whiteTexture);
 			this.bg.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
 			this.bg.SetRect(ref NRender2D.Render2D.VIRTUAL_RECT_MAX);
@@ -267,12 +278,31 @@ public class test03 : main_base
 		}
 	}
 
+	/** [NEventPlate.OnOverCallBack_Base]イベントプレートに入場。
+	*/
+	public void OnOverEnter(int a_value)
+	{
+		this.bone_name[a_value].SetDrawPriority(this.drawpriority_ui2);
+		this.bone_name[a_value].SetColor(1.0f,0.0f,0.0f,1.0f);
+	}
+
+	/** [NEventPlate.OnOverCallBack_Base]イベントプレートから退場。
+	*/
+	public void OnOverLeave(int a_value)
+	{
+		this.bone_name[a_value].SetDrawPriority(this.drawpriority_ui + a_value);
+		this.bone_name[a_value].SetColor(1.0f,1.0f,1.0f,1.0f);
+	}
+
 	/** FixedUpdate
 	*/
 	private void FixedUpdate()
 	{
 		//マウス。
 		NInput.Mouse.GetInstance().Main(NRender2D.Render2D.GetInstance());
+
+		//キー。
+		NInput.Key.GetInstance().Main();
 
 		//イベントプレート。
 		NEventPlate.EventPlate.GetInstance().Main(NInput.Mouse.GetInstance().pos.x,NInput.Mouse.GetInstance().pos.y);
@@ -360,15 +390,29 @@ public class test03 : main_base
 					this.vrm_item.SetAnime(Animator.StringToHash("Base Layer.standing_walk_forward_inPlace"));
 				}
 			}
+		}else if(NInput.Key.GetInstance().enter.down == true){
+			if(this.vrm_item != null){
+				if(this.vrm_item.IsBusy() == false){
+					if(this.vrm_item.IsAnimeEnable() == true){
+						this.vrm_item.SetAnimeEnable(false);
+					}else{
+						this.vrm_item.SetAnimeEnable(true);
+					}
+				}
+			}
 		}
 
 		//カメラを回す。
-		if(this.mycamera_gameobject != null){
-			float t_time = Time.realtimeSinceStartup / 3;
-			Vector3 t_position = new Vector3(Mathf.Sin(t_time) * 2.0f,1.0f,Mathf.Cos(t_time) * 2.0f);
-			Transform t_camera_transform = this.mycamera_gameobject.GetComponent<Transform>();
-			t_camera_transform.position = t_position;
-			t_camera_transform.LookAt(new Vector3(0.0f,1.0f,0.0f));
+		if(this.vrm_item != null){
+			if(this.vrm_item.IsAnimeEnable() == true){
+				if(this.mycamera_gameobject != null){
+					float t_time = Time.realtimeSinceStartup / 3;
+					Vector3 t_position = new Vector3(Mathf.Sin(t_time) * 2.0f,1.0f,Mathf.Cos(t_time) * 2.0f);
+					Transform t_camera_transform = this.mycamera_gameobject.GetComponent<Transform>();
+					t_camera_transform.position = t_position;
+					t_camera_transform.LookAt(new Vector3(0.0f,1.0f,0.0f));
+				}
+			}
 		}
 
 		int t_none_index = 0;
@@ -397,6 +441,10 @@ public class test03 : main_base
 
 					this.bone_name[ii].SetVisible(true);
 					this.bone_name[ii].SetRect(t_x,t_y,0,0);
+
+					this.bone_eventplate[ii].SetEnable(true);
+					this.bone_eventplate[ii].SetX(t_x - this.bone_eventplate[ii].GetW()/2);
+					this.bone_eventplate[ii].SetY(t_y - this.bone_eventplate[ii].GetH()/2);
 				}
 			}else{
 				this.bone_sprite[ii].SetVisible(false);
@@ -407,7 +455,7 @@ public class test03 : main_base
 				t_none_index++;
 			}
 		}
-	}
+	} 
 
 	/** 削除前。
 	*/

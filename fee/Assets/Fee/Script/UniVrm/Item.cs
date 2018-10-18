@@ -238,10 +238,20 @@ namespace NUniVrm
 
 		/** アニメ。設定。
 		*/
-		public void SetAnime(string a_state_name)
+		public bool IsAnimeEnable()
 		{
 			if(this.result_animator != null){
-				this.result_animator.Play(a_state_name);
+				return this.result_animator.enabled;
+			}
+			return false;
+		}
+
+		/** アニメ。設定。
+		*/
+		public void SetAnimeEnable(bool a_flag)
+		{
+			if(this.result_animator != null){
+				this.result_animator.enabled = a_flag;
 			}
 		}
 
