@@ -128,10 +128,18 @@ namespace NInput
 			if(t_pointer_current != null){
 				//デバイス。
 				int t_pointer_x = (int)t_pointer_current.position.x.ReadValue();
+
 				#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
 				int t_pointer_y = (int)(Screen.height - t_pointer_current.position.y.ReadValue());
 				#else
 				int t_pointer_y = (int)(t_pointer_current.position.y.ReadValue());
+				#endif
+
+				#if(UNITY_EDITOR)
+				{
+					t_pointer_x += Config.MOUSE_EDITOR_OFFSET_X;
+					t_pointer_y += Config.MOUSE_EDITOR_OFFSET_Y;
+				}
 				#endif
 
 				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
@@ -156,10 +164,18 @@ namespace NInput
 			if(t_mouse_current != null){
 				//デバイス。
 				int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
+
 				#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
 				int t_mouse_y = (int)(Screen.height - t_mouse_current.position.y.ReadValue());
 				#else
 				int t_mouse_y = (int)(t_mouse_current.position.y.ReadValue());
+				#endif
+
+				#if(UNITY_EDITOR)
+				{
+					t_mouse_x += Config.MOUSE_EDITOR_OFFSET_X;
+					t_mouse_y += Config.MOUSE_EDITOR_OFFSET_Y;
+				}
 				#endif
 
 				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
@@ -183,6 +199,13 @@ namespace NInput
 			//デバイス。
 			int t_mouse_x = (int)UnityEngine.Input.mousePosition.x;
 			int t_mouse_y = Screen.height - (int)UnityEngine.Input.mousePosition.y;
+
+			#if(UNITY_EDITOR)
+			{
+				t_mouse_x += Config.MOUSE_EDITOR_OFFSET_X;
+				t_mouse_y += Config.MOUSE_EDITOR_OFFSET_Y;
+			}
+			#endif
 
 			//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 			int t_x;

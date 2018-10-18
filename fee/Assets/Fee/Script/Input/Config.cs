@@ -131,6 +131,18 @@ namespace NInput
 		*/
 		public static float ANALOG_BUTTON_VALUE_ON = 0.6f;
 
+		/** マウス。エディター。オフセットＸ。
+		*/
+		#if(UNITY_EDITOR)
+		public static int MOUSE_EDITOR_OFFSET_X = 0;
+		#endif
+
+		/** マウス。エディター。オフセットＹ。
+		*/
+		#if(UNITY_EDITOR)
+		public static int MOUSE_EDITOR_OFFSET_Y = 5;
+		#endif
+
 		/** キー。左。
 		*/
 		public static UnityEngine.Experimental.Input.Key KEY_LEFT = UnityEngine.Experimental.Input.Key.A;
