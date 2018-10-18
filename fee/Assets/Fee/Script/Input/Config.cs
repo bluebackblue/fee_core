@@ -62,6 +62,8 @@ namespace NInput
 		*/
 		#if(UNITY_EDITOR)
 		public static bool USE_INPUTSYSTEM_TOUCHSCREEN = true;
+		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTSYSTEM_TOUCHSCREEN = false;
 		#else
 		public static bool USE_INPUTSYSTEM_TOUCHSCREEN = true;
 		#endif
@@ -93,6 +95,8 @@ namespace NInput
 		/** インプットマネージャ。タッチ。
 		*/
 		#if(UNITY_EDITOR)
+		public static bool USE_INPUTMANAGER_TOUCH = false;
+		#elif(UNITY_WEBGL)
 		public static bool USE_INPUTMANAGER_TOUCH = false;
 		#else
 		public static bool USE_INPUTMANAGER_TOUCH = true;
