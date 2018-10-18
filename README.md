@@ -41,7 +41,7 @@ https://github.com/bluebackblue/fee/blob/master/fee/Assets/Fee/LICENSE.txt
 http://bbbproject.sakura.ne.jp/www/project_webgl/fee/
 
 ## Unity Version
-2018.3.0b5
+2018.3.0b6
 
 ## 使用ライセンス
 
