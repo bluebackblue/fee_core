@@ -30,6 +30,8 @@ public class test20 : main_base
 		CreateVrm_Start,
 		CreateVrm_Do,
 
+		ToMain,
+
 		Main,
 	};
 
@@ -51,6 +53,10 @@ public class test20 : main_base
 	/** step
 	*/
 	private Step step;
+
+	/** status_text
+	*/
+	private NRender2D.Text2D status_text;
 
 	/** vrm
 	*/
@@ -109,6 +115,11 @@ public class test20 : main_base
 		//step
 		this.step = Step.Init;
 
+		//status_text
+		this.status_text = new NRender2D.Text2D(this.deleter,null,0);
+		this.status_text.SetRect(100,10,0,0);
+		this.status_text.SetText("");
+
 		//vrm
 		this.vrm = null;
 		this.vrm_loaditem = null;
@@ -143,11 +154,14 @@ public class test20 : main_base
 		switch(this.step){
 		case Step.Init:
 			{
+				this.status_text.SetText(this.step.ToString());
+
 				this.step = Step.CreateTerrain;
 			}break;
 		case Step.CreateTerrain:
 			{
 				//テレイン作成。
+				this.status_text.SetText(this.step.ToString());
 
 				GameObject t_prefab = Resources.Load<GameObject>("Terrain/TerrainPrefab");
 				GameObject t_terrain = GameObject.Instantiate<GameObject>(t_prefab);
@@ -156,6 +170,7 @@ public class test20 : main_base
 		case Step.LoadVrm_Start:
 			{
 				//ＶＲＭダウンロード開始。
+				this.status_text.SetText(this.step.ToString());
 
 				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx";
 				this.vrm_loaditem = NFile.File.GetInstance().RequestDownLoadBinaryFile(t_url);
@@ -167,6 +182,7 @@ public class test20 : main_base
 				if(this.vrm_loaditem != null){
 					if(this.vrm_loaditem.IsBusy() == true){
 						//ダウンロード中。
+						this.status_text.SetText(this.step.ToString() + " " + this.vrm_loaditem.GetResultProgress().ToString());
 
 						//キャンセル。
 						if(this.IsChangeScene() == true){
@@ -189,6 +205,7 @@ public class test20 : main_base
 		case Step.CreateVrm_Start:
 			{
 				//ＶＲＭ作成開始。
+				this.status_text.SetText(this.step.ToString());
 
 				byte[] t_binary = null;
 				if(this.vrm_loaditem != null){
@@ -208,6 +225,8 @@ public class test20 : main_base
 				if(this.vrm != null){
 					if(this.vrm.IsBusy() == true){
 						//ＶＲＭ作成中。
+						this.status_text.SetText(this.step.ToString() + " " + this.vrm.GetResultProgress().ToString());
+
 					}else{
 						if(this.vrm.GetResultType() == NUniVrm.Item.ResultType.Context){
 							//ＶＲＭ作成成功。
@@ -232,63 +251,123 @@ public class test20 : main_base
 							this.vrm = null;
 						}
 
-						this.step = Step.Main;
+						this.step = Step.ToMain;
 					}
 				}else{
-					this.step = Step.Main;
+					this.step = Step.ToMain;
 				}
+			}break;
+		case Step.ToMain:
+			{
+				this.status_text.SetText("");
+
+				this.step = Step.Main;
 			}break;
 		case Step.Main:
 			{
 				if(this.vrm != null){
-					Transform t_head = this.vrm.GetBoneTransform(HumanBodyBones.Head);
 
-					Vector3 t_vrm_forward = this.vrm.GetForward();
-
-					//ＶＲＭを見る。
-					this.vrm_camera.transform.LookAt(t_head);
-
-					//カメラの位置（後頭部）
-					Vector3 t_to_camerapos = t_head.position - t_vrm_forward * 2 + Vector3.up;
-
-					//補間。
-					this.vrm_camera.transform.position = Vector3.Lerp(t_to_camerapos,this.vrm_camera.transform.position,0.1f);
+					VrmStatus t_request = VrmStatus.None;
 
 					if(NInput.Key.GetInstance().up.on == true){
 						//前進。
-						
-						//モーション設定。
-						{
-							if(this.vrm_status == VrmStatus.None){
-								this.vrm.SetAnimeEnable(true);
-							}
-							this.vrm_status = VrmStatus.Walk;
-							this.vrm.SetAnime(Animator.StringToHash("Base Layer.standing_walk_forward_inPlace"));
-						}
+						t_request = VrmStatus.Walk;
+
+						//前方向。
+						Vector3 t_vrm_forward = this.vrm.GetForward();
 
 						//移動。
-						Vector3 t_position = this.vrm.GetPosition() + t_vrm_forward * 0.1f;
+						float t_speed_move = 0.02f;
+						Vector3 t_position = this.vrm.GetPosition() + t_vrm_forward * t_speed_move;
 						this.vrm.SetPosition(ref t_position);
-					}else{
-						//停止。
-
-						//モーション設定。
-						{
-							if(this.vrm_status != VrmStatus.None){
-								this.vrm.SetAnimeEnable(false);
-							}
-
-							this.vrm_status = VrmStatus.None;
-						}
 					}
 
 					if(NInput.Key.GetInstance().left.on == true){
 						//左回転。
+						t_request = VrmStatus.Walk;
+
+						//前方向。
+						Vector3 t_vrm_forward = this.vrm.GetForward();
+
+						float t_speed_rotate = 0.3f;
+						Transform t_vrm_transform = this.vrm.GetTransform();
+						t_vrm_transform.rotation = Quaternion.AngleAxis(-t_speed_rotate,Vector3.up) * t_vrm_transform.rotation;
+
+						//移動。
+						float t_speed_move = 0.005f;
+						Vector3 t_position = this.vrm.GetPosition() + t_vrm_forward * t_speed_move;
+						this.vrm.SetPosition(ref t_position);
 					}else if(NInput.Key.GetInstance().right.on == true){
 						//右回転。
+						t_request = VrmStatus.Walk;
+
+						//前方向。
+						Vector3 t_vrm_forward = this.vrm.GetForward();
+
+						float t_speed_rotate = 0.3f;
+						Transform t_vrm_transform = this.vrm.GetTransform();
+						t_vrm_transform.rotation = Quaternion.AngleAxis(t_speed_rotate,Vector3.up) * t_vrm_transform.rotation;
+
+						//移動。
+						float t_speed_move = 0.005f;
+						Vector3 t_position = this.vrm.GetPosition() + t_vrm_forward * t_speed_move;
+						this.vrm.SetPosition(ref t_position);
 					}
+
+					if(this.vrm_status != t_request){
+						if(this.vrm_status == VrmStatus.None){
+							this.vrm.SetAnimeEnable(true);
+						}else if(t_request == VrmStatus.None){
+							this.vrm.SetAnimeEnable(false);
+						}
+
+						switch(t_request){
+						case VrmStatus.Walk:
+							{
+								this.vrm_status = VrmStatus.Walk;
+								this.vrm.SetAnime(Animator.StringToHash("Base Layer.standing_walk_forward_inPlace"));
+							}break;
+						default:
+							{
+								this.vrm_status = t_request;
+							}break;
+						}
+					}
+
+					//カメラ更新。
+					this.UpdateCamera();
 				}
 			}break;
+		}
+	}
+
+	/** カメラ更新。
+	*/
+	public void UpdateCamera()
+	{
+		if(this.vrm != null){
+			//前方向。
+			Vector3 t_vrm_forward = this.vrm.GetForward();
+
+			//位置。
+			Transform t_vrm_transform = this.vrm.GetTransform();
+
+			//カメラ位置。
+			Vector3 t_to_camerapos = t_vrm_transform.position - t_vrm_forward * 3 + Vector3.up * 1.5f;
+
+			//注視点。
+			Vector3 t_to_lookat = t_vrm_transform.position + Vector3.up * 0.5f + t_vrm_forward * 1.1f;
+
+			//注視点補間。
+			{
+				float t_speed = 0.05f;
+				Vector3 t_dir = (t_to_lookat - this.vrm_camera.transform.position).normalized;
+				Quaternion t_quaternion = Quaternion.LookRotation(t_dir,Vector3.up);
+				this.vrm_camera.transform.rotation = Quaternion.Lerp(this.vrm_camera.transform.rotation,t_quaternion,t_speed);
+			}
+
+			//位置補間。
+			this.vrm_camera.transform.position = Vector3.Lerp(t_to_camerapos,this.vrm_camera.transform.position,0.01f);
 		}
 	}
 

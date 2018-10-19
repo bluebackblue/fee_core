@@ -275,6 +275,16 @@ namespace NUniVrm
 			return null;
 		}
 
+		/** GetTransform
+		*/
+		public Transform GetTransform()
+		{
+			if(this.result_context != null){
+				return this.result_context.Root.gameObject.transform;
+			}
+			return null;
+		}
+
 		/** GetForward
 		*/
 		public Vector3 GetForward()
