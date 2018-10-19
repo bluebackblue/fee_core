@@ -20,12 +20,6 @@ public class test14 : main_base
 	*/
 	private NDeleter.Deleter deleter;
 
-	/** checkbutton
-	*/
-	/*
-	private NUi.CheckButton[] checkbutton;
-	*/
-
 	/** Start
 	*/
 	private void Start()
@@ -55,27 +49,6 @@ public class test14 : main_base
 
 		//戻るボタン作成。
 		this.CreateReturnButton(this.deleter,(NRender2D.Render2D.MAX_LAYER - 1) * NRender2D.Render2D.DRAWPRIORITY_STEP);
-
-		//drawpriority
-		/*
-		int t_layerindex = 0;
-		long t_drawpriority = t_layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
-		Texture2D t_texture = Resources.Load<Texture2D>("checkbutton");
-		*/
-
-		/*
-		this.checkbutton = new NUi.CheckButton[10];
-		for(int ii=0;ii<this.checkbutton.Length;ii++){
-			int t_w = 20;
-			int t_h = 20;
-			int t_x = (NRender2D.Render2D.VIRTUAL_W - t_w) / 2;
-			int t_y = 200 + ii * 30;
-
-			this.checkbutton[ii] = new NUi.CheckButton(this.deleter,null,t_drawpriority);
-			this.checkbutton[ii].SetRect(t_x,t_y,t_w,t_h);
-			this.checkbutton[ii].SetTexture(t_texture);
-		}
-		*/
 	}
 
 	/** FixedUpdate

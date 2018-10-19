@@ -141,8 +141,8 @@ namespace NFade
 					int t_x2;
 					int t_y2;
 
-					NRender2D.Render2D.GetInstance().GuiScreenToVirtualScreen(-1,-1,out t_x1,out t_y1);
-					NRender2D.Render2D.GetInstance().GuiScreenToVirtualScreen(this.gui_size.w + 1,this.gui_size.h + 1,out t_x2,out t_y2);
+					NRender2D.Render2D.GetInstance().GuiScreenToVirtualScreen(-2,-2,out t_x1,out t_y1);
+					NRender2D.Render2D.GetInstance().GuiScreenToVirtualScreen(this.gui_size.w + 2,this.gui_size.h + 2,out t_x2,out t_y2);
 
 					this.sprite.SetRect(t_x1,t_y1,(t_x2 - t_x1),(t_y2 - t_y1));
 				}
