@@ -274,6 +274,35 @@ namespace NUniVrm
 
 			return null;
 		}
+
+		/** GetForward
+		*/
+		public Vector3 GetForward()
+		{
+			if(this.result_context != null){
+				return this.result_context.Root.gameObject.transform.forward;
+			}
+			return Vector3.zero;
+		}
+
+		/** 位置。取得。
+		*/
+		public Vector3 GetPosition()
+		{
+			if(this.result_context != null){
+				return this.result_context.Root.gameObject.transform.position;
+			}
+			return Vector3.zero;
+		}
+
+		/** 位置。設定。
+		*/
+		public void SetPosition(ref Vector3 a_position)
+		{
+			if(this.result_context != null){
+				this.result_context.Root.gameObject.transform.position = a_position;
+			}
+		}
 	}
 }
 

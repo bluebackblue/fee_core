@@ -215,7 +215,7 @@ namespace NInput
 
 		/** 更新。インプットシステムゲームパッド。スティック。
 		*/
-		public bool Main_InputSystemGamePad_Stick()
+		private bool Main_InputSystemGamePad_Stick()
 		{
 			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
 			if(t_gamepad_current != null){
@@ -241,7 +241,7 @@ namespace NInput
 
 		/** 更新。インプットマネージャゲームパッド。スティック。
 		*/
-		public bool Main_InputManagerGamePad_Stick()
+		private bool Main_InputManagerGamePad_Stick()
 		{
 			//デバイス。
 			float t_l_x = UnityEngine.Input.GetAxis("left_stick_axis_x");
@@ -262,7 +262,7 @@ namespace NInput
 
 		/** 更新。インプットシステムゲームパッド。トリガー。
 		*/
-		public bool Main_InputSystemGamePad_Trigger()
+		private bool Main_InputSystemGamePad_Trigger()
 		{
 			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
 			if(t_gamepad_current != null){
@@ -286,7 +286,7 @@ namespace NInput
 
 		/** 更新。インプットマネージャゲームパッド。トリガー。
 		*/
-		public bool Main_InputManagerGamePad_Trigger()
+		private bool Main_InputManagerGamePad_Trigger()
 		{
 			//デバイス。
 			bool t_l_1 = UnityEngine.Input.GetButton("left_trigger1_button");
@@ -313,7 +313,7 @@ namespace NInput
 
 		/** 更新。インプットシステムゲームパッド。モータ。
 		*/
-		public bool Main_InputSystemGamePad_Motor()
+		private bool Main_InputSystemGamePad_Motor()
 		{
 			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
 			if(t_gamepad_current != null){
@@ -336,7 +336,7 @@ namespace NInput
 
 		/** 更新。デジタルボタン。
 		*/
-		public void Main_DigitalButton()
+		private void Main_DigitalButton()
 		{
 			//インプットシステムゲームパッド。デジタルボタン。
 			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
@@ -355,7 +355,7 @@ namespace NInput
 
 		/** 更新。スティック。
 		*/
-		public void Main_Stick()
+		private void Main_Stick()
 		{
 			//インプットシステムゲームパッド。スティック。
 			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
@@ -374,7 +374,7 @@ namespace NInput
 
 		/** 更新。トリガー。
 		*/
-		public void Main_Trigger()
+		private void Main_Trigger()
 		{
 			//インプットシステムゲームパッド。トリガー。
 			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
@@ -393,7 +393,7 @@ namespace NInput
 
 		/** 更新。モータ。
 		*/
-		public void Main_Moter()
+		private void Main_Moter()
 		{
 			//インプットシステムゲームパッド。モータ。
 			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
