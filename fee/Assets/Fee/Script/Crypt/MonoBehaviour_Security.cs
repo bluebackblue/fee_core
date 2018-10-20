@@ -87,7 +87,7 @@ namespace NCrypt
 			case RequestType.EncryptPublicKey:
 			case RequestType.DecryptPrivateKey:
 				{
-					Tool.Log("MonoBehaviour_Io",this.request_type.ToString());
+					Tool.Log("MonoBehaviour_Security",this.request_type.ToString());
 					this.SetModeDo();
 				}yield break;
 			}
@@ -105,19 +105,28 @@ namespace NCrypt
 		{
 			switch(this.request_type){
 			case RequestType.EncryptPublicKey:
-			case RequestType.DecryptPrivateKey:
 				{
-					/* TODO
-					Coroutine_DownLoadSoundPool t_coroutine = new Coroutine_DownLoadSoundPool();
-					yield return t_coroutine.CoroutineMain(this,this.request_url,this.request_data_version);
+					Coroutine_EncryptPublicKey t_coroutine = new Coroutine_EncryptPublicKey();
+					yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_key);
 
-					if(t_coroutine.result.soundpool != null){
-						this.SetResultSoundPool(t_coroutine.result.soundpool);
+					if(t_coroutine.result.binary != null){
+						this.SetResultBinary(t_coroutine.result.binary);
 						this.SetModeDoSuccess();
 					}else{
 						this.SetResultErrorString(t_coroutine.result.errorstring);
 					}
-					*/
+				}break;
+			case RequestType.DecryptPrivateKey:
+				{
+					Coroutine_DecryptPrivateKey t_coroutine = new Coroutine_DecryptPrivateKey();
+					yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_key);
+
+					if(t_coroutine.result.binary != null){
+						this.SetResultBinary(t_coroutine.result.binary);
+						this.SetModeDoSuccess();
+					}else{
+						this.SetResultErrorString(t_coroutine.result.errorstring);
+					}
 				}break;
 			}
 
