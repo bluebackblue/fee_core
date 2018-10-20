@@ -150,7 +150,7 @@ namespace NFile
 			this.mode = Mode.Start;
 
 			//request_type
-			this.request_type = RequestType.LoadLocalBinaryFile;
+			this.request_type = RequestType.None;
 
 			//request_filename
 			this.request_filename = null;

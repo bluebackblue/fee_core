@@ -78,6 +78,14 @@
     <Compile Include="Assets\Fee\Script\Blur\Config.cs" />
     <Compile Include="Assets\Fee\Script\Blur\MonoBehaviour_Camera.cs" />
     <Compile Include="Assets\Fee\Script\Blur\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\Crypt\Config.cs" />
+    <Compile Include="Assets\Fee\Script\Crypt\Crypt.cs" />
+    <Compile Include="Assets\Fee\Script\Crypt\Item.cs" />
+    <Compile Include="Assets\Fee\Script\Crypt\MonoBehaviour_Base.cs" />
+    <Compile Include="Assets\Fee\Script\Crypt\MonoBehaviour_Security.cs" />
+    <Compile Include="Assets\Fee\Script\Crypt\OnCoroutine_CallBack.cs" />
+    <Compile Include="Assets\Fee\Script\Crypt\Tool.cs" />
+    <Compile Include="Assets\Fee\Script\Crypt\Work.cs" />
     <Compile Include="Assets\Fee\Script\Deleter\Config.cs" />
     <Compile Include="Assets\Fee\Script\Deleter\Deleter.cs" />
     <Compile Include="Assets\Fee\Script\Deleter\Item_Base.cs" />

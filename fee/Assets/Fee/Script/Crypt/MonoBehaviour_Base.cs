@@ -12,9 +12,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** NCrypt
 */
-namespace NFile
+namespace NCrypt
 {
 	/** MonoBehaviour_Base
 	*/
@@ -61,29 +61,9 @@ namespace NFile
 			*/
 			Error,
 
-			/** セーブ完了。
-			*/
-			SaveEnd,
-
 			/** バイナリー。
 			*/
 			Binary,
-
-			/** テキスト。
-			*/
-			Text,
-
-			/** テクスチャ。
-			*/
-			Texture,
-
-			/** アセットバンドル。
-			*/
-			AssetBundle,
-
-			/** サウンドプール。
-			*/
-			SoundPool,
 		};
 
 		/** [MonoBehaviour_Base]コールバック。初期化。
@@ -141,26 +121,6 @@ namespace NFile
 		[SerializeField]
 		private byte[] result_binary;
 
-		/** result_text
-		*/
-		[SerializeField]
-		private string result_text;
-
-		/** result_texture
-		*/
-		[SerializeField]
-		private Texture2D result_texture;
-
-		/** result_assetbundle
-		*/
-		[SerializeField]
-		private AssetBundle result_assetbundle;
-
-		/** result_soundpool
-		*/
-		[SerializeField]
-		private NAudio.Pack_SoundPool result_soundpool;
-
 		/** 結果フラグリセット。
 		*/
 		protected void ResetResultFlag()
@@ -172,10 +132,6 @@ namespace NFile
 			this.result_type = ResultType.None;
 
 			this.result_binary = null;
-			this.result_text = null;
-			this.result_texture = null;
-			this.result_assetbundle = null;
-			this.result_soundpool = null;
 		}
 
 		/** キャンセル。設定。
@@ -310,13 +266,6 @@ namespace NFile
 
 		/** 結果。設定。
 		*/
-		public void SetResultSaveEnd()
-		{
-			this.result_type = ResultType.SaveEnd;
-		}
-
-		/** 結果。設定。
-		*/
 		public void SetResultBinary(byte[] a_binary)
 		{
 			this.result_type = ResultType.Binary;
@@ -328,66 +277,6 @@ namespace NFile
 		public byte[] GetResultBinary()
 		{
 			return this.result_binary;
-		}
-
-		/** 結果。設定。
-		*/
-		public void SetResultText(string a_text)
-		{
-			this.result_type = ResultType.Text;
-			this.result_text = a_text;
-		}
-
-		/** 結果。取得。
-		*/
-		public string GetResultText()
-		{
-			return this.result_text;
-		}
-
-		/** 結果。設定。
-		*/
-		public void SetResultTexture(Texture2D a_texture)
-		{
-			this.result_type = ResultType.Texture;
-			this.result_texture = a_texture;
-		}
-
-		/** 結果。取得。
-		*/
-		public Texture2D GetResultTexture()
-		{
-			return this.result_texture;
-		}
-
-		/** 結果。設定。
-		*/
-		public void SetResultAssetBundle(AssetBundle a_assetbundle)
-		{
-			this.result_type = ResultType.AssetBundle;
-			this.result_assetbundle = a_assetbundle;
-		}
-
-		/** 結果。取得。
-		*/
-		public AssetBundle GetResultAssetBundle()
-		{
-			return this.result_assetbundle;
-		}
-
-		/** 結果。設定。
-		*/
-		public void SetResultSoundPool(NAudio.Pack_SoundPool a_soundpool)
-		{
-			this.result_type = ResultType.SoundPool;
-			this.result_soundpool = a_soundpool;
-		}
-
-		/** 結果。取得。
-		*/
-		public NAudio.Pack_SoundPool GetResultSoundPool()
-		{
-			return this.result_soundpool;
 		}
 
 		/** Awake
@@ -402,10 +291,6 @@ namespace NFile
 			this.result_type = ResultType.None;
 
 			this.result_binary = null;
-			this.result_text = null;
-			this.result_texture = null;
-			this.result_assetbundle = null;
-			this.result_soundpool = null;
 
 			this.OnInitialize();
 		}

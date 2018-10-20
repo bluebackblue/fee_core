@@ -26,11 +26,31 @@ public class main : MonoBehaviour
 
 	/** deleter
 	*/
-	NDeleter.Deleter deleter;
+	private NDeleter.Deleter deleter;
 
 	/** button
 	*/
-	NUi.Button[] button;
+	private NUi.Button[] button;
+
+	/** text
+	*/
+	private NRender2D.Text2D text;
+
+	/** アプリ起動時。
+	*/
+	[RuntimeInitializeOnLoadMethod]
+	private static void AppInitialize()
+	{
+	}
+
+	/** ファイルアップロード。
+	*/
+	public void FileSelected(string a_url)
+	{
+		if(this.text != null){
+			this.text.SetText(a_url);
+		}
+	}
 
 	/** Start
 	*/
@@ -91,6 +111,11 @@ public class main : MonoBehaviour
 				this.button[ii].SetRect(t_x,t_y,t_w,t_h);
 				this.button[ii].SetText(t_name);
 			}
+
+			//text
+			this.text = new NRender2D.Text2D(this.deleter,null,0);
+			this.text.SetRect(0,0,0,0);
+			this.text.SetText("---");
 		}
 	}
 
