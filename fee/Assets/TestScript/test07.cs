@@ -130,9 +130,30 @@ public class test07 : main_base
 	private void CallBack_Click(int a_id)
 	{
 		if(this.step == Step.None){
-			if(NCrypt.Crypt.GetInstance().CreateNewKey(out this.public_key,out this.private_key) == true){
-				this.step = Step.EncryptPublicKey_Start;
+
+			//public
+			NJsonItem.JsonItem t_item_public = new NJsonItem.JsonItem(Resources.Load<TextAsset>("public_key").text);
+			this.public_key = null;
+			if(t_item_public != null){
+				if(t_item_public.IsAssociativeArray() == true){
+					if(t_item_public.IsExistItem("public",NJsonItem.ValueType.StringData) == true){
+						this.public_key = t_item_public.GetItem("public").GetStringData();
+					}
+				}
 			}
+
+			//private
+			NJsonItem.JsonItem t_item_private = new NJsonItem.JsonItem(Resources.Load<TextAsset>("private_key").text);
+			this.private_key = null;
+			if(t_item_private != null){
+				if(t_item_private.IsAssociativeArray() == true){
+					if(t_item_private.IsExistItem("private",NJsonItem.ValueType.StringData) == true){
+						this.private_key = t_item_private.GetItem("private").GetStringData();
+					}
+				}
+			}
+
+			this.step = Step.EncryptPublicKey_Start;
 		}
 	}
 
@@ -236,5 +257,69 @@ public class test07 : main_base
 	{
 		this.deleter.DeleteAll();
 	}
+
+	/** ＪＳＯＮ保存。
+	*/
+	#if(UNITY_EDITOR)
+	private static void SaveJson(NJsonItem.JsonItem a_jsonitem,string a_full_path)
+	{
+		string t_json_string = a_jsonitem.ConvertJsonString();
+
+		System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
+		System.IO.StreamWriter t_filestream_write = null;
+
+		try{
+			//open
+			t_filestream_write = t_fileinfo.CreateText();
+
+			//write
+			if(t_filestream_write != null){
+				t_filestream_write.Write(t_json_string);
+				t_filestream_write.Flush();
+			}
+		}catch(System.Exception){
+			Debug.Assert(false);
+		}
+
+		//close
+		if(t_filestream_write != null){
+			t_filestream_write.Close();
+			t_filestream_write = null;
+		}
+	}
+	#endif
+
+	/** 公開鍵秘密鍵作成。
+	*/
+	#if(UNITY_EDITOR)
+	[UnityEditor.MenuItem("Test/Test07/MakePublicKeyPrivateKey")]
+	private static void MakePublicKeyPrivateKey()
+	{
+		string t_public_key;
+		string t_private_key;
+		if(NCrypt.Crypt.CreateNewKey(out t_public_key,out t_private_key) == true){
+
+			//public
+			{
+				NJsonItem.JsonItem t_jsonitem = new NJsonItem.JsonItem(new NJsonItem.Value_AssociativeArray());
+				NJsonItem.JsonItem t_jsonitem_public = new NJsonItem.JsonItem(new NJsonItem.Value_StringData(t_public_key));
+				t_jsonitem.SetItem("public",t_jsonitem_public,false);
+
+				SaveJson(t_jsonitem,Application.dataPath + "/Resources/public_key.json");
+			}
+
+			//private
+			{
+				NJsonItem.JsonItem t_jsonitem = new NJsonItem.JsonItem(new NJsonItem.Value_AssociativeArray());
+				NJsonItem.JsonItem t_jsonitem_private = new NJsonItem.JsonItem(new NJsonItem.Value_StringData(t_private_key));
+				t_jsonitem.SetItem("private",t_jsonitem_private,false);
+
+				SaveJson(t_jsonitem,Application.dataPath + "/Resources/private_key.json");
+			}
+			
+			UnityEditor.AssetDatabase.Refresh();
+		}
+	}
+	#endif
 }
 

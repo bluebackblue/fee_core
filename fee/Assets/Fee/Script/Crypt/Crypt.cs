@@ -177,7 +177,8 @@ namespace NCrypt
 
 		/** TODO:暗号鍵作成。
 		*/
-		public bool CreateNewKey(out string a_public_key,out string a_private_key)
+		#if(UNITY_EDITOR)
+		public static bool CreateNewKey(out string a_public_key,out string a_private_key)
 		{
 			try{
 				using(System.Security.Cryptography.RSACryptoServiceProvider t_rsa = new System.Security.Cryptography.RSACryptoServiceProvider(1024)){
@@ -193,42 +194,7 @@ namespace NCrypt
 			a_private_key = null;
 			return false;
 		}
-
-		/** TODO:暗号化。
-		*/
-		public byte[] EncryptPublicKey(string a_public_key,byte[] a_plane_binary)
-		{
-			byte[] t_result_binary = null;
-
-			try{
-				using(System.Security.Cryptography.RSACryptoServiceProvider t_rsa = new System.Security.Cryptography.RSACryptoServiceProvider()){
-					t_rsa.FromXmlString(a_public_key);
-					t_result_binary = t_rsa.Encrypt(a_plane_binary,false);
-				}
-			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
-			}
-
-			return t_result_binary;
-		}
-
-		/** TODO:複合化。
-		*/
-		public byte[] DecryptPrivateKey(string a_private_key,byte[] a_encrypt_binary)
-		{
-			byte[] t_result_binary = null;
-
-			try{
-				using(System.Security.Cryptography.RSACryptoServiceProvider t_rsa = new System.Security.Cryptography.RSACryptoServiceProvider()){
-					t_rsa.FromXmlString(a_private_key);
-					t_result_binary = t_rsa.Decrypt(a_encrypt_binary,false);
-				}
-			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
-			}
- 
-			return t_result_binary;
-		}
+		#endif
 	}
 }
 
