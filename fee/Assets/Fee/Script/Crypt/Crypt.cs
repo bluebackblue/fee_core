@@ -151,20 +151,20 @@ namespace NCrypt
 
 		/** リクエスト。暗号化。パスワード。
 		*/
-		public Item RequestEncryptPass(byte[] a_binary,string a_pass)
+		public Item RequestEncryptPass(byte[] a_binary,string a_pass,string a_salt)
 		{
 			Work t_work = new Work();
-			t_work.RequestEncryptPass(a_binary,a_pass);
+			t_work.RequestEncryptPass(a_binary,a_pass,a_salt);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。複合化。パス。
 		*/
-		public Item RequestDecryptPass(byte[] a_binary,string a_pass)
+		public Item RequestDecryptPass(byte[] a_binary,string a_pass,string a_salt)
 		{
 			Work t_work = new Work();
-			t_work.RequestDecryptPass(a_binary,a_pass);
+			t_work.RequestDecryptPass(a_binary,a_pass,a_salt);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}

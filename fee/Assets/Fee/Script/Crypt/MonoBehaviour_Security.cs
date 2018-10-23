@@ -63,6 +63,11 @@ namespace NCrypt
 		[SerializeField]
 		private string request_pass;
 
+		/** request_salt
+		*/
+		[SerializeField]
+		private string request_salt;
+
 		/** [NFile.OnCoroutine_CallBack]コルーチン実行中。
 
 		戻り値 == false : キャンセル。
@@ -93,6 +98,9 @@ namespace NCrypt
 
 			//request_pass
 			this.request_pass = null;
+
+			//request_salt
+			this.request_salt = null;
 		}
 
 		/** [MonoBehaviour_Base]コールバック。開始。
@@ -148,9 +156,8 @@ namespace NCrypt
 				}break;
 			case RequestType.EncryptPass:
 				{
-					/*
-					Coroutine_EncryptPass( t_coroutine = new Coroutine_EncryptPass();
-					yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_pass);
+					Coroutine_EncryptPass t_coroutine = new Coroutine_EncryptPass();
+					yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_pass,this.request_salt);
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
@@ -158,13 +165,11 @@ namespace NCrypt
 					}else{
 						this.SetResultErrorString(t_coroutine.result.errorstring);
 					}
-					*/
 				}break;
 			case RequestType.DecryptPass:
 				{
-					/*
-					Coroutine_DecryptPass( t_coroutine = new Coroutine_DecryptPass(();
-					yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_pass);
+					Coroutine_DecryptPass t_coroutine = new Coroutine_DecryptPass();
+					yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_pass,this.request_salt);
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
@@ -172,7 +177,6 @@ namespace NCrypt
 					}else{
 						this.SetResultErrorString(t_coroutine.result.errorstring);
 					}
-					*/
 				}break;
 			}
 
@@ -238,7 +242,7 @@ namespace NCrypt
 
 		/** リクエスト。暗号化。パス。
 		*/
-		public bool RequestEncryptPass(byte[] a_binary,string a_pass)
+		public bool RequestEncryptPass(byte[] a_binary,string a_pass,string a_salt)
 		{
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
@@ -247,6 +251,7 @@ namespace NCrypt
 				this.request_type = RequestType.EncryptPass;
 				this.request_binary = a_binary;
 				this.request_pass = a_pass;
+				this.request_salt = a_salt;
 
 				return true;
 			}
@@ -256,7 +261,7 @@ namespace NCrypt
 
 		/** リクエスト。複合化。パス。
 		*/
-		public bool RequestDecryptPass(byte[] a_binary,string a_pass)
+		public bool RequestDecryptPass(byte[] a_binary,string a_pass,string a_salt)
 		{
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
@@ -265,6 +270,7 @@ namespace NCrypt
 				this.request_type = RequestType.DecryptPass;
 				this.request_binary = a_binary;
 				this.request_pass = a_pass;
+				this.request_salt = a_salt;
 
 				return true;
 			}
