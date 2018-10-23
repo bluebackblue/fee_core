@@ -129,7 +129,7 @@ namespace NCrypt
 			return this.security_script;
 		}
 
-		/** リクエスト。ロードローカル。バイナリファイル。
+		/** リクエスト。暗号化。パブリックキー。
 		*/
 		public Item RequestEncryptPublicKey(byte[] a_binary,string a_key)
 		{
@@ -139,12 +139,32 @@ namespace NCrypt
 			return t_work.GetItem();
 		}
 
-		/** リクエスト。ロードローカル。テキストファイル。
+		/** リクエスト。複合化。プライベートキー。
 		*/
 		public Item RequestDecryptPrivateKey(byte[] a_binary,string a_key)
 		{
 			Work t_work = new Work();
 			t_work.RequestDecryptPrivateKey(a_binary,a_key);
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。暗号化。パスワード。
+		*/
+		public Item RequestEncryptPass(byte[] a_binary,string a_pass)
+		{
+			Work t_work = new Work();
+			t_work.RequestEncryptPass(a_binary,a_pass);
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。複合化。パス。
+		*/
+		public Item RequestDecryptPass(byte[] a_binary,string a_pass)
+		{
+			Work t_work = new Work();
+			t_work.RequestDecryptPass(a_binary,a_pass);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}

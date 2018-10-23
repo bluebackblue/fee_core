@@ -33,6 +33,14 @@ namespace NCrypt
 			/** 複合化。プライベートキー。
 			*/
 			DecryptPrivateKey,
+
+			/** 暗号化。パス。
+			*/
+			EncryptPass,
+
+			/** 複合化。パス。
+			*/
+			DecryptPass,
 		};
 
 		/** request_type
@@ -49,6 +57,11 @@ namespace NCrypt
 		*/
 		[SerializeField]
 		private string request_key;
+
+		/** request_pass
+		*/
+		[SerializeField]
+		private string request_pass;
 
 		/** [NFile.OnCoroutine_CallBack]コルーチン実行中。
 
@@ -77,6 +90,9 @@ namespace NCrypt
 
 			//request_key
 			this.request_key = null;
+
+			//request_pass
+			this.request_pass = null;
 		}
 
 		/** [MonoBehaviour_Base]コールバック。開始。
@@ -86,6 +102,8 @@ namespace NCrypt
 			switch(this.request_type){
 			case RequestType.EncryptPublicKey:
 			case RequestType.DecryptPrivateKey:
+			case RequestType.EncryptPass:
+			case RequestType.DecryptPass:
 				{
 					Tool.Log("MonoBehaviour_Security",this.request_type.ToString());
 					this.SetModeDo();
@@ -127,6 +145,34 @@ namespace NCrypt
 					}else{
 						this.SetResultErrorString(t_coroutine.result.errorstring);
 					}
+				}break;
+			case RequestType.EncryptPass:
+				{
+					/*
+					Coroutine_EncryptPass( t_coroutine = new Coroutine_EncryptPass();
+					yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_pass);
+
+					if(t_coroutine.result.binary != null){
+						this.SetResultBinary(t_coroutine.result.binary);
+						this.SetModeDoSuccess();
+					}else{
+						this.SetResultErrorString(t_coroutine.result.errorstring);
+					}
+					*/
+				}break;
+			case RequestType.DecryptPass:
+				{
+					/*
+					Coroutine_DecryptPass( t_coroutine = new Coroutine_DecryptPass(();
+					yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_pass);
+
+					if(t_coroutine.result.binary != null){
+						this.SetResultBinary(t_coroutine.result.binary);
+						this.SetModeDoSuccess();
+					}else{
+						this.SetResultErrorString(t_coroutine.result.errorstring);
+					}
+					*/
 				}break;
 			}
 
@@ -183,6 +229,42 @@ namespace NCrypt
 				this.request_type = RequestType.DecryptPrivateKey;
 				this.request_binary = a_binary;
 				this.request_key = a_key;
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/** リクエスト。暗号化。パス。
+		*/
+		public bool RequestEncryptPass(byte[] a_binary,string a_pass)
+		{
+			if(this.IsWaitRequest() == true){
+				this.SetModeStart();
+				this.ResetResultFlag();
+
+				this.request_type = RequestType.EncryptPass;
+				this.request_binary = a_binary;
+				this.request_pass = a_pass;
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/** リクエスト。複合化。パス。
+		*/
+		public bool RequestDecryptPass(byte[] a_binary,string a_pass)
+		{
+			if(this.IsWaitRequest() == true){
+				this.SetModeStart();
+				this.ResetResultFlag();
+
+				this.request_type = RequestType.DecryptPass;
+				this.request_binary = a_binary;
+				this.request_pass = a_pass;
 
 				return true;
 			}

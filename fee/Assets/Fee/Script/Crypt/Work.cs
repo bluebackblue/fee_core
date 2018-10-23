@@ -52,6 +52,14 @@ namespace NCrypt
 			/** 複合化。プライベートキー。
 			*/
 			DecryptPrivateKey,
+
+			/** 暗号化。パス。
+			*/
+			EncryptPass,
+
+			/** 複合化。パス。
+			*/
+			DecryptPass,
 		};
 
 		/** mode
@@ -69,6 +77,10 @@ namespace NCrypt
 		/** request_key
 		*/
 		private string request_key;
+
+		/** request_pass
+		*/
+		private string request_pass;
 
 		/** item
 		*/
@@ -90,6 +102,9 @@ namespace NCrypt
 			//request_key
 			this.request_key = null;
 
+			//request_pass
+			this.request_pass = null;
+
 			//item
 			this.item = new Item();
 		}
@@ -110,6 +125,24 @@ namespace NCrypt
 			this.request_type = RequestType.DecryptPrivateKey;
 			this.request_binary = a_binary;
 			this.request_key = a_key;
+		}
+
+		/** リクエスト。暗号化。パス。
+		*/
+		public void RequestEncryptPass(byte[] a_binary,string a_pass)
+		{
+			this.request_type = RequestType.EncryptPass;
+			this.request_binary = a_binary;
+			this.request_pass = a_pass;
+		}
+
+		/** リクエスト。複合化。パス。
+		*/
+		public void RequestDecryptPass(byte[] a_binary,string a_pass)
+		{
+			this.request_type = RequestType.DecryptPass;
+			this.request_binary = a_binary;
+			this.request_pass = a_pass;
 		}
 
 		/** アイテム。
@@ -141,6 +174,20 @@ namespace NCrypt
 						{
 							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
 							if(t_security.RequestDecryptPrivateKey(this.request_binary,this.request_key) == true){
+								this.mode = Mode.Do_Security;
+							}
+						}break;
+					case RequestType.EncryptPass:
+						{
+							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
+							if(t_security.RequestEncryptPass(this.request_binary,this.request_pass) == true){
+								this.mode = Mode.Do_Security;
+							}
+						}break;
+					case RequestType.DecryptPass:
+						{
+							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
+							if(t_security.RequestDecryptPass(this.request_binary,this.request_pass) == true){
 								this.mode = Mode.Do_Security;
 							}
 						}break;
