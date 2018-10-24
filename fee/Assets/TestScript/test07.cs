@@ -24,9 +24,14 @@ public class test07 : main_base
 
 		EncryptPublicKey_Start,
 		EncryptPublicKey_Do,
-
 		DecryptPrivateKey_Start,
 		DecryptPrivateKey_Do,
+
+		EncryptPass_Start,
+		EncryptPass_Do,
+		DecryptPass_Start,
+		DecryptPass_Do,
+
 	};
 
 	/** 削除管理。
@@ -37,9 +42,13 @@ public class test07 : main_base
 	*/
 	private Step step;
 
-	/** button
+	/** button_key
 	*/
-	private NUi.Button button;
+	private NUi.Button button_key;
+
+	/** button_pass
+	*/
+	private NUi.Button button_pass;
 
 	/** text
 	*/
@@ -56,6 +65,14 @@ public class test07 : main_base
 	/** public_key
 	*/
 	private string public_key;
+
+	/** pass
+	*/
+	private string pass;
+
+	/** salt
+	*/
+	private string salt;
 
 	/** plane_binary
 	*/
@@ -102,11 +119,17 @@ public class test07 : main_base
 		//step
 		this.step = Step.None;
 
-		//button
-		this.button = new NUi.Button(this.deleter,null,0,this.CallBack_Click,-1);
-		this.button.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button.SetRect(100,100,50,50);
-		this.button.SetText("開始");
+		//button_key
+		this.button_key = new NUi.Button(this.deleter,null,0,this.CallBack_Click,0);
+		this.button_key.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_key.SetRect(100,100,150,50);
+		this.button_key.SetText("公開鍵");
+
+		//button_pass
+		this.button_pass = new NUi.Button(this.deleter,null,0,this.CallBack_Click,1);
+		this.button_pass.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_pass.SetRect(300,100,150,50);
+		this.button_pass.SetText("共通鍵");
 
 		//text
 		this.text = new NRender2D.Text2D(this.deleter,null,0);
@@ -120,6 +143,10 @@ public class test07 : main_base
 		this.private_key = null;
 		this.public_key = null;
 
+		//pass
+		this.pass = null;
+		this.salt = null;
+
 		//binary
 		this.plane_binary = null;
 		this.encrypt_binary = null;
@@ -131,29 +158,37 @@ public class test07 : main_base
 	{
 		if(this.step == Step.None){
 
-			//public
-			NJsonItem.JsonItem t_item_public = new NJsonItem.JsonItem(Resources.Load<TextAsset>("public_key").text);
-			this.public_key = null;
-			if(t_item_public != null){
-				if(t_item_public.IsAssociativeArray() == true){
-					if(t_item_public.IsExistItem("public",NJsonItem.ValueType.StringData) == true){
-						this.public_key = t_item_public.GetItem("public").GetStringData();
+			if(a_id == 0){
+				//public
+				NJsonItem.JsonItem t_item_public = new NJsonItem.JsonItem(Resources.Load<TextAsset>("public_key").text);
+				this.public_key = null;
+				if(t_item_public != null){
+					if(t_item_public.IsAssociativeArray() == true){
+						if(t_item_public.IsExistItem("public",NJsonItem.ValueType.StringData) == true){
+							this.public_key = t_item_public.GetItem("public").GetStringData();
+						}
 					}
 				}
-			}
 
-			//private
-			NJsonItem.JsonItem t_item_private = new NJsonItem.JsonItem(Resources.Load<TextAsset>("private_key").text);
-			this.private_key = null;
-			if(t_item_private != null){
-				if(t_item_private.IsAssociativeArray() == true){
-					if(t_item_private.IsExistItem("private",NJsonItem.ValueType.StringData) == true){
-						this.private_key = t_item_private.GetItem("private").GetStringData();
+				//private
+				NJsonItem.JsonItem t_item_private = new NJsonItem.JsonItem(Resources.Load<TextAsset>("private_key").text);
+				this.private_key = null;
+				if(t_item_private != null){
+					if(t_item_private.IsAssociativeArray() == true){
+						if(t_item_private.IsExistItem("private",NJsonItem.ValueType.StringData) == true){
+							this.private_key = t_item_private.GetItem("private").GetStringData();
+						}
 					}
 				}
-			}
 
-			this.step = Step.EncryptPublicKey_Start;
+				this.step = Step.EncryptPublicKey_Start;
+			}else if(a_id == 1){
+
+				this.pass = "0123456789";
+				this.salt = "zxcvasdf";
+
+				this.step = Step.EncryptPass_Start;
+			}
 		}
 	}
 
@@ -179,7 +214,7 @@ public class test07 : main_base
 			{
 				this.plane_binary = new byte[15];
 				for(int ii=0;ii<this.plane_binary.Length;ii++){
-					this.plane_binary[ii] = (byte)(ii % 256);
+					this.plane_binary[this.plane_binary.Length - ii - 1] = (byte)(ii % 256);
 				}
 
 				//暗号化開始。
@@ -197,6 +232,14 @@ public class test07 : main_base
 						//成功。
 						byte[] t_binary = this.crypt_item.GetResultBinary();
 						this.text.SetText(this.step.ToString() + " : Success");
+
+						{
+							string t_log = "";
+							for(int ii=0;ii<t_binary.Length;ii++){
+								t_log += t_binary[ii].ToString() + " ";
+							}
+							Debug.Log(t_log);
+						}
 
 						this.encrypt_binary = t_binary;
 						this.crypt_item = null;
@@ -229,8 +272,99 @@ public class test07 : main_base
 						byte[] t_binary = this.crypt_item.GetResultBinary();
 						this.text.SetText(this.step.ToString() + " : Success");
 
+						{
+							string t_log = "";
+							for(int ii=0;ii<t_binary.Length;ii++){
+								t_log += t_binary[ii].ToString() + " ";
+							}
+							Debug.Log(t_log);
+						}
+
 						this.crypt_item = null;
 						this.step = Step.None;
+					}else{
+						//失敗。
+						this.encrypt_binary = null;
+						this.text.SetText(this.step.ToString() + " : Failed");
+
+						this.crypt_item = null;
+						this.step = Step.None;
+					}
+				}
+			}break;
+		case Step.EncryptPass_Start:
+			{
+				this.plane_binary = new byte[15];
+				for(int ii=0;ii<this.plane_binary.Length;ii++){
+					this.plane_binary[this.plane_binary.Length - ii - 1] = (byte)(ii % 256);
+				}
+
+				//暗号化開始。
+				this.crypt_item = NCrypt.Crypt.GetInstance().RequestEncryptPass(this.plane_binary,this.pass,this.salt);
+
+				this.step = Step.EncryptPass_Do;
+			}break;
+		case Step.EncryptPass_Do:
+			{
+				if(this.crypt_item.IsBusy() == true){
+					//暗号化中。
+					this.text.SetText(this.step.ToString());
+				}else{
+					if(this.crypt_item.GetResultType() == NCrypt.Item.ResultType.Binary){
+						//成功。
+						byte[] t_binary = this.crypt_item.GetResultBinary();
+						this.text.SetText(this.step.ToString() + " : Success");
+
+						{
+							string t_log = "";
+							for(int ii=0;ii<t_binary.Length;ii++){
+								t_log += t_binary[ii].ToString() + " ";
+							}
+							Debug.Log(t_log);
+						}
+
+						this.encrypt_binary = t_binary;
+						this.crypt_item = null;
+						this.step = Step.DecryptPass_Start;
+					}else{
+						//失敗。
+						this.encrypt_binary = null;
+						this.text.SetText(this.step.ToString() + " : Failed");
+
+						this.crypt_item = null;
+						this.step = Step.None;
+					}
+				}
+			}break;
+		case Step.DecryptPass_Start:
+			{
+				//複合化開始。
+				this.crypt_item = NCrypt.Crypt.GetInstance().RequestDecryptPass(this.encrypt_binary,this.pass,this.salt);
+
+				this.step = Step.DecryptPass_Do;
+			}break;
+		case Step.DecryptPass_Do:
+			{
+				if(this.crypt_item.IsBusy() == true){
+					//暗号化中。
+					this.text.SetText(this.step.ToString());
+				}else{
+					if(this.crypt_item.GetResultType() == NCrypt.Item.ResultType.Binary){
+						//成功。
+						byte[] t_binary = this.crypt_item.GetResultBinary();
+						this.text.SetText(this.step.ToString() + " : Success");
+
+						{
+							string t_log = "";
+							for(int ii=0;ii<t_binary.Length;ii++){
+								t_log += t_binary[ii].ToString() + " ";
+							}
+							Debug.Log(t_log);
+						}
+
+						this.encrypt_binary = t_binary;
+						this.crypt_item = null;
+						this.step = Step.DecryptPass_Start;
 					}else{
 						//失敗。
 						this.encrypt_binary = null;
