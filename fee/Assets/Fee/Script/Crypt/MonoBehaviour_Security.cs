@@ -34,6 +34,14 @@ namespace NCrypt
 			*/
 			DecryptPrivateKey,
 
+			/** 証明作成。プライベートキー。
+			*/
+			CreateSignaturePrivateKey,
+
+			/** 署名検証。パブリックキー。
+			*/
+			VerifySignaturePublicKey,
+
 			/** 暗号化。パス。
 			*/
 			EncryptPass,
@@ -57,6 +65,10 @@ namespace NCrypt
 		*/
 		[SerializeField]
 		private string request_key;
+
+		/** request_signature_binary
+		*/
+		private byte[] request_signature_binary;
 
 		/** request_pass
 		*/
@@ -96,6 +108,9 @@ namespace NCrypt
 			//request_key
 			this.request_key = null;
 
+			//request_signature_binary
+			this.request_signature_binary = null;
+
 			//request_pass
 			this.request_pass = null;
 
@@ -110,6 +125,8 @@ namespace NCrypt
 			switch(this.request_type){
 			case RequestType.EncryptPublicKey:
 			case RequestType.DecryptPrivateKey:
+			case RequestType.CreateSignaturePrivateKey:
+			case RequestType.VerifySignaturePublicKey:
 			case RequestType.EncryptPass:
 			case RequestType.DecryptPass:
 				{
@@ -149,6 +166,30 @@ namespace NCrypt
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
+						this.SetModeDoSuccess();
+					}else{
+						this.SetResultErrorString(t_coroutine.result.errorstring);
+					}
+				}break;
+			case RequestType.CreateSignaturePrivateKey:
+				{
+					Coroutine_CreateSignaturePrivateKey t_coroutine = new Coroutine_CreateSignaturePrivateKey();
+					yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_key);
+
+					if(t_coroutine.result.binary != null){
+						this.SetResultBinary(t_coroutine.result.binary);
+						this.SetModeDoSuccess();
+					}else{
+						this.SetResultErrorString(t_coroutine.result.errorstring);
+					}
+				}break;
+			case RequestType.VerifySignaturePublicKey:
+				{
+					Coroutine_VerifySignaturePublicKey t_coroutine = new Coroutine_VerifySignaturePublicKey();
+					yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_signature_binary,this.request_key);
+
+					if(t_coroutine.result.verify == true){
+						this.SetResultVerifySuccess();
 						this.SetModeDoSuccess();
 					}else{
 						this.SetResultErrorString(t_coroutine.result.errorstring);
@@ -232,6 +273,43 @@ namespace NCrypt
 
 				this.request_type = RequestType.DecryptPrivateKey;
 				this.request_binary = a_binary;
+				this.request_key = a_key;
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/** リクエスト。署名作成。プライベートキー。
+		*/
+		public bool RequestCreateSignaturePrivateKey(byte[] a_binary,string a_key)
+		{
+			if(this.IsWaitRequest() == true){
+				this.SetModeStart();
+				this.ResetResultFlag();
+
+				this.request_type = RequestType.CreateSignaturePrivateKey;
+				this.request_binary = a_binary;
+				this.request_key = a_key;
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/** リクエスト。署名検証。パブリックキー。
+		*/
+		public bool RequestVerifySignaturePublicKey(byte[] a_binary,byte[] a_signature_binary,string a_key)
+		{
+			if(this.IsWaitRequest() == true){
+				this.SetModeStart();
+				this.ResetResultFlag();
+
+				this.request_type = RequestType.VerifySignaturePublicKey;
+				this.request_binary = a_binary;
+				this.request_signature_binary = a_signature_binary;
 				this.request_key = a_key;
 
 				return true;

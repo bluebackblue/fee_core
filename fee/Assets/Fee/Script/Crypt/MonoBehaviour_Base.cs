@@ -64,6 +64,10 @@ namespace NCrypt
 			/** バイナリー。
 			*/
 			Binary,
+
+			/** 検証成功。
+			*/
+			VerifySuccess,
 		};
 
 		/** [MonoBehaviour_Base]コールバック。初期化。
@@ -277,6 +281,13 @@ namespace NCrypt
 		public byte[] GetResultBinary()
 		{
 			return this.result_binary;
+		}
+
+		/** 結果。設定。
+		*/
+		public void SetResultVerifySuccess()
+		{
+			this.result_type = ResultType.VerifySuccess;
 		}
 
 		/** Awake

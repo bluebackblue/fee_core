@@ -32,6 +32,10 @@ public class test07 : main_base
 		DecryptPass_Start,
 		DecryptPass_Do,
 
+		CreateSignature_Start,
+		CreateSignature_Do,
+		VerifySignature_Start,
+		VerifySignature_Do,
 	};
 
 	/** 削除管理。
@@ -49,6 +53,10 @@ public class test07 : main_base
 	/** button_pass
 	*/
 	private NUi.Button button_pass;
+
+	/** button_signature
+	*/
+	private NUi.Button button_signature;
 
 	/** text
 	*/
@@ -81,6 +89,10 @@ public class test07 : main_base
 	/** encrypt_binary
 	*/
 	private byte[] encrypt_binary;
+
+	/** signature_binary
+	*/
+	private byte[] signature_binary;
 
 	/** Start
 	*/
@@ -128,14 +140,20 @@ public class test07 : main_base
 		//button_key
 		this.button_key = new NUi.Button(this.deleter,null,0,this.CallBack_Click,0);
 		this.button_key.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_key.SetRect(100,100,150,50);
+		this.button_key.SetRect(100 + 200 * 0,100,150,50);
 		this.button_key.SetText("公開鍵");
 
 		//button_pass
 		this.button_pass = new NUi.Button(this.deleter,null,0,this.CallBack_Click,1);
 		this.button_pass.SetTexture(Resources.Load<Texture2D>("button"));
-		this.button_pass.SetRect(300,100,150,50);
+		this.button_pass.SetRect(100 + 200 * 1,100,150,50);
 		this.button_pass.SetText("共通鍵");
+
+		//button_signature
+		this.button_signature = new NUi.Button(this.deleter,null,0,this.CallBack_Click,2);
+		this.button_signature.SetTexture(Resources.Load<Texture2D>("button"));
+		this.button_signature.SetRect(100 + 200 * 2,100,150,50);
+		this.button_signature.SetText("署名");
 
 		//text
 		this.text = new NRender2D.Text2D(this.deleter,null,0);
@@ -156,6 +174,7 @@ public class test07 : main_base
 		//binary
 		this.plane_binary = null;
 		this.encrypt_binary = null;
+		this.signature_binary = null;
 	}
 
 	/** [Button_Base]コールバック。クリック。
@@ -194,6 +213,30 @@ public class test07 : main_base
 				this.salt = "zxcvasdf";
 
 				this.step = Step.EncryptPass_Start;
+			}else if(a_id == 2){
+				//public
+				NJsonItem.JsonItem t_item_public = new NJsonItem.JsonItem(Resources.Load<TextAsset>("public_key").text);
+				this.public_key = null;
+				if(t_item_public != null){
+					if(t_item_public.IsAssociativeArray() == true){
+						if(t_item_public.IsExistItem("public",NJsonItem.ValueType.StringData) == true){
+							this.public_key = t_item_public.GetItem("public").GetStringData();
+						}
+					}
+				}
+
+				//private
+				NJsonItem.JsonItem t_item_private = new NJsonItem.JsonItem(Resources.Load<TextAsset>("private_key").text);
+				this.private_key = null;
+				if(t_item_private != null){
+					if(t_item_private.IsAssociativeArray() == true){
+						if(t_item_private.IsExistItem("private",NJsonItem.ValueType.StringData) == true){
+							this.private_key = t_item_private.GetItem("private").GetStringData();
+						}
+					}
+				}
+
+				this.step = Step.CreateSignature_Start;
 			}
 		}
 	}
@@ -374,6 +417,78 @@ public class test07 : main_base
 					}else{
 						//失敗。
 						this.encrypt_binary = null;
+						this.text.SetText(this.step.ToString() + " : Failed");
+
+						this.crypt_item = null;
+						this.step = Step.None;
+					}
+				}
+			}break;
+		case Step.CreateSignature_Start:
+			{
+				this.plane_binary = new byte[15];
+				for(int ii=0;ii<this.plane_binary.Length;ii++){
+					this.plane_binary[this.plane_binary.Length - ii - 1] = (byte)(ii % 256);
+				}
+
+				//証明作成開始。
+				this.crypt_item = NCrypt.Crypt.GetInstance().RequestCreateSignaturePrivateKey(this.plane_binary,this.private_key);
+
+				this.step = Step.CreateSignature_Do;
+			}break;
+		case Step.CreateSignature_Do:
+			{
+				if(this.crypt_item.IsBusy() == true){
+					//署名中。
+					this.text.SetText(this.step.ToString());
+				}else{
+					if(this.crypt_item.GetResultType() == NCrypt.Item.ResultType.Binary){
+						//成功。
+						byte[] t_binary = this.crypt_item.GetResultBinary();
+						this.text.SetText(this.step.ToString() + " : Success");
+
+						{
+							string t_log = "";
+							for(int ii=0;ii<t_binary.Length;ii++){
+								t_log += t_binary[ii].ToString() + " ";
+							}
+							Debug.Log(t_log);
+						}
+
+						this.signature_binary = t_binary;
+						this.crypt_item = null;
+						this.step = Step.VerifySignature_Start;
+					}else{
+						//失敗。
+						this.signature_binary = null;
+						this.text.SetText(this.step.ToString() + " : Failed");
+
+						this.crypt_item = null;
+						this.step = Step.None;
+					}
+				}
+			}break;
+		case Step.VerifySignature_Start:
+			{
+				//署名検証開始。
+				this.crypt_item = NCrypt.Crypt.GetInstance().RequestVerifySignaturePublicKey(this.plane_binary,this.signature_binary,this.public_key);
+
+				this.step = Step.VerifySignature_Do;
+			}break;
+		case Step.VerifySignature_Do:
+			{
+				if(this.crypt_item.IsBusy() == true){
+					//検証中。
+					this.text.SetText(this.step.ToString());
+				}else{
+					if(this.crypt_item.GetResultType() == NCrypt.Item.ResultType.VerifySuccess){
+						//成功。
+						this.text.SetText(this.step.ToString() + " : Success");
+
+						this.crypt_item = null;
+						this.step = Step.None;
+					}else{
+						//失敗。
 						this.text.SetText(this.step.ToString() + " : Failed");
 
 						this.crypt_item = null;

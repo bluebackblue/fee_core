@@ -53,6 +53,14 @@ namespace NCrypt
 			*/
 			DecryptPrivateKey,
 
+			/** 証明作成。プライベートキー。
+			*/
+			CreateSignaturePrivateKey,
+
+			/** 署名検証。パブリックキー。
+			*/
+			VerifySignaturePublicKey,
+
 			/** 暗号化。パス。
 			*/
 			EncryptPass,
@@ -77,6 +85,10 @@ namespace NCrypt
 		/** request_key
 		*/
 		private string request_key;
+
+		/** request_signature_binary
+		*/
+		private byte[] request_signature_binary;
 
 		/** request_pass
 		*/
@@ -134,6 +146,25 @@ namespace NCrypt
 			this.request_key = a_key;
 		}
 
+		/** リクエスト。証明作成。プライベートキー。
+		*/
+		public void RequestCreateSignaturePrivateKey(byte[] a_binary,string a_key)
+		{
+			this.request_type = RequestType.CreateSignaturePrivateKey;
+			this.request_binary = a_binary;
+			this.request_key = a_key;
+		}
+
+		/** リクエスト。署名検証。パブリックキー。
+		*/
+		public void RequestVerifySignaturePublicKey(byte[] a_binary,byte[] a_signature_binary,string a_key)
+		{
+			this.request_type = RequestType.VerifySignaturePublicKey;
+			this.request_binary = a_binary;
+			this.request_signature_binary = a_signature_binary;
+			this.request_key = a_key;
+		}
+
 		/** リクエスト。暗号化。パス。
 		*/
 		public void RequestEncryptPass(byte[] a_binary,string a_pass,string a_salt)
@@ -186,6 +217,20 @@ namespace NCrypt
 								this.mode = Mode.Do_Security;
 							}
 						}break;
+					case RequestType.CreateSignaturePrivateKey:
+						{
+							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
+							if(t_security.RequestCreateSignaturePrivateKey(this.request_binary,this.request_key) == true){
+								this.mode = Mode.Do_Security;
+							}
+						}break;
+					case RequestType.VerifySignaturePublicKey:
+						{
+							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
+							if(t_security.RequestVerifySignaturePublicKey(this.request_binary,this.request_signature_binary,this.request_key) == true){
+								this.mode = Mode.Do_Security;
+							}
+						}break;
 					case RequestType.EncryptPass:
 						{
 							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
@@ -221,6 +266,11 @@ namespace NCrypt
 									this.item.SetResultBinary(t_security.GetResultBinary());
 									t_success = true;
 								}
+							}break;
+						case MonoBehaviour_Base.ResultType.VerifySuccess:
+							{
+								this.item.SetResultVerifySuccess();
+								t_success = true;
 							}break;
 						}
 

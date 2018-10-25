@@ -28,13 +28,17 @@ namespace NCrypt
 			*/
 			None,
 
+			/** エラー。
+			*/
+			Error,
+
 			/** バイナリー。
 			*/
 			Binary,
 
-			/** エラー。
+			/** 検証成功。
 			*/
-			Error,
+			VerifySuccess,
 		}
 
 		/** result_type
@@ -158,6 +162,13 @@ namespace NCrypt
 		public byte[] GetResultBinary()
 		{
 			return this.result_binary;
+		}
+
+		/** 結果。検証成功。設定。
+		*/
+		public void SetResultVerifySuccess()
+		{
+			this.result_type = ResultType.VerifySuccess;
 		}
 	}
 }

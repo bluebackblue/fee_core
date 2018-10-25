@@ -149,6 +149,26 @@ namespace NCrypt
 			return t_work.GetItem();
 		}
 
+		/** リクエスト。証明作成。プライベートキー。
+		*/
+		public Item RequestCreateSignaturePrivateKey(byte[] a_binary,string a_key)
+		{
+			Work t_work = new Work();
+			t_work.RequestCreateSignaturePrivateKey(a_binary,a_key);
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。署名検証。パブリックキー。
+		*/
+		public Item RequestVerifySignaturePublicKey(byte[] a_binary,byte[] a_signature_binary,string a_key)
+		{
+			Work t_work = new Work();
+			t_work.RequestVerifySignaturePublicKey(a_binary,a_signature_binary,a_key);
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
 		/** リクエスト。暗号化。パスワード。
 		*/
 		public Item RequestEncryptPass(byte[] a_binary,string a_pass,string a_salt)
