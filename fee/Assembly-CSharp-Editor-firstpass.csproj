@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{16C1E4CB-B5E0-5E4D-5AD0-2E1ADB82D895}</ProjectGuid>
+    <ProjectGuid>{E11E87C6-4D90-0127-2AE5-5F9F38577C8A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor-firstpass</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_3_0;UNITY_2018_3;UNITY_2018;UNITY_INCLUDE_TESTS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_TEXTURE_STREAMING;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_VIDEO;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_LOCALIZATION;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_EVENT_QUEUE;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_AR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_4_6;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;USE_UNIVRM;PHOTON_UNITY_NETWORKING;PUN_2_0_OR_NEWER;PUN_2_OR_NEWER</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_3_0;UNITY_2018_3;UNITY_2018;UNITY_INCLUDE_TESTS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITES;ENABLE_GRID;ENABLE_TILEMAP;ENABLE_TERRAIN;ENABLE_TEXTURE_STREAMING;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_VIDEO;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_LOCALIZATION;PLATFORM_ANDROID;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_SUBSTANCE;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_EVENT_QUEUE;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_AR;UNITY_HAS_GOOGLEVR;UNITY_HAS_TANGO;ENABLE_SPATIALTRACKING;ENABLE_RUNTIME_PERMISSIONS;UNITY_ASTC_ONLY_DECOMPRESS;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_4_6;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;USE_UNIVRM;PHOTON_UNITY_NETWORKING;PUN_2_0_OR_NEWER;PUN_2_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -47,8 +47,8 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
-    <UnityProjectType>Editor:5</UnityProjectType>
-    <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
+    <UnityProjectType>EditorPlugins:7</UnityProjectType>
+    <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>2018.3.0b7</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -60,57 +60,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoHub\Editor\PunStartup.cs" />
-    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\Editor\BezierCurveInspector.cs" />
-    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\Editor\BezierSplineInspector.cs" />
-    <Compile Include="Assets\Photon\PhotonUnityNetworking\Demos\DemoSlotRacer\Scripts\BezierCurve\Editor\LineInspector.cs" />
-    <Compile Include="Assets\VRM.Samples\Editor\VRMExportUnityPackage.cs" />
-    <Compile Include="Assets\VRM.Samples\Editor\VRMImportExportTests.cs" />
-    <Compile Include="Assets\VRM.Samples\Editor\VRMMaterialTests.cs" />
-    <Compile Include="Assets\VRM\MToon\MToon\Editor\MToonInspector.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\BlendShapeAvatarEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\BlendShapeClipEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\PreviewEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\PreviewFaceRenderer.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\VRMBlendShapeManipulatorEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\BlendShape\Editor\VRMBlnedShapeProxyEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\Editor\Tests\EnumUtilTest.cs" />
-    <Compile Include="Assets\VRM\Scripts\Editor\Tests\MeshTests.cs" />
-    <Compile Include="Assets\VRM\Scripts\Editor\Tests\VRMBlendShapeKeyTest.cs" />
-    <Compile Include="Assets\VRM\Scripts\Editor\VRMMonoBehaviourComparator.cs" />
-    <Compile Include="Assets\VRM\Scripts\Editor\VRMTest.cs" />
-    <Compile Include="Assets\VRM\Scripts\FirstPerson\Editor\RendererFirstPersonFlagsDrawer.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\vrmAssetPostprocessor.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMAssetWriter.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMExporterMenu.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMExportObjectEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMHumanoidNormalizerMenu.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMImporterMenu.cs" />
-    <Compile Include="Assets\VRM\Scripts\Format\Editor\VRMVersionMenu.cs" />
-    <Compile Include="Assets\VRM\Scripts\LookAt\Editor\VRMLookAtHeadEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\Meta\Editor\VRMMetaEditor.cs" />
-    <Compile Include="Assets\VRM\Scripts\SkinnedMeshUtility\Editor\BoneMeshEraserWizard.cs" />
-    <Compile Include="Assets\VRM\Scripts\SkinnedMeshUtility\Editor\MeshIntegrator.cs" />
-    <Compile Include="Assets\VRM\Scripts\SkinnedMeshUtility\Editor\MeshIntegratorWizard.cs" />
-    <Compile Include="Assets\VRM\Scripts\SpringBone\Editor\VRMSpringBoneColliderGroupEditor.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\Core\Editor\MaterialTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\Core\Editor\UniGLTFTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Editor\gltfAssetPostprocessor.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Editor\ImporterMenu.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\Core\Scripts\Editor\UniGLTFVersionMenu.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\Editor\BoneMappingEditor.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\Editor\bvhAssetPostprocessor.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\Editor\HumanPoseTransferEditor.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniHumanoid\Scripts\Editor\Tests\BvhLoaderTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\IWriteStreamTest.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\JsonDiffTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\JsonFormatterTest.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\JsonParserTest.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\ParserTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\SchemaTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\SerializerTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniJSON\Editor\Tests\ValidatorTests.cs" />
-    <Compile Include="Assets\VRM\UniGLTF\UniUnlit\Editor\UniUnlitEditor.cs" />
+    <Compile Include="Assets\Plugins\UnityChannel\XiaomiSupport\Editor\AppStoreModel.cs" />
+    <Compile Include="Assets\Plugins\UnityChannel\XiaomiSupport\Editor\AppStoreOnboardApi.cs" />
+    <Compile Include="Assets\Plugins\UnityChannel\XiaomiSupport\Editor\AppStoreSettingsEditor.cs" />
+    <Compile Include="Assets\Plugins\UnityChannel\XiaomiSupport\Editor\XiaomiPackageNameExtension.cs" />
+    <Compile Include="Assets\Plugins\UnityPurchasing\Editor\IAPButtonEditor.cs" />
+    <None Include="Assets\Plugins\UnityPurchasing\Editor\IAPGeneratedCredentials.cs.template" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/work/github/fee/fee/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -374,6 +329,36 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>C:/work/github/fee/fee/Assets/Photon/PhotonUnityNetworking/Code/Editor/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ChannelPurchase">
+      <HintPath>C:/work/github/fee/fee/Assets/Plugins/UnityChannel/ChannelPurchase.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityStore">
+      <HintPath>C:/work/github/fee/fee/Assets/Plugins/UnityChannel/UnityStore.dll</HintPath>
+    </Reference>
+    <Reference Include="Editor">
+      <HintPath>C:/work/github/fee/fee/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Purchasing.Common">
+      <HintPath>C:/work/github/fee/fee/Assets/Plugins/UnityPurchasing/Bin/Purchasing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Stores">
+      <HintPath>C:/work/github/fee/fee/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
+    </Reference>
+    <Reference Include="Apple">
+      <HintPath>C:/work/github/fee/fee/Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
+    </Reference>
+    <Reference Include="FacebookStore">
+      <HintPath>C:/work/github/fee/fee/Assets/Plugins/UnityPurchasing/Bin/Facebook/FacebookStore.dll</HintPath>
+    </Reference>
+    <Reference Include="Security">
+      <HintPath>C:/work/github/fee/fee/Assets/Plugins/UnityPurchasing/Bin/Security/live/Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Tizen">
+      <HintPath>C:/work/github/fee/fee/Assets/Plugins/UnityPurchasing/Bin/Tizen/Tizen.dll</HintPath>
+    </Reference>
+    <Reference Include="winrt">
+      <HintPath>C:/work/github/fee/fee/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>C:/work/github/fee/fee/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
@@ -749,9 +734,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{4462AA9E-4FA3-0022-354C-BC60A1B1CC3A}</Project>
-      <Name>Assembly-CSharp</Name>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{B3D852DD-4BB6-DBBC-6F5A-DBBC65932D56}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj">
       <Project>{DFBDBC98-F709-D182-6D23-A1D3E9E446EC}</Project>
