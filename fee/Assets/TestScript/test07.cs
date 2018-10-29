@@ -13,6 +13,11 @@ using UnityEngine;
 
 
 /** test07
+
+	公開鍵暗号
+	署名
+	共通鍵暗号
+
 */
 public class test07 : main_base
 {
@@ -263,7 +268,7 @@ public class test07 : main_base
 			{
 				this.plane_binary = new byte[15];
 				for(int ii=0;ii<this.plane_binary.Length;ii++){
-					this.plane_binary[this.plane_binary.Length - ii - 1] = (byte)(ii % 256);
+					this.plane_binary[ii] = (byte)(ii % 256);
 				}
 
 				//暗号化開始。
@@ -345,7 +350,7 @@ public class test07 : main_base
 			{
 				this.plane_binary = new byte[15];
 				for(int ii=0;ii<this.plane_binary.Length;ii++){
-					this.plane_binary[this.plane_binary.Length - ii - 1] = (byte)(ii % 256);
+					this.plane_binary[ii] = (byte)(ii % 256);
 				}
 
 				//暗号化開始。
@@ -365,11 +370,7 @@ public class test07 : main_base
 						this.text.SetText(this.step.ToString() + " : Success");
 
 						{
-							string t_log = "";
-							for(int ii=0;ii<t_binary.Length;ii++){
-								t_log += t_binary[ii].ToString() + " ";
-							}
-							Debug.Log(t_log);
+							Debug.Log("Encrypt = " + System.BitConverter.ToString(t_binary));
 						}
 
 						this.encrypt_binary = t_binary;

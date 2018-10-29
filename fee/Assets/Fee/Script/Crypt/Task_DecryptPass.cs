@@ -45,13 +45,20 @@ namespace NCrypt
 			try{
 				//RijndaelManaged
 				System.Security.Cryptography.RijndaelManaged t_rijndael = new System.Security.Cryptography.RijndaelManaged();
+				t_rijndael.KeySize = 256;
+				t_rijndael.BlockSize = 128;
+				t_rijndael.Mode = System.Security.Cryptography.CipherMode.CBC;
 
 				{
 					byte[] t_salt = System.Text.Encoding.UTF8.GetBytes(a_salt);
 					System.Security.Cryptography.Rfc2898DeriveBytes t_derivebyte = new System.Security.Cryptography.Rfc2898DeriveBytes(a_pass,t_salt);
 					t_derivebyte.IterationCount = 1000;
+
 					t_rijndael.Key = t_derivebyte.GetBytes(t_rijndael.KeySize / 8);
 					t_rijndael.IV = t_derivebyte.GetBytes(t_rijndael.BlockSize / 8);
+
+					Tool.Log("Key",System.BitConverter.ToString(t_rijndael.Key));
+					Tool.Log("IV",System.BitConverter.ToString(t_rijndael.IV));
 				}
 
 				//TransformFinalBlock
