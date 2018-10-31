@@ -57,6 +57,11 @@ namespace NFile
 		[SerializeField]
 		private string request_url;
 
+		/** request_post_data
+		*/
+		[SerializeField]
+		private WWWForm request_post_data;
+
 		/** request_filename
 		*/
 		[SerializeField]
@@ -102,6 +107,9 @@ namespace NFile
 			//request_url
 			this.request_url = null;
 
+			//request_post_data
+			this.request_post_data = null;
+
 			//request_filename
 			this.request_filename = null;
 
@@ -146,7 +154,7 @@ namespace NFile
 			case RequestType.DownLoadBinaryFile:
 				{
 					Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
-					yield return t_coroutine.CoroutineMain(this,this.request_url);
+					yield return t_coroutine.CoroutineMain(this,this.request_url,this.request_post_data);
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
@@ -158,7 +166,7 @@ namespace NFile
 			case RequestType.DownLoadTextFile:
 				{
 					Coroutine_DownLoadTextFile t_coroutine = new Coroutine_DownLoadTextFile();
-					yield return t_coroutine.CoroutineMain(this,this.request_url);
+					yield return t_coroutine.CoroutineMain(this,this.request_url,this.request_post_data);
 
 					if(t_coroutine.result.text != null){
 						this.SetResultText(t_coroutine.result.text);
@@ -194,7 +202,7 @@ namespace NFile
 			case RequestType.LoadStreamingAssetsBinaryFile:
 				{
 					Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
-					yield return t_coroutine.CoroutineMain(this,Application.streamingAssetsPath + "/" + this.request_filename);
+					yield return t_coroutine.CoroutineMain(this,Application.streamingAssetsPath + "/" + this.request_filename,null);
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
@@ -231,7 +239,7 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public bool RequestDownLoadBinaryFile(string a_url)
+		public bool RequestDownLoadBinaryFile(string a_url,WWWForm a_post_data)
 		{
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
@@ -239,6 +247,7 @@ namespace NFile
 
 				this.request_type = RequestType.DownLoadBinaryFile;
 				this.request_url = a_url;
+				this.request_post_data = a_post_data;
 
 				return true;
 			}
@@ -248,7 +257,7 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public bool RequestDownLoadTextFile(string a_url)
+		public bool RequestDownLoadTextFile(string a_url,WWWForm a_post_data)
 		{
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
@@ -256,6 +265,7 @@ namespace NFile
 
 				this.request_type = RequestType.DownLoadTextFile;
 				this.request_url = a_url;
+				this.request_post_data = a_post_data;
 
 				return true;
 			}

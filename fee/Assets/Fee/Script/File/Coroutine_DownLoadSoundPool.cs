@@ -156,7 +156,7 @@ namespace NFile
 			NAudio.Pack_SoundPool t_download_soundpool = null;
 			{
 				Coroutine_DownLoadTextFile t_coroutine = new Coroutine_DownLoadTextFile();
-				yield return t_coroutine.CoroutineMain(this,t_url_path + t_filename);
+				yield return t_coroutine.CoroutineMain(this,t_url_path + t_filename,null);
 
 				if(t_coroutine.result.text != null){
 					t_download_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_coroutine.result.text));
@@ -194,7 +194,7 @@ namespace NFile
 					//ダウンロード。
 					{
 						Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
-						yield return t_coroutine.CoroutineMain(this,t_url_path + t_download_soundpool.name_list[ii]);
+						yield return t_coroutine.CoroutineMain(this,t_url_path + t_download_soundpool.name_list[ii],null);
 
 						if(t_coroutine.result.binary != null){
 							t_binary = t_coroutine.result.binary;

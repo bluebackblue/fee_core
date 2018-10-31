@@ -118,6 +118,10 @@ namespace NFile
 		*/
 		private string request_url;
 
+		/** request_post_data
+		*/
+		private WWWForm request_post_data;
+
 		/** request_assetbundle_id
 		*/
 		private long request_assetbundle_id;
@@ -157,6 +161,9 @@ namespace NFile
 
 			//request_url
 			this.request_url = null;
+
+			//request_post_data
+			this.request_post_data = null;
 
 			//request_assetbundle_id
 			this.request_assetbundle_id = 0;
@@ -230,18 +237,20 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public void RequestDownLoadBinaryFile(string a_url)
+		public void RequestDownLoadBinaryFile(string a_url,WWWForm a_post_data)
 		{
 			this.request_type = RequestType.DownLoadBinaryFile;
 			this.request_url = a_url;
+			this.request_post_data = a_post_data;
 		}
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public void RequestDownLoadTextFile(string a_url)
+		public void RequestDownLoadTextFile(string a_url,WWWForm a_post_data)
 		{
 			this.request_type = RequestType.DownLoadTextFile;
 			this.request_url = a_url;
+			this.request_post_data = a_post_data;
 		}
 
 		/** リクエスト。ダウンロード。テクスチャーファイル。
@@ -342,14 +351,14 @@ namespace NFile
 					case RequestType.DownLoadBinaryFile:
 						{
 							MonoBehaviour_WebRequest t_webrequest = NFile.File.GetInstance().GetMonoWebRequest();
-							if(t_webrequest.RequestDownLoadBinaryFile(this.request_url) == true){
+							if(t_webrequest.RequestDownLoadBinaryFile(this.request_url,this.request_post_data) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
 					case RequestType.DownLoadTextFile:
 						{
 							MonoBehaviour_WebRequest t_webrequest = NFile.File.GetInstance().GetMonoWebRequest();
-							if(t_webrequest.RequestDownLoadTextFile(this.request_url) == true){
+							if(t_webrequest.RequestDownLoadTextFile(this.request_url,this.request_post_data) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
