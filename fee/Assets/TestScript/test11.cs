@@ -189,11 +189,13 @@ public class test11 : main_base
 		this.status = new NRender2D.Text2D(this.deleter,null,0);
 		this.status.SetRect(100,50,0,0);
 		this.status.SetText("-");
+		this.status.SetFontSize(13);
 
 		//ステータス。
 		this.status_2 = new NRender2D.Text2D(this.deleter,null,0);
 		this.status_2.SetRect(100,100,0,0);
 		this.status_2.SetText("-");
+		this.status.SetFontSize(13);
 
 		int t_xx = 0;
 
@@ -331,7 +333,7 @@ public class test11 : main_base
 	private void CallBack_Click_Bgm(int a_id)
 	{
 		if(this.download_item_bgm == null){
-			string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
+			string t_url = "https://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
 	
 			#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
 			t_url += "StandaloneWindows/";
@@ -400,10 +402,10 @@ public class test11 : main_base
 				string t_name = "se";
 
 				if(this.soundpool_flag == true){
-					string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/" + t_name + ".txt";
+					string t_url = "https://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/Raw/" + t_name + ".txt";
 					this.download_item_se = NFile.File.GetInstance().RequestDownLoadSoundPool(t_url,DATA_VERSION);
 				}else{
-					string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
+					string t_url = "https://bbbproject.sakura.ne.jp/www/project_webgl/fee/AssetBundle/";
 	
 					#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
 					t_url += "StandaloneWindows/";

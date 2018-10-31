@@ -134,7 +134,7 @@ public class test03 : main_base , NEventPlate.OnOverCallBack_Base
 			//inputfield
 			this.inputfield = new NRender2D.InputField2D(this.deleter,null,this.drawpriority_ui);
 			this.inputfield.SetRect(130 + 50 + 10,10,700,50);
-			this.inputfield.SetText("http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx");
+			this.inputfield.SetText("https://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx");
 			this.inputfield.SetMultiLine(false);
 
 			//ステータス。

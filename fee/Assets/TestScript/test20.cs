@@ -172,7 +172,7 @@ public class test20 : main_base
 				//ＶＲＭダウンロード開始。
 				this.status_text.SetText(this.step.ToString());
 
-				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx";
+				string t_url = "https://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx";
 				this.vrm_loaditem = NFile.File.GetInstance().RequestDownLoadBinaryFile(t_url,null,NFile.ProgressMode.DownLoad);
 
 				this.step = Step.LoadVrm_Do;

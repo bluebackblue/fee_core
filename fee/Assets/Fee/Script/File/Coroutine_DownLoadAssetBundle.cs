@@ -74,7 +74,7 @@ namespace NFile
 					//エラーチェック。
 					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
 						//エラー終了。
-						this.result.errorstring = "Coroutine_DownLoadAssetBundle : " + t_webrequest.error;
+						this.result.errorstring = "Coroutine_DownLoadAssetBundle : " + t_webrequest.error + " : " + a_url;
 						yield break;
 					}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
 						//正常終了。
