@@ -143,6 +143,7 @@
     <Compile Include="Assets\Fee\Script\File\MonoBehaviour_SoundPool.cs" />
     <Compile Include="Assets\Fee\Script\File\MonoBehaviour_WebRequest.cs" />
     <Compile Include="Assets\Fee\Script\File\OnCoroutine_CallBack.cs" />
+    <Compile Include="Assets\Fee\Script\File\ProgressMode.cs" />
     <Compile Include="Assets\Fee\Script\File\Task_LoadLocalBinaryFile.cs" />
     <Compile Include="Assets\Fee\Script\File\Task_LoadLocalTextFile.cs" />
     <Compile Include="Assets\Fee\Script\File\Task_LoadLocalTextureFile.cs" />

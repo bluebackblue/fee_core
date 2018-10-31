@@ -52,6 +52,11 @@ namespace NFile
 		[SerializeField]
 		private RequestType request_type;
 
+		/** request_progress_mode
+		*/
+		[SerializeField]
+		private ProgressMode request_progress_mode;
+
 		/** request_url
 		*/
 		[SerializeField]
@@ -104,6 +109,9 @@ namespace NFile
 			//request_type
 			this.request_type = RequestType.None;
 
+			//request_progress_mode
+			this.request_progress_mode = ProgressMode.None;
+
 			//request_url
 			this.request_url = null;
 
@@ -154,7 +162,7 @@ namespace NFile
 			case RequestType.DownLoadBinaryFile:
 				{
 					Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
-					yield return t_coroutine.CoroutineMain(this,this.request_url,this.request_post_data);
+					yield return t_coroutine.CoroutineMain(this,this.request_url,this.request_post_data,this.request_progress_mode);
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
@@ -166,7 +174,7 @@ namespace NFile
 			case RequestType.DownLoadTextFile:
 				{
 					Coroutine_DownLoadTextFile t_coroutine = new Coroutine_DownLoadTextFile();
-					yield return t_coroutine.CoroutineMain(this,this.request_url,this.request_post_data);
+					yield return t_coroutine.CoroutineMain(this,this.request_url,this.request_post_data,this.request_progress_mode);
 
 					if(t_coroutine.result.text != null){
 						this.SetResultText(t_coroutine.result.text);
@@ -202,7 +210,7 @@ namespace NFile
 			case RequestType.LoadStreamingAssetsBinaryFile:
 				{
 					Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
-					yield return t_coroutine.CoroutineMain(this,Application.streamingAssetsPath + "/" + this.request_filename,null);
+					yield return t_coroutine.CoroutineMain(this,Application.streamingAssetsPath + "/" + this.request_filename,null,ProgressMode.DownLoad);
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
@@ -239,7 +247,7 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public bool RequestDownLoadBinaryFile(string a_url,WWWForm a_post_data)
+		public bool RequestDownLoadBinaryFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
@@ -248,6 +256,7 @@ namespace NFile
 				this.request_type = RequestType.DownLoadBinaryFile;
 				this.request_url = a_url;
 				this.request_post_data = a_post_data;
+				this.request_progress_mode = a_progress_mode;
 
 				return true;
 			}
@@ -257,7 +266,7 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public bool RequestDownLoadTextFile(string a_url,WWWForm a_post_data)
+		public bool RequestDownLoadTextFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
@@ -266,6 +275,7 @@ namespace NFile
 				this.request_type = RequestType.DownLoadTextFile;
 				this.request_url = a_url;
 				this.request_post_data = a_post_data;
+				this.request_progress_mode = a_progress_mode;
 
 				return true;
 			}

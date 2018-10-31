@@ -52,7 +52,7 @@ namespace NFile
 
 		/** CoroutineMain
 		*/
-		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url,WWWForm a_post_data)
+		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			//result
 			this.result = new ResultType();

@@ -271,7 +271,7 @@ public class test03 : main_base , NEventPlate.OnOverCallBack_Base
 			}
 
 			#if(true)
-			this.load_item = NFile.File.GetInstance().RequestDownLoadBinaryFile(this.inputfield.GetText(),null);
+			this.load_item = NFile.File.GetInstance().RequestDownLoadBinaryFile(this.inputfield.GetText(),null,NFile.ProgressMode.DownLoad);
 			#else
 			this.load_item = NFile.File.GetInstance().RequestLoadStreamingAssetsBinaryFile("nana.vrmx");
 			#endif

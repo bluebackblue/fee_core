@@ -173,7 +173,7 @@ public class test20 : main_base
 				this.status_text.SetText(this.step.ToString());
 
 				string t_url = "http://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx";
-				this.vrm_loaditem = NFile.File.GetInstance().RequestDownLoadBinaryFile(t_url,null);
+				this.vrm_loaditem = NFile.File.GetInstance().RequestDownLoadBinaryFile(t_url,null,NFile.ProgressMode.DownLoad);
 
 				this.step = Step.LoadVrm_Do;
 			}break;

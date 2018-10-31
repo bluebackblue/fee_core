@@ -67,7 +67,7 @@ public class test09 : main_base
 		this.text.SetText("---");
 
 		//item
-		this.item = NFile.File.GetInstance().RequestDownLoadTextFile("https://bbbproject.sakura.ne.jp/www/project_discord/main/",null);
+		this.item = NFile.File.GetInstance().RequestDownLoadTextFile("https://bbbproject.sakura.ne.jp/www/project_discord/main/",null,NFile.ProgressMode.DownLoad);
 	}
 
 	/** FixedUpdate

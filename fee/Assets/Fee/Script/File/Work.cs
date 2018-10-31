@@ -106,6 +106,10 @@ namespace NFile
 		*/
 		private Mode mode;
 
+		/** request_progress_mode
+		*/
+		private ProgressMode request_progress_mode;
+
 		/** request_type
 		*/
 		private RequestType request_type;
@@ -152,6 +156,9 @@ namespace NFile
 		{
 			//mode
 			this.mode = Mode.Start;
+
+			//request_progress_mode
+			this.request_progress_mode = ProgressMode.None;
 
 			//request_type
 			this.request_type = RequestType.None;
@@ -237,20 +244,22 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public void RequestDownLoadBinaryFile(string a_url,WWWForm a_post_data)
+		public void RequestDownLoadBinaryFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			this.request_type = RequestType.DownLoadBinaryFile;
 			this.request_url = a_url;
 			this.request_post_data = a_post_data;
+			this.request_progress_mode = a_progress_mode;
 		}
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public void RequestDownLoadTextFile(string a_url,WWWForm a_post_data)
+		public void RequestDownLoadTextFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			this.request_type = RequestType.DownLoadTextFile;
 			this.request_url = a_url;
 			this.request_post_data = a_post_data;
+			this.request_progress_mode = a_progress_mode;
 		}
 
 		/** リクエスト。ダウンロード。テクスチャーファイル。
@@ -351,14 +360,14 @@ namespace NFile
 					case RequestType.DownLoadBinaryFile:
 						{
 							MonoBehaviour_WebRequest t_webrequest = NFile.File.GetInstance().GetMonoWebRequest();
-							if(t_webrequest.RequestDownLoadBinaryFile(this.request_url,this.request_post_data) == true){
+							if(t_webrequest.RequestDownLoadBinaryFile(this.request_url,this.request_post_data,this.request_progress_mode) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
 					case RequestType.DownLoadTextFile:
 						{
 							MonoBehaviour_WebRequest t_webrequest = NFile.File.GetInstance().GetMonoWebRequest();
-							if(t_webrequest.RequestDownLoadTextFile(this.request_url,this.request_post_data) == true){
+							if(t_webrequest.RequestDownLoadTextFile(this.request_url,this.request_post_data,this.request_progress_mode) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;

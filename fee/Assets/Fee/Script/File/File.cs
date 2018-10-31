@@ -258,20 +258,20 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public Item RequestDownLoadBinaryFile(string a_url,WWWForm a_post_data)
+		public Item RequestDownLoadBinaryFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadBinaryFile(a_url,a_post_data);
+			t_work.RequestDownLoadBinaryFile(a_url,a_post_data,a_progress_mode);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public Item RequestDownLoadTextFile(string a_url,WWWForm a_post_data)
+		public Item RequestDownLoadTextFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadTextFile(a_url,a_post_data);
+			t_work.RequestDownLoadTextFile(a_url,a_post_data,a_progress_mode);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
