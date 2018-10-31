@@ -83,7 +83,15 @@ namespace NFile
 
 					//キャンセル。
 					if(a_instance != null){
-						if(a_instance.OnCoroutine(t_webrequest.downloadProgress) == false){
+						float t_progress = 0.0f;
+
+						if(a_progress_mode == ProgressMode.DownLoad){
+							t_progress = t_webrequest.downloadProgress;
+						}else{
+							t_progress = t_webrequest.uploadProgress;
+						}
+
+						if(a_instance.OnCoroutine(t_progress) == false){
 							t_webrequest.Abort();
 						}
 					}
