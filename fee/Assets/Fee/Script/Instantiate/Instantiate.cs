@@ -36,7 +36,15 @@ namespace NInstantiate
 
 				t_resouce.inputField = Sprite.Create(s_texture_inputfield,new Rect(0.0f,0.0f,s_texture_inputfield.width,s_texture_inputfield.height),new Vector2(0.0f,0.0f));
 			}
+
 			GameObject t_gameobject = UnityEngine.UI.DefaultControls.CreateInputField(t_resouce);
+
+			if(t_gameobject != null){
+				UnityEngine.UI.Image t_image = t_gameobject.GetComponent<UnityEngine.UI.Image>();
+				if(t_image != null){
+					t_image.type = UnityEngine.UI.Image.Type.Simple;
+				}
+			}
 
 			return t_gameobject;
 		}
