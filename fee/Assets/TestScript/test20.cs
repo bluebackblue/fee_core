@@ -22,13 +22,19 @@ public class test20 : main_base
 	{
 		Init,
 
-		CreateTerrain,
+		Login_Start,
+		Login_WaitButton,
+		Login_Connect_Start,
+		Login_Connect_Do,
+		Login_Connect_End,
 
-		LoadVrm_Start,
-		LoadVrm_Do,
+		DwonLoadVrm_Start,
+		DwonLoadVrm_Do,
 
 		CreateVrm_Start,
 		CreateVrm_Do,
+
+		CreateTerrain,
 
 		ToMain,
 
@@ -58,8 +64,20 @@ public class test20 : main_base
 	*/
 	private NRender2D.Text2D status_text;
 
+	/** login
+	*/
+	private NUi.Button login_button;
+	private NUi.Button login_apikey_button;
+	private NRender2D.InputField2D login_apikey_inputfield;
+	private NRender2D.InputField2D login_pass_inputfield;
+	private NRender2D.Text2D login_apikey_text;
+	private NRender2D.Text2D login_pass_text;
+	private NFile.Item login_api_vrm_get;
+	private NRender2D.Text2D login_last_error;
+
 	/** vrm
 	*/
+	private string vrm_url;
 	private NUniVrm.Item vrm;
 	private NFile.Item vrm_loaditem;
 	private GameObject vrm_camera;
@@ -120,10 +138,82 @@ public class test20 : main_base
 		this.status_text.SetRect(100,10,0,0);
 		this.status_text.SetText("");
 
+		//login
+		{
+			int t_button_w = 100;
+			int t_button_h = 50;
+			int t_button_x = 200;//(NRender2D.Render2D.VIRTUAL_W - t_button_w) / 2;
+			int t_button_y = (NRender2D.Render2D.VIRTUAL_H - t_button_h) / 2;
+
+			int t_pass_x = t_button_x;
+			int t_pass_y = t_button_y - 70;
+			int t_pass_h = 50;
+			int t_apikey_x = t_button_x;
+			int t_apikey_y = t_button_y - 140;
+			int t_apikey_h = 50;
+
+			this.login_button = new NUi.Button(this.deleter,null,0,this.CallBack_Click_Login,0);
+			this.login_button.SetTexture(Resources.Load<Texture2D>("button"));
+			this.login_button.SetRect(t_button_x,t_button_y,t_button_w,t_button_h);
+			this.login_button.SetText("ログイン");
+			this.login_button.SetVisible(false);
+
+			this.login_pass_inputfield = new NRender2D.InputField2D(this.deleter,null,0);
+			this.login_pass_inputfield.SetRect(t_pass_x,t_pass_y,300,t_pass_h);
+			this.login_pass_inputfield.SetVisible(false);
+
+			this.login_apikey_inputfield = new NRender2D.InputField2D(this.deleter,null,0);
+			this.login_apikey_inputfield.SetRect(t_apikey_x,t_apikey_y,400,t_apikey_h);
+			this.login_apikey_inputfield.SetVisible(false);
+
+			this.login_pass_text = new NRender2D.Text2D(this.deleter,null,0);
+			this.login_pass_text.SetRect(t_pass_x - 100,t_pass_y,0,t_pass_h);
+			this.login_pass_text.SetText("PASS");
+			this.login_pass_text.SetCenter(false,true);
+			this.login_pass_text.SetVisible(false);
+
+			this.login_apikey_text = new NRender2D.Text2D(this.deleter,null,0);
+			this.login_apikey_text.SetRect(t_apikey_x - 100,t_apikey_y,0,t_apikey_h);
+			this.login_apikey_text.SetText("APIKEY");
+			this.login_apikey_text.SetCenter(false,true);
+			this.login_apikey_text.SetVisible(false);
+
+			this.login_apikey_button = new NUi.Button(this.deleter,null,0,this.CallBack_Click_ApiKeyPage,0);
+			this.login_apikey_button.SetTexture(Resources.Load<Texture2D>("button"));
+			this.login_apikey_button.SetRect(t_apikey_x + 450,t_apikey_y,t_button_w + 140,t_button_h);
+			this.login_apikey_button.SetText("ApiKey作成ページを開く");
+			this.login_apikey_button.SetVisible(false);
+
+			this.login_last_error = new NRender2D.Text2D(this.deleter,null,0);
+			this.login_last_error.SetRect(t_button_x + 130,t_button_y,0,t_pass_h);
+			this.login_last_error.SetText("---");
+			this.login_last_error.SetCenter(false,true);
+			this.login_last_error.SetVisible(false);
+
+			this.login_api_vrm_get = null;
+		}
+
 		//vrm
+		this.vrm_url = null;
 		this.vrm = null;
 		this.vrm_loaditem = null;
 		this.vrm_status = VrmStatus.None;
+	}
+
+	/** [Button_Base]コールバック。クリック。
+	*/
+	public void CallBack_Click_Login(int a_id)
+	{
+		if(this.step == Step.Login_WaitButton){
+			this.step = Step.Login_Connect_Start;
+		}
+	}
+
+	/** [Button_Base]コールバック。クリック。
+	*/
+	public void CallBack_Click_ApiKeyPage(int a_id)
+	{
+		Application.OpenURL("https://bbbproject.sakura.ne.jp/www/project_discord/");
 	}
 
 	/** FixedUpdate
@@ -156,29 +246,168 @@ public class test20 : main_base
 			{
 				this.status_text.SetText(this.step.ToString());
 
-				this.step = Step.CreateTerrain;
+				this.step = Step.Login_Start;
 			}break;
-		case Step.CreateTerrain:
+		case Step.Login_Start:
 			{
-				//テレイン作成。
+				//ログイン。開始。
 				this.status_text.SetText(this.step.ToString());
 
-				GameObject t_prefab = Resources.Load<GameObject>("Terrain/TerrainPrefab");
-				GameObject t_terrain = GameObject.Instantiate<GameObject>(t_prefab);
-				this.step = Step.LoadVrm_Start;
+				{
+					this.login_button.SetVisible(true);
+					this.login_pass_inputfield.SetVisible(true);
+					this.login_pass_inputfield.SetText("");
+					this.login_apikey_inputfield.SetVisible(true);
+					this.login_apikey_inputfield.SetText("");
+					this.login_pass_text.SetVisible(true);
+					this.login_apikey_text.SetVisible(true);
+					this.login_apikey_button.SetVisible(true);
+					this.login_last_error.SetVisible(true);
+				}
+
+				this.step = Step.Login_WaitButton;
 			}break;
-		case Step.LoadVrm_Start:
+		case Step.Login_WaitButton:
 			{
-				//ＶＲＭダウンロード開始。
+				//ログイン。ボタン待ち。
+				this.status_text.SetText(this.step.ToString());
+			}break;
+		case Step.Login_Connect_Start:
+			{
+				//ログイン。ＶＲＭファイルのＵＲＬ取得。開始。
 				this.status_text.SetText(this.step.ToString());
 
-				string t_url = "https://bbbproject.sakura.ne.jp/www/project_webgl/fee/StreamingAssets/nana.vrmx";
-				this.vrm_loaditem = NFile.File.GetInstance().RequestDownLoadBinaryFile(t_url,null,NFile.ProgressMode.DownLoad);
+				WWWForm t_post_data = new WWWForm();
+				t_post_data.AddField("apikey_pass",this.login_pass_inputfield.GetText());
+				t_post_data.AddField("apikey_token",this.login_apikey_inputfield.GetText());
+				this.login_api_vrm_get = NFile.File.GetInstance().RequestDownLoadTextFile("https://bbbproject.sakura.ne.jp/www/project_discord/api/vrm/get/",t_post_data,NFile.ProgressMode.DownLoad);
 
-				this.step = Step.LoadVrm_Do;
+				this.step = Step.Login_Connect_Do;
 			}break;
-		case Step.LoadVrm_Do:
+		case Step.Login_Connect_Do:
 			{
+				//ログイン。ＶＲＭファイルのＵＲＬ取得。処理中。
+
+				if(this.login_api_vrm_get != null){
+					if(this.login_api_vrm_get.IsBusy() == true){
+						//ダウンロード中。
+						this.status_text.SetText(this.step.ToString() + " " + this.login_api_vrm_get.GetResultProgress().ToString());
+
+						//キャンセル。
+						if(this.IsChangeScene() == true){
+							this.login_api_vrm_get.Cancel();
+						}
+					}else{
+						if(this.login_api_vrm_get.GetResultType() == NFile.Item.ResultType.Text){
+							//ダウンロード成功。
+						}else{
+							//ダウンロード失敗。
+							this.login_api_vrm_get = null;
+						}
+
+						this.step = Step.Login_Connect_End;
+					}
+				}else{
+					this.step = Step.Login_Connect_End;
+				}
+			}break;
+		case Step.Login_Connect_End:
+			{
+				this.vrm_url = null;
+
+				if(this.login_api_vrm_get != null){
+
+					NJsonItem.JsonItem t_json = new NJsonItem.JsonItem(this.login_api_vrm_get.GetResultText());
+					if(t_json != null){
+						if(t_json.IsAssociativeArray() == true){
+							if(t_json.IsExistItem("vrm_url", NJsonItem.ValueType.StringData) == true){
+								this.vrm_url = t_json.GetItem("vrm_url").GetStringData();
+							}
+						}
+					}
+
+					{
+						this.login_button.SetVisible(false);
+						this.login_pass_inputfield.SetVisible(false);
+						this.login_pass_inputfield.SetText("");
+						this.login_apikey_inputfield.SetVisible(false);
+						this.login_apikey_inputfield.SetText("");
+						this.login_pass_text.SetVisible(false);
+						this.login_apikey_text.SetVisible(false);
+						this.login_apikey_button.SetVisible(false);
+						this.login_last_error.SetVisible(false);
+					}
+
+					if(this.vrm_url != null){
+						this.status_text.SetText(this.vrm_url);
+
+						this.step = Step.DwonLoadVrm_Start;
+					}else{
+
+						string t_error = "error";
+						if(t_json != null){
+							if(t_json.IsAssociativeArray() == true){
+								if(t_json.IsExistItem("error", NJsonItem.ValueType.StringData) == true){
+									t_error = t_json.GetItem("error").GetStringData();
+								}
+							}
+						}
+
+						this.login_last_error.SetText(t_error);
+
+						this.status_text.SetText(t_error);
+
+						this.step = Step.Login_Start;
+					}
+				}
+			}break;
+		case Step.DwonLoadVrm_Start:
+			{
+				//ダウンロードＶＲＭ。開始。
+
+				string t_vrm_url = null;
+
+				if(this.login_api_vrm_get != null){
+
+					NJsonItem.JsonItem t_json = new NJsonItem.JsonItem(this.login_api_vrm_get.GetResultText());
+					if(t_json != null){
+						if(t_json.IsAssociativeArray() == true){
+							if(t_json.IsExistItem("vrm_url", NJsonItem.ValueType.StringData) == true){
+								t_vrm_url = t_json.GetItem("vrm_url").GetStringData();
+							}
+						}
+					}
+
+					if(t_vrm_url != null){
+						this.status_text.SetText(t_vrm_url);
+					}else{
+
+						string t_error = "error";
+
+						if(t_json != null){
+							if(t_json.IsAssociativeArray() == true){
+								if(t_json.IsExistItem("error", NJsonItem.ValueType.StringData) == true){
+									t_error = t_json.GetItem("error").GetStringData();
+								}
+							}
+						}
+
+						this.status_text.SetText(t_error);
+					}
+				}
+
+				if(t_vrm_url != null){
+					this.vrm_loaditem = NFile.File.GetInstance().RequestDownLoadBinaryFile(t_vrm_url,null,NFile.ProgressMode.DownLoad);
+				}else{
+					this.vrm_loaditem = null;
+				}
+
+				this.step = Step.DwonLoadVrm_Do;
+			}break;
+		case Step.DwonLoadVrm_Do:
+			{
+				//ダウンロードＶＲＭ。処理中。
+
 				if(this.vrm_loaditem != null){
 					if(this.vrm_loaditem.IsBusy() == true){
 						//ダウンロード中。
@@ -251,11 +480,20 @@ public class test20 : main_base
 							this.vrm = null;
 						}
 
-						this.step = Step.ToMain;
+						this.step = Step.CreateTerrain;
 					}
 				}else{
-					this.step = Step.ToMain;
+					this.step = Step.CreateTerrain;
 				}
+			}break;
+		case Step.CreateTerrain:
+			{
+				//テレイン作成。
+				this.status_text.SetText(this.step.ToString());
+
+				GameObject t_prefab = Resources.Load<GameObject>("Terrain/TerrainPrefab");
+				GameObject t_terrain = GameObject.Instantiate<GameObject>(t_prefab);
+				this.step = Step.ToMain;
 			}break;
 		case Step.ToMain:
 			{
