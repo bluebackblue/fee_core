@@ -392,10 +392,10 @@ namespace NRender2D
 		public void Raw_SetLayer(Transform a_layer_transform)
 		{
 			if(a_layer_transform == null){
-				this.raw_gameobject.SetActive(false);
+				//this.raw_gameobject.SetActive(false);
 			}else{
 				this.raw_transform.SetParent(a_layer_transform);
-				this.raw_gameobject.SetActive(true);
+				//this.raw_gameobject.SetActive(true);
 				this.raw_recttransform.localScale = new Vector3(1.0f,1.0f,1.0f);
 			}
 		}
@@ -404,7 +404,7 @@ namespace NRender2D
 		*/
 		public void Raw_SetEnable(bool a_flag)
 		{
-			this.raw_inputfield.enabled = a_flag;
+			this.raw_gameobject.SetActive(a_flag);
 		}
 
 		/** [内部からの呼び出し]シェーダの変更が必要。取得。
