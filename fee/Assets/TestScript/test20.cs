@@ -168,7 +168,7 @@ public class test20 : main_base
 
 			this.login_pass_text = new NRender2D.Text2D(this.deleter,null,0);
 			this.login_pass_text.SetRect(t_pass_x - 100,t_pass_y,0,t_pass_h);
-			this.login_pass_text.SetText("PASS");
+			this.login_pass_text.SetText("PASSWORD");
 			this.login_pass_text.SetCenter(false,true);
 			this.login_pass_text.SetVisible(false);
 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +22,7 @@ public class main : MonoBehaviour
 
 	/** シーン数。
 	*/
-	private static int SCENE_COUNT = 20;
+	private static int SCENE_COUNT = 21;
 
 	/** deleter
 	*/

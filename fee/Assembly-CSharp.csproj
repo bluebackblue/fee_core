@@ -390,6 +390,7 @@
     <Compile Include="Assets\TestScript\test18.cs" />
     <Compile Include="Assets\TestScript\test19.cs" />
     <Compile Include="Assets\TestScript\test20.cs" />
+    <Compile Include="Assets\TestScript\test21.cs" />
     <Compile Include="Assets\VRM.Samples\Scripts\CanvasManager.cs" />
     <Compile Include="Assets\VRM.Samples\Scripts\FileDialogForWindows.cs" />
     <Compile Include="Assets\VRM.Samples\Scripts\RokuroCamera.cs" />
