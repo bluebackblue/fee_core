@@ -1,4 +1,5 @@
 using UnityEngine.Experimental.Input.LowLevel;
+using UnityEngine.Experimental.Input.Utilities;
 
 ////REVIEW: introduce separate base class for ButtonControl and AxisControl instead of deriving ButtonControl from AxisControl?
 
@@ -11,7 +12,7 @@ namespace UnityEngine.Experimental.Input.Controls
     /// By default stored as a single bit. In that format, buttons will only yield 0
     /// and 1 as values.
     ///
-    /// Note that While it may seem unnatural to derive ButtonControl from AxisControl,
+    /// It may seem unnatural to derive ButtonControl from AxisControl, but
     /// doing so brings many benefits through allowing code to flexibly target buttons
     /// and axes the same way.
     /// </remarks>
@@ -26,6 +27,8 @@ namespace UnityEngine.Experimental.Input.Controls
         public ButtonControl()
         {
             m_StateBlock.format = InputStateBlock.kTypeBit;
+            m_MinValue = 0f;
+            m_MaxValue = 1f;
         }
 
         protected bool IsValueConsideredPressed(float value)

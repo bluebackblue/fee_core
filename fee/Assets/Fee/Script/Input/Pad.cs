@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -139,7 +139,7 @@ namespace NInput
 		*/
 		private void Delete()
 		{
-			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
+			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
 			if(t_gamepad_current != null){
 				t_gamepad_current.SetMotorSpeeds(0.0f,0.0f);
 			}
@@ -149,7 +149,7 @@ namespace NInput
 		*/
 		private bool Main_InputSystemGamePad_DigitalButton()
 		{
-			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
+			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
 			if(t_gamepad_current != null){
 				//デバイス。
 				bool t_left_on = t_gamepad_current.dpad.left.isPressed;
@@ -217,7 +217,7 @@ namespace NInput
 		*/
 		private bool Main_InputSystemGamePad_Stick()
 		{
-			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
+			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
 			if(t_gamepad_current != null){
 				//デバイス。
 				float t_l_x = t_gamepad_current.leftStick.x.ReadValue();
@@ -264,7 +264,7 @@ namespace NInput
 		*/
 		private bool Main_InputSystemGamePad_Trigger()
 		{
-			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
+			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
 			if(t_gamepad_current != null){
 				//デバイス。
 				bool t_l_1 = t_gamepad_current.leftShoulder.isPressed;
@@ -315,7 +315,7 @@ namespace NInput
 		*/
 		private bool Main_InputSystemGamePad_Motor()
 		{
-			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.Gamepad.current;
+			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
 			if(t_gamepad_current != null){
 				float t_value_low = this.moter_low.GetValue();
 				float t_value_high = this.moter_high.GetValue();			

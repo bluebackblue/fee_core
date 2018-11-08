@@ -5,7 +5,14 @@ using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine.Experimental.Input.LowLevel;
 using UnityEngine.Experimental.Input.Utilities;
 
+////TODO: make this one thread-safe
+
 ////TODO: invalidate data when associated actions re-resolve
+
+////TODO: add random access capability
+
+////REVIEW: rename back to InputActionEventQueue? if we have InputActionMap, InputActionStack, and InputActionQueue, it's
+////        rather confusing that in the end, they contain very different action-related things
 
 namespace UnityEngine.Experimental.Input
 {
@@ -15,7 +22,7 @@ namespace UnityEngine.Experimental.Input
     /// <remarks>
     /// This is an alternate way to the callback-based responses (such as <see cref="InputAction.performed"/>)
     /// of <see cref="InputAction">input actions</see>. Instead of executing response code right away whenever
-    /// an action triggers, an event is recorded which can then be queried on demand.
+    /// an action triggers, an <see cref="RecordAction">event is recorded</see> which can then be queried on demand.
     /// </remarks>
     public class InputActionQueue : IEnumerable<InputActionQueue.ActionEventPtr>, IDisposable
     {
@@ -23,8 +30,6 @@ namespace UnityEngine.Experimental.Input
         /// <summary>
         /// Directly access the underlying raw memory queue.
         /// </summary>
-        /// <remarks>
-        /// </remarks>
         public InputEventBuffer buffer
         {
             get { return m_EventBuffer; }
@@ -39,6 +44,10 @@ namespace UnityEngine.Experimental.Input
         /// Record the triggering of an action as an <see cref="ActionEventPtr">action event</see>.
         /// </summary>
         /// <param name="context"></param>
+        /// <see cref="InputAction.performed"/>
+        /// <see cref="InputAction.started"/>
+        /// <see cref="InputAction.cancelled"/>
+        /// <see cref="InputActionMap.actionTriggered"/>
         public unsafe void RecordAction(InputAction.CallbackContext context)
         {
             // Find/add state.
@@ -66,7 +75,7 @@ namespace UnityEngine.Experimental.Input
             context.ReadValue(valueBuffer, valueSizeInBytes);
         }
 
-        public void Flush()
+        public void Clear()
         {
             m_EventBuffer.Reset();
             m_ActionMapStates.ClearWithCapacity();

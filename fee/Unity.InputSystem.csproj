@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\Composites\AxisComposite.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\Composites\DpadComposite.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\IInputActionCollection.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\IInputBindingComposite.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\IInputInteraction.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputAction.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputBindingCompositeContext.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputBindingResolver.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputControlScheme.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputControlSchemeExtensions.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\InputInteractionContext.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\Interactions\DoubleTapInteraction.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Actions\Interactions\DragAndDropInteraction.cs" />
@@ -105,19 +105,21 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\InputControlLayout.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\InputControlLayoutAttribute.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\InputControlLayoutChange.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\InputControlList.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\InputControlPath.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\IntegerControl.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\KeyControl.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Magnitude2Control.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Magnitude3Control.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\PointerPhaseControl.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Processors\AxisDeadzoneProcessor.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Processors\ClampProcessor.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Processors\CurveProcessor.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Processors\DeadzoneProcessor.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Processors\EditorWindowSpaceProcessor.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Processors\InvertProcessor.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Processors\NormalizeProcessor.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Processors\SensitivityProcessor.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Processors\StickDeadzoneProcessor.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\QuaternionControl.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\StickControl.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\TouchControl.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Controls\Vector3Control.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\DisableDeviceCommand.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\EnableDeviceCommand.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\EnableIMECompositionCommand.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\IInputDeviceCommandInfo.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\InputDeviceCommand.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\QueryDimensionsCommand.cs" />
@@ -134,6 +137,7 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\QueryKeyNameCommand.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\QuerySamplingFrequencyCommand.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\QueryUserIdCommand.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\SetIMECursorPositionCommand.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\SetSamplingFrequencyCommand.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Commands\WarpMousePositionCommand.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Gamepad.cs" />
@@ -148,10 +152,11 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\InputDeviceDescription.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\InputDeviceMatcher.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\InputDeviceReference.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\InputNoiseFilter.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\ITextInputReceiver.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Joystick.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Keyboard.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Mouse.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\NoiseFilter.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Pen.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Pointer.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Remote\InputRemoting.cs" />
@@ -160,9 +165,15 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Devices\Touchscreen.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\EditorInputControlLayoutCache.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\EditorPlayerSettings.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\ActionInspectorWindow.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\ActionInspectorContextMenu.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\ActionMapsTree.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\ActionsTree.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\AddControlSchemePopup.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\AssetInspectorWindow.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\CopyPasteUtility.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\InputActionListTreeView.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\InputActionAssetManager.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\InputActionTreeBase.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\InputActionWindowToolbar.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\InputBindingPropertiesView.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\InputTreeViewLine.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionAsset\PropertyLists.cs" />
@@ -173,10 +184,10 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionImporter.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionImporterEditor.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionInspector\BindingPropertiesPopup.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionInspector\InputActionComponentListTreeView.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionInspector\InputActionDrawer.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionInspector\InputActionMapDrawer.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionInspector\InputDrawersBase.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionInspector\InspectorTree.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputActionPropertyDrawer.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputBindingDrawer.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Editor\InputControlPicker\InputControlPickerPopup.cs" />
@@ -198,6 +209,7 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Events\DeviceConfigurationEvent.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Events\DeviceRemoveEvent.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Events\IInputEventTypeInfo.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Events\IMECompositionEvent.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Events\InputEvent.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Events\InputEventBuffer.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Events\InputEventPtr.cs" />
@@ -251,12 +263,19 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\SteeringWheels\SteeringWheel.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\Switch\NPad.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\Switch\SwitchSupport.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\JoystickModel.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\MouseModel.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\TouchModel.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\TrackedDeviceModel.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\TrackedDeviceRaycaster.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\UIActionInputModule.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\UIActionInputModuleEnabler.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\UIGamepadInputModule.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\UIInputModule.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\UIKeyboardMouseInputModule.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\UITouchInputModule.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\UI\UIXRInputModule.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\Users\IInputUser.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\Users\InputUser.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\Users\InputUserChange.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\Users\InputUserHandle.cs" />
@@ -275,6 +294,7 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Haptics\SimpleRumble.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Knuckles.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Oculus.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\TrackedPoseDriver.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\Vive.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\WindowsMR.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Plugins\XR\XRSupport.cs" />
@@ -286,7 +306,6 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\State\InputStateBuffers.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\State\InputStateHistory.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\ArrayHelpers.cs" />
-    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\ArrayOrListWrapper.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\CSharpCodeHelpers.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\DynamicBitfield.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\FourCC.cs" />
@@ -303,6 +322,7 @@
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\Substring.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\TypeHelpers.cs" />
     <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\TypeTable.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\InputSystem\Utilities\Unity2018_2_Compatibility.cs" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.0a8/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>

@@ -10,6 +10,12 @@ using UnityEngine.Experimental.Input.Layouts;
 using UnityEngine.Experimental.Input.LowLevel;
 using UnityEngine.Experimental.Input.Utilities;
 
+#if UNITY_2018_3_OR_NEWER
+using UnityEngine.TestTools.Constraints;
+using Is = UnityEngine.TestTools.Constraints.Is;
+#endif
+
+#pragma warning disable CS0649
 partial class CoreTests
 {
     // This is one of the most central tests. If this one breaks, it most often
@@ -57,6 +63,26 @@ partial class CoreTests
         Assert.That(gamepad.rightStick.x.ReadValue(), Is.EqualTo(1).Within(0.000001));
     }
 
+    #if UNITY_2018_3_OR_NEWER
+    [Test]
+    [Category("Events")]
+    [Ignore("TODO")]
+    public void TODO_Events_ProcessingStateEvent_DoesNotAllocateMemory()
+    {
+        var gamepad = InputSystem.AddDevice<Gamepad>();
+
+        ////REVIEW: We do some analytics stuff on the first update that allocates. Probably there's
+        ////        a better way to handle this.
+        InputSystem.Update();
+
+        InputSystem.QueueStateEvent(gamepad, new GamepadState { leftStick = Vector2.one });
+
+        ////FIXME: seeing odd allocations that seem be triggered by the noise filtering stuff
+        Assert.That(() => InputSystem.Update(), Is.Not.AllocatingGCMemory());
+    }
+
+    #endif
+
     [Test]
     [Category("Events")]
     public void Events_TakeDeviceOffsetsIntoAccount()
@@ -91,8 +117,8 @@ partial class CoreTests
     {
         var device = InputSystem.AddDevice<Gamepad>();
 
-        testRuntime.currentTime = 1234;
-        testRuntime.currentTimeOffsetToRealtimeSinceStartup = 1123;
+        runtime.currentTime = 1234;
+        runtime.currentTimeOffsetToRealtimeSinceStartup = 1123;
 
         double? receivedTime = null;
         double? receivedInternalTime = null;
@@ -114,19 +140,6 @@ partial class CoreTests
     [Test]
     [Category("Events")]
     [Ignore("TODO")]
-    public void TODO_Events_SendingEventWithNoChanges_DoesNotUpdateDevice()
-    {
-        var gamepad = InputSystem.AddDevice<Gamepad>();
-
-        InputSystem.QueueStateEvent(gamepad, new GamepadState(), 2);
-        InputSystem.Update();
-
-        Assert.That(gamepad.lastUpdateTime, Is.Not.EqualTo(2).Within(0.00001));
-    }
-
-    [Test]
-    [Category("Events")]
-    [Ignore("TODO")]
     public void TODO_Events_AreTimeslicedAcrossFixedUpdates()
     {
         var gamepad = InputSystem.AddDevice<Gamepad>();
@@ -135,7 +148,7 @@ partial class CoreTests
         InputSystem.QueueStateEvent(gamepad, new GamepadState { leftTrigger = 0.2345f }, 2);
         InputSystem.QueueStateEvent(gamepad, new GamepadState { leftTrigger = 0.3456f }, 3);
 
-        //testRuntime.
+        //runtime.
         //InputSystem.Update(InputUpdateType.Fixed);
 
         Assert.Fail();
@@ -163,7 +176,7 @@ partial class CoreTests
 
             var stateEventPtr = StateEvent.From(eventPtr);
             Assert.That(stateEventPtr->baseEvent.deviceId, Is.EqualTo(mouse.id));
-            Assert.That(stateEventPtr->baseEvent.time, Is.EqualTo(testRuntime.currentTime));
+            Assert.That(stateEventPtr->baseEvent.time, Is.EqualTo(runtime.currentTime));
             Assert.That(stateEventPtr->baseEvent.sizeInBytes, Is.EqualTo(buffer.Length));
             Assert.That(stateEventPtr->baseEvent.sizeInBytes,
                 Is.EqualTo(InputEvent.kBaseEventSize + sizeof(FourCC) + mouse.stateBlock.alignedSizeInBytes));
@@ -592,7 +605,7 @@ partial class CoreTests
             ++receivedUpdateCalls;
             receivedEventCount += eventCount;
         };
-        testRuntime.onUpdate += onUpdate;
+        runtime.onUpdate += onUpdate;
 
         InputSystem.Update();
 
@@ -627,7 +640,6 @@ partial class CoreTests
     {
         [InputControl(name = "button1", layout = "Button")]
         public int buttons;
-
         [InputControl(layout = "Axis")] public float axis2;
 
         public FourCC GetFormat()
@@ -739,6 +751,65 @@ partial class CoreTests
         Assert.That(device.onUpdateCallCount, Is.EqualTo(1));
         Assert.That(device.onUpdateType, Is.EqualTo(InputUpdateType.Dynamic));
         Assert.That(device.axis.ReadValue(), Is.EqualTo(0.234).Within(0.000001));
+    }
+
+    [Test]
+    [Category("Events")]
+    public void Events_CanDetectWhetherControlIsPartOfEvent()
+    {
+        // We use a mouse here as it has several controls that are "parked" outside MouseState.
+        var mouse = InputSystem.AddDevice<Mouse>();
+
+        InputSystem.onEvent +=
+            eventPtr =>
+        {
+            // For every control that isn't contained in a state event, GetStatePtrFromStateEvent() should
+            // return IntPtr.Zero.
+            if (eventPtr.IsA<StateEvent>())
+            {
+                Assert.That(mouse.position.GetStatePtrFromStateEvent(eventPtr), Is.Not.EqualTo(IntPtr.Zero));
+                Assert.That(mouse.tilt.GetStatePtrFromStateEvent(eventPtr), Is.EqualTo(IntPtr.Zero));
+            }
+            else if (eventPtr.IsA<DeltaStateEvent>())
+            {
+                Assert.That(mouse.position.GetStatePtrFromStateEvent(eventPtr), Is.Not.EqualTo(IntPtr.Zero));
+                Assert.That(mouse.leftButton.GetStatePtrFromStateEvent(eventPtr), Is.EqualTo(IntPtr.Zero));
+            }
+            else
+            {
+                Assert.Fail("Unexpected type of event");
+            }
+        };
+
+        InputSystem.QueueStateEvent(mouse, new MouseState());
+        InputSystem.QueueDeltaStateEvent(mouse.position, new Vector2(0.5f, 0.5f));
+        InputSystem.Update();
+    }
+
+    [Test]
+    [Category("Events")]
+    public void Events_CanListenForWhenAllEventsHaveBeenProcessed()
+    {
+        InputUpdateType? receivedUpdateType = null;
+        Action<InputUpdateType> callback =
+            type =>
+        {
+            Assert.That(receivedUpdateType, Is.Null);
+            receivedUpdateType = type;
+        };
+
+        InputSystem.onAfterUpdate += callback;
+
+        InputSystem.Update(InputUpdateType.Dynamic);
+
+        Assert.That(receivedUpdateType, Is.EqualTo(InputUpdateType.Dynamic));
+
+        receivedUpdateType = null;
+        InputSystem.onAfterUpdate -= callback;
+
+        InputSystem.Update();
+
+        Assert.That(receivedUpdateType, Is.Null);
     }
 
     [Test]

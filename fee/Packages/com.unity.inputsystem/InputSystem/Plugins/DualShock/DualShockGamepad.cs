@@ -8,9 +8,10 @@ using UnityEngine.Experimental.Input.Layouts;
 namespace UnityEngine.Experimental.Input.Plugins.DualShock
 {
     /// <summary>
-    /// A PS4 DualShock controller.
+    /// A Sony DualShock controller.
     /// </summary>
-    public abstract class DualShockGamepad : Gamepad, IDualShockHaptics
+    [InputControlLayout] // Unset state type inherited from base.
+    public class DualShockGamepad : Gamepad, IDualShockHaptics
     {
         public ButtonControl touchpadButton { get; private set; }
         public ButtonControl optionsButton { get; private set; }
@@ -23,8 +24,6 @@ namespace UnityEngine.Experimental.Input.Plugins.DualShock
         public Vector3Control acceleration { get; private set; }
         public QuaternionControl orientation { get; private set; }
         public Vector3Control angularVelocity { get; private set; }
-
-        public new static DualShockGamepad current { get; private set; }
 
         public ButtonControl L3 { get; private set; }
         public ButtonControl R3 { get; private set; }
@@ -57,12 +56,8 @@ namespace UnityEngine.Experimental.Input.Plugins.DualShock
             R3 = rightStickButton;
         }
 
-        public override void MakeCurrent()
+        public virtual void SetLightBarColor(Color color)
         {
-            base.MakeCurrent();
-            current = this;
         }
-
-        public abstract void SetLightBarColor(Color color);
     }
 }

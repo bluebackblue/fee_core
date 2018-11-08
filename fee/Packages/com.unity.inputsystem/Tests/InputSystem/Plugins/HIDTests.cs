@@ -12,10 +12,11 @@ using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Experimental.Input.Layouts;
 using UnityEngine.Experimental.Input.Utilities;
+using UnityEngine.TestTools.Utils;
 
 ////TODO: add test to make sure we're not grabbing HIDs that have more specific layouts
 
-public class HIDTests : InputTestFixture
+internal class HIDTests : InputTestFixture
 {
     [Test]
     [Category("Devices")]
@@ -37,7 +38,7 @@ public class HIDTests : InputTestFixture
             }
         };
 
-        testRuntime.ReportNewInputDevice(
+        runtime.ReportNewInputDevice(
             new InputDeviceDescription
             {
                 interfaceName = HID.kHIDInterface,
@@ -129,10 +130,10 @@ public class HIDTests : InputTestFixture
         const int kNumElements = 4 + 1 + 14 + 54 + 31;
 
         // The HID report descriptor is fetched from the device via an IOCTL.
-        var deviceId = testRuntime.AllocateDeviceId();
+        var deviceId = runtime.AllocateDeviceId();
         unsafe
         {
-            testRuntime.SetDeviceCommandCallback(deviceId,
+            runtime.SetDeviceCommandCallback(deviceId,
                 (id, commandPtr) =>
                 {
                     if (commandPtr->type == HID.QueryHIDReportDescriptorSizeDeviceCommandType)
@@ -152,7 +153,7 @@ public class HIDTests : InputTestFixture
                 });
         }
         // Report device.
-        testRuntime.ReportNewInputDevice(
+        runtime.ReportNewInputDevice(
             new InputDeviceDescription
             {
                 interfaceName = HID.kHIDInterface,
@@ -167,7 +168,7 @@ public class HIDTests : InputTestFixture
         InputSystem.Update();
 
         // Grab device.
-        var device = (HID)InputSystem.TryGetDeviceById(deviceId);
+        var device = (HID)InputSystem.GetDeviceById(deviceId);
         Assert.That(device, Is.Not.Null);
         Assert.That(device, Is.TypeOf<HID>());
 
@@ -219,10 +220,10 @@ public class HIDTests : InputTestFixture
     [Category("Devices")]
     public void Devices_CanCreateGenericHID_FromDeviceWithParsedReportDescriptor()
     {
-        var deviceId = testRuntime.AllocateDeviceId();
+        var deviceId = runtime.AllocateDeviceId();
         unsafe
         {
-            testRuntime.SetDeviceCommandCallback(deviceId,
+            runtime.SetDeviceCommandCallback(deviceId,
                 (id, commandPtr) =>
                 {
                     if (commandPtr->type == HID.QueryHIDParsedReportDescriptorDeviceCommandType)
@@ -257,7 +258,7 @@ public class HIDTests : InputTestFixture
                     return -1;
                 });
         }
-        testRuntime.ReportNewInputDevice(
+        runtime.ReportNewInputDevice(
             new InputDeviceDescription
             {
                 interfaceName = HID.kHIDInterface,
@@ -305,7 +306,7 @@ public class HIDTests : InputTestFixture
             }
         };
 
-        testRuntime.ReportNewInputDevice(new InputDeviceDescription
+        runtime.ReportNewInputDevice(new InputDeviceDescription
         {
             interfaceName = HID.kHIDInterface,
             manufacturer = "TestVendor",
@@ -334,7 +335,7 @@ public class HIDTests : InputTestFixture
             }
         };
 
-        testRuntime.ReportNewInputDevice(
+        runtime.ReportNewInputDevice(
             new InputDeviceDescription
             {
                 interfaceName = HID.kHIDInterface,
@@ -404,7 +405,7 @@ public class HIDTests : InputTestFixture
                 .AddElement(HID.GenericDesktop.Vy, 16).WithLogicalMinMax(-10000, 10000)
                 .Finish();
 
-        testRuntime.ReportNewInputDevice(
+        runtime.ReportNewInputDevice(
             new InputDeviceDescription
             {
                 interfaceName = HID.kHIDInterface,
@@ -494,7 +495,7 @@ public class HIDTests : InputTestFixture
                     .StartReport(HID.HIDReportType.Input)
                     .AddElement(HID.GenericDesktop.X, 16).WithLogicalMinMax(0, 65535).Finish();
 
-            testRuntime.ReportNewInputDevice(
+            runtime.ReportNewInputDevice(
                 new InputDeviceDescription
                 {
                     interfaceName = HID.kHIDInterface,
@@ -530,7 +531,7 @@ public class HIDTests : InputTestFixture
             }
         };
 
-        testRuntime.ReportNewInputDevice(
+        runtime.ReportNewInputDevice(
             new InputDeviceDescription
             {
                 interfaceName = HID.kHIDInterface,
@@ -559,7 +560,7 @@ public class HIDTests : InputTestFixture
             }
         };
 
-        testRuntime.ReportNewInputDevice(
+        runtime.ReportNewInputDevice(
             new InputDeviceDescription
             {
                 interfaceName = HID.kHIDInterface,
@@ -606,7 +607,7 @@ public class HIDTests : InputTestFixture
             }
         };
 
-        testRuntime.ReportNewInputDevice(
+        runtime.ReportNewInputDevice(
             new InputDeviceDescription
             {
                 interfaceName = HID.kHIDInterface,
@@ -644,63 +645,63 @@ public class HIDTests : InputTestFixture
             InputSystem.QueueEvent(eventPtr);
             InputSystem.Update();
 
-            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo(Vector2.zero).Using(vector2Comparer));
+            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo(Vector2.zero).Using(Vector2EqualityComparer.Instance));
 
             stateData[0] = kUp;
 
             InputSystem.QueueEvent(eventPtr);
             InputSystem.Update();
 
-            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo(Vector2.up).Using(vector2Comparer));
+            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo(Vector2.up).Using(Vector2EqualityComparer.Instance));
 
             stateData[0] = kUpRight;
 
             InputSystem.QueueEvent(eventPtr);
             InputSystem.Update();
 
-            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo((Vector2.up + Vector2.right).normalized).Using(vector2Comparer));
+            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo((Vector2.up + Vector2.right).normalized).Using(Vector2EqualityComparer.Instance));
 
             stateData[0] = kRight;
 
             InputSystem.QueueEvent(eventPtr);
             InputSystem.Update();
 
-            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo(Vector2.right).Using(vector2Comparer));
+            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo(Vector2.right).Using(Vector2EqualityComparer.Instance));
 
             stateData[0] = kRightDown;
 
             InputSystem.QueueEvent(eventPtr);
             InputSystem.Update();
 
-            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo((Vector2.right + Vector2.down).normalized).Using(vector2Comparer));
+            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo((Vector2.right + Vector2.down).normalized).Using(Vector2EqualityComparer.Instance));
 
             stateData[0] = kDown;
 
             InputSystem.QueueEvent(eventPtr);
             InputSystem.Update();
 
-            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo(Vector2.down).Using(vector2Comparer));
+            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo(Vector2.down).Using(Vector2EqualityComparer.Instance));
 
             stateData[0] = kDownLeft;
 
             InputSystem.QueueEvent(eventPtr);
             InputSystem.Update();
 
-            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo((Vector2.down + Vector2.left).normalized).Using(vector2Comparer));
+            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo((Vector2.down + Vector2.left).normalized).Using(Vector2EqualityComparer.Instance));
 
             stateData[0] = kLeft;
 
             InputSystem.QueueEvent(eventPtr);
             InputSystem.Update();
 
-            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo(Vector2.left).Using(vector2Comparer));
+            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo(Vector2.left).Using(Vector2EqualityComparer.Instance));
 
             stateData[0] = kLeftUp;
 
             InputSystem.QueueEvent(eventPtr);
             InputSystem.Update();
 
-            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo((Vector2.left + Vector2.up).normalized).Using(vector2Comparer));
+            Assert.That(hid["dpad"].ReadValueAsObject(), Is.EqualTo((Vector2.left + Vector2.up).normalized).Using(Vector2EqualityComparer.Instance));
         }
     }
 
@@ -748,7 +749,7 @@ public class HIDTests : InputTestFixture
             }
         };
 
-        testRuntime.ReportNewInputDevice(
+        runtime.ReportNewInputDevice(
             new InputDeviceDescription
             {
                 interfaceName = HID.kHIDInterface,
@@ -794,6 +795,17 @@ public class HIDTests : InputTestFixture
     [Category("Devices")]
     [Ignore("TODO")]
     public void TODO_Devices_GenericHIDGamepadIsTurnedIntoJoystick()
+    {
+        Assert.Fail();
+    }
+
+    // It should be possible to reuse parts of the HID layout builder for building custom HID-based layouts
+    // without having to individually hardwire each element. Or at least it should be possible to leverage
+    // the descriptor processing part of the HID layout builder to help building layouts.
+    [Test]
+    [Category("Layouts")]
+    [Ignore("TODO")]
+    public void TODO_Layouts_CanBuildCustomLayoutsBasedOnTheHIDLayoutBuilder()
     {
         Assert.Fail();
     }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -124,7 +124,7 @@ namespace NInput
 		*/
 		private bool Main_InputSystemPointer_Position(NRender2D.Render2D a_render2d)
 		{
-			UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.Pointer.current;
+			UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Pointer>();
 			if(t_pointer_current != null){
 				//デバイス。
 				int t_pointer_x = (int)t_pointer_current.position.x.ReadValue();
@@ -160,7 +160,7 @@ namespace NInput
 		*/
 		private bool Main_InputSystemMouse_Position(NRender2D.Render2D a_render2d)
 		{
-			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
+			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
 			if(t_mouse_current != null){
 				//デバイス。
 				int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
@@ -223,7 +223,7 @@ namespace NInput
 		*/
 		private bool Main_InputSystemPointer_Button()
 		{
-			UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.Pointer.current;
+			UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Pointer>();
 			if(t_pointer_current != null){
 				bool t_l_on = this.left.on;
 
@@ -264,7 +264,7 @@ namespace NInput
 		*/
 		private bool Main_InputSystemMouse_Button()
 		{
-			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
+			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
 			if(t_mouse_current != null){
 				//デバイス。
 				bool t_l_on = t_mouse_current.leftButton.isPressed;
@@ -305,11 +305,11 @@ namespace NInput
 		*/
 		private bool Main_InputSystemMouse_Wheel()
 		{
-			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.Mouse.current;
+			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
 			if(t_mouse_current != null){
 				//デバイス。
-				int t_x = (int)UnityEngine.Experimental.Input.Mouse.current.scroll.ReadValue().x;
-				int t_y = (int)UnityEngine.Experimental.Input.Mouse.current.scroll.ReadValue().y;
+				int t_x = (int)t_mouse_current.scroll.ReadValue().x;
+				int t_y = (int)t_mouse_current.scroll.ReadValue().y;
 
 				//設定。
 				this.mouse_wheel.Set(t_x,t_y);

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -106,7 +106,7 @@ namespace NInput
 		*/
 		public bool Main_InputSystemKey_Key()
 		{
-			UnityEngine.Experimental.Input.Keyboard t_key_current = UnityEngine.Experimental.Input.Keyboard.current;
+			UnityEngine.Experimental.Input.Keyboard t_key_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Keyboard>();
 			if(t_key_current != null){
 				//デバイス。
 				bool t_enter_on = t_key_current[Config.KEY_ENTER].isPressed;

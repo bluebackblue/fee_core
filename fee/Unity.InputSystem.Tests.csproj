@@ -79,6 +79,7 @@
     <Compile Include="Packages\com.unity.inputsystem\Tests\InputSystem\Plugins\HIDTests.cs" />
     <Compile Include="Packages\com.unity.inputsystem\Tests\InputSystem\Plugins\iOSTests.cs" />
     <Compile Include="Packages\com.unity.inputsystem\Tests\InputSystem\Plugins\OnScreenTests.cs" />
+    <Compile Include="Packages\com.unity.inputsystem\Tests\InputSystem\Plugins\SteamTestFixture.cs" />
     <Compile Include="Packages\com.unity.inputsystem\Tests\InputSystem\Plugins\SteamTests.cs" />
     <Compile Include="Packages\com.unity.inputsystem\Tests\InputSystem\Plugins\SwitchTests.cs" />
     <Compile Include="Packages\com.unity.inputsystem\Tests\InputSystem\Plugins\UITests.cs" />

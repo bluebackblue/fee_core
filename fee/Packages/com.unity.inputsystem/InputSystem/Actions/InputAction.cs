@@ -1,9 +1,14 @@
 using System;
 using UnityEngine.Experimental.Input.Utilities;
 
+////REVIEW: I think the action system as it is today offers too many ways to shoot yourself in the foot. It has
+////        flexibility but at the same time has abundant opportunity for ending up with dysfunction. Common setups
+////        have to come preconfigured and work robustly for the user without requiring much understanding of how
+////        the system fits together.
+
 ////REVIEW: have single delegate instead of separate performed/started/cancelled callbacks?
 
-////REVIEW: remove everything on InputAction that isn't about being an endpoint? (i.e. 'controls', 'devices', and 'bindings')
+////REVIEW: remove everything on InputAction that isn't about being an endpoint? (i.e. 'controls' and 'bindings')
 
 ////REVIEW: should the enable/disable API actually sit on InputSystem?
 
@@ -19,6 +24,8 @@ using UnityEngine.Experimental.Input.Utilities;
 ////      a single start cycle
 
 ////TODO: allow changing bindings without having to disable
+
+////REVIVEW: what about having the concept of "consumed" on the callback context?
 
 ////REVIEW: should actions basically be handles to data that is stored in an array in the map?
 ////        (with this, we could also implement more efficient duplication where we duplicate all the binding data but not the action data)
@@ -135,9 +142,26 @@ namespace UnityEngine.Experimental.Input
         {
             get
             {
-                if (m_BindingMask.isEmpty)
-                    return null;
+                ////REVIEW: if no mask is set on the action but one is set on the map, should we return that one?
                 return m_BindingMask;
+            }
+            set
+            {
+                if (value == m_BindingMask)
+                    return;
+
+                if (value != null)
+                {
+                    var v = value.Value;
+                    v.action = name;
+                    value = v;
+                }
+
+                m_BindingMask = value;
+
+                var map = GetOrCreateActionMap();
+                if (map.m_State != null)
+                    map.ResolveBindings();
             }
         }
 
@@ -172,22 +196,6 @@ namespace UnityEngine.Experimental.Input
                 var map = GetOrCreateActionMap();
                 map.ResolveBindingsIfNecessary();
                 return map.GetControlsForSingleAction(this);
-            }
-        }
-
-        /// <summary>
-        /// The set of devices used by the action.
-        /// </summary>
-        /// <remarks>
-        /// May allocate memory each time the control setup changes on the action.
-        /// </remarks>
-        public ReadOnlyArray<InputDevice> devices
-        {
-            get
-            {
-                var map = GetOrCreateActionMap();
-                map.ResolveBindingsIfNecessary();
-                return map.GetDevicesForSingleAction(this);
             }
         }
 
@@ -292,21 +300,31 @@ namespace UnityEngine.Experimental.Input
             get { return phase != InputActionPhase.Disabled; }
         }
 
+        /// <summary>
+        /// Event that is triggered when the action has been started.
+        /// </summary>
+        /// <see cref="InputActionPhase.Started"/>
         public event Action<CallbackContext> started
         {
             add { m_OnStarted.Append(value); }
             remove { m_OnStarted.Remove(value); }
         }
 
+        /// <summary>
+        /// Event that is triggered when the action has been <see cref="started"/>
+        /// but then cancelled before being fully <see cref="performed"/>.
+        /// </summary>
+        /// <see cref="InputActionPhase.Cancelled"/>
         public event Action<CallbackContext> cancelled
         {
             add { m_OnCancelled.Append(value); }
             remove { m_OnCancelled.Remove(value); }
         }
 
-        // Listeners that are called when the action has been fully performed.
-        // Passes along the control that triggered the state change and the action
-        // object itself as well.
+        /// <summary>
+        /// Event that is triggered when the action has been fully performed.
+        /// </summary>
+        /// <see cref="InputActionPhase.Performed"/>
         public event Action<CallbackContext> performed
         {
             add { m_OnPerformed.Append(value); }
@@ -380,32 +398,6 @@ namespace UnityEngine.Experimental.Input
             --m_ActionMap.m_EnabledActionsCount;
         }
 
-        public void SetBindingMask(InputBinding bindingMask)
-        {
-            if (m_BindingMask == bindingMask)
-                return;
-
-            m_BindingMask = bindingMask;
-            if (!m_BindingMask.isEmpty)
-                m_BindingMask.action = name;
-
-            var map = GetOrCreateActionMap();
-            if (map.m_State != null)
-                map.ResolveBindings();
-        }
-
-        public void SetBindingMask(string bindingGroups)
-        {
-            if (string.IsNullOrEmpty(bindingGroups))
-                bindingGroups = null;
-            SetBindingMask(new InputBinding {groups = bindingGroups});
-        }
-
-        public void ClearBindingMask()
-        {
-            SetBindingMask(new InputBinding());
-        }
-
         ////REVIEW: right now the Clone() methods aren't overridable; do we want that?
         // If you clone an action from a set, you get a singleton action in return.
         public InputAction Clone()
@@ -430,13 +422,11 @@ namespace UnityEngine.Experimental.Input
         // For any other type of action, this is null.
         [SerializeField] internal InputBinding[] m_SingletonActionBindings;
 
-        [NonSerialized] internal InputBinding m_BindingMask;
+        [NonSerialized] internal InputBinding? m_BindingMask;
         [NonSerialized] internal int m_BindingsStartIndex;
         [NonSerialized] internal int m_BindingsCount;
         [NonSerialized] internal int m_ControlStartIndex;
         [NonSerialized] internal int m_ControlCount;
-        [NonSerialized] internal int m_DeviceStartIndex;
-        [NonSerialized] internal int m_DeviceCount;
         [NonSerialized] internal Guid m_Guid;
 
         /// <summary>
@@ -519,6 +509,13 @@ namespace UnityEngine.Experimental.Input
                     string.Format("Cannot modify bindings on action '{0}' while its action map is enabled", this));
         }
 
+        /// <summary>
+        /// Information provided to action callbacks about what triggered an action.
+        /// </summary>
+        /// <seealso cref="performed"/>
+        /// <seealso cref="started"/>
+        /// <seealso cref="cancelled"/>
+        /// <seealso cref="InputActionMap.actionTriggered"/>
         public struct CallbackContext
         {
             internal InputActionMapState m_State;
@@ -547,6 +544,24 @@ namespace UnityEngine.Experimental.Input
                 }
             }
 
+            public bool started
+            {
+                get { return phase == InputActionPhase.Started; }
+            }
+
+            public bool performed
+            {
+                get { return phase == InputActionPhase.Performed; }
+            }
+
+            public bool cancelled
+            {
+                get { return phase == InputActionPhase.Cancelled; }
+            }
+
+            /// <summary>
+            /// The action that got triggered.
+            /// </summary>
             public InputAction action
             {
                 get
@@ -557,6 +572,13 @@ namespace UnityEngine.Experimental.Input
                 }
             }
 
+            /// <summary>
+            /// The control that triggered the action.
+            /// </summary>
+            /// <remarks>
+            /// In case of a composite binding, this is the control of the composite that activated the
+            /// composite as a whole. For example, in case of a WASD-style binding, it could be the W key.
+            /// </remarks>
             public InputControl control
             {
                 get
@@ -583,11 +605,25 @@ namespace UnityEngine.Experimental.Input
                 }
             }
 
+            /// <summary>
+            /// The time at which the action got triggered.
+            /// </summary>
+            /// <remarks>
+            /// This is usually determined by the timestamp of the input event that activated a control
+            /// bound to the action.
+            /// </remarks>
             public double time
             {
                 get { return m_Time; }
             }
 
+            /// <summary>
+            /// Time at which the action was started.
+            /// </summary>
+            /// <remarks>
+            /// This is only relevant for actions that go through distinct a <see cref="InputActionPhase.Started"/>
+            /// cycle as driven by <see cref="IInputInteraction">interactions</see>.
+            /// </remarks>
             public double startTime
             {
                 get
@@ -600,6 +636,9 @@ namespace UnityEngine.Experimental.Input
                 }
             }
 
+            /// <summary>
+            /// Time difference between <see cref="time"/> and <see cref="startTime"/>.
+            /// </summary>
             public double duration
             {
                 get { return time - startTime; }

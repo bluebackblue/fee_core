@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -181,7 +181,7 @@ namespace NInput
 		*/
 		public bool Main_InputSystemTouchscreen_Touch(NRender2D.Render2D a_render2d)
 		{
-			UnityEngine.Experimental.Input.Touchscreen t_touchscreen_current = UnityEngine.Experimental.Input.Touchscreen.current;
+			UnityEngine.Experimental.Input.Touchscreen t_touchscreen_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Touchscreen>();
 			if(t_touchscreen_current != null){
 
 				this.device_item_list_count = 0;
