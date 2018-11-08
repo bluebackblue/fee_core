@@ -68,4 +68,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/TestScene/test20.unity
     guid: bfb05440bec3ebf42a416a401b2d4094
+  - enabled: 1
+    path: Assets/TestScene/test21.unity
+    guid: 81868c2fc8835eb41879dbccc14bcb72
   m_configObjects: {}
