@@ -31,13 +31,13 @@ https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
 
 ### PUN 2 - FREE
 このリポジトリにアセットは含まれていません。
-* https://github.com/bluebackblue/fee/tree/master/fee/Assets/Fee/license/pun2free
+* https://github.com/bluebackblue/fee/tree/master/license/pun2free
 * https://assetstore.unity.com/packages/tools/network/pun-2-free-119922
 * https://dashboard.photonengine.com/ja-jp/Account/Terms
 
 ### UniVRM
 このリポジトリにUniVRMは含まれていません。
-* https://github.com/bluebackblue/fee/tree/master/fee/Assets/Fee/license/univrm
+* https://github.com/bluebackblue/fee/tree/master/license/univrm
 * https://github.com/dwango/UniVRM
 
 
