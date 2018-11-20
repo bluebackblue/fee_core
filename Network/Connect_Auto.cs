@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,11 +14,11 @@ using UnityEngine;
 
 /** NNetwork
 */
-#if USE_PUN
 namespace NNetwork
 {
 	/** Connect_Auto
 	*/
+	#if(USE_DEF_PUN)
 	public class Connect_Auto
 	{
 		/** Mode
@@ -348,6 +348,6 @@ namespace NNetwork
 			return true;
 		}
 	}
+	#endif
 }
-#endif
 

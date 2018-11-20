@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -106,7 +106,9 @@ namespace NUniVrm
 						//結果。
 
 						if(t_vrm.GetResultType() == MonoBehaviour_Base.ResultType.Context){
+							#if(USE_DEF_UNIVRM)
 							this.item.SetResultContext(t_vrm.GetResultContext());
+							#endif
 						}else{
 							this.item.SetResultErrorString(t_vrm.GetResultErrorString());
 						}

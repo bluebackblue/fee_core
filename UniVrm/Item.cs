@@ -59,7 +59,7 @@ namespace NUniVrm
 
 		/** result_context
 		*/
-		#if(USE_UNIVRM)
+		#if(USE_DEF_UNIVRM)
 		private VRM.VRMImporterContext result_context;
 		#endif
 
@@ -84,7 +84,7 @@ namespace NUniVrm
 			this.cancel_flag = false;
 
 			//result_context
-			#if(USE_UNIVRM)
+			#if(USE_DEF_UNIVRM)
 			this.result_context = null;
 			#endif
 
@@ -96,7 +96,7 @@ namespace NUniVrm
 		*/
 		public void Delete()
 		{
-			#if(USE_UNIVRM)
+			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){
 				this.result_context.Destroy(false);
 			}
@@ -166,35 +166,29 @@ namespace NUniVrm
 
 		/** 結果。コンテキスト。設定。
 		*/
+		#if(USE_DEF_UNIVRM)
 		public void SetResultContext(VRM.VRMImporterContext a_context)
 		{
 			this.result_type = ResultType.Context;
-
-			#if(USE_UNIVRM)
 			this.result_context = a_context;
-			#endif
-
 			this.result_animator = null;
 
-			#if(USE_UNIVRM)
 			if(this.result_context != null){
 				if(this.result_context.Root != null){
 					this.result_animator = this.result_context.Root.GetComponent<Animator>();
 				}
 			}
-			#endif
 		}
+		#endif
 
 		/** 結果。コンテキスト。取得。
 		*/
+		#if(USE_DEF_UNIVRM)
 		public VRM.VRMImporterContext GetResultContext()
 		{
-			#if(USE_UNIVRM)
 			return this.result_context;
-			#else
-			return null;
-			#endif
 		}
+		#endif
 
 		/** [内部からの呼び出し]レイヤー。設定。
 		*/
@@ -214,7 +208,7 @@ namespace NUniVrm
 		*/
 		public void SetLayer(string a_layername)
 		{
-			#if(USE_UNIVRM)
+			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){
 				Raw_SetLayer(this.result_context.Root.transform,LayerMask.NameToLayer(a_layername));
 			}
@@ -225,7 +219,7 @@ namespace NUniVrm
 		*/
 		public void SetRendererEnable(bool a_flag)
 		{
-			#if(USE_UNIVRM)
+			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){
 				for(int ii=0;ii<this.result_context.Meshes.Count;ii++){
 					if(this.result_context.Meshes[ii] != null){
@@ -290,7 +284,7 @@ namespace NUniVrm
 		*/
 		public Transform GetTransform()
 		{
-			#if(USE_UNIVRM)
+			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){
 				return this.result_context.Root.gameObject.transform;
 			}
@@ -303,7 +297,7 @@ namespace NUniVrm
 		*/
 		public Vector3 GetForward()
 		{
-			#if(USE_UNIVRM)
+			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){
 				return this.result_context.Root.gameObject.transform.forward;
 			}
@@ -316,7 +310,7 @@ namespace NUniVrm
 		*/
 		public Vector3 GetPosition()
 		{
-			#if(USE_UNIVRM)
+			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){
 				return this.result_context.Root.gameObject.transform.position;
 			}
@@ -329,7 +323,7 @@ namespace NUniVrm
 		*/
 		public void SetPosition(ref Vector3 a_position)
 		{
-			#if(USE_UNIVRM)
+			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){
 				this.result_context.Root.gameObject.transform.position = a_position;
 			}

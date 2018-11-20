@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +22,7 @@ namespace NUniVrm
 {
 	/** [タスク]ＶＲＭパース。
 	*/
+	#if(USE_DEF_UNIVRM)
 	public class Task_VrmParse
 	{
 		/** TaskMain
@@ -34,11 +35,7 @@ namespace NUniVrm
 			//NTaskW.TaskW.GetInstance().Post((a_state) => {a_instance.SetProgressFromTask(0.0f);},null);
 
 			try{
-				#if(USE_UNIVRM)
-				{
-					a_context.ParseGlb(a_binary);
-				}
-				#endif
+				a_context.ParseGlb(a_binary);
 			}catch(System.Exception /*t_exception*/){
 				t_ret = false;
 
@@ -73,5 +70,6 @@ namespace NUniVrm
 			});
 		}
 	}
+	#endif
 }
 

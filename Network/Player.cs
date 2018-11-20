@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +18,11 @@ namespace NNetwork
 {
 	/** Player
 	*/
+	#if(USE_DEF_PUN)
 	public class Player : Photon.Pun.MonoBehaviourPun
+	#else
+	public class Player : MonoBehaviour
+	#endif
 	{
 		/** トランスフォーム。
 		*/
@@ -34,7 +38,7 @@ namespace NNetwork
 
 		/** photon_view
 		*/
-		#if USE_PUN
+		#if(USE_DEF_PUN)
 		private Photon.Pun.PhotonView photon_view;
 		#endif
 
@@ -58,11 +62,11 @@ namespace NNetwork
 			this.GetComponent<Transform>().SetParent(t_root);
 
 			//photon_view
-			#if USE_PUN
+			#if(USE_DEF_PUN)
 			this.photon_view = this.GetComponent<Photon.Pun.PhotonView>();
 			#endif
 
-			#if USE_PUN
+			#if(USE_DEF_PUN)
 			{
 				//is_mine
 				this.is_mine = this.photon_view.IsMine;
@@ -153,7 +157,7 @@ namespace NNetwork
 		*/
 		public string GetNickName()
 		{
-			#if USE_PUN
+			#if(USE_DEF_PUN)
 			return this.photon_view.Owner.NickName;
 			#else
 			return "";
@@ -164,7 +168,7 @@ namespace NNetwork
 		*/
 		public string GetUniqueID()
 		{
-			#if USE_PUN
+			#if(USE_DEF_PUN)
 			return this.photon_view.Owner.UserId;
 			#else
 			return this.GetHashCode().ToString();
@@ -175,7 +179,7 @@ namespace NNetwork
 		*/
 		public bool IsMasterClient()
 		{
-			#if USE_PUN
+			#if(USE_DEF_PUN)
 			return this.photon_view.Owner.IsMasterClient;
 			#else
 			return true;
@@ -184,16 +188,18 @@ namespace NNetwork
 
 		/** [内部からの呼び出し]リモートコール。受信。
 		*/
+		#if(USE_DEF_PUN)
 		[Photon.Pun.PunRPC]
 		public void Raw_Recv(Raw_RemoteCallKey a_key,int a_value)
 		{
 		}
+		#endif
 
 		/** [内部からの呼び出し]リモートコール。マスタークライアント。
 		*/
 		public void Raw_RemoteCall_MasterClient(Raw_RemoteCallKey a_key,int a_value)
 		{
-			#if USE_PUN
+			#if(USE_DEF_PUN)
 			if(this.photon_view != null){
 				this.photon_view.RPC("Raw_Recv",Photon.Pun.RpcTarget.MasterClient,a_key,a_value);
 			}
@@ -204,7 +210,7 @@ namespace NNetwork
 		*/
 		public void Raw_RemoteCall_All(Raw_RemoteCallKey a_key,int a_value)
 		{
-			#if USE_PUN
+			#if(USE_DEF_PUN)
 			if(this.photon_view != null){
 				this.photon_view.RPC("Raw_Recv",Photon.Pun.RpcTarget.All,a_key,a_value);
 			}
@@ -213,6 +219,7 @@ namespace NNetwork
 
 		/** リモートコール。受信。
 		*/
+		#if(USE_DEF_PUN)
 		[Photon.Pun.PunRPC]
 		public void RecvInt(int a_key,int a_value)
 		{
@@ -221,9 +228,11 @@ namespace NNetwork
 				t_callback.OnRemoteCallInt(this.playerlist_index,a_key,a_value);
 			}
 		}
+		#endif
 
 		/** リモートコール。受信。
 		*/
+		#if(USE_DEF_PUN)
 		[Photon.Pun.PunRPC]
 		public void RecvString(int a_key,string a_value)
 		{
@@ -232,12 +241,13 @@ namespace NNetwork
 				t_callback.OnRemoteCallString(this.playerlist_index,a_key,a_value);
 			}
 		}
+		#endif
 
 		/** リモートコール。
 		*/
 		public void RemoteCallInt(int a_key,int a_value)
 		{
-			#if USE_PUN
+			#if(USE_DEF_PUN)
 			if(this.photon_view != null){
 				this.photon_view.RPC("RecvInt",Photon.Pun.RpcTarget.All,a_key,a_value);
 			}
@@ -248,7 +258,7 @@ namespace NNetwork
 		*/
 		public void RemoteCallString(int a_key,string a_value)
 		{
-			#if USE_PUN
+			#if(USE_DEF_PUN)
 			if(this.photon_view != null){
 				this.photon_view.RPC("RecvString",Photon.Pun.RpcTarget.All,a_key,a_value);
 			}

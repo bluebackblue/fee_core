@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,7 +45,11 @@ namespace NUniVrm
 		*/
 		private class Work
 		{
+			/** context
+			*/
+			#if(USE_DEF_UNIVRM)
 			public VRM.VRMImporterContext context;
+			#endif
 
 			public int progress_step_max;
 			public int progress_step;
@@ -56,7 +60,9 @@ namespace NUniVrm
 			*/
 			public Work()
 			{
+				#if(USE_DEF_UNIVRM)
 				this.context = null;
+				#endif
 
 				this.progress_step_max = (int)ProgressStep.Max;
 				this.progress_step = (int)ProgressStep.Step0;
@@ -119,7 +125,9 @@ namespace NUniVrm
 		protected override IEnumerator OnDo()
 		{
 			{
+				#if(USE_DEF_UNIVRM)
 				this.work.context = new VRM.VRMImporterContext();
+				#endif
 
 				{
 					this.work.progress_step = (int)ProgressStep.Step0;
@@ -144,7 +152,10 @@ namespace NUniVrm
 				}
 			}
 
+			#if(USE_DEF_UNIVRM)
 			this.SetResultContext(this.work.context);
+			#endif
+
 			this.SetModeDoSuccess();
 			yield break;
 		}
@@ -215,7 +226,7 @@ namespace NUniVrm
 		*/
 		private IEnumerator Raw_Do_Load_Parse()
 		{
-			#if(USE_UNIVRM)
+			#if(USE_DEF_UNIVRM)
 			{
 				//プログレス。
 				this.SetResultProgress(this.CalcProgress(0.0f));
@@ -272,7 +283,7 @@ namespace NUniVrm
 		*/
 		private IEnumerator Raw_Do_Load_Create()
 		{
-			#if(USE_UNIVRM)
+			#if(USE_DEF_UNIVRM)
 			{
 				//プログレス。
 				this.SetResultProgress(this.CalcProgress(0.0f));

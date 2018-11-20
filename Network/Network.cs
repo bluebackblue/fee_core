@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -85,7 +85,9 @@ namespace NNetwork
 
 		/** connect_auto
 		*/
+		#if(USE_DEF_PUN)
 		private Connect_Auto connect_auto;
+		#endif
 
 		/** ルート。
 		*/
@@ -116,7 +118,9 @@ namespace NNetwork
 			this.mode = Mode.None;
 
 			//connect_auto
+			#if(USE_DEF_PUN)
 			this.connect_auto = null;
+			#endif
 
 			//ルート。
 			this.root_gameobject = new GameObject();
@@ -158,7 +162,10 @@ namespace NNetwork
 			if(this.mode == Mode.None){
 				this.mode = Mode.Connect_Auto;
 				this.disconnect_request = false;
+
+				#if(USE_DEF_PUN)
 				this.connect_auto = new Connect_Auto();
+				#endif
 			}
 		}
 
@@ -259,10 +266,12 @@ namespace NNetwork
 				{
 					//自動接続。
 
+					#if(USE_DEF_PUN)
 					if(this.connect_auto.Main() == false){
 						this.connect_auto = null;
 						this.mode = Mode.Reset;
 					}
+					#endif
 				}break;
 			case Mode.Reset:
 				{

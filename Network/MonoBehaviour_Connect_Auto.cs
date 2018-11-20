@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ using UnityEngine;
 
 /** NNetwork
 */
-#if USE_PUN
+#if(USE_DEF_PUN)
 namespace NNetwork
 {
 	/** MonoBehaviour_Connect_Auto
