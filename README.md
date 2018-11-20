@@ -7,8 +7,8 @@ MIT License
 https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
 
 ## sample project
-* Unity 2018.2.16f1 [https://github.com/bluebackblue/fee_project/tree/master/unity_2018_2]
-* Unity 2019.1.0a8 [https://github.com/bluebackblue/fee_project/tree/master/unity_2019_1]
+* Unity 2018.2.16f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2018_2 ]
+* Unity 2019.1.0a8 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_1 ]
 
 ## folder structure
 フォルダ構造
