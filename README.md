@@ -1,6 +1,6 @@
 # fee
 Unity library
-[https://github.com/bluebackblue/fee_project]のサブモジュール
+[ https://github.com/bluebackblue/fee_project ]のサブモジュール
 
 ## license
 MIT License
