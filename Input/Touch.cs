@@ -181,65 +181,69 @@ namespace NInput
 		*/
 		public bool Main_InputSystemTouchscreen_Touch(NRender2D.Render2D a_render2d)
 		{
-			UnityEngine.Experimental.Input.Touchscreen t_touchscreen_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Touchscreen>();
-			if(t_touchscreen_current != null){
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Touchscreen t_touchscreen_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Touchscreen>();
+				if(t_touchscreen_current != null){
 
-				this.device_item_list_count = 0;
+					this.device_item_list_count = 0;
 
-				//リスト作成。
-				if(this.device_item_list.Length < t_touchscreen_current.activeTouches.Count){
-					this.device_item_list = new Touch_Device_Item[t_touchscreen_current.activeTouches.Count];
-				}
-
-				for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
-					//デバイス。
-					UnityEngine.Experimental.Input.Controls.TouchControl t_touch = t_touchscreen_current.activeTouches[ii];
-
-					UnityEngine.Experimental.Input.PointerPhase t_touch_phase = t_touch.phase.ReadValue();
-					int t_touch_id = t_touch.touchId.ReadValue();
-					int t_touch_x = (int)t_touch.position.x.ReadValue();
-					int t_touch_y = (int)t_touch.position.y.ReadValue();
-
-					//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-					a_render2d.GuiScreenToVirtualScreen(t_touch_x,t_touch_y,out this.device_item_list[this.device_item_list_count].x,out this.device_item_list[this.device_item_list_count].y);
-
-					//フェーズ。
-					switch(t_touch_phase){
-					case UnityEngine.Experimental.Input.PointerPhase.Began:
-						{
-							this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Began;
-						}break;
-					case UnityEngine.Experimental.Input.PointerPhase.Moved:
-						{
-							this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Moved;
-						}break;
-					case UnityEngine.Experimental.Input.PointerPhase.Stationary:
-						{
-							this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Stationary;
-						}break;
-					default:
-						{
-							this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.None;
-						}break;
+					//リスト作成。
+					if(this.device_item_list.Length < t_touchscreen_current.activeTouches.Count){
+						this.device_item_list = new Touch_Device_Item[t_touchscreen_current.activeTouches.Count];
 					}
 
-					//フラグ。
-					this.device_item_list[this.device_item_list_count].link = false;
+					for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
+						//デバイス。
+						UnityEngine.Experimental.Input.Controls.TouchControl t_touch = t_touchscreen_current.activeTouches[ii];
 
-					//追加情報。
-					this.device_item_list[this.device_item_list_count].raw_id = t_touch_id;
-					/*
-					this.device_item_list[this.device_item_list_count].pressure = t_touch.pressure.ReadValue();
-					this.device_item_list[this.device_item_list_count].radius = 0.0f;
-					this.device_item_list[this.device_item_list_count].angle_altitude = t_touch.radius.ReadValue().x;
-					this.device_item_list[this.device_item_list_count].angle_azimuth = t_touch.radius.ReadValue().y;
-					*/
+						UnityEngine.Experimental.Input.PointerPhase t_touch_phase = t_touch.phase.ReadValue();
+						int t_touch_id = t_touch.touchId.ReadValue();
+						int t_touch_x = (int)t_touch.position.x.ReadValue();
+						int t_touch_y = (int)t_touch.position.y.ReadValue();
 
-					this.device_item_list_count++;
+						//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+						a_render2d.GuiScreenToVirtualScreen(t_touch_x,t_touch_y,out this.device_item_list[this.device_item_list_count].x,out this.device_item_list[this.device_item_list_count].y);
+
+						//フェーズ。
+						switch(t_touch_phase){
+						case UnityEngine.Experimental.Input.PointerPhase.Began:
+							{
+								this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Began;
+							}break;
+						case UnityEngine.Experimental.Input.PointerPhase.Moved:
+							{
+								this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Moved;
+							}break;
+						case UnityEngine.Experimental.Input.PointerPhase.Stationary:
+							{
+								this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Stationary;
+							}break;
+						default:
+							{
+								this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.None;
+							}break;
+						}
+
+						//フラグ。
+						this.device_item_list[this.device_item_list_count].link = false;
+
+						//追加情報。
+						this.device_item_list[this.device_item_list_count].raw_id = t_touch_id;
+						/*
+						this.device_item_list[this.device_item_list_count].pressure = t_touch.pressure.ReadValue();
+						this.device_item_list[this.device_item_list_count].radius = 0.0f;
+						this.device_item_list[this.device_item_list_count].angle_altitude = t_touch.radius.ReadValue().x;
+						this.device_item_list[this.device_item_list_count].angle_azimuth = t_touch.radius.ReadValue().y;
+						*/
+
+						this.device_item_list_count++;
+					}
+
+					return true;
 				}
-
-				return true;
 			}
+			#endif
 
 			return false;
 		}

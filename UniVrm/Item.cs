@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,7 +59,9 @@ namespace NUniVrm
 
 		/** result_context
 		*/
+		#if(USE_UNIVRM)
 		private VRM.VRMImporterContext result_context;
+		#endif
 
 		/** result_animetor
 		*/
@@ -82,7 +84,9 @@ namespace NUniVrm
 			this.cancel_flag = false;
 
 			//result_context
+			#if(USE_UNIVRM)
 			this.result_context = null;
+			#endif
 
 			//result_animator
 			this.result_animator = null;
@@ -166,7 +170,10 @@ namespace NUniVrm
 		{
 			this.result_type = ResultType.Context;
 
+			#if(USE_UNIVRM)
 			this.result_context = a_context;
+			#endif
+
 			this.result_animator = null;
 
 			#if(USE_UNIVRM)
@@ -182,7 +189,11 @@ namespace NUniVrm
 		*/
 		public VRM.VRMImporterContext GetResultContext()
 		{
+			#if(USE_UNIVRM)
 			return this.result_context;
+			#else
+			return null;
+			#endif
 		}
 
 		/** [内部からの呼び出し]レイヤー。設定。
@@ -279,9 +290,12 @@ namespace NUniVrm
 		*/
 		public Transform GetTransform()
 		{
+			#if(USE_UNIVRM)
 			if(this.result_context != null){
 				return this.result_context.Root.gameObject.transform;
 			}
+			#endif
+
 			return null;
 		}
 
@@ -289,9 +303,12 @@ namespace NUniVrm
 		*/
 		public Vector3 GetForward()
 		{
+			#if(USE_UNIVRM)
 			if(this.result_context != null){
 				return this.result_context.Root.gameObject.transform.forward;
 			}
+			#endif
+
 			return Vector3.zero;
 		}
 
@@ -299,9 +316,12 @@ namespace NUniVrm
 		*/
 		public Vector3 GetPosition()
 		{
+			#if(USE_UNIVRM)
 			if(this.result_context != null){
 				return this.result_context.Root.gameObject.transform.position;
 			}
+			#endif
+
 			return Vector3.zero;
 		}
 
@@ -309,9 +329,11 @@ namespace NUniVrm
 		*/
 		public void SetPosition(ref Vector3 a_position)
 		{
+			#if(USE_UNIVRM)
 			if(this.result_context != null){
 				this.result_context.Root.gameObject.transform.position = a_position;
 			}
+			#endif
 		}
 	}
 }

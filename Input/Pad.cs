@@ -139,44 +139,52 @@ namespace NInput
 		*/
 		private void Delete()
 		{
-			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
-			if(t_gamepad_current != null){
-				t_gamepad_current.SetMotorSpeeds(0.0f,0.0f);
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
+				if(t_gamepad_current != null){
+					t_gamepad_current.SetMotorSpeeds(0.0f,0.0f);
+				}
 			}
+			#endif
 		}
 
 		/** 更新。インプットシステムゲームパッド。デジタルボタン。
 		*/
 		private bool Main_InputSystemGamePad_DigitalButton()
 		{
-			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
-			if(t_gamepad_current != null){
-				//デバイス。
-				bool t_left_on = t_gamepad_current.dpad.left.isPressed;
-				bool t_right_on = t_gamepad_current.dpad.right.isPressed;
-				bool t_up_on = t_gamepad_current.dpad.up.isPressed;
-				bool t_down_on = t_gamepad_current.dpad.down.isPressed;
-				bool t_enter_on = t_gamepad_current.buttonEast.isPressed;
-				bool t_escape_on = t_gamepad_current.buttonSouth.isPressed;
-				bool t_sub1_on = t_gamepad_current.buttonNorth.isPressed;
-				bool t_sub2_on = t_gamepad_current.buttonWest.isPressed;
-				bool t_left_menu_on = t_gamepad_current.selectButton.isPressed;
-				bool t_right_menu_on = t_gamepad_current.startButton.isPressed;
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
+				if(t_gamepad_current != null){
+					//デバイス。
+					bool t_left_on = t_gamepad_current.dpad.left.isPressed;
+					bool t_right_on = t_gamepad_current.dpad.right.isPressed;
+					bool t_up_on = t_gamepad_current.dpad.up.isPressed;
+					bool t_down_on = t_gamepad_current.dpad.down.isPressed;
+					bool t_enter_on = t_gamepad_current.buttonEast.isPressed;
+					bool t_escape_on = t_gamepad_current.buttonSouth.isPressed;
+					bool t_sub1_on = t_gamepad_current.buttonNorth.isPressed;
+					bool t_sub2_on = t_gamepad_current.buttonWest.isPressed;
+					bool t_left_menu_on = t_gamepad_current.selectButton.isPressed;
+					bool t_right_menu_on = t_gamepad_current.startButton.isPressed;
 
-				//設定。
-				this.left.Set(t_left_on);
-				this.right.Set(t_right_on);
-				this.up.Set(t_up_on);
-				this.down.Set(t_down_on);
-				this.enter.Set(t_enter_on);
-				this.escape.Set(t_escape_on);
-				this.sub1.Set(t_sub1_on);
-				this.sub2.Set(t_sub2_on);
-				this.left_menu.Set(t_left_menu_on);
-				this.right_menu.Set(t_right_menu_on);
+					//設定。
+					this.left.Set(t_left_on);
+					this.right.Set(t_right_on);
+					this.up.Set(t_up_on);
+					this.down.Set(t_down_on);
+					this.enter.Set(t_enter_on);
+					this.escape.Set(t_escape_on);
+					this.sub1.Set(t_sub1_on);
+					this.sub2.Set(t_sub2_on);
+					this.left_menu.Set(t_left_menu_on);
+					this.right_menu.Set(t_right_menu_on);
 
-				return true;
+					return true;
+				}
 			}
+			#endif
 
 			return false;
 		}
@@ -217,24 +225,28 @@ namespace NInput
 		*/
 		private bool Main_InputSystemGamePad_Stick()
 		{
-			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
-			if(t_gamepad_current != null){
-				//デバイス。
-				float t_l_x = t_gamepad_current.leftStick.x.ReadValue();
-				float t_l_y = t_gamepad_current.leftStick.y.ReadValue();
-				float t_r_x = t_gamepad_current.rightStick.x.ReadValue();
-				float t_r_y = t_gamepad_current.rightStick.y.ReadValue();
-				bool t_l_on = t_gamepad_current.leftStickButton.isPressed;
-				bool t_r_on = t_gamepad_current.rightStickButton.isPressed;
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
+				if(t_gamepad_current != null){
+					//デバイス。
+					float t_l_x = t_gamepad_current.leftStick.x.ReadValue();
+					float t_l_y = t_gamepad_current.leftStick.y.ReadValue();
+					float t_r_x = t_gamepad_current.rightStick.x.ReadValue();
+					float t_r_y = t_gamepad_current.rightStick.y.ReadValue();
+					bool t_l_on = t_gamepad_current.leftStickButton.isPressed;
+					bool t_r_on = t_gamepad_current.rightStickButton.isPressed;
 
-				//設定。
-				this.left_stick.Set(t_l_x,t_l_y);
-				this.right_stick.Set(t_r_x,t_r_y);
-				this.left_stick_button.Set(t_l_on);
-				this.right_stick_button.Set(t_r_on);
+					//設定。
+					this.left_stick.Set(t_l_x,t_l_y);
+					this.right_stick.Set(t_r_x,t_r_y);
+					this.left_stick_button.Set(t_l_on);
+					this.right_stick_button.Set(t_r_on);
 
-				return true;
+					return true;
+				}
 			}
+			#endif
 
 			return false;
 		}
@@ -264,22 +276,26 @@ namespace NInput
 		*/
 		private bool Main_InputSystemGamePad_Trigger()
 		{
-			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
-			if(t_gamepad_current != null){
-				//デバイス。
-				bool t_l_1 = t_gamepad_current.leftShoulder.isPressed;
-				bool t_r_1 = t_gamepad_current.rightShoulder.isPressed;
-				float t_l_2 = t_gamepad_current.leftTrigger.ReadValue();
-				float t_r_2 = t_gamepad_current.rightTrigger.ReadValue();
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
+				if(t_gamepad_current != null){
+					//デバイス。
+					bool t_l_1 = t_gamepad_current.leftShoulder.isPressed;
+					bool t_r_1 = t_gamepad_current.rightShoulder.isPressed;
+					float t_l_2 = t_gamepad_current.leftTrigger.ReadValue();
+					float t_r_2 = t_gamepad_current.rightTrigger.ReadValue();
 
-				//設定。
-				this.left_trigger1_button.Set(t_l_1);
-				this.right_trigger1_button.Set(t_r_1);
-				this.left_trigger2_button.Set(t_l_2);
-				this.right_trigger2_button.Set(t_r_2);
+					//設定。
+					this.left_trigger1_button.Set(t_l_1);
+					this.right_trigger1_button.Set(t_r_1);
+					this.left_trigger2_button.Set(t_l_2);
+					this.right_trigger2_button.Set(t_r_2);
 
-				return true;
+					return true;
+				}
 			}
+			#endif
 
 			return false;
 		}
@@ -315,21 +331,25 @@ namespace NInput
 		*/
 		private bool Main_InputSystemGamePad_Motor()
 		{
-			UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
-			if(t_gamepad_current != null){
-				float t_value_low = this.moter_low.GetValue();
-				float t_value_high = this.moter_high.GetValue();			
-				float t_raw_value_low = this.moter_low.GetRawValue();
-				float t_raw_value_high = this.moter_high.GetRawValue();
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Gamepad t_gamepad_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Gamepad>();
+				if(t_gamepad_current != null){
+					float t_value_low = this.moter_low.GetValue();
+					float t_value_high = this.moter_high.GetValue();			
+					float t_raw_value_low = this.moter_low.GetRawValue();
+					float t_raw_value_high = this.moter_high.GetRawValue();
 
-				if((t_value_low != t_raw_value_low)||(t_value_high != t_raw_value_high)){
-					this.moter_low.SetRawValue(t_value_low);
-					this.moter_high.SetRawValue(t_value_high);
-					t_gamepad_current.SetMotorSpeeds(t_value_low,t_value_high);
+					if((t_value_low != t_raw_value_low)||(t_value_high != t_raw_value_high)){
+						this.moter_low.SetRawValue(t_value_low);
+						this.moter_high.SetRawValue(t_value_high);
+						t_gamepad_current.SetMotorSpeeds(t_value_low,t_value_high);
+					}
+
+					return true;
 				}
-
-				return true;
 			}
+			#endif
 
 			return false;
 		}

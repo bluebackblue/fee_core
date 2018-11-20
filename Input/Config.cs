@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -149,43 +149,63 @@ namespace NInput
 
 		/** キー。左。
 		*/
+		#if(USE_DEF_INPUTSYSTEM)
 		public static UnityEngine.Experimental.Input.Key KEY_LEFT = UnityEngine.Experimental.Input.Key.A;
+		#endif
 
 		/** キー。右。
 		*/
+		#if(USE_DEF_INPUTSYSTEM)
 		public static UnityEngine.Experimental.Input.Key KEY_RIGHT = UnityEngine.Experimental.Input.Key.D;
+		#endif
 
 		/** キー。上。
 		*/
+		#if(USE_DEF_INPUTSYSTEM)
 		public static UnityEngine.Experimental.Input.Key KEY_UP = UnityEngine.Experimental.Input.Key.W;
+		#endif
 
 		/** キー。下。
 		*/
+		#if(USE_DEF_INPUTSYSTEM)
 		public static UnityEngine.Experimental.Input.Key KEY_DOWN = UnityEngine.Experimental.Input.Key.S;
+		#endif
 
 		/** キー。エンター。
 		*/
+		#if(USE_DEF_INPUTSYSTEM)
 		public static UnityEngine.Experimental.Input.Key KEY_ENTER = UnityEngine.Experimental.Input.Key.Enter;
+		#endif
 
 		/** キー。エスケープ。
 		*/
+		#if(USE_DEF_INPUTSYSTEM)
 		public static UnityEngine.Experimental.Input.Key KEY_ESCAPE = UnityEngine.Experimental.Input.Key.Escape;
+		#endif
 
 		/** キー。サブ１。
 		*/
+		#if(USE_DEF_INPUTSYSTEM)
 		public static UnityEngine.Experimental.Input.Key KEY_SUB1 = UnityEngine.Experimental.Input.Key.LeftShift;
+		#endif
 
 		/** キー。サブ２。
 		*/
+		#if(USE_DEF_INPUTSYSTEM)
 		public static UnityEngine.Experimental.Input.Key KEY_SUB2 = UnityEngine.Experimental.Input.Key.LeftCtrl;
+		#endif
 
 		/** キー。左メニュー。
 		*/
+		#if(USE_DEF_INPUTSYSTEM)
 		public static UnityEngine.Experimental.Input.Key KEY_LEFT_MENU = UnityEngine.Experimental.Input.Key.Space;
+		#endif
 
 		/** キー。右メニュー。
 		*/
+		#if(USE_DEF_INPUTSYSTEM)
 		public static UnityEngine.Experimental.Input.Key KEY_RIGHT_MENU = UnityEngine.Experimental.Input.Key.Backspace;
+		#endif
 	}
 }
 
