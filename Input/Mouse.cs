@@ -124,34 +124,38 @@ namespace NInput
 		*/
 		private bool Main_InputSystemPointer_Position(NRender2D.Render2D a_render2d)
 		{
-			UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Pointer>();
-			if(t_pointer_current != null){
-				//デバイス。
-				int t_pointer_x = (int)t_pointer_current.position.x.ReadValue();
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Pointer>();
+				if(t_pointer_current != null){
+					//デバイス。
+					int t_pointer_x = (int)t_pointer_current.position.x.ReadValue();
 
-				#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
-				int t_pointer_y = (int)(Screen.height - t_pointer_current.position.y.ReadValue());
-				#else
-				int t_pointer_y = (int)(t_pointer_current.position.y.ReadValue());
-				#endif
+					#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
+					int t_pointer_y = (int)(Screen.height - t_pointer_current.position.y.ReadValue());
+					#else
+					int t_pointer_y = (int)(t_pointer_current.position.y.ReadValue());
+					#endif
 
-				#if(UNITY_EDITOR)
-				{
-					t_pointer_x += Config.MOUSE_EDITOR_OFFSET_X;
-					t_pointer_y += Config.MOUSE_EDITOR_OFFSET_Y;
+					#if(UNITY_EDITOR)
+					{
+						t_pointer_x += Config.MOUSE_EDITOR_OFFSET_X;
+						t_pointer_y += Config.MOUSE_EDITOR_OFFSET_Y;
+					}
+					#endif
+
+					//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+					int t_x;
+					int t_y;
+					a_render2d.GuiScreenToVirtualScreen(t_pointer_x,t_pointer_y,out t_x,out t_y);
+
+					//設定。
+					this.pos.Set(t_x,t_y);
+
+					return true;
 				}
-				#endif
-
-				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-				int t_x;
-				int t_y;
-				a_render2d.GuiScreenToVirtualScreen(t_pointer_x,t_pointer_y,out t_x,out t_y);
-
-				//設定。
-				this.pos.Set(t_x,t_y);
-
-				return true;
 			}
+			#endif
 
 			return false;
 		}
@@ -160,34 +164,39 @@ namespace NInput
 		*/
 		private bool Main_InputSystemMouse_Position(NRender2D.Render2D a_render2d)
 		{
-			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
-			if(t_mouse_current != null){
-				//デバイス。
-				int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
+				if(t_mouse_current != null){
+					//デバイス。
+					int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
 
-				#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
-				int t_mouse_y = (int)(Screen.height - t_mouse_current.position.y.ReadValue());
-				#else
-				int t_mouse_y = (int)(t_mouse_current.position.y.ReadValue());
-				#endif
+					#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
+					int t_mouse_y = (int)(Screen.height - t_mouse_current.position.y.ReadValue());
+					#else
+					int t_mouse_y = (int)(t_mouse_current.position.y.ReadValue());
+					#endif
 
-				#if(UNITY_EDITOR)
-				{
-					t_mouse_x += Config.MOUSE_EDITOR_OFFSET_X;
-					t_mouse_y += Config.MOUSE_EDITOR_OFFSET_Y;
+					#if(UNITY_EDITOR)
+					{
+						t_mouse_x += Config.MOUSE_EDITOR_OFFSET_X;
+						t_mouse_y += Config.MOUSE_EDITOR_OFFSET_Y;
+					}
+					#endif
+
+					//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+					int t_x;
+					int t_y;
+					a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
+
+					//設定。
+					this.pos.Set(t_x,t_y);
+
+					return true;
 				}
-				#endif
-
-				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-				int t_x;
-				int t_y;
-				a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
-
-				//設定。
-				this.pos.Set(t_x,t_y);
-
-				return true;
 			}
+			#endif
+
 			return false;
 		}
 
@@ -223,39 +232,43 @@ namespace NInput
 		*/
 		private bool Main_InputSystemPointer_Button()
 		{
-			UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Pointer>();
-			if(t_pointer_current != null){
-				bool t_l_on = this.left.on;
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Pointer>();
+				if(t_pointer_current != null){
+					bool t_l_on = this.left.on;
 
-				//デバイス。
-				switch(t_pointer_current.phase.ReadValue()){
-				case UnityEngine.Experimental.Input.PointerPhase.Began:
-					{
-						//開始。
-						t_l_on = true;
-					}break;
-				case UnityEngine.Experimental.Input.PointerPhase.Ended:
-				case UnityEngine.Experimental.Input.PointerPhase.Cancelled:
-					{
-						//終了。
-						t_l_on = false;
-					}break;
-				case UnityEngine.Experimental.Input.PointerPhase.Moved:
-				case UnityEngine.Experimental.Input.PointerPhase.None:
-				case UnityEngine.Experimental.Input.PointerPhase.Stationary:
-					{
-						//保留。
-					}break;
+					//デバイス。
+					switch(t_pointer_current.phase.ReadValue()){
+					case UnityEngine.Experimental.Input.PointerPhase.Began:
+						{
+							//開始。
+							t_l_on = true;
+						}break;
+					case UnityEngine.Experimental.Input.PointerPhase.Ended:
+					case UnityEngine.Experimental.Input.PointerPhase.Cancelled:
+						{
+							//終了。
+							t_l_on = false;
+						}break;
+					case UnityEngine.Experimental.Input.PointerPhase.Moved:
+					case UnityEngine.Experimental.Input.PointerPhase.None:
+					case UnityEngine.Experimental.Input.PointerPhase.Stationary:
+						{
+							//保留。
+						}break;
+					}
+
+					//設定。
+					this.left.Set(t_l_on);
+					this.right.Set(false);
+					this.middle.Set(false);
+
+					//設定。
+					return true;
 				}
-
-				//設定。
-				this.left.Set(t_l_on);
-				this.right.Set(false);
-				this.middle.Set(false);
-
-				//設定。
-				return true;
 			}
+			#endif
 
 			return false;
 		}
@@ -264,20 +277,24 @@ namespace NInput
 		*/
 		private bool Main_InputSystemMouse_Button()
 		{
-			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
-			if(t_mouse_current != null){
-				//デバイス。
-				bool t_l_on = t_mouse_current.leftButton.isPressed;
-				bool t_r_on = t_mouse_current.rightButton.isPressed;
-				bool t_m_on = t_mouse_current.middleButton.isPressed;
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
+				if(t_mouse_current != null){
+					//デバイス。
+					bool t_l_on = t_mouse_current.leftButton.isPressed;
+					bool t_r_on = t_mouse_current.rightButton.isPressed;
+					bool t_m_on = t_mouse_current.middleButton.isPressed;
 
-				//設定。
-				this.left.Set(t_l_on);
-				this.right.Set(t_r_on);
-				this.middle.Set(t_m_on);
+					//設定。
+					this.left.Set(t_l_on);
+					this.right.Set(t_r_on);
+					this.middle.Set(t_m_on);
 
-				return true;
+					return true;
+				}
 			}
+			#endif
 
 			return false;
 		}
@@ -305,17 +322,21 @@ namespace NInput
 		*/
 		private bool Main_InputSystemMouse_Wheel()
 		{
-			UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
-			if(t_mouse_current != null){
-				//デバイス。
-				int t_x = (int)t_mouse_current.scroll.ReadValue().x;
-				int t_y = (int)t_mouse_current.scroll.ReadValue().y;
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
+				if(t_mouse_current != null){
+					//デバイス。
+					int t_x = (int)t_mouse_current.scroll.ReadValue().x;
+					int t_y = (int)t_mouse_current.scroll.ReadValue().y;
 
-				//設定。
-				this.mouse_wheel.Set(t_x,t_y);
+					//設定。
+					this.mouse_wheel.Set(t_x,t_y);
 
-				return true;
+					return true;
+				}
 			}
+			#endif
 
 			return false;
 		}		

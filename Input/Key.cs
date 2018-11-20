@@ -105,35 +105,39 @@ namespace NInput
 		/** 更新。インプットシステムキー。
 		*/
 		public bool Main_InputSystemKey_Key()
-		{
-			UnityEngine.Experimental.Input.Keyboard t_key_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Keyboard>();
-			if(t_key_current != null){
-				//デバイス。
-				bool t_enter_on = t_key_current[Config.KEY_ENTER].isPressed;
-				bool t_escape_on = t_key_current[Config.KEY_ESCAPE].isPressed;
-				bool t_sub1_on = t_key_current[Config.KEY_SUB1].isPressed;
-				bool t_sub2_on = t_key_current[Config.KEY_SUB2].isPressed;
-				bool t_left_on = t_key_current[Config.KEY_LEFT].isPressed;
-				bool t_right_on = t_key_current[Config.KEY_RIGHT].isPressed;
-				bool t_up_on = t_key_current[Config.KEY_UP].isPressed;
-				bool t_down_on = t_key_current[Config.KEY_DOWN].isPressed;
-				bool t_left_menu_on = t_key_current[Config.KEY_LEFT_MENU].isPressed;
-				bool t_right_menu_on = t_key_current[Config.KEY_RIGHT_MENU].isPressed;
+		{	
+			#if(USE_DEF_INPUTSYSTEM)
+			{
+				UnityEngine.Experimental.Input.Keyboard t_key_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Keyboard>();
+				if(t_key_current != null){
+					//デバイス。
+					bool t_enter_on = t_key_current[Config.KEY_ENTER].isPressed;
+					bool t_escape_on = t_key_current[Config.KEY_ESCAPE].isPressed;
+					bool t_sub1_on = t_key_current[Config.KEY_SUB1].isPressed;
+					bool t_sub2_on = t_key_current[Config.KEY_SUB2].isPressed;
+					bool t_left_on = t_key_current[Config.KEY_LEFT].isPressed;
+					bool t_right_on = t_key_current[Config.KEY_RIGHT].isPressed;
+					bool t_up_on = t_key_current[Config.KEY_UP].isPressed;
+					bool t_down_on = t_key_current[Config.KEY_DOWN].isPressed;
+					bool t_left_menu_on = t_key_current[Config.KEY_LEFT_MENU].isPressed;
+					bool t_right_menu_on = t_key_current[Config.KEY_RIGHT_MENU].isPressed;
 
-				//設定。
-				this.enter.Set(t_enter_on);
-				this.escape.Set(t_escape_on);
-				this.sub1.Set(t_sub1_on);
-				this.sub2.Set(t_sub2_on);
-				this.left.Set(t_left_on);
-				this.right.Set(t_right_on);
-				this.up.Set(t_up_on);
-				this.down.Set(t_down_on);
-				this.left_menu.Set(t_left_menu_on);
-				this.right_menu.Set(t_right_menu_on);
+					//設定。
+					this.enter.Set(t_enter_on);
+					this.escape.Set(t_escape_on);
+					this.sub1.Set(t_sub1_on);
+					this.sub2.Set(t_sub2_on);
+					this.left.Set(t_left_on);
+					this.right.Set(t_right_on);
+					this.up.Set(t_up_on);
+					this.down.Set(t_down_on);
+					this.left_menu.Set(t_left_menu_on);
+					this.right_menu.Set(t_right_menu_on);
 
-				return true;
+					return true;
+				}
 			}
+			#endif
 
 			return false;
 		}
