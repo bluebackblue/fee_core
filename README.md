@@ -3,7 +3,7 @@ Unity library
 
 ## license
 MIT License
-https://github.com/bluebackblue/fee/blob/master/fee/Assets/Fee/LICENSE.txt
+https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
 
 ## folder structure
 フォルダ構造
