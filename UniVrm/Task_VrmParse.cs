@@ -22,9 +22,10 @@ namespace NUniVrm
 {
 	/** [タスク]ＶＲＭパース。
 	*/
-	#if(USE_DEF_UNIVRM)
 	public class Task_VrmParse
 	{
+		#if(USE_DEF_UNIVRM)
+
 		/** TaskMain
 		*/
 		private static async System.Threading.Tasks.Task<bool> TaskMain(MonoBehaviour_Vrm a_instance,VRM.VRMImporterContext a_context,byte[] a_binary,System.Threading.CancellationToken a_cancel)
@@ -69,7 +70,8 @@ namespace NUniVrm
 				return Task_VrmParse.TaskMain(a_instance,a_context,a_binary,t_cancel_token);
 			});
 		}
+
+		#endif
 	}
-	#endif
 }
 

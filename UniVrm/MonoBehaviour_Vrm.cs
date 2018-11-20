@@ -12,6 +12,10 @@ using UnityEngine;
 */
 
 
+//The private field * is assigned but its value is never used
+#pragma warning disable 0414
+
+
 /** NUniVrm
 */
 namespace NUniVrm
