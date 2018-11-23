@@ -133,6 +133,7 @@ namespace NUniVrm
 				this.work.context = new VRM.VRMImporterContext();
 				#endif
 
+				//「ParseGlb」。
 				{
 					this.work.progress_step = (int)ProgressStep.Step0;
 					this.work.progress_substep = 0;
@@ -226,7 +227,7 @@ namespace NUniVrm
 			return t_progress;
 		}
 
-		/** [内部からの呼び出し]ロード。Parse。
+		/** [内部からの呼び出し]ロード。「ParseGlb」。
 		*/
 		private IEnumerator Raw_Do_Load_Parse()
 		{
@@ -292,96 +293,7 @@ namespace NUniVrm
 				//プログレス。
 				this.SetResultProgress(this.CalcProgress(0.0f));
 
-				{
-					//MaterialImporter
-					List<VRM.glTF_VRM_Material> t_material_list = VRM.glTF_VRM_Material.Parse(this.work.context.Json);
-					this.work.context.MaterialImporter = new VRM.VRMMaterialImporter(this.work.context,t_material_list);
-
-					//AddTexture
-					for(int ii=0;ii<this.work.context.GLTF.textures.Count;ii++){
-						UniGLTF.TextureItem t_texture = new UniGLTF.TextureItem(this.work.context.GLTF,ii);
-						t_texture.Process(this.work.context.GLTF,this.work.context.Storage);
-						this.work.context.AddTexture(t_texture);
-
-						yield return null;
-					}
-
-					//AddMaterial
-					{
-						bool t_add = false;
-						if(this.work.context.GLTF.materials != null){
-							if(this.work.context.GLTF.materials.Count > 0){
-								t_add = true;
-								for(int ii=0;ii<this.work.context.GLTF.materials.Count;ii++){
-									this.work.context.AddMaterial(this.work.context.MaterialImporter.CreateMaterial(ii,this.work.context.GLTF.materials[ii]));
-
-									yield return null;
-								}
-							}
-						}
-						if(t_add == false){
-							this.work.context.AddMaterial(this.work.context.MaterialImporter.CreateMaterial(0,null));
-						}
-					}
-				}
-
-				//AddMesh
-				{
-					UniGLTF.MeshImporter t_meshimporter = new UniGLTF.MeshImporter();
-					for(int ii=0;ii<this.work.context.GLTF.meshes.Count;ii++){
-						UniGLTF.MeshImporter.MeshContext t_mesh_context = t_meshimporter.ReadMesh(this.work.context,ii);
-						UniGLTF.MeshWithMaterials t_mesh_with_material = UniGLTF.gltfImporter.BuildMesh(this.work.context,t_mesh_context);
-						this.work.context.Meshes.Add(t_mesh_with_material);
-
-						yield return null;
-					}
-				}
-
-				//AddNode
-				{
-					foreach(UniGLTF.glTFNode t_item in this.work.context.GLTF.nodes){
-						this.work.context.Nodes.Add(UniGLTF.gltfImporter.ImportNode(t_item).transform);
-
-						//yield return null;
-					}
-
-					yield return null;
-				}
-
-				//SetParent
-				{
-					List<UniGLTF.gltfImporter.TransformWithSkin> t_node_list = new List<UniGLTF.gltfImporter.TransformWithSkin>();
-					for(int ii=0;ii< this.work.context.Nodes.Count;ii++){
-						t_node_list.Add(UniGLTF.gltfImporter.BuildHierarchy(this.work.context,ii));
-
-						//yield return null;
-					}
-
-					yield return null;
-
-					UniGLTF.gltfImporter.FixCoordinate(this.work.context,t_node_list);
-
-					for(int ii=0;ii<t_node_list.Count;ii++){
-						UniGLTF.gltfImporter.SetupSkinning(this.work.context,t_node_list,ii);
-
-						//yield return null;
-					}
-
-					yield return null;
-
-					this.work.context.Root = new GameObject("_root_");
-					foreach (int t_index in this.work.context.GLTF.rootnodes){
-						UnityEngine.Transform t_transform = t_node_list[t_index].Transform;
-						t_transform.SetParent(this.work.context.Root.transform,false);
-
-						//yield return null;
-					}
-
-					yield return null;
-				}
-
-				//OnLoadModel
-				VRM.VRMImporter.OnLoadModel(this.work.context);
+				this.work.context.Load();
 			}
 			#else
 			{
