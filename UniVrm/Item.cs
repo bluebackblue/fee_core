@@ -223,8 +223,12 @@ namespace NUniVrm
 			if(this.result_context != null){
 				for(int ii=0;ii<this.result_context.Meshes.Count;ii++){
 					if(this.result_context.Meshes[ii] != null){
-						if(this.result_context.Meshes[ii].Renderer != null){
-							this.result_context.Meshes[ii].Renderer.enabled = a_flag;
+						if(this.result_context.Meshes[ii].Renderers != null){
+							for(int jj=0;jj<this.result_context.Meshes[ii].Renderers.Count;jj++){
+								if(this.result_context.Meshes[ii].Renderers[jj] != null){
+									this.result_context.Meshes[ii].Renderers[jj].enabled = a_flag;
+								}
+							}
 						}
 					}
 				}
