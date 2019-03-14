@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** セーブローカル。サウンドプーツ。
 	*/
@@ -46,7 +43,7 @@ namespace NFile
 
 		/** CoroutineMain
 		*/
-		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_full_path,NAudio.Pack_SoundPool a_soundpool)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_full_path,Fee.Audio.Pack_SoundPool a_soundpool)
 		{
 			//result
 			this.result = new ResultType();
@@ -58,7 +55,7 @@ namespace NFile
 			string t_soundpool_json_string = null;
 			{
 				if(a_soundpool != null){
-					NJsonItem.JsonItem t_json = NJsonItem.ObjectToJson.Convert(a_soundpool);
+					Fee.JsonItem.JsonItem t_json = Fee.JsonItem.ObjectToJson.Convert(a_soundpool);
 					if(t_json != null){
 						t_soundpool_json_string = t_json.ConvertJsonString();
 					}else{
@@ -76,10 +73,10 @@ namespace NFile
 			}
 
 			//キャンセルトークン。
-			NTaskW.CancelToken t_cancel_token = new NTaskW.CancelToken();
+			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
 			//タスク起動。
-			NTaskW.Task<Task_SaveLocalTextFile.ResultType> t_task = Task_SaveLocalTextFile.Run(a_full_path,t_soundpool_json_string,t_cancel_token);
+			Fee.TaskW.Task<Task_SaveLocalTextFile.ResultType> t_task = Task_SaveLocalTextFile.Run(a_full_path,t_soundpool_json_string,t_cancel_token);
 
 			//終了待ち。
 			do{

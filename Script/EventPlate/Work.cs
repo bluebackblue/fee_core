@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NEventPlate
+/** Fee.EventPlate
 */
-namespace NEventPlate
+namespace Fee.EventPlate
 {
 	/** Work
 	*/
@@ -22,15 +19,15 @@ namespace NEventPlate
 	{
 		/** list
 		*/
-		private List<Item> list;
+		private System.Collections.Generic.List<Item> list;
 
 		/** add_list
 		*/
-		private List<Item> add_list;
+		private System.Collections.Generic.List<Item> add_list;
 
 		/** remove_list
 		*/
-		private List<Item> remove_list;
+		private System.Collections.Generic.List<Item> remove_list;
 
 		/** current
 		*/
@@ -45,13 +42,13 @@ namespace NEventPlate
 		public Work()
 		{
 			//list
-			this.list = new List<Item>();
+			this.list = new System.Collections.Generic.List<Item>();
 
 			//add_list
-			this.add_list = new List<Item>();
+			this.add_list = new System.Collections.Generic.List<Item>();
 
 			//remove_list
-			this.remove_list = new List<Item>();
+			this.remove_list = new System.Collections.Generic.List<Item>();
 
 			//current
 			this.current = null;
@@ -85,7 +82,7 @@ namespace NEventPlate
 
 		/** 更新。
 		*/
-		public void Main(ref NRender2D.Pos2D<int> a_pos)
+		public void Main(ref Fee.Render2D.Pos2D<int> a_pos)
 		{
 			//追加。
 			if(this.add_list.Count > 0){

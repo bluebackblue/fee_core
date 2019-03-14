@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** ロードローカル。バイナリファイル。
 	*/
@@ -46,7 +43,7 @@ namespace NFile
 
 		/** CoroutineMain
 		*/
-		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_full_path)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_full_path)
 		{
 			//result
 			this.result = new ResultType();
@@ -55,10 +52,10 @@ namespace NFile
 			this.taskprogress = 0.0f;
 
 			//キャンセルトークン。
-			NTaskW.CancelToken t_cancel_token = new NTaskW.CancelToken();
+			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
 			//タスク起動。
-			NTaskW.Task<Task_LoadLocalBinaryFile.ResultType> t_task = Task_LoadLocalBinaryFile.Run(a_full_path,t_cancel_token);
+			Fee.TaskW.Task<Task_LoadLocalBinaryFile.ResultType> t_task = Task_LoadLocalBinaryFile.Run(a_full_path,t_cancel_token);
 
 			//終了待ち。
 			do{

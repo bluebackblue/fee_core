@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,13 +9,13 @@ using UnityEngine;
 */
 
 
-/** NEventPlate
+/** Fee.EventPlate
 */
-namespace NEventPlate
+namespace Fee.EventPlate
 {
 	/** Item
 	*/
-	public class Item : NDeleter.DeleteItem_Base
+	public class Item : Fee.Deleter.DeleteItem_Base
 	{
 		/** priority
 		*/
@@ -34,11 +31,11 @@ namespace NEventPlate
 
 		/** rect
 		*/
-		private NRender2D.Rect2D_R<int> rect;
+		private Fee.Render2D.Rect2D_R<int> rect;
 
 		/** clip_rect
 		*/
-		private NRender2D.Rect2D_R<int> clip_rect;
+		private Fee.Render2D.Rect2D_R<int> clip_rect;
 
 		/** clip
 		*/
@@ -55,7 +52,7 @@ namespace NEventPlate
 
 		/** constructor
 		*/
-		public Item(NDeleter.Deleter a_deleter,EventType a_eventtype,long a_priority)
+		public Item(Fee.Deleter.Deleter a_deleter,EventType a_eventtype,long a_priority)
 		{
 			//priority
 			this.priority = a_priority;
@@ -109,7 +106,7 @@ namespace NEventPlate
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref NRender2D.Rect2D_R<int> a_rect)
+		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			this.rect = a_rect;
 		}
@@ -123,7 +120,7 @@ namespace NEventPlate
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			this.clip_rect = a_rect;
 		}
@@ -253,7 +250,7 @@ namespace NEventPlate
 		return = true : カレント。
 
 		*/
-		public bool Main(ref NRender2D.Pos2D<int> a_pos)
+		public bool Main(ref Fee.Render2D.Pos2D<int> a_pos)
 		{
 			if(this.enable == true){
 				if((this.rect.x <= a_pos.x)&&(this.rect.y <= a_pos.y)&&(a_pos.x <= (this.rect.x + this.rect.w))&&(a_pos.y <= (this.rect.y + this.rect.h))){

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,12 +9,12 @@ using UnityEngine;
 */
 
 
-/** NPerformanceCounter
+/** NNFee.PerformanceCounter
 
 	https://docs.unity3d.com/ja/current/Manual/ExecutionOrder.html
 
 */
-namespace NPerformanceCounter
+namespace Fee.PerformanceCounter
 {
 	/** FrameData
 	*/
@@ -30,8 +27,8 @@ namespace NPerformanceCounter
 		*/
 		public FrameData()
 		{
-			this.start_time = Time.realtimeSinceStartup;
-			this.end_time = Time.realtimeSinceStartup;
+			this.start_time = UnityEngine.Time.realtimeSinceStartup;
+			this.end_time = UnityEngine.Time.realtimeSinceStartup;
 		}
 	}
 }

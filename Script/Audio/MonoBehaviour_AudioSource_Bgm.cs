@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,13 +9,13 @@ using UnityEngine;
 */
 
 
-/** NAudio
+/** Fee.Audio
 */
-namespace NAudio
+namespace Fee.Audio
 {
 	/** MonoBehaviour_AudioSource_Bgm
 	*/
-	public class MonoBehaviour_AudioSource_Bgm : MonoBehaviour
+	public class MonoBehaviour_AudioSource_Bgm : UnityEngine.MonoBehaviour
 	{
 		/** Mode
 		*/
@@ -49,7 +46,7 @@ namespace NAudio
 
 		/** オーディオソース。
 		*/
-		private AudioSource[] myaudiosource;
+		private UnityEngine.AudioSource[] myaudiosource;
 		private float[] myaudiosource_data_volume;
 		private float[] myaudiosource_volume;
 		private int[] myaudiosource_index;
@@ -94,7 +91,7 @@ namespace NAudio
 			this.volume_bgm = a_volume_bgm;
 
 			//myaudiosource
-			this.myaudiosource = this.GetComponents<AudioSource>();
+			this.myaudiosource = this.GetComponents<UnityEngine.AudioSource>();
 			for(int ii=0;ii<this.myaudiosource.Length;ii++){
 				this.myaudiosource[ii].playOnAwake = false;
 				this.myaudiosource[ii].loop = true;
@@ -208,7 +205,7 @@ namespace NAudio
 					if(this.request_index >= 0){
 
 						//オーディオクリップ。
-						AudioClip t_audioclip = null;
+						UnityEngine.AudioClip t_audioclip = null;
 						float t_volume = 0.0f;
 						if(this.bank != null){
 							this.bank.GetAudioClip(this.request_index,out t_audioclip,out t_volume);
@@ -250,7 +247,7 @@ namespace NAudio
 						if(this.request_index >= 0){
 
 							//オーディオクリップ。
-							AudioClip t_audioclip = null;
+							UnityEngine.AudioClip t_audioclip = null;
 							float t_volume = 0.0f;
 							if(this.bank != null){
 								this.bank.GetAudioClip(this.request_index,out t_audioclip,out t_volume);
@@ -298,7 +295,7 @@ namespace NAudio
 						if(this.request_index >= 0){
 
 							//オーディオクリップ。
-							AudioClip t_audioclip = null;
+							UnityEngine.AudioClip t_audioclip = null;
 							float t_volume = 0.0f;
 							if(this.bank != null){
 								this.bank.GetAudioClip(this.request_index,out t_audioclip,out t_volume);

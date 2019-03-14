@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -16,9 +13,9 @@ using UnityEngine;
 #pragma warning disable 1998
 
 
-/** NUniVrm
+/** Fee.UniVrm
 */
-namespace NUniVrm
+namespace Fee.UniVrm
 {
 	/** [タスク]ＶＲＭパース。
 	*/
@@ -33,7 +30,7 @@ namespace NUniVrm
 			bool t_ret = true;
 
 			//プログレス。
-			//NTaskW.TaskW.GetInstance().Post((a_state) => {a_instance.SetProgressFromTask(0.0f);},null);
+			//Fee.TaskW.TaskW.GetInstance().Post((a_state) => {a_instance.SetProgressFromTask(0.0f);},null);
 
 			try{
 				a_context.ParseGlb(a_binary);
@@ -41,7 +38,7 @@ namespace NUniVrm
 				t_ret = false;
 
 				//エラー文字列。
-				NTaskW.TaskW.GetInstance().Post((a_state) => {
+				Fee.TaskW.TaskW.GetInstance().Post((a_state) => {
 					a_instance.SetErrorStringFromTask("System.Exception");
 				},null);
 			}
@@ -50,7 +47,7 @@ namespace NUniVrm
 				t_ret = false;
 
 				//エラー文字列。
-				NTaskW.TaskW.GetInstance().Post((a_state) => {
+				Fee.TaskW.TaskW.GetInstance().Post((a_state) => {
 					a_instance.SetErrorStringFromTask("Cancel");
 				},null);
 
@@ -62,11 +59,11 @@ namespace NUniVrm
 
 		/** 実行。
 		*/
-		public static NTaskW.Task<bool> Run(MonoBehaviour_Vrm a_instance,VRM.VRMImporterContext a_context,byte[] a_binary,NTaskW.CancelToken a_cancel)
+		public static Fee.TaskW.Task<bool> Run(MonoBehaviour_Vrm a_instance,VRM.VRMImporterContext a_context,byte[] a_binary,Fee.TaskW.CancelToken a_cancel)
 		{
 			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
 
-			return new NTaskW.Task<bool>(() => {
+			return new Fee.TaskW.Task<bool>(() => {
 				return Task_VrmParse.TaskMain(a_instance,a_context,a_binary,t_cancel_token);
 			});
 		}

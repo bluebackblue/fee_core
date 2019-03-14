@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NRender2D
+/** Fee.Render2D
 */
-namespace NRender2D
+namespace Fee.Render2D
 {
 	/** Config
 	*/
@@ -123,7 +120,7 @@ namespace NRender2D
 
 		/** デフォルト。テキスト。色。
 		*/
-		public static Color DEFAULT_TEXT_COLOR = Color.white;
+		public static UnityEngine.Color DEFAULT_TEXT_COLOR = UnityEngine.Color.white;
 
 		/** デフォルト。スプライト。マテリアルタイプ。
 		*/

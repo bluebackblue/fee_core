@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NInput
+/** Fee.Input
 */
-namespace NInput
+namespace Fee.Input
 {
 	/** Mouse
 	*/
@@ -106,7 +103,7 @@ namespace NInput
 		*/
 		public void SetVisible(bool a_flag)
 		{
-			Cursor.visible = a_flag;
+			UnityEngine.Cursor.visible = a_flag;
 		}
 
 		/** マウスロック。設定。
@@ -114,15 +111,15 @@ namespace NInput
 		public void SetLock(bool a_flag)
 		{
 			if(a_flag == true){
-				Cursor.lockState = CursorLockMode.Locked;
+				UnityEngine.Cursor.lockState = UnityEngine.CursorLockMode.Locked;
 			}else{
-				Cursor.lockState = CursorLockMode.None;
+				UnityEngine.Cursor.lockState = UnityEngine.CursorLockMode.None;
 			}
 		}
 
 		/** 更新。インプットシステムポインター。位置。
 		*/
-		private bool Main_InputSystemPointer_Position(NRender2D.Render2D a_render2d)
+		private bool Main_InputSystemPointer_Position(Fee.Render2D.Render2D a_render2d)
 		{
 			#if(USE_DEF_INPUTSYSTEM)
 			{
@@ -162,7 +159,7 @@ namespace NInput
 
 		/** 更新。インプットシステムマウス。位置。
 		*/
-		private bool Main_InputSystemMouse_Position(NRender2D.Render2D a_render2d)
+		private bool Main_InputSystemMouse_Position(Fee.Render2D.Render2D a_render2d)
 		{
 			#if(USE_DEF_INPUTSYSTEM)
 			{
@@ -203,11 +200,11 @@ namespace NInput
 		/** 更新。インプットマネージャマウス。位置。
 		*/
 		#if(true)
-		private bool Main_InputManagerMouse_Position(NRender2D.Render2D a_render2d)
+		private bool Main_InputManagerMouse_Position(Fee.Render2D.Render2D a_render2d)
 		{
 			//デバイス。
 			int t_mouse_x = (int)UnityEngine.Input.mousePosition.x;
-			int t_mouse_y = Screen.height - (int)UnityEngine.Input.mousePosition.y;
+			int t_mouse_y = UnityEngine.Screen.height - (int)UnityEngine.Input.mousePosition.y;
 
 			#if(UNITY_EDITOR)
 			{
@@ -364,7 +361,7 @@ namespace NInput
 
 		/** 更新。位置。
 		*/
-		private void Main_Pos(NRender2D.Render2D a_render2d)
+		private void Main_Pos(Fee.Render2D.Render2D a_render2d)
 		{
 			//インプットシステム。マウス。
 			if(Config.USE_INPUTSYSTEM_MOUSE == true){
@@ -435,7 +432,7 @@ namespace NInput
 
 		/** 更新。
 		*/
-		public void Main(NRender2D.Render2D a_render2d)
+		public void Main(Fee.Render2D.Render2D a_render2d)
 		{
 			try{
 				//位置。
@@ -471,7 +468,7 @@ namespace NInput
 
 		/** 範囲チェック。
 		*/
-		public bool InRectCheck(ref NRender2D.Rect2D_R<int> a_rect)
+		public bool InRectCheck(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			if((a_rect.x <= this.pos.x) && (a_rect.y <= this.pos.y)){
 				if(((a_rect.x + a_rect.w) >= this.pos.x) && ((a_rect.y + a_rect.h) >= this.pos.y)){
@@ -487,28 +484,28 @@ namespace NInput
 		{
 			if((this.left.up == true)&&(this.left.drag_dir_magnitude >= Config.DRAGUP_LENGTH_MIN)&&(this.left.drag_totallength <= (this.left.drag_dir_magnitude * Config.DRAGUP_LENGTH_SCALE))){
 				{
-					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.down);
+					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.down);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Up;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.up);
+					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.up);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Down;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.left);
+					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.left);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Left;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.right);
+					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.right);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Right;
 					}
@@ -524,28 +521,28 @@ namespace NInput
 		{
 			if((this.left.on == true)&&(this.left.drag_dir_magnitude >= Config.DRAGON_LENGTH_MIN)){
 				{
-					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.down);
+					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.down);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Up;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.up);
+					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.up);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Down;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.left);
+					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.left);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Left;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.left.drag_dir_normalized,Vector2.right);
+					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.right);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Right;
 					}
@@ -561,28 +558,28 @@ namespace NInput
 		{
 			if((this.right.up == true)&&(this.right.drag_dir_magnitude >= Config.DRAGUP_LENGTH_MIN)&&(this.right.drag_totallength <= (this.right.drag_dir_magnitude * Config.DRAGUP_LENGTH_SCALE))){
 				{
-					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.down);
+					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.down);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Up;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.up);
+					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.up);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Down;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.left);
+					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.left);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Left;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.right);
+					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.right);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Right;
 					}
@@ -598,28 +595,28 @@ namespace NInput
 		{
 			if((this.right.on == true)&&(this.right.drag_dir_magnitude >= Config.DRAGON_LENGTH_MIN)){
 				{
-					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.down);
+					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.down);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Up;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.up);
+					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.up);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Down;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.left);
+					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.left);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Left;
 					}
 				}
 
 				{
-					float t_dot = Vector2.Dot(this.right.drag_dir_normalized,Vector2.right);
+					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.right);
 					if(t_dot >= Config.DRAG_DIR4_DOT){
 						return Dir4Type.Right;
 					}

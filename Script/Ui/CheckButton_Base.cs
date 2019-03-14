@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,13 +9,13 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** CheckButton_Base
 	*/
-	public abstract class CheckButton_Base : NDeleter.DeleteItem_Base , NEventPlate.OnOverCallBack_Base , NUi.OnTargetCallBack_Base
+	public abstract class CheckButton_Base : Fee.Deleter.DeleteItem_Base , Fee.EventPlate.OnOverCallBack_Base , Fee.Ui.OnTargetCallBack_Base
 	{
 		/** [CheckButton_Base]コールバック。変更。
 		*/
@@ -26,11 +23,11 @@ namespace NUi
 
 		/** deleter
 		*/
-		protected NDeleter.Deleter deleter;
+		protected Fee.Deleter.Deleter deleter;
 
 		/** eventplate
 		*/
-		protected NEventPlate.Item eventplate;
+		protected Fee.EventPlate.Item eventplate;
 
 		/** callback_change
 		*/
@@ -63,13 +60,13 @@ namespace NUi
 
 		/** constructor
 		*/
-		public CheckButton_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CallBack_Change a_callback_change,int a_callback_id)
+		public CheckButton_Base(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority,CallBack_Change a_callback_change,int a_callback_id)
 		{
 			//deleter
-			this.deleter = new NDeleter.Deleter();
+			this.deleter = new Fee.Deleter.Deleter();
 
 			//eventplate
-			this.eventplate = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,a_drawpriority);
+			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,a_drawpriority);
 			this.eventplate.SetOnOverCallBack(this);
 
 			//callback_change
@@ -110,7 +107,7 @@ namespace NUi
 
 		/** コールバック。矩形。設定。
 		*/
-		protected abstract void OnSetRectCallBack(ref NRender2D.Rect2D_R<int> a_rect);
+		protected abstract void OnSetRectCallBack(ref Fee.Render2D.Rect2D_R<int> a_rect);
 
 		/** コールバック。モード。設定。
 		*/
@@ -130,7 +127,7 @@ namespace NUi
 
 		/** コールバック。クリップ矩形。設定。
 		*/
-		protected abstract void OnSetClipRectCallBack(ref NRender2D.Rect2D_R<int> a_rect);
+		protected abstract void OnSetClipRectCallBack(ref Fee.Render2D.Rect2D_R<int> a_rect);
 
 		/** 削除。
 		*/
@@ -139,7 +136,7 @@ namespace NUi
 			this.deleter.DeleteAll();
 
 			//ターゲット解除。
-			NUi.Ui.GetInstance().UnSetTargetRequest(this);
+			Fee.Ui.Ui.GetInstance().UnSetTargetRequest(this);
 
 			//コールバック。削除。
 			this.OnDeleteCallBack();
@@ -197,7 +194,7 @@ namespace NUi
 		
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			this.eventplate.SetClipRect(ref a_rect);
 
@@ -217,7 +214,7 @@ namespace NUi
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref NRender2D.Rect2D_R<int> a_rect)
+		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			this.eventplate.SetRect(ref a_rect);
 
@@ -245,7 +242,7 @@ namespace NUi
 			}
 		}
 
-		/** [NEventPlate.OnOverCallBack_Base]OnOverEnter
+		/** [Fee.EventPlateOnOverCallBack_Base]OnOverEnter
 		*/
 		public void OnOverEnter(int a_value)
 		{
@@ -257,7 +254,7 @@ namespace NUi
 			Ui.GetInstance().SetTargetRequest(this);
 		}
 
-		/** [NEventPlate.OnOverCallBack_Base]OnOverLeave
+		/** [Fee.EventPlateOnOverCallBack_Base]OnOverLeave
 		*/
 		public void OnOverLeave(int a_value)
 		{
@@ -297,7 +294,7 @@ namespace NUi
 			return this.check_flag;
 		}
 
-		/** [NUi.OnTargetCallBack_Base]OnTarget
+		/** [Fee.Ui.OnTargetCallBack_Base]OnTarget
 		*/
 		public void OnTarget()
 		{
@@ -323,7 +320,7 @@ namespace NUi
 				//オーバー中。
 				this.SetMode(CheckButton_Mode.On);
 
-				if(NInput.Mouse.GetInstance().left.down == true){
+				if(Fee.Input.Mouse.GetInstance().left.down == true){
 					this.check_flag = !this.check_flag;
 
 					//コールバック。チェック。設定。

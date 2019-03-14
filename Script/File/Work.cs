@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** Work
 	*/
@@ -124,7 +121,7 @@ namespace NFile
 
 		/** request_post_data
 		*/
-		private WWWForm request_post_data;
+		private UnityEngine.WWWForm request_post_data;
 
 		/** request_assetbundle_id
 		*/
@@ -144,7 +141,7 @@ namespace NFile
 
 		/** request_texture
 		*/
-		private Texture2D request_texture;
+		private UnityEngine.Texture2D request_texture;
 
 		/** item
 		*/
@@ -235,7 +232,7 @@ namespace NFile
 
 		/** リクエスト。セーブローカル。テクスチャーファイル。
 		*/
-		public void RequestSaveLocalTextureFile(string a_filename,Texture2D a_texture)
+		public void RequestSaveLocalTextureFile(string a_filename,UnityEngine.Texture2D a_texture)
 		{
 			this.request_type = RequestType.SaveLocalTextureFile;
 			this.request_filename = a_filename;
@@ -244,7 +241,7 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public void RequestDownLoadBinaryFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
+		public void RequestDownLoadBinaryFile(string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			this.request_type = RequestType.DownLoadBinaryFile;
 			this.request_url = a_url;
@@ -254,7 +251,7 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public void RequestDownLoadTextFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
+		public void RequestDownLoadTextFile(string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			this.request_type = RequestType.DownLoadTextFile;
 			this.request_url = a_url;
@@ -317,70 +314,70 @@ namespace NFile
 					switch(this.request_type){
 					case RequestType.LoadLocalBinaryFile:
 						{
-							MonoBehaviour_Io t_io = NFile.File.GetInstance().GetMonoIo();
+							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
 							if(t_io.RequestLoadLocalBinaryFile(this.request_filename) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.LoadLocalTextFile:
 						{
-							MonoBehaviour_Io t_io = NFile.File.GetInstance().GetMonoIo();
+							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
 							if(t_io.RequestLoadLocalTextFile(this.request_filename) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.LoadLocalTextureFile:
 						{
-							MonoBehaviour_Io t_io = NFile.File.GetInstance().GetMonoIo();
+							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
 							if(t_io.RequestLoadLocalTextureFile(this.request_filename) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.SaveLocalBinaryFile:
 						{
-							MonoBehaviour_Io t_io = NFile.File.GetInstance().GetMonoIo();
+							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
 							if(t_io.RequestSaveLocalBinaryFile(this.request_filename,this.request_binary) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.SaveLocalTextFile:
 						{
-							MonoBehaviour_Io t_io = NFile.File.GetInstance().GetMonoIo();
+							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
 							if(t_io.RequestSaveLocalTextFile(this.request_filename,this.request_text) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.SaveLocalTextureFile:
 						{
-							MonoBehaviour_Io t_io = NFile.File.GetInstance().GetMonoIo();
+							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
 							if(t_io.RequestSaveLocalTextureFile(this.request_filename,this.request_texture) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.DownLoadBinaryFile:
 						{
-							MonoBehaviour_WebRequest t_webrequest = NFile.File.GetInstance().GetMonoWebRequest();
+							MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
 							if(t_webrequest.RequestDownLoadBinaryFile(this.request_url,this.request_post_data,this.request_progress_mode) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
 					case RequestType.DownLoadTextFile:
 						{
-							MonoBehaviour_WebRequest t_webrequest = NFile.File.GetInstance().GetMonoWebRequest();
+							MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
 							if(t_webrequest.RequestDownLoadTextFile(this.request_url,this.request_post_data,this.request_progress_mode) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
 					case RequestType.DownLoadTextureFile:
 						{
-							MonoBehaviour_WebRequest t_webrequest = NFile.File.GetInstance().GetMonoWebRequest();
+							MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
 							if(t_webrequest.RequestDownLoadTextureFile(this.request_url) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
 					case RequestType.DownLoadAssetBundle:
 						{
-							MonoBehaviour_WebRequest t_webrequest = NFile.File.GetInstance().GetMonoWebRequest();
+							MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
 							if(t_webrequest.RequestDownLoadAssetBundle(this.request_url,this.request_assetbundle_id,this.request_data_version) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
@@ -389,14 +386,14 @@ namespace NFile
 						{
 							#if((!UNITY_EDITOR)&&((UNITY_ANDROID)||(UNITY_WEBGL)))
 							{
-								MonoBehaviour_WebRequest t_webrequest = NFile.File.GetInstance().GetMonoWebRequest();
+								MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
 								if(t_webrequest.LoadStreamingAssetsBinaryFile(this.request_filename) == true){
 									this.mode = Mode.Do_Io;
 								}								
 							}
 							#else
 							{
-								MonoBehaviour_Io t_io = NFile.File.GetInstance().GetMonoIo();
+								MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
 								if(t_io.LoadStreamingAssetsBinaryFile(this.request_filename) == true){
 									this.mode = Mode.Do_Io;
 								}
@@ -405,7 +402,7 @@ namespace NFile
 						}break;
 					case RequestType.DownLoadSoundPool:
 						{
-							MonoBehaviour_SoundPool t_soundpool = NFile.File.GetInstance().GetMonoSoundPool();
+							MonoBehaviour_SoundPool t_soundpool = Fee.File.File.GetInstance().GetMonoSoundPool();
 							if(t_soundpool.RequestDownLoadSoundPool(this.request_url,this.request_data_version) == true){
 								this.mode = Mode.Do_SoundPool;
 							}
@@ -417,7 +414,7 @@ namespace NFile
 				}return true;
 			case Mode.Do_Io:
 				{
-					MonoBehaviour_Io t_io = NFile.File.GetInstance().GetMonoIo();
+					MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
 
 					this.item.SetResultProgress(t_io.GetResultProgress());
 
@@ -468,7 +465,7 @@ namespace NFile
 				}break;
 			case Mode.Do_WebRequest:
 				{
-					MonoBehaviour_WebRequest t_webrequest = NFile.File.GetInstance().GetMonoWebRequest();
+					MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
 
 					this.item.SetResultProgress(t_webrequest.GetResultProgress());
 
@@ -526,7 +523,7 @@ namespace NFile
 				}break;
 			case Mode.Do_SoundPool:
 				{
-					MonoBehaviour_SoundPool t_soundpool = NFile.File.GetInstance().GetMonoSoundPool();
+					MonoBehaviour_SoundPool t_soundpool = Fee.File.File.GetInstance().GetMonoSoundPool();
 
 					this.item.SetResultProgress(t_soundpool.GetResultProgress());
 

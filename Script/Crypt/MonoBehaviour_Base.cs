@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,13 +9,13 @@ using UnityEngine;
 */
 
 
-/** NCrypt
+/** Fee.Crypt
 */
-namespace NCrypt
+namespace Fee.Crypt
 {
 	/** MonoBehaviour_Base
 	*/
-	public abstract class MonoBehaviour_Base : MonoBehaviour
+	public abstract class MonoBehaviour_Base : UnityEngine.MonoBehaviour
 	{
 		/** Mode
 		*/
@@ -76,53 +73,53 @@ namespace NCrypt
 
 		/** [MonoBehaviour_Base]コールバック。開始。
 		*/
-		protected abstract IEnumerator OnStart();
+		protected abstract System.Collections.IEnumerator OnStart();
 
 		/** [MonoBehaviour_Base]コールバック。実行。
 		*/
-		protected abstract IEnumerator OnDo();
+		protected abstract System.Collections.IEnumerator OnDo();
 
 		/** [MonoBehaviour_Base]コールバック。エラー終了。
 		*/
-		protected abstract IEnumerator OnDoError();
+		protected abstract System.Collections.IEnumerator OnDoError();
 
 		/** [MonoBehaviour_Base]コールバック。正常終了。
 		*/
-		protected abstract IEnumerator OnDoSuccess();
+		protected abstract System.Collections.IEnumerator OnDoSuccess();
 
 		/** mode
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private Mode mode;
 
 		/** cancel_flag
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private bool cancel_flag;
 
 		/** delete_flag
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private bool delete_flag;
 
 		/** result_progress 
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private float result_progress;
 
 		/** result_errorstring
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private string result_errorstring;
 
 		/** result_type
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private ResultType result_type;
 
 		/** result_binary
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private byte[] result_binary;
 
 		/** 結果フラグリセット。
@@ -308,7 +305,7 @@ namespace NCrypt
 
 		/** Start
 		*/
-		private IEnumerator Start()
+		private System.Collections.IEnumerator Start()
 		{
 			bool t_loop = true;
 			while(t_loop){
@@ -347,7 +344,7 @@ namespace NCrypt
 			}
 
 			Tool.Log(this.gameObject.name,"GameObject.Destroy");
-			GameObject.Destroy(this.gameObject);
+			UnityEngine.GameObject.Destroy(this.gameObject);
 			yield break;
 		}
 	}

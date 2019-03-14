@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NCrypt
+/** Fee.Crypt
 */
-namespace NCrypt
+namespace Fee.Crypt
 {
 	/** Crypt
 	*/
@@ -68,45 +65,45 @@ namespace NCrypt
 
 		/** ルート。
 		*/
-		private GameObject root_gameobject;
-		private Transform root_transform;
+		private UnityEngine.GameObject root_gameobject;
+		private UnityEngine.Transform root_transform;
 
 		/** security
 		*/
-		private GameObject security_gameobject;
+		private UnityEngine.GameObject security_gameobject;
 		private MonoBehaviour_Security security_script;
 
 		/** work_list
 		*/
-		private List<Work> work_list;
+		private System.Collections.Generic.List<Work> work_list;
 
 		/** add_list
 		*/
-		private List<Work> add_list;
+		private System.Collections.Generic.List<Work> add_list;
 
 		/** [シングルトン]constructor
 		*/
 		private Crypt()
 		{
 			//ルート。
-			this.root_gameobject = new GameObject();
+			this.root_gameobject = new UnityEngine.GameObject();
 			this.root_gameobject.name = "Crypt";
-			GameObject.DontDestroyOnLoad(this.root_gameobject);
-			this.root_transform = this.root_gameobject.GetComponent<Transform>();
+			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
+			this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
 
 			//security
 			{
-				this.security_gameobject = new GameObject();
+				this.security_gameobject = new UnityEngine.GameObject();
 				this.security_gameobject.name = "Crypt_Security";
 				this.security_script = this.security_gameobject.AddComponent<MonoBehaviour_Security>();
-				this.security_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
+				this.security_gameobject.GetComponent<UnityEngine.Transform>().SetParent(this.root_transform);
 			}
 
 			//work_list
-			this.work_list = new List<Work>();
+			this.work_list = new System.Collections.Generic.List<Work>();
 
 			//add_list
-			this.add_list = new List<Work>();
+			this.add_list = new System.Collections.Generic.List<Work>();
 		}
 
 		/** [シングルトン]削除。
@@ -114,12 +111,12 @@ namespace NCrypt
 		private void Delete()
 		{
 			//削除リクエスト。
-			this.security_gameobject.GetComponent<Transform>().SetParent(null);
-			GameObject.DontDestroyOnLoad(this.security_gameobject);
+			this.security_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
+			UnityEngine.GameObject.DontDestroyOnLoad(this.security_gameobject);
 			this.security_script.DeleteRequest();
 
 			//ルート削除。
-			GameObject.Destroy(this.root_gameobject);
+			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
 		/** MonoSecurity。取得。

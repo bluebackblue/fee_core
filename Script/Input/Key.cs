@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NInput
+/** Fee.Input
 */
-namespace NInput
+namespace Fee.Input
 {
 	/** Key
 	*/
@@ -147,16 +144,16 @@ namespace NInput
 		public bool Main_InputManagerKey_Key()
 		{
 			//デバイス。
-			bool t_enter_on = UnityEngine.Input.GetKey(KeyCode.Return);
-			bool t_escape_on = UnityEngine.Input.GetKey(KeyCode.Escape);
-			bool t_sub1_on = UnityEngine.Input.GetKey(KeyCode.LeftShift);
-			bool t_sub2_on = UnityEngine.Input.GetKey(KeyCode.LeftControl);
-			bool t_left_on = UnityEngine.Input.GetKey(KeyCode.A);
-			bool t_right_on = UnityEngine.Input.GetKey(KeyCode.D);
-			bool t_up_on = UnityEngine.Input.GetKey(KeyCode.W);
-			bool t_down_on = UnityEngine.Input.GetKey(KeyCode.S);
-			bool t_left_menu_on = UnityEngine.Input.GetKey(KeyCode.Space);
-			bool t_right_menu_on = UnityEngine.Input.GetKey(KeyCode.Backspace);
+			bool t_enter_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Return);
+			bool t_escape_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Escape);
+			bool t_sub1_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.LeftShift);
+			bool t_sub2_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.LeftControl);
+			bool t_left_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.A);
+			bool t_right_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.D);
+			bool t_up_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.W);
+			bool t_down_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.S);
+			bool t_left_menu_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Space);
+			bool t_right_menu_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Backspace);
 
 			//設定。
 			this.enter.Set(t_enter_on);

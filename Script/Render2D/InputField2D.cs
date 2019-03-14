@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,13 +9,13 @@ using UnityEngine;
 */
 
 
-/** Render2D
+/** NFee.Render2D
 */
-namespace NRender2D
+namespace Fee.Render2D
 {
 	/** InputField2D
 	*/
-	public class InputField2D : NDeleter.DeleteItem_Base
+	public class InputField2D : Fee.Deleter.DeleteItem_Base
 	{
 		/** 状態。
 		*/
@@ -46,7 +43,7 @@ namespace NRender2D
 
 		/** constructor
 		*/
-		public InputField2D(NDeleter.Deleter a_deleter,State2D a_state,long a_drawpriority)
+		public InputField2D(Fee.Deleter.Deleter a_deleter,State2D a_state,long a_drawpriority)
 		{
 			Render2D.GetInstance().AddInputField2D(this);
 
@@ -186,7 +183,7 @@ namespace NRender2D
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			this.param.SetClipRect(ref a_rect);
 		}
@@ -228,14 +225,14 @@ namespace NRender2D
 
 		/** カスタムテキストマテリアル。取得。
 		*/
-		public Material GetCustomTextMaterial()
+		public UnityEngine.Material GetCustomTextMaterial()
 		{
 			return this.param.GetCustomTextMaterial();
 		}
 
 		/** カスタムイメージマテリアル。取得。
 		*/
-		public Material GetCustomImageMaterial()
+		public UnityEngine.Material GetCustomImageMaterial()
 		{
 			return this.param.GetCustomImageMaterial();
 		}
@@ -355,7 +352,7 @@ namespace NRender2D
 
 		/** イメージ色。設定。
 		*/
-		public void SetImageColor(ref Color a_color)
+		public void SetImageColor(ref UnityEngine.Color a_color)
 		{
 			this.param.SetImageColor(ref a_color);
 		}
@@ -369,14 +366,14 @@ namespace NRender2D
 
 		/** イメージ色。取得。
 		*/
-		public Color GetImageColor()
+		public UnityEngine.Color GetImageColor()
 		{
 			return this.param.GetImageColor();
 		}
 
 		/** テキスト色。設定。
 		*/
-		public void SetTextColor(ref Color a_color)
+		public void SetTextColor(ref UnityEngine.Color a_color)
 		{
 			this.param.SetTextColor(ref a_color);
 		}
@@ -390,7 +387,7 @@ namespace NRender2D
 
 		/** テキスト色。取得。
 		*/
-		public Color GetTextColor()
+		public UnityEngine.Color GetTextColor()
 		{
 			return this.param.GetTextColor();
 		}
@@ -411,35 +408,35 @@ namespace NRender2D
 
 		/** フォント。設定。
 		*/
-		public void SetFont(Font a_font)
+		public void SetFont(UnityEngine.Font a_font)
 		{
 			this.param.SetFont(a_font);
 		}
 
 		/** フォント。取得。
 		*/
-		public Font GetFont()
+		public UnityEngine.Font GetFont()
 		{
 			return this.param.GetFont();
 		}
 
 		/** [内部からの呼び出し]サイズ。設定。
 		*/
-		public void Raw_SetRectTransformSizeDelta(ref Vector2 a_size)
+		public void Raw_SetRectTransformSizeDelta(ref UnityEngine.Vector2 a_size)
 		{
 			this.param.Raw_SetRectTransformSizeDelta(ref a_size);
 		}
 
 		/** [内部からの呼び出し]サイズ。取得。
 		*/
-		public void Raw_GetRectTransformSizeDelta(out Vector2 a_size)
+		public void Raw_GetRectTransformSizeDelta(out UnityEngine.Vector2 a_size)
 		{
 			this.param.Raw_GetRectTransformSizeDelta(out a_size);
 		}
 
 		/** [内部からの呼び出し]位置。設定。
 		*/
-		public void Raw_SetRectTransformLocalPosition(ref Vector3 a_position)
+		public void Raw_SetRectTransformLocalPosition(ref UnityEngine.Vector3 a_position)
 		{
 			this.param.Raw_SetRectTransformLocalPosition(ref a_position);
 		}
@@ -453,21 +450,21 @@ namespace NRender2D
 
 		/** [内部からの呼び出し]テキストマテリアル。設定。
 		*/
-		public void Raw_SetTextMaterial(Material a_material)
+		public void Raw_SetTextMaterial(UnityEngine.Material a_material)
 		{
 			this.param.Raw_SetTextMaterial(a_material);
 		}
 
 		/** [内部からの呼び出し]イメージマテリアル。設定。
 		*/
-		public void Raw_SetImageMaterial(Material a_material)
+		public void Raw_SetImageMaterial(UnityEngine.Material a_material)
 		{
 			this.param.Raw_SetImageMaterial(a_material);
 		}
 
 		/** [内部からの呼び出し]レイヤー。設定。
 		*/
-		public void Raw_SetLayer(Transform a_layer_transform)
+		public void Raw_SetLayer(UnityEngine.Transform a_layer_transform)
 		{
 			this.param.Raw_SetLayer(a_layer_transform);
 		}

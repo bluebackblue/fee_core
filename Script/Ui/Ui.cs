@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** Ui
 	*/
@@ -70,13 +67,13 @@ namespace NUi
 		private Ui_WindowList windowlist;
 
 		//ターゲットリスト。
-		private List<OnTargetCallBack_Base> target_list;
+		private System.Collections.Generic.List<OnTargetCallBack_Base> target_list;
 
 		//ターゲット追加リスト。
-		private List<OnTargetCallBack_Base> target_add_list;
+		private System.Collections.Generic.List<OnTargetCallBack_Base> target_add_list;
 
 		//ターゲット削除リスト。
-		private List<OnTargetCallBack_Base> target_remove_list;
+		private System.Collections.Generic.List<OnTargetCallBack_Base> target_remove_list;
 
 		/** [シングルトン]constructor
 		*/
@@ -86,13 +83,13 @@ namespace NUi
 			this.windowlist = new Ui_WindowList();
 
 			//target_list
-			this.target_list = new List<OnTargetCallBack_Base>();
+			this.target_list = new System.Collections.Generic.List<OnTargetCallBack_Base>();
 
 			//target_add_list
-			this.target_add_list = new List<OnTargetCallBack_Base>();
+			this.target_add_list = new System.Collections.Generic.List<OnTargetCallBack_Base>();
 
 			//target_remove_list
-			this.target_remove_list = new List<OnTargetCallBack_Base>();
+			this.target_remove_list = new System.Collections.Generic.List<OnTargetCallBack_Base>();
 		}
 
 		/** [シングルトン]削除。

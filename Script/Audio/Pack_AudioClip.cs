@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,31 +9,34 @@ using UnityEngine;
 */
 
 
-/** NAudio
+/** Fee.Audio
 */
-namespace NAudio
+namespace Fee.Audio
 {
 	/** Pack_AudioClip
+
+	アセットバンドル化するためのプレハブ。
+
 	*/
-	public class Pack_AudioClip : MonoBehaviour
+	public class Pack_AudioClip : UnityEngine.MonoBehaviour
 	{
 		/** audioclip_list
 		*/
-		public List<AudioClip> audioclip_list;
+		public System.Collections.Generic.List<UnityEngine.AudioClip> audioclip_list;
 
 		/** volume_list
 		*/
-		public List<float> volume_list;
+		public System.Collections.Generic.List<float> volume_list;
 
 		/** constructor
 		*/
 		public Pack_AudioClip()
 		{
 			//audioclip_list
-			this.audioclip_list = new List<AudioClip>();
+			this.audioclip_list = new System.Collections.Generic.List<UnityEngine.AudioClip>();
 
 			//volume_list
-			this.volume_list = new List<float>();
+			this.volume_list = new System.Collections.Generic.List<float>();
 		}
 	}
 }

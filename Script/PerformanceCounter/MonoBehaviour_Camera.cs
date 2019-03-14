@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,31 +9,31 @@ using UnityEngine;
 */
 
 
-/** NPerformanceCounter
+/** Fee.PerformanceCounter
 */
-namespace NPerformanceCounter
+namespace Fee.PerformanceCounter
 {
 	/** MonoBehaviour_Camera
 	*/
-	public class MonoBehaviour_Camera : MonoBehaviour
+	public class MonoBehaviour_Camera : UnityEngine.MonoBehaviour
 	{
 		/** mycamera
 		*/
-		public Camera mycamera;
+		public UnityEngine.Camera mycamera;
 
 		/** mymaterial
 		*/
-		public Material mymaterial;
+		public UnityEngine.Material mymaterial;
 
 		/** 初期化。
 		*/
 		public void Initialize()
 		{
 			//カメラ取得。
-			this.mycamera = this.GetComponent<Camera>();
+			this.mycamera = this.GetComponent<UnityEngine.Camera>();
 
 			//マテリアル。
-			this.mymaterial = Resources.Load<Material>("Material/PerformanceCounter/Sprite");
+			this.mymaterial = UnityEngine.Resources.Load<UnityEngine.Material>("Material/PerformanceCounter/Sprite");
 		}
 
 		/** 削除。
@@ -50,8 +47,8 @@ namespace NPerformanceCounter
 		private void OnPostRender()
 		{
 			//フレーム終了。
-			FrameData t_framedata = NPerformanceCounter.PerformanceCounter.GetInstance().GetFrameData();
-			t_framedata.end_time = Time.realtimeSinceStartup;
+			FrameData t_framedata = Fee.PerformanceCounter.PerformanceCounter.GetInstance().GetFrameData();
+			t_framedata.end_time = UnityEngine.Time.realtimeSinceStartup;
 
 			{
 				UnityEngine.GL.PushMatrix();
@@ -67,7 +64,7 @@ namespace NPerformanceCounter
 					float t_per = t_length / t_length_max;
 
 					float t_w = 0.3f * t_per;
-					float t_h = 5.0f * 1.0f / (float)Screen.height;
+					float t_h = 5.0f * 1.0f / (float)UnityEngine.Screen.height;
 
 					float t_x_1 = 0.0f;
 					float t_y_1 = 1.0f - 0.0f;
@@ -83,9 +80,9 @@ namespace NPerformanceCounter
 
 					if(t_per >= 2.0f){
 						Tool.Log(Config.LOG_TAGNAME_STRING,t_per.ToString());
-						UnityEngine.GL.Color(new Color(1.0f,0.0f,0.0f,1.0f));
+						UnityEngine.GL.Color(new UnityEngine.Color(1.0f,0.0f,0.0f,1.0f));
 					}else{
-						UnityEngine.GL.Color(new Color(1.0f,1.0f,1.0f,1.0f));
+						UnityEngine.GL.Color(new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f));
 					}
 
 					{
@@ -116,7 +113,7 @@ namespace NPerformanceCounter
 			}
 
 			//新しいフレームを開始。
-			t_framedata.start_time = Time.realtimeSinceStartup;
+			t_framedata.start_time = UnityEngine.Time.realtimeSinceStartup;
 		}
 	}
 }

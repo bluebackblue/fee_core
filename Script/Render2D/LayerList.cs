@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NRender2D
+/** Fee.Render2D
 */
-namespace NRender2D
+namespace Fee.Render2D
 {
 	/** LayerList
 	*/
@@ -26,23 +23,23 @@ namespace NRender2D
 
 		/** constructor
 		*/
-		public LayerList(Transform a_transform_root)
+		public LayerList(UnityEngine.Transform a_transform_root)
 		{
 			//プレハブ読み込み。
 			//GameObject t_prefab_camera = Resources.Load<GameObject>(Config.PREFAB_NAME_CAMERA);
-			GameObject t_prefab_canvas = Resources.Load<GameObject>(Config.PREFAB_NAME_CANVAS);
-			GameObject t_prefab_eventsystem = Resources.Load<GameObject>(Config.PREFAB_NAME_EVENTSYSTEM);
+			UnityEngine.GameObject t_prefab_canvas = UnityEngine.Resources.Load<UnityEngine.GameObject>(Config.PREFAB_NAME_CANVAS);
+			UnityEngine.GameObject t_prefab_eventsystem = UnityEngine.Resources.Load<UnityEngine.GameObject>(Config.PREFAB_NAME_EVENTSYSTEM);
 
 			//イベントシステム。インプットフィールド用。
 			{
-				GameObject t_gameobject_eventsystem = GameObject.Instantiate(t_prefab_eventsystem,Vector3.zero,Quaternion.identity);
+				UnityEngine.GameObject t_gameobject_eventsystem = UnityEngine.GameObject.Instantiate(t_prefab_eventsystem,UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity);
 				t_gameobject_eventsystem.name = "EventSystem";
 				t_gameobject_eventsystem.transform.parent = a_transform_root;
 			}
 
 			//描画前処理。
 			{
-				GameObject t_gameobject_main = new GameObject();
+				UnityEngine.GameObject t_gameobject_main = new UnityEngine.GameObject();
 				t_gameobject_main.name = "PreDraw";
 				t_gameobject_main.AddComponent<MonoBehaviour_PreDraw>();
 				t_gameobject_main.transform.SetParent(a_transform_root);
@@ -58,22 +55,22 @@ namespace NRender2D
 				float t_ui_depth = Config.CAMERADEPTH_START + ii * Config.CAMERADEPTH_STEP + Config.CAMERADEPTH_OFFSET_UI;
 
 				//カメラ。ＧＬ描画。
-				GameObject t_gameobject_camera_gl = NInstantiate.Instantiate.CreateOrthographicCameraObject("Camera_" + ii.ToString() + "_GL",a_transform_root,t_gl_depth);
-				Camera t_camera_gl = t_gameobject_camera_gl.GetComponent<Camera>();
+				UnityEngine.GameObject t_gameobject_camera_gl = Fee.Instantiate.Instantiate.CreateOrthographicCameraObject("Camera_" + ii.ToString() + "_GL",a_transform_root,t_gl_depth);
+				UnityEngine.Camera t_camera_gl = t_gameobject_camera_gl.GetComponent<UnityEngine.Camera>();
 
 				//カメラ。ＵＩ描画。
-				GameObject t_gameobject_camera_ui = NInstantiate.Instantiate.CreateOrthographicCameraObject("Camera_" + ii.ToString() + "_UI",a_transform_root,t_ui_depth);
-				Camera t_camera_ui = t_gameobject_camera_ui.GetComponent<Camera>();
-				t_camera_ui.cullingMask = (1 << LayerMask.NameToLayer("UI"));
+				UnityEngine.GameObject t_gameobject_camera_ui = Fee.Instantiate.Instantiate.CreateOrthographicCameraObject("Camera_" + ii.ToString() + "_UI",a_transform_root,t_ui_depth);
+				UnityEngine.Camera t_camera_ui = t_gameobject_camera_ui.GetComponent<UnityEngine.Camera>();
+				t_camera_ui.cullingMask = (1 << UnityEngine.LayerMask.NameToLayer("UI"));
 				
 				//キャンバス。
-				GameObject t_gameobject_canvas = GameObject.Instantiate(t_prefab_canvas,Vector3.zero,Quaternion.identity);
+				UnityEngine.GameObject t_gameobject_canvas = UnityEngine.GameObject.Instantiate(t_prefab_canvas,UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity);
 				t_gameobject_canvas.name = "Canvas_" + ii.ToString();
 				t_gameobject_canvas.transform.SetParent(a_transform_root);
-				Canvas t_canvas = t_gameobject_canvas.GetComponent<Canvas>();
+				UnityEngine.Canvas t_canvas = t_gameobject_canvas.GetComponent<UnityEngine.Canvas>();
 
 				//キャンバス設定。
-				t_canvas.renderMode = RenderMode.ScreenSpaceCamera;
+				t_canvas.renderMode = UnityEngine.RenderMode.ScreenSpaceCamera;
 				t_canvas.worldCamera = t_camera_ui;
 
 				//ＧＬ描画設定。
@@ -89,7 +86,7 @@ namespace NRender2D
 				this.list[ii].camera_ui.cameradepth = t_ui_depth;
 
 				//キャンバス設定。
-				this.list[ii].canvas_transform = t_gameobject_canvas.GetComponent<Transform>();
+				this.list[ii].canvas_transform = t_gameobject_canvas.GetComponent<UnityEngine.Transform>();
 			}
 		}
 
@@ -108,7 +105,7 @@ namespace NRender2D
 
 		/** 描画プライオリティからレイヤートランスフォーム取得。
 		*/
-		public Transform GetLayerTransformFromDrawPriority(long a_drawpriority)
+		public UnityEngine.Transform GetLayerTransformFromDrawPriority(long a_drawpriority)
 		{
 			int t_layerindex = this.CalcLayerIndexFromDrawPriority(a_drawpriority);
 
@@ -198,7 +195,7 @@ namespace NRender2D
 
 		/** インデックス計算。
 		*/
-		public void CalcIndex(List<Sprite2D> a_sprite_list,List<Text2D> a_text_list,List<InputField2D> a_inputfield_list)
+		public void CalcIndex(System.Collections.Generic.List<Sprite2D> a_sprite_list,System.Collections.Generic.List<Text2D> a_text_list,System.Collections.Generic.List<InputField2D> a_inputfield_list)
 		{
 			//リセット。
 			for(int ii=0;ii<this.list.Length;ii++){

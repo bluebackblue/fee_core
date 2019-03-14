@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** Button
 	*/
@@ -22,24 +19,24 @@ namespace NUi
 	{
 		/** sprite
 		*/
-		private NUi.Button_Sprite2D sprite;
+		private Fee.Ui.Button_Sprite2D sprite;
 
 		/** text
 		*/
-		private NRender2D.Text2D text;
+		private Fee.Render2D.Text2D text;
 
 		/** constructor
 		*/
-		public Button(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,Button_Base.CallBack_Click a_callback_click,int a_callback_id)
+		public Button(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority,Button_Base.CallBack_Click a_callback_click,int a_callback_id)
 			:
 			base(a_deleter,a_state,a_drawpriority,a_callback_click,a_callback_id)
 		{
 			//sprite
-			this.sprite = new NUi.Button_Sprite2D(this.deleter,a_state,a_drawpriority);
-			this.sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+			this.sprite = new Fee.Ui.Button_Sprite2D(this.deleter,a_state,a_drawpriority);
+			this.sprite.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 
 			//text
-			this.text = new NRender2D.Text2D(this.deleter,a_state,a_drawpriority);
+			this.text = new Fee.Render2D.Text2D(this.deleter,a_state,a_drawpriority);
 			this.text.SetCenter(true,true);
 		}
 
@@ -91,7 +88,7 @@ namespace NUi
 
 		/** テクスチャ設定。
 		*/
-		public void SetTexture(Texture2D a_texture)
+		public void SetTexture(UnityEngine.Texture2D a_texture)
 		{
 			this.sprite.SetTexture(a_texture);
 		}

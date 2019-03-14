@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,23 +9,23 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** OnWindowCallBack_Base
 	*/
 	public interface OnWindowCallBack_Base
 	{
-		/** [NUi.OnWindowCallBack_Base]レイヤーインデックス変更。
+		/** [Fee.Ui.OnWindowCallBack_Base]レイヤーインデックス変更。
 		*/
 		void OnChangeLayerIndex(int a_layerindex);
 
-		/** [Nui.OnWindowCallBack_Base]矩形変更。
+		/** [Fee.Ui.OnWindowCallBack_Base]矩形変更。
 		*/
-		void OnChangeRect(ref NRender2D.Rect2D_R<int> a_rect);
+		void OnChangeRect(ref Fee.Render2D.Rect2D_R<int> a_rect);
 
-		/** [NUi.OnWindowCallBack_Base]矩形変更。
+		/** [Fee.Ui.OnWindowCallBack_Base]矩形変更。
 		*/
 		void OnChangeXY(int a_x,int a_y);
 	}

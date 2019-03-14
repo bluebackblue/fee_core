@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** AssetBundleList
 	*/
@@ -22,13 +19,13 @@ namespace NFile
 	{
 		/** list
 		*/
-		private Dictionary<long,AssetBundle> list;
+		private System.Collections.Generic.Dictionary<long,UnityEngine.AssetBundle> list;
 
 		/** constructor
 		*/
 		public AssetBundleList()
 		{
-			this.list = new Dictionary<long,AssetBundle>();
+			this.list = new System.Collections.Generic.Dictionary<long,UnityEngine.AssetBundle>();
 		}
 
 		/** リスト数。
@@ -40,7 +37,7 @@ namespace NFile
 
 		/** アセットバンドル。登録。
 		*/
-		public void Regist(long a_assetbundle_id,AssetBundle a_assetbundle)
+		public void Regist(long a_assetbundle_id,UnityEngine.AssetBundle a_assetbundle)
 		{
 			this.list.Add(a_assetbundle_id,a_assetbundle);
 		}
@@ -49,7 +46,7 @@ namespace NFile
 		*/
 		public void UnloadAssetBundle(long a_assetbundle_id)
 		{
-			AssetBundle t_assetbundle = this.GetAssetBundle(a_assetbundle_id);
+			UnityEngine.AssetBundle t_assetbundle = this.GetAssetBundle(a_assetbundle_id);
 
 			this.list.Remove(a_assetbundle_id);
 
@@ -61,9 +58,9 @@ namespace NFile
 
 		/** アセットバンドル。取得。
 		*/
-		public AssetBundle GetAssetBundle(long a_assetbundle_id)
+		public UnityEngine.AssetBundle GetAssetBundle(long a_assetbundle_id)
 		{
-			AssetBundle t_assetbundle;
+			UnityEngine.AssetBundle t_assetbundle;
 
 			if(this.list.TryGetValue(a_assetbundle_id,out t_assetbundle) == true){
 				return t_assetbundle;
@@ -76,7 +73,7 @@ namespace NFile
 		*/
 		public void UnloadAllAssetBundle()
 		{
-			Dictionary<long,AssetBundle>.KeyCollection t_collection = this.list.Keys;
+			System.Collections.Generic.Dictionary<long,UnityEngine.AssetBundle>.KeyCollection t_collection = this.list.Keys;
 			long[] t_keylist = new long[t_collection.Count];
 			t_collection.CopyTo(t_keylist,0);
 

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** ダウンロード。テキストファイル。
 	*/
@@ -42,7 +39,7 @@ namespace NFile
 
 		/** CreateWebRequestInstance
 		*/
-		private static UnityEngine.Networking.UnityWebRequest CreateWebRequestInstance(string a_url,WWWForm a_post_data)
+		private static UnityEngine.Networking.UnityWebRequest CreateWebRequestInstance(string a_url,UnityEngine.WWWForm a_post_data)
 		{
 			if(a_post_data != null){
 				return UnityEngine.Networking.UnityWebRequest.Post(a_url,a_post_data);
@@ -52,7 +49,7 @@ namespace NFile
 
 		/** CoroutineMain
 		*/
-		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			//result
 			this.result = new ResultType();

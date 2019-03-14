@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NAudio
+/** Fee.Audio
 */
-namespace NAudio
+namespace Fee.Audio
 {
 	/** Pack_SoundPool
 	*/
@@ -30,26 +27,26 @@ namespace NAudio
 
 		/** name_list
 		*/
-		public List<string> name_list;
+		public System.Collections.Generic.List<string> name_list;
 
 		/** volume_list
 		*/
-		public List<float> volume_list;
+		public System.Collections.Generic.List<float> volume_list;
 
 		/** constructor
 		*/
 		public Pack_SoundPool()
 		{
 			//name_list
-			this.name_list = new List<string>();
+			this.name_list = new System.Collections.Generic.List<string>();
 
 			//volume_list
-			this.volume_list = new List<float>();
+			this.volume_list = new System.Collections.Generic.List<float>();
 		}
 
 		/** サウンドプールチェック。
 		*/
-		public static bool CheckSoundPool(NAudio.Pack_SoundPool a_soundpool,out string a_errorstring)
+		public static bool CheckSoundPool(Fee.Audio.Pack_SoundPool a_soundpool,out string a_errorstring)
 		{
 			//name_listチェック。
 			if(a_soundpool != null){

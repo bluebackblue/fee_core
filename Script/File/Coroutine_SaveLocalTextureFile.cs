@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** セーブローカル。テクスチャーファイル。
 	*/
@@ -46,7 +43,7 @@ namespace NFile
 
 		/** CoroutineMain
 		*/
-		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_full_path,Texture2D a_texture)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_full_path,UnityEngine.Texture2D a_texture)
 		{
 			//result
 			this.result = new ResultType();
@@ -59,7 +56,7 @@ namespace NFile
 			{
 				if(a_texture != null){
 					try{
-						t_binary_png = a_texture.EncodeToPNG();
+						t_binary_png = UnityEngine.ImageConversion.EncodeToPNG(a_texture);
 					}catch(System.Exception t_exception){
 						this.result.errorstring = "Coroutine_SaveLocalTextureFile : " + t_exception.Message;
 						yield break;
@@ -72,10 +69,10 @@ namespace NFile
 			}
 
 			//キャンセルトークン。
-			NTaskW.CancelToken t_cancel_token = new NTaskW.CancelToken();
+			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
 			//タスク起動。
-			NTaskW.Task<Task_SaveLocalTextureFile.ResultType> t_task = Task_SaveLocalTextureFile.Run(a_full_path,t_binary_png,t_cancel_token);
+			Fee.TaskW.Task<Task_SaveLocalTextureFile.ResultType> t_task = Task_SaveLocalTextureFile.Run(a_full_path,t_binary_png,t_cancel_token);
 
 			//終了待ち。
 			do{

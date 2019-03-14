@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NDeleter
+/** Fee.Deleter
 */
-namespace NDeleter
+namespace Fee.Deleter
 {
 	/** Deleter
 	*/
@@ -22,13 +19,13 @@ namespace NDeleter
 	{
 		/** リスト。
 		*/
-		public List<DeleteItem_Base> list;
+		public System.Collections.Generic.List<DeleteItem_Base> list;
 
 		/** constructor
 		*/
 		public Deleter()
 		{
-			this.list = new List<DeleteItem_Base>();
+			this.list = new System.Collections.Generic.List<DeleteItem_Base>();
 		}
 
 		/** 登録。

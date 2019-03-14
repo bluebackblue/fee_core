@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,17 +9,17 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** Scroll_Base
 	*/
-	public abstract class Scroll_Base : NDeleter.DeleteItem_Base , NEventPlate.OnOverCallBack_Base
+	public abstract class Scroll_Base : Fee.Deleter.DeleteItem_Base , Fee.EventPlate.OnOverCallBack_Base
 	{
 		/** deleter
 		*/
-		protected NDeleter.Deleter deleter;
+		protected Fee.Deleter.Deleter deleter;
 
 		/** 表示位置。
 		*/
@@ -43,11 +40,11 @@ namespace NUi
 
 		/** 矩形。
 		*/
-		protected NRender2D.Rect2D_R<int> rect;
+		protected Fee.Render2D.Rect2D_R<int> rect;
 
 		/** eventplate
 		*/
-		protected NEventPlate.Item eventplate;
+		protected Fee.EventPlate.Item eventplate;
 
 		/** is_onover
 		*/
@@ -55,10 +52,10 @@ namespace NUi
 
 		/** constructor
 		*/
-		public Scroll_Base(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
+		public Scroll_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
 		{
 			//deleter
-			this.deleter = new NDeleter.Deleter();
+			this.deleter = new Fee.Deleter.Deleter();
 
 			//表示位置。
 			this.view_position = 0;
@@ -77,7 +74,7 @@ namespace NUi
 			this.rect.Set(0,0,0,0);
 
 			//eventplate
-			this.eventplate = new NEventPlate.Item(this.deleter,NEventPlate.EventType.View,a_drawpriority);
+			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.View,a_drawpriority);
 			this.eventplate.SetRect(0,0,0,0);
 			this.eventplate.SetOnOverCallBack(this);
 
@@ -412,14 +409,14 @@ namespace NUi
 			return this.rect.h;
 		}
 
-		/** [NEventPlate.OnOverCallBack_Base]イベントプレートに入場。
+		/** [Fee.EventPlateOnOverCallBack_Base]イベントプレートに入場。
 		*/
 		public void OnOverEnter(int a_value)
 		{
 			this.is_onover = true;	
 		}
 
-		/** [NEventPlate.OnOverCallBack_Base]イベントプレートから退場。
+		/** [Fee.EventPlateOnOverCallBack_Base]イベントプレートから退場。
 		*/
 		public void OnOverLeave(int a_value)
 		{

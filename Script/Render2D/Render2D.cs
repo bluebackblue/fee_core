@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** Render2D
+/** Fee.Render2D
 */
-namespace NRender2D
+namespace Fee.Render2D
 {
 	/** Render2D
 	*/
@@ -68,8 +65,8 @@ namespace NRender2D
 
 		/** ルート。
 		*/
-		private GameObject root_gameobject;
-		private Transform root_transform;
+		private UnityEngine.GameObject root_gameobject;
+		private UnityEngine.Transform root_transform;
 
 		/** スクリーン。
 		*/
@@ -81,15 +78,15 @@ namespace NRender2D
 
 		/** スプライト。
 		*/
-		private List<Sprite2D> sprite_list;
+		private System.Collections.Generic.List<Sprite2D> sprite_list;
 
 		/** テキスト。
 		*/
-		private List<Text2D> text_list;
+		private System.Collections.Generic.List<Text2D> text_list;
 
 		/** 入力フィールド。
 		*/
-		private List<InputField2D> inputfield_list;
+		private System.Collections.Generic.List<InputField2D> inputfield_list;
 
 		/** 更新リクエスト。
 		*/
@@ -99,7 +96,7 @@ namespace NRender2D
 
 		/** デフォルト。フォント。
 		*/
-		private Font default_font;
+		private UnityEngine.Font default_font;
 
 		/** レイヤーリスト。
 		*/
@@ -110,10 +107,10 @@ namespace NRender2D
 		private Render2D()
 		{
 			//ルート。
-			this.root_gameobject = new GameObject();
+			this.root_gameobject = new UnityEngine.GameObject();
 			this.root_gameobject.name = "Render2D";
-			GameObject.DontDestroyOnLoad(this.root_gameobject);
-			this.root_transform = this.root_gameobject.GetComponent<Transform>();
+			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
+			this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
 
 			//スクリーン。
 			this.screen = new Screen();
@@ -122,13 +119,13 @@ namespace NRender2D
 			this.materiallist = new MaterialList();
 
 			//スプライト。
-			this.sprite_list = new List<Sprite2D>();
+			this.sprite_list = new System.Collections.Generic.List<Sprite2D>();
 
 			//テキスト。
-			this.text_list = new List<Text2D>();
+			this.text_list = new System.Collections.Generic.List<Text2D>();
 
 			//入力フィールド。
-			this.inputfield_list = new List<InputField2D>();
+			this.inputfield_list = new System.Collections.Generic.List<InputField2D>();
 
 			//更新リクエスト。
 			this.update_request_sprite = true;
@@ -136,17 +133,17 @@ namespace NRender2D
 			this.update_request_inputfield = true;
 
 			//デフォルト。フォント。
-			this.default_font = Resources.GetBuiltinResource<Font>(Config.DEFAULT_FONT_NAME);
+			this.default_font = UnityEngine.Resources.GetBuiltinResource<UnityEngine.Font>(Config.DEFAULT_FONT_NAME);
 
 			//レイヤーリスト。
-			this.layerlist = new LayerList(this.root_gameobject.GetComponent<Transform>());
+			this.layerlist = new LayerList(this.root_gameobject.GetComponent<UnityEngine.Transform>());
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
-			GameObject.Destroy(this.root_gameobject);
+			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
 		/** ＧＵＩスクリーン座標　＝＞　仮想スクリーン座標。
@@ -165,10 +162,10 @@ namespace NRender2D
 
 		/** ワールド座標 => 仮想スクリーン座標。
 		*/
-		public void WorldToVirtualScreen(Camera a_camera,ref Vector3 a_position,out int a_virtual_x,out int a_virtual_y)
+		public void WorldToVirtualScreen(UnityEngine.Camera a_camera,ref UnityEngine.Vector3 a_position,out int a_virtual_x,out int a_virtual_y)
 		{
-			Vector2 t_gui_pos = RectTransformUtility.WorldToScreenPoint(a_camera,a_position);
-			NRender2D.Render2D.GetInstance().GuiScreenToVirtualScreen((int)t_gui_pos.x,(int)(this.screen.GetGuiH() - t_gui_pos.y),out a_virtual_x,out a_virtual_y);
+			UnityEngine.Vector2 t_gui_pos = UnityEngine.RectTransformUtility.WorldToScreenPoint(a_camera,a_position);
+			Fee.Render2D.Render2D.GetInstance().GuiScreenToVirtualScreen((int)t_gui_pos.x,(int)(this.screen.GetGuiH() - t_gui_pos.y),out a_virtual_x,out a_virtual_y);
 		}
 
 		/** ＧＵＩスクリーン。取得。
@@ -193,58 +190,58 @@ namespace NRender2D
 		}
 		/** デフォルト。フォント設定。
 		*/
-		public void SetDefaultFont(Font a_font)
+		public void SetDefaultFont(UnityEngine.Font a_font)
 		{
 			this.default_font = a_font;
 		}
 
 		/** デフォルト。フォント取得。
 		*/
-		public Font GetDefaultFont()
+		public UnityEngine.Font GetDefaultFont()
 		{
 			return this.default_font;
 		}
 
 		/** ＵＩテキストマテリアル。取得。
 		*/
-		public Material GetUiTextMaterial()
+		public UnityEngine.Material GetUiTextMaterial()
 		{
 			return this.materiallist.GetUiTextMaterial();
 		}
 
 		/** ＵＩイメージマテリアル。取得。
 		*/
-		public Material GetUiImageMaterial()
+		public UnityEngine.Material GetUiImageMaterial()
 		{
 			return this.materiallist.GetUiImageMaterial();
 		}
 
 		/** [RawText]作成。
 		*/
-		public GameObject RawText_Create()
+		public UnityEngine.GameObject RawText_Create()
 		{
-			return NInstantiate.Instantiate.CreateUiText("Text",this.root_transform);
+			return Fee.Instantiate.Instantiate.CreateUiText("Text",this.root_transform);
 		}
 
 		/** [RawInputField]作成。
 		*/
-		public GameObject RawInputField_Create()
+		public UnityEngine.GameObject RawInputField_Create()
 		{
-			return NInstantiate.Instantiate.CreateUiInputField("InputField",this.root_transform);
+			return Fee.Instantiate.Instantiate.CreateUiInputField("InputField",this.root_transform);
 		}
 
 		/** [RawText]削除。
 		*/
-		public void RawText_Delete(GameObject a_gameobject)
+		public void RawText_Delete(UnityEngine.GameObject a_gameobject)
 		{
-			GameObject.Destroy(a_gameobject);
+			UnityEngine.GameObject.Destroy(a_gameobject);
 		}
 
 		/** [RawInputField]削除。
 		*/
-		public void RawInputField_Delete(GameObject a_gameobject)
+		public void RawInputField_Delete(UnityEngine.GameObject a_gameobject)
 		{
-			GameObject.Destroy(a_gameobject);
+			UnityEngine.GameObject.Destroy(a_gameobject);
 		}
 
 		/** スプライト作成。
@@ -488,7 +485,7 @@ namespace NRender2D
 							}else{
 								//カスタムテキストマテリアル使用。
 								{
-									Material t_material = t_text.GetCustomTextMaterial();
+									UnityEngine.Material t_material = t_text.GetCustomTextMaterial();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
@@ -552,7 +549,7 @@ namespace NRender2D
 							}else{
 								//カスタムテキストマテリアル使用。
 								{
-									Material t_text_material = t_inputfield.GetCustomTextMaterial();
+									UnityEngine.Material t_text_material = t_inputfield.GetCustomTextMaterial();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
@@ -569,7 +566,7 @@ namespace NRender2D
 
 								//カスタムイメージマテリアル使用。
 								{
-									Material t_image_material = t_inputfield.GetCustomImageMaterial();
+									UnityEngine.Material t_image_material = t_inputfield.GetCustomImageMaterial();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
@@ -631,7 +628,7 @@ namespace NRender2D
 
 							if((t_sprite.IsVisible() == true)&&(t_sprite.GetDrawPriority() >= 0)){
 
-								Material t_material = this.materiallist.GetMaterial(t_sprite);
+								UnityEngine.Material t_material = this.materiallist.GetMaterial(t_sprite);
 
 								//マテリアル変更。
 								if(t_current_material != t_sprite.GetMaterialType()){
@@ -667,7 +664,7 @@ namespace NRender2D
 
 								this.screen.CalcSpritePosition(t_sprite,t_to_8);
 
-								Color t_color = t_sprite.GetColor();
+								UnityEngine.Color t_color = t_sprite.GetColor();
 
 								UnityEngine.GL.Color(t_color);
 

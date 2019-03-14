@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,40 +9,40 @@ using UnityEngine;
 */
 
 
-/** NBlur
+/** Fee.Blur
 */
-namespace NBlur
+namespace Fee.Blur
 {
 	/** MonoBehaviour_Camera
 	*/
-	public class MonoBehaviour_Camera : MonoBehaviour
+	public class MonoBehaviour_Camera : UnityEngine.MonoBehaviour
 	{
 		/** mycamera
 		*/
-		public Camera mycamera;
+		public UnityEngine.Camera mycamera;
 
 		/** material_blur_x
 		*/
-		private Material material_blur_x;
+		private UnityEngine.Material material_blur_x;
 
 		/** material_blur_y
 		*/
-		private Material material_blur_y;
+		private UnityEngine.Material material_blur_y;
 
 		/** work_rendertexture
 		*/
-		private RenderTexture work_rendertexture;
+		private UnityEngine.RenderTexture work_rendertexture;
 
 		/** 初期化。
 		*/
 		public void Initialize()
 		{
 			//カメラ取得。
-			this.mycamera = this.GetComponent<Camera>();
+			this.mycamera = this.GetComponent<UnityEngine.Camera>();
 
 			//マテリアル読み込み。
-			this.material_blur_x = Resources.Load<Material>(Config.MATERIAL_NAME_BLURX);
-			this.material_blur_y = Resources.Load<Material>(Config.MATERIAL_NAME_BLURY);
+			this.material_blur_x = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_BLURX);
+			this.material_blur_y = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_BLURY);
 
 			//レンダーテクスチャー。
 			this.work_rendertexture = null;
@@ -56,7 +53,7 @@ namespace NBlur
 				float t_total = 0.0f;
 				float t_dispersion = 4.0f;
 				for(int ii=0;ii<t_table.Length;ii++){
-					t_table[ii] = Mathf.Exp(-0.5f * ((float)(ii*ii)) / t_dispersion);
+					t_table[ii] = UnityEngine.Mathf.Exp(-0.5f * ((float)(ii*ii)) / t_dispersion);
 					t_total += t_table[ii] * 2;
 				}
 				for(int ii=0;ii<t_table.Length;ii++){
@@ -82,10 +79,10 @@ namespace NBlur
 
 		/** OnRenderImage
 		*/
-		private void OnRenderImage(RenderTexture a_source,RenderTexture a_dest)
+		private void OnRenderImage(UnityEngine.RenderTexture a_source,UnityEngine.RenderTexture a_dest)
 		{
 			//レンダリングテクスチャー作成。
-			this.work_rendertexture = RenderTexture.GetTemporary(a_source.width/2,a_source.height/2,0,a_source.format,RenderTextureReadWrite.Default);
+			this.work_rendertexture = UnityEngine.RenderTexture.GetTemporary(a_source.width/2,a_source.height/2,0,a_source.format,UnityEngine.RenderTextureReadWrite.Default);
 
 			try{
 				UnityEngine.Graphics.Blit(a_source,this.work_rendertexture,this.material_blur_x);
@@ -96,7 +93,7 @@ namespace NBlur
 
 			//レンダーテクスチャー解放。
 			if(this.work_rendertexture != null){
-				RenderTexture.ReleaseTemporary(this.work_rendertexture);
+				UnityEngine.RenderTexture.ReleaseTemporary(this.work_rendertexture);
 				this.work_rendertexture = null;
 			}
 		}

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NInstantiate
+/** Fee.Instantiate
 */
-namespace NInstantiate
+namespace Fee.Instantiate
 {
 	/** Instantiate
 	*/
@@ -22,22 +19,22 @@ namespace NInstantiate
 	{
 		/** s_texture_inputfield
 		*/
-		public static Texture2D s_texture_inputfield = null;
+		public static UnityEngine.Texture2D s_texture_inputfield = null;
 
 		/** CreateUiInputField
 		*/
-		public static GameObject CreateUiInputField(string a_name,Transform a_parent_transform)
+		public static UnityEngine.GameObject CreateUiInputField(string a_name,UnityEngine.Transform a_parent_transform)
 		{
 			UnityEngine.UI.DefaultControls.Resources t_resouce = new UnityEngine.UI.DefaultControls.Resources();
 			{
 				if(s_texture_inputfield == null){
-					s_texture_inputfield = Resources.Load<Texture2D>("Texture/Instantiate/InputField");
+					s_texture_inputfield = UnityEngine.Resources.Load<UnityEngine.Texture2D>("Texture/Instantiate/InputField");
 				}
 
-				t_resouce.inputField = Sprite.Create(s_texture_inputfield,new Rect(0.0f,0.0f,s_texture_inputfield.width,s_texture_inputfield.height),new Vector2(0.0f,0.0f));
+				t_resouce.inputField = UnityEngine.Sprite.Create(s_texture_inputfield,new UnityEngine.Rect(0.0f,0.0f,s_texture_inputfield.width,s_texture_inputfield.height),new UnityEngine.Vector2(0.0f,0.0f));
 			}
 
-			GameObject t_gameobject = UnityEngine.UI.DefaultControls.CreateInputField(t_resouce);
+			UnityEngine.GameObject t_gameobject = UnityEngine.UI.DefaultControls.CreateInputField(t_resouce);
 
 			if(t_gameobject != null){
 				UnityEngine.UI.Image t_image = t_gameobject.GetComponent<UnityEngine.UI.Image>();
@@ -51,25 +48,25 @@ namespace NInstantiate
 
 		/** CreateUiText
 		*/
-		public static GameObject CreateUiText(string a_name,Transform a_parent_transform)
+		public static UnityEngine.GameObject CreateUiText(string a_name,UnityEngine.Transform a_parent_transform)
 		{
 			UnityEngine.UI.DefaultControls.Resources t_resouce = new UnityEngine.UI.DefaultControls.Resources();
 			{
 			}
-			GameObject t_gameobject = UnityEngine.UI.DefaultControls.CreateText(t_resouce);
+			UnityEngine.GameObject t_gameobject = UnityEngine.UI.DefaultControls.CreateText(t_resouce);
 			{
 				UnityEngine.UI.Outline t_outline = t_gameobject.AddComponent<UnityEngine.UI.Outline>();
 				{
 					t_outline.useGraphicAlpha = true;
-					t_outline.effectColor = Color.black;
-					t_outline.effectDistance = new Vector2(1.0f,-1.0f);
+					t_outline.effectColor = UnityEngine.Color.black;
+					t_outline.effectDistance = new UnityEngine.Vector2(1.0f,-1.0f);
 				}
 
 				UnityEngine.UI.Shadow t_shadow = t_gameobject.AddComponent<UnityEngine.UI.Shadow>();
 				{
 					t_shadow.useGraphicAlpha = true;
-					t_outline.effectColor = Color.black;
-					t_outline.effectDistance = new Vector2(1.0f,-1.0f);
+					t_outline.effectColor = UnityEngine.Color.black;
+					t_outline.effectDistance = new UnityEngine.Vector2(1.0f,-1.0f);
 				}
 			}
 
@@ -78,15 +75,15 @@ namespace NInstantiate
 
 		/** 正射影カメラオブジェクト作成。
 		*/
-		public static GameObject CreateOrthographicCameraObject(string a_name,Transform a_parent_transform,float a_depth)
+		public static UnityEngine.GameObject CreateOrthographicCameraObject(string a_name,UnityEngine.Transform a_parent_transform,float a_depth)
 		{
-			GameObject t_gameoobject = new GameObject(a_name);
-			t_gameoobject.GetComponent<Transform>().SetParent(a_parent_transform);
+			UnityEngine.GameObject t_gameoobject = new UnityEngine.GameObject(a_name);
+			t_gameoobject.GetComponent<UnityEngine.Transform>().SetParent(a_parent_transform);
 
-			Camera t_camera = t_gameoobject.AddComponent<Camera>();
+			UnityEngine.Camera t_camera = t_gameoobject.AddComponent<UnityEngine.Camera>();
 			{
 				//Clear Flags
-				t_camera.clearFlags = CameraClearFlags.Nothing;
+				t_camera.clearFlags = UnityEngine.CameraClearFlags.Nothing;
 
 				//Culling Mask(LayerMask.GetMask(null))
 				t_camera.cullingMask = 0;
@@ -102,13 +99,13 @@ namespace NInstantiate
 				t_camera.farClipPlane = 1000.0f;
 
 				//Viewport Rect
-				t_camera.rect = new Rect(0.0f,0.0f,1.0f,1.0f);
+				t_camera.rect = new UnityEngine.Rect(0.0f,0.0f,1.0f,1.0f);
 
 				//Depth
 				t_camera.depth = a_depth;
 
 				//Rendering Path
-				t_camera.renderingPath = RenderingPath.UsePlayerSettings;
+				t_camera.renderingPath = UnityEngine.RenderingPath.UsePlayerSettings;
 
 				//TargetTexture
 				t_camera.targetTexture = null;

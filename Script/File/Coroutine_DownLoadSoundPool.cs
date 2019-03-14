@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** ダウンロード。サウンドプール。
 	*/
@@ -24,7 +21,7 @@ namespace NFile
 		*/
 		public class ResultType
 		{
-			public NAudio.Pack_SoundPool soundpool;
+			public Fee.Audio.Pack_SoundPool soundpool;
 			public string errorstring;
 
 			/** constructor
@@ -71,7 +68,7 @@ namespace NFile
 			return false;
 		}
 
-		/** [NFile.OnCoroutine_CallBack]コルーチン実行中。
+		/** [Fee.File.OnCoroutine_CallBack]コルーチン実行中。
 
 		戻り値 == false : キャンセル。
 
@@ -95,7 +92,7 @@ namespace NFile
 
 		/** CoroutineMain
 		*/
-		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url,uint a_data_version)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url,uint a_data_version)
 		{
 			//result
 			this.result = new ResultType();
@@ -119,10 +116,10 @@ namespace NFile
 			}
 
 			//ロードローカルサウンドプール。
-			NAudio.Pack_SoundPool t_local_soundpool = null;
+			Fee.Audio.Pack_SoundPool t_local_soundpool = null;
 			{
 				Coroutine_LoadLocalSoundPool t_coroutine = new Coroutine_LoadLocalSoundPool();
-				yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + t_filename);
+				yield return t_coroutine.CoroutineMain(this,UnityEngine.Application.persistentDataPath + "/" + t_filename);
 
 				if(t_coroutine.result.soundpool != null){
 					t_local_soundpool = t_coroutine.result.soundpool;
@@ -153,16 +150,16 @@ namespace NFile
 			this.substep_max = 1;
 
 			//ダウンロードサウンドプール。
-			NAudio.Pack_SoundPool t_download_soundpool = null;
+			Fee.Audio.Pack_SoundPool t_download_soundpool = null;
 			{
 				Coroutine_DownLoadTextFile t_coroutine = new Coroutine_DownLoadTextFile();
 				yield return t_coroutine.CoroutineMain(this,t_url_path + t_filename,null,ProgressMode.DownLoad);
 
 				if(t_coroutine.result.text != null){
-					t_download_soundpool = NJsonItem.JsonToObject<NAudio.Pack_SoundPool>.Convert(new NJsonItem.JsonItem(t_coroutine.result.text));
+					t_download_soundpool = Fee.JsonItem.JsonToObject<Fee.Audio.Pack_SoundPool>.Convert(new Fee.JsonItem.JsonItem(t_coroutine.result.text));
 
 					string t_errorstring;
-					if(NAudio.Pack_SoundPool.CheckSoundPool(t_download_soundpool,out t_errorstring) == false){
+					if(Fee.Audio.Pack_SoundPool.CheckSoundPool(t_download_soundpool,out t_errorstring) == false){
 						t_download_soundpool = null;
 						this.result.errorstring = t_errorstring;
 						yield break;
@@ -209,7 +206,7 @@ namespace NFile
 					//セーブ。
 					{
 						Coroutine_SaveLocalBinaryFile t_coroutine = new Coroutine_SaveLocalBinaryFile();
-						yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + t_download_soundpool.name_list[ii],t_binary);
+						yield return t_coroutine.CoroutineMain(this,UnityEngine.Application.persistentDataPath + "/" + t_download_soundpool.name_list[ii],t_binary);
 
 						if(t_coroutine.result.saveend == true){
 							//続行。
@@ -228,7 +225,7 @@ namespace NFile
 			//セーブローカルサウンドプール。
 			{
 				Coroutine_SaveLocalSoundPool t_coroutine = new Coroutine_SaveLocalSoundPool();
-				yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + t_filename,t_download_soundpool);
+				yield return t_coroutine.CoroutineMain(this,UnityEngine.Application.persistentDataPath + "/" + t_filename,t_download_soundpool);
 
 				if(t_coroutine.result.saveend == true){
 					//続行。

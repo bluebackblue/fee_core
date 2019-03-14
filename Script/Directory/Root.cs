@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NDirectory
+/** Fee.Directory
 */
-namespace NDirectory
+namespace Fee.Directory
 {
 	/** Root
 	*/

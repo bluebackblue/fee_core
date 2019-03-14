@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,21 +9,21 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** Window
 	*/
-	public class Window : Window_Base , NDeleter.DeleteItem_Base , NEventPlate.OnOverCallBack_Base , NUi.OnTargetCallBack_Base
+	public class Window : Window_Base , Fee.Deleter.DeleteItem_Base , Fee.EventPlate.OnOverCallBack_Base , Fee.Ui.OnTargetCallBack_Base
 	{
 		/** bg_sprite
 		*/
-		private NRender2D.Sprite2D bg_sprite;
+		private Fee.Render2D.Sprite2D bg_sprite;
 
 		/** titlebar
 		*/
-		private NRender2D.Sprite2D titlebar;
+		private Fee.Render2D.Sprite2D titlebar;
 
 		/** titlebar_h
 		*/
@@ -34,7 +31,7 @@ namespace NUi
 
 		/** eventplate_titlebar
 		*/
-		private NEventPlate.Item eventplate_titlebar;
+		private Fee.EventPlate.Item eventplate_titlebar;
 
 		/** is_onover
 		*/
@@ -46,31 +43,31 @@ namespace NUi
 
 		/** downpos
 		*/
-		private NRender2D.Pos2D<int> downpos;
+		private Fee.Render2D.Pos2D<int> downpos;
 
 		/** constructor
 		*/
-		public Window(NDeleter.Deleter a_deleter,OnWindowCallBack_Base a_callback)
+		public Window(Fee.Deleter.Deleter a_deleter,OnWindowCallBack_Base a_callback)
 			:
 			base(a_deleter,a_callback)
 		{
 			//bg_sprite
-			this.bg_sprite = new NRender2D.Sprite2D(this.deleter,null,0);
-			this.bg_sprite.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-			this.bg_sprite.SetTexture(Texture2D.whiteTexture);
+			this.bg_sprite = new Fee.Render2D.Sprite2D(this.deleter,null,0);
+			this.bg_sprite.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+			this.bg_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg_sprite.SetColor(0.0f,0.0f,0.0f,1.0f);
 
 			//titlebar
-			this.titlebar = new NRender2D.Sprite2D(this.deleter,null,0);
-			this.titlebar.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
-			this.titlebar.SetTexture(Texture2D.whiteTexture);
+			this.titlebar = new Fee.Render2D.Sprite2D(this.deleter,null,0);
+			this.titlebar.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+			this.titlebar.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.titlebar.SetColor(0.2f,0.2f,0.2f,1.0f);
 
 			//titlebar_h
 			this.titlebar_h = 20;
 
 			//eventplate_titlebar
-			this.eventplate_titlebar = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,0);
+			this.eventplate_titlebar = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,0);
 			this.eventplate_titlebar.SetOnOverCallBack(this);
 
 			//is_onover
@@ -97,7 +94,7 @@ namespace NUi
 			return this.titlebar_h;
 		}
 
-		/** [NEventPlate.OnOverCallBack_Base]イベントプレートに入場。
+		/** [Fee.EventPlateOnOverCallBack_Base]イベントプレートに入場。
 		*/
 		public void OnOverEnter(int a_value)
 		{
@@ -107,7 +104,7 @@ namespace NUi
 			this.is_onover = true;
 		}
 
-		/** [NEventPlate.OnOverCallBack_Base]イベントプレートから退場。
+		/** [Fee.EventPlateOnOverCallBack_Base]イベントプレートから退場。
 		*/
 		public void OnOverLeave(int a_value)
 		{
@@ -127,7 +124,7 @@ namespace NUi
 		protected override void OnChangeLayerIndex_FromBase()
 		{
 			//drawpriority
-			long t_drawpriority = this.layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
+			long t_drawpriority = this.layerindex * Fee.Render2D.Render2D.DRAWPRIORITY_STEP;
 
 			//bg_sprite
 			this.bg_sprite.SetDrawPriority(t_drawpriority);
@@ -167,29 +164,29 @@ namespace NUi
 			this.eventplate_titlebar.SetXY(this.rect.x,this.rect.y);
 		}
 
-		/** [NUi.OnTargetCallBack_Base]OnTarget
+		/** [Fee.Ui.OnTargetCallBack_Base]OnTarget
 		*/
 		public void OnTarget()
 		{
-			if((this.is_onover == true)&&(this.is_drag == false)&&(NInput.Mouse.GetInstance().left.down == true)){
+			if((this.is_onover == true)&&(this.is_drag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)){
 				//ドラッグ開始。
 
 				//ウィンドウを最前面にする。
-				NUi.Ui.GetInstance().SetWindowPriorityTopMost(this);
+				Fee.Ui.Ui.GetInstance().SetWindowPriorityTopMost(this);
 
-				int t_x = NInput.Mouse.GetInstance().pos.x - this.rect.x;
-				int t_y = NInput.Mouse.GetInstance().pos.y - this.rect.y;
+				int t_x = Fee.Input.Mouse.GetInstance().pos.x - this.rect.x;
+				int t_y = Fee.Input.Mouse.GetInstance().pos.y - this.rect.y;
 				this.downpos.Set(t_x,t_y);
 
 				this.is_drag = true;
-			}else if((this.is_drag == true)&&(NInput.Mouse.GetInstance().left.on == false)){
+			}else if((this.is_drag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){
 				//ドラッグ終了。
 				this.is_drag = false;
 			}else if(this.is_drag == true){
 				//ドラッグ中。
 
-				int t_x = NInput.Mouse.GetInstance().pos.x - this.downpos.x;
-				int t_y = NInput.Mouse.GetInstance().pos.y - this.downpos.y;
+				int t_x = Fee.Input.Mouse.GetInstance().pos.x - this.downpos.x;
+				int t_y = Fee.Input.Mouse.GetInstance().pos.y - this.downpos.y;
 				this.SetXY(t_x,t_y);
 			}else if(this.is_onover == true){
 				//ドラッグ開始待ち。

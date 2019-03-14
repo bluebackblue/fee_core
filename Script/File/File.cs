@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** File
 	*/
@@ -68,31 +65,31 @@ namespace NFile
 
 		/** ルート。
 		*/
-		private GameObject root_gameobject;
-		private Transform root_transform;
+		private UnityEngine.GameObject root_gameobject;
+		private UnityEngine.Transform root_transform;
 
 		/** io
 		*/
-		private GameObject io_gameobject;
+		private UnityEngine.GameObject io_gameobject;
 		private MonoBehaviour_Io io_script;
 
 		/** webrequest
 		*/
-		private GameObject webrequest_gameobject;
+		private UnityEngine.GameObject webrequest_gameobject;
 		private MonoBehaviour_WebRequest webrequest_script;
 
 		/** soundpool
 		*/
-		private GameObject soundpool_gameobject;
+		private UnityEngine.GameObject soundpool_gameobject;
 		private MonoBehaviour_SoundPool soundpool_script;
 
 		/** work_list
 		*/
-		private List<Work> work_list;
+		private System.Collections.Generic.List<Work> work_list;
 
 		/** add_list
 		*/
-		private List<Work> add_list;
+		private System.Collections.Generic.List<Work> add_list;
 
 		/** アセットバンドルリスト。
 		*/
@@ -103,40 +100,40 @@ namespace NFile
 		private File()
 		{
 			//ルート。
-			this.root_gameobject = new GameObject();
+			this.root_gameobject = new UnityEngine.GameObject();
 			this.root_gameobject.name = "DownLoad";
-			GameObject.DontDestroyOnLoad(this.root_gameobject);
-			this.root_transform = this.root_gameobject.GetComponent<Transform>();
+			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
+			this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
 
 			//io
 			{
-				this.io_gameobject = new GameObject();
+				this.io_gameobject = new UnityEngine.GameObject();
 				this.io_gameobject.name = "DownLoad_Io";
 				this.io_script = this.io_gameobject.AddComponent<MonoBehaviour_Io>();
-				this.io_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
+				this.io_gameobject.GetComponent<UnityEngine.Transform>().SetParent(this.root_transform);
 			}
 
 			//webrequest
 			{
-				this.webrequest_gameobject = new GameObject();
+				this.webrequest_gameobject = new UnityEngine.GameObject();
 				this.webrequest_gameobject.name = "DownLoad_WebRequest";
 				this.webrequest_script = this.webrequest_gameobject.AddComponent<MonoBehaviour_WebRequest>();
-				this.webrequest_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
+				this.webrequest_gameobject.GetComponent<UnityEngine.Transform>().SetParent(this.root_transform);
 			}
 
 			//soundpool
 			{
-				this.soundpool_gameobject = new GameObject();
+				this.soundpool_gameobject = new UnityEngine.GameObject();
 				this.soundpool_gameobject.name = "DownLoad_SoundPool";
 				this.soundpool_script = this.soundpool_gameobject.AddComponent<MonoBehaviour_SoundPool>();
-				this.soundpool_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
+				this.soundpool_gameobject.GetComponent<UnityEngine.Transform>().SetParent(this.root_transform);
 			}
 
 			//work_list
-			this.work_list = new List<Work>();
+			this.work_list = new System.Collections.Generic.List<Work>();
 
 			//add_list
-			this.add_list = new List<Work>();
+			this.add_list = new System.Collections.Generic.List<Work>();
 
 			//assetbundle_list
 			this.assetbundle_list = new AssetBundleList();
@@ -150,22 +147,22 @@ namespace NFile
 			this.assetbundle_list.UnloadAllAssetBundle();
 
 			//削除リクエスト。
-			this.io_gameobject.GetComponent<Transform>().SetParent(null);
-			GameObject.DontDestroyOnLoad(this.io_gameobject);
+			this.io_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
+			UnityEngine.GameObject.DontDestroyOnLoad(this.io_gameobject);
 			this.io_script.DeleteRequest();
 
 			//削除リクエスト。
-			this.webrequest_gameobject.GetComponent<Transform>().SetParent(null);
-			GameObject.DontDestroyOnLoad(this.webrequest_gameobject);
+			this.webrequest_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
+			UnityEngine.GameObject.DontDestroyOnLoad(this.webrequest_gameobject);
 			this.webrequest_script.DeleteRequest();
 
 			//削除リクエスト。
-			this.soundpool_gameobject.GetComponent<Transform>().SetParent(null);
-			GameObject.DontDestroyOnLoad(this.soundpool_gameobject);
+			this.soundpool_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
+			UnityEngine.GameObject.DontDestroyOnLoad(this.soundpool_gameobject);
 			this.soundpool_script.DeleteRequest();
 
 			//ルート削除。
-			GameObject.Destroy(this.root_gameobject);
+			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
 		/** MonoIo。取得。
@@ -248,7 +245,7 @@ namespace NFile
 
 		/** リクエスト。セーブローカル。テクスチャファイル。
 		*/
-		public Item RequestSaveLocalTextureFile(string a_filename,Texture2D a_texture)
+		public Item RequestSaveLocalTextureFile(string a_filename,UnityEngine.Texture2D a_texture)
 		{
 			Work t_work = new Work();
 			t_work.RequestSaveLocalTextureFile(a_filename,a_texture);
@@ -258,7 +255,7 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public Item RequestDownLoadBinaryFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
+		public Item RequestDownLoadBinaryFile(string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			Work t_work = new Work();
 			t_work.RequestDownLoadBinaryFile(a_url,a_post_data,a_progress_mode);
@@ -268,7 +265,7 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public Item RequestDownLoadTextFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
+		public Item RequestDownLoadTextFile(string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			Work t_work = new Work();
 			t_work.RequestDownLoadTextFile(a_url,a_post_data,a_progress_mode);

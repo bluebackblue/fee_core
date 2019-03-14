@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NAudio
+/** Fee.Audio
 */
-namespace NAudio
+namespace Fee.Audio
 {
 	/** Audio
 	*/
@@ -84,16 +81,16 @@ namespace NAudio
 
 		/** ルート。
 		*/
-		private GameObject root_gameobject;
+		private UnityEngine.GameObject root_gameobject;
 
 		/** ＳＥ。オーディオソース。
 		*/
-		private GameObject se_audiosource_gameobject;
+		private UnityEngine.GameObject se_audiosource_gameobject;
 		private MonoBehaviour_AudioSource_Se se_audiosource_script;
 
 		/** ＢＧＭ。オーディオソース。
 		*/
-		private GameObject bgm_audiosource_gameobject;
+		private UnityEngine.GameObject bgm_audiosource_gameobject;
 		private MonoBehaviour_AudioSource_Bgm bgm_audiosource_script;
 
 		/** [シングルトン]constructor
@@ -113,28 +110,28 @@ namespace NAudio
 			this.volume_bgm = new Volume(Config.DEFAULT_VOLUME_BGM);
 
 			//ルート。
-			this.root_gameobject = new GameObject();
+			this.root_gameobject = new UnityEngine.GameObject();
 			this.root_gameobject.name = "Audio";
-			Transform t_root_transform = this.root_gameobject.GetComponent<Transform>();
-			GameObject.DontDestroyOnLoad(this.root_gameobject);
+			UnityEngine.Transform t_root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
+			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
 
 			//オーディオソース。ＳＥ。
 			{
-				this.se_audiosource_gameobject = new GameObject();
+				this.se_audiosource_gameobject = new UnityEngine.GameObject();
 				this.se_audiosource_gameobject.name = "Se";
 				this.se_audiosource_gameobject.transform.SetParent(t_root_transform);
-				this.se_audiosource_gameobject.AddComponent<AudioSource>();
+				this.se_audiosource_gameobject.AddComponent<UnityEngine.AudioSource>();
 				this.se_audiosource_script = this.se_audiosource_gameobject.AddComponent<MonoBehaviour_AudioSource_Se>();
 				this.se_audiosource_script.Initialize(this.volume_master,this.volume_se);
 			}
 
 			//オーディオソース。ＢＧＭ。
 			{
-				this.bgm_audiosource_gameobject = new GameObject();
+				this.bgm_audiosource_gameobject = new UnityEngine.GameObject();
 				this.bgm_audiosource_gameobject.name = "Bgm";
 				this.bgm_audiosource_gameobject.transform.SetParent(t_root_transform);
-				this.bgm_audiosource_gameobject.AddComponent<AudioSource>();
-				this.bgm_audiosource_gameobject.AddComponent<AudioSource>();
+				this.bgm_audiosource_gameobject.AddComponent<UnityEngine.AudioSource>();
+				this.bgm_audiosource_gameobject.AddComponent<UnityEngine.AudioSource>();
 				this.bgm_audiosource_script = this.bgm_audiosource_gameobject.AddComponent<MonoBehaviour_AudioSource_Bgm>();
 				this.bgm_audiosource_script.Initialize(this.volume_master,this.volume_bgm);
 			}
@@ -150,7 +147,7 @@ namespace NAudio
 			this.soundpool.Delete();
 			this.soundpool = null;			
 
-			GameObject.Destroy(this.root_gameobject);
+			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
 		/** サウンドプール。

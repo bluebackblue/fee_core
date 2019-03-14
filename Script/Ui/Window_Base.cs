@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,25 +9,25 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** Window_Base
 	*/
-	public abstract class Window_Base : NDeleter.DeleteItem_Base
+	public abstract class Window_Base : Fee.Deleter.DeleteItem_Base
 	{
 		/** deleter
 		*/
-		protected NDeleter.Deleter deleter;
+		protected Fee.Deleter.Deleter deleter;
 
 		/** 矩形。
 		*/
-		protected NRender2D.Rect2D_R<int> rect;
+		protected Fee.Render2D.Rect2D_R<int> rect;
 
 		/** blockitem
 		*/
-		private NEventPlate.BlockItem blockitem;
+		private Fee.EventPlate.BlockItem blockitem;
 
 		/** layerindex
 		*/
@@ -58,16 +55,16 @@ namespace NUi
 
 		/** constructor
 		*/
-		public Window_Base(NDeleter.Deleter a_deleter,NUi.OnWindowCallBack_Base a_callback)
+		public Window_Base(Fee.Deleter.Deleter a_deleter,Fee.Ui.OnWindowCallBack_Base a_callback)
 		{
 			//deleter
-			this.deleter = new NDeleter.Deleter();
+			this.deleter = new Fee.Deleter.Deleter();
 
 			//rect
 			this.rect.Set(0,0,0,0);
 
 			//blockitem
-			this.blockitem = new NEventPlate.BlockItem(this.deleter,0);
+			this.blockitem = new Fee.EventPlate.BlockItem(this.deleter,0);
 
 			//layerindex
 			this.layerindex = 0;
@@ -81,10 +78,10 @@ namespace NUi
 			}
 
 			//ウィンドウ登録。
-			NUi.Ui.GetInstance().RegisterWindow(this);
+			Fee.Ui.Ui.GetInstance().RegisterWindow(this);
 
 			//ウィンドウを最前面にする。
-			NUi.Ui.GetInstance().SetWindowPriorityTopMost(this);
+			Fee.Ui.Ui.GetInstance().SetWindowPriorityTopMost(this);
 		}
 
 		/** 削除。
@@ -92,7 +89,7 @@ namespace NUi
 		public void Delete()
 		{
 			//ウィンドウ解除。
-			NUi.Ui.GetInstance().UnRegisterWindow(this);
+			Fee.Ui.Ui.GetInstance().UnRegisterWindow(this);
 
 			//[Window_Base]コールバック。削除。
 			this.OnDelete_FromBase();
@@ -107,7 +104,7 @@ namespace NUi
 			this.layerindex = a_layerindex;
 
 			//drawpriority
-			long t_drawpriority = this.layerindex * NRender2D.Render2D.DRAWPRIORITY_STEP;
+			long t_drawpriority = this.layerindex * Fee.Render2D.Render2D.DRAWPRIORITY_STEP;
 
 			//blockitem
 			this.blockitem.SetPriority(t_drawpriority);
@@ -115,7 +112,7 @@ namespace NUi
 			//[Window_Base]コールバック。レイヤーインデックス変更。
 			this.OnChangeLayerIndex_FromBase();
 
-			//[NUi.OnWindowCallBack_Base]レイヤーインデックス変更。
+			//[Fee.Ui.OnWindowCallBack_Base]レイヤーインデックス変更。
 			if(this.callback != null){
 				this.callback.OnChangeLayerIndex(this.layerindex);
 			}
@@ -131,7 +128,7 @@ namespace NUi
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeRect_FromBase();
 
-			//[Nui.OnWindowCallBack_Base]矩形変更。
+			//[Fee.Ui.OnWindowCallBack_Base]矩形変更。
 			if(this.callback != null){
 				this.callback.OnChangeRect(ref this.rect);
 			}
@@ -149,7 +146,7 @@ namespace NUi
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeXY_FromBase();
 
-			//[NUi.OnWindowCallBack_Base]矩形変更。
+			//[Fee.Ui.OnWindowCallBack_Base]矩形変更。
 			if(this.callback != null){
 				this.callback.OnChangeXY(this.rect.x,this.rect.y);
 			}

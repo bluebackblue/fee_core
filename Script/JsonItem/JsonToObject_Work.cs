@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NJsonItem
+/** Fee.JsonItem
 */
-namespace NJsonItem
+namespace Fee.JsonItem
 {
 	/** JsonToObject_Work
 	*/
@@ -43,7 +40,7 @@ namespace NJsonItem
 
 		/** 実行。
 		*/
-		public void Do(List<JsonToObject_Work> a_work_pool)
+		public void Do(System.Collections.Generic.List<JsonToObject_Work> a_work_pool)
 		{
 			JsonToObject_SystemObject.Convert(ref this.to_object,this.to_type,this.from_jsonitem,a_work_pool);
 		}

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** MonoBehaviour_WebRequest
 	*/
@@ -49,45 +46,45 @@ namespace NFile
 
 		/** request_type
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private RequestType request_type;
 
 		/** request_progress_mode
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private ProgressMode request_progress_mode;
 
 		/** request_url
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private string request_url;
 
 		/** request_post_data
 		*/
-		[SerializeField]
-		private WWWForm request_post_data;
+		[UnityEngine.SerializeField]
+		private UnityEngine.WWWForm request_post_data;
 
 		/** request_filename
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private string request_filename;
 
 		/** request_assetbundle_id
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private long request_assetbundle_id;
 
 		/** request_data_version
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private uint request_data_version;
 
 		/** request_data_crc
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private uint request_data_crc;
 
-		/** [NFile.OnCoroutine_CallBack]コルーチン実行中。
+		/** [Fee.File.OnCoroutine_CallBack]コルーチン実行中。
 
 		戻り値 == false : キャンセル。
 
@@ -133,7 +130,7 @@ namespace NFile
 
 		/** [MonoBehaviour_Base]コールバック。開始。
 		*/
-		protected override IEnumerator OnStart()
+		protected override System.Collections.IEnumerator OnStart()
 		{
 			switch(this.request_type){
 			case RequestType.DownLoadBinaryFile:
@@ -156,7 +153,7 @@ namespace NFile
 
 		/** [MonoBehaviour_Base]コールバック。実行。
 		*/
-		protected override IEnumerator OnDo()
+		protected override System.Collections.IEnumerator OnDo()
 		{
 			switch(this.request_type){
 			case RequestType.DownLoadBinaryFile:
@@ -210,7 +207,7 @@ namespace NFile
 			case RequestType.LoadStreamingAssetsBinaryFile:
 				{
 					Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
-					yield return t_coroutine.CoroutineMain(this,Application.streamingAssetsPath + "/" + this.request_filename,null,ProgressMode.DownLoad);
+					yield return t_coroutine.CoroutineMain(this,UnityEngine.Application.streamingAssetsPath + "/" + this.request_filename,null,ProgressMode.DownLoad);
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
@@ -227,7 +224,7 @@ namespace NFile
 
 		/** [MonoBehaviour_Base]コールバック。エラー終了。
 		*/
-		protected override IEnumerator OnDoError()
+		protected override System.Collections.IEnumerator OnDoError()
 		{
 			this.SetResultProgress(1.0f);
 
@@ -237,7 +234,7 @@ namespace NFile
 
 		/** [MonoBehaviour_Base]コールバック。正常終了。
 		*/
-		protected override IEnumerator OnDoSuccess()
+		protected override System.Collections.IEnumerator OnDoSuccess()
 		{
 			this.SetResultProgress(1.0f);
 
@@ -247,7 +244,7 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public bool RequestDownLoadBinaryFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
+		public bool RequestDownLoadBinaryFile(string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();
@@ -266,7 +263,7 @@ namespace NFile
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public bool RequestDownLoadTextFile(string a_url,WWWForm a_post_data,ProgressMode a_progress_mode)
+		public bool RequestDownLoadTextFile(string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** Render2D
+/** Fee.Render2D
 */
-namespace NRender2D
+namespace Fee.Render2D
 {
 	/** Text2D_Param
 	*/
@@ -32,7 +29,7 @@ namespace NRender2D
 		/** クリップ。
 		*/
 		private bool clip;
-		private NRender2D.Rect2D_R<int> clip_rect;
+		private Fee.Render2D.Rect2D_R<int> clip_rect;
 
 		/** シェーダの変更が必要。
 		*/
@@ -48,11 +45,11 @@ namespace NRender2D
 
 		/** raw
 		*/
-		private GameObject raw_gameobject;
-		private Transform raw_transform;
+		private UnityEngine.GameObject raw_gameobject;
+		private UnityEngine.Transform raw_transform;
 		private UnityEngine.UI.Text raw_text;
 		private UnityEngine.RectTransform raw_recttransform;
-		private Material raw_custom_textmaterial;
+		private UnityEngine.Material raw_custom_textmaterial;
 		private UnityEngine.UI.Outline raw_outline;
 		private UnityEngine.UI.Shadow raw_shadow;
 
@@ -82,12 +79,12 @@ namespace NRender2D
 
 			//raw
 			this.raw_gameobject = Render2D.GetInstance().RawText_Create();
-			this.raw_transform = this.raw_gameobject.GetComponent<Transform>();
+			this.raw_transform = this.raw_gameobject.GetComponent<UnityEngine.Transform>();
 			this.raw_text = this.raw_gameobject.GetComponent<UnityEngine.UI.Text>();
 			this.raw_recttransform = this.raw_gameobject.GetComponent<UnityEngine.RectTransform>();
 
 			//共通マテリアルから複製。
-			this.raw_custom_textmaterial = new Material(Render2D.GetInstance().GetUiTextMaterial());
+			this.raw_custom_textmaterial = new UnityEngine.Material(Render2D.GetInstance().GetUiTextMaterial());
 
 			//material
 			this.raw_text.material = this.raw_custom_textmaterial;
@@ -102,10 +99,10 @@ namespace NRender2D
 			this.raw_text.text = "";
 
 			//localscale
-			this.raw_recttransform.localScale = new Vector3(1.0f,1.0f,1.0f);
+			this.raw_recttransform.localScale = new UnityEngine.Vector3(1.0f,1.0f,1.0f);
 
 			//sizedelta
-			this.raw_recttransform.sizeDelta = new Vector2(UnityEngine.Screen.width,UnityEngine.Screen.height);
+			this.raw_recttransform.sizeDelta = new UnityEngine.Vector2(UnityEngine.Screen.width,UnityEngine.Screen.height);
 
 			{
 				UnityEngine.UI.BaseMeshEffect[] t_effect_list = this.raw_gameobject.GetComponents<UnityEngine.UI.BaseMeshEffect>();
@@ -146,7 +143,7 @@ namespace NRender2D
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			if((this.clip_rect.x != a_rect.x)||(this.clip_rect.y != a_rect.y)||(this.clip_rect.w != a_rect.w)||(this.clip_rect.h != a_rect.h)){
 				this.clip_rect = a_rect;
@@ -198,7 +195,7 @@ namespace NRender2D
 
 		/** カスタムテキストマテリアル。取得。
 		*/
-		public Material GetCustomTextMaterial()
+		public UnityEngine.Material GetCustomTextMaterial()
 		{
 			return this.raw_custom_textmaterial;
 		}
@@ -252,7 +249,7 @@ namespace NRender2D
 
 		/** 色。設定。
 		*/
-		public void SetColor(ref Color a_color)
+		public void SetColor(ref UnityEngine.Color a_color)
 		{
 			if(this.raw_text.color != a_color){
 				this.raw_text.color = a_color;
@@ -264,20 +261,20 @@ namespace NRender2D
 		public void SetColor(float a_r,float a_g,float a_b,float a_a)
 		{
 			if((this.raw_text.color.r != a_r)||(this.raw_text.color.g != a_g)||(this.raw_text.color.b != a_b)||(this.raw_text.color.a != a_a)){
-				this.raw_text.color = new Color(a_r,a_g,a_b,a_a);
+				this.raw_text.color = new UnityEngine.Color(a_r,a_g,a_b,a_a);
 			}
 		}
 
 		/** 色。取得。
 		*/
-		public Color GetColor()
+		public UnityEngine.Color GetColor()
 		{
 			return this.raw_text.color;
 		}
 
 		/** アウトライン色。設定。
 		*/
-		public void SetOutLineColor(ref Color a_color)
+		public void SetOutLineColor(ref UnityEngine.Color a_color)
 		{
 			if(this.raw_outline.effectColor != a_color){
 				this.raw_outline.effectColor = a_color;
@@ -289,13 +286,13 @@ namespace NRender2D
 		public void SetOutLineColor(float a_r,float a_g,float a_b,float a_a)
 		{
 			if((this.raw_outline.effectColor.r != a_r)||(this.raw_outline.effectColor.g != a_g)||(this.raw_outline.effectColor.b != a_b)||(this.raw_outline.effectColor.a != a_a)){
-				this.raw_outline.effectColor = new Color(a_r,a_g,a_b,a_a);
+				this.raw_outline.effectColor = new UnityEngine.Color(a_r,a_g,a_b,a_a);
 			}
 		}
 
 		/** アウトライン色。取得。
 		*/
-		public Color GetOutLineColor()
+		public UnityEngine.Color GetOutLineColor()
 		{
 			return this.raw_outline.effectColor;
 		}
@@ -367,7 +364,7 @@ namespace NRender2D
 
 		/** フォント。設定。
 		*/
-		public void SetFont(Font a_font)
+		public void SetFont(UnityEngine.Font a_font)
 		{
 			if(this.raw_text.font != a_font){
 				this.raw_text.font = a_font;
@@ -382,7 +379,7 @@ namespace NRender2D
 
 		/** フォント。取得。
 		*/
-		public Font GetFont()
+		public UnityEngine.Font GetFont()
 		{
 			return this.raw_text.font;
 		}
@@ -394,7 +391,7 @@ namespace NRender2D
 			Render2D.GetInstance().RawText_Delete(this.raw_gameobject);
 			this.raw_gameobject = null;
 
-			GameObject.DestroyImmediate(this.raw_custom_textmaterial);
+			UnityEngine.GameObject.DestroyImmediate(this.raw_custom_textmaterial);
 			this.raw_custom_textmaterial = null;
 		}
 
@@ -414,21 +411,21 @@ namespace NRender2D
 
 		/** [内部からの呼び出し]サイズ。設定。
 		*/
-		public void Raw_SetRectTransformSizeDelta(ref Vector2 a_size)
+		public void Raw_SetRectTransformSizeDelta(ref UnityEngine.Vector2 a_size)
 		{
 			this.raw_recttransform.sizeDelta = a_size;
 		}
 
 		/** [内部からの呼び出し]サイズ。取得。
 		*/
-		public void Raw_GetRectTransformSizeDelta(out Vector2 a_size)
+		public void Raw_GetRectTransformSizeDelta(out UnityEngine.Vector2 a_size)
 		{
 			a_size = this.raw_recttransform.sizeDelta;
 		}
 
 		/** [内部からの呼び出し]位置。設定。
 		*/
-		public void Raw_SetRectTransformLocalPosition(ref Vector3 a_position)
+		public void Raw_SetRectTransformLocalPosition(ref UnityEngine.Vector3 a_position)
 		{
 			this.raw_recttransform.localPosition = a_position;
 		}
@@ -442,21 +439,21 @@ namespace NRender2D
 
 		/** [内部からの呼び出し]テキストマテリアル。設定。
 		*/
-		public void Raw_SetTextMaterial(Material a_material)
+		public void Raw_SetTextMaterial(UnityEngine.Material a_material)
 		{
 			this.raw_text.material = a_material;
 		}
 
 		/** [内部からの呼び出し]レイヤー。設定。
 		*/
-		public void Raw_SetLayer(Transform a_layer_transform)
+		public void Raw_SetLayer(UnityEngine.Transform a_layer_transform)
 		{
 			if(a_layer_transform == null){
 				//this.raw_gameobject.SetActive(false);
 			}else{
 				this.raw_transform.SetParent(a_layer_transform);
 				//this.raw_gameobject.SetActive(true);
-				this.raw_recttransform.localScale = new Vector3(1.0f,1.0f,1.0f);
+				this.raw_recttransform.localScale = new UnityEngine.Vector3(1.0f,1.0f,1.0f);
 			}
 		}
 

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,13 +9,13 @@ using UnityEngine;
 */
 
 
-/** NAudio
+/** Fee.Audio
 */
-namespace NAudio
+namespace Fee.Audio
 {
 	/** MonoBehaviour_AudioSource_Se
 	*/
-	public class MonoBehaviour_AudioSource_Se : MonoBehaviour
+	public class MonoBehaviour_AudioSource_Se : UnityEngine.MonoBehaviour
 	{
 		/** ボリューム。マスター。
 		*/
@@ -30,19 +27,19 @@ namespace NAudio
 
 		/** オーディオソース。
 		*/
-		private AudioSource myaudiosource;
+		private UnityEngine.AudioSource myaudiosource;
 
 		/** バンクリスト。
 		*/
-		private Dictionary<long,Bank> bank_list;
+		private System.Collections.Generic.Dictionary<long,Bank> bank_list;
 
 		/** ロード。
 		*/
-		private List<Bank> load_worklist;
+		private System.Collections.Generic.List<Bank> load_worklist;
 
 		/** アンロード。
 		*/
-		private List<Bank> unload_worklist;
+		private System.Collections.Generic.List<Bank> unload_worklist;
 
 		/** 初期化。
 		*/
@@ -55,18 +52,18 @@ namespace NAudio
 			this.volume_se = a_volume_se;
 
 			//myaudiosource
-			this.myaudiosource = this.GetComponent<AudioSource>();
+			this.myaudiosource = this.GetComponent<UnityEngine.AudioSource>();
 			this.myaudiosource.playOnAwake = false;
 			this.myaudiosource.volume = this.volume_master.GetVolume() * this.volume_se.GetVolume();
 
 			//bank_list
-			this.bank_list = new Dictionary<long,Bank>();
+			this.bank_list = new System.Collections.Generic.Dictionary<long,Bank>();
 
 			//load
-			this.load_worklist = new List<Bank>();
+			this.load_worklist = new System.Collections.Generic.List<Bank>();
 
 			//unload
-			this.unload_worklist = new List<Bank>();
+			this.unload_worklist = new System.Collections.Generic.List<Bank>();
 		}
 
 		/** 削除。
@@ -162,7 +159,7 @@ namespace NAudio
 		public Bank GetBank(long a_id)
 		{
 			if(this.bank_list != null){
-				NAudio.Bank t_bank;
+				Fee.Audio.Bank t_bank;
 				if(this.bank_list.TryGetValue(a_id,out t_bank) == true){
 					return t_bank;
 				}
@@ -174,11 +171,11 @@ namespace NAudio
 		*/
 		public void PlayOneShot(long a_id,int a_index)
 		{
-			NAudio.Bank t_bank = this.GetBank(a_id);
+			Fee.Audio.Bank t_bank = this.GetBank(a_id);
 			if(t_bank != null){
 
 				float t_volume = 0.0f;
-				AudioClip t_audioclip = null;
+				UnityEngine.AudioClip t_audioclip = null;
 				string t_name = null;
 
 				t_bank.GetAudioClip(a_index,out t_audioclip,out t_volume);
@@ -187,7 +184,7 @@ namespace NAudio
 				}else{
 					t_bank.GetSoundPool(a_index,out t_name,out t_volume);
 					if(t_name != null){
-						NAudio.Audio.GetInstance().GetSoundPool().Play(t_name,this.volume_master.GetVolume() * this.volume_se.GetVolume() * t_volume);
+						Fee.Audio.Audio.GetInstance().GetSoundPool().Play(t_name,this.volume_master.GetVolume() * this.volume_se.GetVolume() * t_volume);
 					}
 				}
 			}

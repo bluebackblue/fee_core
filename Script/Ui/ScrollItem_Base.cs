@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** ScrollItem_Base
 	*/
@@ -63,23 +60,23 @@ namespace NUi
 			return this.capture_viewout;
 		}
 
-		/** [NUi.ScrollItem_Base]矩形。設定。
+		/** [Fee.Ui.ScrollItem_Base]矩形。設定。
 		*/
 		public abstract void SetY(int a_y);
 
-		/** [NUi.ScrollItem_Base]矩形。設定。
+		/** [Fee.Ui.ScrollItem_Base]矩形。設定。
 		*/
 		public abstract void SetX(int a_x);
 
-		/** [NUi.ScrollItem_Base]クリップ矩形。設定。
+		/** [Fee.Ui.ScrollItem_Base]クリップ矩形。設定。
 		*/
-		public abstract void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect);
+		public abstract void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect);
 
-		/** [NUi.ScrollItem_Base]表示内。
+		/** [Fee.Ui.ScrollItem_Base]表示内。
 		*/
 		public abstract void OnViewIn();
 
-		/** [NUi.ScrollItem_Base]表示外。
+		/** [Fee.Ui.ScrollItem_Base]表示外。
 		*/
 		public abstract void OnViewOut();
 	}

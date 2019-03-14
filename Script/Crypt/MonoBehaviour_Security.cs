@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NCrypt
+/** Fee.Crypt
 */
-namespace NCrypt
+namespace Fee.Crypt
 {
 	/** MonoBehaviour_Security
 	*/
@@ -53,17 +50,17 @@ namespace NCrypt
 
 		/** request_type
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private RequestType request_type;
 
 		/** request_binary
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private byte[] request_binary;
 
 		/** request_key
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private string request_key;
 
 		/** request_signature_binary
@@ -72,15 +69,15 @@ namespace NCrypt
 
 		/** request_pass
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private string request_pass;
 
 		/** request_salt
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private string request_salt;
 
-		/** [NFile.OnCoroutine_CallBack]コルーチン実行中。
+		/** [Fee.File.OnCoroutine_CallBack]コルーチン実行中。
 
 		戻り値 == false : キャンセル。
 
@@ -120,7 +117,7 @@ namespace NCrypt
 
 		/** [MonoBehaviour_Base]コールバック。開始。
 		*/
-		protected override IEnumerator OnStart()
+		protected override System.Collections.IEnumerator OnStart()
 		{
 			switch(this.request_type){
 			case RequestType.EncryptPublicKey:
@@ -144,7 +141,7 @@ namespace NCrypt
 
 		/** [MonoBehaviour_Base]コールバック。実行。
 		*/
-		protected override IEnumerator OnDo()
+		protected override System.Collections.IEnumerator OnDo()
 		{
 			switch(this.request_type){
 			case RequestType.EncryptPublicKey:
@@ -227,7 +224,7 @@ namespace NCrypt
 
 		/** [MonoBehaviour_Base]コールバック。エラー終了。
 		*/
-		protected override IEnumerator OnDoError()
+		protected override System.Collections.IEnumerator OnDoError()
 		{
 			this.SetResultProgress(1.0f);
 
@@ -237,7 +234,7 @@ namespace NCrypt
 
 		/** [MonoBehaviour_Base]コールバック。正常終了。
 		*/
-		protected override IEnumerator OnDoSuccess()
+		protected override System.Collections.IEnumerator OnDoSuccess()
 		{
 			this.SetResultProgress(1.0f);
 

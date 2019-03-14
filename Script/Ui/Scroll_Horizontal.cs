@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** Scroll_Horizontal
 	*/
@@ -23,33 +20,33 @@ namespace NUi
 	{
 		/** 背景。
 		*/
-		private NRender2D.Sprite2D bg;
+		private Fee.Render2D.Sprite2D bg;
 
 		/** バー。
 		*/
-		private NRender2D.Sprite2D bar;
+		private Fee.Render2D.Sprite2D bar;
 
 		/** constructor
 		*/
-		public Scroll_Horizontal(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
+		public Scroll_Horizontal(Fee.Deleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
 			:
 			base(a_deleter,a_drawpriority,a_item_length)
 		{
 			//背景。
-			this.bg = new NRender2D.Sprite2D(a_deleter,null,a_drawpriority);
-			this.bg.SetTexture(Texture2D.whiteTexture);
+			this.bg = new Fee.Render2D.Sprite2D(a_deleter,null,a_drawpriority);
+			this.bg.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg.SetRect(0,0,0,0);
-			this.bg.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+			this.bg.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.bg.SetColor(0.0f,0.0f,0.0f,0.1f);
-			this.bg.SetMaterialType(NRender2D.Config.MaterialType.Alpha);
+			this.bg.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
 
 			//バー。
-			this.bar = new NRender2D.Sprite2D(a_deleter,null,a_drawpriority + 1);
-			this.bar.SetTexture(Texture2D.whiteTexture);
+			this.bar = new Fee.Render2D.Sprite2D(a_deleter,null,a_drawpriority + 1);
+			this.bar.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bar.SetRect(0,0,5,5);
-			this.bar.SetTextureRect(ref NRender2D.Render2D.TEXTURE_RECT_MAX);
+			this.bar.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.bar.SetColor(1.0f,1.0f,1.0f,0.3f);
-			this.bar.SetMaterialType(NRender2D.Config.MaterialType.Alpha);
+			this.bar.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
 			this.bar.SetVisible(false);
 		}
 

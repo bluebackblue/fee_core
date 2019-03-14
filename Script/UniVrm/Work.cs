@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NUniVrm
+/** Fee.UniVrm
 */
-namespace NUniVrm
+namespace Fee.UniVrm
 {
 	/** Work
 	*/
@@ -87,7 +84,7 @@ namespace NUniVrm
 			switch(this.mode){
 			case Mode.Start:
 				{
-					MonoBehaviour_Vrm t_vrm = NUniVrm.UniVrm.GetInstance().GetMonoVrm();
+					MonoBehaviour_Vrm t_vrm = Fee.UniVrm.UniVrm.GetInstance().GetMonoVrm();
 
 					if(t_vrm.RequestLoad(this.binary) == true){
 						this.mode = Mode.Do;
@@ -98,7 +95,7 @@ namespace NUniVrm
 				}return true;
 			case Mode.Do:
 				{
-					MonoBehaviour_Vrm t_vrm = NUniVrm.UniVrm.GetInstance().GetMonoVrm();
+					MonoBehaviour_Vrm t_vrm = Fee.UniVrm.UniVrm.GetInstance().GetMonoVrm();
 
 					this.item.SetResultProgress(t_vrm.GetResultProgress());
 

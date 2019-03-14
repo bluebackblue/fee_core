@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,17 +9,17 @@ using UnityEngine;
 */
 
 
-/** NFade
+/** Fee.Fade
 */
-namespace NFade
+namespace Fee.Fade
 {
 	/** Fade_Sprite2D
 	*/
-	public class Fade_Sprite2D : NRender2D.Sprite2D
+	public class Fade_Sprite2D : Fee.Render2D.Sprite2D
 	{
 		/** constructor。
 		*/
-		public Fade_Sprite2D(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
+		public Fade_Sprite2D(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority)
 			:
 			base(a_deleter,a_state,a_drawpriority)
 		{
@@ -33,10 +30,10 @@ namespace NFade
 		return = true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
-		public override bool UpdateMaterial(ref Material a_material)
+		public override bool UpdateMaterial(ref UnityEngine.Material a_material)
 		{
 			//テクスチャ設定。
-			a_material.mainTexture = Texture2D.whiteTexture;
+			a_material.mainTexture = UnityEngine.Texture2D.whiteTexture;
 
 			//SetPass要求。
 			return true;

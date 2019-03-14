@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NEventPlate
+/** Fee.EventPlate
 */
-namespace NEventPlate
+namespace Fee.EventPlate
 {
 	/** Config
 	*/

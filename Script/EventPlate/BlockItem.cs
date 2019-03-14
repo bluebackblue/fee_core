@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,17 +9,17 @@ using UnityEngine;
 */
 
 
-/** NEventPlate
+/** Fee.EventPlate
 */
-namespace NEventPlate
+namespace Fee.EventPlate
 {
 	/** BlockItem
 	*/
-	public class BlockItem : NDeleter.DeleteItem_Base
+	public class BlockItem : Fee.Deleter.DeleteItem_Base
 	{
 		/** deleter
 		*/
-		NDeleter.Deleter deleter;
+		Fee.Deleter.Deleter deleter;
 
 		/** eventplate
 		*/
@@ -32,18 +29,18 @@ namespace NEventPlate
 
 		/** constructor
 		*/
-		public BlockItem(NDeleter.Deleter a_deleter,long a_priority)
+		public BlockItem(Fee.Deleter.Deleter a_deleter,long a_priority)
 		{
 			//deleter
-			this.deleter = new NDeleter.Deleter();
+			this.deleter = new Fee.Deleter.Deleter();
 
 			this.eventplate_button = new Item(this.deleter,EventType.Button,a_priority);
 			this.eventplate_viewitem = new Item(this.deleter,EventType.ViewItem,a_priority);
 			this.eventplate_view = new Item(this.deleter,EventType.View,a_priority);
 
-			this.eventplate_button.SetRect(0,0,NRender2D.Render2D.VIRTUAL_W,NRender2D.Render2D.VIRTUAL_H);
-			this.eventplate_viewitem.SetRect(0,0,NRender2D.Render2D.VIRTUAL_W,NRender2D.Render2D.VIRTUAL_H);
-			this.eventplate_view.SetRect(0,0,NRender2D.Render2D.VIRTUAL_W,NRender2D.Render2D.VIRTUAL_H);
+			this.eventplate_button.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+			this.eventplate_viewitem.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+			this.eventplate_view.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
 
 			//削除管理。
 			if(a_deleter != null){
@@ -80,14 +77,14 @@ namespace NEventPlate
 		*/
 		public void SetRectMax()
 		{
-			this.eventplate_button.SetRect(0,0,NRender2D.Render2D.VIRTUAL_W,NRender2D.Render2D.VIRTUAL_H);
-			this.eventplate_viewitem.SetRect(0,0,NRender2D.Render2D.VIRTUAL_W,NRender2D.Render2D.VIRTUAL_H);
-			this.eventplate_view.SetRect(0,0,NRender2D.Render2D.VIRTUAL_W,NRender2D.Render2D.VIRTUAL_H);
+			this.eventplate_button.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+			this.eventplate_viewitem.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+			this.eventplate_view.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
 		}
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref NRender2D.Rect2D_R<int> a_rect)
+		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			this.eventplate_button.SetRect(ref a_rect);
 			this.eventplate_viewitem.SetRect(ref a_rect);

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NUniVrm
+/** Fee.UniVrm
 */
-namespace NUniVrm
+namespace Fee.UniVrm
 {
 	/** UniVrm
 	*/
@@ -68,45 +65,45 @@ namespace NUniVrm
 
 		/** ルート。
 		*/
-		private GameObject root_gameobject;
-		private Transform root_transform;
+		private UnityEngine.GameObject root_gameobject;
+		private UnityEngine.Transform root_transform;
 
 		/** load
 		*/
-		private GameObject vrm_gameobject;
+		private UnityEngine.GameObject vrm_gameobject;
 		private MonoBehaviour_Vrm vrm_script;
 
 		/** work_list
 		*/
-		private List<Work> work_list;
+		private System.Collections.Generic.List<Work> work_list;
 
 		/** add_list
 		*/
-		private List<Work> add_list;
+		private System.Collections.Generic.List<Work> add_list;
 
 		/** [シングルトン]constructor
 		*/
 		private UniVrm()
 		{
 			//ルート。
-			this.root_gameobject = new GameObject();
+			this.root_gameobject = new UnityEngine.GameObject();
 			this.root_gameobject.name = "UniVrm";
-			GameObject.DontDestroyOnLoad(this.root_gameobject);
-			this.root_transform = this.root_gameobject.GetComponent<Transform>();
+			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
+			this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
 
 			//vrm
 			{
-				this.vrm_gameobject = new GameObject();
+				this.vrm_gameobject = new UnityEngine.GameObject();
 				this.vrm_gameobject.name = "UniVrm_Vrm";
 				this.vrm_script = this.vrm_gameobject.AddComponent<MonoBehaviour_Vrm>();
-				this.vrm_gameobject.GetComponent<Transform>().SetParent(this.root_transform);
+				this.vrm_gameobject.GetComponent<UnityEngine.Transform>().SetParent(this.root_transform);
 			}
 
 			//work_list
-			this.work_list = new List<Work>();
+			this.work_list = new System.Collections.Generic.List<Work>();
 
 			//add_list
-			this.add_list = new List<Work>();
+			this.add_list = new System.Collections.Generic.List<Work>();
 		}
 
 		/** [シングルトン]削除。
@@ -114,12 +111,12 @@ namespace NUniVrm
 		private void Delete()
 		{
 			//削除リクエスト。
-			this.vrm_gameobject.GetComponent<Transform>().SetParent(null);
-			GameObject.DontDestroyOnLoad(this.vrm_gameobject);
+			this.vrm_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
+			UnityEngine.GameObject.DontDestroyOnLoad(this.vrm_gameobject);
 			this.vrm_script.DeleteRequest();
 
 			//ルート削除。
-			GameObject.Destroy(this.root_gameobject);
+			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
 		/** MonoVrm。取得。

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** Render2D
+/** Fee.Render2D
 */
-namespace NRender2D
+namespace Fee.Render2D
 {
 	/** MaterialList
 	*/
@@ -22,53 +19,53 @@ namespace NRender2D
 	{
 		/** list
 		*/
-		private Material[] list;
+		private UnityEngine.Material[] list;
 
 		/** material_ui_text
 		*/
-		private Material material_ui_text;
+		private UnityEngine.Material material_ui_text;
 
 		/** material_ui_image
 		*/
-		private Material material_ui_image;
+		private UnityEngine.Material material_ui_image;
 
 		/** constructor
 		*/
 		public MaterialList()
 		{
 			//list
-			this.list = new Material[Config.MATERIAL_NAME.Length];
+			this.list = new UnityEngine.Material[Config.MATERIAL_NAME.Length];
 			for(int ii=0;ii<this.list.Length;ii++){
-				Material t_material = Resources.Load<Material>(Config.MATERIAL_NAME[ii]);
+				UnityEngine.Material t_material = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME[ii]);
 				if(t_material != null){
-					this.list[ii] = new Material(t_material);
+					this.list[ii] = new UnityEngine.Material(t_material);
 				}
 			}
 
 			//material_ui_text
-			this.material_ui_text = Resources.Load<Material>(Config.MATERIAL_NAME_UITEXT);
+			this.material_ui_text = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_UITEXT);
 
 			//material_ui_image
-			this.material_ui_image = Resources.Load<Material>(Config.MATERIAL_NAME_UIIMAGE);
+			this.material_ui_image = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_UIIMAGE);
 		}
 
 		/** マテリアル。取得。
 		*/
-		public Material GetMaterial(Sprite2D a_sprite)
+		public UnityEngine.Material GetMaterial(Sprite2D a_sprite)
 		{
 			return this.list[(int)a_sprite.GetMaterialType()];
 		}
 
 		/** ＵＩテキストマテリアル。取得。
 		*/
-		public Material GetUiTextMaterial()
+		public UnityEngine.Material GetUiTextMaterial()
 		{
 			return this.material_ui_text;
 		}
 
 		/** ＵＩイメージマテリアル。取得。
 		*/
-		public Material GetUiImageMaterial()
+		public UnityEngine.Material GetUiImageMaterial()
 		{
 			return this.material_ui_image;
 		}

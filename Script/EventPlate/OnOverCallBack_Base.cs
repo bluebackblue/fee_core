@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,19 +9,19 @@ using UnityEngine;
 */
 
 
-/** NEventPlate
+/** Fee.EventPlate
 */
-namespace NEventPlate
+namespace Fee.EventPlate
 {
 	/** OnOverCallBack_Base
 	*/
 	public interface OnOverCallBack_Base
 	{
-		/** [NEventPlate.OnOverCallBack_Base]イベントプレートに入場。
+		/** [Fee.EventPlateOnOverCallBack_Base]イベントプレートに入場。
 		*/
 		void OnOverEnter(int a_value);
 
-		/** [NEventPlate.OnOverCallBack_Base]イベントプレートから退場。
+		/** [Fee.EventPlateOnOverCallBack_Base]イベントプレートから退場。
 		*/
 		void OnOverLeave(int a_value);
 	}

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -16,9 +13,9 @@ using UnityEngine;
 #pragma warning disable 0162
 
 
-/** NScene
+/** Fee.Scene
 */
-namespace NScene
+namespace Fee.Scene
 {
 	/** Tool
 	*/
@@ -30,7 +27,7 @@ namespace NScene
 		{
 			if(Config.LOG_ENABLE == true){
 				#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)
-				Debug.Log(a_tag + " : " + a_text);
+				UnityEngine.Debug.Log(a_tag + " : " + a_text);
 				#endif
 			}
 		}
@@ -40,7 +37,7 @@ namespace NScene
 		public static void LogError(string a_tag,string a_text)
 		{
 			#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)
-			Debug.LogError(a_tag + " : " + a_text);
+			UnityEngine.Debug.LogError(a_tag + " : " + a_text);
 			#endif
 		}
 
@@ -49,7 +46,7 @@ namespace NScene
 		public static void LogError(System.Exception a_exception)
 		{
 			#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)
-			Debug.LogError(a_exception.StackTrace + "\n\n" + a_exception.Message);
+			UnityEngine.Debug.LogError(a_exception.StackTrace + "\n\n" + a_exception.Message);
 			#endif
 		}
 
@@ -61,7 +58,7 @@ namespace NScene
 				if(a_flag == false){
 
 					#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)
-					Debug.Log("Assert");
+					UnityEngine.Debug.Log("Assert");
 					#endif
 
 					#if(UNITY_EDITOR)

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -16,9 +13,9 @@ using UnityEngine;
 #pragma warning disable 1998
 
 
-/** NCrypt
+/** Fee.Crypt
 */
-namespace NCrypt
+namespace Fee.Crypt
 {
 	/** 署名検証。パブリックキー。
 	*/
@@ -85,11 +82,11 @@ namespace NCrypt
 
 		/** 実行。
 		*/
-		public static NTaskW.Task<ResultType> Run(byte[] a_binary,byte[] a_signature_binary,string a_key,NTaskW.CancelToken a_cancel)
+		public static Fee.TaskW.Task<ResultType> Run(byte[] a_binary,byte[] a_signature_binary,string a_key,Fee.TaskW.CancelToken a_cancel)
 		{
 			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
 
-			return new NTaskW.Task<ResultType>(() => {
+			return new Fee.TaskW.Task<ResultType>(() => {
 				return Task_VerifySignaturePublicKey.TaskMain(a_binary,a_signature_binary,a_key,t_cancel_token);
 			});
 		}

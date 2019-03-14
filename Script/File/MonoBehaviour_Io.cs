@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** MonoBehaviour_Io
 	*/
@@ -57,30 +54,30 @@ namespace NFile
 
 		/** request_type
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private RequestType request_type;
 
 		/** request_filename
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private string request_filename;
 
 		/** request_binary
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private byte[] request_binary;
 
 		/** request_text
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private string request_text;
 
 		/** request_texture
 		*/
-		[SerializeField]
-		private Texture2D request_texture;
+		[UnityEngine.SerializeField]
+		private UnityEngine.Texture2D request_texture;
 
-		/** [NFile.OnCoroutine_CallBack]コルーチン実行中。
+		/** [Fee.File.OnCoroutine_CallBack]コルーチン実行中。
 
 		戻り値 == false : キャンセル。
 
@@ -117,7 +114,7 @@ namespace NFile
 
 		/** [MonoBehaviour_Base]コールバック。開始。
 		*/
-		protected override IEnumerator OnStart()
+		protected override System.Collections.IEnumerator OnStart()
 		{
 			switch(this.request_type){
 			case RequestType.LoadLocalBinaryFile:
@@ -142,13 +139,13 @@ namespace NFile
 
 		/** [MonoBehaviour_Base]コールバック。実行。
 		*/
-		protected override IEnumerator OnDo()
+		protected override System.Collections.IEnumerator OnDo()
 		{
 			switch(this.request_type){
 			case RequestType.LoadLocalBinaryFile:
 				{
 					Coroutine_LoadLocalBinaryFile t_coroutine = new Coroutine_LoadLocalBinaryFile();
-					yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + this.request_filename);
+					yield return t_coroutine.CoroutineMain(this,UnityEngine.Application.persistentDataPath + "/" + this.request_filename);
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
@@ -160,7 +157,7 @@ namespace NFile
 			case RequestType.LoadLocalTextFile:
 				{
 					Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
-					yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + this.request_filename);
+					yield return t_coroutine.CoroutineMain(this,UnityEngine.Application.persistentDataPath + "/" + this.request_filename);
 
 					if(t_coroutine.result.text != null){
 						this.SetResultText(t_coroutine.result.text);
@@ -172,7 +169,7 @@ namespace NFile
 			case RequestType.LoadLocalTextureFile:
 				{
 					Coroutine_LoadLocalTextureFile t_coroutine = new Coroutine_LoadLocalTextureFile();
-					yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + this.request_filename);
+					yield return t_coroutine.CoroutineMain(this,UnityEngine.Application.persistentDataPath + "/" + this.request_filename);
 
 					if(t_coroutine.result.texture != null){
 						this.SetResultTexture(t_coroutine.result.texture);
@@ -184,7 +181,7 @@ namespace NFile
 			case RequestType.SaveLocalBinaryFile:
 				{
 					Coroutine_SaveLocalBinaryFile t_coroutine = new Coroutine_SaveLocalBinaryFile();
-					yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + this.request_filename,this.request_binary);
+					yield return t_coroutine.CoroutineMain(this,UnityEngine.Application.persistentDataPath + "/" + this.request_filename,this.request_binary);
 
 					if(t_coroutine.result.saveend == true){
 						this.SetResultSaveEnd();
@@ -196,7 +193,7 @@ namespace NFile
 			case RequestType.SaveLocalTextFile:
 				{
 					Coroutine_SaveLocalTextFile t_coroutine = new Coroutine_SaveLocalTextFile();
-					yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + this.request_filename,this.request_text);
+					yield return t_coroutine.CoroutineMain(this,UnityEngine.Application.persistentDataPath + "/" + this.request_filename,this.request_text);
 
 					if(t_coroutine.result.saveend == true){
 						this.SetResultSaveEnd();
@@ -208,7 +205,7 @@ namespace NFile
 			case RequestType.SaveLocalTextureFile:
 				{
 					Coroutine_SaveLocalTextureFile t_coroutine = new Coroutine_SaveLocalTextureFile();
-					yield return t_coroutine.CoroutineMain(this,Application.persistentDataPath + "/" + this.request_filename,this.request_texture);
+					yield return t_coroutine.CoroutineMain(this,UnityEngine.Application.persistentDataPath + "/" + this.request_filename,this.request_texture);
 
 					if(t_coroutine.result.saveend == true){
 						this.SetResultSaveEnd();
@@ -220,7 +217,7 @@ namespace NFile
 			case RequestType.LoadStreamingAssetsBinaryFile:
 				{
 					Coroutine_LoadLocalBinaryFile t_coroutine = new Coroutine_LoadLocalBinaryFile();
-					yield return t_coroutine.CoroutineMain(this,Application.streamingAssetsPath + "/" + this.request_filename);
+					yield return t_coroutine.CoroutineMain(this,UnityEngine.Application.streamingAssetsPath + "/" + this.request_filename);
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
@@ -237,7 +234,7 @@ namespace NFile
 
 		/** [MonoBehaviour_Base]コールバック。エラー終了。
 		*/
-		protected override IEnumerator OnDoError()
+		protected override System.Collections.IEnumerator OnDoError()
 		{
 			this.SetResultProgress(1.0f);
 
@@ -247,7 +244,7 @@ namespace NFile
 
 		/** [MonoBehaviour_Base]コールバック。正常終了。
 		*/
-		protected override IEnumerator OnDoSuccess()
+		protected override System.Collections.IEnumerator OnDoSuccess()
 		{
 			this.SetResultProgress(1.0f);
 
@@ -344,7 +341,7 @@ namespace NFile
 
 		/** リクエスト。セーブローカル。テクスチャファイル。
 		*/
-		public bool RequestSaveLocalTextureFile(string a_filename,Texture2D a_texture)
+		public bool RequestSaveLocalTextureFile(string a_filename,UnityEngine.Texture2D a_texture)
 		{
 			if(this.IsWaitRequest() == true){
 				this.SetModeStart();

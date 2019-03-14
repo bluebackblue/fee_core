@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,13 +9,13 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** Button_Base
 	*/
-	public abstract class Button_Base : NDeleter.DeleteItem_Base , NEventPlate.OnOverCallBack_Base , NUi.OnTargetCallBack_Base
+	public abstract class Button_Base : Fee.Deleter.DeleteItem_Base , Fee.EventPlate.OnOverCallBack_Base , Fee.Ui.OnTargetCallBack_Base
 	{
 		/** [Button_Base]コールバック。クリック。
 		*/
@@ -30,11 +27,11 @@ namespace NUi
 
 		/** deleter
 		*/
-		protected NDeleter.Deleter deleter;
+		protected Fee.Deleter.Deleter deleter;
 
 		/** 矩形。
 		*/
-		protected NRender2D.Rect2D_R<int> rect;
+		protected Fee.Render2D.Rect2D_R<int> rect;
 
 		/** drawpriority
 		*/
@@ -42,7 +39,7 @@ namespace NUi
 
 		/** eventplate
 		*/
-		protected NEventPlate.Item eventplate;
+		protected Fee.EventPlate.Item eventplate;
 
 		/** callback_click
 		*/
@@ -67,7 +64,7 @@ namespace NUi
 
 		/** clip_rect
 		*/
-		protected NRender2D.Rect2D_R<int> clip_rect;
+		protected Fee.Render2D.Rect2D_R<int> clip_rect;
 
 		/** visible_flag
 		*/
@@ -83,10 +80,10 @@ namespace NUi
 
 		/** constructor
 		*/
-		public Button_Base(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_id)
+		public Button_Base(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_id)
 		{
 			//deleter
-			this.deleter = new NDeleter.Deleter();
+			this.deleter = new Fee.Deleter.Deleter();
 
 			//rect
 			this.rect.Set(0,0,0,0);
@@ -95,7 +92,7 @@ namespace NUi
 			this.drawpriority = a_drawpriority;
 
 			//eventplate
-			this.eventplate = new NEventPlate.Item(this.deleter,NEventPlate.EventType.Button,this.drawpriority);
+			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority);
 			this.eventplate.SetOnOverCallBack(this);
 
 			//callback_click
@@ -163,7 +160,7 @@ namespace NUi
 			this.deleter.DeleteAll();
 
 			//ターゲット解除。
-			NUi.Ui.GetInstance().UnSetTargetRequest(this);
+			Fee.Ui.Ui.GetInstance().UnSetTargetRequest(this);
 
 			//ダウン解除。
 			if(Button_Base.s_down_instance == this){
@@ -231,7 +228,7 @@ namespace NUi
 		
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			this.clip_rect = a_rect;
 			this.eventplate.SetClipRect(ref a_rect);
@@ -253,7 +250,7 @@ namespace NUi
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref NRender2D.Rect2D_R<int> a_rect)
+		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			this.rect = a_rect;
 			this.eventplate.SetRect(ref a_rect);
@@ -370,7 +367,7 @@ namespace NUi
 			}
 		}
 
-		/** [NEventPlate.OnOverCallBack_Base]OnOverEnter
+		/** [Fee.EventPlateOnOverCallBack_Base]OnOverEnter
 		*/
 		public void OnOverEnter(int a_value)
 		{
@@ -382,7 +379,7 @@ namespace NUi
 			Ui.GetInstance().SetTargetRequest(this);
 		}
 
-		/** [NEventPlate.OnOverCallBack_Base]OnOverLeave
+		/** [Fee.EventPlateOnOverCallBack_Base]OnOverLeave
 		*/
 		public void OnOverLeave(int a_value)
 		{
@@ -417,7 +414,7 @@ namespace NUi
 			}
 		}
 
-		/** [NUi.OnTargetCallBack_Base]OnTarget
+		/** [Fee.Ui.OnTargetCallBack_Base]OnTarget
 		*/
 		public void OnTarget()
 		{
@@ -486,7 +483,7 @@ namespace NUi
 					this.SetMode(Button_Mode.Down);
 				}
 			}else{
-				if((this.is_onover == true)&&(this.down_flag == false)&&(NInput.Mouse.GetInstance().left.down == true)){
+				if((this.is_onover == true)&&(this.down_flag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)){
 					//ダウン。
 
 					//ダウン開始。
@@ -494,7 +491,7 @@ namespace NUi
 					Button_Base.s_down_instance = this;
 
 					this.SetMode(Button_Mode.Down);
-				}else if((this.down_flag == true)&&(NInput.Mouse.GetInstance().left.on == false)){
+				}else if((this.down_flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){
 					//アップ。
 
 					//ダウンキャンセル。

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFade
+/** Fee.Fade
 */
-namespace NFade
+namespace Fee.Fade
 {
 	/** Config
 	*/
@@ -34,7 +31,7 @@ namespace NFade
 
 		/** デフォルト。アニメ。色。
 		*/
-		public static Color DEFAULT_ANIME_COLOR = new Color(0.0f,0.0f,0.0f,0.0f);
+		public static UnityEngine.Color DEFAULT_ANIME_COLOR = new UnityEngine.Color(0.0f,0.0f,0.0f,0.0f);
 	}
 }
 

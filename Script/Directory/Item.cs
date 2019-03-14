@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NDirectory
+/** Fee.Directory
 */
-namespace NDirectory
+namespace Fee.Directory
 {
 	/** Item
 	*/
@@ -22,11 +19,11 @@ namespace NDirectory
 	{
 		/** ディレクトリリスト。
 		*/
-		private List<Item> directory_list;
+		private System.Collections.Generic.List<Item> directory_list;
 
 		/** ファイルリスト。
 		*/
-		private List<Item> file_list;
+		private System.Collections.Generic.List<Item> file_list;
 
 		/** ルート。
 		*/
@@ -47,9 +44,9 @@ namespace NDirectory
 		*/
 		public Item(Root a_root,string a_name)
 		{
-			this.directory_list = new List<Item>();
+			this.directory_list = new System.Collections.Generic.List<Item>();
 
-			this.file_list = new List<Item>();
+			this.file_list = new System.Collections.Generic.List<Item>();
 
 			this.root = a_root;
 
@@ -98,14 +95,14 @@ namespace NDirectory
 
 		/** ディレクトリリスト。取得。
 		*/
-		public List<Item> GetDirectoryList()
+		public System.Collections.Generic.List<Item> GetDirectoryList()
 		{
 			return this.directory_list;
 		}
 
 		/** ファイルリスト。取得。
 		*/
-		public List<Item> GetFileList()
+		public System.Collections.Generic.List<Item> GetFileList()
 		{
 			return this.file_list;
 		}

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NEventPlate
+/** Fee.EventPlate
 */
-namespace NEventPlate
+namespace Fee.EventPlate
 {
 	/** EventPlate
 	*/
@@ -68,7 +65,7 @@ namespace NEventPlate
 
 		/** 位置。
 		*/
-		private NRender2D.Pos2D<int> pos;
+		private Fee.Render2D.Pos2D<int> pos;
 
 		/** worklist
 		*/

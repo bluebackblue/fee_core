@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NInput
+/** Fee.Input
 */
-namespace NInput
+namespace Fee.Input
 {
 	/** Mouse_Button
 	*/
@@ -29,11 +26,11 @@ namespace NInput
 
 		/** ダウン位置。
 		*/
-		public NRender2D.Pos2D<int> last_down_pos;
+		public Fee.Render2D.Pos2D<int> last_down_pos;
 
 		/** アップ位置。
 		*/
-		public NRender2D.Pos2D<int> last_up_pos;
+		public Fee.Render2D.Pos2D<int> last_up_pos;
 
 		/** ドラッグ時間。
 		*/
@@ -41,9 +38,9 @@ namespace NInput
 
 		/** ドラッグ方向。
 		*/
-		public Vector2 drag_dir;
+		public UnityEngine.Vector2 drag_dir;
 		public float drag_dir_magnitude;
-		public Vector2 drag_dir_normalized;
+		public UnityEngine.Vector2 drag_dir_normalized;
 
 		/** ドラッグ総移動距離。
 		*/
@@ -69,9 +66,9 @@ namespace NInput
 			this.drag_time = 0;
 
 			//ドラッグ方向。
-			this.drag_dir = Vector2.zero;
+			this.drag_dir = UnityEngine.Vector2.zero;
 			this.drag_dir_magnitude = 0.0f;
-			this.drag_dir_normalized = Vector2.zero;
+			this.drag_dir_normalized = UnityEngine.Vector2.zero;
 
 			//ドラッグ総移動距離。
 			this.drag_totallength = 0;
@@ -99,9 +96,9 @@ namespace NInput
 
 				//ドラッグ情報初期化。
 				this.drag_time = 0;
-				this.drag_dir = Vector2.zero;
+				this.drag_dir = UnityEngine.Vector2.zero;
 				this.drag_dir_magnitude = 0.0f;
-				this.drag_dir_normalized = Vector2.zero;
+				this.drag_dir_normalized = UnityEngine.Vector2.zero;
 				this.drag_totallength = 0;
 			}else if((this.on == false)&&(this.on_old == true)){
 				//アップ。
@@ -119,12 +116,12 @@ namespace NInput
 					if(this.drag_time < Config.MOUSE_DRAGTIME_MAX){
 						this.drag_time++;
 					}
-					this.drag_dir = new Vector2(a_pos.x - this.last_down_pos.x,a_pos.y - this.last_down_pos.y);
+					this.drag_dir = new UnityEngine.Vector2(a_pos.x - this.last_down_pos.x,a_pos.y - this.last_down_pos.y);
 					this.drag_dir_magnitude = this.drag_dir.magnitude;
 					this.drag_dir_normalized = this.drag_dir.normalized;
 
 					//ドラッグ総移動距離。
-					this.drag_totallength += Mathf.Abs(a_pos.x_old - a_pos.x);
+					this.drag_totallength += UnityEngine.Mathf.Abs(a_pos.x_old - a_pos.x);
 				}
 			}
 		}

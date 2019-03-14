@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** Scroll_Vertical_Base
 	*/
@@ -23,7 +20,7 @@ namespace NUi
 	{
 		/** constructor
 		*/
-		public Scroll_Vertical_Base(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
+		public Scroll_Vertical_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
 			:
 			base(a_deleter,a_drawpriority,a_item_length)
 		{

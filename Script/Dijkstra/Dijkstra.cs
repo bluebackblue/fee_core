@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NDijkstra
+/** Fee.Dijkstra
 */
-namespace NDijkstra
+namespace Fee.Dijkstra
 {
 	/** Dijkstra
 	*/
@@ -24,13 +21,13 @@ namespace NDijkstra
 	{
 		/** ノードリスト。
 		*/
-		public Dictionary<NODEKEY,NODE> node_list;
+		public System.Collections.Generic.Dictionary<NODEKEY,NODE> node_list;
 
 		/** constructor
 		*/
 		public Dijkstra()
 		{
-			this.node_list = new Dictionary<NODEKEY,NODE>();
+			this.node_list = new System.Collections.Generic.Dictionary<NODEKEY,NODE>();
 		}
 
 		/** クリア。
@@ -71,7 +68,7 @@ namespace NDijkstra
 		*/
 		public void ResetCalcFlag()
 		{
-			foreach(KeyValuePair<NODEKEY,NODE> t_pair in this.node_list){
+			foreach(System.Collections.Generic.KeyValuePair<NODEKEY,NODE> t_pair in this.node_list){
 				t_pair.Value.ResetCalcFlag();
 			}
 		}
@@ -82,7 +79,7 @@ namespace NDijkstra
 		{
 			NODE t_find = null;
 
-			foreach(KeyValuePair<NODEKEY,NODE> t_pair in this.node_list){
+			foreach(System.Collections.Generic.KeyValuePair<NODEKEY,NODE> t_pair in this.node_list){
 				NODE t_node = t_pair.Value;
 
 				if((t_node.fix == false)&&(t_node.total_cost >= 0)){

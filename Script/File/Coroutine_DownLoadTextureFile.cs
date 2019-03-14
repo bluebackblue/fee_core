@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** ダウンロード。テクスチャーファイル。
 	*/
@@ -24,7 +21,7 @@ namespace NFile
 		*/
 		public class ResultType
 		{
-			public Texture2D texture;
+			public UnityEngine.Texture2D texture;
 			public string errorstring;
 
 			/** constructor
@@ -42,7 +39,7 @@ namespace NFile
 
 		/** CoroutineMain
 		*/
-		public IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url)
 		{
 			//result
 			this.result = new ResultType();
@@ -86,7 +83,7 @@ namespace NFile
 				}
 
 				//コンバート。
-				Texture2D t_result = null;
+				UnityEngine.Texture2D t_result = null;
 				try{
 					t_result = UnityEngine.Networking.DownloadHandlerTexture.GetContent(t_webrequest);
 				}catch(System.Exception t_exception){

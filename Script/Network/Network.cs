@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NNetwork
+/** Fee.Network
 */
-namespace NNetwork
+namespace Fee.Network
 {
 	/** Network
 	*/
@@ -91,8 +88,8 @@ namespace NNetwork
 
 		/** ルート。
 		*/
-		private GameObject root_gameobject;
-		private Transform root_transform;
+		private UnityEngine.GameObject root_gameobject;
+		private UnityEngine.Transform root_transform;
 
 		/** disconnect_request
 		*/
@@ -100,7 +97,7 @@ namespace NNetwork
 
 		/** player_list
 		*/
-		private List<Player> player_list;
+		private System.Collections.Generic.List<Player> player_list;
 
 		/** my_player
 		*/
@@ -123,16 +120,16 @@ namespace NNetwork
 			#endif
 
 			//ルート。
-			this.root_gameobject = new GameObject();
+			this.root_gameobject = new UnityEngine.GameObject();
 			this.root_gameobject.name = "Network";
-			GameObject.DontDestroyOnLoad(this.root_gameobject);
-			this.root_transform = this.root_gameobject.GetComponent<Transform>();
+			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
+			this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
 
 			//disconnect_request
 			this.disconnect_request = false;
 
 			//player_list
-			this.player_list = new List<Player>();
+			this.player_list = new System.Collections.Generic.List<Player>();
 
 			//my_player
 			this.my_player = null;
@@ -145,12 +142,12 @@ namespace NNetwork
 		*/
 		private void Delete()
 		{
-			GameObject.Destroy(this.root_gameobject);
+			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
 		/** ルート。取得。
 		*/
-		public Transform GetRoot()
+		public UnityEngine.Transform GetRoot()
 		{
 			return this.root_transform;
 		}
@@ -195,14 +192,14 @@ namespace NNetwork
 
 		/** プレイヤープレハブリスト。取得。
 		*/
-		public List<NNetwork.Player> GetPlayerList()
+		public System.Collections.Generic.List<Fee.Network.Player> GetPlayerList()
 		{
 			return this.player_list;
 		}
 
 		/** プレイヤー。取得。
 		*/
-		public NNetwork.Player GetPlayer(int a_playerindex)
+		public Fee.Network.Player GetPlayer(int a_playerindex)
 		{
 			if((0<=a_playerindex)&&(a_playerindex<this.player_list.Count)){
 				return this.player_list[a_playerindex];
@@ -212,14 +209,14 @@ namespace NNetwork
 
 		/** 自分のプレイヤープレハブ。取得。
 		*/
-		public NNetwork.Player GetMyPlayer()
+		public Fee.Network.Player GetMyPlayer()
 		{
 			return this.my_player;
 		}
 
 		/** プレイヤ‐プレハブ。追加。
 		*/
-		public int AddPlayer(NNetwork.Player a_player)
+		public int AddPlayer(Fee.Network.Player a_player)
 		{
 			if(a_player != null){
 				if(a_player.IsMine() == true){
@@ -234,7 +231,7 @@ namespace NNetwork
 
 		/** プレイヤープレハブ。削除。
 		*/
-		public void RemovePlayer(NNetwork.Player a_player)
+		public void RemovePlayer(Fee.Network.Player a_player)
 		{
 			if(this.my_player == a_player){
 				this.my_player = null;

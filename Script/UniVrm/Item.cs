@@ -1,11 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-//using System.IO;
-//using UnityEngine;
-using System.Linq;
-//using System;
 
 /**
  * Copyright (c) blueback
@@ -16,9 +9,9 @@ using System.Linq;
 */
 
 
-/** NUniVrm
+/** Fee.UniVrm
 */
-namespace NUniVrm
+namespace Fee.UniVrm
 {
 	/** Item
 	*/
@@ -65,7 +58,7 @@ namespace NUniVrm
 
 		/** result_animetor
 		*/
-		private Animator result_animator;
+		private UnityEngine.Animator result_animator;
 
 		/** constructor
 		*/
@@ -98,7 +91,7 @@ namespace NUniVrm
 		{
 			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){
-				this.result_context.Destroy(false);
+				this.result_context.Dispose();
 			}
 			#endif
 		}
@@ -192,14 +185,14 @@ namespace NUniVrm
 
 		/** [内部からの呼び出し]レイヤー。設定。
 		*/
-		private static void Raw_SetLayer(Transform a_transform,int a_layer)
+		private static void Raw_SetLayer(UnityEngine.Transform a_transform,int a_layer)
 		{
-			GameObject t_gameobject = a_transform.gameObject;
+			UnityEngine.GameObject t_gameobject = a_transform.gameObject;
 			if(t_gameobject != null){
 				t_gameobject.layer = a_layer;
 			}
 
-			foreach(Transform t_transform in a_transform){
+			foreach(UnityEngine.Transform t_transform in a_transform){
 				Raw_SetLayer(t_transform,a_layer);
 			}
 		}
@@ -238,7 +231,7 @@ namespace NUniVrm
 
 		/** アニメータコントローラ。設定。
 		*/
-		public void SetAnimatorController(RuntimeAnimatorController a_animator_Controller)
+		public void SetAnimatorController(UnityEngine.RuntimeAnimatorController a_animator_Controller)
 		{
 			if(this.result_animator != null){
 				this.result_animator.runtimeAnimatorController = a_animator_Controller;
@@ -275,7 +268,7 @@ namespace NUniVrm
 
 		/** GetBoneTransform
 		*/
-		public Transform GetBoneTransform(UnityEngine.HumanBodyBones a_bone)
+		public UnityEngine.Transform GetBoneTransform(UnityEngine.HumanBodyBones a_bone)
 		{
 			if(this.result_animator != null){
 				return this.result_animator.GetBoneTransform(a_bone);
@@ -286,7 +279,7 @@ namespace NUniVrm
 
 		/** GetTransform
 		*/
-		public Transform GetTransform()
+		public UnityEngine.Transform GetTransform()
 		{
 			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){
@@ -299,7 +292,7 @@ namespace NUniVrm
 
 		/** GetForward
 		*/
-		public Vector3 GetForward()
+		public UnityEngine.Vector3 GetForward()
 		{
 			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){
@@ -307,12 +300,12 @@ namespace NUniVrm
 			}
 			#endif
 
-			return Vector3.zero;
+			return UnityEngine.Vector3.zero;
 		}
 
 		/** 位置。取得。
 		*/
-		public Vector3 GetPosition()
+		public UnityEngine.Vector3 GetPosition()
 		{
 			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){
@@ -320,12 +313,12 @@ namespace NUniVrm
 			}
 			#endif
 
-			return Vector3.zero;
+			return UnityEngine.Vector3.zero;
 		}
 
 		/** 位置。設定。
 		*/
-		public void SetPosition(ref Vector3 a_position)
+		public void SetPosition(ref UnityEngine.Vector3 a_position)
 		{
 			#if(USE_DEF_UNIVRM)
 			if(this.result_context != null){

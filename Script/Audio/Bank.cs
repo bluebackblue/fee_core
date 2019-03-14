@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NAudio
+/** Fee.Audio
 */
-namespace NAudio
+namespace Fee.Audio
 {
 	/** Bank
 	*/
@@ -61,7 +58,7 @@ namespace NAudio
 
 		/** オーディオクリップ。取得。
 		*/
-		public void GetAudioClip(int a_index,out AudioClip a_audioclip,out float a_volume)
+		public void GetAudioClip(int a_index,out UnityEngine.AudioClip a_audioclip,out float a_volume)
 		{
 			if(this.pack_audioclip != null){
 				if((0<=a_index)&&(a_index<this.pack_audioclip.audioclip_list.Count)){
@@ -108,7 +105,7 @@ namespace NAudio
 			if(this.pack_soundpool != null){
 				for(int ii=0;ii<this.pack_soundpool.name_list.Count;ii++){
 					if(this.pack_soundpool.name_list[ii] != null){
-						NAudio.Audio.GetInstance().GetSoundPool().Load(this.pack_soundpool.name_list[ii]);
+						Fee.Audio.Audio.GetInstance().GetSoundPool().Load(this.pack_soundpool.name_list[ii]);
 					}
 				}
 			}
@@ -131,7 +128,7 @@ namespace NAudio
 			if(this.pack_soundpool != null){
 				for(int ii=0;ii<this.pack_soundpool.name_list.Count;ii++){
 					if(this.pack_soundpool.name_list[ii] != null){
-						NAudio.Audio.GetInstance().GetSoundPool().UnLoad(this.pack_soundpool.name_list[ii]);
+						Fee.Audio.Audio.GetInstance().GetSoundPool().UnLoad(this.pack_soundpool.name_list[ii]);
 					}
 				}
 			}

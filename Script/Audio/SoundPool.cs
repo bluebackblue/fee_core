@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NAudio
+/** Fee.Audio
 */
-namespace NAudio
+namespace Fee.Audio
 {
 	/** SoundPool
 	*/
@@ -46,12 +43,12 @@ namespace NAudio
 
 		/** list
 		*/
-		private Dictionary<string,Item> list;
+		private System.Collections.Generic.Dictionary<string,Item> list;
 
 		/** サウンドプール。
 		*/
 		#if(UNITY_ANDROID)
-		private AndroidJavaObject java_soundpool;
+		private UnityEngine.AndroidJavaObject java_soundpool;
 		#endif
 
 		/** ステリームタイプ。
@@ -91,7 +88,7 @@ namespace NAudio
 		public SoundPool()
 		{
 			//list
-			this.list = new Dictionary<string,Item>();
+			this.list = new System.Collections.Generic.Dictionary<string,Item>();
 
 			//サウンドプールインスタンス。作成。
 			#if(UNITY_ANDROID)
@@ -110,15 +107,15 @@ namespace NAudio
 					int t_content_type = (int)ContentType.CONTENT_TYPE_MUSIC;
 
 					try{
-						AndroidJavaObject t_attribute = null;
+						UnityEngine.AndroidJavaObject t_attribute = null;
 
 						{
-							using(AndroidJavaObject t_jave_attribute_builder = new AndroidJavaObject("android.media.AudioAttributes$Builder")){
+							using(UnityEngine.AndroidJavaObject t_jave_attribute_builder = new UnityEngine.AndroidJavaObject("android.media.AudioAttributes$Builder")){
 								if(t_jave_attribute_builder != null){
-									t_jave_attribute_builder.Call<AndroidJavaObject>("setUsage",t_usage_type);
-									t_jave_attribute_builder.Call<AndroidJavaObject>("setContentType",t_content_type);
+									t_jave_attribute_builder.Call<UnityEngine.AndroidJavaObject>("setUsage",t_usage_type);
+									t_jave_attribute_builder.Call<UnityEngine.AndroidJavaObject>("setContentType",t_content_type);
 
-									t_attribute = t_jave_attribute_builder.Call<AndroidJavaObject>("build");
+									t_attribute = t_jave_attribute_builder.Call<UnityEngine.AndroidJavaObject>("build");
 
 									t_jave_attribute_builder.Dispose();
 								}else{
@@ -128,12 +125,12 @@ namespace NAudio
 						}
 
 						if(t_attribute != null){
-							using(AndroidJavaObject t_java_soundpool_builder = new AndroidJavaObject("android.media.SoundPool$Builder")){
+							using(UnityEngine.AndroidJavaObject t_java_soundpool_builder = new UnityEngine.AndroidJavaObject("android.media.SoundPool$Builder")){
 								if(t_java_soundpool_builder != null){
-									t_java_soundpool_builder.Call<AndroidJavaObject>("setAudioAttributes",t_attribute);
-									t_java_soundpool_builder.Call<AndroidJavaObject>("setMaxStreams",t_max_stream);
+									t_java_soundpool_builder.Call<UnityEngine.AndroidJavaObject>("setAudioAttributes",t_attribute);
+									t_java_soundpool_builder.Call<UnityEngine.AndroidJavaObject>("setMaxStreams",t_max_stream);
 
-									this.java_soundpool = t_java_soundpool_builder.Call<AndroidJavaObject>("build");
+									this.java_soundpool = t_java_soundpool_builder.Call<UnityEngine.AndroidJavaObject>("build");
 
 								}else{
 									Tool.LogError("SoundPool","android.media.SoundPool$Builder == null");
@@ -194,7 +191,7 @@ namespace NAudio
 					//1固定。
 					int t_priority = (int)LoadPriority.RESERVATION;
 					if(this.java_soundpool != null){
-						t_sound_id = this.java_soundpool.Call<int>("load",Application.persistentDataPath + "/" + a_name,t_priority);
+						t_sound_id = this.java_soundpool.Call<int>("load",UnityEngine.Application.persistentDataPath + "/" + a_name,t_priority);
 					}
 				}catch(System.Exception t_exception){
 					Tool.LogError(t_exception);
@@ -302,7 +299,7 @@ namespace NAudio
 
 			//アンロード。
 			{
-				Dictionary<string,Item>.KeyCollection t_collection = this.list.Keys;
+				System.Collections.Generic.Dictionary<string,Item>.KeyCollection t_collection = this.list.Keys;
 				string[] t_keylist = new string[t_collection.Count];
 				t_collection.CopyTo(t_keylist,0);
 

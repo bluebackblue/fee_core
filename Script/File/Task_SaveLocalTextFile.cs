@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -16,9 +13,9 @@ using UnityEngine;
 #pragma warning disable 1998
 
 
-/** NFile
+/** Fee.File
 */
-namespace NFile
+namespace Fee.File
 {
 	/** セーブローカル。テキストファイル。
 	*/
@@ -95,11 +92,11 @@ namespace NFile
 
 		/** 実行。
 		*/
-		public static NTaskW.Task<ResultType> Run(string a_full_path,string a_text,NTaskW.CancelToken a_cancel)
+		public static Fee.TaskW.Task<ResultType> Run(string a_full_path,string a_text,Fee.TaskW.CancelToken a_cancel)
 		{
 			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
 
-			return new NTaskW.Task<ResultType>(() => {
+			return new Fee.TaskW.Task<ResultType>(() => {
 				return Task_SaveLocalTextFile.TaskMain(a_full_path,a_text,t_cancel_token);
 			});
 		}

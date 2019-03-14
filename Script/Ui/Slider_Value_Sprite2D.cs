@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,13 +9,13 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** Slider_Value_Sprite2D
 	*/
-	public class Slider_Value_Sprite2D : NRender2D.Sprite2D
+	public class Slider_Value_Sprite2D : Fee.Render2D.Sprite2D
 	{
 		/** is_clip
 		*/
@@ -30,7 +27,7 @@ namespace NUi
 
 		/** clip_rect
 		*/
-		private NRender2D.Rect2D_R<int> clip_rect;
+		private Fee.Render2D.Rect2D_R<int> clip_rect;
 
 		/** lock_flag
 		*/
@@ -38,7 +35,7 @@ namespace NUi
 
 		/** constructor。
 		*/
-		public Slider_Value_Sprite2D(NDeleter.Deleter a_deleter,NRender2D.State2D a_state,long a_drawpriority)
+		public Slider_Value_Sprite2D(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority)
 			:
 			base(a_deleter,a_state,a_drawpriority)
 		{
@@ -55,7 +52,7 @@ namespace NUi
 			this.lock_flag = false;
 
 			//マテリアル設定。
-			this.SetMaterialType(NRender2D.Config.MaterialType.Slice9);
+			this.SetMaterialType(Fee.Render2D.Config.MaterialType.Slice9);
 		}
 
 		/** ロックフラグ。設定。
@@ -81,7 +78,7 @@ namespace NUi
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref NRender2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			this.clip_rect = a_rect;
 		}
@@ -129,12 +126,12 @@ namespace NUi
 		戻り値 = true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
-		public override bool UpdateMaterial(ref Material a_material)
+		public override bool UpdateMaterial(ref UnityEngine.Material a_material)
 		{
 			bool t_setpass = false;
 
 			//テクスチャ設定。
-			Texture2D t_texture = this.GetTexture();
+			UnityEngine.Texture2D t_texture = this.GetTexture();
 			if(a_material.mainTexture != t_texture){
 				a_material.mainTexture = this.GetTexture();
 				t_setpass = true;
@@ -146,8 +143,8 @@ namespace NUi
 				int t_gui_y1;
 				int t_gui_x2;
 				int t_gui_y2;
-				NRender2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.clip_rect.x,this.clip_rect.y + this.clip_rect.h,out t_gui_x1,out t_gui_y1);
-				NRender2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.clip_rect.x + this.clip_rect.w,this.clip_rect.y,out t_gui_x2,out t_gui_y2);
+				Fee.Render2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.clip_rect.x,this.clip_rect.y + this.clip_rect.h,out t_gui_x1,out t_gui_y1);
+				Fee.Render2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.clip_rect.x + this.clip_rect.w,this.clip_rect.y,out t_gui_x2,out t_gui_y2);
 				float t_clip_x1 = t_gui_x1;
 				float t_clip_y1 = t_gui_y1;
 				float t_clip_x2 = t_gui_x2;
@@ -223,8 +220,8 @@ namespace NUi
 				int t_rect_y1;
 				int t_rect_x2;
 				int t_rect_y2;
-				NRender2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.GetX(),this.GetY(),out t_rect_x1,out t_rect_y1);
-				NRender2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.GetX() + this.GetW(),this.GetY() + this.GetH(),out t_rect_x2,out t_rect_y2);
+				Fee.Render2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.GetX(),this.GetY(),out t_rect_x1,out t_rect_y1);
+				Fee.Render2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.GetX() + this.GetW(),this.GetY() + this.GetH(),out t_rect_x2,out t_rect_y2);
 				float t_clip_w = t_rect_x2 - t_rect_x1;
 				float t_clip_h = t_rect_y2 - t_rect_y1;
 

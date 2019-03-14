@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,15 +9,15 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** OnTargetCallBack_Base
 	*/
 	public interface OnTargetCallBack_Base
 	{
-		/** [NUi.OnTargetCallBack_Base]ターゲット中。
+		/** [Fee.Ui.OnTargetCallBack_Base]ターゲット中。
 		*/
 		void OnTarget();
 	}

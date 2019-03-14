@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NJsonItem
+/** Fee.JsonItem
 */
-namespace NJsonItem
+namespace Fee.JsonItem
 {
 	/** Impl
 	*/
@@ -638,9 +635,9 @@ namespace NJsonItem
 
 		/** JSON文字からインデックスリストの作成[*,*,*]。
 		*/
-		public static List<JsonItem> CreateIndexArrayFromJsonString(string a_jsonstring)
+		public static System.Collections.Generic.List<JsonItem> CreateIndexArrayFromJsonString(string a_jsonstring)
 		{
-			List<JsonItem> t_indexlist = new List<JsonItem>();
+			System.Collections.Generic.List<JsonItem> t_indexlist = new System.Collections.Generic.List<JsonItem>();
 		
 			int t_index = 0;
 			while(t_index < a_jsonstring.Length){
@@ -753,9 +750,9 @@ namespace NJsonItem
 
 		/** JSON文字から連想配列の作成。
 		*/
-		public static Dictionary<string,JsonItem> CreateAssociativeArrayFromJsonString(string a_jsonstring)
+		public static System.Collections.Generic.Dictionary<string,JsonItem> CreateAssociativeArrayFromJsonString(string a_jsonstring)
 		{
-			Dictionary<string,JsonItem> t_associativelist = new Dictionary<string,JsonItem>();
+			System.Collections.Generic.Dictionary<string,JsonItem> t_associativelist = new System.Collections.Generic.Dictionary<string,JsonItem>();
 		
 			int t_index = 0;
 			while(t_index < a_jsonstring.Length){
@@ -899,9 +896,9 @@ namespace NJsonItem
 
 		/** JSON文字からバイナリデータの作成。
 		*/
-		public static List<byte> CreateBinaryDataFromJsonString(string a_jsonstring)
+		public static System.Collections.Generic.List<byte> CreateBinaryDataFromJsonString(string a_jsonstring)
 		{
-			List<byte> t_binarydata = new List<byte>();
+			System.Collections.Generic.List<byte> t_binarydata = new System.Collections.Generic.List<byte>();
 
 			//t_binarydata.reserve(a_jsonstring.Length / 2);
 			t_binarydata.Capacity = a_jsonstring.Length / 2;

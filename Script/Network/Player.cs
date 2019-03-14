@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,21 +9,21 @@ using UnityEngine;
 */
 
 
-/** NNetwork
+/** Fee.Network
 */
-namespace NNetwork
+namespace Fee.Network
 {
 	/** Player
 	*/
 	#if(USE_DEF_PUN)
 	public class Player : Photon.Pun.MonoBehaviourPun
 	#else
-	public class Player : MonoBehaviour
+	public class Player : UnityEngine.MonoBehaviour
 	#endif
 	{
 		/** トランスフォーム。
 		*/
-		private Transform mytransform;
+		private UnityEngine.Transform mytransform;
 
 		/** is_mine
 		*/
@@ -55,11 +52,11 @@ namespace NNetwork
 			Tool.Log("Player", "Start");
 
 			//トランスフォーム。
-			this.mytransform = this.GetComponent<Transform>();
+			this.mytransform = this.GetComponent<UnityEngine.Transform>();
 
 			//親。設定。
-			Transform t_root = NNetwork.Network.GetInstance().GetRoot();
-			this.GetComponent<Transform>().SetParent(t_root);
+			UnityEngine.Transform t_root = Fee.Network.Network.GetInstance().GetRoot();
+			this.GetComponent<UnityEngine.Transform>().SetParent(t_root);
 
 			//photon_view
 			#if(USE_DEF_PUN)
@@ -86,7 +83,7 @@ namespace NNetwork
 
 			{
 				//プレイヤ－インデックス取得。
-				this.playerlist_index = NNetwork.Network.GetInstance().AddPlayer(this);
+				this.playerlist_index = Fee.Network.Network.GetInstance().AddPlayer(this);
 
 				//名前設定。
 				if(this.playerlist_index >= 0){
@@ -101,26 +98,26 @@ namespace NNetwork
 		{
 			Tool.Log("Player","OnDestroy");
 
-			NNetwork.Network.GetInstance().RemovePlayer(this);
+			Fee.Network.Network.GetInstance().RemovePlayer(this);
 		}
 
 		/** 位置。取得。
 		*/
-		public Vector3 GetPosition()
+		public UnityEngine.Vector3 GetPosition()
 		{
 			return this.mytransform.position;
 		}
 
 		/** 回転。取得。
 		*/
-		public Quaternion GetQuaternion()
+		public UnityEngine.Quaternion GetQuaternion()
 		{
 			return this.mytransform.rotation;
 		}
 
 		/** スケール。取得。
 		*/
-		public Vector3 GetScale()
+		public UnityEngine.Vector3 GetScale()
 		{
 			return this.mytransform.transform.localScale;
 		}
@@ -129,12 +126,12 @@ namespace NNetwork
 		*/
 		public void SetPosition(float a_x,float a_y,float a_z)
 		{
-			this.mytransform.transform.position = new Vector3(a_x,a_y,a_z);
+			this.mytransform.transform.position = new UnityEngine.Vector3(a_x,a_y,a_z);
 		}
 
 		/** 回転。設定。
 		*/
-		public void SetQuaternion(ref Quaternion a_quaternion)
+		public void SetQuaternion(ref UnityEngine.Quaternion a_quaternion)
 		{
 			this.mytransform.transform.rotation = a_quaternion;
 		}
@@ -143,7 +140,7 @@ namespace NNetwork
 		*/
 		public void SetScale(float a_x,float a_y,float a_z)
 		{
-			this.mytransform.transform.localScale = new Vector3(a_x,a_y,a_z);
+			this.mytransform.transform.localScale = new UnityEngine.Vector3(a_x,a_y,a_z);
 		}
 
 		/** 自分。チェック。
@@ -223,7 +220,7 @@ namespace NNetwork
 		[Photon.Pun.PunRPC]
 		public void RecvInt(int a_key,int a_value)
 		{
-			OnRemoteCallBack_Base t_callback = NNetwork.Network.GetInstance().GetRecvCallBack();
+			OnRemoteCallBack_Base t_callback = Fee.Network.Network.GetInstance().GetRecvCallBack();
 			if(t_callback != null){
 				t_callback.OnRemoteCallInt(this.playerlist_index,a_key,a_value);
 			}
@@ -236,7 +233,7 @@ namespace NNetwork
 		[Photon.Pun.PunRPC]
 		public void RecvString(int a_key,string a_value)
 		{
-			OnRemoteCallBack_Base t_callback = NNetwork.Network.GetInstance().GetRecvCallBack();
+			OnRemoteCallBack_Base t_callback = Fee.Network.Network.GetInstance().GetRecvCallBack();
 			if(t_callback != null){
 				t_callback.OnRemoteCallString(this.playerlist_index,a_key,a_value);
 			}

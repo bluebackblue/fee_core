@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** Render2D
+/** Fee.Render2D
 */
-namespace NRender2D
+namespace Fee.Render2D
 {
 	/** Sprite2D_Rect
 	*/
@@ -30,14 +27,14 @@ namespace NRender2D
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref NRender2D.Rect2D_R<int> a_rect)
+		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
 			this.rect = a_rect;
 		}
 
 		/** テクスチャ矩形。設定。
 		*/
-		public void SetTextureRect(ref NRender2D.Rect2D_R<float> a_texture_rect)
+		public void SetTextureRect(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
 		{
 			this.texture_rect = a_texture_rect;
 		}

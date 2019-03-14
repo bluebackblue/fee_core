@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NJsonItem
+/** Fee.JsonItem
 */
-namespace NJsonItem
+namespace Fee.JsonItem
 {
 	/** JsonItem
 	*/
@@ -444,7 +441,7 @@ namespace NJsonItem
 
 		/** [取得][値]GetBinaryData
 		*/
-		public List<byte> GetBinaryData()
+		public System.Collections.Generic.List<byte> GetBinaryData()
 		{
 			Tool.Assert(this.valuetype == ValueType.BinaryData);
 
@@ -732,7 +729,7 @@ namespace NJsonItem
 			this.value.Reset();
 		
 			this.valuetype = ValueType.AssociativeArray;
-			this.value.associative_array = new Dictionary<string, JsonItem>();
+			this.value.associative_array = new System.Collections.Generic.Dictionary<string, JsonItem>();
 		}
 
 		/** [設定]空インデックスリスト。
@@ -743,7 +740,7 @@ namespace NJsonItem
 			this.value.Reset();
 		
 			this.valuetype = ValueType.IndexArray;
-			this.value.index_array = new List<JsonItem>();
+			this.value.index_array = new System.Collections.Generic.List<JsonItem>();
 		}
 
 		/** [設定]整数セット。
@@ -825,7 +822,7 @@ namespace NJsonItem
 
 		/** SetBinaryData
 		*/
-		public void SetBinaryData(List<byte> a_binarydata)
+		public void SetBinaryData(System.Collections.Generic.List<byte> a_binarydata)
 		{
 			this.jsonstring = null;
 			this.value.Reset();
@@ -836,7 +833,7 @@ namespace NJsonItem
 
 		/** 連想配列キーリスト作成。
 		*/
-		public List<string> CreateAssociativeKeyList()
+		public System.Collections.Generic.List<string> CreateAssociativeKeyList()
 		{
 			Tool.Assert(this.valuetype == ValueType.AssociativeArray);
 
@@ -844,9 +841,9 @@ namespace NJsonItem
 				this.JsonStringToValue();
 			}
 
-			List<string> t_ret_keylist = new List<string>();
+			System.Collections.Generic.List<string> t_ret_keylist = new System.Collections.Generic.List<string>();
 
-			foreach(KeyValuePair<string,JsonItem> t_pair in this.value.associative_array){
+			foreach(System.Collections.Generic.KeyValuePair<string,JsonItem> t_pair in this.value.associative_array){
 				t_ret_keylist.Add(t_pair.Key);
 			}
 
@@ -935,7 +932,7 @@ namespace NJsonItem
 					{
 						bool t_first = true;
 
-						foreach(KeyValuePair<string,JsonItem> t_pair in this.value.associative_array){
+						foreach(System.Collections.Generic.KeyValuePair<string,JsonItem> t_pair in this.value.associative_array){
 							if(t_first == true){
 								t_first = false;
 

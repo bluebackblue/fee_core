@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** Render2D
+/** Fee.Render2D
 */
-namespace NRender2D
+namespace Fee.Render2D
 {
 	/** Screen
 	*/
@@ -113,7 +110,7 @@ namespace NRender2D
 
 		/** 事前計算。
 		*/
-		public void CalcScreen(List<Sprite2D> a_sprite_list)
+		public void CalcScreen(System.Collections.Generic.List<Sprite2D> a_sprite_list)
 		{
 			//ＧＵＩスクリーン座標変更チェック。
 			if((this.gui_size.w != UnityEngine.Screen.width)||(this.gui_size.h != UnityEngine.Screen.height)){
@@ -212,22 +209,22 @@ namespace NRender2D
 			if(a_sprite.IsRotate() == false){
 				a_sprite.CalcSpritePosition(a_to_8);
 			}else{
-				Vector2 t_center = new Vector2(a_sprite.GetCenterX(),a_sprite.GetCenterY());
+				UnityEngine.Vector2 t_center = new UnityEngine.Vector2(a_sprite.GetCenterX(),a_sprite.GetCenterY());
 
 				//左上。
-				Vector2 t_1 = new Vector2(a_sprite.GetX(),a_sprite.GetY()) - t_center;
+				UnityEngine.Vector2 t_1 = new UnityEngine.Vector2(a_sprite.GetX(),a_sprite.GetY()) - t_center;
 
 				//右上。
-				Vector2 t_2 = new Vector2(a_sprite.GetX() + a_sprite.GetW(),a_sprite.GetY()) - t_center;
+				UnityEngine.Vector2 t_2 = new UnityEngine.Vector2(a_sprite.GetX() + a_sprite.GetW(),a_sprite.GetY()) - t_center;
 
 				//左下。
-				Vector2 t_3 = new Vector2(a_sprite.GetX(),a_sprite.GetY() + a_sprite.GetH()) - t_center;
+				UnityEngine.Vector2 t_3 = new UnityEngine.Vector2(a_sprite.GetX(),a_sprite.GetY() + a_sprite.GetH()) - t_center;
 
 				//右下。
-				Vector2 t_4 = new Vector2(a_sprite.GetX() + a_sprite.GetW(),a_sprite.GetY() + a_sprite.GetH()) - t_center;
+				UnityEngine.Vector2 t_4 = new UnityEngine.Vector2(a_sprite.GetX() + a_sprite.GetW(),a_sprite.GetY() + a_sprite.GetH()) - t_center;
 
 				//回転。
-				Quaternion t_quaternion = a_sprite.GetQuaternion();
+				UnityEngine.Quaternion t_quaternion = a_sprite.GetQuaternion();
 
 				t_1 = t_quaternion * t_1;
 				t_2 = t_quaternion * t_2;
@@ -266,7 +263,7 @@ namespace NRender2D
 				int t_w = a_text.GetW();
 				int t_h = a_text.GetH();
 
-				Vector2 t_sizedelta;
+				UnityEngine.Vector2 t_sizedelta;
 
 				if(t_w > 0){
 					t_sizedelta.x =	t_w * this.calc_ui_scale;
@@ -299,10 +296,10 @@ namespace NRender2D
 			}
 
 			//位置計算。
-			Vector3 t_localposition = new Vector3(this.calc_ui_x + a_text.GetX() * this.calc_ui_scale,this.calc_ui_y - a_text.GetY() * this.calc_ui_scale,0.0f);
+			UnityEngine.Vector3 t_localposition = new UnityEngine.Vector3(this.calc_ui_x + a_text.GetX() * this.calc_ui_scale,this.calc_ui_y - a_text.GetY() * this.calc_ui_scale,0.0f);
 			if((a_text.IsCenterW() == false)||(a_text.IsCenterH() == false)){
 				//計算済みサイズ取得。
-				Vector2 t_sizedelta;
+				UnityEngine.Vector2 t_sizedelta;
 				a_text.Raw_GetRectTransformSizeDelta(out t_sizedelta);
 
 				if(a_text.IsCenterW() == false){
@@ -323,15 +320,15 @@ namespace NRender2D
 		{
 			//サイズ計算。
 			if(a_is_calcsize == true){
-				Vector2 t_sizedelta = new Vector2(a_inputfield.GetW() * this.calc_ui_scale,a_inputfield.GetH() * this.calc_ui_scale);
+				UnityEngine.Vector2 t_sizedelta = new UnityEngine.Vector2(a_inputfield.GetW() * this.calc_ui_scale,a_inputfield.GetH() * this.calc_ui_scale);
 				a_inputfield.Raw_SetRectTransformSizeDelta(ref t_sizedelta);
 			}
 
 			//位置計算。
-			Vector3 t_localposition = new Vector3(this.calc_ui_x + a_inputfield.GetX() * this.calc_ui_scale,this.calc_ui_y - a_inputfield.GetY() * this.calc_ui_scale,0.0f);
+			UnityEngine.Vector3 t_localposition = new UnityEngine.Vector3(this.calc_ui_x + a_inputfield.GetX() * this.calc_ui_scale,this.calc_ui_y - a_inputfield.GetY() * this.calc_ui_scale,0.0f);
 			if(a_inputfield.IsCenter() == false){
 				//計算済みサイズ取得。
-				Vector2 t_sizedelta;
+				UnityEngine.Vector2 t_sizedelta;
 				a_inputfield.Raw_GetRectTransformSizeDelta(out t_sizedelta);
 
 				t_localposition.x += t_sizedelta.x / 2;

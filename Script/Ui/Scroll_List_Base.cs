@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NUi
+/** Fee.Ui
 */
-namespace NUi
+namespace Fee.Ui
 {
 	/** Scroll_List_Base
 	*/
@@ -23,23 +20,23 @@ namespace NUi
 	{
 		/** リスト。
 		*/
-		protected List<ITEM> list;
+		protected System.Collections.Generic.List<ITEM> list;
 
 		/** 表示範囲内のアイテムをキャプチャしたリスト。
 		*/
-		protected List<ITEM> capture_list;
+		protected System.Collections.Generic.List<ITEM> capture_list;
 
 		/** constructor
 		*/
-		public Scroll_List_Base(NDeleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
+		public Scroll_List_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
 			:
 			base(a_deleter,a_drawpriority,a_item_length)
 		{
 			//リスト。
-			this.list = new List<ITEM>();
+			this.list = new System.Collections.Generic.List<ITEM>();
 
 			//表示範囲内のアイテムをキャプチャ。
-			this.capture_list = new List<ITEM>();
+			this.capture_list = new System.Collections.Generic.List<ITEM>();
 		}
 
 		/** [Scroll_List_Base]アイテムの位置更新。スクロール方向の座標。

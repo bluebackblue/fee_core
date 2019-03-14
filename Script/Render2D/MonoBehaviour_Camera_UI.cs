@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,13 +9,13 @@ using UnityEngine;
 */
 
 
-/** NRender2D
+/** Fee.Render2D
 */
-namespace NRender2D
+namespace Fee.Render2D
 {
 	/** MonoBehaviour_Camera_UI
 	*/
-	public class MonoBehaviour_Camera_UI : MonoBehaviour
+	public class MonoBehaviour_Camera_UI : UnityEngine.MonoBehaviour
 	{
 		/** index
 		*/
@@ -33,7 +30,7 @@ namespace NRender2D
 
 		/** mycamera
 		*/
-		public Camera mycamera;
+		public UnityEngine.Camera mycamera;
 
 		/** cameradepth
 		*/
@@ -64,9 +61,9 @@ namespace NRender2D
 		public void SetDepthClear(bool a_flag)
 		{
 			if(a_flag == true){
-				this.mycamera.clearFlags = CameraClearFlags.Depth;
+				this.mycamera.clearFlags = UnityEngine.CameraClearFlags.Depth;
 			}else{
-				this.mycamera.clearFlags = CameraClearFlags.Nothing;
+				this.mycamera.clearFlags = UnityEngine.CameraClearFlags.Nothing;
 			}
 		}
 	}

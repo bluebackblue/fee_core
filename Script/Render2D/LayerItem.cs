@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NRender2D
+/** Fee.Render2D
 */
-namespace NRender2D
+namespace Fee.Render2D
 {
 	/** LayerItem
 	*/
@@ -22,7 +19,7 @@ namespace NRender2D
 	{
 		/** キャンバス。
 		*/
-		public Transform canvas_transform;
+		public UnityEngine.Transform canvas_transform;
 
 		/** camera
 		*/

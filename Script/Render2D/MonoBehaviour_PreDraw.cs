@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,13 +9,13 @@ using UnityEngine;
 */
 
 
-/** Render2D
+/** Fee.Render2D
 */
-namespace NRender2D
+namespace Fee.Render2D
 {
 	/** MonoBehaviour_PreDraw
 	*/
-	public class MonoBehaviour_PreDraw : MonoBehaviour
+	public class MonoBehaviour_PreDraw : UnityEngine.MonoBehaviour
 	{
 		/** 描画前処理。
 		*/

@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NJsonItem
+/** Fee.JsonItem
 */
-namespace NJsonItem
+namespace Fee.JsonItem
 {
 	/** Value
 	*/
@@ -26,11 +23,11 @@ namespace NJsonItem
 
 		/** 連想配列。
 		*/
-		public Dictionary<string,JsonItem> associative_array;
+		public System.Collections.Generic.Dictionary<string,JsonItem> associative_array;
 
 		/** インデックス配列。
 		*/
-		public List<JsonItem> index_array;
+		public System.Collections.Generic.List<JsonItem> index_array;
 
 		/** 整数。
 		*/
@@ -46,7 +43,7 @@ namespace NJsonItem
 
 		/** バイナリ―。
 		*/
-		public List<byte> binary_data;
+		public System.Collections.Generic.List<byte> binary_data;
 
 		/** リセット。
 		*/
@@ -166,8 +163,8 @@ namespace NJsonItem
 	*/
 	public struct Value_BinaryData
 	{
-		public List<byte> value;
-		public Value_BinaryData(List<byte> a_value)
+		public System.Collections.Generic.List<byte> value;
+		public Value_BinaryData(System.Collections.Generic.List<byte> a_value)
 		{
 			this.value = a_value;
 		}

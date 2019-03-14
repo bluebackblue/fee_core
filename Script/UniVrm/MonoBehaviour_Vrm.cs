@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -16,9 +13,9 @@ using UnityEngine;
 #pragma warning disable 0414
 
 
-/** NUniVrm
+/** Fee.UniVrm
 */
-namespace NUniVrm
+namespace Fee.UniVrm
 {
 	/** MonoBehaviour_Vrm
 	*/
@@ -77,17 +74,17 @@ namespace NUniVrm
 
 		/** request_type
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private RequestType request_type;
 
 		/** request_binary
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private byte[] request_binary;
 
 		/** work
 		*/
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private Work work;
 
 		/** [MonoBehaviour_Base]コールバック。初期化。
@@ -106,7 +103,7 @@ namespace NUniVrm
 
 		/** [MonoBehaviour_Base]コールバック。開始。
 		*/
-		protected override IEnumerator OnStart()
+		protected override System.Collections.IEnumerator OnStart()
 		{
 			switch(this.request_type){
 			case RequestType.Load:
@@ -126,7 +123,7 @@ namespace NUniVrm
 
 		/** [MonoBehaviour_Base]コールバック。実行。
 		*/
-		protected override IEnumerator OnDo()
+		protected override System.Collections.IEnumerator OnDo()
 		{
 			{
 				#if(USE_DEF_UNIVRM)
@@ -167,7 +164,7 @@ namespace NUniVrm
 
 		/** [MonoBehaviour_Base]コールバック。エラー終了。
 		*/
-		protected override IEnumerator OnDoError()
+		protected override System.Collections.IEnumerator OnDoError()
 		{
 			this.SetResultProgress(1.0f);
 
@@ -177,7 +174,7 @@ namespace NUniVrm
 
 		/** [MonoBehaviour_Base]コールバック。正常終了。
 		*/
-		protected override IEnumerator OnDoSuccess()
+		protected override System.Collections.IEnumerator OnDoSuccess()
 		{
 			this.SetResultProgress(1.0f);
 
@@ -229,7 +226,7 @@ namespace NUniVrm
 
 		/** [内部からの呼び出し]ロード。「ParseGlb」。
 		*/
-		private IEnumerator Raw_Do_Load_Parse()
+		private System.Collections.IEnumerator Raw_Do_Load_Parse()
 		{
 			#if(USE_DEF_UNIVRM)
 			{
@@ -240,10 +237,10 @@ namespace NUniVrm
 
 				{
 					//キャンセルトークン。
-					NTaskW.CancelToken t_cancel_token = new NTaskW.CancelToken();
+					Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
 					//タスク起動。
-					NTaskW.Task<bool> t_task = Task_VrmParse.Run(this,this.work.context,this.request_binary,t_cancel_token);
+					Fee.TaskW.Task<bool> t_task = Task_VrmParse.Run(this,this.work.context,this.request_binary,t_cancel_token);
 
 					//終了待ち。
 					do{
@@ -286,7 +283,7 @@ namespace NUniVrm
 
 		/** [内部からの呼び出し]ロード。作成。
 		*/
-		private IEnumerator Raw_Do_Load_Create()
+		private System.Collections.IEnumerator Raw_Do_Load_Create()
 		{
 			#if(USE_DEF_UNIVRM)
 			{

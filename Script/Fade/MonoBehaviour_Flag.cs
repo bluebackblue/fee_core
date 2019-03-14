@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,13 +9,13 @@ using UnityEngine;
 */
 
 
-/** NFade
+/** Fee.Fade
 */
-namespace NFade
+namespace Fee.Fade
 {
 	/** MonoBehaviour_Flag
 	*/
-	public class MonoBehaviour_Flag : MonoBehaviour
+	public class MonoBehaviour_Flag : UnityEngine.MonoBehaviour
 	{
 		/** フラグ。
 		*/
@@ -26,15 +23,15 @@ namespace NFade
 
 		/** 現在の色。
 		*/
-		public Color anime_color;
+		public UnityEngine.Color anime_color;
 
 		/** 目的の色。
 		*/
-		public Color anime_color_to;
+		public UnityEngine.Color anime_color_to;
 
 		/** 変更チェック。
 		*/
-		public Color anime_color_to_old;
+		public UnityEngine.Color anime_color_to_old;
 
 		/** 速度。
 		*/

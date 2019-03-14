@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 /**
@@ -12,9 +9,9 @@ using UnityEngine;
 */
 
 
-/** NCrypt
+/** Fee.Crypt
 */
-namespace NCrypt
+namespace Fee.Crypt
 {
 	/** Work
 	*/
@@ -205,42 +202,42 @@ namespace NCrypt
 					switch(this.request_type){
 					case RequestType.EncryptPublicKey:
 						{
-							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
+							MonoBehaviour_Security t_security = Fee.Crypt.Crypt.GetInstance().GetMonoIo();
 							if(t_security.RequestEncryptPublicKey(this.request_binary,this.request_key) == true){
 								this.mode = Mode.Do_Security;
 							}
 						}break;
 					case RequestType.DecryptPrivateKey:
 						{
-							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
+							MonoBehaviour_Security t_security = Fee.Crypt.Crypt.GetInstance().GetMonoIo();
 							if(t_security.RequestDecryptPrivateKey(this.request_binary,this.request_key) == true){
 								this.mode = Mode.Do_Security;
 							}
 						}break;
 					case RequestType.CreateSignaturePrivateKey:
 						{
-							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
+							MonoBehaviour_Security t_security = Fee.Crypt.Crypt.GetInstance().GetMonoIo();
 							if(t_security.RequestCreateSignaturePrivateKey(this.request_binary,this.request_key) == true){
 								this.mode = Mode.Do_Security;
 							}
 						}break;
 					case RequestType.VerifySignaturePublicKey:
 						{
-							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
+							MonoBehaviour_Security t_security = Fee.Crypt.Crypt.GetInstance().GetMonoIo();
 							if(t_security.RequestVerifySignaturePublicKey(this.request_binary,this.request_signature_binary,this.request_key) == true){
 								this.mode = Mode.Do_Security;
 							}
 						}break;
 					case RequestType.EncryptPass:
 						{
-							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
+							MonoBehaviour_Security t_security = Fee.Crypt.Crypt.GetInstance().GetMonoIo();
 							if(t_security.RequestEncryptPass(this.request_binary,this.request_pass,this.request_salt) == true){
 								this.mode = Mode.Do_Security;
 							}
 						}break;
 					case RequestType.DecryptPass:
 						{
-							MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
+							MonoBehaviour_Security t_security = Fee.Crypt.Crypt.GetInstance().GetMonoIo();
 							if(t_security.RequestDecryptPass(this.request_binary,this.request_pass,this.request_salt) == true){
 								this.mode = Mode.Do_Security;
 							}
@@ -252,7 +249,7 @@ namespace NCrypt
 				}return true;
 			case Mode.Do_Security:
 				{
-					MonoBehaviour_Security t_security = NCrypt.Crypt.GetInstance().GetMonoIo();
+					MonoBehaviour_Security t_security = Fee.Crypt.Crypt.GetInstance().GetMonoIo();
 
 					this.item.SetResultProgress(t_security.GetResultProgress());
 
