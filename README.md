@@ -6,6 +6,10 @@ Unity library
 MIT License
 https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
 
+## unitypackage
+fee_20190114_17
+https://github.com/bluebackblue/fee/releases/tag/fee_20190114_17
+
 ## sample project
 * Unity 2018.3.8f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2018_3 ]
 * Unity 2019.1.0b7 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_1 ]
