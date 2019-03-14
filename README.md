@@ -7,8 +7,8 @@ MIT License
 * https://github.com/bluebackblue/fee_core/blob/master/LICENSE.txt
 
 ## unitypackage
-fee_20190114_17
-* https://github.com/bluebackblue/fee_core/releases/tag/fee_20190114_17
+fee_20190314_18
+* https://github.com/bluebackblue/fee_core/releases/tag/fee_20190314_18
 
 ## sample project
 * Unity 2018.3.8f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2018_3 ]
