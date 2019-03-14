@@ -30,7 +30,7 @@ https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
 * Scene [シーン管理]
 * TaskW [タスク]
 * Ui [ボタン、縦スクロール、横スクロール、チェックボタン]
-* UniVrm [UniVrm v0.45]
+* UniVrm [UniVrmの操作]
 
 ## 使用ライセンス
 

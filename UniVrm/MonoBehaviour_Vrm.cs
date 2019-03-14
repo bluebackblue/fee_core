@@ -133,7 +133,7 @@ namespace NUniVrm
 				this.work.context = new VRM.VRMImporterContext();
 				#endif
 
-				//「ParseGlb」。
+				//「ParseGlb」の呼び出し。
 				{
 					this.work.progress_step = (int)ProgressStep.Step0;
 					this.work.progress_substep = 0;
@@ -227,7 +227,7 @@ namespace NUniVrm
 			return t_progress;
 		}
 
-		/** [内部からの呼び出し]ロード。「ParseGlb」。
+		/** [内部からの呼び出し]ロード。「ParseGlb」の呼び出し。
 		*/
 		private IEnumerator Raw_Do_Load_Parse()
 		{
