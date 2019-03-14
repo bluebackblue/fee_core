@@ -39,6 +39,11 @@ fee_20190114_17
 
 ## 使用ライセンス
 
+### M+ FONTS
+* https://github.com/bluebackblue/fee/tree/master/license/mplus
+* http://mplus-fonts.osdn.jp/
+* Copyright (C) 2002-2017 M+ FONTS PROJECT
+
 ### PUN 2 - FREE
 このリポジトリにアセットは含まれていません。
 * https://github.com/bluebackblue/fee/tree/master/license/pun2free
