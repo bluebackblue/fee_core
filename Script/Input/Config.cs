@@ -144,7 +144,7 @@ namespace NInput
 		/** マウス。エディター。オフセットＹ。
 		*/
 		#if(UNITY_EDITOR)
-		public static int MOUSE_EDITOR_OFFSET_Y = 5;
+		public static int MOUSE_EDITOR_OFFSET_Y = 0;
 		#endif
 
 		/** キー。左。

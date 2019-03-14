@@ -122,7 +122,7 @@ namespace NDijkstra
 			t_node_current.fix = true;
 			for(int ii=0;ii<t_node_current.link.Count;ii++){
 				NodeBase t_node = t_node_current.link[ii].to_node;
-				int t_total_cost = t_node_current.total_cost + t_node_current.link[ii].to_cost;
+				long t_total_cost = t_node_current.total_cost + t_node_current.link[ii].to_cost;
 				if((t_node.total_cost < 0)||(t_node.total_cost > t_total_cost)){
 					//このノードへ到達するための隣接ノード。
 					t_node.total_cost = t_total_cost;

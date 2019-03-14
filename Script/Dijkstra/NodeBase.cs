@@ -26,7 +26,7 @@ namespace NDijkstra
 
 		/** 到達コスト。
 		*/
-		public int total_cost;
+		public long total_cost;
 
 		/** 隣接ノード計算済みフラグ。
 		*/

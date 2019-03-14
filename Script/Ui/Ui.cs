@@ -8,7 +8,7 @@ using UnityEngine;
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＩ。ツール。
+ * @brief ＵＩ。
 */
 
 
@@ -66,27 +66,33 @@ namespace NUi
 			}
 		}
 
+		//ウィンドウリスト。
+		private Ui_WindowList windowlist;
+
 		//ターゲットリスト。
 		private List<OnTargetCallBack_Base> target_list;
 
-		//追加リスト。
-		private List<OnTargetCallBack_Base> add_list;
+		//ターゲット追加リスト。
+		private List<OnTargetCallBack_Base> target_add_list;
 
-		//削除リスト。
-		private List<OnTargetCallBack_Base> remove_list;
+		//ターゲット削除リスト。
+		private List<OnTargetCallBack_Base> target_remove_list;
 
 		/** [シングルトン]constructor
 		*/
 		private Ui()
 		{
+			//ウィンドウリスト。
+			this.windowlist = new Ui_WindowList();
+
 			//target_list
 			this.target_list = new List<OnTargetCallBack_Base>();
 
-			//add_list
-			this.add_list = new List<OnTargetCallBack_Base>();
+			//target_add_list
+			this.target_add_list = new List<OnTargetCallBack_Base>();
 
-			//remove_list
-			this.remove_list = new List<OnTargetCallBack_Base>();
+			//target_remove_list
+			this.target_remove_list = new List<OnTargetCallBack_Base>();
 		}
 
 		/** [シングルトン]削除。
@@ -100,17 +106,20 @@ namespace NUi
 		public void Main()
 		{
 			try{
+				//ウィンドウリスト。
+				this.windowlist.Main();
+
 				//追加。
-				for(int ii=0;ii<this.add_list.Count;ii++){
-					this.target_list.Add(this.add_list[ii]);
+				for(int ii=0;ii<this.target_add_list.Count;ii++){
+					this.target_list.Add(this.target_add_list[ii]);
 				}
-				this.add_list.Clear();
+				this.target_add_list.Clear();
 
 				//削除。
-				for(int ii=0;ii<this.remove_list.Count;ii++){
-					this.target_list.Remove(this.remove_list[ii]);
+				for(int ii=0;ii<this.target_remove_list.Count;ii++){
+					this.target_list.Remove(this.target_remove_list[ii]);
 				}
-				this.remove_list.Clear();
+				this.target_remove_list.Clear();
 
 				//呼び出し。
 				for(int ii=0;ii<this.target_list.Count;ii++){
@@ -125,16 +134,44 @@ namespace NUi
 		*/
 		public void SetTargetRequest(OnTargetCallBack_Base a_item)
 		{
-			this.add_list.Add(a_item);
-			this.remove_list.Remove(a_item);
+			this.target_add_list.Add(a_item);
+			this.target_remove_list.Remove(a_item);
 		}
 
 		/** 削除リクエスト。解除。
 		*/
 		public void UnSetTargetRequest(OnTargetCallBack_Base a_item)
 		{
-			this.remove_list.Add(a_item);
-			this.add_list.Remove(a_item);
+			this.target_remove_list.Add(a_item);
+			this.target_add_list.Remove(a_item);
+		}
+
+		/** ウィンドウ登録。
+		*/
+		public void RegisterWindow(Window_Base a_window)
+		{
+			this.windowlist.Register(a_window);
+		}
+
+		/** ウィンドウ解除。
+		*/
+		public void UnRegisterWindow(Window_Base a_window)
+		{
+			this.windowlist.UnRegister(a_window);
+		}
+
+		/** ウィンドウを最前面にする。
+		*/
+		public void SetWindowPriorityTopMost(Window_Base a_window)
+		{
+			this.windowlist.SetWindowPriorityTopMost(a_window);
+		}
+
+		/** ウィンドウスタートレイヤーインデックス。
+		*/
+		public void SetWindowStartLayerIndex(int a_layerindex)
+		{
+			this.windowlist.SetStartLayerIndex(a_layerindex);
 		}
 	}
 }

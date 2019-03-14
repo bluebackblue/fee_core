@@ -147,6 +147,14 @@ namespace NEventPlate
 
 		/** 矩形。設定。
 		*/
+		public void SetXY(int a_x,int a_y)
+		{
+			this.rect.x = a_x;
+			this.rect.y = a_y;
+		}
+
+		/** 矩形。設定。
+		*/
 		public void SetWH(int a_w,int a_h)
 		{
 			this.rect.w = a_w;

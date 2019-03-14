@@ -26,11 +26,11 @@ namespace NDijkstra
 
 		/** 接続先ノードへの到達コスト。
 		*/
-		public int to_cost;
+		public long to_cost;
 
 		/** constructor
 		*/
-		public LinkBase(NodeBase a_to_node,int a_to_cost)
+		public LinkBase(NodeBase a_to_node,long a_to_cost)
 		{
 			this.to_node = a_to_node;
 			this.to_cost = a_to_cost;

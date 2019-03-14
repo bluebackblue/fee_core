@@ -188,7 +188,9 @@ namespace NUi
 		public void SetDrawPriority(long a_drawpriority)
 		{
 			if(this.drawpriority != a_drawpriority){
-				this.eventplate.SetPriority(a_drawpriority);
+				this.drawpriority = a_drawpriority;
+
+				this.eventplate.SetPriority(this.drawpriority);
 
 				//コールバック。描画プライオリティ変更。
 				this.OnChangeDrawPriority();
@@ -266,6 +268,18 @@ namespace NUi
 		{
 			this.rect.Set(a_x,a_y,a_w,a_h);
 			this.eventplate.SetRect(a_x,a_y,a_w,a_h);
+
+			//コールバック。矩形変更。
+			this.OnChangeRect();
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetXY(int a_x,int a_y)
+		{
+			this.rect.x = a_x;
+			this.rect.y = a_y;
+			this.eventplate.SetXY(a_x,a_y);
 
 			//コールバック。矩形変更。
 			this.OnChangeRect();

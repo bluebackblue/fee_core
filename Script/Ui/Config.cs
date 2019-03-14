@@ -39,6 +39,10 @@ namespace NUi
 		/** デフォルト。コーナーサイズ。
 		*/
 		public static int DEFAULT_SLIDER_BUTTON_CORNER_SIZE = 10;
+
+		/** デフォルト。ウィンドウレイヤーインデックス。開始。
+		*/
+		public static int DEFAULT_WINDOW_LAYER_INDEX_START = 1;
 	}
 }
 
