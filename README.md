@@ -15,6 +15,9 @@ fee_20190314_18
 * Unity 2019.1.0b7 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_1 ]
 * Unity 2019.2.0a8 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_2 ]
 
+## コンタクト
+https://discord.gg/JH3B4SR
+
 ## folder structure
 フォルダ構造
 * Audio [AudioClip再生、SoundPool再生、ＢＧＭクロスフェード]
