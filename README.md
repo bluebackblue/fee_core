@@ -4,11 +4,11 @@ Unity library
 
 ## license
 MIT License
-* https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
+* https://github.com/bluebackblue/fee_core/blob/master/LICENSE.txt
 
 ## unitypackage
 fee_20190114_17
-* https://github.com/bluebackblue/fee/releases/tag/fee_20190114_17
+* https://github.com/bluebackblue/fee_core/releases/tag/fee_20190114_17
 
 ## sample project
 * Unity 2018.3.8f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2018_3 ]
@@ -40,13 +40,13 @@ fee_20190114_17
 ## 使用ライセンス
 
 ### M+ FONTS
-* https://github.com/bluebackblue/fee/tree/master/license/mplus
+* https://github.com/bluebackblue/fee_core/tree/master/license/mplus
 * http://mplus-fonts.osdn.jp/
 * Copyright (C) 2002-2017 M+ FONTS PROJECT
 
 ### PUN 2 - FREE
 このリポジトリにアセットは含まれていません。
-* https://github.com/bluebackblue/fee/tree/master/license/pun2free
+* https://github.com/bluebackblue/fee_core/tree/master/license/pun2free
 * https://assetstore.unity.com/packages/tools/network/pun-2-free-119922
 * https://dashboard.photonengine.com/ja-jp/Account/Terms
 
