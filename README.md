@@ -25,7 +25,7 @@ fee_20190114_17
 * Directory [ディレクトリ探査]
 * EventPlate [イベント]
 * Fade [フェード]
-* File [ローカセーブロード、アセットバンドルダウンロード、サウンドプールダウンロード]
+* File [ローカルセーブロード、アセットバンドルダウンロード、サウンドプールダウンロード]
 * Input [InputManager、InputSystem]
 * Instantiate [インスタンス作成]
 * JsonItem [Json]
