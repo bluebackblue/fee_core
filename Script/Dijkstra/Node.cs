@@ -5,7 +5,7 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ノードベース。
+ * @brief ダイクストラ法。ノード。
 */
 
 
@@ -15,7 +15,7 @@ namespace Fee.Dijkstra
 {
 	/** Node
 	*/
-	public class NodeEx<NODEKEY,NODEDATA,LINKDATA>
+	public class Node<NODEKEY,NODEDATA,LINKDATA>
 		where NODEDATA : struct
 		where LINKDATA : struct
 	{
@@ -29,7 +29,7 @@ namespace Fee.Dijkstra
 
 		/** リンク。
 		*/
-		private System.Collections.Generic.List<LinkEx<NODEKEY,NODEDATA,LINKDATA>> link_list;
+		private System.Collections.Generic.List<Link<NODEKEY,NODEDATA,LINKDATA>> link_list;
 
 		/** 到達コスト。
 		*/
@@ -37,15 +37,15 @@ namespace Fee.Dijkstra
 
 		/** このノードへ到達するための隣接ノード。
 		*/
-		private NodeEx<NODEKEY,NODEDATA,LINKDATA> prev_node;
+		private Node<NODEKEY,NODEDATA,LINKDATA> prev_node;
 
 		/** constructor
 		*/
-		public NodeEx(NODEKEY a_key,NODEDATA a_nodedata)
+		public Node(NODEKEY a_key,NODEDATA a_nodedata)
 		{
 			this.key = a_key;
 			this.nodedata = a_nodedata;
-			this.link_list = new System.Collections.Generic.List<LinkEx<NODEKEY,NODEDATA,LINKDATA>>();
+			this.link_list = new System.Collections.Generic.List<Link<NODEKEY,NODEDATA,LINKDATA>>();
 			this.total_cost = -1;
 			this.prev_node = null;
 		}
@@ -82,28 +82,28 @@ namespace Fee.Dijkstra
 
 		/** 隣接ノードの追加。
 		*/
-		public void AddLink(LinkEx<NODEKEY,NODEDATA,LINKDATA> a_link)
+		public void AddLink(Link<NODEKEY,NODEDATA,LINKDATA> a_link)
 		{
 			this.link_list.Add(a_link);
 		}
 
 		/** リンクリスト。取得。
 		*/
-		public System.Collections.Generic.List<LinkEx<NODEKEY,NODEDATA,LINKDATA>> GetLinkList()
+		public System.Collections.Generic.List<Link<NODEKEY,NODEDATA,LINKDATA>> GetLinkList()
 		{
 			return this.link_list;
 		}
 
 		/** このノードへ到達するための隣接ノード。取得。
 		*/
-		public NodeEx<NODEKEY,NODEDATA,LINKDATA> GetPrevNode()
+		public Node<NODEKEY,NODEDATA,LINKDATA> GetPrevNode()
 		{
 			return this.prev_node;
 		}
 
 		/** このノードへ到達するための隣接ノード。設定。
 		*/
-		public void SetPrevNode(NodeEx<NODEKEY,NODEDATA,LINKDATA> a_prev_node)
+		public void SetPrevNode(Node<NODEKEY,NODEDATA,LINKDATA> a_prev_node)
 		{
 			this.prev_node = a_prev_node;
 		}

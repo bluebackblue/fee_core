@@ -5,7 +5,7 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief リンクベース。
+ * @brief ダイクストラ法。リンク。
 */
 
 
@@ -13,9 +13,9 @@
 */
 namespace Fee.Dijkstra
 {
-	/** LinkEx
+	/** Link
 	*/
-	public class LinkEx<NODEKEY,NODEDATA,LINKDATA>
+	public class Link<NODEKEY,NODEDATA,LINKDATA>
 		where NODEDATA : struct
 		where LINKDATA : struct
 	{
@@ -25,7 +25,7 @@ namespace Fee.Dijkstra
 
 		/** 接続先ノード。
 		*/
-		private NodeEx<NODEKEY,NODEDATA,LINKDATA> to_node;
+		private Node<NODEKEY,NODEDATA,LINKDATA> to_node;
 
 		/** 接続先ノードへの到達コスト。
 		*/
@@ -33,7 +33,7 @@ namespace Fee.Dijkstra
 
 		/** constructor
 		*/
-		public LinkEx(LINKDATA a_linkdata,NodeEx<NODEKEY,NODEDATA,LINKDATA> a_to_node,long a_to_cost)
+		public Link(LINKDATA a_linkdata,Node<NODEKEY,NODEDATA,LINKDATA> a_to_node,long a_to_cost)
 		{
 			this.linkdata = a_linkdata;
 			this.to_node = a_to_node;
@@ -56,14 +56,14 @@ namespace Fee.Dijkstra
 
 		/** 接続先ノード。設定。
 		*/
-		public void SetToNode(NodeEx<NODEKEY,NODEDATA,LINKDATA> a_to_node)
+		public void SetToNode(Node<NODEKEY,NODEDATA,LINKDATA> a_to_node)
 		{
 			this.to_node = a_to_node;
 		}
 
 		/** 接続先ノード。取得。
 		*/
-		public NodeEx<NODEKEY,NODEDATA,LINKDATA> GetToNode()
+		public Node<NODEKEY,NODEDATA,LINKDATA> GetToNode()
 		{
 			return this.to_node;
 		}
