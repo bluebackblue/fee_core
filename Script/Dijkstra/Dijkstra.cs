@@ -75,7 +75,7 @@ namespace Fee.Dijkstra
 
 		/** 隣接ノード未計算で到達コストが最小のノードを検索。
 		*/
-		public NODE SearchNoFixNodeMinCost()
+		private NODE SearchNoFixNodeMinCost()
 		{
 			NODE t_find = null;
 
