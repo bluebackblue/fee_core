@@ -25,32 +25,28 @@ namespace Fee.Dijkstra
 
 		/** 未計算リスト。
 		*/
-		public System.Collections.Generic.Dictionary<NODEKEY,Node<NODEKEY,NODEDATA,LINKDATA>> calc_list;
+		public System.Collections.Generic.List<Node<NODEKEY,NODEDATA,LINKDATA>> calc_list;
 
 		/** constructor
 		*/
 		public Dijkstra()
 		{
 			this.node_list = new System.Collections.Generic.Dictionary<NODEKEY,Node<NODEKEY,NODEDATA,LINKDATA>>();
-			this.calc_list = new System.Collections.Generic.Dictionary<NODEKEY,Node<NODEKEY,NODEDATA,LINKDATA>>();
+			this.calc_list = new System.Collections.Generic.List<Node<NODEKEY,NODEDATA,LINKDATA>>();
 		}
 
 		/** 到達コストが最小のノードを検索。
 		*/
-		private static Node<NODEKEY,NODEDATA,LINKDATA> FindMinCostNode(System.Collections.Generic.Dictionary<NODEKEY,Node<NODEKEY,NODEDATA,LINKDATA>> a_calc_list)
+		private static Node<NODEKEY,NODEDATA,LINKDATA> FindMinCostNode(System.Collections.Generic.List<Node<NODEKEY,NODEDATA,LINKDATA>> a_calc_list)
 		{
 			Node<NODEKEY,NODEDATA,LINKDATA> t_find_node = null;
 
-			foreach(System.Collections.Generic.KeyValuePair<NODEKEY,Node<NODEKEY,NODEDATA,LINKDATA>> t_pair in a_calc_list){
-				Node<NODEKEY,NODEDATA,LINKDATA> t_node = t_pair.Value;
-				if(t_node.GetTotalCost() >= 0){
-					//到達コストあり。
-					if(t_find_node == null){
-						t_find_node = t_node;
-					}else if(t_node.GetTotalCost() < t_find_node.GetTotalCost()){
-						t_find_node = t_node;
-					}						
-				}
+			foreach(Node<NODEKEY,NODEDATA,LINKDATA> t_node in a_calc_list){
+				if(t_find_node == null){
+					t_find_node = t_node;
+				}else if(t_node.GetTotalCost() < t_find_node.GetTotalCost()){
+					t_find_node = t_node;
+				}						
 			}
 
 			return t_find_node;
@@ -108,7 +104,8 @@ namespace Fee.Dijkstra
 			a_node_start.SetStartNode();
 
 			//計算リストに追加。
-			this.calc_list.Add(a_node_start.key,a_node_start);
+			this.calc_list.Add(a_node_start);
+			a_node_start.SetCalcFlag(true);
 		}
 
 		/** 計算。
@@ -124,7 +121,8 @@ namespace Fee.Dijkstra
 				return false;
 			}else{
 				//未計算リストから削除。
-				this.calc_list.Remove(t_node_current.key);
+				this.calc_list.Remove(t_node_current);
+				t_node_current.SetCalcFlag(false);
 			}
 
 			//隣接ノード計算開始。
@@ -138,8 +136,9 @@ namespace Fee.Dijkstra
 					t_node.SetPrevNode(t_node_current);
 
 					//計算リストに追加。
-					if(this.calc_list.ContainsKey(t_node.key) == false){
-						this.calc_list.Add(t_node.key,t_node);
+					if(t_node.GetCalcFlag() == false){
+						this.calc_list.Add(t_node);
+						t_node.SetCalcFlag(true);
 					}
 				}
 			}
@@ -149,7 +148,7 @@ namespace Fee.Dijkstra
 
 		/** 計算リスト。取得。
 		*/
-		public System.Collections.Generic.Dictionary<NODEKEY,Node<NODEKEY,NODEDATA,LINKDATA>> GetCalcList()
+		public System.Collections.Generic.List<Node<NODEKEY,NODEDATA,LINKDATA>> GetCalcList()
 		{
 			return this.calc_list;
 		}

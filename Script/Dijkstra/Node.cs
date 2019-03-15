@@ -31,6 +31,10 @@ namespace Fee.Dijkstra
 		*/
 		private System.Collections.Generic.List<Link<NODEKEY,NODEDATA,LINKDATA>> link_list;
 
+		/** 計算フラグ。
+		*/
+		private bool calcflag;
+
 		/** 到達コスト。
 		*/
 		private long total_cost;
@@ -46,6 +50,7 @@ namespace Fee.Dijkstra
 			this.key = a_key;
 			this.nodedata = a_nodedata;
 			this.link_list = new System.Collections.Generic.List<Link<NODEKEY,NODEDATA,LINKDATA>>();
+			this.calcflag = false;
 			this.total_cost = -1;
 			this.prev_node = null;
 		}
@@ -56,6 +61,7 @@ namespace Fee.Dijkstra
 		{
 			this.total_cost = -1;
 			this.prev_node = null;
+			this.calcflag = false;
 		}
 
 		/** 開始ノードに設定。
@@ -78,6 +84,20 @@ namespace Fee.Dijkstra
 		public void SetTotalCost(long a_totalcost)
 		{
 			this.total_cost = a_totalcost;
+		}
+
+		/** 計算フラグ。設定。
+		*/
+		public void SetCalcFlag(bool a_flag)
+		{
+			this.calcflag = a_flag;
+		}
+
+		/** 計算フラグ。取得。
+		*/
+		public bool GetCalcFlag()
+		{
+			return this.calcflag;
 		}
 
 		/** 隣接ノードの追加。
