@@ -15,19 +15,45 @@ namespace Fee.Dijkstra
 {
 	/** Dijkstra
 	*/
-	public class Dijkstra<NODEKEY,NODE,LINK>
-		where NODE : NodeBase
-		where LINK : LinkBase
+	public class Dijkstra<NODEKEY,NODEDATA,LINKDATA>
+		where NODEDATA : struct
+		where LINKDATA : struct
 	{
 		/** ノードリスト。
 		*/
-		public System.Collections.Generic.Dictionary<NODEKEY,NODE> node_list;
+		public System.Collections.Generic.Dictionary<NODEKEY,NodeEx<NODEKEY,NODEDATA,LINKDATA>> node_list;
+
+		/** 未計算リスト。
+		*/
+		public System.Collections.Generic.Dictionary<NODEKEY,NodeEx<NODEKEY,NODEDATA,LINKDATA>> calc_list;
 
 		/** constructor
 		*/
 		public Dijkstra()
 		{
-			this.node_list = new System.Collections.Generic.Dictionary<NODEKEY,NODE>();
+			this.node_list = new System.Collections.Generic.Dictionary<NODEKEY,NodeEx<NODEKEY,NODEDATA,LINKDATA>>();
+			this.calc_list = new System.Collections.Generic.Dictionary<NODEKEY,NodeEx<NODEKEY,NODEDATA,LINKDATA>>();
+		}
+
+		/** 到達コストが最小のノードを検索。
+		*/
+		private static NodeEx<NODEKEY,NODEDATA,LINKDATA> FindMinCostNode(System.Collections.Generic.Dictionary<NODEKEY,NodeEx<NODEKEY,NODEDATA,LINKDATA>> a_calc_list)
+		{
+			NodeEx<NODEKEY,NODEDATA,LINKDATA> t_find_node = null;
+
+			foreach(System.Collections.Generic.KeyValuePair<NODEKEY,NodeEx<NODEKEY,NODEDATA,LINKDATA>> t_pair in a_calc_list){
+				NodeEx<NODEKEY,NODEDATA,LINKDATA> t_node = t_pair.Value;
+				if(t_node.GetTotalCost() >= 0){
+					//到達コストあり。
+					if(t_find_node == null){
+						t_find_node = t_node;
+					}else if(t_node.GetTotalCost() < t_find_node.GetTotalCost()){
+						t_find_node = t_node;
+					}						
+				}
+			}
+
+			return t_find_node;
 		}
 
 		/** クリア。
@@ -35,20 +61,21 @@ namespace Fee.Dijkstra
 		public void ClearAll()
 		{
 			this.node_list.Clear();
+			this.calc_list.Clear();
 		}
 
 		/** ノード追加。
 		*/
-		public void AddNode(NODEKEY a_nodekey,NODE a_node)
+		public void AddNode(NODEKEY a_nodekey,NodeEx<NODEKEY,NODEDATA,LINKDATA> a_node)
 		{
 			this.node_list.Add(a_nodekey,a_node);
 		}
 
 		/** ノード取得。
 		*/
-		public NODE GetNode(NODEKEY a_nodekey)
+		public NodeEx<NODEKEY,NODEDATA,LINKDATA> GetNode(NODEKEY a_nodekey)
 		{
-			NODE t_node;
+			NodeEx<NODEKEY,NODEDATA,LINKDATA> t_node;
 
 			if(this.node_list.TryGetValue(a_nodekey,out t_node) == true){
 				return t_node;
@@ -68,38 +95,20 @@ namespace Fee.Dijkstra
 		*/
 		public void ResetCalcFlag()
 		{
-			foreach(System.Collections.Generic.KeyValuePair<NODEKEY,NODE> t_pair in this.node_list){
+			foreach(System.Collections.Generic.KeyValuePair<NODEKEY,NodeEx<NODEKEY,NODEDATA,LINKDATA>> t_pair in this.node_list){
 				t_pair.Value.ResetCalcFlag();
 			}
-		}
-
-		/** 隣接ノード未計算で到達コストが最小のノードを検索。
-		*/
-		private NODE SearchNoFixNodeMinCost()
-		{
-			NODE t_find = null;
-
-			foreach(System.Collections.Generic.KeyValuePair<NODEKEY,NODE> t_pair in this.node_list){
-				NODE t_node = t_pair.Value;
-
-				if((t_node.fix == false)&&(t_node.total_cost >= 0)){
-					//到達コストあり、隣接ノード未計算。
-					if(t_find == null){
-						t_find = t_node;
-					}else if(t_node.total_cost < t_find.total_cost){
-						t_find = t_node;
-					}						
-				}
-			}
-
-			return t_find;
+			this.calc_list.Clear();
 		}
 
 		/** 開始ノードに設定。
 		*/
-		public void SetStartNode(NODE a_node_start)
+		public void SetStartNode(NodeEx<NODEKEY,NODEDATA,LINKDATA> a_node_start)
 		{
 			a_node_start.SetStartNode();
+
+			//計算リストに追加。
+			this.calc_list.Add(a_node_start.key,a_node_start);
 		}
 
 		/** 計算。
@@ -109,25 +118,40 @@ namespace Fee.Dijkstra
 		*/
 		public bool Calc()
 		{
-			//隣接ノード未計算で到達コストが最小のノードを検索。
-			NODE t_node_current = this.SearchNoFixNodeMinCost();
+			//到達コストが最小のノードを検索。
+			NodeEx<NODEKEY,NODEDATA,LINKDATA> t_node_current = Dijkstra<NODEKEY,NODEDATA,LINKDATA>.FindMinCostNode(this.calc_list);
 			if(t_node_current == null){
 				return false;
+			}else{
+				//未計算リストから削除。
+				this.calc_list.Remove(t_node_current.key);
 			}
 
 			//隣接ノード計算開始。
-			t_node_current.fix = true;
-			for(int ii=0;ii<t_node_current.link.Count;ii++){
-				NodeBase t_node = t_node_current.link[ii].to_node;
-				long t_total_cost = t_node_current.total_cost + t_node_current.link[ii].to_cost;
-				if((t_node.total_cost < 0)||(t_node.total_cost > t_total_cost)){
+			System.Collections.Generic.List<LinkEx<NODEKEY,NODEDATA,LINKDATA>> t_linklist_current = t_node_current.GetLinkList();
+			for(int ii=0;ii<t_linklist_current.Count;ii++){
+				NodeEx<NODEKEY,NODEDATA,LINKDATA> t_node = t_linklist_current[ii].GetToNode();
+				long t_total_cost = t_node_current.GetTotalCost() + t_linklist_current[ii].GetToCost();
+				if((t_node.GetTotalCost() < 0)||(t_node.GetTotalCost() > t_total_cost)){
 					//このノードへ到達するための隣接ノード。
-					t_node.total_cost = t_total_cost;
-					t_node.prev_node = t_node_current;
+					t_node.SetTotalCost(t_total_cost);
+					t_node.SetPrevNode(t_node_current);
+
+					//計算リストに追加。
+					if(this.calc_list.ContainsKey(t_node.key) == false){
+						this.calc_list.Add(t_node.key,t_node);
+					}
 				}
 			}
 
 			return true;
+		}
+
+		/** 計算リスト。取得。
+		*/
+		public System.Collections.Generic.Dictionary<NODEKEY,NodeEx<NODEKEY,NODEDATA,LINKDATA>> GetCalcList()
+		{
+			return this.calc_list;
 		}
 	}
 }
