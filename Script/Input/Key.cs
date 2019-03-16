@@ -103,7 +103,7 @@ namespace Fee.Input
 		*/
 		public bool Main_InputSystemKey_Key()
 		{	
-			#if(USE_DEF_INPUTSYSTEM)
+			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
 				UnityEngine.Experimental.Input.Keyboard t_key_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Keyboard>();
 				if(t_key_current != null){

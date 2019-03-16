@@ -71,10 +71,6 @@ namespace Fee.Fade
 		*/
 		private Fee.Deleter.Deleter deleter;
 
-		/** state
-		*/
-		private Fee.Render2D.State2D state;
-
 		/** flag
 		*/
 		private MonoBehaviour_Flag flag;
@@ -94,9 +90,6 @@ namespace Fee.Fade
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();
 
-			//state
-			this.state = new Fee.Render2D.State2D(true);
-
 			//flag
 			{
 				this.flag_gameobject = new UnityEngine.GameObject();
@@ -108,7 +101,7 @@ namespace Fee.Fade
 			}
 			
 			//sprite
-			this.sprite = new Fade_Sprite2D(this.deleter,this.state,(Fee.Render2D.Render2D.MAX_LAYER - 1) * Fee.Render2D.Render2D.DRAWPRIORITY_STEP);
+			this.sprite = new Fade_Sprite2D(this.deleter,(Fee.Render2D.Render2D.MAX_LAYER - 1) * Fee.Render2D.Render2D.DRAWPRIORITY_STEP);
 			this.sprite.SetTextureRect(0.0f,0.0f,Fee.Render2D.Render2D.TEXTURE_W,Fee.Render2D.Render2D.TEXTURE_H);
 			this.sprite.SetRect(0,0,0,0);
 			this.sprite.SetColor(0.0f,0.0f,0.0f,0.0f);

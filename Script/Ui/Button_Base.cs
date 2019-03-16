@@ -80,7 +80,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Button_Base(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_id)
+		public Button_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_id)
 		{
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();

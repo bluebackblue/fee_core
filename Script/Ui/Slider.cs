@@ -31,22 +31,22 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Slider(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority,Slider_Base.CallBack_Change a_callback_change,int a_callback_id)
+		public Slider(Fee.Deleter.Deleter a_deleter,long a_drawpriority,Slider_Base.CallBack_Change a_callback_change,int a_callback_id)
 			:
-			base(a_deleter,a_state,a_drawpriority,a_callback_change,a_callback_id)
+			base(a_deleter,a_drawpriority,a_callback_change,a_callback_id)
 		{
 			//bg_sprite
-			this.bg_sprite = new Fee.Ui.Slider_Bg_Sprite2D(this.deleter,null,a_drawpriority + 0);
+			this.bg_sprite = new Fee.Ui.Slider_Bg_Sprite2D(this.deleter,a_drawpriority + 0);
 			this.bg_sprite.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.bg_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 
 			//sprite_value
-			this.sprite_value = new Fee.Ui.Slider_Value_Sprite2D(this.deleter,null,a_drawpriority + 1);
+			this.sprite_value = new Fee.Ui.Slider_Value_Sprite2D(this.deleter,a_drawpriority + 1);
 			this.sprite_value.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.sprite_value.SetTexture(UnityEngine.Texture2D.whiteTexture);
 
 			//button_sprite
-			this.button_sprite = new Slider_Button_Sprite2D(this.deleter,null,a_drawpriority + 2);
+			this.button_sprite = new Slider_Button_Sprite2D(this.deleter,a_drawpriority + 2);
 			this.button_sprite.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.button_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 		}

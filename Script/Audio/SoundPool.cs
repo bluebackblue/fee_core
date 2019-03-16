@@ -136,6 +136,8 @@ namespace Fee.Audio
 									Tool.Log("SoundPool","android.media.SoundPool$Builder == null");
 								}
 							}
+						}else{
+							Tool.Log("SoundPool","android.media.AudioAttributes == null");
 						}
 					}catch(System.Exception t_exception){
 						Tool.LogError(t_exception);

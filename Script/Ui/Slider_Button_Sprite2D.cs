@@ -35,9 +35,9 @@ namespace Fee.Ui
 
 		/** constructor。
 		*/
-		public Slider_Button_Sprite2D(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority)
+		public Slider_Button_Sprite2D(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 			:
-			base(a_deleter,a_state,a_drawpriority)
+			base(a_deleter,a_drawpriority)
 		{
 			//is_clip
 			this.is_clip = false;

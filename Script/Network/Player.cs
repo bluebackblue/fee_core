@@ -15,7 +15,7 @@ namespace Fee.Network
 {
 	/** Player
 	*/
-	#if(USE_DEF_PUN)
+	#if(USE_DEF_FEE_PUN)
 	public class Player : Photon.Pun.MonoBehaviourPun
 	#else
 	public class Player : UnityEngine.MonoBehaviour
@@ -35,7 +35,7 @@ namespace Fee.Network
 
 		/** photon_view
 		*/
-		#if(USE_DEF_PUN)
+		#if(USE_DEF_FEE_PUN)
 		private Photon.Pun.PhotonView photon_view;
 		#endif
 
@@ -59,11 +59,11 @@ namespace Fee.Network
 			this.GetComponent<UnityEngine.Transform>().SetParent(t_root);
 
 			//photon_view
-			#if(USE_DEF_PUN)
+			#if(USE_DEF_FEE_PUN)
 			this.photon_view = this.GetComponent<Photon.Pun.PhotonView>();
 			#endif
 
-			#if(USE_DEF_PUN)
+			#if(USE_DEF_FEE_PUN)
 			{
 				//is_mine
 				this.is_mine = this.photon_view.IsMine;
@@ -154,7 +154,7 @@ namespace Fee.Network
 		*/
 		public string GetNickName()
 		{
-			#if(USE_DEF_PUN)
+			#if(USE_DEF_FEE_PUN)
 			return this.photon_view.Owner.NickName;
 			#else
 			return "";
@@ -165,7 +165,7 @@ namespace Fee.Network
 		*/
 		public string GetUniqueID()
 		{
-			#if(USE_DEF_PUN)
+			#if(USE_DEF_FEE_PUN)
 			return this.photon_view.Owner.UserId;
 			#else
 			return this.GetHashCode().ToString();
@@ -176,7 +176,7 @@ namespace Fee.Network
 		*/
 		public bool IsMasterClient()
 		{
-			#if(USE_DEF_PUN)
+			#if(USE_DEF_FEE_PUN)
 			return this.photon_view.Owner.IsMasterClient;
 			#else
 			return true;
@@ -185,7 +185,7 @@ namespace Fee.Network
 
 		/** [内部からの呼び出し]リモートコール。受信。
 		*/
-		#if(USE_DEF_PUN)
+		#if(USE_DEF_FEE_PUN)
 		[Photon.Pun.PunRPC]
 		public void Raw_Recv(Raw_RemoteCallKey a_key,int a_value)
 		{
@@ -196,7 +196,7 @@ namespace Fee.Network
 		*/
 		public void Raw_RemoteCall_MasterClient(Raw_RemoteCallKey a_key,int a_value)
 		{
-			#if(USE_DEF_PUN)
+			#if(USE_DEF_FEE_PUN)
 			if(this.photon_view != null){
 				this.photon_view.RPC("Raw_Recv",Photon.Pun.RpcTarget.MasterClient,a_key,a_value);
 			}
@@ -207,7 +207,7 @@ namespace Fee.Network
 		*/
 		public void Raw_RemoteCall_All(Raw_RemoteCallKey a_key,int a_value)
 		{
-			#if(USE_DEF_PUN)
+			#if(USE_DEF_FEE_PUN)
 			if(this.photon_view != null){
 				this.photon_view.RPC("Raw_Recv",Photon.Pun.RpcTarget.All,a_key,a_value);
 			}
@@ -216,7 +216,7 @@ namespace Fee.Network
 
 		/** リモートコール。受信。
 		*/
-		#if(USE_DEF_PUN)
+		#if(USE_DEF_FEE_PUN)
 		[Photon.Pun.PunRPC]
 		public void RecvInt(int a_key,int a_value)
 		{
@@ -229,7 +229,7 @@ namespace Fee.Network
 
 		/** リモートコール。受信。
 		*/
-		#if(USE_DEF_PUN)
+		#if(USE_DEF_FEE_PUN)
 		[Photon.Pun.PunRPC]
 		public void RecvString(int a_key,string a_value)
 		{
@@ -244,7 +244,7 @@ namespace Fee.Network
 		*/
 		public void RemoteCallInt(int a_key,int a_value)
 		{
-			#if(USE_DEF_PUN)
+			#if(USE_DEF_FEE_PUN)
 			if(this.photon_view != null){
 				this.photon_view.RPC("RecvInt",Photon.Pun.RpcTarget.All,a_key,a_value);
 			}
@@ -255,7 +255,7 @@ namespace Fee.Network
 		*/
 		public void RemoteCallString(int a_key,string a_value)
 		{
-			#if(USE_DEF_PUN)
+			#if(USE_DEF_FEE_PUN)
 			if(this.photon_view != null){
 				this.photon_view.RPC("RecvString",Photon.Pun.RpcTarget.All,a_key,a_value);
 			}

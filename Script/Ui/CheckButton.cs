@@ -35,21 +35,21 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public CheckButton(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority,CheckButton_Base.CallBack_Change a_callback_chnage,int a_callback_id)
+		public CheckButton(Fee.Deleter.Deleter a_deleter,long a_drawpriority,CheckButton_Base.CallBack_Change a_callback_chnage,int a_callback_id)
 			:
-			base(a_deleter,a_state,a_drawpriority,a_callback_chnage,a_callback_id)
+			base(a_deleter,a_drawpriority,a_callback_chnage,a_callback_id)
 		{
 			//sprite_bg
-			this.sprite_bg = new Fee.Ui.ClipSprite(this.deleter,a_state,a_drawpriority);
+			this.sprite_bg = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority);
 			this.sprite_bg.SetTextureRect(0.0f,0.0f,Fee.Render2D.Render2D.TEXTURE_W / 2,Fee.Render2D.Render2D.TEXTURE_H / 2);
 
 			//sprite_check
-			this.sprite_check = new Fee.Ui.ClipSprite(this.deleter,a_state,a_drawpriority + 1);
+			this.sprite_check = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority + 1);
 			this.sprite_check.SetTextureRect(0.0f,Fee.Render2D.Render2D.TEXTURE_H / 2,Fee.Render2D.Render2D.TEXTURE_W / 2,Fee.Render2D.Render2D.TEXTURE_H / 2);
 			this.sprite_check.SetVisible(false);
 
 			//text
-			this.text = new Fee.Render2D.Text2D(this.deleter,a_state,a_drawpriority);
+			this.text = new Fee.Render2D.Text2D(this.deleter,a_drawpriority);
 			this.text.SetCenter(false,true);
 
 			this.text_offset_x = 5;

@@ -82,7 +82,7 @@ namespace Fee.Network
 
 		/** connect_auto
 		*/
-		#if(USE_DEF_PUN)
+		#if(USE_DEF_FEE_PUN)
 		private Connect_Auto connect_auto;
 		#endif
 
@@ -115,7 +115,7 @@ namespace Fee.Network
 			this.mode = Mode.None;
 
 			//connect_auto
-			#if(USE_DEF_PUN)
+			#if(USE_DEF_FEE_PUN)
 			this.connect_auto = null;
 			#endif
 
@@ -160,7 +160,7 @@ namespace Fee.Network
 				this.mode = Mode.Connect_Auto;
 				this.disconnect_request = false;
 
-				#if(USE_DEF_PUN)
+				#if(USE_DEF_FEE_PUN)
 				this.connect_auto = new Connect_Auto();
 				#endif
 			}
@@ -263,7 +263,7 @@ namespace Fee.Network
 				{
 					//自動接続。
 
-					#if(USE_DEF_PUN)
+					#if(USE_DEF_FEE_PUN)
 					if(this.connect_auto.Main() == false){
 						this.connect_auto = null;
 						this.mode = Mode.Reset;

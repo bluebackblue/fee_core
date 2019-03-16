@@ -121,7 +121,7 @@ namespace Fee.Input
 		*/
 		private bool Main_InputSystemPointer_Position(Fee.Render2D.Render2D a_render2d)
 		{
-			#if(USE_DEF_INPUTSYSTEM)
+			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
 				UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Pointer>();
 				if(t_pointer_current != null){
@@ -161,7 +161,7 @@ namespace Fee.Input
 		*/
 		private bool Main_InputSystemMouse_Position(Fee.Render2D.Render2D a_render2d)
 		{
-			#if(USE_DEF_INPUTSYSTEM)
+			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
 				UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
 				if(t_mouse_current != null){
@@ -229,7 +229,7 @@ namespace Fee.Input
 		*/
 		private bool Main_InputSystemPointer_Button()
 		{
-			#if(USE_DEF_INPUTSYSTEM)
+			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
 				UnityEngine.Experimental.Input.Pointer t_pointer_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Pointer>();
 				if(t_pointer_current != null){
@@ -274,7 +274,7 @@ namespace Fee.Input
 		*/
 		private bool Main_InputSystemMouse_Button()
 		{
-			#if(USE_DEF_INPUTSYSTEM)
+			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
 				UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
 				if(t_mouse_current != null){
@@ -319,7 +319,7 @@ namespace Fee.Input
 		*/
 		private bool Main_InputSystemMouse_Wheel()
 		{
-			#if(USE_DEF_INPUTSYSTEM)
+			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
 				UnityEngine.Experimental.Input.Mouse t_mouse_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Mouse>();
 				if(t_mouse_current != null){
@@ -344,7 +344,7 @@ namespace Fee.Input
 		private bool Main_InputManagerMouse_Wheel()
 		{
 			//デバイス。
-			float t_wheel = UnityEngine.Input.GetAxis("Mouse ScrollWheel");
+			float t_wheel = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_MOUSEWHEEL);
 
 			//設定。
 			if(t_wheel > 0.0f){

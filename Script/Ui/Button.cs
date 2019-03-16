@@ -27,16 +27,16 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Button(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority,Button_Base.CallBack_Click a_callback_click,int a_callback_id)
+		public Button(Fee.Deleter.Deleter a_deleter,long a_drawpriority,Button_Base.CallBack_Click a_callback_click,int a_callback_id)
 			:
-			base(a_deleter,a_state,a_drawpriority,a_callback_click,a_callback_id)
+			base(a_deleter,a_drawpriority,a_callback_click,a_callback_id)
 		{
 			//sprite
-			this.sprite = new Fee.Ui.Button_Sprite2D(this.deleter,a_state,a_drawpriority);
+			this.sprite = new Fee.Ui.Button_Sprite2D(this.deleter,a_drawpriority);
 			this.sprite.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 
 			//text
-			this.text = new Fee.Render2D.Text2D(this.deleter,a_state,a_drawpriority);
+			this.text = new Fee.Render2D.Text2D(this.deleter,a_drawpriority);
 			this.text.SetCenter(true,true);
 		}
 

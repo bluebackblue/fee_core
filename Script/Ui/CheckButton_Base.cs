@@ -60,7 +60,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public CheckButton_Base(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority,CallBack_Change a_callback_change,int a_callback_id)
+		public CheckButton_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,CallBack_Change a_callback_change,int a_callback_id)
 		{
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();

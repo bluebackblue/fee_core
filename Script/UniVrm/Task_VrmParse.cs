@@ -21,7 +21,7 @@ namespace Fee.UniVrm
 	*/
 	public class Task_VrmParse
 	{
-		#if(USE_DEF_UNIVRM)
+		#if(USE_DEF_FEE_UNIVRM)
 
 		/** TaskMain
 		*/

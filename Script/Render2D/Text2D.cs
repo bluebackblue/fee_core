@@ -17,10 +17,6 @@ namespace Fee.Render2D
 	*/
 	public class Text2D : Fee.Deleter.DeleteItem_Base
 	{
-		/** 状態。
-		*/
-		private State2D state;
-
 		/** 表示フラグ。
 		*/
 		private bool visible;
@@ -43,12 +39,9 @@ namespace Fee.Render2D
 
 		/** constructor
 		*/
-		public Text2D(Fee.Deleter.Deleter a_deleter,State2D a_state,long a_drawpriority)
+		public Text2D(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			Render2D.GetInstance().AddText2D(this);
-
-			//状態。
-			this.state = a_state;
 
 			//表示フラグ。
 			this.visible = true;
@@ -263,20 +256,6 @@ namespace Fee.Render2D
 			return this.param.GetCustomTextMaterial();
 		}
 
-		/** 状態。設定。
-		*/
-		public void SetState(State2D a_state)
-		{
-			this.state = a_state;
-		}
-
-		/** 状態。取得。
-		*/
-		public State2D GetState()
-		{
-			return this.state;
-		}
-
 		/** 表示。設定。
 		*/
 		public void SetVisible(bool a_flag)
@@ -286,19 +265,9 @@ namespace Fee.Render2D
 
 		/** 表示。取得。
 		*/
-		private bool IsVisible_State()
-		{
-			if(this.state != null){
-				return this.state.IsVisible();
-			}
-			return true;
-		}
-
-		/** 表示。取得。
-		*/
 		public bool IsVisible()
 		{
-			return this.visible && this.IsVisible_State();
+			return this.visible;
 		}
 
 		/** 描画プライオリティ。設定。

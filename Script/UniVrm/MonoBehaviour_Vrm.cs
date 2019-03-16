@@ -48,7 +48,7 @@ namespace Fee.UniVrm
 		{
 			/** context
 			*/
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			public VRM.VRMImporterContext context;
 			#endif
 
@@ -61,7 +61,7 @@ namespace Fee.UniVrm
 			*/
 			public Work()
 			{
-				#if(USE_DEF_UNIVRM)
+				#if(USE_DEF_FEE_UNIVRM)
 				this.context = null;
 				#endif
 
@@ -126,7 +126,7 @@ namespace Fee.UniVrm
 		protected override System.Collections.IEnumerator OnDo()
 		{
 			{
-				#if(USE_DEF_UNIVRM)
+				#if(USE_DEF_FEE_UNIVRM)
 				this.work.context = new VRM.VRMImporterContext();
 				#endif
 
@@ -154,7 +154,7 @@ namespace Fee.UniVrm
 				}
 			}
 
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			this.SetResultContext(this.work.context);
 			#endif
 
@@ -228,7 +228,7 @@ namespace Fee.UniVrm
 		*/
 		private System.Collections.IEnumerator Raw_Do_Load_Parse()
 		{
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			{
 				//プログレス。
 				this.SetResultProgress(this.CalcProgress(0.0f));
@@ -285,7 +285,7 @@ namespace Fee.UniVrm
 		*/
 		private System.Collections.IEnumerator Raw_Do_Load_Create()
 		{
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			{
 				//プログレス。
 				this.SetResultProgress(this.CalcProgress(0.0f));

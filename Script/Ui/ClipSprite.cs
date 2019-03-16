@@ -27,13 +27,13 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public ClipSprite(Fee.Deleter.Deleter a_deleter,Fee.Render2D.State2D a_state,long a_drawpriority)
+		public ClipSprite(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();
 
 			//sprite
-			this.sprite = new ClipSprite_Sprite2D(this.deleter,a_state,a_drawpriority);
+			this.sprite = new ClipSprite_Sprite2D(this.deleter,a_drawpriority);
 
 			//削除管理。
 			if(a_deleter != null){

@@ -103,7 +103,7 @@ namespace Fee.UniVrm
 						//結果。
 
 						if(t_vrm.GetResultType() == MonoBehaviour_Base.ResultType.Context){
-							#if(USE_DEF_UNIVRM)
+							#if(USE_DEF_FEE_UNIVRM)
 							this.item.SetResultContext(t_vrm.GetResultContext());
 							#endif
 						}else{

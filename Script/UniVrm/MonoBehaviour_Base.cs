@@ -115,7 +115,7 @@ namespace Fee.UniVrm
 
 		/** result_context
 		*/
-		#if(USE_DEF_UNIVRM)
+		#if(USE_DEF_FEE_UNIVRM)
 		[SerializeField]
 		private VRM.VRMImporterContext result_context;
 		#endif
@@ -130,7 +130,7 @@ namespace Fee.UniVrm
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
 
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			this.result_context = null;
 			#endif
 		}
@@ -267,7 +267,7 @@ namespace Fee.UniVrm
 
 		/** 結果。設定。
 		*/
-		#if(USE_DEF_UNIVRM)
+		#if(USE_DEF_FEE_UNIVRM)
 		public void SetResultContext(VRM.VRMImporterContext a_context)
 		{
 			this.result_type = ResultType.Context;
@@ -277,7 +277,7 @@ namespace Fee.UniVrm
 
 		/** 結果。取得。
 		*/
-		#if(USE_DEF_UNIVRM)
+		#if(USE_DEF_FEE_UNIVRM)
 		public VRM.VRMImporterContext GetResultContext()
 		{
 			return this.result_context;
@@ -295,7 +295,7 @@ namespace Fee.UniVrm
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
 
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			this.result_context = null;
 			#endif
 

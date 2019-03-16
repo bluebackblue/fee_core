@@ -11,7 +11,7 @@
 
 /** Fee.Network
 */
-#if(USE_DEF_PUN)
+#if(USE_DEF_FEE_PUN)
 namespace Fee.Network
 {
 	/** MonoBehaviour_Connect_Auto

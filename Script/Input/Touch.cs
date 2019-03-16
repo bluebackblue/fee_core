@@ -178,7 +178,7 @@ namespace Fee.Input
 		*/
 		public bool Main_InputSystemTouchscreen_Touch(Fee.Render2D.Render2D a_render2d)
 		{
-			#if(USE_DEF_INPUTSYSTEM)
+			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
 				UnityEngine.Experimental.Input.Touchscreen t_touchscreen_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Touchscreen>();
 				if(t_touchscreen_current != null){

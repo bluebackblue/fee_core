@@ -52,7 +52,7 @@ namespace Fee.UniVrm
 
 		/** result_context
 		*/
-		#if(USE_DEF_UNIVRM)
+		#if(USE_DEF_FEE_UNIVRM)
 		private VRM.VRMImporterContext result_context;
 		#endif
 
@@ -77,7 +77,7 @@ namespace Fee.UniVrm
 			this.cancel_flag = false;
 
 			//result_context
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			this.result_context = null;
 			#endif
 
@@ -89,7 +89,7 @@ namespace Fee.UniVrm
 		*/
 		public void Delete()
 		{
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			if(this.result_context != null){
 				this.result_context.Dispose();
 			}
@@ -159,7 +159,7 @@ namespace Fee.UniVrm
 
 		/** 結果。コンテキスト。設定。
 		*/
-		#if(USE_DEF_UNIVRM)
+		#if(USE_DEF_FEE_UNIVRM)
 		public void SetResultContext(VRM.VRMImporterContext a_context)
 		{
 			this.result_type = ResultType.Context;
@@ -176,7 +176,7 @@ namespace Fee.UniVrm
 
 		/** 結果。コンテキスト。取得。
 		*/
-		#if(USE_DEF_UNIVRM)
+		#if(USE_DEF_FEE_UNIVRM)
 		public VRM.VRMImporterContext GetResultContext()
 		{
 			return this.result_context;
@@ -201,7 +201,7 @@ namespace Fee.UniVrm
 		*/
 		public void SetLayer(string a_layername)
 		{
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			if(this.result_context != null){
 				Raw_SetLayer(this.result_context.Root.transform,LayerMask.NameToLayer(a_layername));
 			}
@@ -212,7 +212,7 @@ namespace Fee.UniVrm
 		*/
 		public void SetRendererEnable(bool a_flag)
 		{
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			if(this.result_context != null){
 				for(int ii=0;ii<this.result_context.Meshes.Count;ii++){
 					if(this.result_context.Meshes[ii] != null){
@@ -281,7 +281,7 @@ namespace Fee.UniVrm
 		*/
 		public UnityEngine.Transform GetTransform()
 		{
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			if(this.result_context != null){
 				return this.result_context.Root.gameObject.transform;
 			}
@@ -294,7 +294,7 @@ namespace Fee.UniVrm
 		*/
 		public UnityEngine.Vector3 GetForward()
 		{
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			if(this.result_context != null){
 				return this.result_context.Root.gameObject.transform.forward;
 			}
@@ -307,7 +307,7 @@ namespace Fee.UniVrm
 		*/
 		public UnityEngine.Vector3 GetPosition()
 		{
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			if(this.result_context != null){
 				return this.result_context.Root.gameObject.transform.position;
 			}
@@ -320,7 +320,7 @@ namespace Fee.UniVrm
 		*/
 		public void SetPosition(ref UnityEngine.Vector3 a_position)
 		{
-			#if(USE_DEF_UNIVRM)
+			#if(USE_DEF_FEE_UNIVRM)
 			if(this.result_context != null){
 				this.result_context.Root.gameObject.transform.position = a_position;
 			}

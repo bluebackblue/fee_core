@@ -15,7 +15,7 @@ namespace Fee.Network
 {
 	/** Connect_Auto
 	*/
-	#if(USE_DEF_PUN)
+	#if(USE_DEF_FEE_PUN)
 	public class Connect_Auto
 	{
 		/** Mode
