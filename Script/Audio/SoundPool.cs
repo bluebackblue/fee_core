@@ -119,7 +119,7 @@ namespace Fee.Audio
 
 									t_jave_attribute_builder.Dispose();
 								}else{
-									Tool.LogError("SoundPool","android.media.AudioAttributes$Builder == null");
+									Tool.Log("SoundPool","android.media.AudioAttributes$Builder == null");
 								}
 							}
 						}
@@ -133,18 +133,16 @@ namespace Fee.Audio
 									this.java_soundpool = t_java_soundpool_builder.Call<UnityEngine.AndroidJavaObject>("build");
 
 								}else{
-									Tool.LogError("SoundPool","android.media.SoundPool$Builder == null");
+									Tool.Log("SoundPool","android.media.SoundPool$Builder == null");
 								}
 							}
-						}else{
-							Tool.LogError("SoundPool","android.media.AudioAttributes == null");
 						}
 					}catch(System.Exception t_exception){
 						Tool.LogError(t_exception);
 					}
 
 					if(this.java_soundpool == null){
-						Tool.LogError("SoundPool","android.media.SoundPool == null");
+						Tool.Log("SoundPool","android.media.SoundPool == null");
 					}
 				}
 				#else
@@ -236,7 +234,7 @@ namespace Fee.Audio
 					}
 
 					if(t_ret == false){
-						Tool.LogError("SoundPool","unload : error : " + a_name);
+						Tool.Log("SoundPool","unload : error : " + a_name);
 					}
 				}catch(System.Exception t_exception){
 					Tool.LogError(t_exception);
@@ -282,7 +280,7 @@ namespace Fee.Audio
 					}
 
 					if(t_ret == 0){
-						Tool.LogError("SoundPool","play : error : " + a_name);
+						Tool.Log("SoundPool","play : error : " + a_name);
 					}
 				}catch(System.Exception t_exception){
 					Tool.LogError(t_exception);

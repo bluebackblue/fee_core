@@ -21,6 +21,10 @@ namespace Fee.UniVrm
 		*/
 		public static bool LOG_ENABLE = false;
 
+		/** ログエラー。
+		*/
+		public static bool LOGERROR_ENABLE = true;
+
 		/** アサート。
 		*/
 		public static bool ASSERT_ENABLE = true;
