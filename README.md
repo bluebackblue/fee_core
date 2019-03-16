@@ -52,13 +52,13 @@ https://discord.gg/JH3B4SR
 * Copyright (C) 2002-2017 M+ FONTS PROJECT
 
 ### PUN 2 - FREE
-このリポジトリにアセットは含まれていません。
+このリポジトリにアセットは含まれていません。以下から取得してください。
 * https://github.com/bluebackblue/fee_core/tree/master/license/pun2free
 * https://assetstore.unity.com/packages/tools/network/pun-2-free-119922
 * https://dashboard.photonengine.com/ja-jp/Account/Terms
 
 ### UniVRM
-このリポジトリにUniVRMは含まれていません。
+このリポジトリにUniVRMは含まれていません。以下から取得してください。
 * https://github.com/bluebackblue/fee/tree/master/license/univrm
 * https://github.com/dwango/UniVRM
 
