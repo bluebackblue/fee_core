@@ -26,6 +26,13 @@ namespace Fee.Ui
 		{
 		}
 
+		/** [Scroll_Base]コールバック。スクロール方向の値。取得。
+		*/
+		protected override int GetDirectionValue(int a_x,int a_y)
+		{
+			return a_x;
+		}
+
 		/** [Scroll_List_Base]アイテムの位置更新。スクロール方向の座標。
 		*/
 		protected override void UpdateItemPos(ITEM a_item,int a_index)

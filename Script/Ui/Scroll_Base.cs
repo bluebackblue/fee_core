@@ -50,6 +50,14 @@ namespace Fee.Ui
 		*/
 		protected bool is_onover;
 
+		/** ドラッグスクロール。
+		*/
+		protected bool dragscroll_flag;
+		protected int dragscroll_start_viewposition;
+		protected int dragscroll_start_pos;
+		protected int dragscroll_old_pos;
+		protected float dragscroll_speed;
+
 		/** constructor
 		*/
 		public Scroll_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
@@ -81,6 +89,13 @@ namespace Fee.Ui
 			//is_onover
 			this.is_onover = false;
 
+			//dragscroll
+			this.dragscroll_flag = false;
+			this.dragscroll_start_viewposition = 0;
+			this.dragscroll_start_pos = 0;
+			this.dragscroll_old_pos = 0;
+			this.dragscroll_speed = 0.0f;
+
 			//削除管理。
 			if(a_deleter != null){
 				a_deleter.Register(this);
@@ -90,6 +105,10 @@ namespace Fee.Ui
 		/** [Scroll_Base]コールバック。リスト数。取得。
 		*/
 		public abstract int GetListCount();
+
+		/** [Scroll_Base]コールバック。スクロール方向の値。取得。
+		*/
+		protected abstract int GetDirectionValue(int a_x,int a_y);
 
 		/** [Scroll_Base]コールバック。リスト数変更。
 		*/
@@ -428,6 +447,60 @@ namespace Fee.Ui
 		public bool IsOnOver()
 		{
 			return this.is_onover;
+		}
+
+		/** ドラッグスクロール速度。設定。
+		*/
+		public void SetDragScrollSpeed(float a_speed)
+		{
+			this.dragscroll_speed = a_speed;
+		}
+
+		/** ドラッグスクロール速度。取得。
+		*/
+		public float GetDragScrollSpeed()
+		{
+			return this.dragscroll_speed;
+		}
+
+		/** ドラッグスクロール。更新。
+		*/
+		public void DragScrollUpdate(int a_x,int a_y,bool a_button)
+		{
+			if((this.dragscroll_flag == false)&&(a_button == true)){
+				if((this.rect.x <= a_x)&&(a_x <= (this.rect.x + this.rect.w))&&(this.rect.y <= a_y)&&(a_y <= (this.rect.y + this.rect.h))){
+					//ドラッグ開始。
+					this.dragscroll_flag = true;
+					this.dragscroll_start_viewposition = this.GetViewPosition();
+					this.dragscroll_start_pos = this.GetDirectionValue(a_x,a_y);
+					this.dragscroll_old_pos = this.dragscroll_start_pos;
+
+					this.dragscroll_speed = 0.0f;
+
+					//GetDirectionValue
+				}
+			}else if((this.dragscroll_flag == true)&&(a_button == true)){
+				//ドラッグ中。
+				this.SetViewPosition(this.dragscroll_start_viewposition + this.dragscroll_start_pos - this.GetDirectionValue(a_x,a_y));
+
+				//慣性。
+				int t_drag_new_pos = this.GetDirectionValue(a_x,a_y);
+				this.dragscroll_speed = this.dragscroll_speed * 0.3f + (this.dragscroll_old_pos - t_drag_new_pos) * 0.7f;
+				this.dragscroll_old_pos = t_drag_new_pos;
+			}else if((this.dragscroll_flag == true)&&(a_button == false)){
+				//ドラッグ終了。
+				this.dragscroll_flag = false;
+			}
+
+			if((this.dragscroll_flag == false)&&(this.dragscroll_speed != 0.0f)){
+				int t_move = (int)this.dragscroll_speed;
+				this.dragscroll_speed /= 1.08f;
+				if(t_move != 0){
+					this.SetViewPosition(this.GetViewPosition() + t_move);
+				}else{
+					this.dragscroll_speed = 0.0f;
+				}
+			}
 		}
 	}
 }
