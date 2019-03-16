@@ -64,12 +64,11 @@ namespace Fee.Dijkstra
 			this.calcflag = false;
 		}
 
-		/** 開始ノードに設定。
+		/** 開始ノードとしてコストを設定。
 		*/
-		public void SetStartNode()
+		public void SetStartCost()
 		{
 			this.total_cost = 0;
-			this.prev_node = null;
 		}
 
 		/** 到達コスト。取得。

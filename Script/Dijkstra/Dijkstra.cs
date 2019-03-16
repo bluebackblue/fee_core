@@ -101,7 +101,8 @@ namespace Fee.Dijkstra
 		*/
 		public void SetStartNode(Node<NODEKEY,NODEDATA,LINKDATA> a_node_start)
 		{
-			a_node_start.SetStartNode();
+			//開始ノードとしてコストを設定。
+			a_node_start.SetStartCost();
 
 			//計算リストに追加。
 			this.calc_list.Add(a_node_start);
