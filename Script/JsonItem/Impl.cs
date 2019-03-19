@@ -79,9 +79,9 @@ namespace Fee.JsonItem
 
 		/** 整数チェック。
 		*/
-		public static bool IsInteger(string a_string)
+		public static bool IsFloat(string a_string)
 		{
-			return System.Text.RegularExpressions.Regex.IsMatch(a_string,"^[-]?[0-9]+$");
+			return System.Text.RegularExpressions.Regex.IsMatch(a_string,"^[0-9]+\\.[0-9]+$");
 		}
 
 		/** エスケープシーケンス文字を「￥＋文字」に変換。
@@ -673,7 +673,8 @@ namespace Fee.JsonItem
 						t_value_size = GetLength_StringData(a_jsonstring,t_index);
 					}break;
 				case ValueType.Calc_UnknownNumber:
-				case ValueType.IntegerNumber:
+				case ValueType.SignedNumber:
+				case ValueType.UnsignedNumber:
 				case ValueType.FloatingNumber:
 					{
 						t_value_size = GetLength_Number(a_jsonstring,t_index);
@@ -819,7 +820,8 @@ namespace Fee.JsonItem
 						t_value_size = GetLength_StringData(a_jsonstring,t_index);
 					}break;
 				case ValueType.Calc_UnknownNumber:
-				case ValueType.IntegerNumber:
+				case ValueType.SignedNumber:
+				case ValueType.UnsignedNumber:
 				case ValueType.FloatingNumber:
 					{
 						t_value_size = GetLength_Number(a_jsonstring,t_index);

@@ -129,7 +129,7 @@ namespace Fee.Input
 					int t_pointer_x = (int)t_pointer_current.position.x.ReadValue();
 
 					#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
-					int t_pointer_y = (int)(Screen.height - t_pointer_current.position.y.ReadValue());
+					int t_pointer_y = (int)(UnityEngine.Screen.height - t_pointer_current.position.y.ReadValue());
 					#else
 					int t_pointer_y = (int)(t_pointer_current.position.y.ReadValue());
 					#endif
@@ -169,7 +169,7 @@ namespace Fee.Input
 					int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
 
 					#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
-					int t_mouse_y = (int)(Screen.height - t_mouse_current.position.y.ReadValue());
+					int t_mouse_y = (int)(UnityEngine.Screen.height - t_mouse_current.position.y.ReadValue());
 					#else
 					int t_mouse_y = (int)(t_mouse_current.position.y.ReadValue());
 					#endif
@@ -344,7 +344,7 @@ namespace Fee.Input
 		private bool Main_InputManagerMouse_Wheel()
 		{
 			//デバイス。
-			float t_wheel = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_MOUSEWHEEL);
+			float t_wheel = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_MOUSEWHEEL);
 
 			//設定。
 			if(t_wheel > 0.0f){

@@ -103,6 +103,14 @@ namespace Fee.Render2D
 
 		/** 矩形。設定。
 		*/
+		public void SetXY(int a_x,int a_y)
+		{
+			this.rect.SetX(a_x);
+			this.rect.SetY(a_y);
+		}
+
+		/** 矩形。設定。
+		*/
 		public void SetW(int a_w)
 		{
 			//サイズの計算が必要。設定。

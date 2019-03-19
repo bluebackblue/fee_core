@@ -105,7 +105,7 @@ namespace Fee.Input
 		*/
 		public void CreateDigitalButtonLeft()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_LEFT;
+			this.m_Name = Config.INPUTMANAGER_LEFT;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -126,7 +126,7 @@ namespace Fee.Input
 		*/
 		public void CreateDigitalButtonRight()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_RIGHT;
+			this.m_Name = Config.INPUTMANAGER_RIGHT;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -147,7 +147,7 @@ namespace Fee.Input
 		*/
 		public void CreateDigitalButtonUp()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_UP;
+			this.m_Name = Config.INPUTMANAGER_UP;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -168,7 +168,7 @@ namespace Fee.Input
 		*/
 		public void CreateDigitalButtonDown()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_DOWN;
+			this.m_Name = Config.INPUTMANAGER_DOWN;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -189,7 +189,7 @@ namespace Fee.Input
 		*/
 		public void CreateDigitalButtonEnter()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_ENTER;
+			this.m_Name = Config.INPUTMANAGER_ENTER;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -210,7 +210,7 @@ namespace Fee.Input
 		*/
 		public void CreateDigitalButtonEscape()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_ESCAPE;
+			this.m_Name = Config.INPUTMANAGER_ESCAPE;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -231,7 +231,7 @@ namespace Fee.Input
 		*/
 		public void CreateDigitalButtonSub1()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_SUB1;
+			this.m_Name = Config.INPUTMANAGER_SUB1;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -252,7 +252,7 @@ namespace Fee.Input
 		*/
 		public void CreateDigitalButtonSub2()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_SUB2;
+			this.m_Name = Config.INPUTMANAGER_SUB2;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -273,7 +273,7 @@ namespace Fee.Input
 		*/
 		public void CreateDigitalButtonLeftMenu()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_LMENU;
+			this.m_Name = Config.INPUTMANAGER_LMENU;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -294,7 +294,7 @@ namespace Fee.Input
 		*/
 		public void CreateDigitalButtonRightMenu()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_RMENU;
+			this.m_Name = Config.INPUTMANAGER_RMENU;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -315,7 +315,7 @@ namespace Fee.Input
 		*/
 		public void CreateLeftStickAxisX()
 		{
-			this.m_Name =  Config.INPUTMANAGER_KEYNAME_LSX;
+			this.m_Name =  Config.INPUTMANAGER_LSX;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -336,7 +336,7 @@ namespace Fee.Input
 		*/
 		public void CreateLeftStickAxisY()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_LSY;
+			this.m_Name = Config.INPUTMANAGER_LSY;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -357,7 +357,7 @@ namespace Fee.Input
 		*/
 		public void CreateRightStickAxisX()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_RSX;
+			this.m_Name = Config.INPUTMANAGER_RSX;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -378,7 +378,7 @@ namespace Fee.Input
 		*/
 		public void CreateRightStickAxisY()
 		{
-			this.m_Name =Config.INPUTMANAGER_KEYNAME_RSY;
+			this.m_Name =Config.INPUTMANAGER_RSY;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -399,7 +399,7 @@ namespace Fee.Input
 		*/
 		public void CreateLeftStickButton()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_LSB;
+			this.m_Name = Config.INPUTMANAGER_LSB;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -420,7 +420,7 @@ namespace Fee.Input
 		*/
 		public void CreateRightStickButton()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_RSB;
+			this.m_Name = Config.INPUTMANAGER_RSB;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -441,7 +441,7 @@ namespace Fee.Input
 		*/
 		public void CreateLeftTrigger1Button()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_LT1;
+			this.m_Name = Config.INPUTMANAGER_LT1;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -462,7 +462,7 @@ namespace Fee.Input
 		*/
 		public void CreateRightTrigger1Button()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_RT1;
+			this.m_Name = Config.INPUTMANAGER_RT1;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -483,7 +483,7 @@ namespace Fee.Input
 		*/
 		public void CreateLeftTrigger2Button()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_LT2;
+			this.m_Name = Config.INPUTMANAGER_LT2;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -504,7 +504,7 @@ namespace Fee.Input
 		*/
 		public void CreateRightTrigger2Button()
 		{
-			this.m_Name = Config.INPUTMANAGER_KEYNAME_RT2;
+			this.m_Name = Config.INPUTMANAGER_RT2;
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";

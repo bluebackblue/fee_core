@@ -140,7 +140,8 @@ namespace Fee.JsonItem
 				case ValueType.AssociativeArray:
 				case ValueType.IndexArray:
 				case ValueType.BinaryData:
-				case ValueType.IntegerNumber:
+				case ValueType.SignedNumber:
+				case ValueType.UnsignedNumber:
 				case ValueType.FloatingNumber:
 					{
 						this.jsonstring = a_jsonstring;
@@ -150,16 +151,35 @@ namespace Fee.JsonItem
 					}//break;
 				case ValueType.Calc_UnknownNumber:
 					{
-						if(Impl.IsInteger(a_jsonstring)){
-							this.jsonstring = a_jsonstring;
-							this.valuetype = ValueType.IntegerNumber;
-							this.value.Reset();
-							return;
-						}else{
+						if(Impl.IsFloat(a_jsonstring)){
 							this.jsonstring = a_jsonstring;
 							this.valuetype = ValueType.FloatingNumber;
 							this.value.Reset();
 							return;
+						}else{
+							if(a_jsonstring[0] == '-'){
+								//マイナス値。
+								this.jsonstring = a_jsonstring;
+								this.valuetype = ValueType.SignedNumber;
+								this.value.Reset();
+								return;
+							}else{
+								//プラス。
+								ulong t_value = ulong.Parse(a_jsonstring);
+								if(t_value <= long.MaxValue){
+									//signed_numberの範囲内。
+									this.jsonstring = a_jsonstring;
+									this.valuetype = ValueType.SignedNumber;
+									this.value.signed_number = (long)t_value;
+									return;
+								}else{
+									//符号なし。
+									this.jsonstring = null;
+									this.valuetype = ValueType.UnsignedNumber;
+									this.value.unsigned_number = t_value;
+									return;
+								}
+							}
 						}
 					}//break;
 				case ValueType.Calc_BoolDataTrue:
@@ -264,9 +284,14 @@ namespace Fee.JsonItem
 
 						return;
 					}//break;
-				case ValueType.IntegerNumber:
+				case ValueType.SignedNumber:
 					{
-						this.value.integer_number = long.Parse(t_jsonstring_temp);
+						this.value.signed_number = long.Parse(t_jsonstring_temp);
+						return;
+					}//break;
+				case ValueType.UnsignedNumber:
+					{
+						this.value.unsigned_number = ulong.Parse(t_jsonstring_temp);
 						return;
 					}//break;
 				case ValueType.FloatingNumber:
@@ -344,7 +369,8 @@ namespace Fee.JsonItem
 					return this.value.string_data.Length;
 				}//break;
 			case ValueType.None:
-			case ValueType.IntegerNumber:
+			case ValueType.SignedNumber:
+			case ValueType.UnsignedNumber:
 			case ValueType.FloatingNumber:
 			case ValueType.BoolData:
 			case ValueType.BinaryData:
@@ -378,26 +404,52 @@ namespace Fee.JsonItem
 		*/
 		public int GetInteger()
 		{
-			Tool.Assert(this.valuetype == ValueType.IntegerNumber);
+			Tool.Assert(this.valuetype == ValueType.SignedNumber);
 
 			if(this.jsonstring != null){
 				this.JsonStringToValue();
 			}
 
-			return (int)this.value.integer_number;
+			return (int)this.value.signed_number;
 		}
 
 		/** [取得][値]GetLong
 		*/
 		public long GetLong()
 		{
-			Tool.Assert(this.valuetype == ValueType.IntegerNumber);
+			Tool.Assert(this.valuetype == ValueType.SignedNumber);
 
 			if(this.jsonstring != null){
 				this.JsonStringToValue();
 			}
 
-			return (long)this.value.integer_number;
+			return (long)this.value.signed_number;
+		}
+
+		/** [取得][値]GetUnsignedInteger
+		*/
+		public uint GetUnsignedInteger()
+		{
+			Tool.Assert(this.valuetype == ValueType.UnsignedNumber);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			return (uint)this.value.unsigned_number;
+		}
+
+		/** [取得][値]GetUnsignedLong
+		*/
+		public ulong GetUnsignedLong()
+		{
+			Tool.Assert(this.valuetype == ValueType.UnsignedNumber);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			return (ulong)this.value.unsigned_number;
 		}
 
 		/** [取得][値]GetFloat
@@ -491,9 +543,19 @@ namespace Fee.JsonItem
 
 		/** タイプチェック。整数。
 		*/
-		public bool IsIntegerNumber()
+		public bool IsSignedNumber()
 		{
-			if(this.valuetype == ValueType.IntegerNumber){
+			if(this.valuetype == ValueType.SignedNumber){
+				return true;
+			}
+			return false;
+		}
+
+		/** タイプチェック。整数。
+		*/
+		public bool IsUnSignedNumber()
+		{
+			if(this.valuetype == ValueType.UnsignedNumber){
 				return true;
 			}
 			return false;
@@ -750,8 +812,8 @@ namespace Fee.JsonItem
 			this.jsonstring = null;
 			this.value.Reset();
 		
-			this.valuetype = ValueType.IntegerNumber;
-			this.value.integer_number = a_int;
+			this.valuetype = ValueType.SignedNumber;
+			this.value.signed_number = a_int;
 		}
 
 		/** [設定]整数セット。
@@ -761,8 +823,8 @@ namespace Fee.JsonItem
 			this.jsonstring = null;
 			this.value.Reset();
 		
-			this.valuetype = ValueType.IntegerNumber;
-			this.value.integer_number = a_integer;
+			this.valuetype = ValueType.SignedNumber;
+			this.value.signed_number = a_integer;
 		}
 
 		/** [設定]整数セット。
@@ -772,8 +834,8 @@ namespace Fee.JsonItem
 			this.jsonstring = null;
 			this.value.Reset();
 
-			this.valuetype = ValueType.IntegerNumber;
-			this.value.integer_number = (long)a_unsigned_int;
+			this.valuetype = ValueType.UnsignedNumber;
+			this.value.unsigned_number = (ulong)a_unsigned_int;
 		}
 
 		/** [設定]整数セット。
@@ -783,8 +845,8 @@ namespace Fee.JsonItem
 			this.jsonstring = null;
 			this.value.Reset();
 
-			this.valuetype = ValueType.IntegerNumber;
-			this.value.integer_number = (long)a_unsigned_long;
+			this.valuetype = ValueType.UnsignedNumber;
+			this.value.unsigned_number = (ulong)a_unsigned_long;
 		}
 
 		/** [設定]少数セット。
@@ -850,6 +912,16 @@ namespace Fee.JsonItem
 			return t_ret_keylist;
 		}
 
+		/** オブジェクトへコンバート。
+		*/
+		public Type ConvertObject<Type>()
+		{
+			System.Type t_type = typeof(Type);
+			System.Object t_object = JsonToObject_SystemObject.CreateInstance(t_type,this);
+			JsonToObject_SystemObject.Convert(ref t_object,t_type,this);
+			return (Type)System.Convert.ChangeType(t_object,t_type);
+		}
+
 		/** JsonStringへコンバート。
 		*/
 		public string ConvertJsonString()
@@ -894,9 +966,13 @@ namespace Fee.JsonItem
 
 					return t_jsonstring;
 				}//break;
-			case ValueType.IntegerNumber:
+			case ValueType.SignedNumber:
 				{
-					return this.value.integer_number.ToString();
+					return this.value.signed_number.ToString();
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return this.value.unsigned_number.ToString();
 				}//break;
 			case ValueType.FloatingNumber:
 				{

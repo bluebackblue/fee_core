@@ -31,7 +31,11 @@ namespace Fee.JsonItem
 
 		/** 整数。
 		*/
-		public long integer_number;
+		public long signed_number;
+
+		/** 整数。
+		*/
+		public ulong unsigned_number;
 
 		/** 少数。
 		*/
@@ -52,7 +56,8 @@ namespace Fee.JsonItem
 			this.string_data = null;
 			this.associative_array = null;
 			this.index_array = null;
-			this.integer_number = 0;
+			this.signed_number = 0;
+			this.unsigned_number = 0;
 			this.floating_number = 0.0;
 			this.bool_data = false;
 			this.binary_data = null;

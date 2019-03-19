@@ -35,9 +35,18 @@ namespace Fee.JsonItem
 		*/
 		private bool mode_set;
 
+		/** ObjectOption
+		*/
+		public class ObjectOption
+		{
+			public bool attribute_enumstring = false;
+		}
+
+		private ObjectOption object_option;
+
 		/** constructor
 		*/
-		public ObjectToJson_Work(System.Object a_object,int a_index,JsonItem a_to_jsonitem)
+		public ObjectToJson_Work(System.Object a_object,ObjectOption a_object_option,int a_index,JsonItem a_to_jsonitem)
 		{
 			this.from_object = a_object;
 			this.to_jsonitem = a_to_jsonitem;
@@ -46,11 +55,13 @@ namespace Fee.JsonItem
 
 			this.mode_add = true;
 			this.mode_set = false;
+
+			this.object_option = a_object_option;
 		}
 
 		/** constructor
 		*/
-		public ObjectToJson_Work(System.Object a_object,string a_key,JsonItem a_to_jsonitem)
+		public ObjectToJson_Work(System.Object a_object,ObjectOption a_object_option,string a_key,JsonItem a_to_jsonitem)
 		{
 			this.from_object = a_object;
 			this.to_jsonitem = a_to_jsonitem;
@@ -59,13 +70,15 @@ namespace Fee.JsonItem
 
 			this.mode_add = false;
 			this.mode_set = true;
+
+			this.object_option = a_object_option;
 		}
 
 		/** 実行。
 		*/
 		public void Do(System.Collections.Generic.List<ObjectToJson_Work> a_work_pool)
 		{
-			JsonItem t_jsonitem_member = ObjectToJson.Convert(this.from_object,a_work_pool);
+			JsonItem t_jsonitem_member = ObjectToJson_SystemObject.Convert(this.from_object,this.object_option,a_work_pool);
 
 			if(this.mode_add == true){
 				this.to_jsonitem.SetItem(this.to_index,t_jsonitem_member,false);

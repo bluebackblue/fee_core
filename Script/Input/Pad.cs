@@ -191,16 +191,16 @@ namespace Fee.Input
 		#if(true)
 		private bool Main_InputManagerGamePad_DigitalButton()
 		{
-			bool t_left_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_LEFT) < -0.5f) ? true : false;
-			bool t_right_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_RIGHT) > 0.5f) ? true : false;
-			bool t_up_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_UP) > 0.5f) ? true : false;
-			bool t_down_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_DOWN) < -0.5f) ? true : false;
-			bool t_enter_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_KEYNAME_ENTER);
-			bool t_escape_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_KEYNAME_ESCAPE);
-			bool t_sub1_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_KEYNAME_SUB1);
-			bool t_sub2_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_KEYNAME_SUB2);
-			bool t_left_menu_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_KEYNAME_LMENU);
-			bool t_right_menu_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_KEYNAME_RMENU);
+			bool t_left_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LEFT) < -0.5f) ? true : false;
+			bool t_right_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RIGHT) > 0.5f) ? true : false;
+			bool t_up_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_UP) > 0.5f) ? true : false;
+			bool t_down_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_DOWN) < -0.5f) ? true : false;
+			bool t_enter_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_ENTER);
+			bool t_escape_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_ESCAPE);
+			bool t_sub1_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_SUB1);
+			bool t_sub2_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_SUB2);
+			bool t_left_menu_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_LMENU);
+			bool t_right_menu_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_RMENU);
 
 			//設定。
 			this.left.Set(t_left_on);
@@ -253,12 +253,12 @@ namespace Fee.Input
 		private bool Main_InputManagerGamePad_Stick()
 		{
 			//デバイス。
-			float t_l_x = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_LSX);
-			float t_l_y = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_LSY);
-			float t_r_x = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_RSX);
-			float t_r_y = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_RSY);
-			bool t_l_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_KEYNAME_LSB);
-			bool t_r_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_KEYNAME_RSB);
+			float t_l_x = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LSX);
+			float t_l_y = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LSY);
+			float t_r_x = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RSX);
+			float t_r_y = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RSY);
+			bool t_l_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_LSB);
+			bool t_r_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_RSB);
 
 			//設定。
 			this.left_stick.Set(t_l_x,t_l_y);
@@ -302,10 +302,10 @@ namespace Fee.Input
 		private bool Main_InputManagerGamePad_Trigger()
 		{
 			//デバイス。
-			bool t_l_1 = UnityEngine.Input.GetButton(Config.INPUTMANAGER_KEYNAME_LT1);
-			bool t_r_1 = UnityEngine.Input.GetButton(Config.INPUTMANAGER_KEYNAME_RT1);
-			float t_l_2 = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_LT2);
-			float t_r_2 = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_KEYNAME_RT2);
+			bool t_l_1 = UnityEngine.Input.GetButton(Config.INPUTMANAGER_LT1);
+			bool t_r_1 = UnityEngine.Input.GetButton(Config.INPUTMANAGER_RT1);
+			float t_l_2 = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LT2);
+			float t_r_2 = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RT2);
 
 			if(t_l_2 < 0.0f){
 				t_l_2 = 0.0f;

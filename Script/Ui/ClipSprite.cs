@@ -120,6 +120,14 @@ namespace Fee.Ui
 
 		/** 矩形。設定。
 		*/
+		public void SetXY(int a_x,int a_y)
+		{
+			this.sprite.SetX(a_x);
+			this.sprite.SetY(a_y);
+		}
+
+		/** 矩形。設定。
+		*/
 		public void SetW(int a_w)
 		{
 			this.sprite.SetW(a_w);

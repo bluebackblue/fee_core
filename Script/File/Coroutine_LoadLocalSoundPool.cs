@@ -74,7 +74,7 @@ namespace Fee.File
 			//成功。
 			if(t_task.IsSuccess() == true){
 				if(t_result.text != null){
-					Fee.Audio.Pack_SoundPool t_soundpool = Fee.JsonItem.JsonToObject<Fee.Audio.Pack_SoundPool>.Convert(new Fee.JsonItem.JsonItem(t_result.text));
+					Fee.Audio.Pack_SoundPool t_soundpool = Fee.JsonItem.Convert.JsonStringToObject<Fee.Audio.Pack_SoundPool>(t_result.text);
 
 					string t_errorstring;
 					if(Fee.Audio.Pack_SoundPool.CheckSoundPool(t_soundpool,out t_errorstring) == true){

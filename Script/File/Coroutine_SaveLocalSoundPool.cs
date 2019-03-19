@@ -55,13 +55,7 @@ namespace Fee.File
 			string t_soundpool_json_string = null;
 			{
 				if(a_soundpool != null){
-					Fee.JsonItem.JsonItem t_json = Fee.JsonItem.ObjectToJson.Convert(a_soundpool);
-					if(t_json != null){
-						t_soundpool_json_string = t_json.ConvertJsonString();
-					}else{
-						this.result.errorstring = "Coroutine_SaveLocalSoundPool : t_json == null";
-						yield break;
-					}
+					t_soundpool_json_string = Fee.JsonItem.Convert.ObjectToJsonString(a_soundpool);
 				}else{
 					this.result.errorstring = "Coroutine_SaveLocalSoundPool : a_soundpool == null";
 					yield break;

@@ -148,98 +148,98 @@ namespace Fee.Input
 		public static int MOUSE_EDITOR_OFFSET_Y = 0;
 		#endif
 
-		/** キー。左。
+		/** インプットシステム。左。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key KEY_LEFT = UnityEngine.Experimental.Input.Key.A;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_LEFT = UnityEngine.Experimental.Input.Key.A;
 		#endif
 
-		/** キー。右。
+		/** インプットシステム。右。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key KEY_RIGHT = UnityEngine.Experimental.Input.Key.D;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_RIGHT = UnityEngine.Experimental.Input.Key.D;
 		#endif
 
-		/** キー。上。
+		/** インプットシステム。上。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key KEY_UP = UnityEngine.Experimental.Input.Key.W;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_UP = UnityEngine.Experimental.Input.Key.W;
 		#endif
 
-		/** キー。下。
+		/** インプットシステム。下。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key KEY_DOWN = UnityEngine.Experimental.Input.Key.S;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_DOWN = UnityEngine.Experimental.Input.Key.S;
 		#endif
 
-		/** キー。エンター。
+		/** インプットシステム。エンター。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key KEY_ENTER = UnityEngine.Experimental.Input.Key.Enter;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_ENTER = UnityEngine.Experimental.Input.Key.Enter;
 		#endif
 
-		/** キー。エスケープ。
+		/** インプットシステム。エスケープ。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key KEY_ESCAPE = UnityEngine.Experimental.Input.Key.Escape;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_ESCAPE = UnityEngine.Experimental.Input.Key.Escape;
 		#endif
 
-		/** キー。サブ１。
+		/** インプットシステム。サブ１。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key KEY_SUB1 = UnityEngine.Experimental.Input.Key.LeftShift;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_SUB1 = UnityEngine.Experimental.Input.Key.LeftShift;
 		#endif
 
-		/** キー。サブ２。
+		/** インプットシステム。サブ２。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key KEY_SUB2 = UnityEngine.Experimental.Input.Key.LeftCtrl;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_SUB2 = UnityEngine.Experimental.Input.Key.LeftCtrl;
 		#endif
 
-		/** キー。左メニュー。
+		/** インプットシステム。左メニュー。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key KEY_LEFT_MENU = UnityEngine.Experimental.Input.Key.Space;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_LEFT_MENU = UnityEngine.Experimental.Input.Key.Space;
 		#endif
 
-		/** キー。右メニュー。
+		/** インプットシステム。右メニュー。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key KEY_RIGHT_MENU = UnityEngine.Experimental.Input.Key.Backspace;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_RIGHT_MENU = UnityEngine.Experimental.Input.Key.Backspace;
 		#endif
 
-		/** インプットマネージャ。キー名。マウスホイール。
+		/** インプットマネージャ。マウスホイール。
 		*/
-		public static string INPUTMANAGER_KEYNAME_MOUSEWHEEL = "Mouse ScrollWheel";
+		public static string INPUTMANAGER_MOUSEWHEEL = "Mouse ScrollWheel";
 
-		/** インプットマネージャ。キー名。トリガー。
+		/** インプットマネージャ。トリガー。
 		*/
-		public static string INPUTMANAGER_KEYNAME_LT1 = "left_trigger1_button";
-		public static string INPUTMANAGER_KEYNAME_RT1 = "right_trigger1_button";
-		public static string INPUTMANAGER_KEYNAME_LT2 = "left_trigger2_axis";
-		public static string INPUTMANAGER_KEYNAME_RT2 = "right_trigger2_axis";
+		public static string INPUTMANAGER_LT1 = "left_trigger1_button";
+		public static string INPUTMANAGER_RT1 = "right_trigger1_button";
+		public static string INPUTMANAGER_LT2 = "left_trigger2_axis";
+		public static string INPUTMANAGER_RT2 = "right_trigger2_axis";
 
-		/** インプットマネージャ。キー名。ボタン。
+		/** インプットマネージャ。ボタン。
 		*/
-		public static string INPUTMANAGER_KEYNAME_LEFT = "left";
-		public static string INPUTMANAGER_KEYNAME_RIGHT = "right";
-		public static string INPUTMANAGER_KEYNAME_UP = "up";
-		public static string INPUTMANAGER_KEYNAME_DOWN = "down";
-		public static string INPUTMANAGER_KEYNAME_ENTER = "enter";
-		public static string INPUTMANAGER_KEYNAME_ESCAPE = "escape";
-		public static string INPUTMANAGER_KEYNAME_SUB1 = "sub1";
-		public static string INPUTMANAGER_KEYNAME_SUB2 = "sub2";
-		public static string INPUTMANAGER_KEYNAME_LMENU = "left_menu";
-		public static string INPUTMANAGER_KEYNAME_RMENU = "right_menu";
+		public static string INPUTMANAGER_LEFT = "left";
+		public static string INPUTMANAGER_RIGHT = "right";
+		public static string INPUTMANAGER_UP = "up";
+		public static string INPUTMANAGER_DOWN = "down";
+		public static string INPUTMANAGER_ENTER = "enter";
+		public static string INPUTMANAGER_ESCAPE = "escape";
+		public static string INPUTMANAGER_SUB1 = "sub1";
+		public static string INPUTMANAGER_SUB2 = "sub2";
+		public static string INPUTMANAGER_LMENU = "left_menu";
+		public static string INPUTMANAGER_RMENU = "right_menu";
 
-		/** インプットマネージャ。キー名。スティック。
+		/** インプットマネージャ。ティック。
 		*/
-		public static string INPUTMANAGER_KEYNAME_LSX = "left_stick_axis_x";
-		public static string INPUTMANAGER_KEYNAME_LSY = "left_stick_axis_y";
-		public static string INPUTMANAGER_KEYNAME_RSX = "right_stick_axis_x";
-		public static string INPUTMANAGER_KEYNAME_RSY = "right_stick_axis_y";
-		public static string INPUTMANAGER_KEYNAME_LSB = "left_stick_button";
-		public static string INPUTMANAGER_KEYNAME_RSB = "right_stick_button";
+		public static string INPUTMANAGER_LSX = "left_stick_axis_x";
+		public static string INPUTMANAGER_LSY = "left_stick_axis_y";
+		public static string INPUTMANAGER_RSX = "right_stick_axis_x";
+		public static string INPUTMANAGER_RSY = "right_stick_axis_y";
+		public static string INPUTMANAGER_LSB = "left_stick_button";
+		public static string INPUTMANAGER_RSB = "right_stick_button";
 	}
 }
 

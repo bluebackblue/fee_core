@@ -71,6 +71,10 @@ namespace Fee.Scene
 		*/
 		private Scene_Base request;
 
+		/** is_scene
+		*/
+		private bool is_scene;
+
 		/** mode
 		*/
 		enum Mode
@@ -98,6 +102,9 @@ namespace Fee.Scene
 
 			//request
 			this.request = null;
+
+			//is_scene
+			this.is_scene = false;
 
 			//mode
 			this.mode = Mode.WaitRequest;
@@ -138,6 +145,24 @@ namespace Fee.Scene
 
 		/** 更新。
 		*/
+		public void Unity_Update(float a_delta)
+		{
+			if(this.is_scene == true){
+				this.current.Unity_Update(a_delta);
+			}
+		}
+
+		/** 更新。
+		*/
+		public void Unity_LastUpdate()
+		{
+			if(this.is_scene == true){
+				this.current.Unity_LastUpdate();
+			}
+		}
+
+		/** 更新。
+		*/
 		public void Main()
 		{
 			switch(this.mode){
@@ -156,6 +181,7 @@ namespace Fee.Scene
 
 					if(this.current != null){
 						if(this.current.SceneStart() == true){
+							this.is_scene = true;
 							this.mode = Mode.Main;
 						}
 					}
@@ -176,6 +202,7 @@ namespace Fee.Scene
 
 					if(this.current != null){
 						if(this.current.SceneEnd() == true){
+							this.is_scene = false;
 							this.current.Delete();
 							this.current = null;
 							this.mode = Mode.WaitRequest;

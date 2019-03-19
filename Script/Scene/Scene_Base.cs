@@ -24,6 +24,14 @@ namespace Fee.Scene
 		*/
 		bool Main();
 
+		/** [Scene_Base]更新。
+		*/
+		void Unity_Update(float a_delta);
+
+		/** [Scene_Base]更新。
+		*/
+		void Unity_LastUpdate();
+
 		/** [Scene_Base]削除。
 		*/
 		void Delete();

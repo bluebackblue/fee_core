@@ -108,16 +108,16 @@ namespace Fee.Input
 				UnityEngine.Experimental.Input.Keyboard t_key_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Keyboard>();
 				if(t_key_current != null){
 					//デバイス。
-					bool t_enter_on = t_key_current[Config.KEY_ENTER].isPressed;
-					bool t_escape_on = t_key_current[Config.KEY_ESCAPE].isPressed;
-					bool t_sub1_on = t_key_current[Config.KEY_SUB1].isPressed;
-					bool t_sub2_on = t_key_current[Config.KEY_SUB2].isPressed;
-					bool t_left_on = t_key_current[Config.KEY_LEFT].isPressed;
-					bool t_right_on = t_key_current[Config.KEY_RIGHT].isPressed;
-					bool t_up_on = t_key_current[Config.KEY_UP].isPressed;
-					bool t_down_on = t_key_current[Config.KEY_DOWN].isPressed;
-					bool t_left_menu_on = t_key_current[Config.KEY_LEFT_MENU].isPressed;
-					bool t_right_menu_on = t_key_current[Config.KEY_RIGHT_MENU].isPressed;
+					bool t_enter_on = t_key_current[Config.INPUTSYSTEM_ENTER].isPressed;
+					bool t_escape_on = t_key_current[Config.INPUTSYSTEM_ESCAPE].isPressed;
+					bool t_sub1_on = t_key_current[Config.INPUTSYSTEM_SUB1].isPressed;
+					bool t_sub2_on = t_key_current[Config.INPUTSYSTEM_SUB2].isPressed;
+					bool t_left_on = t_key_current[Config.INPUTSYSTEM_LEFT].isPressed;
+					bool t_right_on = t_key_current[Config.INPUTSYSTEM_RIGHT].isPressed;
+					bool t_up_on = t_key_current[Config.INPUTSYSTEM_UP].isPressed;
+					bool t_down_on = t_key_current[Config.INPUTSYSTEM_DOWN].isPressed;
+					bool t_left_menu_on = t_key_current[Config.INPUTSYSTEM_LEFT_MENU].isPressed;
+					bool t_right_menu_on = t_key_current[Config.INPUTSYSTEM_RIGHT_MENU].isPressed;
 
 					//設定。
 					this.enter.Set(t_enter_on);

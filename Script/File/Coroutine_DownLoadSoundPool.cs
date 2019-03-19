@@ -156,7 +156,7 @@ namespace Fee.File
 				yield return t_coroutine.CoroutineMain(this,t_url_path + t_filename,null,ProgressMode.DownLoad);
 
 				if(t_coroutine.result.text != null){
-					t_download_soundpool = Fee.JsonItem.JsonToObject<Fee.Audio.Pack_SoundPool>.Convert(new Fee.JsonItem.JsonItem(t_coroutine.result.text));
+					t_download_soundpool = Fee.JsonItem.Convert.JsonStringToObject<Fee.Audio.Pack_SoundPool>(t_coroutine.result.text);
 
 					string t_errorstring;
 					if(Fee.Audio.Pack_SoundPool.CheckSoundPool(t_download_soundpool,out t_errorstring) == false){
