@@ -6,7 +6,7 @@ Unity library
 MIT License
 * https://github.com/bluebackblue/fee_core/blob/master/LICENSE.txt
 
-## unitypackage
+## パッケージ
 * https://github.com/bluebackblue/fee_core/releases/
 
 ## sample project
