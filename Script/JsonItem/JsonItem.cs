@@ -400,11 +400,11 @@ namespace Fee.JsonItem
 			return this.value.string_data;
 		}
 
-		/** [取得][値]GetInteger
+		/** [取得][値]GetInt
 		*/
-		public int GetInteger()
+		public int GetInt()
 		{
-			Tool.Assert(this.valuetype == ValueType.SignedNumber);
+			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
 
 			if(this.jsonstring != null){
 				this.JsonStringToValue();
@@ -417,7 +417,7 @@ namespace Fee.JsonItem
 		*/
 		public long GetLong()
 		{
-			Tool.Assert(this.valuetype == ValueType.SignedNumber);
+			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
 
 			if(this.jsonstring != null){
 				this.JsonStringToValue();
@@ -426,11 +426,11 @@ namespace Fee.JsonItem
 			return (long)this.value.signed_number;
 		}
 
-		/** [取得][値]GetUnsignedInteger
+		/** [取得][値]GetUint
 		*/
-		public uint GetUnsignedInteger()
+		public uint GetUint()
 		{
-			Tool.Assert(this.valuetype == ValueType.UnsignedNumber);
+			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
 
 			if(this.jsonstring != null){
 				this.JsonStringToValue();
@@ -439,11 +439,11 @@ namespace Fee.JsonItem
 			return (uint)this.value.unsigned_number;
 		}
 
-		/** [取得][値]GetUnsignedLong
+		/** [取得][値]GetUlong
 		*/
-		public ulong GetUnsignedLong()
+		public ulong GetUlong()
 		{
-			Tool.Assert(this.valuetype == ValueType.UnsignedNumber);
+			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
 
 			if(this.jsonstring != null){
 				this.JsonStringToValue();
@@ -456,7 +456,7 @@ namespace Fee.JsonItem
 		*/
 		public float GetFloat()
 		{
-			Tool.Assert(this.valuetype == ValueType.FloatingNumber);
+			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
 
 			if(this.jsonstring != null){
 				this.JsonStringToValue();
@@ -469,7 +469,7 @@ namespace Fee.JsonItem
 		*/
 		public double GetDouble()
 		{
-			Tool.Assert(this.valuetype == ValueType.FloatingNumber);
+			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
 
 			if(this.jsonstring != null){
 				this.JsonStringToValue();

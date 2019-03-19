@@ -91,21 +91,21 @@ namespace Fee.JsonItem
 				}else if(a_jsonitem.IsSignedNumber() == true){
 					if(t_type == typeof(int)){
 						//int
-						a_to_object = (int)a_jsonitem.GetInteger();
+						a_to_object = (int)a_jsonitem.GetInt();
 					}else if(t_type == typeof(long)){
 						//long
 						a_to_object = (long)a_jsonitem.GetLong();
 					}else if(t_type.IsEnum == true){
 						//enum
-						a_to_object = (System.Enum)(System.Enum.ToObject(t_type,a_jsonitem.GetInteger()));
+						a_to_object = (System.Enum)(System.Enum.ToObject(t_type,a_jsonitem.GetInt()));
 					}
 				}else if(a_jsonitem.IsUnSignedNumber() == true){
 					if(t_type == typeof(uint)){
 						//uint
-						a_to_object = (uint)a_jsonitem.GetUnsignedInteger();
+						a_to_object = (uint)a_jsonitem.GetUint();
 					}else if(t_type == typeof(ulong)){
 						//ulong
-						a_to_object = (ulong)a_jsonitem.GetUnsignedLong();
+						a_to_object = (ulong)a_jsonitem.GetUlong();
 					}
 				}else if(a_jsonitem.IsFloatNumber() == true){
 					if(t_type == typeof(float)){
