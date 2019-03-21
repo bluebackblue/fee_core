@@ -21,8 +21,6 @@ namespace Fee.Platform
 		*/
 		public static void OpenUrl(string a_url)
 		{
-			
-
 			#if(UNITY_WEBGL)
 			{
 				#if(UNITY_EDITOR)
@@ -40,6 +38,13 @@ namespace Fee.Platform
 				WebGL_OpenUrl.OpenUrl(a_url);
 			}
 			#endif
+		}
+
+		/** プロンプトを開く。
+		*/
+		public static string OpenPrompt(string a_title,string a_text)
+		{
+			return WebGL_OpenPrompt.OpenPrompt(a_title,a_text);
 		}
 	}
 }

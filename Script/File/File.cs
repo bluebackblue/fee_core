@@ -147,18 +147,24 @@ namespace Fee.File
 			this.assetbundle_list.UnloadAllAssetBundle();
 
 			//削除リクエスト。
-			this.io_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
-			UnityEngine.GameObject.DontDestroyOnLoad(this.io_gameobject);
+			if(this.io_gameobject != null){
+				this.io_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
+				UnityEngine.GameObject.DontDestroyOnLoad(this.io_gameobject);
+			}
 			this.io_script.DeleteRequest();
 
 			//削除リクエスト。
-			this.webrequest_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
-			UnityEngine.GameObject.DontDestroyOnLoad(this.webrequest_gameobject);
+			if(this.webrequest_gameobject != null){
+				this.webrequest_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
+				UnityEngine.GameObject.DontDestroyOnLoad(this.webrequest_gameobject);
+			}
 			this.webrequest_script.DeleteRequest();
 
 			//削除リクエスト。
-			this.soundpool_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
-			UnityEngine.GameObject.DontDestroyOnLoad(this.soundpool_gameobject);
+			if(this.soundpool_gameobject != null){
+				this.soundpool_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
+				UnityEngine.GameObject.DontDestroyOnLoad(this.soundpool_gameobject);
+			}
 			this.soundpool_script.DeleteRequest();
 
 			//ルート削除。

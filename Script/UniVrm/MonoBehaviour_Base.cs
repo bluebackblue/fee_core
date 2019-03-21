@@ -116,7 +116,7 @@ namespace Fee.UniVrm
 		/** result_context
 		*/
 		#if(USE_DEF_FEE_UNIVRM)
-		[SerializeField]
+		[UnityEngine.SerializeField]
 		private VRM.VRMImporterContext result_context;
 		#endif
 

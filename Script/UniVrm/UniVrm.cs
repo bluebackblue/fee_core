@@ -111,8 +111,10 @@ namespace Fee.UniVrm
 		private void Delete()
 		{
 			//削除リクエスト。
-			this.vrm_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
-			UnityEngine.GameObject.DontDestroyOnLoad(this.vrm_gameobject);
+			if(this.vrm_gameobject != null){
+				this.vrm_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
+				UnityEngine.GameObject.DontDestroyOnLoad(this.vrm_gameobject);
+			}
 			this.vrm_script.DeleteRequest();
 
 			//ルート削除。

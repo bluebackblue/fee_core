@@ -111,8 +111,10 @@ namespace Fee.Crypt
 		private void Delete()
 		{
 			//削除リクエスト。
-			this.security_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
-			UnityEngine.GameObject.DontDestroyOnLoad(this.security_gameobject);
+			if(this.security_gameobject != null){
+				this.security_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
+				UnityEngine.GameObject.DontDestroyOnLoad(this.security_gameobject);
+			}
 			this.security_script.DeleteRequest();
 
 			//ルート削除。

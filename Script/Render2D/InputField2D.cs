@@ -291,6 +291,13 @@ namespace Fee.Render2D
 			this.param.SetMultiLine(a_flag);
 		}
 
+		/** パスワードタイプ。設定。
+		*/
+		public void SetPasswordType(bool a_flag)
+		{
+			this.param.SetPasswordType(a_flag);
+		}
+
 		/** フォーカス。取得。
 		*/
 		public bool IsFocused()

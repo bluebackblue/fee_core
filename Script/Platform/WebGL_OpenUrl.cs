@@ -19,11 +19,11 @@ namespace Fee.Platform
 	{
 		/** Fee_Platform_WebGLPlugin_OpenUrl
 
-		Platform/Plugins/openurl:Fee_Platform_WebGLPlugin_OpenUrl
+		Plugins/Platform/openurl:Fee_Platform_WebGLPlugin_OpenUrl
 
 		*/
 		[System.Runtime.InteropServices.DllImport("__Internal")]
-		public static extern void Fee_Platform_WebGLPlugin_OpenUrl(string a_url);
+		private static extern void Fee_Platform_WebGLPlugin_OpenUrl(string a_url);
 
 		/** OpenUrl
 		*/

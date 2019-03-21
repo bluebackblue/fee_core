@@ -90,6 +90,15 @@ namespace Fee.Ui
 		*/
 		public void SetTexture(UnityEngine.Texture2D a_texture)
 		{
+			#if(UNITY_EDITOR)
+			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.filterMode != UnityEngine.FilterMode.Point)){
+				Tool.Assert(false);
+			}
+			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.mipmapCount != 1)){
+				Tool.Assert(false);
+			}
+			#endif
+
 			this.sprite.SetTexture(a_texture);
 		}
 
@@ -98,6 +107,13 @@ namespace Fee.Ui
 		public void SetText(string a_text)
 		{
 			this.text.SetText(a_text);
+		}
+
+		/** テキストフォントサイズ。設定。
+		*/
+		public void SetFrontSize(int a_fontsize)
+		{
+			this.text.SetFontSize(a_fontsize);	
 		}
 
 		/**　テクスチャーコーナーサイズ。設定。

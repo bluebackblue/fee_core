@@ -168,7 +168,7 @@ namespace Fee.UniVrm
 
 			if(this.result_context != null){
 				if(this.result_context.Root != null){
-					this.result_animator = this.result_context.Root.GetComponent<Animator>();
+					this.result_animator = this.result_context.Root.GetComponent<UnityEngine.Animator>();
 				}
 			}
 		}
@@ -203,7 +203,7 @@ namespace Fee.UniVrm
 		{
 			#if(USE_DEF_FEE_UNIVRM)
 			if(this.result_context != null){
-				Raw_SetLayer(this.result_context.Root.transform,LayerMask.NameToLayer(a_layername));
+				Raw_SetLayer(this.result_context.Root.transform,UnityEngine.LayerMask.NameToLayer(a_layername));
 			}
 			#endif
 		}

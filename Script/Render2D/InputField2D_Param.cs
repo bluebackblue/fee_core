@@ -96,6 +96,9 @@ namespace Fee.Render2D
 			//linetype
 			this.raw_inputfield.lineType = UnityEngine.UI.InputField.LineType.MultiLineNewline;
 
+			//inputtype
+			this.raw_inputfield.inputType = UnityEngine.UI.InputField.InputType.Standard;
+
 			//localscale
 			this.raw_recttransform.localScale = new UnityEngine.Vector3(1.0f,1.0f,1.0f);
 
@@ -224,6 +227,17 @@ namespace Fee.Render2D
 				this.raw_inputfield.lineType = UnityEngine.UI.InputField.LineType.MultiLineNewline;
 			}else{
 				this.raw_inputfield.lineType = UnityEngine.UI.InputField.LineType.SingleLine;
+			}
+		}
+
+		/** パスワードタイプ。設定。
+		*/
+		public void SetPasswordType(bool a_flag)
+		{
+			if(a_flag == true){
+				this.raw_inputfield.inputType = UnityEngine.UI.InputField.InputType.Password;
+			}else{
+				this.raw_inputfield.inputType = UnityEngine.UI.InputField.InputType.Standard;
 			}
 		}
 
