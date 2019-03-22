@@ -72,3 +72,9 @@ https://discord.gg/JH3B4SR
 * https://github.com/bluebackblue/fee/tree/master/license/simpleanimation
 * https://github.com/Unity-Technologies/SimpleAnimation
 
+### StandardAssets
+このリポジトリにStandardAssetsは含まれていません。以下から取得してください。
+* https://github.com/bluebackblue/fee/tree/master/license/standardassets
+* https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-32351
+
+
