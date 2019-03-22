@@ -179,6 +179,147 @@ namespace Fee.Input
 		{
 			this.list.Add(a_item);
 		}
+
+		/** インプットマネージャ初期化。
+		*/
+		#if((USE_DEF_FEE_EDITORMENU)&&(UNITY_EDITOR))
+		[UnityEditor.MenuItem("Fee/Initialize/InputManager")]
+		private static void MakeInputManager()
+		{
+			Fee.Input.EditInputManager t_inputmaanger = new Fee.Input.EditInputManager();
+			{
+				System.Collections.Generic.List<Fee.Input.EditInputManager_Item> t_list = t_inputmaanger.GetList();
+
+				System.Collections.Generic.Dictionary<string,Fee.Input.EditInputManager_Item> t_flag_list = new System.Collections.Generic.Dictionary<string,Fee.Input.EditInputManager_Item>();
+				{
+					//トリガー。
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateLeftTrigger1Button();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LT1,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateRightTrigger1Button();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RT1,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateLeftTrigger2Button();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LT2,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateRightTrigger2Button();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RT2,t_item);
+					}
+
+					//ボタン。
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateDigitalButtonLeft();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LEFT,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateDigitalButtonRight();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RIGHT,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateDigitalButtonUp();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_UP,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateDigitalButtonDown();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_DOWN,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateDigitalButtonEnter();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_ENTER,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateDigitalButtonEscape();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_ESCAPE,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateDigitalButtonSub1();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_SUB1,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateDigitalButtonSub2();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_SUB2,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateDigitalButtonLeftMenu();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LMENU,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateDigitalButtonRightMenu();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RMENU,t_item);
+					}
+
+					//スティック。
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateLeftStickAxisX();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LSX,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateLeftStickAxisY();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LSY,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateRightStickAxisX();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RSX,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateRightStickAxisY();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RSY,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateLeftStickButton();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LSB,t_item);
+					}
+					{
+						Fee.Input.EditInputManager_Item t_item = new Fee.Input.EditInputManager_Item();
+						t_item.CreateRightStickButton();
+						t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RSB,t_item);
+					}
+				}
+
+				//すでにリストに存在するものはリストから外す。
+				for(int ii=0;ii<t_list.Count;ii++){
+					Fee.Input.EditInputManager_Item t_item;
+					if(t_flag_list.TryGetValue(t_list[ii].m_Name,out t_item) == true){
+						//すでに存在する。
+						t_flag_list[t_list[ii].m_Name] = null;
+					}
+				}
+
+				//リストに追加。
+				foreach(System.Collections.Generic.KeyValuePair<string,Fee.Input.EditInputManager_Item> t_pair in t_flag_list){
+					if(t_pair.Value != null){
+						t_list.Add(t_pair.Value);
+					}
+				}
+			}
+
+			//セーブ。
+			t_inputmaanger.Save();
+		}
+		#endif
 	}
 	#endif
 }

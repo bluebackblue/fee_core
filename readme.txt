@@ -18,6 +18,12 @@ DEVELOPMENT_BUILD
 Development Build オプションを有効にしてビルドしたプレイヤー
 
 ---------------------------
+USE_DEF_FEE_EDITORMENU
+---------------------------
+<Fee>
+エディターメニュを表示
+
+---------------------------
 USE_DEF_FEE_DEBUGTOOL
 ---------------------------
 <Fee>
@@ -66,5 +72,5 @@ PlayerSettings->OtherSettings->Configuration->All'unsafe'Code = true
 ---------------------------
 ■rspテンプレート
 ---------------------------
--define:NOUSE_DEF_FEE_DEBUGTOOL;NOUSE_DEF_FEE_INPUTSYSTEM;NOUSE_DEF_FEE_PUN;NOUSE_DEF_FEE_UNIVRM;NOUSE_DEF_FEE_UTF8JSON
+-define:USE_DEF_FEE_EDITORMENU;NOUSE_DEF_FEE_DEBUGTOOL;NOUSE_DEF_FEE_INPUTSYSTEM;NOUSE_DEF_FEE_PUN;NOUSE_DEF_FEE_UNIVRM;NOUSE_DEF_FEE_UTF8JSON;NOUSE_DEF_FEE_SIMPLEANIMATION
 

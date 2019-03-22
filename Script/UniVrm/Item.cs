@@ -159,7 +159,6 @@ namespace Fee.UniVrm
 
 		/** 結果。コンテキスト。設定。
 		*/
-		#if(USE_DEF_FEE_UNIVRM)
 		public void SetResultContext(VRM.VRMImporterContext a_context)
 		{
 			this.result_type = ResultType.Context;
@@ -172,19 +171,17 @@ namespace Fee.UniVrm
 				}
 			}
 		}
-		#endif
 
 		/** 結果。コンテキスト。取得。
 		*/
-		#if(USE_DEF_FEE_UNIVRM)
 		public VRM.VRMImporterContext GetResultContext()
 		{
 			return this.result_context;
 		}
-		#endif
 
 		/** [内部からの呼び出し]レイヤー。設定。
 		*/
+		/*
 		private static void Raw_SetLayer(UnityEngine.Transform a_transform,int a_layer)
 		{
 			UnityEngine.GameObject t_gameobject = a_transform.gameObject;
@@ -196,9 +193,11 @@ namespace Fee.UniVrm
 				Raw_SetLayer(t_transform,a_layer);
 			}
 		}
+		*/
 
 		/** レイヤー。設定。
 		*/
+		/*
 		public void SetLayer(string a_layername)
 		{
 			#if(USE_DEF_FEE_UNIVRM)
@@ -207,124 +206,20 @@ namespace Fee.UniVrm
 			}
 			#endif
 		}
-
-		/** 表示。設定。
 		*/
-		public void SetRendererEnable(bool a_flag)
+
+		/** CreateSimpleController
+		*/
+		public Controller CreateSimpleController()
 		{
-			#if(USE_DEF_FEE_UNIVRM)
-			if(this.result_context != null){
-				for(int ii=0;ii<this.result_context.Meshes.Count;ii++){
-					if(this.result_context.Meshes[ii] != null){
-						if(this.result_context.Meshes[ii].Renderers != null){
-							for(int jj=0;jj<this.result_context.Meshes[ii].Renderers.Count;jj++){
-								if(this.result_context.Meshes[ii].Renderers[jj] != null){
-									this.result_context.Meshes[ii].Renderers[jj].enabled = a_flag;
-								}
-							}
-						}
-					}
-				}
-			}
-			#endif
+			return new Controller(this,Controller.ControllerType.SimpleAnimation);
 		}
 
-		/** アニメータコントローラ。設定。
+		/** CreateRuntimeAnimatorController
 		*/
-		public void SetAnimatorController(UnityEngine.RuntimeAnimatorController a_animator_Controller)
+		public Controller CreateRuntimeAnimatorController()
 		{
-			if(this.result_animator != null){
-				this.result_animator.runtimeAnimatorController = a_animator_Controller;
-			}
-		}
-
-		/** アニメ。設定。
-		*/
-		public bool IsAnimeEnable()
-		{
-			if(this.result_animator != null){
-				return this.result_animator.enabled;
-			}
-			return false;
-		}
-
-		/** アニメ。設定。
-		*/
-		public void SetAnimeEnable(bool a_flag)
-		{
-			if(this.result_animator != null){
-				this.result_animator.enabled = a_flag;
-			}
-		}
-
-		/** アニメ。設定。
-		*/
-		public void SetAnime(int a_state_name_hash)
-		{
-			if(this.result_animator != null){
-				this.result_animator.Play(a_state_name_hash);
-			}
-		}
-
-		/** GetBoneTransform
-		*/
-		public UnityEngine.Transform GetBoneTransform(UnityEngine.HumanBodyBones a_bone)
-		{
-			if(this.result_animator != null){
-				return this.result_animator.GetBoneTransform(a_bone);
-			}
-
-			return null;
-		}
-
-		/** GetTransform
-		*/
-		public UnityEngine.Transform GetTransform()
-		{
-			#if(USE_DEF_FEE_UNIVRM)
-			if(this.result_context != null){
-				return this.result_context.Root.gameObject.transform;
-			}
-			#endif
-
-			return null;
-		}
-
-		/** GetForward
-		*/
-		public UnityEngine.Vector3 GetForward()
-		{
-			#if(USE_DEF_FEE_UNIVRM)
-			if(this.result_context != null){
-				return this.result_context.Root.gameObject.transform.forward;
-			}
-			#endif
-
-			return UnityEngine.Vector3.zero;
-		}
-
-		/** 位置。取得。
-		*/
-		public UnityEngine.Vector3 GetPosition()
-		{
-			#if(USE_DEF_FEE_UNIVRM)
-			if(this.result_context != null){
-				return this.result_context.Root.gameObject.transform.position;
-			}
-			#endif
-
-			return UnityEngine.Vector3.zero;
-		}
-
-		/** 位置。設定。
-		*/
-		public void SetPosition(ref UnityEngine.Vector3 a_position)
-		{
-			#if(USE_DEF_FEE_UNIVRM)
-			if(this.result_context != null){
-				this.result_context.Root.gameObject.transform.position = a_position;
-			}
-			#endif
+			return new Controller(this,Controller.ControllerType.RuntimeAnimatorController);
 		}
 	}
 }

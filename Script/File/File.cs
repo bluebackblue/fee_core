@@ -168,7 +168,9 @@ namespace Fee.File
 			this.soundpool_script.DeleteRequest();
 
 			//ルート削除。
-			UnityEngine.GameObject.Destroy(this.root_gameobject);
+			if(this.root_gameobject != null){
+				UnityEngine.GameObject.Destroy(this.root_gameobject);
+			}
 		}
 
 		/** MonoIo。取得。
