@@ -67,6 +67,8 @@ https://discord.gg/JH3B4SR
 * https://github.com/bluebackblue/fee/tree/master/license/utf8json
 * https://github.com/neuecc/Utf8Json
 
-
-
+### SimpleAnimation
+このリポジトリにSimpleMotionは含まれていません。以下から取得してください。
+* https://github.com/bluebackblue/fee/tree/master/license/simpleanimation
+* https://github.com/Unity-Technologies/SimpleAnimation
 
