@@ -59,6 +59,14 @@ namespace Fee.Initialize
 
 			//インスタンス作成。
 			{
+				//２Ｄ描画。
+				#if(false)
+				{
+					Fee.Render2D.Config.MAX_LAYER = Setting.RENDER_LAYER_INDEX_MAX;
+					Fee.Render2D.Render2D.CreateInstance();
+				}
+				#endif
+
 				//オーディオ。
 				#if(false)
 				{
@@ -180,14 +188,6 @@ namespace Fee.Initialize
 				//プラットフォーム。
 				{
 				}
-
-				//２Ｄ描画。
-				#if(false)
-				{
-					Fee.Render2D.Config.MAX_LAYER = Setting.RENDER_LAYER_INDEX_MAX;
-					Fee.Render2D.Render2D.CreateInstance();
-				}
-				#endif
 
 				//シーン。
 				#if(false)
@@ -409,9 +409,11 @@ namespace Fee.Initialize
 				}
 
 				//暗号。
+				#if(false)
 				{
 					Fee.Crypt.Crypt.GetInstance().Main();
 				}
+				#endif
 
 				//削除管理。
 				{
@@ -457,9 +459,11 @@ namespace Fee.Initialize
 				}
 
 				//ネットワーク。
+				#if(false)
 				{
 					Fee.Network.Network.GetInstance().Main();
 				}
+				#endif
 
 				//パフォーマンスカウンター。
 				{
