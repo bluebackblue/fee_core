@@ -52,9 +52,7 @@ namespace Fee.UniVrm
 
 		/** result_context
 		*/
-		#if(USE_DEF_FEE_UNIVRM)
 		private VRM.VRMImporterContext result_context;
-		#endif
 
 		/** result_animetor
 		*/
@@ -77,9 +75,7 @@ namespace Fee.UniVrm
 			this.cancel_flag = false;
 
 			//result_context
-			#if(USE_DEF_FEE_UNIVRM)
 			this.result_context = null;
-			#endif
 
 			//result_animator
 			this.result_animator = null;
@@ -89,11 +85,9 @@ namespace Fee.UniVrm
 		*/
 		public void Delete()
 		{
-			#if(USE_DEF_FEE_UNIVRM)
 			if(this.result_context != null){
 				this.result_context.Dispose();
 			}
-			#endif
 		}
 
 		/** 処理中。チェック。
@@ -178,35 +172,6 @@ namespace Fee.UniVrm
 		{
 			return this.result_context;
 		}
-
-		/** [内部からの呼び出し]レイヤー。設定。
-		*/
-		/*
-		private static void Raw_SetLayer(UnityEngine.Transform a_transform,int a_layer)
-		{
-			UnityEngine.GameObject t_gameobject = a_transform.gameObject;
-			if(t_gameobject != null){
-				t_gameobject.layer = a_layer;
-			}
-
-			foreach(UnityEngine.Transform t_transform in a_transform){
-				Raw_SetLayer(t_transform,a_layer);
-			}
-		}
-		*/
-
-		/** レイヤー。設定。
-		*/
-		/*
-		public void SetLayer(string a_layername)
-		{
-			#if(USE_DEF_FEE_UNIVRM)
-			if(this.result_context != null){
-				Raw_SetLayer(this.result_context.Root.transform,UnityEngine.LayerMask.NameToLayer(a_layername));
-			}
-			#endif
-		}
-		*/
 
 		/** CreateSimpleController
 		*/

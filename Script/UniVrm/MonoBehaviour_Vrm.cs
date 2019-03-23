@@ -48,9 +48,7 @@ namespace Fee.UniVrm
 		{
 			/** context
 			*/
-			#if(USE_DEF_FEE_UNIVRM)
 			public VRM.VRMImporterContext context;
-			#endif
 
 			public int progress_step_max;
 			public int progress_step;
@@ -61,9 +59,7 @@ namespace Fee.UniVrm
 			*/
 			public Work()
 			{
-				#if(USE_DEF_FEE_UNIVRM)
 				this.context = null;
-				#endif
 
 				this.progress_step_max = (int)ProgressStep.Max;
 				this.progress_step = (int)ProgressStep.Step0;
@@ -126,9 +122,7 @@ namespace Fee.UniVrm
 		protected override System.Collections.IEnumerator OnDo()
 		{
 			{
-				#if(USE_DEF_FEE_UNIVRM)
 				this.work.context = new VRM.VRMImporterContext();
-				#endif
 
 				//「ParseGlb」。
 				{
@@ -154,9 +148,7 @@ namespace Fee.UniVrm
 				}
 			}
 
-			#if(USE_DEF_FEE_UNIVRM)
 			this.SetResultContext(this.work.context);
-			#endif
 
 			this.SetModeDoSuccess();
 			yield break;
@@ -228,7 +220,6 @@ namespace Fee.UniVrm
 		*/
 		private System.Collections.IEnumerator Raw_Do_Load_Parse()
 		{
-			#if(USE_DEF_FEE_UNIVRM)
 			{
 				//プログレス。
 				this.SetResultProgress(this.CalcProgress(0.0f));
@@ -272,11 +263,6 @@ namespace Fee.UniVrm
 					}
 				}
 			}
-			#else
-			{
-				this.SetResultErrorString("null");
-			}
-			#endif
 
 			yield break;
 		}
@@ -285,18 +271,10 @@ namespace Fee.UniVrm
 		*/
 		private System.Collections.IEnumerator Raw_Do_Load_Create()
 		{
-			#if(USE_DEF_FEE_UNIVRM)
-			{
-				//プログレス。
-				this.SetResultProgress(this.CalcProgress(0.0f));
+			//プログレス。
+			this.SetResultProgress(this.CalcProgress(0.0f));
 
-				this.work.context.Load();
-			}
-			#else
-			{
-				this.SetResultErrorString("null");
-			}
-			#endif
+			this.work.context.Load();
 
 			yield break;
 		}
