@@ -9,10 +9,10 @@
 */
 
 
-/** Fee.Initialize
+/** Fee.UnityInitialize
 */
 #if(USE_DEF_FEE_TEMP)
-namespace Fee.Initialize
+namespace Fee.UnityInitialize
 {
 	/** Main
 	*/

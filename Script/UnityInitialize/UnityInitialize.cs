@@ -9,16 +9,16 @@
 */
 
 
-/** Fee.Initialize
+/** Fee.UnityInitialize
 */
-namespace Fee.Initialize
+namespace Fee.UnityInitialize
 {
 	/** UnityInitialize
 	*/
 	#if(UNITY_EDITOR)
 	public class UnityInitialize
 	{
-		/** メイン作成。
+		/** メインスクリプト。作成。
 		*/
 		[UnityEditor.MenuItem("Fee/Initialize/CreateMainScript")]
 		private static void CreateMainScript()

@@ -144,9 +144,9 @@ namespace Fee.UniVrm
 
 		/** [RuntimeAnimatorController]モーション。再生。
 		*/
-		public void PlayMotion_RuntimeAnimatorController(string a_state_hash)
+		public void PlayMotion_RuntimeAnimatorController(string a_state)
 		{
-			this.raw_animator.Play(a_state_hash);
+			this.raw_animator.Play(a_state);
 		}
 	}
 }

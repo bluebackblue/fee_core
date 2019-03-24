@@ -54,10 +54,6 @@ namespace Fee.UniVrm
 		*/
 		private VRM.VRMImporterContext result_context;
 
-		/** result_animetor
-		*/
-		private UnityEngine.Animator result_animator;
-
 		/** constructor
 		*/
 		public Item()
@@ -76,9 +72,6 @@ namespace Fee.UniVrm
 
 			//result_context
 			this.result_context = null;
-
-			//result_animator
-			this.result_animator = null;
 		}
 
 		/** 削除。
@@ -157,13 +150,6 @@ namespace Fee.UniVrm
 		{
 			this.result_type = ResultType.Context;
 			this.result_context = a_context;
-			this.result_animator = null;
-
-			if(this.result_context != null){
-				if(this.result_context.Root != null){
-					this.result_animator = this.result_context.Root.GetComponent<UnityEngine.Animator>();
-				}
-			}
 		}
 
 		/** 結果。コンテキスト。取得。
