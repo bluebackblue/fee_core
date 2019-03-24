@@ -476,6 +476,7 @@ namespace Fee.File
 						case MonoBehaviour_Base.ResultType.Binary:
 							{
 								if(t_webrequest.GetResultBinary() != null){
+									this.item.SetResultResponseHeader(t_webrequest.GetResponseHeader());
 									this.item.SetResultBinary(t_webrequest.GetResultBinary());
 									t_success = true;
 								}
@@ -483,6 +484,7 @@ namespace Fee.File
 						case MonoBehaviour_Base.ResultType.Text:
 							{
 								if(t_webrequest.GetResultText() != null){
+									this.item.SetResultResponseHeader(t_webrequest.GetResponseHeader());
 									this.item.SetResultText(t_webrequest.GetResultText());
 									t_success = true;
 								}
@@ -490,6 +492,7 @@ namespace Fee.File
 						case MonoBehaviour_Base.ResultType.Texture:
 							{
 								if(t_webrequest.GetResultTexture() != null){
+									this.item.SetResultResponseHeader(t_webrequest.GetResponseHeader());
 									this.item.SetResultTexture(t_webrequest.GetResultTexture());
 									t_success = true;
 								}
@@ -497,6 +500,7 @@ namespace Fee.File
 						case MonoBehaviour_Base.ResultType.AssetBundle:
 							{
 								if(t_webrequest.GetResultAssetBundle() != null){
+									this.item.SetResultResponseHeader(t_webrequest.GetResponseHeader());
 									this.item.SetResultAssetBundle(t_webrequest.GetResultAssetBundle());
 									t_success = true;
 								}
@@ -523,6 +527,8 @@ namespace Fee.File
 				}break;
 			case Mode.Do_SoundPool:
 				{
+					//TODO:別モジュール化Fileにいるのは微妙。
+
 					MonoBehaviour_SoundPool t_soundpool = Fee.File.File.GetInstance().GetMonoSoundPool();
 
 					this.item.SetResultProgress(t_soundpool.GetResultProgress());

@@ -158,6 +158,11 @@ namespace Fee.File
 		[UnityEngine.SerializeField]
 		private Fee.Audio.Pack_SoundPool result_soundpool;
 
+		/** result_responseheader
+		*/
+		[UnityEngine.SerializeField]
+		private System.Collections.Generic.Dictionary<string,string> result_responseheader;
+
 		/** 結果フラグリセット。
 		*/
 		protected void ResetResultFlag()
@@ -173,6 +178,8 @@ namespace Fee.File
 			this.result_texture = null;
 			this.result_assetbundle = null;
 			this.result_soundpool = null;
+
+			this.result_responseheader = null;
 		}
 
 		/** キャンセル。設定。
@@ -380,11 +387,25 @@ namespace Fee.File
 			this.result_soundpool = a_soundpool;
 		}
 
+		/** 結果。設定。
+		*/
+		public void SetResultResponseHeader(System.Collections.Generic.Dictionary<string,string> a_responseheader)
+		{
+			this.result_responseheader = a_responseheader;
+		}
+
 		/** 結果。取得。
 		*/
 		public Fee.Audio.Pack_SoundPool GetResultSoundPool()
 		{
 			return this.result_soundpool;
+		}
+
+		/** レスポンスヘッダー。取得。
+		*/
+		public System.Collections.Generic.Dictionary<string,string> GetResponseHeader()
+		{
+			return this.result_responseheader;
 		}
 
 		/** Awake
@@ -403,6 +424,8 @@ namespace Fee.File
 			this.result_texture = null;
 			this.result_assetbundle = null;
 			this.result_soundpool = null;
+
+			this.result_responseheader = null;
 
 			this.OnInitialize();
 		}

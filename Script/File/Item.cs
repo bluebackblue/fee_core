@@ -90,6 +90,10 @@ namespace Fee.File
 		*/
 		private Fee.Audio.Pack_SoundPool result_soundpool;
 
+		/** result_responseheader
+		*/
+		private System.Collections.Generic.Dictionary<string,string> result_responseheader;
+
 		/** constructor
 		*/
 		public Item()
@@ -120,6 +124,9 @@ namespace Fee.File
 
 			//result_soundpool
 			this.result_soundpool = null;
+
+			//result_responseheader
+			this.result_responseheader = null;
 		}
 
 		/** 削除。
@@ -274,6 +281,20 @@ namespace Fee.File
 		public Fee.Audio.Pack_SoundPool GetResultSoundPool()
 		{
 			return this.result_soundpool;
+		}
+
+		/** 結果。レスポンスヘッダー。設定。
+		*/
+		public void SetResultResponseHeader(System.Collections.Generic.Dictionary<string,string> a_responseheader)
+		{
+			this.result_responseheader = a_responseheader;
+		}
+
+		/** 結果。レスポンスヘッダー。取得。
+		*/
+		public System.Collections.Generic.Dictionary<string,string> GetResponseHeader()
+		{
+			return this.result_responseheader;
 		}
 	}
 }

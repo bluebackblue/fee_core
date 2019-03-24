@@ -42,6 +42,9 @@ namespace Fee.File
 			System.IO.StreamWriter t_filestream = null;
 
 			try{
+				//削除。
+				System.IO.File.Delete(a_full_path);
+
 				//ファイルパス。
 				System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
 
@@ -73,6 +76,10 @@ namespace Fee.File
 			if(t_filestream != null){
 				t_filestream.Close();
 			}
+
+			#if(UNITY_WEBGL)
+			Platform.WebGL_SyncFs.SyncFs();
+			#endif
 
 			if(a_cancel.IsCancellationRequested == true){
 				t_ret.saveend = false;

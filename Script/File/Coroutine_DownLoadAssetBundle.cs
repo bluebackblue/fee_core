@@ -24,6 +24,10 @@ namespace Fee.File
 			public UnityEngine.AssetBundle assetbundle;
 			public string errorstring;
 
+			/** レスポンスヘッダー。
+			*/
+			public System.Collections.Generic.Dictionary<string,string> responseheader;
+
 			/** constructor
 			*/
 			public ResultType()
@@ -95,6 +99,9 @@ namespace Fee.File
 				//コンバート。
 				UnityEngine.AssetBundle t_result = null;
 				try{
+					//レスポンスヘッダー。
+					this.result.responseheader = t_webrequest.GetResponseHeaders();
+
 					t_result = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(t_webrequest);
 				}catch(System.Exception t_exception){
 					this.result.errorstring = "Coroutine_DownLoadAssetBundle : " + t_exception.Message;

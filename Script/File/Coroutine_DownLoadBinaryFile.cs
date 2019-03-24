@@ -24,6 +24,10 @@ namespace Fee.File
 			public byte[] binary;
 			public string errorstring;
 
+			/** レスポンスヘッダー。
+			*/
+			public System.Collections.Generic.Dictionary<string,string> responseheader;
+
 			/** constructor
 			*/
 			public ResultType()
@@ -103,6 +107,10 @@ namespace Fee.File
 				//コンバート。
 				byte[] t_result = null;
 				try{
+					//レスポンスヘッダー。
+					this.result.responseheader = t_webrequest.GetResponseHeaders();
+
+					System.Collections.Generic.Dictionary<string,string> t_header = t_webrequest.GetResponseHeaders();
 					if(t_webrequest.downloadHandler != null){
 						t_result = t_webrequest.downloadHandler.data;
 					}else{

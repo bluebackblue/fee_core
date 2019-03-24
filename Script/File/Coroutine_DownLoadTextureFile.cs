@@ -24,6 +24,10 @@ namespace Fee.File
 			public UnityEngine.Texture2D texture;
 			public string errorstring;
 
+			/** レスポンスヘッダー。
+			*/
+			public System.Collections.Generic.Dictionary<string,string> responseheader;
+
 			/** constructor
 			*/
 			public ResultType()
@@ -85,6 +89,9 @@ namespace Fee.File
 				//コンバート。
 				UnityEngine.Texture2D t_result = null;
 				try{
+					//レスポンスヘッダー。
+					this.result.responseheader = t_webrequest.GetResponseHeaders();
+
 					t_result = UnityEngine.Networking.DownloadHandlerTexture.GetContent(t_webrequest);
 				}catch(System.Exception t_exception){
 					this.result.errorstring = "Coroutine_DownLoadTextureFile : " + t_exception.Message;

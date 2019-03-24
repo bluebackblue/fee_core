@@ -163,6 +163,7 @@ namespace Fee.File
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
+						this.SetResultResponseHeader(t_coroutine.result.responseheader);
 						this.SetModeDoSuccess();
 					}else{
 						this.SetResultErrorString(t_coroutine.result.errorstring);
@@ -175,6 +176,7 @@ namespace Fee.File
 
 					if(t_coroutine.result.text != null){
 						this.SetResultText(t_coroutine.result.text);
+						this.SetResultResponseHeader(t_coroutine.result.responseheader);
 						this.SetModeDoSuccess();
 					}else{
 						this.SetResultErrorString(t_coroutine.result.errorstring);
@@ -187,6 +189,7 @@ namespace Fee.File
 
 					if(t_coroutine.result.texture != null){
 						this.SetResultTexture(t_coroutine.result.texture);
+						this.SetResultResponseHeader(t_coroutine.result.responseheader);
 						this.SetModeDoSuccess();
 					}else{
 						this.SetResultErrorString(t_coroutine.result.errorstring);
@@ -199,6 +202,7 @@ namespace Fee.File
 
 					if(t_coroutine.result.assetbundle != null){
 						this.SetResultAssetBundle(t_coroutine.result.assetbundle);
+						this.SetResultResponseHeader(t_coroutine.result.responseheader);
 						this.SetModeDoSuccess();
 					}else{
 						this.SetResultErrorString(t_coroutine.result.errorstring);
@@ -211,6 +215,7 @@ namespace Fee.File
 
 					if(t_coroutine.result.binary != null){
 						this.SetResultBinary(t_coroutine.result.binary);
+						this.SetResultResponseHeader(t_coroutine.result.responseheader);
 						this.SetModeDoSuccess();
 					}else{
 						this.SetResultErrorString(t_coroutine.result.errorstring);
