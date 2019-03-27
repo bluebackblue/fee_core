@@ -45,7 +45,7 @@ namespace Fee.Ui
 
 		/** [Scroll_List_Base]アイテムの位置更新。スクロール方向ではない座標。
 		*/
-		protected abstract void UpdateItemOtherPos(ITEM a_item,int a_index);
+		protected abstract void UpdateItemOtherPos(ITEM a_item);
 
 		/** [Scroll_List_Base]表示幅更新。
 		*/
@@ -109,6 +109,7 @@ namespace Fee.Ui
 			//list
 			for(int ii=0;ii<this.list.Count;ii++){
 				this.list[ii].SetClipRect(ref this.rect);
+				this.UpdateItemOtherPos(this.list[ii]);
 			}
 
 			//表示範囲更新。
@@ -120,13 +121,13 @@ namespace Fee.Ui
 
 		/** アイテム初期化。
 		*/
-		private void InitItem(ITEM a_item,int a_index)
+		private void InitItem(ITEM a_item)
 		{
 			//クリップ矩形。設定。
 			a_item.SetClipRect(ref this.rect);
 
 			//アイテムの位置更新。スクロール方向ではない座標。
-			this.UpdateItemOtherPos(a_item,a_index);
+			this.UpdateItemOtherPos(a_item);
 		}
 
 		/** 最後尾追加。
@@ -135,7 +136,7 @@ namespace Fee.Ui
 		{
 			//追加。
 			int t_index = this.list.Count;
-			this.InitItem(a_new_item,t_index);
+			this.InitItem(a_new_item);
 			this.list.Add(a_new_item);
 
 			//表示範囲更新。
@@ -173,7 +174,7 @@ namespace Fee.Ui
 		{
 			if((0<=a_index)&&(a_index<=this.list.Count)){
 				//追加。
-				this.InitItem(a_new_item,a_index);
+				this.InitItem(a_new_item);
 				this.list.Insert(a_index,a_new_item);
 
 				//表示範囲更新。

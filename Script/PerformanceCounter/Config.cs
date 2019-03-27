@@ -29,15 +29,6 @@ namespace Fee.PerformanceCounter
 		*/
 		public static bool ASSERT_ENABLE = true;
 
-		/** マテリアル名。
-		*/
-		public static string MATERIAL_NAME_BLURX = "Material/Blur/BlurX";
-		public static string MATERIAL_NAME_BLURY = "Material/Blur/BlurY";
-
-		/** デフォルト。カメラデプス。
-		*/
-		public static float DEFAULT_CAMERA_DEPTH = 900.0f;
-
 		/** ログプレフィックス。
 		*/
 		public static string LOG_TAGNAME_STRING = "-------- PerformanceCounter --------";

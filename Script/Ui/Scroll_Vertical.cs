@@ -50,6 +50,14 @@ namespace Fee.Ui
 			this.bar.SetVisible(false);
 		}
 
+		/** 描画プライオリティー。設定。
+		*/
+		public void SetDrawPriority(long a_drawpriority)
+		{
+			this.bg.SetDrawPriority(a_drawpriority);
+			this.bar.SetDrawPriority(a_drawpriority);
+		}
+
 		/** [Scroll_Base]コールバック。矩形。設定。
 		*/
 		protected override void OnChangeRect()

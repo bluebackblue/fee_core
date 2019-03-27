@@ -13,11 +13,32 @@
 */
 namespace Fee.Dijkstra
 {
+	/** Node_Base
+	*/
+	public interface Node_Base
+	{
+		/** 計算フラグ。設定。
+		*/
+		void SetCalcFlag(bool a_flag);
+
+		/** 計算フラグ。取得。
+		*/
+		bool GetCalcFlag();
+
+		/** 到達コスト。設定。
+		*/
+		void SetTotalCost(long a_totalcost);
+
+		/** 到達コスト。取得。
+		*/
+		long GetTotalCost();
+	}
+
 	/** Node
 	*/
 	public class Node<NODEKEY,NODEDATA,LINKDATA>
-		where NODEDATA : struct
-		where LINKDATA : struct
+		where NODEDATA : Node_Base
+		where LINKDATA : Link_Base
 	{
 		/** キー。
 		*/
@@ -31,13 +52,25 @@ namespace Fee.Dijkstra
 		*/
 		private System.Collections.Generic.List<Link<NODEKEY,NODEDATA,LINKDATA>> link_list;
 
+		/** 計算フラグ。デフォルト。
+		*/
+		public const bool CALCFALG_DEFAULT = false;
+
+		/** 到達コスト。デフォルト。
+		*/
+		public const long TOTALCOST_DEFAULT = -1;
+
 		/** 計算フラグ。
 		*/
+		/*
 		private bool calcflag;
+		*/
 
 		/** 到達コスト。
 		*/
+		/*
 		private long total_cost;
+		*/
 
 		/** このノードへ到達するための隣接ノード。
 		*/
@@ -50,8 +83,12 @@ namespace Fee.Dijkstra
 			this.key = a_key;
 			this.nodedata = a_nodedata;
 			this.link_list = new System.Collections.Generic.List<Link<NODEKEY,NODEDATA,LINKDATA>>();
-			this.calcflag = false;
-			this.total_cost = -1;
+
+			//this.calcflag = false;
+			//this.total_cost = -1;
+			//this.nodedata.SetCalcFlag(false);
+			//this.nodedata.SetTotalCost(-1);
+
 			this.prev_node = null;
 		}
 
@@ -59,44 +96,52 @@ namespace Fee.Dijkstra
 		*/
 		public void ResetCalcFlag()
 		{
-			this.total_cost = -1;
 			this.prev_node = null;
-			this.calcflag = false;
+
+			//this.total_cost = -1;
+			//this.calcflag = false;
+			this.nodedata.SetTotalCost(-1);
+			this.nodedata.SetCalcFlag(false);
 		}
 
 		/** 開始ノードとしてコストを設定。
 		*/
 		public void SetStartCost()
 		{
-			this.total_cost = 0;
+			//this.total_cost = 0;
+			this.nodedata.SetTotalCost(0);
 		}
 
 		/** 到達コスト。取得。
 		*/
 		public long GetTotalCost()
 		{
-			return this.total_cost;
+			//return this.total_cost;
+			return this.nodedata.GetTotalCost();
 		}
 
 		/** 到達コスト。設定。
 		*/
 		public void SetTotalCost(long a_totalcost)
 		{
-			this.total_cost = a_totalcost;
+			//this.total_cost = a_totalcost;
+			this.nodedata.SetTotalCost(a_totalcost);
 		}
 
 		/** 計算フラグ。設定。
 		*/
 		public void SetCalcFlag(bool a_flag)
 		{
-			this.calcflag = a_flag;
+			//this.nodedata.calcflag = a_flag;
+			this.SetCalcFlag(a_flag);
 		}
 
 		/** 計算フラグ。取得。
 		*/
 		public bool GetCalcFlag()
 		{
-			return this.calcflag;
+			//return this.calcflag;
+			return this.nodedata.GetCalcFlag();
 		}
 
 		/** 隣接ノードの追加。

@@ -16,8 +16,8 @@ namespace Fee.Dijkstra
 	/** Dijkstra
 	*/
 	public class Dijkstra<NODEKEY,NODEDATA,LINKDATA>
-		where NODEDATA : struct
-		where LINKDATA : struct
+		where NODEDATA : Node_Base
+		where LINKDATA : Link_Base
 	{
 		/** ノードリスト。
 		*/

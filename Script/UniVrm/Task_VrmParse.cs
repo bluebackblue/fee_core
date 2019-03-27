@@ -31,17 +31,9 @@ namespace Fee.UniVrm
 			//Fee.TaskW.TaskW.GetInstance().Post((a_state) => {a_instance.SetProgressFromTask(0.0f);},null);
 
 			try{
+
 				a_context.ParseGlb(a_binary);
 
-				//TODO:エラーチェック。
-				if(a_context.Root == null){
-					t_ret = false;
-
-					//エラー文字列。
-					Fee.TaskW.TaskW.GetInstance().Post((a_state) => {
-						a_instance.SetErrorStringFromTask("Root==null");
-					},null);
-				}
 			}catch(System.Exception /*t_exception*/){
 				t_ret = false;
 

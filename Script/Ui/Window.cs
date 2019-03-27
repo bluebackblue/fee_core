@@ -29,13 +29,25 @@ namespace Fee.Ui
 		*/
 		private int titlebar_h;
 
+		/** blockitem
+		*/
+		private Fee.EventPlate.BlockItem blockitem;
+
+		/** bg_eventplate
+		*/
+		private Fee.EventPlate.Item bg_eventplate;
+
 		/** eventplate_titlebar
 		*/
-		private Fee.EventPlate.Item eventplate_titlebar;
+		private Fee.EventPlate.Item titlebar_eventplate;
 
-		/** is_onover
+		/** is_onover_bg
 		*/
-		private bool is_onover;
+		private bool is_onover_bg;
+
+		/** is_onover_titlebar
+		*/
+		private bool is_onover_titlebar;
 
 		/** is_drag
 		*/
@@ -66,12 +78,24 @@ namespace Fee.Ui
 			//titlebar_h
 			this.titlebar_h = 20;
 
-			//eventplate_titlebar
-			this.eventplate_titlebar = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,0);
-			this.eventplate_titlebar.SetOnOverCallBack(this);
+			//blockitem
+			this.blockitem = new Fee.EventPlate.BlockItem(this.deleter,0,EventPlate.EventTypeMask.NotWindow);
 
-			//is_onover
-			this.is_onover = false;
+			//bg_eventplate
+			this.bg_eventplate = new EventPlate.Item(this.deleter,EventPlate.EventType.Window,0);
+			this.bg_eventplate.SetOnOverCallBack(this);
+			this.bg_eventplate.SetOnOverCallBackValue(0);
+
+			//titlebar_eventplate
+			this.titlebar_eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,0);
+			this.titlebar_eventplate.SetOnOverCallBack(this);
+			this.titlebar_eventplate.SetOnOverCallBackValue(1);
+
+			//is_onover_bg
+			this.is_onover_bg = false;
+
+			//is_onover_titlebar
+			this.is_onover_titlebar = false;
 
 			//is_drag
 			this.is_drag = false;
@@ -101,14 +125,22 @@ namespace Fee.Ui
 			//ターゲット登録。
 			Ui.GetInstance().SetTargetRequest(this);
 
-			this.is_onover = true;
+			if(a_value == 0){
+				this.is_onover_bg = true;
+			}else{
+				this.is_onover_titlebar = true;
+			}
 		}
 
 		/** [Fee.EventPlateOnOverCallBack_Base]イベントプレートから退場。
 		*/
 		public void OnOverLeave(int a_value)
 		{
-			this.is_onover = false;
+			if(a_value == 0){
+				this.is_onover_bg = false;
+			}else{
+				this.is_onover_titlebar = false;
+			}
 		}
 
 		/** [Window_Base]コールバック。削除。
@@ -129,11 +161,17 @@ namespace Fee.Ui
 			//bg_sprite
 			this.bg_sprite.SetDrawPriority(t_drawpriority);
 
+			//blockitem
+			this.blockitem.SetPriority(t_drawpriority);
+
+			//bg_eventplate
+			this.bg_eventplate.SetPriority(t_drawpriority);
+
 			//titlebar
 			this.titlebar.SetDrawPriority(t_drawpriority + this.GetTitleBarDrawPriorityOffset());
 
-			//eventplate_titlebar
-			this.eventplate_titlebar.SetPriority(t_drawpriority + this.GetTitleBarDrawPriorityOffset());
+			//titlebar_eventplate
+			this.titlebar_eventplate.SetPriority(t_drawpriority + this.GetTitleBarDrawPriorityOffset());
 		}
 
 		/** [WindowBase]コールバック。矩形変更。
@@ -143,11 +181,17 @@ namespace Fee.Ui
 			//bg_sprite
 			this.bg_sprite.SetRect(ref this.rect);
 
+			//blockitem
+			this.blockitem.SetRect(ref this.rect);
+
+			//bg_eventplate
+			this.bg_eventplate.SetRect(ref this.rect);
+
 			//titlebar
 			this.titlebar.SetRect(this.rect.x,this.rect.y,this.rect.w,this.titlebar_h);
 
-			//eventplate_titlebar
-			this.eventplate_titlebar.SetRect(this.rect.x,this.rect.y,this.rect.w,this.titlebar_h);
+			//titlebar_eventplate
+			this.titlebar_eventplate.SetRect(this.rect.x,this.rect.y,this.rect.w,this.titlebar_h);
 		}
 
 		/** [WindowBase]コールバック。矩形変更。
@@ -157,18 +201,31 @@ namespace Fee.Ui
 			//bg_sprite
 			this.bg_sprite.SetXY(this.rect.x,this.rect.y);
 
+			//blockitem
+			this.blockitem.SetXY(this.rect.x,this.rect.y);
+
+			//bg_eventplate
+			this.bg_eventplate.SetXY(this.rect.x,this.rect.y);
+
 			//titlebar
 			this.titlebar.SetXY(this.rect.x,this.rect.y);
 
-			//eventplate_titlebar
-			this.eventplate_titlebar.SetXY(this.rect.x,this.rect.y);
+			//titlebar_eventplate
+			this.titlebar_eventplate.SetXY(this.rect.x,this.rect.y);
+		}
+
+		/** IsOnOver
+		*/
+		public bool IsOnOver()
+		{
+			return (this.is_onover_bg || this.is_onover_titlebar);
 		}
 
 		/** [Fee.Ui.OnTargetCallBack_Base]OnTarget
 		*/
 		public void OnTarget()
 		{
-			if((this.is_onover == true)&&(this.is_drag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)){
+			if((this.is_onover_titlebar == true)&&(this.is_drag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)){
 				//ドラッグ開始。
 
 				//ウィンドウを最前面にする。
@@ -188,8 +245,13 @@ namespace Fee.Ui
 				int t_x = Fee.Input.Mouse.GetInstance().pos.x - this.downpos.x;
 				int t_y = Fee.Input.Mouse.GetInstance().pos.y - this.downpos.y;
 				this.SetXY(t_x,t_y);
-			}else if(this.is_onover == true){
+			}else if(this.is_onover_titlebar == true){
 				//ドラッグ開始待ち。
+			}else if(this.is_onover_bg == true){
+				if(Fee.Input.Mouse.GetInstance().left.down == true){
+					//ウィンドウを最前面にする。
+					Fee.Ui.Ui.GetInstance().SetWindowPriorityTopMost(this);
+				}
 			}else{
 				//ターゲット解除。
 				Ui.GetInstance().UnSetTargetRequest(this);

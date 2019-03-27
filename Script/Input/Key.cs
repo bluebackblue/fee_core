@@ -65,10 +65,16 @@ namespace Fee.Input
 
 		/** ボタン。
 		*/
-		public Digital_Button left;
-		public Digital_Button right;
-		public Digital_Button up;
-		public Digital_Button down;
+		public Digital_Button l_left;
+		public Digital_Button l_right;
+		public Digital_Button l_up;
+		public Digital_Button l_down;
+
+		public Digital_Button r_left;
+		public Digital_Button r_right;
+		public Digital_Button r_up;
+		public Digital_Button r_down;
+
 		public Digital_Button enter;
 		public Digital_Button escape;
 		public Digital_Button sub1;
@@ -81,10 +87,14 @@ namespace Fee.Input
 		private Key()
 		{
 			//ボタン。
-			this.left.Reset();
-			this.right.Reset();
-			this.up.Reset();
-			this.down.Reset();
+			this.l_left.Reset();
+			this.l_right.Reset();
+			this.l_up.Reset();
+			this.l_down.Reset();
+			this.r_left.Reset();
+			this.r_right.Reset();
+			this.r_up.Reset();
+			this.r_down.Reset();
 			this.enter.Reset();
 			this.escape.Reset();
 			this.sub1.Reset();
@@ -108,26 +118,34 @@ namespace Fee.Input
 				UnityEngine.Experimental.Input.Keyboard t_key_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Keyboard>();
 				if(t_key_current != null){
 					//デバイス。
+					bool t_l_left_on = t_key_current[Config.INPUTSYSTEM_LEFT].isPressed;
+					bool t_l_right_on = t_key_current[Config.INPUTSYSTEM_RIGHT].isPressed;
+					bool t_l_up_on = t_key_current[Config.INPUTSYSTEM_UP].isPressed;
+					bool t_l_down_on = t_key_current[Config.INPUTSYSTEM_DOWN].isPressed;
+					bool t_r_left_on = t_key_current[Config.INPUTSYSTEM_LEFT].isPressed;
+					bool t_r_right_on = t_key_current[Config.INPUTSYSTEM_RIGHT].isPressed;
+					bool t_r_up_on = t_key_current[Config.INPUTSYSTEM_UP].isPressed;
+					bool t_r_down_on = t_key_current[Config.INPUTSYSTEM_DOWN].isPressed;
 					bool t_enter_on = t_key_current[Config.INPUTSYSTEM_ENTER].isPressed;
 					bool t_escape_on = t_key_current[Config.INPUTSYSTEM_ESCAPE].isPressed;
 					bool t_sub1_on = t_key_current[Config.INPUTSYSTEM_SUB1].isPressed;
 					bool t_sub2_on = t_key_current[Config.INPUTSYSTEM_SUB2].isPressed;
-					bool t_left_on = t_key_current[Config.INPUTSYSTEM_LEFT].isPressed;
-					bool t_right_on = t_key_current[Config.INPUTSYSTEM_RIGHT].isPressed;
-					bool t_up_on = t_key_current[Config.INPUTSYSTEM_UP].isPressed;
-					bool t_down_on = t_key_current[Config.INPUTSYSTEM_DOWN].isPressed;
 					bool t_left_menu_on = t_key_current[Config.INPUTSYSTEM_LEFT_MENU].isPressed;
 					bool t_right_menu_on = t_key_current[Config.INPUTSYSTEM_RIGHT_MENU].isPressed;
 
 					//設定。
+					this.l_left.Set(t_l_left_on);
+					this.l_right.Set(t_l_right_on);
+					this.l_up.Set(t_l_up_on);
+					this.l_down.Set(t_l_down_on);
+					this.r_left.Set(t_r_left_on);
+					this.r_right.Set(t_r_right_on);
+					this.r_up.Set(t_r_up_on);
+					this.r_down.Set(t_r_down_on);
 					this.enter.Set(t_enter_on);
 					this.escape.Set(t_escape_on);
 					this.sub1.Set(t_sub1_on);
 					this.sub2.Set(t_sub2_on);
-					this.left.Set(t_left_on);
-					this.right.Set(t_right_on);
-					this.up.Set(t_up_on);
-					this.down.Set(t_down_on);
 					this.left_menu.Set(t_left_menu_on);
 					this.right_menu.Set(t_right_menu_on);
 
@@ -144,26 +162,34 @@ namespace Fee.Input
 		public bool Main_InputManagerKey_Key()
 		{
 			//デバイス。
+			bool t_l_left_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.A);
+			bool t_l_right_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.D);
+			bool t_l_up_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.W);
+			bool t_l_down_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.S);
+			bool t_r_left_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.LeftArrow);
+			bool t_r_right_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.RightArrow);
+			bool t_r_up_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.UpArrow);
+			bool t_r_down_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.DownArrow);
 			bool t_enter_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Return);
 			bool t_escape_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Escape);
 			bool t_sub1_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.LeftShift);
 			bool t_sub2_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.LeftControl);
-			bool t_left_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.A);
-			bool t_right_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.D);
-			bool t_up_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.W);
-			bool t_down_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.S);
 			bool t_left_menu_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Space);
 			bool t_right_menu_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Backspace);
 
 			//設定。
+			this.l_left.Set(t_l_left_on);
+			this.l_right.Set(t_l_right_on);
+			this.l_up.Set(t_l_up_on);
+			this.l_down.Set(t_l_down_on);
+			this.r_left.Set(t_r_left_on);
+			this.r_right.Set(t_r_right_on);
+			this.r_up.Set(t_r_up_on);
+			this.r_down.Set(t_r_down_on);
 			this.enter.Set(t_enter_on);
 			this.escape.Set(t_escape_on);
 			this.sub1.Set(t_sub1_on);
 			this.sub2.Set(t_sub2_on);
-			this.left.Set(t_left_on);
-			this.right.Set(t_right_on);
-			this.up.Set(t_up_on);
-			this.down.Set(t_down_on);
 			this.left_menu.Set(t_left_menu_on);
 			this.right_menu.Set(t_right_menu_on);
 
@@ -198,53 +224,24 @@ namespace Fee.Input
 				this.Main_Key();
 
 				//更新。
+				this.l_left.Main();
+				this.l_right.Main();
+				this.l_up.Main();
+				this.l_down.Main();
+				this.r_left.Main();
+				this.r_right.Main();
+				this.r_up.Main();
+				this.r_down.Main();
 				this.enter.Main();
 				this.escape.Main();
 				this.sub1.Main();
 				this.sub2.Main();
-				this.left.Main();
-				this.right.Main();
-				this.up.Main();
-				this.down.Main();
 				this.left_menu.Main();
 				this.right_menu.Main();
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}
 		}
-
-		/** 移動チェック。ダウン時。
-		*/
-		public Dir4Type DownMoveCheck()
-		{
-			if(this.up.down == true){
-				return Dir4Type.Up;
-			}else if(this.down.down == true){
-				return Dir4Type.Down;
-			}else if(this.left.down == true){
-				return Dir4Type.Left;
-			}else if(this.right.down == true){
-				return Dir4Type.Right;
-			}
-			return Dir4Type.None;
-		}
-
-		/** 移動チェック。オン時。
-		*/
-		public Dir4Type OnMoveCheck()
-		{
-			if(this.up.on == true){
-				return Dir4Type.Up;
-			}else if(this.down.on == true){
-				return Dir4Type.Down;
-			}else if(this.left.on == true){
-				return Dir4Type.Left;
-			}else if(this.right.on == true){
-				return Dir4Type.Right;
-			}
-			return Dir4Type.None;
-		}
-
 	}
 }
 

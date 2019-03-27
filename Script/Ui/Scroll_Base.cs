@@ -374,6 +374,36 @@ namespace Fee.Ui
 
  		/** 矩形。設定。
 		*/
+		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		{
+			//rect
+			this.rect = a_rect;
+
+			//eventplate
+			this.eventplate.SetRect(ref a_rect);
+
+			//コールバック。矩形変更。
+			this.OnChangeRect_FromBase();
+		}
+
+ 		/** 矩形。設定。
+		*/
+		public void SetXY(int a_x,int a_y)
+		{
+			//rect
+			this.rect.x = a_x;
+			this.rect.y = a_y;
+
+			//eventplate
+			this.eventplate.SetX(a_x);
+			this.eventplate.SetY(a_y);
+
+			//コールバック。矩形変更。
+			this.OnChangeRect_FromBase();
+		}
+
+ 		/** 矩形。設定。
+		*/
 		public void SetX(int a_x)
 		{
 			//rect

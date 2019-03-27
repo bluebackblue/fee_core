@@ -276,6 +276,15 @@ namespace Fee.UniVrm
 
 			this.work.context.Load();
 
+			//結果。
+			if(this.work.context.Root != null){
+				yield break;
+			}else{
+				if(this.GetResultType() != ResultType.Error){
+					this.SetResultErrorString("Root == null");
+				}
+			}
+
 			yield break;
 		}
 	}

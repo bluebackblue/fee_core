@@ -25,10 +25,6 @@ namespace Fee.Ui
 		*/
 		protected Fee.Render2D.Rect2D_R<int> rect;
 
-		/** blockitem
-		*/
-		private Fee.EventPlate.BlockItem blockitem;
-
 		/** layerindex
 		*/
 		protected int layerindex;
@@ -62,9 +58,6 @@ namespace Fee.Ui
 
 			//rect
 			this.rect.Set(0,0,0,0);
-
-			//blockitem
-			this.blockitem = new Fee.EventPlate.BlockItem(this.deleter,0);
 
 			//layerindex
 			this.layerindex = 0;
@@ -106,9 +99,6 @@ namespace Fee.Ui
 			//drawpriority
 			long t_drawpriority = this.layerindex * Fee.Render2D.Render2D.DRAWPRIORITY_STEP;
 
-			//blockitem
-			this.blockitem.SetPriority(t_drawpriority);
-
 			//[Window_Base]コールバック。レイヤーインデックス変更。
 			this.OnChangeLayerIndex_FromBase();
 
@@ -123,7 +113,6 @@ namespace Fee.Ui
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
 		{
 			this.rect.Set(a_x,a_y,a_w,a_h);
-			this.blockitem.SetRect(ref this.rect);
 
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeRect_FromBase();
@@ -140,8 +129,6 @@ namespace Fee.Ui
 		{
 			this.rect.x = a_x;
 			this.rect.y = a_y;
-
-			this.blockitem.SetXY(a_x,a_y);
 
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeXY_FromBase();

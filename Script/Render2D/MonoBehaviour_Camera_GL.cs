@@ -52,6 +52,13 @@ namespace Fee.Render2D
 			this.cameradepth = 0.0f;
 		}
 
+		/** SetActive
+		*/
+		public void SetActive(bool a_flag)
+		{
+			this.mycamera.enabled = a_flag;
+		}
+
 		/** カメラデプス。設定。
 		*/
 		public void SetDepth(float a_depth)

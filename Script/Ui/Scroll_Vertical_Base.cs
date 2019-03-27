@@ -43,7 +43,7 @@ namespace Fee.Ui
 
 		/** [Scroll_List_Base]アイテムの位置更新。スクロール方向ではない座標。
 		*/
-		protected override void UpdateItemOtherPos(ITEM a_item,int a_index)
+		protected override void UpdateItemOtherPos(ITEM a_item)
 		{
 			a_item.SetX(this.rect.x);
 		}

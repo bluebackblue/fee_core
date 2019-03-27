@@ -361,6 +361,22 @@ namespace Fee.Render2D
 				}
 			}
 
+			for(int ii=0;ii<this.list.Length;ii++){
+				if(this.list[ii].sprite_index_start >= 0){
+					this.list[ii].camera_gl.SetActive(true);
+				}else{
+					this.list[ii].camera_gl.SetActive(false);
+				}
+			}
+
+			for(int ii=0;ii<this.list.Length;ii++){
+				if((this.list[ii].inputfield_index_last >= 0)||(this.list[ii].text_index_start >= 0)){
+					this.list[ii].camera_ui.SetActive(true);
+				}else{
+					this.list[ii].camera_ui.SetActive(false);
+				}
+			}
+
 			//ログ。
 			for(int ii=0;ii<this.list.Length;ii++){
 				this.list[ii].Log();
