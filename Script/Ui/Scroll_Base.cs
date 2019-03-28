@@ -158,6 +158,13 @@ namespace Fee.Ui
 				this.scroll_value.SetViewLength(a_w);
 			}
 
+			//位置更新。
+			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+				this.list[ii].SetClipRect(ref this.rect);
+				this.OnItemPositionChange(ii);
+				this.OnItemOtherPositionChange(ii);
+			}
+
 			//[Scroll_Base]コールバック。矩形。設定。
 			this.OnChangeRect();
 		}
@@ -174,6 +181,32 @@ namespace Fee.Ui
 				this.scroll_value.SetViewLength(a_rect.h);
 			}else{
 				this.scroll_value.SetViewLength(a_rect.w);
+			}
+
+			//位置更新。
+			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+				this.list[ii].SetClipRect(ref this.rect);
+				this.OnItemPositionChange(ii);
+				this.OnItemOtherPositionChange(ii);
+			}
+
+			//[Scroll_Base]コールバック。矩形。設定。
+			this.OnChangeRect();
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetXY(int a_x,int a_y)
+		{
+			//rect
+			this.rect.x = a_x;
+			this.rect.y = a_y;
+
+			//位置更新。
+			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+				this.list[ii].SetClipRect(ref this.rect);
+				this.OnItemPositionChange(ii);
+				this.OnItemOtherPositionChange(ii);
 			}
 
 			//[Scroll_Base]コールバック。矩形。設定。
@@ -214,11 +247,33 @@ namespace Fee.Ui
 			}
 		}
 
+		/** スクロール方向とは違う方向の位置変更。
+		*/
+		public void OnItemOtherPositionChange(int a_index)
+		{
+			if(this.scroll_type == ScrollType.Vertical){
+				this.list[a_index].SetX(this.rect.x);
+			}else{
+				this.list[a_index].SetY(this.rect.y);
+			}
+		}
+
 		/** [Scroll_Value_CallBack]コールバック。表示変更。
 		*/
 		public void OnItemVisibleChange(int a_index,bool a_flag)
 		{
 			if(a_flag == true){
+
+				//スクロール方向とは違う方向の位置変更。
+				if(this.scroll_type == ScrollType.Vertical){
+					this.list[a_index].SetX(this.rect.x);
+				}else{
+					this.list[a_index].SetY(this.rect.y);
+				}
+
+				//クリップ矩形。設定。
+				this.list[a_index].SetClipRect(ref this.rect);
+
 				this.list[a_index].OnViewIn();
 			}else{
 				this.list[a_index].OnViewOut();
