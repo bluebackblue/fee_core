@@ -52,6 +52,8 @@ namespace Fee.Ui
 					int t_layerindex = this.layerindex_start + ii;
 					if(t_layerindex >= Fee.Render2D.Render2D.MAX_LAYER){
 						t_layerindex =  Fee.Render2D.Render2D.MAX_LAYER - 1;
+
+						//ウィンドウ用のレイヤインデックス不足。
 						Tool.Assert(false);
 					}
 
@@ -59,6 +61,13 @@ namespace Fee.Ui
 					this.list[ii].ChangeLayerIndex(t_layerindex);
 				}
 			}
+		}
+
+		/** ウィンドウ数。取得。
+		*/
+		public int GetWindowCount()
+		{
+			return this.list.Count;
 		}
 
 		/** 開始レイヤーインデックス。設定。
@@ -84,6 +93,20 @@ namespace Fee.Ui
 			this.list.Remove(a_window);
 		}
 
+		/** 最前面ウィンドウ矩形。取得。
+		*/
+		public bool GetTopWindowXY(out int a_x,out int a_y)
+		{
+			if(this.list.Count > 0){
+				a_x = this.list[this.list.Count - 1].GetX();
+				a_y = this.list[this.list.Count - 1].GetY();
+				return true;
+			}
+			a_x = 0;
+			a_y = 0;
+			return false;
+		}
+
 		/** ウィンドウを最前面にする。
 		*/
 		public void SetWindowPriorityTopMost(Window_Base a_window)
@@ -92,11 +115,11 @@ namespace Fee.Ui
 
 			int t_index_a = this.list.IndexOf(a_window);
 			int t_index_b = this.list.Count - 1;
-
 			if((t_index_a != t_index_b)&&(t_index_a >= 0)&&(t_index_b >= 0)){
-				Window_Base t_item = this.list[t_index_a];
-				this.list[t_index_a] = list[t_index_b];
-				this.list[t_index_b] = t_item;				
+				for(int ii=t_index_a;ii<(this.list.Count - 1);ii++){
+					this.list[ii] = this.list[ii + 1];
+				}
+				this.list[t_index_b] = a_window;
 			}
 		}
 	}

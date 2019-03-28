@@ -15,6 +15,7 @@ namespace Fee.Platform
 {
 	/** WebGL_OpenPrompt
 	*/
+	#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
 	class WebGL_OpenPrompt
 	{
 		/** Fee_Platform_WebGLPlugin_OpenPrompt
@@ -37,5 +38,6 @@ namespace Fee.Platform
 			}
 		}
 	}
+	#endif
 }
 

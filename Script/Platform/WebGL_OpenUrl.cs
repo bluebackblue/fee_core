@@ -15,6 +15,7 @@ namespace Fee.Platform
 {
 	/** WebGL_OpenUrl
 	*/
+	#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
 	class WebGL_OpenUrl
 	{
 		/** Fee_Platform_WebGLPlugin_OpenUrl
@@ -36,5 +37,6 @@ namespace Fee.Platform
 			}
 		}
 	}
+	#endif
 }
 

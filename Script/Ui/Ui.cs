@@ -170,6 +170,20 @@ namespace Fee.Ui
 		{
 			this.windowlist.SetStartLayerIndex(a_layerindex);
 		}
+
+		/** 最前面ウィンドウ矩形。取得。
+		*/
+		public bool GetTopWindowXY(out int a_x,out int a_y)
+		{
+			return this.windowlist.GetTopWindowXY(out a_x,out a_y);
+		}
+
+		/** ウィンドウ数。取得。
+		*/
+		public int GetWindowCount()
+		{
+			return this.windowlist.GetWindowCount();
+		}
 	}
 }
 

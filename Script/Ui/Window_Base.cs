@@ -108,6 +108,20 @@ namespace Fee.Ui
 			}
 		}
 
+		/** 矩形。取得。
+		*/
+		public int GetX()
+		{
+			return this.rect.x;
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetY()
+		{
+			return this.rect.y;
+		}
+
 		/** 矩形。設定。
 		*/
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)

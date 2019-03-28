@@ -77,9 +77,7 @@ namespace Fee.File
 				t_filestream.Close();
 			}
 
-			#if(UNITY_WEBGL)
-			Platform.WebGL_SyncFs.SyncFs();
-			#endif
+			Platform.Platform.SyncFs();
 
 			if(a_cancel.IsCancellationRequested == true){
 				t_ret.saveend = false;

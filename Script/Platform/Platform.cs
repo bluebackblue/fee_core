@@ -44,8 +44,46 @@ namespace Fee.Platform
 		*/
 		public static string OpenPrompt(string a_title,string a_text)
 		{
-			return WebGL_OpenPrompt.OpenPrompt(a_title,a_text);
+			#if(UNITY_WEBGL)
+			{
+				#if(UNITY_EDITOR)
+				{
+					return a_text;
+				}
+				#else
+				{
+					return WebGL_OpenPrompt.OpenPrompt(a_title,a_text);
+				}
+				#endif
+			}
+			#else
+			{
+				return a_text;
+			}
+			#endif		
 		}
+
+		/** プロンプトを開く。
+		*/
+		public static void SyncFs()
+		{
+			#if(UNITY_WEBGL)
+			{
+				#if(UNITY_EDITOR)
+				{
+				}
+				#else
+				{
+					WebGL_SyncFs.SyncFs();
+				}
+				#endif
+			}
+			#else
+			{
+			}
+			#endif		
+		}
+
 	}
 }
 

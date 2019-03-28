@@ -15,6 +15,7 @@ namespace Fee.Platform
 {
 	/** WebGL_SyncFs
 	*/
+	#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
 	class WebGL_SyncFs
 	{
 		/** Fee_Platform_WebGLPlugin_SyncFs
@@ -39,5 +40,6 @@ namespace Fee.Platform
 			}
 		}
 	}
+	#endif
 }
 
