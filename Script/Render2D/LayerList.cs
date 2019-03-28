@@ -26,7 +26,6 @@ namespace Fee.Render2D
 		public LayerList(UnityEngine.Transform a_transform_root)
 		{
 			//プレハブ読み込み。
-			//GameObject t_prefab_camera = Resources.Load<GameObject>(Config.PREFAB_NAME_CAMERA);
 			UnityEngine.GameObject t_prefab_canvas = UnityEngine.Resources.Load<UnityEngine.GameObject>(Config.PREFAB_NAME_CANVAS);
 			UnityEngine.GameObject t_prefab_eventsystem = UnityEngine.Resources.Load<UnityEngine.GameObject>(Config.PREFAB_NAME_EVENTSYSTEM);
 

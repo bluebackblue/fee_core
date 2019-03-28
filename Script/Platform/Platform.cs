@@ -35,7 +35,7 @@ namespace Fee.Platform
 			}
 			#else
 			{
-				WebGL_OpenUrl.OpenUrl(a_url);
+				UnityEngine.Application.OpenURL(a_url);
 			}
 			#endif
 		}
