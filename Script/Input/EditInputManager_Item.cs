@@ -103,219 +103,451 @@ namespace Fee.Input
 
 		/** デジタルボタン。左。
 		*/
-		public void CreateDigitalButtonLeft()
+		public void CreateDigitalButtonLeft(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_LEFT;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = true;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.Axis6;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_LEFT[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = true;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis7;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = true;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis6;
+					this.joyNum = 0;
+
+				}break;
+			}
 		}
 
 		/** デジタルボタン。右。
 		*/
-		public void CreateDigitalButtonRight()
+		public void CreateDigitalButtonRight(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_RIGHT;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = true;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.Axis6;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_RIGHT[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = true;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis7;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = true;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis6;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** デジタルボタン。上。
 		*/
-		public void CreateDigitalButtonUp()
+		public void CreateDigitalButtonUp(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_UP;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = true;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.Axis7;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_UP[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = true;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis8;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = true;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis7;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** デジタルボタン。下。
 		*/
-		public void CreateDigitalButtonDown()
+		public void CreateDigitalButtonDown(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_DOWN;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = true;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.Axis7;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_DOWN[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = true;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis8;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = true;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis7;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** デジタルボタン。Enter。
 		*/
-		public void CreateDigitalButtonEnter()
+		public void CreateDigitalButtonEnter(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_ENTER;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "joystick button 0";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.None;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_ENTER[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 2";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 1";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** デジタルボタン。Escape。
 		*/
-		public void CreateDigitalButtonEscape()
+		public void CreateDigitalButtonEscape(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_ESCAPE;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "joystick button 1";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.None;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_ESCAPE[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 1";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 0";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** デジタルボタン。Sub1。
 		*/
-		public void CreateDigitalButtonSub1()
+		public void CreateDigitalButtonSub1(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_SUB1;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "joystick button 2";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.None;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_SUB1[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 0";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 2";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** デジタルボタン。Sub2。
 		*/
-		public void CreateDigitalButtonSub2()
+		public void CreateDigitalButtonSub2(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_SUB2;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "joystick button 3";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.None;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_SUB2[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 3";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 3";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** デジタルボタン。左メニュー。
 		*/
-		public void CreateDigitalButtonLeftMenu()
+		public void CreateDigitalButtonLeftMenu(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_LMENU;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "joystick button 6";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.None;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_LMENU[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 8";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 6";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** デジタルボタン。右メニュー。
 		*/
-		public void CreateDigitalButtonRightMenu()
+		public void CreateDigitalButtonRightMenu(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_RMENU;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "joystick button 7";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.None;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_RMENU[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 9";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 7";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** ジョイスティック。左スティックＸ。
 		*/
-		public void CreateLeftStickAxisX()
+		public void CreateLeftStickAxisX(Pad.PadType a_padtype)
 		{
-			this.m_Name =  Config.INPUTMANAGER_LSX;
+			this.m_Name = Config.INPUTMANAGER_LSX[(int)a_padtype];
+
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -323,7 +555,7 @@ namespace Fee.Input
 			this.altNegativeButton = "";
 			this.altPositiveButton = "";
 			this.gravity = 0.0f;
-			this.dead = 0.001f;
+			this.dead = 0.1f;
 			this.sensitivity = 1.0f;
 			this.snap = false;
 			this.invert = false;
@@ -334,9 +566,10 @@ namespace Fee.Input
 
 		/** ジョイスティック。左スティックＹ。
 		*/
-		public void CreateLeftStickAxisY()
+		public void CreateLeftStickAxisY(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_LSY;
+			this.m_Name = Config.INPUTMANAGER_LSY[(int)a_padtype];
+
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -344,10 +577,10 @@ namespace Fee.Input
 			this.altNegativeButton = "";
 			this.altPositiveButton = "";
 			this.gravity = 0.0f;
-			this.dead = 0.001f;
+			this.dead = 0.1f;
 			this.sensitivity = 1.0f;
 			this.snap = false;
-			this.invert = false;
+			this.invert = true;
 			this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
 			this.axis = Fee.Input.EditInputManager_Item.Axis.YAxis;
 			this.joyNum = 0;
@@ -355,93 +588,186 @@ namespace Fee.Input
 
 		/** ジョイスティック。右スティックＸ。
 		*/
-		public void CreateRightStickAxisX()
+		public void CreateRightStickAxisX(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_RSX;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.Axis4;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_RSX[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.1f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis3;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.1f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis4;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** ジョイスティック。右スティックＹ。
 		*/
-		public void CreateRightStickAxisY()
+		public void CreateRightStickAxisY(Pad.PadType a_padtype)
 		{
-			this.m_Name =Config.INPUTMANAGER_RSY;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.Axis5;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_RSY[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.1f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = true;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis6;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.1f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = true;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis5;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** ジョイスティック。左スティックボタン。
 		*/
-		public void CreateLeftStickButton()
+		public void CreateLeftStickButton(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_LSB;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "joystick button 8";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.None;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_LSB[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 10";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 8";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** ジョイスティック。右スティックボタン。
 		*/
-		public void CreateRightStickButton()
+		public void CreateRightStickButton(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_RSB;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "joystick button 9";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.None;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_RSB[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 11";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick button 9";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.KeyOrMouseButton;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.None;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** ジョイスティック。左トリガー１ボタン。
 		*/
-		public void CreateLeftTrigger1Button()
+		public void CreateLeftTrigger1Button(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_LT1;
+			this.m_Name = Config.INPUTMANAGER_LT1[(int)a_padtype];
+
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -460,9 +786,10 @@ namespace Fee.Input
 
 		/** ジョイスティック。右トリガー１ボタン。
 		*/
-		public void CreateRightTrigger1Button()
+		public void CreateRightTrigger1Button(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_RT1;
+			this.m_Name = Config.INPUTMANAGER_RT1[(int)a_padtype];
+
 			this.descriptiveName = "";
 			this.descriptiveNegativeName = "";
 			this.negativeButton = "";
@@ -481,44 +808,90 @@ namespace Fee.Input
 
 		/** ジョイスティック。左トリガー２ボタン。
 		*/
-		public void CreateLeftTrigger2Button()
+		public void CreateLeftTrigger2Button(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_LT2;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = true;
-			this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.Axis3;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_LT2[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis4;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis9;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 
 		/** ジョイスティック。右トリガー２ボタン。
 		*/
-		public void CreateRightTrigger2Button()
+		public void CreateRightTrigger2Button(Pad.PadType a_padtype)
 		{
-			this.m_Name = Config.INPUTMANAGER_RT2;
-			this.descriptiveName = "";
-			this.descriptiveNegativeName = "";
-			this.negativeButton = "";
-			this.positiveButton = "";
-			this.altNegativeButton = "";
-			this.altPositiveButton = "";
-			this.gravity = 0.0f;
-			this.dead = 0.001f;
-			this.sensitivity = 1.0f;
-			this.snap = false;
-			this.invert = false;
-			this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
-			this.axis = Fee.Input.EditInputManager_Item.Axis.Axis3;
-			this.joyNum = 0;
+			this.m_Name = Config.INPUTMANAGER_RT2[(int)a_padtype];
+
+			switch(a_padtype){
+			case Pad.PadType.Type0:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis5;
+					this.joyNum = 0;
+				}break;
+			case Pad.PadType.Type1:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Fee.Input.EditInputManager_Item.Type.JoyStickAxis;
+					this.axis = Fee.Input.EditInputManager_Item.Axis.Axis10;
+					this.joyNum = 0;
+				}break;
+			}
 		}
 	}
 	#endif
