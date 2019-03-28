@@ -133,7 +133,7 @@ namespace Fee.Dijkstra
 		public void SetCalcFlag(bool a_flag)
 		{
 			//this.nodedata.calcflag = a_flag;
-			this.SetCalcFlag(a_flag);
+			this.nodedata.SetCalcFlag(a_flag);
 		}
 
 		/** 計算フラグ。取得。

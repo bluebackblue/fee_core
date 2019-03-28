@@ -13,108 +13,54 @@
 */
 namespace Fee.Ui
 {
-	/** Scroll_Base
+	/** Scroll_Type
 	*/
-	public abstract class Scroll_Base : Fee.Deleter.DeleteItem_Base , Fee.EventPlate.OnOverCallBack_Base
+	public enum ScrollType
 	{
-		/** deleter
-		*/
-		protected Fee.Deleter.Deleter deleter;
+		Vertical,
+		Horizontal,
+	}
 
-		/** 表示位置。
+	/** Scroll2_Base
+	*/
+	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack
+		where ITEM : ScrollItem_Base
+	{
+		/** list
 		*/
-		protected int view_position;
+		private System.Collections.Generic.List<ITEM> list;
 
-		/** アイテム幅。
+		/** scroll_value
 		*/
-		protected int item_length;
+		protected Scroll_Value scroll_value;
 
-		/** 表示幅。
+		/** scroll_drag
 		*/
-		protected int view_length;
-
-		/** 表示インデックス。
-		*/
-		protected int viewindex_st;
-		protected int viewindex_en;
+		protected Scroll_Drag scroll_drag;
 
 		/** 矩形。
 		*/
-		protected Fee.Render2D.Rect2D_R<int> rect;
+		protected Render2D.Rect2D_R<int> rect;
 
-		/** eventplate
+		/** scroll_type
 		*/
-		protected Fee.EventPlate.Item eventplate;
-
-		/** is_onover
-		*/
-		protected bool is_onover;
-
-		/** ドラッグスクロール。
-		*/
-		protected bool dragscroll_flag;
-		protected int dragscroll_start_viewposition;
-		protected int dragscroll_start_pos;
-		protected int dragscroll_old_pos;
-		protected float dragscroll_speed;
+		private ScrollType scroll_type;
 
 		/** constructor
 		*/
-		public Scroll_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,int a_item_length)
+		public Scroll_Base(ScrollType a_scroll_type,int a_item_length)
 		{
-			//deleter
-			this.deleter = new Fee.Deleter.Deleter();
-
-			//表示位置。
-			this.view_position = 0;
-
-			//アイテム幅。
-			this.item_length = a_item_length;
-
-			//表示幅。
-			this.view_length = 0;
-
-			//表示インデックス。
-			this.viewindex_st = -1;
-			this.viewindex_en = -1;
-
-			//矩形。
+			this.list = new System.Collections.Generic.List<ITEM>();
+			this.scroll_value.Initialize();
+			this.scroll_value.SetCallBack(this);
+			this.scroll_value.SetItemLength(a_item_length);
+			this.scroll_drag.Initialize();
+			this.scroll_drag.SetCallBack(this);
 			this.rect.Set(0,0,0,0);
-
-			//eventplate
-			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.View,a_drawpriority);
-			this.eventplate.SetRect(0,0,0,0);
-			this.eventplate.SetOnOverCallBack(this);
-
-			//is_onover
-			this.is_onover = false;
-
-			//dragscroll
-			this.dragscroll_flag = false;
-			this.dragscroll_start_viewposition = 0;
-			this.dragscroll_start_pos = 0;
-			this.dragscroll_old_pos = 0;
-			this.dragscroll_speed = 0.0f;
-
-			//削除管理。
-			if(a_deleter != null){
-				a_deleter.Register(this);
-			}
+			this.scroll_type = a_scroll_type;
 		}
 
-		/** [Scroll_Base]コールバック。リスト数。取得。
-		*/
-		public abstract int GetListCount();
-
-		/** [Scroll_Base]コールバック。スクロール方向の値。取得。
-		*/
-		protected abstract int GetDirectionValue(int a_x,int a_y);
-
-		/** [Scroll_Base]コールバック。リスト数変更。
-		*/
-		protected abstract void OnChangeListCount();
-
-		/** [Scroll_Base]コールバック。矩形変更。
+		/** [Scroll_Base]コールバック。矩形。設定。
 		*/
 		protected abstract void OnChangeRect();
 
@@ -122,240 +68,80 @@ namespace Fee.Ui
 		*/
 		protected abstract void OnChangeViewPosition();
 
-		/** [Scroll_Base]コールバック。アイテム移動。
+		/** [Scroll_Base]コールバック。リスト数変更。
 		*/
-		protected abstract void OnMoveItem_FromBase(int a_index);
+		protected abstract void OnChangeListCount();
 
-		/** [Scroll_Base]コールバック。表示開始。
+		/** アイテム。取得。
 		*/
-		protected abstract void OnViewInItem_FromBase(int a_index);
-
-		/** [Scroll_Base]コールバック。表示終了。
-		*/
-		protected abstract void OnViewOutItem_FromBase(int a_index);
-
-		/** [Scroll_Base]コールバック。矩形変更。
-		*/
-		protected abstract void OnChangeRect_FromBase();
-
-		/** 削除。
-		*/
-		public void Delete()
+		public ITEM GetItem(int a_index)
 		{
-			this.deleter.DeleteAll();
+			return this.list[a_index];
 		}
 
-		/** 全チェック。表示範囲更新。
+		/** スクロールタイプ。取得。
 		*/
-		protected void UpdateView_AllCheck()
+		public ScrollType GetScrollType()
 		{
-			int t_list_count = this.GetListCount();
-
-			//表示中のアイテムの位置を設定。
-			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnMoveItem_FromBase(ii);
-			}
-
-			for(int ii=0;ii<this.viewindex_st;ii++){
-				//表示終了。
-				this.OnViewOutItem_FromBase(ii);
-			}
-
-			for(int ii=viewindex_en+1;ii<t_list_count;ii++){
-				//表示終了。
-				this.OnViewOutItem_FromBase(ii);
-			}
-
-			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				//表示開始。
-				this.OnViewInItem_FromBase(ii);
-			}
+			return this.scroll_type;
 		}
 
-		/** 表示位置変更後。表示範囲更新。
+		/** リスト数。取得。
 		*/
-		protected void UpdateView_PositionChange()
+		public int GetListCount()
 		{
-			int t_list_count = this.GetListCount();
-
-			int t_st_old = this.viewindex_st;
-			int t_en_old = this.viewindex_en;
-
-			//表示範囲チェック。
-			{
-				if(t_list_count <= 0){
-					this.viewindex_st = -1;
-					this.viewindex_en = -1;
-				}else{
-					int t_index_st = this.view_position / this.item_length;
-					int t_index_en = (this.view_position + this.view_length) / this.item_length;
-
-					if(t_index_en > (t_list_count - 1)){
-						t_index_en = t_list_count - 1;
-					}
-
-					this.viewindex_st = t_index_st;
-					this.viewindex_en = t_index_en;
-				}
-			}
-
-			//表示中のアイテムの位置を設定。
-			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnMoveItem_FromBase(ii);
-			}
-
-			if((t_st_old == this.viewindex_st)&&(t_en_old == this.viewindex_en)){
-				//変化なし。
-			}else{
-				//旧表示空間。
-				for(int ii=t_st_old;ii<=t_en_old;ii++){
-					if((ii<this.viewindex_st)||(this.viewindex_en<ii)){
-						//表示終了。
-						this.OnViewOutItem_FromBase(ii);
-					}
-				}
-				//新表示空間。
-				for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-					if((ii<t_st_old)||(t_en_old<ii)){
-						//表示開始。
-						this.OnViewInItem_FromBase(ii);
-					}
-				}
-			}
+			return this.scroll_value.GetListCount();
 		}
 
-		/** アイテム追加後。表示範囲更新。
+		/** 表示位置。取得。
+
+			[Scroll_Drag_CallBack]コールバック。表示位置。取得。
+
 		*/
-		protected void UpdateView_Insert(int a_insert_index)
+		public int GetViewPosition()
 		{
-			int t_list_count = this.GetListCount();
-
-			//表示範囲チェック。
-			{
-				if(t_list_count <= 0){
-					this.viewindex_st = -1;
-					this.viewindex_en = -1;
-				}else{
-					int t_index_st = this.view_position / this.item_length;
-					int t_index_en = (this.view_position + this.view_length) / this.item_length;
-
-					if(t_index_en > (t_list_count - 1)){
-						t_index_en = t_list_count - 1;
-					}
-
-					this.viewindex_st = t_index_st;
-					this.viewindex_en = t_index_en;
-				}
-			}
-
-			//表示中のアイテムの位置を設定。
-			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnMoveItem_FromBase(ii);
-			}
-
-			//表示範囲内チェック。
-			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnViewInItem_FromBase(ii);
-			}
-
-			//表示範囲外チェック。
-			{
-				this.OnViewOutItem_FromBase(this.viewindex_st - 1);
-				this.OnViewOutItem_FromBase(this.viewindex_en + 1);
-			}
+			return this.scroll_value.GetViewPosition();
 		}
 
-		/** アイテム削除後。表示範囲更新。
+		/** アイテム幅。取得。
 		*/
-		protected void UpdateView_Remove()
+		public int GetItemLength()
 		{
-			int t_list_count = this.GetListCount();
+			return this.scroll_value.GetItemLength();
+		}
 
-			//表示範囲チェック。
-			{
-				if(t_list_count <= 0){
-					this.viewindex_st = -1;
-					this.viewindex_en = -1;
-				}else{
-					if(this.item_length * t_list_count < this.view_length){
-						if(this.view_position != 0){
-							this.view_position = 0;
-							this.OnChangeViewPosition();
-						}
-					}else{
-						int t_position_max = this.item_length * t_list_count - this.view_length;
-						if(this.view_position > t_position_max){
-							if(this.view_position != t_position_max){
-								this.view_position = t_position_max;
-								this.OnChangeViewPosition();
-							}
-						}
-					}
+		/** 表示幅。取得。
+		*/
+		public int GetViewLength()
+		{
+			return this.scroll_value.GetViewLength();
+		}
 
-					int t_index_st = this.view_position / this.item_length;
-					int t_index_en = (this.view_position + this.view_length) / this.item_length;
+		/** 表示開始インデックス。取得。
+		*/
+		public int GetViewStartIndex()
+		{
+			return this.scroll_value.GetViewStartIndex();
+		}
 
-					if(t_index_en > (t_list_count - 1)){
-						t_index_en = t_list_count - 1;
-					}
-
-					this.viewindex_st = t_index_st;
-					this.viewindex_en = t_index_en;
-				}
-			}
-
-			//表示中のアイテムの位置を設定。
-			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnMoveItem_FromBase(ii);
-			}
-
-			//表示範囲内チェック。
-			for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-				this.OnViewInItem_FromBase(ii);
-			}
-
-			//表示範囲外チェック。
-			{
-				this.OnViewOutItem_FromBase(this.viewindex_st - 1);
-				this.OnViewOutItem_FromBase(this.viewindex_en + 1);
-			}
+		/** 表示終了インデックス。取得。
+		*/
+		public int GetViewEndIndex()
+		{
+			return this.scroll_value.GetViewEndIndex();
 		}
 
 		/** 表示位置。設定。
 
-		return : 変更あり。
+		[Scroll_Drag_CallBack]コールバック。表示位置。設定。
 
 		*/
 		public void SetViewPosition(int a_view_position)
 		{
-			int t_view_position = a_view_position;
-			int t_list_count = this.GetListCount();
+			this.scroll_value.SetViewPosition(a_view_position);
 
-			if(t_view_position < 0){
-				t_view_position = 0;
-			}else if(this.item_length * t_list_count < this.view_length){
-				t_view_position = 0;
-			}else{
-				int t_position_max = this.item_length * t_list_count - this.view_length;
-				if(t_view_position > t_position_max){
-					t_view_position = t_position_max;
-				}
-			}
-
-			if(this.view_position != t_view_position){
-				this.view_position = t_view_position;
-				this.OnChangeViewPosition();
-
-				//表示範囲更新。
-				this.UpdateView_PositionChange();
-			}
-		}
-
-		/** 表示位置。取得。
-		*/
-		public int GetViewPosition()
-		{
-			return this.view_position;
+			//[Scroll_Base]コールバック。表示位置変更。
+			this.OnChangeViewPosition();
 		}
 
  		/** 矩形。設定。
@@ -365,11 +151,15 @@ namespace Fee.Ui
 			//rect
 			this.rect.Set(a_x,a_y,a_w,a_h);
 
-			//eventplate
-			this.eventplate.SetRect(a_x,a_y,a_w,a_h);
+			//SetViewLength
+			if(this.scroll_type == ScrollType.Vertical){
+				this.scroll_value.SetViewLength(a_h);
+			}else{
+				this.scroll_value.SetViewLength(a_w);
+			}
 
-			//コールバック。矩形変更。
-			this.OnChangeRect_FromBase();
+			//[Scroll_Base]コールバック。矩形。設定。
+			this.OnChangeRect();
 		}
 
  		/** 矩形。設定。
@@ -379,158 +169,257 @@ namespace Fee.Ui
 			//rect
 			this.rect = a_rect;
 
-			//eventplate
-			this.eventplate.SetRect(ref a_rect);
+			//SetViewLength
+			if(this.scroll_type == ScrollType.Vertical){
+				this.scroll_value.SetViewLength(a_rect.h);
+			}else{
+				this.scroll_value.SetViewLength(a_rect.w);
+			}
 
-			//コールバック。矩形変更。
-			this.OnChangeRect_FromBase();
+			//[Scroll_Base]コールバック。矩形。設定。
+			this.OnChangeRect();
 		}
 
- 		/** 矩形。設定。
+		/** 範囲内。チェック。
+
+		[Scroll_Drag_CallBack]コールバック。範囲チェック。
+
 		*/
-		public void SetXY(int a_x,int a_y)
+		public bool IsRectIn(int a_x,int a_y)
 		{
-			//rect
-			this.rect.x = a_x;
-			this.rect.y = a_y;
-
-			//eventplate
-			this.eventplate.SetX(a_x);
-			this.eventplate.SetY(a_y);
-
-			//コールバック。矩形変更。
-			this.OnChangeRect_FromBase();
+			return Render2D.RectTool.IsRectIn(ref this.rect,a_x,a_y);
 		}
 
- 		/** 矩形。設定。
+		/** [Scroll_Drag_CallBack]コールバック。スクロール方向の値。取得。
 		*/
-		public void SetX(int a_x)
+		public int GetScrollDirectionValue(int a_vertical_value,int a_horizontal_value)
 		{
-			//rect
-			this.rect.x = a_x;
-
-			//eventplate
-			this.eventplate.SetX(a_x);
-
-			//コールバック。矩形変更。
-			this.OnChangeRect_FromBase();
+			if(this.scroll_type == ScrollType.Vertical){
+				return a_horizontal_value;
+			}else{
+				return a_vertical_value;
+			}
 		}
 
- 		/** 矩形。設定。
+		/** [Scroll_Value_CallBack]コールバック。位置変更。
 		*/
-		public void SetY(int a_y)
+		public void OnItemPositionChange(int a_index)
 		{
-			//rect
-			this.rect.y = a_y;
+			int t_pos = a_index * this.scroll_value.GetItemLength() - this.scroll_value.GetViewPosition();
 
-			//eventplate
-			this.eventplate.SetY(a_y);
-
-			//コールバック。矩形変更。
-			this.OnChangeRect_FromBase();
+			if(this.scroll_type == ScrollType.Vertical){
+				this.list[a_index].SetY(t_pos + this.rect.y);
+			}else{
+				this.list[a_index].SetX(t_pos + this.rect.x);
+			}
 		}
 
-		/** 矩形。取得。
+		/** [Scroll_Value_CallBack]コールバック。表示変更。
 		*/
-		public int GetX()
+		public void OnItemVisibleChange(int a_index,bool a_flag)
 		{
-			return this.rect.x;
+			if(a_flag == true){
+				this.list[a_index].OnViewIn();
+			}else{
+				this.list[a_index].OnViewOut();
+			}
 		}
 
-		/** 矩形。取得。
+		/** アイテム追加。最後尾。
 		*/
-		public int GetY()
+		public void PushItem(ITEM a_new_item)
 		{
-			return this.rect.y;
+			int t_index = this.list.Count;
+		
+			a_new_item.SetClipRect(ref this.rect);
+
+			//other direction
+			if(this.scroll_type == ScrollType.Vertical){
+				a_new_item.SetX(this.rect.x);
+			}else{
+				a_new_item.SetY(this.rect.y);
+			}
+
+			this.list.Add(a_new_item);
+			this.scroll_value.InsertItem(t_index);
+
+			//[Scroll_Base]コールバック。リスト数変更。
+			this.OnChangeListCount();
 		}
 
-		/** 矩形。取得。
+		/** アイテム削除。最後尾。
 		*/
-		public int GetW()
+		public ITEM PopItem()
 		{
-			return this.rect.w;
+			if(this.list.Count > 0){
+				int t_index = this.list.Count - 1;
+				ITEM t_item = this.list[t_index];
+
+				this.list.RemoveAt(t_index);
+				this.scroll_value.RemoveItem(t_index);
+
+				//[Scroll_Base]コールバック。リスト数変更。
+				this.OnChangeListCount();
+
+				return t_item;
+			}
+
+			return null;
 		}
 
-		/** 矩形。取得。
+		/** アイテム追加。インデックス指定。
 		*/
-		public int GetH()
+		public bool AddItem(ITEM a_new_item,int a_index)
 		{
-			return this.rect.h;
+			if((0<=a_index)&&(a_index<=this.list.Count)){
+				//追加。
+
+				a_new_item.SetClipRect(ref this.rect);
+
+				//other direction
+				if(this.scroll_type == ScrollType.Vertical){
+					a_new_item.SetX(this.rect.x);
+				}else{
+					a_new_item.SetY(this.rect.y);
+				}
+
+				this.list.Insert(a_index,a_new_item);
+				this.scroll_value.InsertItem(a_index);
+
+				//[Scroll_Base]コールバック。リスト数変更。
+				this.OnChangeListCount();
+
+				return true;
+			}
+
+			return false;
 		}
 
-		/** [Fee.EventPlateOnOverCallBack_Base]イベントプレートに入場。
+		/** アイテム削除。インデックス指定。
 		*/
-		public void OnOverEnter(int a_value)
+		public ITEM RemoveItem(int a_index)
 		{
-			this.is_onover = true;	
+			if((0<=a_index)&&(a_index<this.list.Count)){
+				//削除。
+				ITEM t_item = this.list[a_index];
+				
+				this.list.RemoveAt(a_index);
+				this.scroll_value.RemoveItem(a_index);
+
+				//[Scroll_Base]コールバック。リスト数変更。
+				this.OnChangeListCount();
+
+				return t_item;
+			}
+			return null;
 		}
 
-		/** [Fee.EventPlateOnOverCallBack_Base]イベントプレートから退場。
+		/** 全アイテム削除。
 		*/
-		public void OnOverLeave(int a_value)
+		public void RemoveAllItem()
 		{
-			this.is_onover = false;
+			this.list.Clear();
+			this.scroll_value.RemoveAllItem();
+
+			//[Scroll_Base]コールバック。リスト数変更。
+			this.OnChangeListCount();
 		}
 
-		/** オンオーバー。取得。
+		/** インデックス検索。
 		*/
-		public bool IsOnOver()
+		public int FindIndex(ITEM a_item)
 		{
-			return this.is_onover;
+			return this.list.IndexOf(a_item);
+		}
+
+		/** ソート。
+		*/
+		public void Sort(System.Comparison<ITEM> a_comparison)
+		{
+			System.Collections.Generic.List<ITEM> t_capture_list = new System.Collections.Generic.List<ITEM>();
+
+			t_capture_list.Clear();
+
+			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+				t_capture_list.Add(this.list[ii]);
+			}
+
+			this.list.Sort(a_comparison);
+
+			//位置。
+			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+				this.OnItemPositionChange(ii);
+			}
+
+			//範囲外へ。
+			for(int ii=0;ii<t_capture_list.Count;ii++){
+				int t_now_index = this.list.IndexOf(t_capture_list[ii]);
+				if(t_now_index < this.scroll_value.GetViewStartIndex()||(this.scroll_value.GetViewEndIndex() < t_now_index)){
+					this.OnItemVisibleChange(t_now_index,false);
+				}
+			}
+
+			//範囲内へ。
+			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+				int t_old_index = t_capture_list.IndexOf(this.list[ii]);
+				if(t_old_index < 0){
+					this.OnItemVisibleChange(ii,true);
+				}
+			}
+
+			t_capture_list.Clear();
+		}
+
+		/** 入れ替え。
+		*/
+		public void Swap(int a_index_a,int a_index_b)
+		{
+			if((0<=a_index_a)&&(0<=a_index_b)&&(a_index_a<this.list.Count)&&(a_index_b<this.list.Count)){
+
+				ITEM t_item = this.list[a_index_a];
+				this.list[a_index_a] = this.list[a_index_b];
+				this.list[a_index_b] = t_item;
+
+				bool t_a = false;
+				bool t_b = false;
+				if((this.scroll_value.GetViewStartIndex() <= a_index_a)&&(a_index_a <= this.scroll_value.GetViewEndIndex())){
+					this.OnItemPositionChange(a_index_a);
+					t_a = true;
+				}
+				if((this.scroll_value.GetViewStartIndex() <= a_index_b)&&(a_index_b <= this.scroll_value.GetViewEndIndex())){
+					this.OnItemPositionChange(a_index_b);
+					t_b = true;
+				}
+
+				if((t_a == true)&&(t_b == false)){
+					this.OnItemVisibleChange(a_index_a,true);
+					this.OnItemVisibleChange(a_index_b,false);
+				}else if((t_a == false)&&(t_b == true)){
+					this.OnItemVisibleChange(a_index_a,false);
+					this.OnItemVisibleChange(a_index_b,true);
+				}
+			}
 		}
 
 		/** ドラッグスクロール速度。設定。
 		*/
 		public void SetDragScrollSpeed(float a_speed)
 		{
-			this.dragscroll_speed = a_speed;
+			this.scroll_drag.SetSpeed(a_speed);
 		}
 
 		/** ドラッグスクロール速度。取得。
 		*/
 		public float GetDragScrollSpeed()
 		{
-			return this.dragscroll_speed;
+			return this.scroll_drag.GetSpeed();
 		}
 
 		/** ドラッグスクロール。更新。
 		*/
 		public void DragScrollUpdate(int a_x,int a_y,bool a_button)
 		{
-			if((this.dragscroll_flag == false)&&(a_button == true)){
-				if((this.rect.x <= a_x)&&(a_x <= (this.rect.x + this.rect.w))&&(this.rect.y <= a_y)&&(a_y <= (this.rect.y + this.rect.h))){
-					//ドラッグ開始。
-					this.dragscroll_flag = true;
-					this.dragscroll_start_viewposition = this.GetViewPosition();
-					this.dragscroll_start_pos = this.GetDirectionValue(a_x,a_y);
-					this.dragscroll_old_pos = this.dragscroll_start_pos;
-
-					this.dragscroll_speed = 0.0f;
-
-					//GetDirectionValue
-				}
-			}else if((this.dragscroll_flag == true)&&(a_button == true)){
-				//ドラッグ中。
-				this.SetViewPosition(this.dragscroll_start_viewposition + this.dragscroll_start_pos - this.GetDirectionValue(a_x,a_y));
-
-				//慣性。
-				int t_drag_new_pos = this.GetDirectionValue(a_x,a_y);
-				this.dragscroll_speed = this.dragscroll_speed * 0.3f + (this.dragscroll_old_pos - t_drag_new_pos) * 0.7f;
-				this.dragscroll_old_pos = t_drag_new_pos;
-			}else if((this.dragscroll_flag == true)&&(a_button == false)){
-				//ドラッグ終了。
-				this.dragscroll_flag = false;
-			}
-
-			if((this.dragscroll_flag == false)&&(this.dragscroll_speed != 0.0f)){
-				int t_move = (int)this.dragscroll_speed;
-				this.dragscroll_speed /= 1.08f;
-				if(t_move != 0){
-					this.SetViewPosition(this.GetViewPosition() + t_move);
-				}else{
-					this.dragscroll_speed = 0.0f;
-				}
-			}
+			this.scroll_drag.Main(a_x,a_y,a_button);
 		}
 	}
 }
