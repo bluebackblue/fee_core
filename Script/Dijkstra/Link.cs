@@ -17,11 +17,11 @@ namespace Fee.Dijkstra
 	*/
 	public interface Link_Base
 	{
-		/** 接続先ノードへの到達コスト。取得。
+		/** [Link_Base]接続先ノードへの到達コスト。取得。
 		*/
 		long GetToCost();
 
-		/** 接続先ノードへの到達コスト。設定。
+		/** [Link_Base]接続先ノードへの到達コスト。設定。
 		*/
 		void SetToCost(long a_to_cost);
 	}

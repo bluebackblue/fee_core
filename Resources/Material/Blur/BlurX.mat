@@ -72,6 +72,7 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
+    - rate_x: 0.385
     - threshold: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

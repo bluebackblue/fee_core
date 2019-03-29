@@ -159,10 +159,12 @@ namespace Fee.Ui
 			}
 
 			//位置更新。
-			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-				this.list[ii].SetClipRect(ref this.rect);
-				this.OnItemPositionChange(ii);
-				this.OnItemOtherPositionChange(ii);
+			if(this.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+					this.list[ii].SetClipRect(ref this.rect);
+					this.OnItemPositionChange(ii);
+					this.OnItemOtherPositionChange(ii);
+				}
 			}
 
 			//[Scroll_Base]コールバック。矩形。設定。
@@ -184,10 +186,12 @@ namespace Fee.Ui
 			}
 
 			//位置更新。
-			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-				this.list[ii].SetClipRect(ref this.rect);
-				this.OnItemPositionChange(ii);
-				this.OnItemOtherPositionChange(ii);
+			if(this.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+					this.list[ii].SetClipRect(ref this.rect);
+					this.OnItemPositionChange(ii);
+					this.OnItemOtherPositionChange(ii);
+				}
 			}
 
 			//[Scroll_Base]コールバック。矩形。設定。
@@ -203,10 +207,12 @@ namespace Fee.Ui
 			this.rect.y = a_y;
 
 			//位置更新。
-			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-				this.list[ii].SetClipRect(ref this.rect);
-				this.OnItemPositionChange(ii);
-				this.OnItemOtherPositionChange(ii);
+			if(this.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+					this.list[ii].SetClipRect(ref this.rect);
+					this.OnItemPositionChange(ii);
+					this.OnItemOtherPositionChange(ii);
+				}
 			}
 
 			//[Scroll_Base]コールバック。矩形。設定。
@@ -395,15 +401,19 @@ namespace Fee.Ui
 
 			t_capture_list.Clear();
 
-			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-				t_capture_list.Add(this.list[ii]);
+			if(this.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+					t_capture_list.Add(this.list[ii]);
+				}
 			}
 
 			this.list.Sort(a_comparison);
 
 			//位置。
-			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-				this.OnItemPositionChange(ii);
+			if(this.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+					this.OnItemPositionChange(ii);
+				}
 			}
 
 			//範囲外へ。
@@ -415,10 +425,12 @@ namespace Fee.Ui
 			}
 
 			//範囲内へ。
-			for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-				int t_old_index = t_capture_list.IndexOf(this.list[ii]);
-				if(t_old_index < 0){
-					this.OnItemVisibleChange(ii,true);
+			if(this.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+					int t_old_index = t_capture_list.IndexOf(this.list[ii]);
+					if(t_old_index < 0){
+						this.OnItemVisibleChange(ii,true);
+					}
 				}
 			}
 

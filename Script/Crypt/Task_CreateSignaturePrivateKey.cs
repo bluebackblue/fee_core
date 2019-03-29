@@ -17,7 +17,7 @@
 */
 namespace Fee.Crypt
 {
-	/** 証明作成。プライベートキー。
+	/** 証明書作成。プライベートキー。
 	*/
 	public class Task_CreateSignaturePrivateKey
 	{
@@ -53,7 +53,7 @@ namespace Fee.Crypt
 					using(System.Security.Cryptography.RSACryptoServiceProvider t_rsa = new System.Security.Cryptography.RSACryptoServiceProvider()){
 						t_rsa.FromXmlString(a_key);
 
-						//署名作成。
+						//証明書作成。
 						System.Security.Cryptography.RSAPKCS1SignatureFormatter t_formatter = new System.Security.Cryptography.RSAPKCS1SignatureFormatter(t_rsa);
 						t_formatter.SetHashAlgorithm("SHA1");
 						t_ret.binary = t_formatter.CreateSignature(t_hash_binary);

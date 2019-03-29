@@ -13,7 +13,7 @@
 */
 namespace Fee.Crypt
 {
-	/** 署名検証。パブリックキー。
+	/** 証明書検証。パブリックキー。
 	*/
 	public class Coroutine_VerifySignaturePublicKey
 	{

@@ -31,11 +31,11 @@ namespace Fee.Crypt
 			*/
 			DecryptPrivateKey,
 
-			/** 証明作成。プライベートキー。
+			/** 証明書作成。プライベートキー。
 			*/
 			CreateSignaturePrivateKey,
 
-			/** 署名検証。パブリックキー。
+			/** 証明書検証。パブリックキー。
 			*/
 			VerifySignaturePublicKey,
 
@@ -278,7 +278,7 @@ namespace Fee.Crypt
 			return false;
 		}
 
-		/** リクエスト。署名作成。プライベートキー。
+		/** リクエスト。証明書作成。プライベートキー。
 		*/
 		public bool RequestCreateSignaturePrivateKey(byte[] a_binary,string a_key)
 		{
@@ -296,7 +296,7 @@ namespace Fee.Crypt
 			return false;
 		}
 
-		/** リクエスト。署名検証。パブリックキー。
+		/** リクエスト。証明書検証。パブリックキー。
 		*/
 		public bool RequestVerifySignaturePublicKey(byte[] a_binary,byte[] a_signature_binary,string a_key)
 		{

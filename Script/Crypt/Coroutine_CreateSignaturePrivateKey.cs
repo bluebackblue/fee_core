@@ -13,7 +13,7 @@
 */
 namespace Fee.Crypt
 {
-	/** 証明作成。プライベートキー。
+	/** 証明書作成。プライベートキー。
 	*/
 	public class Coroutine_CreateSignaturePrivateKey
 	{

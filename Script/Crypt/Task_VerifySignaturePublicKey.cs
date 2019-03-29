@@ -17,7 +17,7 @@
 */
 namespace Fee.Crypt
 {
-	/** 署名検証。パブリックキー。
+	/** 証明書検証。パブリックキー。
 	*/
 	public class Task_VerifySignaturePublicKey
 	{
@@ -53,7 +53,7 @@ namespace Fee.Crypt
 					using(System.Security.Cryptography.RSACryptoServiceProvider t_rsa = new System.Security.Cryptography.RSACryptoServiceProvider()){
 						t_rsa.FromXmlString(a_key);
 
-						//署名検証。
+						//証明書検証。
 						System.Security.Cryptography.RSAPKCS1SignatureDeformatter t_deformatter = new System.Security.Cryptography.RSAPKCS1SignatureDeformatter(t_rsa);
 						t_deformatter.SetHashAlgorithm("SHA1");
 						t_ret.verify = t_deformatter.VerifySignature(t_hash_binary,a_signature_binary);

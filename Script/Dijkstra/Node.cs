@@ -17,19 +17,19 @@ namespace Fee.Dijkstra
 	*/
 	public interface Node_Base
 	{
-		/** 計算フラグ。設定。
+		/** [Node_Base]計算フラグ。設定。
 		*/
 		void SetCalcFlag(bool a_flag);
 
-		/** 計算フラグ。取得。
+		/** [Node_Base]計算フラグ。取得。
 		*/
 		bool GetCalcFlag();
 
-		/** 到達コスト。設定。
+		/** [Node_Base]到達コスト。設定。
 		*/
 		void SetTotalCost(long a_totalcost);
 
-		/** 到達コスト。取得。
+		/** [Node_Base]到達コスト。取得。
 		*/
 		long GetTotalCost();
 	}

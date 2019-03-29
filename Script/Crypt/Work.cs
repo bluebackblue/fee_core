@@ -50,11 +50,11 @@ namespace Fee.Crypt
 			*/
 			DecryptPrivateKey,
 
-			/** 証明作成。プライベートキー。
+			/** 証明書作成。プライベートキー。
 			*/
 			CreateSignaturePrivateKey,
 
-			/** 署名検証。パブリックキー。
+			/** 証明書検証。パブリックキー。
 			*/
 			VerifySignaturePublicKey,
 
@@ -143,7 +143,7 @@ namespace Fee.Crypt
 			this.request_key = a_key;
 		}
 
-		/** リクエスト。証明作成。プライベートキー。
+		/** リクエスト。証明書作成。プライベートキー。
 		*/
 		public void RequestCreateSignaturePrivateKey(byte[] a_binary,string a_key)
 		{
@@ -152,7 +152,7 @@ namespace Fee.Crypt
 			this.request_key = a_key;
 		}
 
-		/** リクエスト。署名検証。パブリックキー。
+		/** リクエスト。証明書検証。パブリックキー。
 		*/
 		public void RequestVerifySignaturePublicKey(byte[] a_binary,byte[] a_signature_binary,string a_key)
 		{

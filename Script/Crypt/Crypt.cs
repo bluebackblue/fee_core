@@ -148,7 +148,7 @@ namespace Fee.Crypt
 			return t_work.GetItem();
 		}
 
-		/** リクエスト。証明作成。プライベートキー。
+		/** リクエスト。証明書作成。プライベートキー。
 		*/
 		public Item RequestCreateSignaturePrivateKey(byte[] a_binary,string a_key)
 		{
@@ -158,7 +158,7 @@ namespace Fee.Crypt
 			return t_work.GetItem();
 		}
 
-		/** リクエスト。署名検証。パブリックキー。
+		/** リクエスト。証明書検証。パブリックキー。
 		*/
 		public Item RequestVerifySignaturePublicKey(byte[] a_binary,byte[] a_signature_binary,string a_key)
 		{
