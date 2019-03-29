@@ -241,7 +241,7 @@ namespace Fee.Ui
 					}
 
 					//範囲内から範囲外。
-					if(t_old_viewindex_st > 0){
+					if(t_old_viewindex_st >= 0){
 						for(int ii=t_old_viewindex_st;ii<=t_old_viewindex_en;ii++){
 							if((ii<this.viewindex_st)||(this.viewindex_en<ii)){
 								this.callabck.OnItemVisibleChange(ii,false);
@@ -250,7 +250,7 @@ namespace Fee.Ui
 					}
 
 					//範囲外から範囲内。
-					if(this.viewindex_st > 0){
+					if(this.viewindex_st >= 0){
 						for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
 							if((ii<t_old_viewindex_st)||(t_old_viewindex_en<ii)){
 								this.callabck.OnItemVisibleChange(ii,true);

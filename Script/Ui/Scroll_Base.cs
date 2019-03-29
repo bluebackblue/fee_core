@@ -23,9 +23,17 @@ namespace Fee.Ui
 
 	/** Scroll2_Base
 	*/
-	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack
+	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack , Fee.Deleter.DeleteItem_Base , Fee.EventPlate.OnOverCallBack_Base
 		where ITEM : ScrollItem_Base
 	{
+		/** deleter
+		*/
+		protected Fee.Deleter.Deleter deleter;
+
+		/** eventplate
+		*/
+		private Fee.EventPlate.Item eventplate;
+
 		/** list
 		*/
 		private System.Collections.Generic.List<ITEM> list;
@@ -46,18 +54,45 @@ namespace Fee.Ui
 		*/
 		private ScrollType scroll_type;
 
+		/** is_onover
+		*/
+		private bool is_onover;
+
 		/** constructor
 		*/
-		public Scroll_Base(ScrollType a_scroll_type,int a_item_length)
+		public Scroll_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,ScrollType a_scroll_type,int a_item_length)
 		{
+			//deleter
+			this.deleter = new Deleter.Deleter();
+
+			//eventplate
+			this.eventplate = new EventPlate.Item(this.deleter,EventPlate.EventType.View,a_drawpriority);
+			this.eventplate.SetOnOverCallBack(this);
+
+			//list
 			this.list = new System.Collections.Generic.List<ITEM>();
+
+			//scroll_value
 			this.scroll_value.Initialize();
 			this.scroll_value.SetCallBack(this);
 			this.scroll_value.SetItemLength(a_item_length);
+
+			//scroll_drag
 			this.scroll_drag.Initialize();
 			this.scroll_drag.SetCallBack(this);
+
+			//rect
 			this.rect.Set(0,0,0,0);
+
+			//scroll_type
 			this.scroll_type = a_scroll_type;
+
+			//is_onover
+			this.is_onover = false;
+
+			if(a_deleter != null){
+				a_deleter.Register(this);
+			}
 		}
 
 		/** [Scroll_Base]コールバック。矩形。設定。
@@ -71,6 +106,46 @@ namespace Fee.Ui
 		/** [Scroll_Base]コールバック。リスト数変更。
 		*/
 		protected abstract void OnChangeListCount();
+
+		/** [Scroll_Base]コールバック。
+		*/
+		protected abstract void OnChangeDrawPriority(long a_drawpriority);
+
+		/** 削除。
+		*/
+		public void Delete()
+		{
+			this.deleter.DeleteAll();
+		}
+
+		/** [Fee.EventPlateOnOverCallBack_Base]OnOverEnter
+		*/
+		public void OnOverEnter(int a_value)
+		{
+			this.is_onover = true;
+		}
+
+		/** [Fee.EventPlateOnOverCallBack_Base]OnOverLeave
+		*/
+		public void OnOverLeave(int a_value)
+		{
+			this.is_onover = false;
+		}
+
+		/** 描画プライオリティー。設定。
+		*/
+		public void SetDrawPriority(long a_drawpriority)
+		{
+			this.eventplate.SetPriority(a_drawpriority);
+			this.OnChangeDrawPriority(a_drawpriority);
+		}
+
+		/** オンオーバー。取得。
+		*/
+		public bool IsOnOver()
+		{
+			return this.is_onover;
+		}
 
 		/** アイテム。取得。
 		*/
@@ -151,6 +226,9 @@ namespace Fee.Ui
 			//rect
 			this.rect.Set(a_x,a_y,a_w,a_h);
 
+			//eventplate
+			this.eventplate.SetRect(ref this.rect);
+
 			//SetViewLength
 			if(this.scroll_type == ScrollType.Vertical){
 				this.scroll_value.SetViewLength(a_h);
@@ -177,6 +255,9 @@ namespace Fee.Ui
 		{
 			//rect
 			this.rect = a_rect;
+
+			//eventplate
+			this.eventplate.SetRect(ref this.rect);
 
 			//SetViewLength
 			if(this.scroll_type == ScrollType.Vertical){
@@ -205,6 +286,9 @@ namespace Fee.Ui
 			//rect
 			this.rect.x = a_x;
 			this.rect.y = a_y;
+
+			//eventplate
+			this.eventplate.SetXY(a_x,a_y);
 
 			//位置更新。
 			if(this.scroll_value.GetViewStartIndex() >= 0){

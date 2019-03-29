@@ -26,16 +26,14 @@ namespace Fee.Ui
 		*/
 		private Fee.Render2D.Sprite2D bar;
 
-		//TODO:IsOnOverは必要。 EventType.View
-
 		/** constructor
 		*/
 		public Scroll(Fee.Deleter.Deleter a_deleter,long a_drawpriority,ScrollType a_scroll_type,int a_item_length)
 			:
-			base(a_scroll_type,a_item_length)
+			base(a_deleter,a_drawpriority,a_scroll_type,a_item_length)
 		{
 			//背景。
-			this.bg = new Fee.Render2D.Sprite2D(a_deleter,a_drawpriority);
+			this.bg = new Fee.Render2D.Sprite2D(this.deleter,a_drawpriority);
 			this.bg.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg.SetRect(0,0,0,0);
 			this.bg.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
@@ -43,21 +41,13 @@ namespace Fee.Ui
 			this.bg.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
 
 			//バー。
-			this.bar = new Fee.Render2D.Sprite2D(a_deleter,a_drawpriority + 1);
+			this.bar = new Fee.Render2D.Sprite2D(this.deleter,a_drawpriority + 1);
 			this.bar.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bar.SetRect(0,0,5,5);
 			this.bar.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.bar.SetColor(1.0f,1.0f,1.0f,0.3f);
 			this.bar.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
 			this.bar.SetVisible(false);
-		}
-
-		/** 描画プライオリティー。設定。
-		*/
-		public void SetDrawPriority(long a_drawpriority)
-		{
-			this.bg.SetDrawPriority(a_drawpriority);
-			this.bar.SetDrawPriority(a_drawpriority);
 		}
 
 		/** [Scroll_Base]コールバック。矩形。設定。
@@ -80,6 +70,14 @@ namespace Fee.Ui
 		protected override void OnChangeListCount()
 		{
 			this.UpdateView();
+		}
+
+		/** [Scroll_Base]コールバック。
+		*/
+		protected override void OnChangeDrawPriority(long a_drawpriority)
+		{
+			this.bg.SetDrawPriority(a_drawpriority);
+			this.bar.SetDrawPriority(a_drawpriority);
 		}
 
 		/** 更新。表示。
