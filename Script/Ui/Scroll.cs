@@ -26,6 +26,8 @@ namespace Fee.Ui
 		*/
 		private Fee.Render2D.Sprite2D bar;
 
+		//TODO:IsOnOverは必要。 EventType.View
+
 		/** constructor
 		*/
 		public Scroll(Fee.Deleter.Deleter a_deleter,long a_drawpriority,ScrollType a_scroll_type,int a_item_length)

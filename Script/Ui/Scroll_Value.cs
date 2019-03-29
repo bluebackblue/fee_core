@@ -221,28 +221,40 @@ namespace Fee.Ui
 					int t_old_viewindex_st = this.viewindex_st;
 					int t_old_viewindex_en = this.viewindex_en;
 
-					int t_position_max = this.item_length * this.listcount - this.view_length;
-					if(this.view_position > t_position_max){
-						this.view_position = t_position_max;
-					}
+					if(this.view_length <= 0){
+						this.viewindex_st = -1;
+						this.viewindex_en = -1;
+					}else{
+						int t_position_max = this.item_length * this.listcount - this.view_length;
+						if(t_position_max < 0){
+							t_position_max = 0;
+						}
+						if(this.view_position > t_position_max){
+							this.view_position = t_position_max;
+						}
 
-					this.viewindex_st = this.view_position / this.item_length;
-					this.viewindex_en = (this.view_position + this.view_length) / this.item_length;
-					if(this.viewindex_en > (this.listcount - 1)){
-						this.viewindex_en = this.listcount - 1;
+						this.viewindex_st = this.view_position / this.item_length;
+						this.viewindex_en = (this.view_position + this.view_length) / this.item_length;
+						if(this.viewindex_en > (this.listcount - 1)){
+							this.viewindex_en = this.listcount - 1;
+						}
 					}
 
 					//範囲内から範囲外。
-					for(int ii=t_old_viewindex_st;ii<=t_old_viewindex_en;ii++){
-						if((ii<this.viewindex_st)||(this.viewindex_en<ii)){
-							this.callabck.OnItemVisibleChange(ii,false);
+					if(t_old_viewindex_st > 0){
+						for(int ii=t_old_viewindex_st;ii<=t_old_viewindex_en;ii++){
+							if((ii<this.viewindex_st)||(this.viewindex_en<ii)){
+								this.callabck.OnItemVisibleChange(ii,false);
+							}
 						}
 					}
 
 					//範囲外から範囲内。
-					for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
-						if((ii<t_old_viewindex_st)||(t_old_viewindex_en<ii)){
-							this.callabck.OnItemVisibleChange(ii,true);
+					if(this.viewindex_st > 0){
+						for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
+							if((ii<t_old_viewindex_st)||(t_old_viewindex_en<ii)){
+								this.callabck.OnItemVisibleChange(ii,true);
+							}
 						}
 					}
 				}
@@ -285,40 +297,45 @@ namespace Fee.Ui
 		{
 			this.listcount++;
 
-			//表示範囲更新。
-			int t_old_viewindex_end = this.viewindex_en;
-			if(this.viewindex_st < 0){
-				this.viewindex_st = 0;
-			}
-			if((this.listcount - 1) * this.item_length < this.view_length){
-				this.viewindex_en = this.listcount - 1;
-			}
+			if(this.view_length > 0){
+				//表示範囲更新。
+				int t_old_viewindex_end = this.viewindex_en;
 
-			if(a_insert_index <= this.viewindex_en){
-				//[位置変更]追加項目より下の表示範囲内の項目。
-				{
-					int t_st = a_insert_index;
-					if(t_st < this.viewindex_st){
-						t_st = this.viewindex_st;
-					}
-					for(int ii=t_st;ii<=this.viewindex_en;ii++){
-						this.callabck.OnItemPositionChange(ii);
-					}
+				if(this.viewindex_st < 0){
+					this.viewindex_st = 0;
+					this.viewindex_en = 0;
 				}
 
-				//[表示変更]範囲内だったものが範囲外に。
-				if(t_old_viewindex_end == this.viewindex_en){
-					if((this.viewindex_en + 1) < this.listcount){
-						this.callabck.OnItemVisibleChange(this.viewindex_en + 1,false);
-					}
+				if((this.listcount - 1) * this.item_length < this.view_length){
+					this.viewindex_en = this.listcount - 1;
 				}
 
-				//[表示変更]追加。
-				if((this.viewindex_st <= a_insert_index)&&(a_insert_index <= this.viewindex_en)){
-					this.callabck.OnItemVisibleChange(a_insert_index,true);
+				if(a_insert_index <= this.viewindex_en){
+					//[位置変更]追加項目より下の表示範囲内の項目。
+					{
+						int t_st = a_insert_index;
+						if(t_st < this.viewindex_st){
+							t_st = this.viewindex_st;
+						}
+						for(int ii=t_st;ii<=this.viewindex_en;ii++){
+							this.callabck.OnItemPositionChange(ii);
+						}
+					}
+
+					//[表示変更]範囲内だったものが範囲外に。
+					if(t_old_viewindex_end == this.viewindex_en){
+						if((this.viewindex_en + 1) < this.listcount){
+							this.callabck.OnItemVisibleChange(this.viewindex_en + 1,false);
+						}
+					}
+
+					//[表示変更]追加。
+					if((this.viewindex_st <= a_insert_index)&&(a_insert_index <= this.viewindex_en)){
+						this.callabck.OnItemVisibleChange(a_insert_index,true);
+					}
+				}else{
+					//表示に変化なし。
 				}
-			}else{
-				//表示に変化なし。
 			}
 		}
 
