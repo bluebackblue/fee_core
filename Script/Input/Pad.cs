@@ -116,9 +116,9 @@ namespace Fee.Input
 		{
 			//パッドタイプ。
 			#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
-			this.padtype = 1;
+			this.padtype = PadType.Type1;
 			#else
-			this.padtype = 0;
+			this.padtype = PadType.Type0;
 			#endif
 
 			//デジタルボタン。

@@ -62,6 +62,10 @@ namespace Fee.Ui
 		*/
 		protected float value;
 
+		/** value_scale
+		*/
+		protected float value_scale;
+
 		/** clip_flag
 		*/
 		protected bool clip_flag;
@@ -120,6 +124,9 @@ namespace Fee.Ui
 
 			//value
 			this.value = 0.0f;
+
+			//value_scale
+			this.value_scale = 1.0f;
 
 			//clip_flag
 			this.clip_flag = false;
@@ -188,7 +195,7 @@ namespace Fee.Ui
 				t_h = this.rect.h;
 			}
 
-			int t_x = this.rect.x + (int)(this.rect.w * this.value) - t_w / 2;
+			int t_x = this.rect.x + (int)(this.rect.w * (this.value / this.value_scale)) - t_w / 2;
 			int t_y = this.rect.y + (this.rect.h - t_h) / 2;
 
 			this.eventplate_button.SetRect(t_x,t_y,t_w,t_h);
@@ -461,6 +468,27 @@ namespace Fee.Ui
 			}
 		}
 
+		/** 値。取得。
+		*/
+		public float GetValue()
+		{
+			return this.value;
+		}
+
+		/** 値スケール値。取得。
+		*/
+		public float GetValueScale()
+		{
+			return this.value_scale;
+		}
+
+		/** 値スケール値。設定。
+		*/
+		public void SetValueScale(float a_value_scale)
+		{
+			this.value_scale = a_value_scale;
+		}
+
 		/** [Fee.Ui.OnTargetCallBack_Base]OnTarget
 		*/
 		public void OnTarget()
@@ -482,13 +510,13 @@ namespace Fee.Ui
 				this.down_flag = true;
 
 				{
-					float t_value = ((float)(Fee.Input.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
-					if(t_value < 0.0f){
-						t_value = 0.0f;
-					}else if(t_value > 1.0f){
-						t_value = 1.0f;
+					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
+					if(t_value_per < 0.0f){
+						t_value_per = 0.0f;
+					}else if(t_value_per > 1.0f){
+						t_value_per = 1.0f;
 					}
-					this.SetValue(t_value);
+					this.SetValue(t_value_per * this.value_scale);
 				}
 			}else if((this.down_flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){
 				//アップ。
@@ -499,13 +527,13 @@ namespace Fee.Ui
 				//ダウン中オーバー中。
 
 				{
-					float t_value = ((float)(Fee.Input.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
-					if(t_value < 0.0f){
-						t_value = 0.0f;
-					}else if(t_value > 1.0f){
-						t_value = 1.0f;
+					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
+					if(t_value_per < 0.0f){
+						t_value_per = 0.0f;
+					}else if(t_value_per > 1.0f){
+						t_value_per = 1.0f;
 					}
-					this.SetValue(t_value);
+					this.SetValue(t_value_per * this.value_scale);
 				}
 			}else if((this.is_onover == true)||(this.is_onover_button == true)){
 				//オーバー中。
@@ -513,13 +541,13 @@ namespace Fee.Ui
 				//範囲外ダウン中。
 
 				{
-					float t_value = ((float)(Fee.Input.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
-					if(t_value < 0.0f){
-						t_value = 0.0f;
-					}else if(t_value > 1.0f){
-						t_value = 1.0f;
+					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
+					if(t_value_per < 0.0f){
+						t_value_per = 0.0f;
+					}else if(t_value_per > 1.0f){
+						t_value_per = 1.0f;
 					}
-					this.SetValue(t_value);
+					this.SetValue(t_value_per * this.value_scale);
 				}
 			}else{
 				//ターゲット解除。

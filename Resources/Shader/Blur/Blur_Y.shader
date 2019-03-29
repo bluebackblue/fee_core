@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
@@ -12,6 +12,8 @@ Shader "Blur/BlurY"
     Properties
 	{
         _MainTex ("Texture", 2D) = "white" {}
+		texture_original ("Texture Original", 2D) = "white" {}
+		rate_blend ("rate_blend", Float) = 1
     }
     SubShader
     {
@@ -50,6 +52,14 @@ Shader "Blur/BlurY"
 			float4 _MainTex_ST;
 			float4 _MainTex_TexelSize;
 
+			/** texture_original
+			*/
+			sampler2D texture_original;
+
+			/** rate_blend
+			*/
+			float rate_blend;
+
 			/** vert
 			*/
 			v2f vert(appdata v)
@@ -77,8 +87,10 @@ Shader "Blur/BlurY"
 				for(int ii=0;ii<t_table.Length;ii++){
 					t_table[ii] /= t_total;
 				}
+				//total = 0.5f
 				*/
-				float t_weight_1 = 0.16632f;
+
+				float t_weight_1 = 0.16637f;
 				float t_weight_2 = 0.14677f;
 				float t_weight_3 = 0.10087f;
 				float t_weight_4 = 0.05399f;
@@ -86,6 +98,26 @@ Shader "Blur/BlurY"
 				float t_weight_6 = 0.00730f;
 				float t_weight_7 = 0.00184f;
 				float t_weight_8 = 0.00036f;
+
+				/*
+				float t_weight_b_1 = 0.28520f;
+				float t_weight_b_2 = 0.17296f;
+				float t_weight_b_3 = 0.03859f;
+				float t_weight_b_4 = 0.00316f;
+				float t_weight_b_5 = 0.00009f;
+				float t_weight_b_6 = 0.00000f;
+				float t_weight_b_7 = 0.00000f;
+				float t_weight_b_8 = 0.00000f;
+				
+				float t_weight_1 = (t_weight_a_1 * rate_y) + (t_weight_b_1 * (1.0f - rate_y));
+				float t_weight_2 = (t_weight_a_2 * rate_y) + (t_weight_b_2 * (1.0f - rate_y));
+				float t_weight_3 = (t_weight_a_3 * rate_y) + (t_weight_b_3 * (1.0f - rate_y));
+				float t_weight_4 = (t_weight_a_4 * rate_y) + (t_weight_b_4 * (1.0f - rate_y));
+				float t_weight_5 = (t_weight_a_5 * rate_y) + (t_weight_b_5 * (1.0f - rate_y));
+				float t_weight_6 = (t_weight_a_6 * rate_y) + (t_weight_b_6 * (1.0f - rate_y));
+				float t_weight_7 = (t_weight_a_7 * rate_y) + (t_weight_b_7 * (1.0f - rate_y));
+				float t_weight_8 = (t_weight_a_8 * rate_y) + (t_weight_b_8 * (1.0f - rate_y));
+				*/
 
 				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y *  1)).rgb * t_weight_1;
 				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y *  1)).rgb * t_weight_1;
@@ -104,7 +136,11 @@ Shader "Blur/BlurY"
 				t_color += tex2D(_MainTex,i.uv + float2(0, _MainTex_TexelSize.y * 15)).rgb * t_weight_8;
 				t_color += tex2D(_MainTex,i.uv + float2(0,-_MainTex_TexelSize.y * 15)).rgb * t_weight_8;
 
-				return fixed4(t_color,1.0);
+				if(rate_blend < 1.0f){
+					t_color = t_color * rate_blend + tex2D(texture_original,i.uv) * (1.0f - rate_blend);
+				}
+
+				return fixed4(t_color,1.0f);
 			}
 			ENDCG
 		}

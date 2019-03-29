@@ -72,6 +72,10 @@ namespace Fee.Blur
 		private UnityEngine.GameObject camera_gameobject;
 		private MonoBehaviour_Camera camera_monobehaviour;
 
+		/** flag
+		*/
+		private bool flag;
+
 		/** [シングルトン]constructor
 		*/
 		private Blur()
@@ -91,7 +95,8 @@ namespace Fee.Blur
 				this.camera_monobehaviour.Initialize();
 
 				//無効。
-				this.camera_gameobject.SetActive(false);
+				this.flag = false;
+				this.camera_gameobject.SetActive(this.flag);
 			}
 		}
 
@@ -103,18 +108,47 @@ namespace Fee.Blur
 			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
-		/** カメラデプス。設定。
+		/** カメラ深度。設定。
 		*/
 		public void SetCameraDepth(float a_depth)
 		{
 			this.camera_monobehaviour.SetCameraDepth(a_depth);
 		}
 
+		/** カメラ深度。取得。
+		*/
+		public float GetCameraDepth()
+		{
+			return this.camera_monobehaviour.GetCameraDepth();
+		}
+
 		/** 有効。設定。
 		*/
 		public void SetEnable(bool a_bool)
 		{
-			this.camera_gameobject.SetActive(a_bool);
+			this.flag = a_bool;
+			this.camera_gameobject.SetActive(this.flag);
+		}
+
+		/** 有効。取得。
+		*/
+		public bool IsEnable()
+		{
+			return this.flag;
+		}
+
+		/** ブレンド比率。設定。
+		*/
+		public void SetBlendRate(float a_blend)
+		{
+			this.camera_monobehaviour.SetBlendRate(a_blend);
+		}
+
+		/** ブレンド比率。取得。
+		*/
+		public float GetBlendRate()
+		{
+			return this.camera_monobehaviour.GetBlendRate();
 		}
 	}
 }

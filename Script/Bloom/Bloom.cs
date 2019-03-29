@@ -72,6 +72,10 @@ namespace Fee.Bloom
 		private UnityEngine.GameObject camera_gameobject;
 		private MonoBehaviour_Camera camera_monobehaviour;
 
+		/** flag
+		*/
+		private bool flag;
+
 		/** [シングルトン]constructor
 		*/
 		private Bloom()
@@ -91,7 +95,8 @@ namespace Fee.Bloom
 				this.camera_monobehaviour.Initialize();
 
 				//無効。
-				this.camera_gameobject.SetActive(false);
+				this.flag = false;
+				this.camera_gameobject.SetActive(this.flag);
 			}
 		}
 
@@ -103,18 +108,33 @@ namespace Fee.Bloom
 			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
-		/** カメラデプス。設定。
+		/** カメラ深度。設定。
 		*/
 		public void SetCameraDepth(float a_depth)
 		{
 			this.camera_monobehaviour.SetCameraDepth(a_depth);
 		}
 
+		/** カメラ深度。取得。
+		*/
+		public float GetCameraDepth()
+		{
+			return this.camera_monobehaviour.GetCameraDepth();
+		}
+
 		/** 有効。設定。
 		*/
 		public void SetEnable(bool a_bool)
 		{
-			this.camera_gameobject.SetActive(a_bool);
+			this.flag = a_bool;
+			this.camera_gameobject.SetActive(this.flag);
+		}
+
+		/** 有効。取得。
+		*/
+		public bool IsEnable()
+		{
+			return this.flag;
 		}
 
 		/** 輝度抽出閾値。設定。
@@ -124,11 +144,25 @@ namespace Fee.Bloom
 			this.camera_monobehaviour.SetThreshold(a_threshold);
 		}
 
+		/** 輝度抽出閾値。設定。
+		*/
+		public float GetThreshold()
+		{
+			return this.camera_monobehaviour.GetThreshold();
+		}
+
 		/** 加算強度。設定。
 		*/
 		public void SetIntensity(float a_intensity)
 		{
 			this.camera_monobehaviour.SetIntensity(a_intensity);
+		}
+
+		/** 加算強度。設定。
+		*/
+		public float GetIntensity()
+		{
+			return this.camera_monobehaviour.GetIntensity();
 		}
 	}
 }

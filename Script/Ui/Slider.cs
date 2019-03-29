@@ -107,7 +107,7 @@ namespace Fee.Ui
 		*/
 		public void UpdateView()
 		{
-			int t_value_w = (int)(this.rect.w * this.value);
+			int t_value_w = (int)(this.rect.w * this.value / this.value_scale);
 
 			this.bg_sprite.SetRect(ref this.rect);
 			this.sprite_value.SetRect(this.rect.x,this.rect.y,t_value_w,this.rect.h);
