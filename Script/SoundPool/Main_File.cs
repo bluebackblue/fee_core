@@ -225,6 +225,7 @@ namespace Fee.SoundPool
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_soundpool = null;
+				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoLoadLocalSoundPool());
 				return true;
@@ -277,6 +278,7 @@ namespace Fee.SoundPool
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_soundpool = null;
+				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoSaveLocalSoundPool());
 				return true;
@@ -304,8 +306,6 @@ namespace Fee.SoundPool
 				this.result_type = ResultType.Error;
 				yield break;
 			}
-
-			yield break;
 		}
 
 		/** リクエスト。ダウンロード。サウンドプール。
@@ -330,8 +330,7 @@ namespace Fee.SoundPool
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_soundpool = null;
-
-				this.result_type = ResultType.None;
+				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoDownLoadSoundPool());
 				return true;

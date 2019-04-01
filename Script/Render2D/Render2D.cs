@@ -610,6 +610,10 @@ namespace Fee.Render2D
 			int t_start_index = this.layerlist.GetStartIndex_Sprite(a_layerindex);
 			int t_last_index = this.layerlist.GetLastIndex_Sprite(a_layerindex);
 
+			if(a_layerindex == 0){
+				UnityEngine.GL.Clear(true,true,new UnityEngine.Color(0.0f,0.0f,0.0f,1.0f));
+			}
+
 			if((t_start_index >= 0)&&(t_last_index >= 0)){
 
 				UnityEngine.GL.PushMatrix();

@@ -57,7 +57,7 @@ namespace Fee.UnityInitialize
 			//ライブラリ停止。
 			this.DeleteLibInstance();
 
-			//インスタンス作成。
+			//初期化。
 			{
 				//２Ｄ描画。
 				#if(false)
@@ -203,6 +203,13 @@ namespace Fee.UnityInitialize
 				}
 				#endif
 
+				//サウンドプール。
+				#if(true)
+				{
+					Fee.SoundPool.SoundPool.CreateInstance();
+				}
+				#endif
+
 				//タスク。
 				#if(false)
 				{
@@ -279,6 +286,11 @@ namespace Fee.UnityInitialize
 			//ファイル。
 			{
 				Fee.File.File.DeleteInstance();
+			}
+
+			//関数呼び出し。
+			{
+				Fee.Function.Function.SetMonoBehaviour(null);
 			}
 
 			//入力。
@@ -448,6 +460,10 @@ namespace Fee.UnityInitialize
 					Fee.File.File.GetInstance().Main();
 				}
 				#endif
+
+				//関数呼び出し。
+				{
+				}
 
 				//インスタンス作成。
 				{
