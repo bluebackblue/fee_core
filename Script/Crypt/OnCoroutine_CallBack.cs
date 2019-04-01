@@ -17,7 +17,7 @@ namespace Fee.Crypt
 	*/
 	public interface OnCoroutine_CallBack
 	{
-		/** [Fee.File.OnCoroutine_CallBack]コルーチン実行中。
+		/** [Fee.File.OnCoroutine_CallBack]コルーチンからのコールバック。
 
 		戻り値 == false : キャンセル。
 

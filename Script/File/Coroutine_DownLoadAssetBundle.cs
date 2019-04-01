@@ -21,7 +21,12 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
+			/** アセットバンドル
+			*/
 			public UnityEngine.AssetBundle assetbundle;
+
+			/** エラー文字列。
+			*/
 			public string errorstring;
 
 			/** レスポンスヘッダー。
@@ -34,6 +39,7 @@ namespace Fee.File
 			{
 				this.assetbundle = null;
 				this.errorstring = null;
+				this.responseheader = null;
 			}
 		}
 
@@ -43,7 +49,7 @@ namespace Fee.File
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url,long a_assetbundle_id,uint a_data_version,uint a_data_crc)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path,long a_assetbundle_id,uint a_data_version,uint a_data_crc)
 		{
 			//result
 			this.result = new ResultType();
@@ -58,7 +64,7 @@ namespace Fee.File
 				}
 			}
 
-			using(UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(a_url,a_data_version,a_data_crc)){
+			using(UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(a_path.GetPath(),a_data_version,a_data_crc)){
 				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
 				if(t_webrequest != null){
 					t_webrequest_async = t_webrequest.SendWebRequest();
@@ -75,7 +81,7 @@ namespace Fee.File
 					//エラーチェック。
 					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
 						//エラー終了。
-						this.result.errorstring = "Coroutine_DownLoadAssetBundle : " + t_webrequest.error + " : " + a_url;
+						this.result.errorstring = "Coroutine_DownLoadAssetBundle : " + t_webrequest.error + " : " + a_path.GetPath();
 						yield break;
 					}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
 						//正常終了。

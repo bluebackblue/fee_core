@@ -37,6 +37,12 @@ namespace Fee.Audio
 		*/
 		public Pack_SoundPool()
 		{
+			//data_hash
+			this.data_hash = 0;
+
+			//data_version
+			this.data_version = 0;
+
 			//name_list
 			this.name_list = new System.Collections.Generic.List<string>();
 

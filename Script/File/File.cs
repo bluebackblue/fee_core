@@ -63,25 +63,13 @@ namespace Fee.File
 			}
 		}
 
-		/** ルート。
+		/** main_io
 		*/
-		private UnityEngine.GameObject root_gameobject;
-		private UnityEngine.Transform root_transform;
+		private Main_Io main_io;
 
-		/** io
+		/** main_webrequest
 		*/
-		private UnityEngine.GameObject io_gameobject;
-		private MonoBehaviour_Io io_script;
-
-		/** webrequest
-		*/
-		private UnityEngine.GameObject webrequest_gameobject;
-		private MonoBehaviour_WebRequest webrequest_script;
-
-		/** soundpool
-		*/
-		private UnityEngine.GameObject soundpool_gameobject;
-		private MonoBehaviour_SoundPool soundpool_script;
+		private Main_WebRequest main_webrequest;
 
 		/** work_list
 		*/
@@ -99,35 +87,11 @@ namespace Fee.File
 		*/
 		private File()
 		{
-			//ルート。
-			this.root_gameobject = new UnityEngine.GameObject();
-			this.root_gameobject.name = "DownLoad";
-			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
-			this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
+			//main_io
+			this.main_io = new Main_Io();
 
-			//io
-			{
-				this.io_gameobject = new UnityEngine.GameObject();
-				this.io_gameobject.name = "DownLoad_Io";
-				this.io_script = this.io_gameobject.AddComponent<MonoBehaviour_Io>();
-				this.io_gameobject.GetComponent<UnityEngine.Transform>().SetParent(this.root_transform);
-			}
-
-			//webrequest
-			{
-				this.webrequest_gameobject = new UnityEngine.GameObject();
-				this.webrequest_gameobject.name = "DownLoad_WebRequest";
-				this.webrequest_script = this.webrequest_gameobject.AddComponent<MonoBehaviour_WebRequest>();
-				this.webrequest_gameobject.GetComponent<UnityEngine.Transform>().SetParent(this.root_transform);
-			}
-
-			//soundpool
-			{
-				this.soundpool_gameobject = new UnityEngine.GameObject();
-				this.soundpool_gameobject.name = "DownLoad_SoundPool";
-				this.soundpool_script = this.soundpool_gameobject.AddComponent<MonoBehaviour_SoundPool>();
-				this.soundpool_gameobject.GetComponent<UnityEngine.Transform>().SetParent(this.root_transform);
-			}
+			//main_webrequest
+			this.main_webrequest = new Main_WebRequest();
 
 			//work_list
 			this.work_list = new System.Collections.Generic.List<Work>();
@@ -145,53 +109,20 @@ namespace Fee.File
 		{
 			//管理しているアセットバンドルをすべてアンロード。
 			this.assetbundle_list.UnloadAllAssetBundle();
-
-			//削除リクエスト。
-			if(this.io_gameobject != null){
-				this.io_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
-				UnityEngine.GameObject.DontDestroyOnLoad(this.io_gameobject);
-			}
-			this.io_script.DeleteRequest();
-
-			//削除リクエスト。
-			if(this.webrequest_gameobject != null){
-				this.webrequest_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
-				UnityEngine.GameObject.DontDestroyOnLoad(this.webrequest_gameobject);
-			}
-			this.webrequest_script.DeleteRequest();
-
-			//削除リクエスト。
-			if(this.soundpool_gameobject != null){
-				this.soundpool_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
-				UnityEngine.GameObject.DontDestroyOnLoad(this.soundpool_gameobject);
-			}
-			this.soundpool_script.DeleteRequest();
-
-			//ルート削除。
-			if(this.root_gameobject != null){
-				UnityEngine.GameObject.Destroy(this.root_gameobject);
-			}
 		}
 
-		/** MonoIo。取得。
+		/** main_io。取得。
 		*/
-		public MonoBehaviour_Io GetMonoIo()
+		public Main_Io GetMainIo()
 		{
-			return this.io_script;
+			return this.main_io;
 		}
 
-		/** MonoWebRequest。取得。
+		/** main_webrequest。取得。
 		*/
-		public MonoBehaviour_WebRequest GetMonoWebRequest()
+		public Main_WebRequest GetMainWebRequest()
 		{
-			return this.webrequest_script;
-		}
-
-		/** MonoSoundPool。取得。
-		*/
-		public MonoBehaviour_SoundPool GetMonoSoundPool()
-		{
-			return this.soundpool_script;
+			return this.main_webrequest;
 		}
 
 		/** アセットバンドルリスト。取得。
@@ -203,129 +134,115 @@ namespace Fee.File
 
 		/** リクエスト。ロードローカル。バイナリファイル。
 		*/
-		public Item RequestLoadLocalBinaryFile(string a_filename)
+		public Item RequestLoadLocalBinaryFile(Path a_path)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadLocalBinaryFile(a_filename);
+			t_work.RequestLoadLocalBinaryFile(a_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ロードローカル。テキストファイル。
 		*/
-		public Item RequestLoadLocalTextFile(string a_filename)
+		public Item RequestLoadLocalTextFile(Path a_path)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadLocalTextFile(a_filename);
+			t_work.RequestLoadLocalTextFile(a_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ロードローカル。テクスチャファイル。
 		*/
-		public Item RequestLoadLocalTextureFile(string a_filename)
+		public Item RequestLoadLocalTextureFile(Path a_path)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadLocalTextureFile(a_filename);
+			t_work.RequestLoadLocalTextureFile(a_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。セーブローカル。バイナリファイル。
 		*/
-		public Item RequestSaveLocalBinaryFile(string a_filename,byte[] a_binary)
+		public Item RequestSaveLocalBinaryFile(Path a_path,byte[] a_binary)
 		{
 			Work t_work = new Work();
-			t_work.RequestSaveLocalBinaryFile(a_filename,a_binary);
+			t_work.RequestSaveLocalBinaryFile(a_path,a_binary);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。セーブローカル。テキストファイル。
 		*/
-		public Item RequestSaveLocalTextFile(string a_filename,string a_text)
+		public Item RequestSaveLocalTextFile(Path a_path,string a_text)
 		{
 			Work t_work = new Work();
-			t_work.RequestSaveLocalTextFile(a_filename,a_text);
+			t_work.RequestSaveLocalTextFile(a_path,a_text);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。セーブローカル。テクスチャファイル。
 		*/
-		public Item RequestSaveLocalTextureFile(string a_filename,UnityEngine.Texture2D a_texture)
+		public Item RequestSaveLocalTextureFile(Path a_path,UnityEngine.Texture2D a_texture)
 		{
 			Work t_work = new Work();
-			t_work.RequestSaveLocalTextureFile(a_filename,a_texture);
+			t_work.RequestSaveLocalTextureFile(a_path,a_texture);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public Item RequestDownLoadBinaryFile(string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
+		public Item RequestDownLoadBinaryFile(Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadBinaryFile(a_url,a_post_data,a_progress_mode);
+			t_work.RequestDownLoadBinaryFile(a_path,a_post_data,a_progress_mode);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public Item RequestDownLoadTextFile(string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
+		public Item RequestDownLoadTextFile(Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadTextFile(a_url,a_post_data,a_progress_mode);
+			t_work.RequestDownLoadTextFile(a_path,a_post_data,a_progress_mode);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ダウンロード。テクスチャファイル。
 		*/
-		public Item RequestDownLoadTextureFile(string a_url)
+		public Item RequestDownLoadTextureFile(Path a_path)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadTextureFile(a_url);
+			t_work.RequestDownLoadTextureFile(a_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。アセットバンドル。
 
-		a_url                 : ＵＲＬ。
+		a_path                : パス。
 		a_assetbundle_id      : 重複チェック用のＩＤ。
 		a_data_version        : 再ダウンロードチェック用のバージョン値。
 
 		*/
-		public Item RequestDownLoadAssetBundle(string a_url,long a_assetbundle_id,uint a_data_version)
+		public Item RequestDownLoadAssetBundle(Path a_path,long a_assetbundle_id,uint a_data_version)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadAssetBundle(a_url,a_assetbundle_id,a_data_version);
+			t_work.RequestDownLoadAssetBundle(a_path,a_assetbundle_id,a_data_version);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ロードストリーミングアセット。バイナリファイル。
 		*/
-		public Item RequestLoadStreamingAssetsBinaryFile(string a_filename)
+		public Item RequestLoadStreamingAssetsBinaryFile(Path a_path)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadStreamingAssetsBinaryFile(a_filename);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
-		}
-
-		/** リクエスト。サウンドプール。
-
-		a_url                 : ＵＲＬ。
-		a_data_version        : 再ダウンロードチェック用のバージョン値。
-
-		*/
-		public Item RequestDownLoadSoundPool(string a_url,uint a_data_version)
-		{
-			Work t_work = new Work();
-			t_work.RequestDownLoadSoundPool(a_url,a_data_version);
+			t_work.RequestLoadStreamingAssetsBinaryFile(a_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}

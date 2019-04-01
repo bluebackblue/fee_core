@@ -33,10 +33,6 @@ namespace Fee.File
 			*/
 			Do_WebRequest,
 
-			/** Do_SoundPool
-			*/
-			Do_SoundPool,
-
 			/** 完了。
 			*/
 			End
@@ -93,10 +89,6 @@ namespace Fee.File
 			/** ロードストリーミングアセット。バイナリファイル。
 			*/
 			LoadStreamingAssetsBinaryFile,
-
-			/** ダウンロード。サウンドプール。
-			*/
-			DownLoadSoundPool,
 		};
 
 		/** mode
@@ -111,13 +103,9 @@ namespace Fee.File
 		*/
 		private RequestType request_type;
 
-		/** request_filename
+		/** request_path
 		*/
-		private string request_filename;
-
-		/** request_url
-		*/
-		private string request_url;
+		private Path request_path;
 
 		/** request_post_data
 		*/
@@ -160,11 +148,8 @@ namespace Fee.File
 			//request_type
 			this.request_type = RequestType.None;
 
-			//request_filename
-			this.request_filename = null;
-
-			//request_url
-			this.request_url = null;
+			//request_path
+			this.request_path = null;
 
 			//request_post_data
 			this.request_post_data = null;
@@ -190,108 +175,99 @@ namespace Fee.File
 
 		/** リクエスト。ロードローカル。バイナリファイル。
 		*/
-		public void RequestLoadLocalBinaryFile(string a_filename)
+		public void RequestLoadLocalBinaryFile(Path a_path)
 		{
 			this.request_type = RequestType.LoadLocalBinaryFile;
-			this.request_filename = a_filename;
+			this.request_path = a_path;
 		}
 
 		/** リクエスト。ロードローカル。テキストファイル。
 		*/
-		public void RequestLoadLocalTextFile(string a_filename)
+		public void RequestLoadLocalTextFile(Path a_path)
 		{
 			this.request_type = RequestType.LoadLocalTextFile;
-			this.request_filename = a_filename;
+			this.request_path = a_path;
 		}
 
 		/** リクエスト。ロードローカル。テクスチャーファイル。
 		*/
-		public void RequestLoadLocalTextureFile(string a_filename)
+		public void RequestLoadLocalTextureFile(Path a_path)
 		{
 			this.request_type = RequestType.LoadLocalTextureFile;
-			this.request_filename = a_filename;
+			this.request_path = a_path;
 		}
 
 		/** リクエスト。セーブローカル。バイナリファイル。
 		*/
-		public void RequestSaveLocalBinaryFile(string a_filename,byte[] a_binary)
+		public void RequestSaveLocalBinaryFile(Path a_path,byte[] a_binary)
 		{
 			this.request_type = RequestType.SaveLocalBinaryFile;
-			this.request_filename = a_filename;
+			this.request_path = a_path;
 			this.request_binary = a_binary;
 		}
 
 		/** リクエスト。セーブローカル。テキストファイル。
 		*/
-		public void RequestSaveLocalTextFile(string a_filename,string a_text)
+		public void RequestSaveLocalTextFile(Path a_path,string a_text)
 		{
 			this.request_type = RequestType.SaveLocalTextFile;
-			this.request_filename = a_filename;
+			this.request_path = a_path;
 			this.request_text = a_text;
 		}
 
 		/** リクエスト。セーブローカル。テクスチャーファイル。
 		*/
-		public void RequestSaveLocalTextureFile(string a_filename,UnityEngine.Texture2D a_texture)
+		public void RequestSaveLocalTextureFile(Path a_path,UnityEngine.Texture2D a_texture)
 		{
 			this.request_type = RequestType.SaveLocalTextureFile;
-			this.request_filename = a_filename;
+			this.request_path = a_path;
 			this.request_texture = a_texture;
 		}
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public void RequestDownLoadBinaryFile(string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
+		public void RequestDownLoadBinaryFile(Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			this.request_type = RequestType.DownLoadBinaryFile;
-			this.request_url = a_url;
+			this.request_path = a_path;
 			this.request_post_data = a_post_data;
 			this.request_progress_mode = a_progress_mode;
 		}
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public void RequestDownLoadTextFile(string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
+		public void RequestDownLoadTextFile(Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			this.request_type = RequestType.DownLoadTextFile;
-			this.request_url = a_url;
+			this.request_path = a_path;
 			this.request_post_data = a_post_data;
 			this.request_progress_mode = a_progress_mode;
 		}
 
 		/** リクエスト。ダウンロード。テクスチャーファイル。
 		*/
-		public void RequestDownLoadTextureFile(string a_url)
+		public void RequestDownLoadTextureFile(Path a_path)
 		{
 			this.request_type = RequestType.DownLoadTextureFile;
-			this.request_url = a_url;
+			this.request_path = a_path;
 		}
 
 		/** リクエスト。ダウンロード。アセットバンドル。
 		*/
-		public void RequestDownLoadAssetBundle(string a_url,long a_assetbundle_id,uint a_data_version)
+		public void RequestDownLoadAssetBundle(Path a_path,long a_assetbundle_id,uint a_data_version)
 		{
 			this.request_type = RequestType.DownLoadAssetBundle;
-			this.request_url = a_url;
+			this.request_path = a_path;
 			this.request_assetbundle_id = a_assetbundle_id;
 			this.request_data_version = a_data_version;
 		}
 
 		/** リクエスト。ロードストリーミングアセット。バイナリファイル。
 		*/
-		public void RequestLoadStreamingAssetsBinaryFile(string a_filename)
+		public void RequestLoadStreamingAssetsBinaryFile(Path a_path)
 		{
 			this.request_type = RequestType.LoadStreamingAssetsBinaryFile;
-			this.request_filename = a_filename;
-		}
-
-		/** リクエスト。ダウンロード。サウンドプール。
-		*/
-		public void RequestDownLoadSoundPool(string a_url,uint a_data_version)
-		{
-			this.request_type = RequestType.DownLoadSoundPool;
-			this.request_url = a_url;
-			this.request_data_version = a_data_version;
+			this.request_path = a_path;
 		}
 
 		/** アイテム。
@@ -314,71 +290,61 @@ namespace Fee.File
 					switch(this.request_type){
 					case RequestType.LoadLocalBinaryFile:
 						{
-							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
-							if(t_io.RequestLoadLocalBinaryFile(this.request_filename) == true){
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadLocalBinaryFile(this.request_path) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.LoadLocalTextFile:
 						{
-							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
-							if(t_io.RequestLoadLocalTextFile(this.request_filename) == true){
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadLocalTextFile(this.request_path) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.LoadLocalTextureFile:
 						{
-							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
-							if(t_io.RequestLoadLocalTextureFile(this.request_filename) == true){
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadLocalTextureFile(this.request_path) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.SaveLocalBinaryFile:
 						{
-							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
-							if(t_io.RequestSaveLocalBinaryFile(this.request_filename,this.request_binary) == true){
+							if(Fee.File.File.GetInstance().GetMainIo().RequestSaveLocalBinaryFile(this.request_path,this.request_binary) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.SaveLocalTextFile:
 						{
-							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
-							if(t_io.RequestSaveLocalTextFile(this.request_filename,this.request_text) == true){
+							if(Fee.File.File.GetInstance().GetMainIo().RequestSaveLocalTextFile(this.request_path,this.request_text) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.SaveLocalTextureFile:
 						{
-							MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
-							if(t_io.RequestSaveLocalTextureFile(this.request_filename,this.request_texture) == true){
+							if(Fee.File.File.GetInstance().GetMainIo().RequestSaveLocalTextureFile(this.request_path,this.request_texture) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
 					case RequestType.DownLoadBinaryFile:
 						{
-							MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
-							if(t_webrequest.RequestDownLoadBinaryFile(this.request_url,this.request_post_data,this.request_progress_mode) == true){
+							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestDownLoadBinaryFile(this.request_path,this.request_post_data,this.request_progress_mode) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
 					case RequestType.DownLoadTextFile:
 						{
-							MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
-							if(t_webrequest.RequestDownLoadTextFile(this.request_url,this.request_post_data,this.request_progress_mode) == true){
+							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestDownLoadTextFile(this.request_path,this.request_post_data,this.request_progress_mode) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
 					case RequestType.DownLoadTextureFile:
 						{
-							MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
-							if(t_webrequest.RequestDownLoadTextureFile(this.request_url) == true){
+							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestDownLoadTextureFile(this.request_path,this.request_post_data,this.request_progress_mode) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
 					case RequestType.DownLoadAssetBundle:
 						{
-							MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
-							if(t_webrequest.RequestDownLoadAssetBundle(this.request_url,this.request_assetbundle_id,this.request_data_version) == true){
+							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestDownLoadAssetBundle(this.request_path,this.request_post_data,this.request_progress_mode,this.request_assetbundle_id,this.request_data_version) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
@@ -386,26 +352,17 @@ namespace Fee.File
 						{
 							#if((!UNITY_EDITOR)&&((UNITY_ANDROID)||(UNITY_WEBGL)))
 							{
-								MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
-								if(t_webrequest.LoadStreamingAssetsBinaryFile(this.request_filename) == true){
+								if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadStreamingAssetsBinaryFile(this.request_path) == true){
 									this.mode = Mode.Do_Io;
 								}								
 							}
 							#else
 							{
-								MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
-								if(t_io.LoadStreamingAssetsBinaryFile(this.request_filename) == true){
+								if( Fee.File.File.GetInstance().GetMainIo().RequestLoadStreamingAssetsBinaryFile(this.request_path) == true){
 									this.mode = Mode.Do_Io;
 								}
 							}
 							#endif
-						}break;
-					case RequestType.DownLoadSoundPool:
-						{
-							MonoBehaviour_SoundPool t_soundpool = Fee.File.File.GetInstance().GetMonoSoundPool();
-							if(t_soundpool.RequestDownLoadSoundPool(this.request_url,this.request_data_version) == true){
-								this.mode = Mode.Do_SoundPool;
-							}
 						}break;
 					}
 				}break;
@@ -414,36 +371,36 @@ namespace Fee.File
 				}return true;
 			case Mode.Do_Io:
 				{
-					MonoBehaviour_Io t_io = Fee.File.File.GetInstance().GetMonoIo();
+					Main_Io t_main = Fee.File.File.GetInstance().GetMainIo();
 
-					this.item.SetResultProgress(t_io.GetResultProgress());
+					this.item.SetResultProgress(t_main.GetResultProgress());
 
-					if(t_io.IsFix() == true){
+					if(t_main.GetResultType() != Main_Io.ResultType.None){ 
 						//結果。
 						bool t_success = false;
-						switch(t_io.GetResultType()){
-						case MonoBehaviour_Base.ResultType.Binary:
+						switch(t_main.GetResultType()){
+						case Main_Io.ResultType.Binary:
 							{
-								if(t_io.GetResultBinary() != null){
-									this.item.SetResultBinary(t_io.GetResultBinary());
+								if(t_main.GetResultBinary() != null){
+									this.item.SetResultBinary(t_main.GetResultBinary());
 									t_success = true;
 								}
 							}break;
-						case MonoBehaviour_Base.ResultType.Text:
+						case Main_Io.ResultType.Text:
 							{
-								if(t_io.GetResultText() != null){
-									this.item.SetResultText(t_io.GetResultText());
+								if(t_main.GetResultText() != null){
+									this.item.SetResultText(t_main.GetResultText());
 									t_success = true;
 								}
 							}break;
-						case MonoBehaviour_Base.ResultType.Texture:
+						case Main_Io.ResultType.Texture:
 							{
-								if(t_io.GetResultTexture() != null){
-									this.item.SetResultTexture(t_io.GetResultTexture());
+								if(t_main.GetResultTexture() != null){
+									this.item.SetResultTexture(t_main.GetResultTexture());
 									t_success = true;
 								}
 							}break;
-						case MonoBehaviour_Base.ResultType.SaveEnd:
+						case Main_Io.ResultType.SaveEnd:
 							{
 								this.item.SetResultSaveEnd();
 								t_success = true;
@@ -451,112 +408,73 @@ namespace Fee.File
 						}
 
 						if(t_success == false){
-							this.item.SetResultErrorString(t_io.GetResultErrorString());
+							this.item.SetResultErrorString(t_main.GetResultErrorString());
 						}
 
-						//リクエスト待ち開始。
-						t_io.WaitRequest();						
+						//完了。
+						t_main.Fix();					
 
 						this.mode = Mode.End;
 					}else if(this.item.IsCancel() == true){
 						//キャンセル。
-						t_io.Cancel();
+						t_main.Cancel();
 					}
 				}break;
 			case Mode.Do_WebRequest:
 				{
-					MonoBehaviour_WebRequest t_webrequest = Fee.File.File.GetInstance().GetMonoWebRequest();
+					Main_WebRequest t_main = Fee.File.File.GetInstance().GetMainWebRequest();
 
-					this.item.SetResultProgress(t_webrequest.GetResultProgress());
+					this.item.SetResultProgress(t_main.GetResultProgress());
 
-					if(t_webrequest.IsFix() == true){
+					if(t_main.GetResultType() != Main_WebRequest.ResultType.None){
 						//結果。
 						bool t_success = false;
-						switch(t_webrequest.GetResultType()){
-						case MonoBehaviour_Base.ResultType.Binary:
+						switch(t_main.GetResultType()){
+						case Main_WebRequest.ResultType.Binary:
 							{
-								if(t_webrequest.GetResultBinary() != null){
-									this.item.SetResultResponseHeader(t_webrequest.GetResponseHeader());
-									this.item.SetResultBinary(t_webrequest.GetResultBinary());
+								if(t_main.GetResultBinary() != null){
+									this.item.SetResultResponseHeader(t_main.GetResultResponseHeader());
+									this.item.SetResultBinary(t_main.GetResultBinary());
 									t_success = true;
 								}
 							}break;
-						case MonoBehaviour_Base.ResultType.Text:
+						case Main_WebRequest.ResultType.Text:
 							{
-								if(t_webrequest.GetResultText() != null){
-									this.item.SetResultResponseHeader(t_webrequest.GetResponseHeader());
-									this.item.SetResultText(t_webrequest.GetResultText());
+								if(t_main.GetResultText() != null){
+									this.item.SetResultResponseHeader(t_main.GetResultResponseHeader());
+									this.item.SetResultText(t_main.GetResultText());
 									t_success = true;
 								}
 							}break;
-						case MonoBehaviour_Base.ResultType.Texture:
+						case Main_WebRequest.ResultType.Texture:
 							{
-								if(t_webrequest.GetResultTexture() != null){
-									this.item.SetResultResponseHeader(t_webrequest.GetResponseHeader());
-									this.item.SetResultTexture(t_webrequest.GetResultTexture());
+								if(t_main.GetResultTexture() != null){
+									this.item.SetResultResponseHeader(t_main.GetResultResponseHeader());
+									this.item.SetResultTexture(t_main.GetResultTexture());
 									t_success = true;
 								}
 							}break;
-						case MonoBehaviour_Base.ResultType.AssetBundle:
+						case Main_WebRequest.ResultType.AssetBundle:
 							{
-								if(t_webrequest.GetResultAssetBundle() != null){
-									this.item.SetResultResponseHeader(t_webrequest.GetResponseHeader());
-									this.item.SetResultAssetBundle(t_webrequest.GetResultAssetBundle());
-									t_success = true;
-								}
-							}break;
-						case MonoBehaviour_Base.ResultType.SaveEnd:
-							{
-								this.item.SetResultSaveEnd();
-								t_success = true;
-							}break;
-						}
-
-						if(t_success == false){
-							this.item.SetResultErrorString(t_webrequest.GetResultErrorString());
-						}
-
-						//リクエスト待ち開始。
-						t_webrequest.WaitRequest();						
-
-						this.mode = Mode.End;
-					}else if(this.item.IsCancel() == true){
-						//キャンセル。
-						t_webrequest.Cancel();
-					}
-				}break;
-			case Mode.Do_SoundPool:
-				{
-					//TODO:別モジュール化Fileにいるのは微妙。
-
-					MonoBehaviour_SoundPool t_soundpool = Fee.File.File.GetInstance().GetMonoSoundPool();
-
-					this.item.SetResultProgress(t_soundpool.GetResultProgress());
-
-					if(t_soundpool.IsFix() == true){
-						//結果。
-						bool t_success = false;
-						switch(t_soundpool.GetResultType()){
-						case MonoBehaviour_Base.ResultType.SoundPool:
-							{
-								if(t_soundpool.GetResultSoundPool() != null){
-									this.item.SetResultSoundPool(t_soundpool.GetResultSoundPool());
+								if(t_main.GetResultAssetBundle() != null){
+									this.item.SetResultResponseHeader(t_main.GetResultResponseHeader());
+									this.item.SetResultAssetBundle(t_main.GetResultAssetBundle());
 									t_success = true;
 								}
 							}break;
 						}
 
 						if(t_success == false){
-							this.item.SetResultErrorString(t_soundpool.GetResultErrorString());
+							this.item.SetResultErrorString(t_main.GetResultErrorString());
 						}
 
-						//リクエスト待ち開始。
-						t_soundpool.WaitRequest();						
+						//完了。
+						t_main.Fix();				
 
 						this.mode = Mode.End;
 					}else if(this.item.IsCancel() == true){
 						//キャンセル。
-						t_soundpool.Cancel();
+						t_main.Cancel();
 					}
 				}break;
 			}

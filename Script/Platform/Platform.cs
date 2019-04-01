@@ -19,23 +19,23 @@ namespace Fee.Platform
 	{
 		/** ＵＲＬを開く。
 		*/
-		public static void OpenUrl(string a_url)
+		public static void OpenUrl(Fee.File.Path a_path)
 		{
 			#if(UNITY_WEBGL)
 			{
 				#if(UNITY_EDITOR)
 				{
-					UnityEngine.Application.OpenURL(a_url);
+					UnityEngine.Application.OpenURL(a_path.GetPath());
 				}
 				#else
 				{
-					WebGL_OpenUrl.OpenUrl(a_url);
+					WebGL_OpenUrl.OpenUrl(a_path.GetPath());
 				}
 				#endif
 			}
 			#else
 			{
-				UnityEngine.Application.OpenURL(a_url);
+				UnityEngine.Application.OpenURL(a_path.GetPath());
 			}
 			#endif
 		}

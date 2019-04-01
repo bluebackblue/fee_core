@@ -31,7 +31,7 @@ namespace Fee.File
 
 		/** TaskMain
 		*/
-		private static async System.Threading.Tasks.Task<ResultType> TaskMain(string a_full_path,System.Threading.CancellationToken a_cancel)
+		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Path a_path,System.Threading.CancellationToken a_cancel)
 		{
 			ResultType t_ret;
 			{
@@ -43,7 +43,7 @@ namespace Fee.File
 
 			try{
 				//ファイルパス。
-				System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_full_path);
+				System.IO.FileInfo t_fileinfo = new System.IO.FileInfo(a_path.GetPath());
 
 				//開く。
 				t_filestream = t_fileinfo.OpenText();
@@ -84,12 +84,12 @@ namespace Fee.File
 
 		/** 実行。
 		*/
-		public static Fee.TaskW.Task<ResultType> Run(string a_full_path,Fee.TaskW.CancelToken a_cancel)
+		public static Fee.TaskW.Task<ResultType> Run(Path a_path,Fee.TaskW.CancelToken a_cancel)
 		{
 			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
 
 			return new Fee.TaskW.Task<ResultType>(() => {
-				return Task_LoadLocalTextFile.TaskMain(a_full_path,t_cancel_token);
+				return Task_LoadLocalTextFile.TaskMain(a_path,t_cancel_token);
 			});
 		}
 	}

@@ -21,7 +21,12 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
+			/** バイナリー。
+			*/
 			public byte[] binary;
+
+			/** エラー文字列。
+			*/
 			public string errorstring;
 
 			/** レスポンスヘッダー。
@@ -34,6 +39,7 @@ namespace Fee.File
 			{
 				this.binary = null;
 				this.errorstring = null;
+				this.responseheader = null;
 			}
 		}
 
@@ -43,22 +49,22 @@ namespace Fee.File
 
 		/** CreateWebRequestInstance
 		*/
-		private static UnityEngine.Networking.UnityWebRequest CreateWebRequestInstance(string a_url,UnityEngine.WWWForm a_post_data)
+		private static UnityEngine.Networking.UnityWebRequest CreateWebRequestInstance(Fee.File.Path a_path,UnityEngine.WWWForm a_post_data)
 		{
 			if(a_post_data != null){
-				return UnityEngine.Networking.UnityWebRequest.Post(a_url,a_post_data);
+				return UnityEngine.Networking.UnityWebRequest.Post(a_path.GetPath(),a_post_data);
 			}
-			return UnityEngine.Networking.UnityWebRequest.Get(a_url);
+			return UnityEngine.Networking.UnityWebRequest.Get(a_path.GetPath());
 		}
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
 		{
 			//result
 			this.result = new ResultType();
 
-			using(UnityEngine.Networking.UnityWebRequest t_webrequest = Coroutine_DownLoadBinaryFile.CreateWebRequestInstance(a_url,a_post_data)){
+			using(UnityEngine.Networking.UnityWebRequest t_webrequest = Coroutine_DownLoadBinaryFile.CreateWebRequestInstance(a_path,a_post_data)){
 				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
 				if(t_webrequest != null){
 					t_webrequest_async = t_webrequest.SendWebRequest();

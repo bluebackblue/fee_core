@@ -21,7 +21,12 @@ namespace Fee.Crypt
 		*/
 		public class ResultType
 		{
+			/** 検証。
+			*/
 			public bool verify;
+
+			/** エラー文字列。
+			*/
 			public string errorstring;
 
 			/** constructor

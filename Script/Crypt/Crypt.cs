@@ -63,15 +63,9 @@ namespace Fee.Crypt
 			}
 		}
 
-		/** ルート。
+		/** main_security
 		*/
-		private UnityEngine.GameObject root_gameobject;
-		private UnityEngine.Transform root_transform;
-
-		/** security
-		*/
-		private UnityEngine.GameObject security_gameobject;
-		private MonoBehaviour_Security security_script;
+		private Main_Security main_security;
 
 		/** work_list
 		*/
@@ -85,19 +79,8 @@ namespace Fee.Crypt
 		*/
 		private Crypt()
 		{
-			//ルート。
-			this.root_gameobject = new UnityEngine.GameObject();
-			this.root_gameobject.name = "Crypt";
-			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
-			this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
-
-			//security
-			{
-				this.security_gameobject = new UnityEngine.GameObject();
-				this.security_gameobject.name = "Crypt_Security";
-				this.security_script = this.security_gameobject.AddComponent<MonoBehaviour_Security>();
-				this.security_gameobject.GetComponent<UnityEngine.Transform>().SetParent(this.root_transform);
-			}
+			//main_security
+			this.main_security = new Main_Security();
 
 			//work_list
 			this.work_list = new System.Collections.Generic.List<Work>();
@@ -110,22 +93,14 @@ namespace Fee.Crypt
 		*/
 		private void Delete()
 		{
-			//削除リクエスト。
-			if(this.security_gameobject != null){
-				this.security_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
-				UnityEngine.GameObject.DontDestroyOnLoad(this.security_gameobject);
-			}
-			this.security_script.DeleteRequest();
-
-			//ルート削除。
-			UnityEngine.GameObject.Destroy(this.root_gameobject);
+			this.main_security.Delete();
 		}
 
-		/** MonoSecurity。取得。
+		/** メイン。取得。
 		*/
-		public MonoBehaviour_Security GetMonoIo()
+		public Main_Security GetMainSecurity()
 		{
-			return this.security_script;
+			return this.main_security;
 		}
 
 		/** リクエスト。暗号化。パブリックキー。
@@ -213,27 +188,6 @@ namespace Fee.Crypt
 				Tool.LogError(t_exception);
 			}
 		}
-
-		/** TODO:暗号鍵作成。
-		*/
-		#if(UNITY_EDITOR)
-		public static bool CreateNewKey(out string a_public_key,out string a_private_key)
-		{
-			try{
-				using(System.Security.Cryptography.RSACryptoServiceProvider t_rsa = new System.Security.Cryptography.RSACryptoServiceProvider(1024)){
-					a_public_key = t_rsa.ToXmlString(false);
-					a_private_key = t_rsa.ToXmlString(true);
-					return true;
-				}
-			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
-			}
-
-			a_public_key = null;
-			a_private_key = null;
-			return false;
-		}
-		#endif
 	}
 }
 

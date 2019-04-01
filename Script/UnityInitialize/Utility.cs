@@ -16,57 +16,14 @@ namespace Fee.UnityInitialize
 	/** UnityInitialize
 	*/
 	#if(UNITY_EDITOR)
-	public class UnityInitialize
+	public class Utility
 	{
-		/** メインスクリプト。作成。
-		*/
-		[UnityEditor.MenuItem("Fee/Initialize/CreateMainScript")]
-		private static void CreateMainScript()
-		{
-			//スクリプトテンプレートを読み込み。
-			string t_script_template = null;
-			{
-				string t_in_fullpath = FindFile("UnityInitialize","Main.temp.cs");
-				if(t_in_fullpath != null){
-					t_script_template = ReadTextFile(t_in_fullpath);
-				}
-				if(t_script_template != null){
-					t_script_template = t_script_template.Replace("USE_DEF_FEE_TEMP","true");
-				}else{
-					return;
-				}
-			}
-
-			//スクリプトの書き込み。
-			WriteTextFile(UnityEngine.Application.dataPath + "/" + "Main.cs",t_script_template);
-
-			//更新。
-			UnityEditor.AssetDatabase.Refresh();
-		}
-
-		/** メインオブジェクト。存在チェック。
-		*/
-		private static bool IsExistMainGameObject()
-		{
-			UnityEngine.GameObject[] t_gameobject = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
-			for(int ii=0;ii<t_gameobject.Length;ii++){
-				if(t_gameobject[ii].name == "Main"){
-					return true;
-				}
-			}
-			return false;
-		}
-
-		/** メインスクリプト。存在チェック。
-		*/
-		private static bool IsExistMainScript()
-		{
-			return System.IO.File.Exists(UnityEngine.Application.dataPath + "/" + "Main.cs");
-		}
-
 		/** ファイル検索。
+
+		return == フルパス。
+
 		*/
-		private static string FindFile(string a_dir_name,string a_file_name)
+		public static string FindFile(string a_dir_name,string a_file_name)
 		{
 			string[] t_dir_list = System.IO.Directory.GetDirectories(UnityEngine.Application.dataPath,a_dir_name,System.IO.SearchOption.AllDirectories);
 			for(int ii=0;ii<t_dir_list.Length;ii++){
@@ -80,9 +37,16 @@ namespace Fee.UnityInitialize
 			return null;
 		}
 
+		/** ファイル存在チェック。
+		*/
+		public static bool IsExistFile(string a_full_path)
+		{
+			return System.IO.File.Exists(a_full_path);
+		}
+
 		/** テキストファイル読み込み。
 		*/
-		private static string ReadTextFile(string a_full_path)
+		public static string ReadTextFile(string a_full_path)
 		{
 			string t_full_path = a_full_path;
 
@@ -90,6 +54,7 @@ namespace Fee.UnityInitialize
 			try{
 				using(System.IO.StreamReader t_stream = new System.IO.StreamReader(t_full_path)){
 					t_string = t_stream.ReadToEnd();
+					t_stream.Close();
 				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
@@ -99,7 +64,7 @@ namespace Fee.UnityInitialize
 
 		/** テキストファイル書き込み。
 		*/
-		private static void WriteTextFile(string a_full_path,string a_text)
+		public static void WriteTextFile(string a_full_path,string a_text)
 		{
 			string t_full_path = a_full_path;
 
@@ -114,6 +79,36 @@ namespace Fee.UnityInitialize
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
+		}
+
+		/** ＪＳＯＮファイル書き込み。
+		*/
+		public static void WriteJsonFile(Fee.JsonItem.JsonItem a_jsonitem,string a_full_path)
+		{
+			string t_json_string = a_jsonitem.ConvertJsonString();
+
+			try{
+				using(System.IO.StreamWriter t_steram = new System.IO.StreamWriter(a_full_path,false,System.Text.Encoding.UTF8)){
+					t_steram.Write(t_json_string);
+					t_steram.Flush();
+					t_steram.Close();
+				}
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+			}
+		}
+
+		/** ゲームオブジェクト。検索。アクティブシーンのルート直下。
+		*/
+		public static UnityEngine.GameObject FindGameObjectFromActiveSceneRoot(string a_gameobject_name)
+		{
+			UnityEngine.GameObject[] t_gameobject = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+			for(int ii=0;ii<t_gameobject.Length;ii++){
+				if(t_gameobject[ii].name == a_gameobject_name){
+					return t_gameobject[ii];
+				}
+			}
+			return null;
 		}
 	}
 	#endif

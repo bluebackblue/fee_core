@@ -32,6 +32,10 @@ namespace Fee.JsonItem
 		Calc_UnknownNumber,		//数値（少数/整数）。
 		Calc_BoolDataTrue,		//真。
 		Calc_BoolDataFalse,		//偽。
+
+		//Mask
+		Mask_Integer_Number,	//SignedNumber & UnsignedNumber
+		Mask_All_Number,		//SignedNumber & UnsignedNumber & FloatingNumber
 	}
 }
 

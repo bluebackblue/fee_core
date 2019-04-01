@@ -626,8 +626,28 @@ namespace Fee.JsonItem
 			{
 				JsonItem t_value;
 				if(this.value.associative_array.TryGetValue(a_itemname,out t_value) == true){
-					if(a_valuetype == ValueType.None || t_value.GetValueType() == a_valuetype){
+					if(a_valuetype == ValueType.None){
 						return true;
+					}else{
+						ValueType t_valuetype = t_value.GetValueType();
+						if(a_valuetype == t_valuetype){
+							return true;
+						}else{
+							switch(a_valuetype){
+							case ValueType.Mask_Integer_Number:
+								{
+									if((t_valuetype == ValueType.SignedNumber)||(t_valuetype == ValueType.UnsignedNumber)){
+										return true;
+									}
+								}break;
+							case ValueType.Mask_All_Number:
+								{
+									if((t_valuetype == ValueType.SignedNumber)||(t_valuetype == ValueType.UnsignedNumber)||(t_valuetype == ValueType.FloatingNumber)){
+										return true;
+									}
+								}break;
+							}
+						}
 					}
 				}
 			}

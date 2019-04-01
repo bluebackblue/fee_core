@@ -21,7 +21,12 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
+			/** テクスチャー。
+			*/
 			public UnityEngine.Texture2D texture;
+
+			/** エラー文字列。
+			*/
 			public string errorstring;
 
 			/** レスポンスヘッダー。
@@ -34,6 +39,7 @@ namespace Fee.File
 			{
 				this.texture = null;
 				this.errorstring = null;
+				this.responseheader = null;
 			}
 		}
 
@@ -43,12 +49,12 @@ namespace Fee.File
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_url)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path)
 		{
 			//result
 			this.result = new ResultType();
 
-			using(UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(a_url)){
+			using(UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(a_path.GetPath())){
 				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
 				if(t_webrequest != null){
 					t_webrequest_async = t_webrequest.SendWebRequest();

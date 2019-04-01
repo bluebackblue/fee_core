@@ -21,7 +21,12 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
+			/** セーブ完了。
+			*/
 			public bool saveend;
+
+			/** エラー文字列。
+			*/
 			public string errorstring;
 
 			/** constructor
@@ -43,7 +48,7 @@ namespace Fee.File
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_full_path,string a_text)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path,string a_text)
 		{
 			//result
 			this.result = new ResultType();
@@ -55,7 +60,7 @@ namespace Fee.File
 			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
 			//タスク起動。
-			Fee.TaskW.Task<Task_SaveLocalTextFile.ResultType> t_task = Task_SaveLocalTextFile.Run(a_full_path,a_text,t_cancel_token);
+			Fee.TaskW.Task<Task_SaveLocalTextFile.ResultType> t_task = Task_SaveLocalTextFile.Run(a_path,a_text,t_cancel_token);
 
 			//終了待ち。
 			do{

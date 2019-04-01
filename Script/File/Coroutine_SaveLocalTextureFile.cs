@@ -21,7 +21,12 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
+			/** セーブ完了。
+			*/
 			public bool saveend;
+
+			/** エラー文字列。
+			*/
 			public string errorstring;
 
 			/** constructor
@@ -43,7 +48,7 @@ namespace Fee.File
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,string a_full_path,UnityEngine.Texture2D a_texture)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path,UnityEngine.Texture2D a_texture)
 		{
 			//result
 			this.result = new ResultType();
@@ -72,7 +77,7 @@ namespace Fee.File
 			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
 			//タスク起動。
-			Fee.TaskW.Task<Task_SaveLocalTextureFile.ResultType> t_task = Task_SaveLocalTextureFile.Run(a_full_path,t_binary_png,t_cancel_token);
+			Fee.TaskW.Task<Task_SaveLocalTextureFile.ResultType> t_task = Task_SaveLocalTextureFile.Run(a_path,t_binary_png,t_cancel_token);
 
 			//終了待ち。
 			do{

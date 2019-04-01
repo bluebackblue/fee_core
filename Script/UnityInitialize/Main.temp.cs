@@ -132,6 +132,13 @@ namespace Fee.UnityInitialize
 				}
 				#endif
 
+				//関数呼び出し。
+				#if(true)
+				{
+					Fee.Function.Function.SetMonoBehaviour(this);
+				}
+				#endif
+
 				//入力。
 				{
 					#if(false)

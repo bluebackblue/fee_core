@@ -20,7 +20,12 @@ namespace Fee.Crypt
 		*/
 		public class ResultType
 		{
+			/** バイナリー。
+			*/
 			public byte[] binary;
+
+			/** エラー文字列。
+			*/
 			public string errorstring;
 
 			/** constructor

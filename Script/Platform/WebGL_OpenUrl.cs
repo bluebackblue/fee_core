@@ -24,14 +24,14 @@ namespace Fee.Platform
 
 		*/
 		[System.Runtime.InteropServices.DllImport("__Internal")]
-		private static extern void Fee_Platform_WebGLPlugin_OpenUrl(string a_url);
+		private static extern void Fee_Platform_WebGLPlugin_OpenUrl(string a_url_string);
 
 		/** OpenUrl
 		*/
-		public static void OpenUrl(string  a_url)
+		public static void OpenUrl(string  a_url_string)
 		{
 			try{
-				WebGL_OpenUrl.Fee_Platform_WebGLPlugin_OpenUrl(a_url);
+				WebGL_OpenUrl.Fee_Platform_WebGLPlugin_OpenUrl(a_url_string);
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}

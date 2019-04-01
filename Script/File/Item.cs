@@ -48,10 +48,6 @@ namespace Fee.File
 			/** アセットバンドル。
 			*/
 			AssetBundle,
-
-			/** サウンドプール。
-			*/
-			SoundPool,
 		}
 
 		/** result_type
@@ -86,10 +82,6 @@ namespace Fee.File
 		*/
 		private UnityEngine.AssetBundle result_assetbundle;
 
-		/** result_soundpool
-		*/
-		private Fee.Audio.Pack_SoundPool result_soundpool;
-
 		/** result_responseheader
 		*/
 		private System.Collections.Generic.Dictionary<string,string> result_responseheader;
@@ -121,9 +113,6 @@ namespace Fee.File
 
 			//result_assetbundle
 			this.result_assetbundle = null;
-
-			//result_soundpool
-			this.result_soundpool = null;
 
 			//result_responseheader
 			this.result_responseheader = null;
@@ -267,22 +256,6 @@ namespace Fee.File
 			return this.result_assetbundle;
 		}
 
-		/** 結果。サウンドプール。設定。
-		*/
-		public void SetResultSoundPool(Fee.Audio.Pack_SoundPool a_soundpool)
-		{
-			this.result_type = ResultType.SoundPool;
-
-			this.result_soundpool = a_soundpool;
-		}
-
-		/** 結果。サウンロプール。取得。
-		*/
-		public Fee.Audio.Pack_SoundPool GetResultSoundPool()
-		{
-			return this.result_soundpool;
-		}
-
 		/** 結果。レスポンスヘッダー。設定。
 		*/
 		public void SetResultResponseHeader(System.Collections.Generic.Dictionary<string,string> a_responseheader)
@@ -292,7 +265,7 @@ namespace Fee.File
 
 		/** 結果。レスポンスヘッダー。取得。
 		*/
-		public System.Collections.Generic.Dictionary<string,string> GetResponseHeader()
+		public System.Collections.Generic.Dictionary<string,string> GetResultResponseHeader()
 		{
 			return this.result_responseheader;
 		}
