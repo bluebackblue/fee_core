@@ -80,7 +80,7 @@ namespace Fee.File
 
 					//キャンセル。
 					if(a_instance != null){
-						if(a_instance.OnCoroutine(t_webrequest.downloadProgress) == false){
+						if(a_instance.OnCoroutine(t_webrequest.uploadProgress,t_webrequest.downloadProgress) == false){
 							t_webrequest.Abort();
 						}
 					}

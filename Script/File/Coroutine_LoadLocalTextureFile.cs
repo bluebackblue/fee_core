@@ -15,7 +15,7 @@ namespace Fee.File
 {
 	/** ロードローカル。テクスチャーファイル。
 	*/
-	public class Coroutine_LoadLocalTextureFile
+	public class Coroutine_LoadLocalTextureFile : OnTask_CallBack
 	{
 		/** ResultType
 		*/
@@ -45,6 +45,13 @@ namespace Fee.File
 		/** taskprogress
 		*/
 		public float taskprogress;
+
+		/** [Fee.File.OnTask_CallBack]タスク実行中。
+		*/
+		public void OnTask(float a_progress)
+		{
+			this.taskprogress = a_progress;
+		}
 
 		/** ＰＮＧのサイズをバイトバイナリから取得する。
 		*/
@@ -78,20 +85,20 @@ namespace Fee.File
 			//result
 			this.result = new ResultType();
 
-			//taskprogress
+			//taskprogress_
 			this.taskprogress = 0.0f;
 
 			//キャンセルトークン。
 			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
 			//タスク起動。
-			Fee.TaskW.Task<Task_LoadLocalTextureFile.ResultType> t_task = Task_LoadLocalTextureFile.Run(a_path,t_cancel_token);
+			Fee.TaskW.Task<Task_LoadLocalTextureFile.ResultType> t_task = Task_LoadLocalTextureFile.Run(this,a_path,t_cancel_token);
 
 			//終了待ち。
 			do{
 				//キャンセル。
 				if(a_instance != null){
-					if(a_instance.OnCoroutine(this.taskprogress) == false){
+					if(a_instance.OnCoroutine(1.0f,this.taskprogress) == false){
 						t_cancel_token.Cancel();
 					}
 				}

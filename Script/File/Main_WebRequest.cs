@@ -42,6 +42,10 @@ namespace Fee.File
 			/** ロードストリーミングアセット。バイナリファイル。
 			*/
 			LoadStreamingAssetsBinaryFile,
+
+			/** ロードストリーミングアセット。テキストファイル。
+			*/
+			LoadStreamingAssetsTextFile,
 		};
 
 		/** ResultType
@@ -93,10 +97,6 @@ namespace Fee.File
 		*/
 		private RequestType request_type;
 
-		/** request_progress_mode
-		*/
-		private ProgressMode request_progress_mode;
-
 		/** request_post_data
 		*/
 		private UnityEngine.WWWForm request_post_data;
@@ -117,9 +117,13 @@ namespace Fee.File
 		*/
 		private uint request_data_crc;
 
-		/** result_progress 
+		/** result_progress_up
 		*/
-		private float result_progress;
+		private float result_progress_up;
+
+		/** result_progress_down
+		*/
+		private float result_progress_down;
 
 		/** result_errorstring
 		*/
@@ -159,7 +163,6 @@ namespace Fee.File
 
 			//request
 			this.request_type = RequestType.None;
-			this.request_progress_mode = ProgressMode.None;
 			this.request_post_data = null;
 			this.request_path = null;
 			this.request_assetbundle_id = 0;
@@ -167,7 +170,8 @@ namespace Fee.File
 			this.request_data_crc = 0;
 
 			//result
-			this.result_progress = 0.0f;
+			this.result_progress_up = 0.0f;
+			this.result_progress_down = 0.0f;
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
 			this.result_binary = null;
@@ -198,11 +202,18 @@ namespace Fee.File
 			this.is_busy = false;
 		}
 
-		/** GetResultProgress
+		/** GetResultProgressUp
 		*/
-		public float GetResultProgress()
+		public float GetResultProgressUp()
 		{
-			return this.result_progress;
+			return this.result_progress_up;
+		}
+
+		/** GetResultProgressDown
+		*/
+		public float GetResultProgressDown()
+		{
+			return this.result_progress_down;
 		}
 
 		/** GetResultErrorString
@@ -259,19 +270,20 @@ namespace Fee.File
 		戻り値 == false : キャンセル。
 
 		*/
-		public bool OnCoroutine(float a_progress)
+		public bool OnCoroutine(float a_progress_up,float a_progress_down)
 		{
 			if((this.is_cancel == true)||(this.is_shutdown == true)){
 				return false;
 			}
 
-			this.result_progress = a_progress;
+			this.result_progress_up = a_progress_up;
+			this.result_progress_down = a_progress_down;
 			return true;
 		}
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public bool RequestDownLoadBinaryFile(Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
+		public bool RequestDownLoadBinaryFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -281,15 +293,15 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.DownLoadBinaryFile;
-				this.request_progress_mode = a_progress_mode;
 				this.request_post_data = a_post_data;
-				this.request_path = a_path;
+				this.request_path = a_url_path;
 				this.request_assetbundle_id = 0;
 				this.request_data_version = 0;
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -312,16 +324,18 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.DownLoadBinaryFile);
 
 			Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,this.request_progress_mode);
+			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
 			if(t_coroutine.result.binary != null){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_binary = t_coroutine.result.binary;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Binary;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -330,7 +344,7 @@ namespace Fee.File
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public bool RequestDownLoadTextFile(Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
+		public bool RequestDownLoadTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -340,15 +354,15 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.DownLoadTextFile;
-				this.request_progress_mode = a_progress_mode;
 				this.request_post_data = a_post_data;
-				this.request_path = a_path;
+				this.request_path = a_url_path;
 				this.request_assetbundle_id = 0;
 				this.request_data_version = 0;
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -370,16 +384,18 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.DownLoadTextFile);
 
 			Coroutine_DownLoadTextFile t_coroutine = new Coroutine_DownLoadTextFile();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,this.request_progress_mode);
+			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
 			if(t_coroutine.result.text != null){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_text = t_coroutine.result.text;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Text;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -388,7 +404,7 @@ namespace Fee.File
 
 		/** リクエスト。ダウンロード。テクスチャーファイル。
 		*/
-		public bool RequestDownLoadTextureFile(Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
+		public bool RequestDownLoadTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -398,15 +414,15 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.DownLoadTextureFile;
-				this.request_progress_mode = a_progress_mode;
 				this.request_post_data = a_post_data;
-				this.request_path = a_path;
+				this.request_path = a_url_path;
 				this.request_assetbundle_id = 0;
 				this.request_data_version = 0;
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -431,13 +447,15 @@ namespace Fee.File
 			yield return t_coroutine.CoroutineMain(this,this.request_path);
 
 			if(t_coroutine.result.texture != null){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_texture = t_coroutine.result.texture;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Texture;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -446,7 +464,7 @@ namespace Fee.File
 
 		/** リクエスト。ダウンロード。アセットバンドル。
 		*/
-		public bool RequestDownLoadAssetBundle(Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode,long a_assetbundle_id,uint a_data_version)
+		public bool RequestDownLoadAssetBundle(Path a_url_path,UnityEngine.WWWForm a_post_data,long a_assetbundle_id,uint a_data_version)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -456,15 +474,15 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.DownLoadAssetBundle;
-				this.request_progress_mode = a_progress_mode;
 				this.request_post_data = a_post_data;
-				this.request_path = a_path;
+				this.request_path = a_url_path;
 				this.request_assetbundle_id = a_assetbundle_id;
 				this.request_data_version = a_data_version;
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -489,13 +507,15 @@ namespace Fee.File
 			yield return t_coroutine.CoroutineMain(this,this.request_path,request_assetbundle_id,this.request_data_version,this.request_data_crc);
 
 			if(t_coroutine.result.assetbundle != null){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_assetbundle = t_coroutine.result.assetbundle;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.AssetBundle;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -504,7 +524,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードストリーミングアセット。バイナリファイル。
 		*/
-		public bool RequestLoadStreamingAssetsBinaryFile(Path a_path)
+		public bool RequestLoadStreamingAssetsBinaryFile(Path a_relative_path)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -514,15 +534,15 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.LoadStreamingAssetsBinaryFile;
-				this.request_progress_mode = ProgressMode.None;
 				this.request_post_data = null;
-				this.request_path = a_path;
+				this.request_path = a_relative_path;
 				this.request_assetbundle_id = 0;
 				this.request_data_version = 0;
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -547,16 +567,18 @@ namespace Fee.File
 			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/",this.request_path.GetPath());
 
 			Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
-			yield return t_coroutine.CoroutineMain(this,t_path,null,ProgressMode.DownLoad);
+			yield return t_coroutine.CoroutineMain(this,t_path,null);
 
 			if(t_coroutine.result.binary != null){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_binary = t_coroutine.result.binary;
-				this.result_responseheader = t_coroutine.result.responseheader;	//TODO
+				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Binary;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;

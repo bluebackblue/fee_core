@@ -59,7 +59,7 @@ namespace Fee.File
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path,UnityEngine.WWWForm a_post_data)
 		{
 			//result
 			this.result = new ResultType();
@@ -90,15 +90,7 @@ namespace Fee.File
 
 					//キャンセル。
 					if(a_instance != null){
-						float t_progress = 0.0f;
-
-						if(a_progress_mode == ProgressMode.DownLoad){
-							t_progress = t_webrequest.downloadProgress;
-						}else{
-							t_progress = t_webrequest.uploadProgress;
-						}
-
-						if(a_instance.OnCoroutine(t_progress) == false){
+						if(a_instance.OnCoroutine(t_webrequest.uploadProgress,t_webrequest.downloadProgress) == false){
 							t_webrequest.Abort();
 						}
 					}

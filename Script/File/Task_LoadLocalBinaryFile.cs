@@ -31,13 +31,17 @@ namespace Fee.File
 
 		/** TaskMain
 		*/
-		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Path a_path,System.Threading.CancellationToken a_cancel)
+		private static async System.Threading.Tasks.Task<ResultType> TaskMain(OnTask_CallBack a_callback,Path a_path,System.Threading.CancellationToken a_cancel)
 		{
 			ResultType t_ret;
 			{
 				t_ret.binary = null;
 				t_ret.errorstring = null;
 			}
+
+			Fee.TaskW.TaskW.GetInstance().Post((a_state) => {
+				a_callback.OnTask(0.1f);
+			},null);
 
 			System.IO.FileStream t_filestream = null;
 
@@ -86,12 +90,12 @@ namespace Fee.File
 
 		/** 実行。
 		*/
-		public static Fee.TaskW.Task<ResultType> Run(Path a_path,Fee.TaskW.CancelToken a_cancel)
+		public static Fee.TaskW.Task<ResultType> Run(OnTask_CallBack a_callback,Path a_path,Fee.TaskW.CancelToken a_cancel)
 		{
 			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
 
 			return new Fee.TaskW.Task<ResultType>(() => {
-				return Task_LoadLocalBinaryFile.TaskMain(a_path,t_cancel_token);
+				return Task_LoadLocalBinaryFile.TaskMain(a_callback,a_path,t_cancel_token);
 			});
 		}
 	}

@@ -50,6 +50,10 @@ namespace Fee.File
 			/** ロードストリーミングアセット。バイナリファイル。
 			*/
 			LoadStreamingAssetsBinaryFile,
+
+			/** ロードストリーミングアセット。テキストファイル。
+			*/
+			LoadStreamingAssetsTextFile,
 		};
 
 		/** ResultType
@@ -101,9 +105,9 @@ namespace Fee.File
 		*/
 		private RequestType request_type;
 
-		/** request_path
+		/** request_relative_path
 		*/
-		private Fee.File.Path request_path;
+		private Fee.File.Path request_relative_path;
 
 		/** request_binary
 		*/
@@ -117,9 +121,13 @@ namespace Fee.File
 		*/
 		private UnityEngine.Texture2D request_texture;
 
-		/** result_progress 
+		/** result_progress_up
 		*/
-		private float result_progress;
+		private float result_progress_up;
+
+		/** result_progress_down
+		*/
+		private float result_progress_down;
 
 		/** result_errorstring
 		*/
@@ -155,13 +163,14 @@ namespace Fee.File
 
 			//request
 			this.request_type = RequestType.None;
-			this.request_path = null;
+			this.request_relative_path = null;
 			this.request_binary = null;
 			this.request_text = null;
 			this.request_texture = null;
 
 			//result
-			this.result_progress = 0.0f;
+			this.result_progress_up = 0.0f;
+			this.result_progress_down = 0.0f;
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
 			this.result_binary = null;
@@ -191,11 +200,18 @@ namespace Fee.File
 			this.is_busy = false;
 		}
 
-		/** GetResultProgress
+		/** GetResultProgressUp
 		*/
-		public float GetResultProgress()
+		public float GetResultProgressUp()
 		{
-			return this.result_progress;
+			return this.result_progress_up;
+		}
+
+		/** GetResultProgressDown
+		*/
+		public float GetResultProgressDown()
+		{
+			return this.result_progress_down;
 		}
 
 		/** GetResultErrorString
@@ -245,19 +261,20 @@ namespace Fee.File
 		戻り値 == false : キャンセル。
 
 		*/
-		public bool OnCoroutine(float a_progress)
+		public bool OnCoroutine(float a_progress_up,float a_progress_down)
 		{
 			if((this.is_cancel == true)||(this.is_shutdown == true)){
 				return false;
 			}
 
-			this.result_progress = a_progress;
+			this.result_progress_up = a_progress_up;
+			this.result_progress_down = a_progress_down;
 			return true;
 		}
 
 		/** リクエスト。ロードローカル。バイナリファイル。
 		*/
-		public bool RequestLoadLocalBinaryFile(Fee.File.Path a_path)
+		public bool RequestLoadLocalBinaryFile(Fee.File.Path a_relative_path)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -266,7 +283,8 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -276,7 +294,7 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.LoadLocalBinaryFile;
-				this.request_path = a_path;
+				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
 				this.request_texture = null;
@@ -294,19 +312,21 @@ namespace Fee.File
 		{
 			Tool.Assert(this.request_type == RequestType.LoadLocalBinaryFile);
 
-			//request_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.persistentDataPath + "/",this.request_path.GetPath());
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
 
 			Coroutine_LoadLocalBinaryFile t_coroutine = new Coroutine_LoadLocalBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
 
 			if(t_coroutine.result.binary != null){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_binary = t_coroutine.result.binary;
 				this.result_type = ResultType.Binary;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -315,7 +335,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードローカル。テキストファイル。
 		*/
-		public bool RequestLoadLocalTextFile(Fee.File.Path a_path)
+		public bool RequestLoadLocalTextFile(Fee.File.Path a_relative_path)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -324,7 +344,8 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -334,7 +355,7 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.LoadLocalTextFile;
-				this.request_path = a_path;
+				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
 				this.request_texture = null;
@@ -352,19 +373,21 @@ namespace Fee.File
 		{
 			Tool.Assert(this.request_type == RequestType.LoadLocalTextFile);
 
-			//request_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.persistentDataPath + "/",this.request_path.GetPath());
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
 
 			Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
 
 			if(t_coroutine.result.text != null){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_text = t_coroutine.result.text;
 				this.result_type = ResultType.Text;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -373,7 +396,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードローカル。テクスチャファイル。
 		*/
-		public bool RequestLoadLocalTextureFile(Fee.File.Path a_path)
+		public bool RequestLoadLocalTextureFile(Fee.File.Path a_relative_path)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -382,7 +405,8 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -392,7 +416,7 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.LoadLocalTextureFile;
-				this.request_path = a_path;
+				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
 				this.request_texture = null;
@@ -410,19 +434,21 @@ namespace Fee.File
 		{
 			Tool.Assert(this.request_type == RequestType.LoadLocalTextureFile);
 
-			//request_pathは相対パス。
-			Fee.File.Path t_path = new Fee.File.Path(UnityEngine.Application.persistentDataPath + "/",this.request_path.GetPath());
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
 
 			Coroutine_LoadLocalTextureFile t_coroutine = new Coroutine_LoadLocalTextureFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
 
 			if(t_coroutine.result.texture != null){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_texture = t_coroutine.result.texture;
 				this.result_type = ResultType.Texture;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -431,7 +457,7 @@ namespace Fee.File
 
 		/** リクエスト。セーブローカル。バイナリファイル。
 		*/
-		public bool RequestSaveLocalBinaryFile(Fee.File.Path a_path,byte[] a_binary)
+		public bool RequestSaveLocalBinaryFile(Fee.File.Path a_relative_path,byte[] a_binary)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -440,7 +466,8 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -450,7 +477,7 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.SaveLocalBinaryFile;
-				this.request_path = a_path;
+				this.request_relative_path = a_relative_path;
 				this.request_binary = a_binary;
 				this.request_text = null;
 				this.request_texture = null;
@@ -468,18 +495,20 @@ namespace Fee.File
 		{
 			Tool.Assert(this.request_type == RequestType.SaveLocalBinaryFile);
 
-			//request_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.persistentDataPath + "/",this.request_path.GetPath());
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
 
 			Coroutine_SaveLocalBinaryFile t_coroutine = new Coroutine_SaveLocalBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,this.request_binary);
 
 			if(t_coroutine.result.saveend == true){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_type = ResultType.SaveEnd;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -488,7 +517,7 @@ namespace Fee.File
 
 		/** リクエスト。セーブローカル。テキストファイル。
 		*/
-		public bool RequestSaveLocalTextFile(Fee.File.Path a_path,string a_text)
+		public bool RequestSaveLocalTextFile(Fee.File.Path a_relative_path,string a_text)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -497,7 +526,8 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -507,7 +537,7 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.SaveLocalTextFile;
-				this.request_path = a_path;
+				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = a_text;
 				this.request_texture = null;
@@ -525,18 +555,20 @@ namespace Fee.File
 		{
 			Tool.Assert(this.request_type == RequestType.SaveLocalTextFile);
 
-			//request_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.persistentDataPath + "/",this.request_path.GetPath());
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
 
 			Coroutine_SaveLocalTextFile t_coroutine = new Coroutine_SaveLocalTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,this.request_text);
 
 			if(t_coroutine.result.saveend == true){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_type = ResultType.SaveEnd;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -545,7 +577,7 @@ namespace Fee.File
 
 		/** リクエスト。セーブローカル。テクスチャファイル。
 		*/
-		public bool RequestSaveLocalTextureFile(Fee.File.Path a_path,UnityEngine.Texture2D a_texture)
+		public bool RequestSaveLocalTextureFile(Fee.File.Path a_relative_path,UnityEngine.Texture2D a_texture)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -554,7 +586,8 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -564,7 +597,7 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.SaveLocalTextureFile;
-				this.request_path = a_path;
+				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
 				this.request_texture = a_texture;
@@ -582,18 +615,20 @@ namespace Fee.File
 		{
 			Tool.Assert(this.request_type == RequestType.SaveLocalTextureFile);
 
-			//request_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.persistentDataPath + "/",this.request_path.GetPath());
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
 
 			Coroutine_SaveLocalTextureFile t_coroutine = new Coroutine_SaveLocalTextureFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,this.request_texture);
 
 			if(t_coroutine.result.saveend == true){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_type = ResultType.SaveEnd;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -602,7 +637,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードストリーミングアセット。バイナリファイル。
 		*/
-		public bool RequestLoadStreamingAssetsBinaryFile(Fee.File.Path a_path)
+		public bool RequestLoadStreamingAssetsBinaryFile(Fee.File.Path a_relative_path)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -611,7 +646,8 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_binary = null;
@@ -621,7 +657,7 @@ namespace Fee.File
 
 				//request
 				this.request_type = RequestType.LoadStreamingAssetsBinaryFile;
-				this.request_path = a_path;
+				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
 				this.request_texture = null;
@@ -639,24 +675,89 @@ namespace Fee.File
 		{
 			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsBinaryFile);
 
-			//request_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/",this.request_path.GetPath());
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/",this.request_relative_path.GetPath());
 
 			Coroutine_LoadLocalBinaryFile t_coroutine = new Coroutine_LoadLocalBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
 
 			if(t_coroutine.result.binary != null){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_binary = t_coroutine.result.binary;
 				this.result_type = ResultType.Binary;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
 			}
 		}
+
+		/** リクエスト。ロードストリーミングアセット。テキストファイル。
+		*/
+		public bool RequestLoadStreamingAssetsTextFile(Fee.File.Path a_relative_path)
+		{
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//result
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_binary = null;
+				this.result_text = null;
+				this.result_texture = null;
+				this.result_assetbundle = null;
+
+				//request
+				this.request_type = RequestType.LoadStreamingAssetsTextFile;
+				this.request_relative_path = a_relative_path;
+				this.request_binary = null;
+				this.request_text = null;
+				this.request_texture = null;
+
+				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsTextFile());
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 実行。ロードストリーミングアセット。テキストファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadStreamingAssetsTextFile()
+		{
+			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextFile);
+
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/",this.request_relative_path.GetPath());
+
+			Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
+			yield return t_coroutine.CoroutineMain(this,t_path);
+
+			if(t_coroutine.result.text != null){
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_text = t_coroutine.result.text;
+				this.result_type = ResultType.Text;
+				yield break;
+			}else{
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
+		}
+
+
 	}
 }
 

@@ -15,7 +15,7 @@ namespace Fee.File
 {
 	/** ロードローカル。バイナリファイル。
 	*/
-	public class Coroutine_LoadLocalBinaryFile
+	public class Coroutine_LoadLocalBinaryFile : OnTask_CallBack
 	{
 		/** ResultType
 		*/
@@ -46,6 +46,13 @@ namespace Fee.File
 		*/
 		public float taskprogress;
 
+		/** [Fee.File.OnTask_CallBack]タスク実行中。
+		*/
+		public void OnTask(float a_progress)
+		{
+			this.taskprogress = a_progress;
+		}
+
 		/** CoroutineMain
 		*/
 		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path)
@@ -60,13 +67,13 @@ namespace Fee.File
 			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
 			//タスク起動。
-			Fee.TaskW.Task<Task_LoadLocalBinaryFile.ResultType> t_task = Task_LoadLocalBinaryFile.Run(a_path,t_cancel_token);
+			Fee.TaskW.Task<Task_LoadLocalBinaryFile.ResultType> t_task = Task_LoadLocalBinaryFile.Run(this,a_path,t_cancel_token);
 
 			//終了待ち。
 			do{
 				//キャンセル。
 				if(a_instance != null){
-					if(a_instance.OnCoroutine(this.taskprogress) == false){
+					if(a_instance.OnCoroutine(1.0f,this.taskprogress) == false){
 						t_cancel_token.Cancel();
 					}
 				}

@@ -132,92 +132,100 @@ namespace Fee.File
 			return this.assetbundle_list;
 		}
 
+		/** GetLocalPath
+		*/
+		public static Path GetLocalPath(Path a_relative_path)
+		{
+			//a_relative_pathは相対パス。
+			return new Path(UnityEngine.Application.persistentDataPath + "/",a_relative_path.GetPath());
+		}
+
 		/** リクエスト。ロードローカル。バイナリファイル。
 		*/
-		public Item RequestLoadLocalBinaryFile(Path a_path)
+		public Item RequestLoadLocalBinaryFile(Path a_relative_path)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadLocalBinaryFile(a_path);
+			t_work.RequestLoadLocalBinaryFile(a_relative_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ロードローカル。テキストファイル。
 		*/
-		public Item RequestLoadLocalTextFile(Path a_path)
+		public Item RequestLoadLocalTextFile(Path a_relative_path)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadLocalTextFile(a_path);
+			t_work.RequestLoadLocalTextFile(a_relative_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ロードローカル。テクスチャファイル。
 		*/
-		public Item RequestLoadLocalTextureFile(Path a_path)
+		public Item RequestLoadLocalTextureFile(Path a_relative_path)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadLocalTextureFile(a_path);
+			t_work.RequestLoadLocalTextureFile(a_relative_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。セーブローカル。バイナリファイル。
 		*/
-		public Item RequestSaveLocalBinaryFile(Path a_path,byte[] a_binary)
+		public Item RequestSaveLocalBinaryFile(Path a_relative_path,byte[] a_binary)
 		{
 			Work t_work = new Work();
-			t_work.RequestSaveLocalBinaryFile(a_path,a_binary);
+			t_work.RequestSaveLocalBinaryFile(a_relative_path,a_binary);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。セーブローカル。テキストファイル。
 		*/
-		public Item RequestSaveLocalTextFile(Path a_path,string a_text)
+		public Item RequestSaveLocalTextFile(Path a_relative_path,string a_text)
 		{
 			Work t_work = new Work();
-			t_work.RequestSaveLocalTextFile(a_path,a_text);
+			t_work.RequestSaveLocalTextFile(a_relative_path,a_text);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。セーブローカル。テクスチャファイル。
 		*/
-		public Item RequestSaveLocalTextureFile(Path a_path,UnityEngine.Texture2D a_texture)
+		public Item RequestSaveLocalTextureFile(Path a_relative_path,UnityEngine.Texture2D a_texture)
 		{
 			Work t_work = new Work();
-			t_work.RequestSaveLocalTextureFile(a_path,a_texture);
+			t_work.RequestSaveLocalTextureFile(a_relative_path,a_texture);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ダウンロード。バイナリファイル。
 		*/
-		public Item RequestDownLoadBinaryFile(Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
+		public Item RequestDownLoadBinaryFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadBinaryFile(a_path,a_post_data,a_progress_mode);
+			t_work.RequestDownLoadBinaryFile(a_url_path,a_post_data);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ダウンロード。テキストファイル。
 		*/
-		public Item RequestDownLoadTextFile(Path a_path,UnityEngine.WWWForm a_post_data,ProgressMode a_progress_mode)
+		public Item RequestDownLoadTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadTextFile(a_path,a_post_data,a_progress_mode);
+			t_work.RequestDownLoadTextFile(a_url_path,a_post_data);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ダウンロード。テクスチャファイル。
 		*/
-		public Item RequestDownLoadTextureFile(Path a_path)
+		public Item RequestDownLoadTextureFile(Path a_url_path)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadTextureFile(a_path);
+			t_work.RequestDownLoadTextureFile(a_url_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
@@ -229,20 +237,30 @@ namespace Fee.File
 		a_data_version        : 再ダウンロードチェック用のバージョン値。
 
 		*/
-		public Item RequestDownLoadAssetBundle(Path a_path,long a_assetbundle_id,uint a_data_version)
+		public Item RequestDownLoadAssetBundle(Path a_url_path,long a_assetbundle_id,uint a_data_version)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadAssetBundle(a_path,a_assetbundle_id,a_data_version);
+			t_work.RequestDownLoadAssetBundle(a_url_path,a_assetbundle_id,a_data_version);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
 		/** リクエスト。ロードストリーミングアセット。バイナリファイル。
 		*/
-		public Item RequestLoadStreamingAssetsBinaryFile(Path a_path)
+		public Item RequestLoadStreamingAssetsBinaryFile(Path a_relative_path)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadStreamingAssetsBinaryFile(a_path);
+			t_work.RequestLoadStreamingAssetsBinaryFile(a_relative_path);
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。ロードストリーミングアセット。テキストファイル。
+		*/
+		public Item RequestLoadStreamingAssetsTextFile(Path a_relative_path)
+		{
+			Work t_work = new Work();
+			t_work.RequestLoadStreamingAssetsTextFile(a_relative_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}

@@ -27,9 +27,9 @@ namespace Fee.SoundPool
 			*/
 			LoadLocalSoundPool,
 
-			/** セーブローカル。サウンドプール。
+			/** ロードストリーミングアセット。サウンドプール。
 			*/
-			SaveLocalSoundPool,
+			LoadStreamingAssetsSoundPool,
 
 			/** ダウンロード。サウンドプール。
 			*/
@@ -47,10 +47,6 @@ namespace Fee.SoundPool
 			/** エラー。
 			*/
 			Error,
-
-			/** セーブ完了。
-			*/
-			SaveEnd,
 
 			/** アセットバンドル。
 			*/
@@ -81,17 +77,17 @@ namespace Fee.SoundPool
 		*/
 		private UnityEngine.WWWForm request_post_data;
 
-		/** request_soundpool
-		*/
-		private Fee.Audio.Pack_SoundPool request_soundpool;
-
 		/** request_data_version
 		*/
 		private uint request_data_version;
 
-		/** result_progress 
+		/** result_progress_up
 		*/
-		private float result_progress;
+		private float result_progress_up;
+
+		/** result_progress_down
+		*/
+		private float result_progress_down;
 
 		/** result_errorstring
 		*/
@@ -121,11 +117,11 @@ namespace Fee.SoundPool
 			this.request_type = RequestType.None;
 			this.request_path = null;
 			this.request_post_data = null;
-			this.request_soundpool = null;
 			this.request_data_version = 0;
 
 			//result
-			this.result_progress = 0.0f;
+			this.result_progress_up = 0.0f;
+			this.result_progress_down = 0.0f;
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
 			this.result_soundpool = null;
@@ -153,11 +149,18 @@ namespace Fee.SoundPool
 			this.is_busy = false;
 		}
 
-		/** GetResultProgress
+		/** GetResultProgressUp
 		*/
-		public float GetResultProgress()
+		public float GetResultProgressUp()
 		{
-			return this.result_progress;
+			return this.result_progress_up;
+		}
+
+		/** GetResultProgressDown
+		*/
+		public float GetResultProgressDown()
+		{
+			return this.result_progress_down;
 		}
 
 		/** GetResultErrorString
@@ -193,13 +196,14 @@ namespace Fee.SoundPool
 		戻り値 == false : キャンセル。
 
 		*/
-		public bool OnCoroutine(float a_progress)
+		public bool OnCoroutine(float a_progress_up,float a_progress_down)
 		{
 			if((this.is_cancel == true)||(this.is_shutdown == true)){
 				return false;
 			}
 
-			this.result_progress = a_progress;
+			this.result_progress_up = a_progress_up;
+			this.result_progress_down = a_progress_down;
 			return true;
 		}
 
@@ -217,11 +221,11 @@ namespace Fee.SoundPool
 				this.request_type = RequestType.LoadLocalSoundPool;
 				this.request_path = a_path;
 				this.request_post_data = null;
-				this.request_soundpool = null;
 				this.request_data_version = 0;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_soundpool = null;
@@ -244,21 +248,23 @@ namespace Fee.SoundPool
 			yield return t_coroutine.CoroutineMain(this,this.request_path);
 
 			if(t_coroutine.result.soundpool != null){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_soundpool = t_coroutine.result.soundpool;
 				this.result_type = ResultType.SoundPool;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
 			}
 		}
 
-		/** リクエスト。セーブローカル。サウンドプール。
+		/** リクエスト。ロードストリーミングアセット。サウンドプール。
 		*/
-		public bool RequestSaveLocalSoundPool(Fee.File.Path a_path,Fee.Audio.Pack_SoundPool a_soundpool)
+		public bool RequestLoadStreamingAssetsSoundPool(Fee.File.Path a_path)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -267,41 +273,44 @@ namespace Fee.SoundPool
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.SaveLocalSoundPool;
+				this.request_type = RequestType.LoadStreamingAssetsSoundPool;
 				this.request_path = a_path;
 				this.request_post_data = null;
-				this.request_soundpool = a_soundpool;
 				this.request_data_version = 0;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_soundpool = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoSaveLocalSoundPool());
+				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsSoundPool());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。セーブローカル。サウンドプール。
+		/** 実行。ロードストリーミングアセット。サウンドプール。
 		*/
-		private System.Collections.IEnumerator DoSaveLocalSoundPool()
+		private System.Collections.IEnumerator DoLoadStreamingAssetsSoundPool()
 		{
-			Tool.Assert(this.request_type == RequestType.SaveLocalSoundPool);
+			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsSoundPool);
 
-			Coroutine_SaveLocalSoundPool t_coroutine = new Coroutine_SaveLocalSoundPool();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_soundpool);
+			Coroutine_LoadStreamingAssetsSoundPool t_coroutine = new Coroutine_LoadStreamingAssetsSoundPool();
+			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_data_version);
 
-			if(t_coroutine.result.saveend == true){
-				this.result_progress = 1.0f;
-				this.result_type = ResultType.SaveEnd;
+			if(t_coroutine.result.soundpool != null){
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_soundpool = t_coroutine.result.soundpool;
+				this.result_type = ResultType.SoundPool;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -322,11 +331,11 @@ namespace Fee.SoundPool
 				this.request_type = RequestType.DownLoadSoundPool;
 				this.request_path = a_path;
 				this.request_post_data = a_post_data;
-				this.request_soundpool = null;
 				this.request_data_version = a_data_version;
 
 				//result
-				this.result_progress = 0.0f;
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_soundpool = null;
@@ -349,13 +358,15 @@ namespace Fee.SoundPool
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,this.request_data_version);
 
 			if(t_coroutine.result.soundpool != null){
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_soundpool = t_coroutine.result.soundpool;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.SoundPool;
 				yield break;
 			}else{
-				this.result_progress = 1.0f;
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;

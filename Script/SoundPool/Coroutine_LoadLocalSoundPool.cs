@@ -13,7 +13,7 @@
 */
 namespace Fee.SoundPool
 {
-	/** ロードローカル。サウンドプール
+	/** ロードローカル。サウンドプール。
 	*/
 	public class Coroutine_LoadLocalSoundPool
 	{
@@ -73,6 +73,14 @@ namespace Fee.SoundPool
 				//コンバート失敗。
 				this.result.errorstring = "Coroutine_LoadLocalSoundPool : local_soundpool == null";
 				yield break;
+			}
+
+			//パス解決。
+			{
+				t_local_soundpool.fullpath_list = new System.Collections.Generic.List<File.Path>();
+				for(int ii=0;ii<t_local_soundpool.name_list.Count;ii++){
+					t_local_soundpool.fullpath_list.Add(File.File.GetLocalPath(new File.Path(t_local_soundpool.name_list[ii])));
+				}
 			}
 
 			this.result.soundpool = t_local_soundpool;

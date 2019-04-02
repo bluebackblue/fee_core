@@ -216,7 +216,11 @@ namespace Fee.JsonItem
 													JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member);
 												}
 
-												t_fieldinfo.SetValue(a_to_object,t_object_member);
+												try{
+													t_fieldinfo.SetValue(a_to_object,t_object_member);
+												}catch(System.Exception t_exception){
+													Tool.LogError(t_exception);
+												}
 											}else{
 												//ＪＳＯＮ側には存在しない。
 											}

@@ -104,20 +104,20 @@ namespace Fee.SoundPool
 
 		/** リクエスト。ロードローカル。サウンドプール。
 		*/
-		public Item RequestLoadLocalSoundPool(Fee.File.Path a_path)
+		public Item RequestLoadLocalSoundPool(Fee.File.Path a_relative_path)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadLocalSoundPool(a_path);
+			t_work.RequestLoadLocalSoundPool(a_relative_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
-		/** リクエスト。セーブローカル。サウンドプール。
+		/** リクエスト。ロードストリーミングアセット。サウンドプール。
 		*/
-		public Item RequestSaveLocalSoundPool(Fee.File.Path a_path,Fee.Audio.Pack_SoundPool a_soundpool)
+		public Item RequestLoadStreamingAssetsSoundPool(Fee.File.Path a_relative_path,uint a_data_version)
 		{
 			Work t_work = new Work();
-			t_work.RequestSaveLocalSoundPool(a_path,a_soundpool);
+			t_work.RequestLoadStreamingAssetsSoundPool(a_relative_path,a_data_version);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
