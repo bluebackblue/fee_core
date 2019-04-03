@@ -222,10 +222,10 @@ namespace Fee.File
 
 		/** リクエスト。ダウンロード。テクスチャファイル。
 		*/
-		public Item RequestDownLoadTextureFile(Path a_url_path)
+		public Item RequestDownLoadTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadTextureFile(a_url_path);
+			t_work.RequestDownLoadTextureFile(a_url_path,a_post_data);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
@@ -261,6 +261,16 @@ namespace Fee.File
 		{
 			Work t_work = new Work();
 			t_work.RequestLoadStreamingAssetsTextFile(a_relative_path);
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** リクエスト。ロードストリーミングアセット。テクスチャーファイル。
+		*/
+		public Item RequestLoadStreamingAssetsTextureFile(Path a_relative_path)
+		{
+			Work t_work = new Work();
+			t_work.RequestLoadStreamingAssetsTextureFile(a_relative_path);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}

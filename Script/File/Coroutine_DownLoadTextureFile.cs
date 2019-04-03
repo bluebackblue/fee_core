@@ -47,14 +47,23 @@ namespace Fee.File
 		*/
 		public ResultType result;
 
+		/** CreateWebRequestInstance
+		*/
+		private static UnityEngine.Networking.UnityWebRequest CreateWebRequestInstance(Fee.File.Path a_path,UnityEngine.WWWForm a_post_data)
+		{
+			//TODO:a_post_data
+
+			return UnityEngine.Networking.UnityWebRequestTexture.GetTexture(a_path.GetPath());
+		}
+
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path,UnityEngine.WWWForm a_post_data)
 		{
 			//result
 			this.result = new ResultType();
 
-			using(UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(a_path.GetPath())){
+			using(UnityEngine.Networking.UnityWebRequest t_webrequest = Coroutine_DownLoadTextureFile.CreateWebRequestInstance(a_path,a_post_data)){
 				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
 				if(t_webrequest != null){
 					t_webrequest_async = t_webrequest.SendWebRequest();

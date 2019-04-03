@@ -47,9 +47,18 @@ namespace Fee.File
 		*/
 		public ResultType result;
 
+		/** CreateWebRequestInstance
+		*/
+		private static UnityEngine.Networking.UnityWebRequest CreateWebRequestInstance(Fee.File.Path a_path,UnityEngine.WWWForm a_post_data,long a_assetbundle_id,uint a_data_version,uint a_data_crc)
+		{
+			//TODO:a_post_data
+
+			return UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(a_path.GetPath(),a_data_version,a_data_crc);
+		}
+
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path,long a_assetbundle_id,uint a_data_version,uint a_data_crc)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path,UnityEngine.WWWForm a_post_data,long a_assetbundle_id,uint a_data_version,uint a_data_crc)
 		{
 			//result
 			this.result = new ResultType();
@@ -64,7 +73,7 @@ namespace Fee.File
 				}
 			}
 
-			using(UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(a_path.GetPath(),a_data_version,a_data_crc)){
+			using(UnityEngine.Networking.UnityWebRequest t_webrequest = CreateWebRequestInstance(a_path,a_post_data,a_assetbundle_id,a_data_version,a_data_crc)){
 				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
 				if(t_webrequest != null){
 					t_webrequest_async = t_webrequest.SendWebRequest();

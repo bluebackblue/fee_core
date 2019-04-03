@@ -85,12 +85,6 @@ namespace Fee.SoundPool
 			this.result_responseheader = null;
 		}
 
-		/** 削除。
-		*/
-		private void Delete()
-		{
-		}
-
 		/** 処理中。チェック。
 		*/
 		public bool IsBusy()
@@ -191,7 +185,7 @@ namespace Fee.SoundPool
 
 		/** 結果。レスポンスヘッダー。取得。
 		*/
-		public System.Collections.Generic.Dictionary<string,string> GetResponseHeader()
+		public System.Collections.Generic.Dictionary<string,string> GetResultResponseHeader()
 		{
 			return this.result_responseheader;
 		}

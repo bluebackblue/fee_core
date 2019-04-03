@@ -93,6 +93,10 @@ namespace Fee.File
 			/** ロードストリーミングアセット。テキストファイル。
 			*/
 			LoadStreamingAssetsTextFile,
+
+			/** ロードストリーミングアセット。テクスチャーファイル。
+			*/
+			LoadStreamingAssetsTextureFile,
 		};
 
 		/** mode
@@ -241,10 +245,11 @@ namespace Fee.File
 
 		/** リクエスト。ダウンロード。テクスチャーファイル。
 		*/
-		public void RequestDownLoadTextureFile(Path a_url_path)
+		public void RequestDownLoadTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
 			this.request_type = RequestType.DownLoadTextureFile;
 			this.request_path = a_url_path;
+			this.request_post_data = a_post_data;
 		}
 
 		/** リクエスト。ダウンロード。アセットバンドル。
@@ -270,6 +275,14 @@ namespace Fee.File
 		public void RequestLoadStreamingAssetsTextFile(Path a_relative_path)
 		{
 			this.request_type = RequestType.LoadStreamingAssetsTextFile;
+			this.request_path = a_relative_path;
+		}
+
+		/** リクエスト。ロードストリーミングアセット。テクスチャーファイル。
+		*/
+		public void RequestLoadStreamingAssetsTextureFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadStreamingAssetsTextureFile;
 			this.request_path = a_relative_path;
 		}
 
@@ -353,7 +366,7 @@ namespace Fee.File
 						}break;
 					case RequestType.LoadStreamingAssetsBinaryFile:
 						{
-							#if((UNITY_EDITOR)||(UNITY_STANDALONE_WIN))
+							#if(UNITY_STANDALONE_WIN)
 							{
 								if( Fee.File.File.GetInstance().GetMainIo().RequestLoadStreamingAssetsBinaryFile(this.request_path) == true){
 									this.mode = Mode.Do_Io;
@@ -369,7 +382,7 @@ namespace Fee.File
 						}break;
 					case RequestType.LoadStreamingAssetsTextFile:
 						{
-							#if((UNITY_EDITOR)||(UNITY_STANDALONE_WIN))
+							#if(UNITY_STANDALONE_WIN)
 							{
 								if( Fee.File.File.GetInstance().GetMainIo().RequestLoadStreamingAssetsTextFile(this.request_path) == true){
 									this.mode = Mode.Do_Io;
@@ -378,6 +391,22 @@ namespace Fee.File
 							#else
 							{
 								if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadStreamingAssetsTextFile(this.request_path) == true){
+									this.mode = Mode.Do_WebRequest;
+								}	
+							}
+							#endif
+						}break;
+					case RequestType.LoadStreamingAssetsTextureFile:
+						{
+							#if(UNITY_STANDALONE_WIN)
+							{
+								if( Fee.File.File.GetInstance().GetMainIo().RequestLoadStreamingAssetsTextureFile(this.request_path) == true){
+									this.mode = Mode.Do_Io;
+								}
+							}
+							#else
+							{
+								if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadStreamingAssetsTextureFile(this.request_path) == true){
 									this.mode = Mode.Do_WebRequest;
 								}	
 							}

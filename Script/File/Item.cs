@@ -13,9 +13,98 @@
 */
 namespace Fee.File
 {
+	/** Item_Base
+	*/
+	public interface Item_Base
+	{
+		/** 処理中。チェック。
+		*/
+		bool IsBusy();
+
+		/** キャンセル。設定。
+		*/
+		void Cancel();
+
+		/** キャンセル。取得。
+		*/
+		bool IsCancel();
+
+		/** 結果。タイプ。取得。
+		*/
+		Item.ResultType GetResultType();
+
+		/** プログレス。設定。
+		*/
+		void SetResultProgressUp(float a_result_progress_up);
+
+		/** プログレス。取得。
+		*/
+		float GetResultProgressUp();
+
+		/** プログレス。設定。
+		*/
+		void SetResultProgressDown(float a_result_progress_down);
+
+		/** プログレス。取得。
+		*/
+		float GetResultProgressDown();
+
+		/** 結果。エラー文字。設定。
+		*/
+		void SetResultErrorString(string a_error_string);
+
+		/** 結果。エラー文字。取得。
+		*/
+		string GetResultErrorString();
+
+		/** 結果。セーブ完了。設定。
+		*/
+		void SetResultSaveEnd();
+
+		/** 結果。バイナリ。設定。
+		*/
+		void SetResultBinary(byte[] a_binary);
+
+		/** 結果。バイナリ。取得。
+		*/
+		byte[] GetResultBinary();
+
+		/** 結果。テキスト。設定。
+		*/
+		void SetResultText(string a_text);
+
+		/** 結果。テキスト。取得。
+		*/
+		string GetResultText();
+
+		/** 結果。テクスチャ。設定。
+		*/
+		void SetResultTexture(UnityEngine.Texture2D a_texture);
+
+		/** 結果。テクスチャ。取得。
+		*/
+		UnityEngine.Texture2D GetResultTexture();
+
+		/** 結果。アセットバンドル。設定。
+		*/
+		void SetResultAssetBundle(UnityEngine.AssetBundle a_assetbundle);
+
+		/** 結果。アセットバンドル。取得。
+		*/
+		UnityEngine.AssetBundle GetResultAssetBundle();
+
+		/** 結果。レスポンスヘッダー。設定。
+		*/
+		void SetResultResponseHeader(System.Collections.Generic.Dictionary<string,string> a_responseheader);
+
+		/** 結果。レスポンスヘッダー。取得。
+		*/
+		System.Collections.Generic.Dictionary<string,string> GetResultResponseHeader();
+	}
+
 	/** Item
 	*/
-	public class Item
+	public class Item : Item_Base
 	{
 		/** ResultType
 		*/
@@ -123,12 +212,6 @@ namespace Fee.File
 
 			//result_responseheader
 			this.result_responseheader = null;
-		}
-
-		/** 削除。
-		*/
-		private void Delete()
-		{
 		}
 
 		/** 処理中。チェック。

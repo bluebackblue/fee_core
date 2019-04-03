@@ -46,6 +46,10 @@ namespace Fee.File
 			/** ロードストリーミングアセット。テキストファイル。
 			*/
 			LoadStreamingAssetsTextFile,
+
+			/** ロードストリーミングアセット。テクスチャーファイル。
+			*/
+			LoadStreamingAssetsTextureFile,
 		};
 
 		/** ResultType
@@ -444,7 +448,7 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.DownLoadTextureFile);
 
 			Coroutine_DownLoadTextureFile t_coroutine = new Coroutine_DownLoadTextureFile();
-			yield return t_coroutine.CoroutineMain(this,this.request_path);
+			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
 			if(t_coroutine.result.texture != null){
 				this.result_progress_up = 1.0f;
@@ -504,7 +508,7 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.DownLoadAssetBundle);
 
 			Coroutine_DownLoadAssetBundle t_coroutine = new Coroutine_DownLoadAssetBundle();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,request_assetbundle_id,this.request_data_version,this.request_data_crc);
+			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,request_assetbundle_id,this.request_data_version,this.request_data_crc);
 
 			if(t_coroutine.result.assetbundle != null){
 				this.result_progress_up = 1.0f;
@@ -561,7 +565,7 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadStreamingAssetsBinaryFile()
 		{
-			Tool.Assert(this.request_type == RequestType.DownLoadBinaryFile);
+			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsBinaryFile);
 
 			//request_pathは相対パス。
 			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/",this.request_path.GetPath());
@@ -575,6 +579,132 @@ namespace Fee.File
 				this.result_binary = t_coroutine.result.binary;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Binary;
+				yield break;
+			}else{
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
+		}
+
+		/** リクエスト。ロードストリーミングアセット。テキストファイル。
+		*/
+		public bool RequestLoadStreamingAssetsTextFile(Path a_relative_path)
+		{
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//request
+				this.request_type = RequestType.LoadStreamingAssetsTextFile;
+				this.request_post_data = null;
+				this.request_path = a_relative_path;
+				this.request_assetbundle_id = 0;
+				this.request_data_version = 0;
+				this.request_data_crc = 0;
+
+				//result
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_binary = null;
+				this.result_text = null;
+				this.result_texture = null;
+				this.result_assetbundle = null;
+
+				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsTextFile());
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 実行。ロードストリーミングアセット。テキストファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadStreamingAssetsTextFile()
+		{
+			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextFile);
+
+			//request_pathは相対パス。
+			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/",this.request_path.GetPath());
+
+			Coroutine_DownLoadTextFile t_coroutine = new Coroutine_DownLoadTextFile();
+			yield return t_coroutine.CoroutineMain(this,t_path,null);
+
+			if(t_coroutine.result.text != null){
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_text = t_coroutine.result.text;
+				this.result_responseheader = t_coroutine.result.responseheader;
+				this.result_type = ResultType.Text;
+				yield break;
+			}else{
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
+		}
+
+		/** リクエスト。ロードストリーミングアセット。テクスチャーファイル。
+		*/
+		public bool RequestLoadStreamingAssetsTextureFile(Path a_relative_path)
+		{
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//request
+				this.request_type = RequestType.LoadStreamingAssetsTextureFile;
+				this.request_post_data = null;
+				this.request_path = a_relative_path;
+				this.request_assetbundle_id = 0;
+				this.request_data_version = 0;
+				this.request_data_crc = 0;
+
+				//result
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_binary = null;
+				this.result_text = null;
+				this.result_texture = null;
+				this.result_assetbundle = null;
+
+				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsTextureFile());
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 実行。ロードストリーミングアセット。テクスチャーファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadStreamingAssetsTextureFile()
+		{
+			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextureFile);
+
+			//request_pathは相対パス。
+			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/",this.request_path.GetPath());
+
+			Coroutine_DownLoadTextureFile t_coroutine = new Coroutine_DownLoadTextureFile();
+			yield return t_coroutine.CoroutineMain(this,t_path,null);
+
+			if(t_coroutine.result.texture != null){
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_texture = t_coroutine.result.texture;
+				this.result_responseheader = t_coroutine.result.responseheader;
+				this.result_type = ResultType.Texture;
 				yield break;
 			}else{
 				this.result_progress_up = 1.0f;
