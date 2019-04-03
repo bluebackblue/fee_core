@@ -204,7 +204,7 @@ namespace Fee.UnityInitialize
 				#endif
 
 				//サウンドプール。
-				#if(true)
+				#if(false)
 				{
 					Fee.SoundPool.SoundPool.CreateInstance();
 				}
@@ -343,6 +343,11 @@ namespace Fee.UnityInitialize
 			//シーン。
 			{
 				Fee.Scene.Scene.DeleteInstance();
+			}
+
+			//サウンドプール。
+			{
+				Fee.SoundPool.SoundPool.DeleteInstance();
 			}
 
 			//タスク。
@@ -500,6 +505,13 @@ namespace Fee.UnityInitialize
 				{
 				}
 
+				//サウンドプール。
+				#if(false)
+				{
+					Fee.SoundPool.SoundPool.GetInstance().Main();
+				}
+				#endif
+
 				//タスク。
 				{
 				}
@@ -516,7 +528,7 @@ namespace Fee.UnityInitialize
 				#endif
 
 			}catch(System.Exception t_exception){
-				UnityEngine.Debug.LogError(t_exception.Message);
+				UnityEngine.Debug.LogError(t_exception.StackTrace + "\n\n" + t_exception.Message);
 			}
 		}
 
