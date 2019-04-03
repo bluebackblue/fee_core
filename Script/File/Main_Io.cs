@@ -54,6 +54,10 @@ namespace Fee.File
 			/** ロードストリーミングアセット。テキストファイル。
 			*/
 			LoadStreamingAssetsTextFile,
+
+			/** ロードストリーミングアセット。テクスチャーファイル。
+			*/
+			LoadStreamingAssetsTextureFile,
 		};
 
 		/** ResultType
@@ -756,6 +760,69 @@ namespace Fee.File
 				yield break;
 			}
 		}
+
+		/** リクエスト。ロードストリーミングアセット。テクスチャーファイル。
+		*/
+		public bool RequestLoadStreamingAssetsTextureFile(Fee.File.Path a_relative_path)
+		{
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//result
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_binary = null;
+				this.result_text = null;
+				this.result_texture = null;
+				this.result_assetbundle = null;
+
+				//request
+				this.request_type = RequestType.LoadStreamingAssetsTextureFile;
+				this.request_relative_path = a_relative_path;
+				this.request_binary = null;
+				this.request_text = null;
+				this.request_texture = null;
+
+				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsTextureFile());
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 実行。ロードストリーミングアセット。テクスチャーファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadStreamingAssetsTextureFile()
+		{
+			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextureFile);
+
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/",this.request_relative_path.GetPath());
+
+			Coroutine_LoadLocalTextureFile t_coroutine = new Coroutine_LoadLocalTextureFile();
+			yield return t_coroutine.CoroutineMain(this,t_path);
+
+			if(t_coroutine.result.texture != null){
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_texture = t_coroutine.result.texture;
+				this.result_type = ResultType.Texture;
+				yield break;
+			}else{
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
+		}
+
+
 
 
 	}

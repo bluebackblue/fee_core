@@ -79,6 +79,9 @@ namespace Fee.Render2D
 		*/
 		public static float CAMERADEPTH_OFFSET_AFTER = 0.003f;
 
+		/** 最初のカメラでレンダーテクスチャーをクリアする。
+		*/
+		public static bool FIRSTGLCAMERA_CLEAR_RENDERTEXTURE = false;
 
 		/** プレハブ名。
 		*/
