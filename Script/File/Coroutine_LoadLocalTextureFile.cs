@@ -53,31 +53,6 @@ namespace Fee.File
 			this.taskprogress = a_progress;
 		}
 
-		/** ＰＮＧのサイズをバイトバイナリから取得する。
-		*/
-		private static void GetSizeFromPngBinary(byte[] a_png,out int a_width,out int a_height)
-		{
-			int t_width = 0;
-			int t_height = 0;
-
-			if(a_png != null){
-				if(a_png.Length > 23){
-					t_width += a_png[16] * 256 * 256 * 256;
-					t_width += a_png[17] * 256 * 256;
-					t_width += a_png[18] * 256;
-					t_width += a_png[19];
-
-					t_height += a_png[20] * 256 * 256 * 256;
-					t_height += a_png[21] * 256 * 256;
-					t_height += a_png[22] * 256;
-					t_height += a_png[23];
-				}
-			}
-
-			a_width = t_width;
-			a_height = t_height;
-		}
-
 		/** CoroutineMain
 		*/
 		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path)
@@ -111,25 +86,22 @@ namespace Fee.File
 			//成功。
 			if(t_task.IsSuccess() == true){
 				if(t_result.binary != null){
-					int t_width;
-					int t_height;
-					GetSizeFromPngBinary(t_result.binary,out t_width,out t_height);
-					if((t_width > 0)&&(t_height > 0)&&(t_width <= 8192)&&(t_height <= 8192)){
-						UnityEngine.Texture2D t_result_texture = new UnityEngine.Texture2D(t_width,t_height);
-						if(t_result_texture != null){
-							if(UnityEngine.ImageConversion.LoadImage(t_result_texture,t_result.binary) == true){
-								this.result.texture = t_result_texture;
-								yield break;
-							}else{
-								this.result.errorstring = "Coroutine_LoadLocalTextureFile : LoadImage == false";
-								yield break;
-							}
-						}else{
-							this.result.errorstring = "Coroutine_LoadLocalTextureFile : new Texture2D == null";
-							yield break;
-						}
+
+					//コンバート。
+					UnityEngine.Texture2D t_result_texture = null;
+
+					try{
+						t_result_texture = BinaryToTexture2D.Convert(t_result.binary);
+					}catch(System.Exception t_exception){
+						this.result.errorstring = "Coroutine_LoadLocalTextureFile : " + t_exception.Message;
+						yield break;
+					}
+
+					if(t_result_texture != null){
+						this.result.texture = t_result_texture;
+						yield break;
 					}else{
-						this.result.errorstring = "Coroutine_LoadLocalTextureFile : width == " + t_width.ToString() + " : height == " + t_height.ToString();
+						this.result.errorstring = "Coroutine_LoadLocalTextureFile : result_texture == null";
 						yield break;
 					}
 				}

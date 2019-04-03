@@ -1,0 +1,2 @@
+CD ..\
+CALL setting.bat

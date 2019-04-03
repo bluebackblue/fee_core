@@ -51,9 +51,18 @@ namespace Fee.File
 		*/
 		private static UnityEngine.Networking.UnityWebRequest CreateWebRequestInstance(Fee.File.Path a_path,UnityEngine.WWWForm a_post_data)
 		{
-			//TODO:a_post_data
-
-			return UnityEngine.Networking.UnityWebRequestTexture.GetTexture(a_path.GetPath());
+			#if(false)
+			{
+				return UnityEngine.Networking.UnityWebRequestTexture.GetTexture(a_path.GetPath());
+			}
+			#else
+			{
+				if(a_post_data != null){
+					return UnityEngine.Networking.UnityWebRequest.Post(a_path.GetPath(),a_post_data);
+				}
+				return UnityEngine.Networking.UnityWebRequest.Get(a_path.GetPath());
+			}
+			#endif
 		}
 
 		/** CoroutineMain
@@ -63,7 +72,7 @@ namespace Fee.File
 			//result
 			this.result = new ResultType();
 
-			using(UnityEngine.Networking.UnityWebRequest t_webrequest = Coroutine_DownLoadTextureFile.CreateWebRequestInstance(a_path,a_post_data)){
+			using(UnityEngine.Networking.UnityWebRequest t_webrequest = CreateWebRequestInstance(a_path,a_post_data)){
 				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
 				if(t_webrequest != null){
 					t_webrequest_async = t_webrequest.SendWebRequest();
@@ -102,20 +111,30 @@ namespace Fee.File
 				}
 
 				//コンバート。
-				UnityEngine.Texture2D t_result = null;
+				UnityEngine.Texture2D t_result_texture = null;
+
 				try{
 					//レスポンスヘッダー。
 					this.result.responseheader = t_webrequest.GetResponseHeaders();
 
-					t_result = UnityEngine.Networking.DownloadHandlerTexture.GetContent(t_webrequest);
+					#if(false)
+					{
+						t_result_texture = UnityEngine.Networking.DownloadHandlerTexture.GetContent(t_webrequest);
+					}
+					#else
+					{
+						t_result_texture = BinaryToTexture2D.Convert(t_webrequest.downloadHandler.data);
+					}
+					#endif
+
 				}catch(System.Exception t_exception){
 					this.result.errorstring = "Coroutine_DownLoadTextureFile : " + t_exception.Message;
 					yield break;
 				}
 
 				//成功。
-				if(t_result != null){
-					this.result.texture = t_result;
+				if(t_result_texture != null){
+					this.result.texture = t_result_texture;
 					yield break;
 				}
 
