@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
@@ -190,9 +190,8 @@ Shader "Render2D/Slice9"
 				//参照位置オフセット。
 				float t_offset_x = texture_x;
 				float t_offset_y = texture_y;
-				fixed4 t_color = tex2D(_MainTex,float2(t_tex_x + t_offset_x,1.0f - t_tex_y - t_offset_y)) * i.color;
 
-				return t_color;
+				return tex2D(_MainTex,float2(t_tex_x + t_offset_x,1.0f - t_tex_y - t_offset_y)) * i.color;
 			}
 			ENDCG
 		}

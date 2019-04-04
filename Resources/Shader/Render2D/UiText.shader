@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
@@ -127,11 +127,9 @@ Shader "Render2D/UiText"
 					#endif
 				}
 
-				fixed4 t_color = i.color;
+				fixed t_alpha = saturate(i.color.a * UNITY_SAMPLE_1CHANNEL(_MainTex,i.uv) * 1.3f);
 
-				t_color.a = saturate(t_color.a * UNITY_SAMPLE_1CHANNEL(_MainTex,i.uv) * 1.3f);
-
-				return t_color;
+				return fixed4(i.color.rgb,t_alpha);
 			}
 			ENDCG
 		}

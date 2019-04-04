@@ -126,8 +126,10 @@ namespace Fee.Blur
 			this.work_rendertexture = UnityEngine.RenderTexture.GetTemporary(a_source.width,a_source.height,0,a_source.format,UnityEngine.RenderTextureReadWrite.Default);
 
 			try{
+				//x
 				UnityEngine.Graphics.Blit(a_source,this.work_rendertexture,this.material_blur_x);
 
+				//y
 				this.material_blur_y.SetFloat("rate_blend",this.rate_blend);
 				this.material_blur_y.SetTexture("texture_original",a_source);
 				UnityEngine.Graphics.Blit(this.work_rendertexture,a_dest,this.material_blur_y);

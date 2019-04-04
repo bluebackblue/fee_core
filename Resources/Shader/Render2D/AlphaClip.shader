@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
@@ -114,9 +114,7 @@ Shader "Render2D/AlphaClip"
 					#endif
 				}
 
-				fixed4 t_color = tex2D(_MainTex,i.uv) * i.color;
-
-				return t_color;
+				return tex2D(_MainTex,i.uv) * i.color;
 			}
 			ENDCG
 		}
