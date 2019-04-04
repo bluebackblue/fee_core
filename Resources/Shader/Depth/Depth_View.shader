@@ -12,6 +12,7 @@ Shader "Depth/DepthView"
     Properties
 	{
         _MainTex ("Texture", 2D) = "white" {}
+		[MaterialToggle] camera_depth_flag ("Camera Depth Flag", Int) = 0
 		texture_depth ("Texture Depth", 2D) = "white" {}
 		rate_blend ("rate_blend", Float) = 1
     }
@@ -51,6 +52,14 @@ Shader "Depth/DepthView"
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 
+			/** _CameraDepthTexture
+			*/
+			sampler2D _CameraDepthTexture;
+
+			/** camera_depth_flag
+			*/
+			int camera_depth_flag;
+
 			/** texture_depth
 			*/
 			sampler2D texture_depth;
@@ -78,16 +87,15 @@ Shader "Depth/DepthView"
 				fixed3 t_color = tex2D(_MainTex,i.uv).rgb;
 
 				if(rate_blend > 0.0f){
-					fixed t_depth = UNITY_SAMPLE_DEPTH(tex2D(texture_depth,i.uv));
-					t_depth = Linear01Depth(t_depth);
-
-					if(t_depth < 0.0f){
-						t_color = fixed3(0.0f,1.0f,0.0f);
-					}else if(t_depth == 0.0f){
-						t_color = fixed3(1.0f,0.0f,0.0f);
+					float t_depth;
+					if(camera_depth_flag > 0){
+						t_depth = UNITY_SAMPLE_DEPTH(tex2D(_CameraDepthTexture,i.uv));
+						t_depth = Linear01Depth(t_depth);
 					}else{
-						t_color = t_color * (1.0f - rate_blend) + fixed3(t_depth,t_depth,t_depth) * rate_blend;
+						t_depth = UNITY_SAMPLE_DEPTH(tex2D(texture_depth,i.uv));
+						t_depth = Linear01Depth(t_depth);
 					}
+					t_color = t_color * (1.0f - rate_blend) + fixed3(t_depth,t_depth,t_depth) * rate_blend;
 				}
 
 				return fixed4(t_color,1.0f);

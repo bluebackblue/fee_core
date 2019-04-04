@@ -104,7 +104,13 @@ namespace Fee.Depth
 		{
 			try{
 				this.material_depth_view.SetFloat("rate_blend",this.rate_blend);
-				this.material_depth_view.SetTexture("texture_depth",this.rendertexture_depth);
+
+				if(this.rendertexture_depth != null){
+					this.material_depth_view.SetInt("camera_depth_flag",0);
+					this.material_depth_view.SetTexture("texture_depth",this.rendertexture_depth);
+				}else{
+					this.material_depth_view.SetInt("camera_depth_flag",1);
+				}
 				UnityEngine.Graphics.Blit(a_source,a_dest,this.material_depth_view);
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
