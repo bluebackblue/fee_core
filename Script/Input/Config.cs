@@ -151,25 +151,49 @@ namespace Fee.Input
 		/** インプットシステム。左。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_LEFT = UnityEngine.Experimental.Input.Key.A;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_L_LEFT = UnityEngine.Experimental.Input.Key.A;
 		#endif
 
 		/** インプットシステム。右。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_RIGHT = UnityEngine.Experimental.Input.Key.D;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_L_RIGHT = UnityEngine.Experimental.Input.Key.D;
 		#endif
 
 		/** インプットシステム。上。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_UP = UnityEngine.Experimental.Input.Key.W;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_L_UP = UnityEngine.Experimental.Input.Key.W;
 		#endif
 
 		/** インプットシステム。下。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_DOWN = UnityEngine.Experimental.Input.Key.S;
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_L_DOWN = UnityEngine.Experimental.Input.Key.S;
+		#endif
+
+		/** インプットシステム。左。
+		*/
+		#if(USE_DEF_FEE_INPUTSYSTEM)
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_R_LEFT = UnityEngine.Experimental.Input.Key.LeftArrow;
+		#endif
+
+		/** インプットシステム。右。
+		*/
+		#if(USE_DEF_FEE_INPUTSYSTEM)
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_R_RIGHT = UnityEngine.Experimental.Input.Key.RightArrow;
+		#endif
+
+		/** インプットシステム。上。
+		*/
+		#if(USE_DEF_FEE_INPUTSYSTEM)
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_R_UP = UnityEngine.Experimental.Input.Key.UpArrow;
+		#endif
+
+		/** インプットシステム。下。
+		*/
+		#if(USE_DEF_FEE_INPUTSYSTEM)
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_R_DOWN = UnityEngine.Experimental.Input.Key.DownArrow;
 		#endif
 
 		/** インプットシステム。エンター。

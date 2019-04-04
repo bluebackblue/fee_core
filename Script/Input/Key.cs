@@ -118,14 +118,14 @@ namespace Fee.Input
 				UnityEngine.Experimental.Input.Keyboard t_key_current = UnityEngine.Experimental.Input.InputSystem.GetDevice<UnityEngine.Experimental.Input.Keyboard>();
 				if(t_key_current != null){
 					//デバイス。
-					bool t_l_left_on = t_key_current[Config.INPUTSYSTEM_LEFT].isPressed;
-					bool t_l_right_on = t_key_current[Config.INPUTSYSTEM_RIGHT].isPressed;
-					bool t_l_up_on = t_key_current[Config.INPUTSYSTEM_UP].isPressed;
-					bool t_l_down_on = t_key_current[Config.INPUTSYSTEM_DOWN].isPressed;
-					bool t_r_left_on = t_key_current[Config.INPUTSYSTEM_LEFT].isPressed;
-					bool t_r_right_on = t_key_current[Config.INPUTSYSTEM_RIGHT].isPressed;
-					bool t_r_up_on = t_key_current[Config.INPUTSYSTEM_UP].isPressed;
-					bool t_r_down_on = t_key_current[Config.INPUTSYSTEM_DOWN].isPressed;
+					bool t_l_left_on = t_key_current[Config.INPUTSYSTEM_L_LEFT].isPressed;
+					bool t_l_right_on = t_key_current[Config.INPUTSYSTEM_L_RIGHT].isPressed;
+					bool t_l_up_on = t_key_current[Config.INPUTSYSTEM_L_UP].isPressed;
+					bool t_l_down_on = t_key_current[Config.INPUTSYSTEM_L_DOWN].isPressed;
+					bool t_r_left_on = t_key_current[Config.INPUTSYSTEM_R_LEFT].isPressed;
+					bool t_r_right_on = t_key_current[Config.INPUTSYSTEM_R_RIGHT].isPressed;
+					bool t_r_up_on = t_key_current[Config.INPUTSYSTEM_R_UP].isPressed;
+					bool t_r_down_on = t_key_current[Config.INPUTSYSTEM_R_DOWN].isPressed;
 					bool t_enter_on = t_key_current[Config.INPUTSYSTEM_ENTER].isPressed;
 					bool t_escape_on = t_key_current[Config.INPUTSYSTEM_ESCAPE].isPressed;
 					bool t_sub1_on = t_key_current[Config.INPUTSYSTEM_SUB1].isPressed;
