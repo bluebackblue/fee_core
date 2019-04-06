@@ -33,6 +33,7 @@ https://discord.gg/JH3B4SR
 * _ EventPlate [イベント]
 * _ Fade [フェード]
 * _ File [ローカルセーブロード、アセットバンドルダウンロード]
+* _ Function [関数呼び出し]
 * _ Input [InputManager、InputSystem]
 * _ Instantiate [インスタンス作成]
 * _ JsonItem [Json]
