@@ -59,13 +59,15 @@ namespace Fee.UnityInitialize
 
 			//初期化。
 			{
-				//２Ｄ描画。
-				#if(false)
 				{
-					Fee.Render2D.Config.MAX_LAYER = Setting.RENDER_LAYER_INDEX_MAX;
-					Fee.Render2D.Render2D.CreateInstance();
+					//２Ｄ描画。
+					#if(false)
+					{
+						Fee.Render2D.Config.MAX_LAYER = Setting.RENDER_LAYER_INDEX_MAX;
+						Fee.Render2D.Render2D.CreateInstance();
+					}
+					#endif
 				}
-				#endif
 
 				//オーディオ。
 				#if(false)
@@ -98,6 +100,13 @@ namespace Fee.UnityInitialize
 				//削除管理。
 				{
 				}
+
+				//深度。
+				#if(false)
+				{
+					Fee.Depth.Depth.CreateInstance();
+				}
+				#endif
 
 				//ダイクストラ法。
 				{
@@ -133,7 +142,7 @@ namespace Fee.UnityInitialize
 				#endif
 
 				//関数呼び出し。
-				#if(true)
+				#if(false)
 				{
 					Fee.Function.Function.SetMonoBehaviour(this);
 				}
@@ -195,6 +204,8 @@ namespace Fee.UnityInitialize
 				//プラットフォーム。
 				{
 				}
+
+				//２Ｄ描画。
 
 				//シーン。
 				#if(false)
@@ -263,6 +274,11 @@ namespace Fee.UnityInitialize
 
 			//削除管理。
 			{
+			}
+
+			//深度。
+			{
+				Fee.Depth.Depth.DeleteInstance();
 			}
 
 			//ダイクストラ法。
@@ -443,6 +459,10 @@ namespace Fee.UnityInitialize
 				{
 				}
 
+				//深度。
+				{
+				}
+
 				//ダイクストラ法。
 				{
 				}
@@ -450,6 +470,8 @@ namespace Fee.UnityInitialize
 				//ディレクトリ。
 				{
 				}
+
+				//イベントプレート。
 
 				//フェード。
 				#if(false)
@@ -469,6 +491,8 @@ namespace Fee.UnityInitialize
 				//関数呼び出し。
 				{
 				}
+
+				//入力。
 
 				//インスタンス作成。
 				{
@@ -505,6 +529,8 @@ namespace Fee.UnityInitialize
 				{
 				}
 
+				//シーン。
+
 				//サウンドプール。
 				#if(false)
 				{
@@ -515,6 +541,8 @@ namespace Fee.UnityInitialize
 				//タスク。
 				{
 				}
+
+				//ＵＩ。
 
 				//ＵＮＩＴＹ初期化。
 				{
