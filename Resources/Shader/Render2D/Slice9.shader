@@ -7,7 +7,7 @@
 */
 
 
-Shader "Render2D/Slice9"
+Shader "Fee/Render2D/Slice9"
 {
 	Properties
 	{
@@ -46,17 +46,17 @@ Shader "Render2D/Slice9"
 			struct appdata
 			{
 				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
 				fixed4 color : COLOR;
+				float2 uv : TEXCOORD0;
 			};
 
 			/** v2f
 			*/
 			struct v2f
 			{
-				float4 vertex : SV_POSITION;
-				float2 uv : TEXCOORD0;
+				float4 pos : SV_POSITION;
 				fixed4 color : COLOR;
+				float2 uv : TEXCOORD0;
 			};
 
 			/** _MainTex
@@ -103,45 +103,45 @@ Shader "Render2D/Slice9"
 		
 			/** vert
 			*/
-			v2f vert(appdata v)
+			v2f vert(appdata a_appdata)
 			{
 				v2f t_ret;
 				{
-					t_ret.vertex = UnityObjectToClipPos(v.vertex);
-					t_ret.uv = TRANSFORM_TEX(v.uv,_MainTex);
-					t_ret.color = v.color;
+					t_ret.pos = UnityObjectToClipPos(a_appdata.vertex);
+					t_ret.color = a_appdata.color;
+					t_ret.uv = TRANSFORM_TEX(a_appdata.uv,_MainTex);
 				}
 				return t_ret;
 			}
 			
 			/** frag
 			*/
-			fixed4 frag(v2f i) : SV_Target
+			fixed4 frag(v2f a_v2f) : SV_Target
 			{
 				//クリップ。
 				if(clip_flag > 0){
-					if(clip_x1>i.vertex.x){
+					if(clip_x1>a_v2f.pos.x){
 						discard;
 					}
 
-					if(i.vertex.x>clip_x2){
+					if(a_v2f.pos.x>clip_x2){
 						discard;
 					}
 
 					#if(UNITY_UV_STARTS_AT_TOP)
-					if(clip_y2>i.vertex.y){
+					if(clip_y2>a_v2f.pos.y){
 						discard;
 					}
 
-					if(i.vertex.y>clip_y1){
+					if(a_v2f.pos.y>clip_y1){
 						discard;
 					}
 					#else
-					if((_ScreenParams.y - clip_y1)>i.vertex.y){
+					if((_ScreenParams.y - clip_y1)>a_v2f.pos.y){
 						discard;
 					}
 
-					if(i.vertex.y>(_ScreenParams.y - clip_y2)){
+					if(a_v2f.pos.y>(_ScreenParams.y - clip_y2)){
 						discard;
 					}
 					#endif
@@ -152,8 +152,8 @@ Shader "Render2D/Slice9"
 				float t_pix_y = 1.0 / _MainTex_TexelSize.w;
 
 				//描画位置。
-				int t_to_gui_x = i.uv.x * rect_w;
-				int t_to_gui_y = (1.0 - i.uv.y) * rect_h;
+				int t_to_gui_x = a_v2f.uv.x * rect_w;
+				int t_to_gui_y = (1.0 - a_v2f.uv.y) * rect_h;
 
 				//描画先サイズ。
 				int t_gui_w = rect_w;
@@ -191,7 +191,7 @@ Shader "Render2D/Slice9"
 				float t_offset_x = texture_x;
 				float t_offset_y = texture_y;
 
-				return tex2D(_MainTex,float2(t_tex_x + t_offset_x,1.0f - t_tex_y - t_offset_y)) * i.color;
+				return tex2D(_MainTex,float2(t_tex_x + t_offset_x,1.0f - t_tex_y - t_offset_y)) * a_v2f.color;
 			}
 			ENDCG
 		}

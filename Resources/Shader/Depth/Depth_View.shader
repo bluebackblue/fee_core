@@ -7,7 +7,7 @@
 */
 
 
-Shader "Depth/DepthView"
+Shader "Fee/Depth/DepthView"
 {
     Properties
 	{
@@ -70,29 +70,29 @@ Shader "Depth/DepthView"
 
 			/** vert
 			*/
-			v2f vert(appdata v)
+			v2f vert(appdata a_appdata)
 			{
 				v2f t_ret;
 				{
-					t_ret.vertex = UnityObjectToClipPos(v.vertex);
-					t_ret.uv = TRANSFORM_TEX(v.uv, _MainTex);
+					t_ret.vertex = UnityObjectToClipPos(a_appdata.vertex);
+					t_ret.uv = TRANSFORM_TEX(a_appdata.uv,_MainTex);
 				}
 				return t_ret;
 			}
 
 			/** frag
 			*/
-			fixed4 frag(v2f i) : SV_Target
+			fixed4 frag(v2f a_v2f) : SV_Target
 			{
-				fixed3 t_color = tex2D(_MainTex,i.uv).rgb;
+				fixed3 t_color = tex2D(_MainTex,a_v2f.uv).rgb;
 
 				if(rate_blend > 0.0f){
 					float t_depth;
 					if(camera_depth_flag > 0){
-						t_depth = UNITY_SAMPLE_DEPTH(tex2D(_CameraDepthTexture,i.uv));
+						t_depth = UNITY_SAMPLE_DEPTH(tex2D(_CameraDepthTexture,a_v2f.uv));
 						t_depth = Linear01Depth(t_depth);
 					}else{
-						t_depth = UNITY_SAMPLE_DEPTH(tex2D(texture_depth,i.uv));
+						t_depth = UNITY_SAMPLE_DEPTH(tex2D(texture_depth,a_v2f.uv));
 						t_depth = Linear01Depth(t_depth);
 					}
 					t_color = t_color * (1.0f - rate_blend) + fixed3(t_depth,t_depth,t_depth) * rate_blend;

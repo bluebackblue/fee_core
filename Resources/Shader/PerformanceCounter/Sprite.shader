@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
@@ -7,7 +7,7 @@
 */
 
 
-Shader "PerformanceCounter/Sprite"
+Shader "Fee/PerformanceCounter/Sprite"
 {
 	Properties
 	{
@@ -40,27 +40,27 @@ Shader "PerformanceCounter/Sprite"
 			*/
 			struct v2f
 			{
-				float4 vertex : SV_POSITION;
+				float4 pos : SV_POSITION;
 				fixed4 color : COLOR;
 			};
 
 			/** vert
 			*/
-			v2f vert(appdata v)
+			v2f vert(appdata a_appdata)
 			{
 				v2f t_ret;
 				{
-					t_ret.vertex = UnityObjectToClipPos(v.vertex);
-					t_ret.color = v.color;
+					t_ret.pos = UnityObjectToClipPos(a_appdata.vertex);
+					t_ret.color = a_appdata.color;
 				}
 				return t_ret;
 			}
 			
 			/** frag
 			*/
-			fixed4 frag(v2f i) : SV_Target
+			fixed4 frag(v2f a_v2f) : SV_Target
 			{
-				return i.color;
+				return a_v2f.color;
 			}
 			ENDCG
 		}

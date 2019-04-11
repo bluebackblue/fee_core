@@ -37,10 +37,31 @@ namespace Fee.Render2D
 		*/
 		private Text2D_Param param;
 
+		/** debug
+		*/
+		#if(UNITY_EDITOR)
+		private string debug;
+		#endif
+
 		/** constructor
 		*/
 		public Text2D(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
+			#if(UNITY_EDITOR)
+			{
+				try{
+					System.Diagnostics.StackFrame t_stackframe = new System.Diagnostics.StackFrame(1);
+					if(t_stackframe != null){
+						if(t_stackframe.GetMethod() != null){
+							this.debug = t_stackframe.GetMethod().ReflectedType.FullName + " : " + t_stackframe.GetMethod().Name;
+						}
+					}
+				}catch(System.Exception t_exception){
+					Tool.LogError(t_exception);
+				}
+			}
+			#endif
+
 			Render2D.GetInstance().AddText2D(this);
 
 			//表示フラグ。

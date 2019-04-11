@@ -481,24 +481,24 @@ namespace Fee.Input
 		public static void UpdateTouchList<TYPE>(System.Collections.Generic.Dictionary<TYPE,Fee.Input.Touch_Phase> a_list)
 			where TYPE : Touch_Phase_Key_Base
 		{
-			System.Collections.Generic.List<TYPE> t_delete_keylist = null;
+			System.Collections.Generic.Stack<TYPE> t_delete_keylist = null;
 
 			foreach(System.Collections.Generic.KeyValuePair<TYPE,Fee.Input.Touch_Phase> t_pair in a_list){
 				if(t_pair.Value.update == false){
 					if(t_delete_keylist == null){
-						t_delete_keylist = new System.Collections.Generic.List<TYPE>();
+						t_delete_keylist = new System.Collections.Generic.Stack<TYPE>();
 					}
-					t_delete_keylist.Add(t_pair.Key);
+					t_delete_keylist.Push(t_pair.Key);
 				}else{
 					//更新。
 					t_pair.Key.OnUpdate();
 				}
 			}
 
+			//リストから削除。
 			if(t_delete_keylist != null){
-				for(int ii=0;ii<t_delete_keylist.Count;ii++){
-					//リストから削除。
-					TYPE t_key = t_delete_keylist[ii];
+				while(t_delete_keylist.Count > 0){
+					TYPE t_key = t_delete_keylist.Pop();
 					a_list.Remove(t_key);
 					t_key.OnRemove();
 				}

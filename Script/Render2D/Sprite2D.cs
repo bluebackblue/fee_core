@@ -50,10 +50,31 @@ namespace Fee.Render2D
 		private int calccache_h;
 		private float[] calccache_to_8;
 
+		/** debug
+		*/
+		#if(UNITY_EDITOR)
+		private string debug;
+		#endif
+
 		/** constructor。
 		*/
 		public Sprite2D(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
+			#if(UNITY_EDITOR)
+			{
+				try{
+					System.Diagnostics.StackFrame t_stackframe = new System.Diagnostics.StackFrame(1);
+					if(t_stackframe != null){
+						if(t_stackframe.GetMethod() != null){
+							this.debug = t_stackframe.GetMethod().ReflectedType.FullName + " : " + t_stackframe.GetMethod().Name;
+						}
+					}
+				}catch(System.Exception t_exception){
+					Tool.LogError(t_exception);
+				}
+			}
+			#endif
+
 			Render2D.GetInstance().AddSprite2D(this);
 
 			//表示フラグ。

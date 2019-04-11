@@ -483,8 +483,6 @@ namespace Fee.Ui
 		{
 			System.Collections.Generic.List<ITEM> t_capture_list = new System.Collections.Generic.List<ITEM>();
 
-			t_capture_list.Clear();
-
 			if(this.scroll_value.GetViewStartIndex() >= 0){
 				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
 					t_capture_list.Add(this.list[ii]);
@@ -517,8 +515,6 @@ namespace Fee.Ui
 					}
 				}
 			}
-
-			t_capture_list.Clear();
 		}
 
 		/** 入れ替え。

@@ -5,13 +5,13 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ２Ｄ描画。矩形。
+ * @brief モデル。レイヤーマスクツール。
 */
 
 
-/** Fee.Render2D
+/** Fee.Model
 */
-namespace Fee.Render2D
+namespace Fee.Model
 {
 	/** 
 	*/

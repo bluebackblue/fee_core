@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
@@ -7,7 +7,7 @@
 */
 
 
-Shader "Bloom/FirstDownSampling"
+Shader "Fee/Bloom/FirstDownSampling"
 {
     Properties
 	{
@@ -41,8 +41,8 @@ Shader "Bloom/FirstDownSampling"
 			*/
 			struct v2f
 			{
+				float4 pos : SV_POSITION;
 				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
 			};
 
 			/** _MainTex
@@ -54,23 +54,25 @@ Shader "Bloom/FirstDownSampling"
 
 			/** vert
 			*/
-			v2f vert(appdata v)
+			v2f vert(appdata a_appdata)
 			{
-				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				return o;
+				v2f t_ret;
+				{
+					t_ret.pos = UnityObjectToClipPos(a_appdata.vertex);
+					t_ret.uv = TRANSFORM_TEX(a_appdata.uv,_MainTex);
+				}
+				return t_ret;
 			}
 
 			/** frag
 			*/
-			fixed4 frag(v2f i) : SV_Target
+			fixed4 frag(v2f a_v2f) : SV_Target
 			{
 				//ダウンサンプリング。
-				half3 t_color_a = tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x, _MainTex_TexelSize.y)).rgb;
-				half3 t_color_b = tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x,-_MainTex_TexelSize.y)).rgb;
-				half3 t_color_c = tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x, _MainTex_TexelSize.y)).rgb;
-				half3 t_color_d = tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x,-_MainTex_TexelSize.y)).rgb;
+				half3 t_color_a = tex2D(_MainTex,a_v2f.uv + float2( _MainTex_TexelSize.x, _MainTex_TexelSize.y)).rgb;
+				half3 t_color_b = tex2D(_MainTex,a_v2f.uv + float2( _MainTex_TexelSize.x,-_MainTex_TexelSize.y)).rgb;
+				half3 t_color_c = tex2D(_MainTex,a_v2f.uv + float2(-_MainTex_TexelSize.x, _MainTex_TexelSize.y)).rgb;
+				half3 t_color_d = tex2D(_MainTex,a_v2f.uv + float2(-_MainTex_TexelSize.x,-_MainTex_TexelSize.y)).rgb;
 				half3 t_color = (t_color_a + t_color_b + t_color_c + t_color_d) * 0.25;
 
 				fixed4 t_ret;

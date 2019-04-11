@@ -7,7 +7,7 @@
 */
 
 
-Shader "Render2D/UiImage"
+Shader "Fee/Render2D/UiImage"
 {
 	Properties
 	{
@@ -39,17 +39,17 @@ Shader "Render2D/UiImage"
 			struct appdata
 			{
 				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
 				fixed4 color : COLOR;
+				float2 uv : TEXCOORD0;
 			};
 
 			/** v2f
 			*/
 			struct v2f
 			{
-				float4 vertex : SV_POSITION;
-				float2 uv : TEXCOORD0;
+				float4 pos : SV_POSITION;
 				fixed4 color : COLOR;
+				float2 uv : TEXCOORD0;
 			};
 
 			/** _MainTex
@@ -70,51 +70,51 @@ Shader "Render2D/UiImage"
 			
 			/** vert
 			*/
-			v2f vert(appdata v)
+			v2f vert(appdata a_appdata)
 			{
 				v2f t_ret;
 				{
-					t_ret.vertex = UnityObjectToClipPos(v.vertex);
-					t_ret.uv = TRANSFORM_TEX(v.uv,_MainTex);
-					t_ret.color = v.color;
+					t_ret.pos = UnityObjectToClipPos(a_appdata.vertex);
+					t_ret.color = a_appdata.color;
+					t_ret.uv = TRANSFORM_TEX(a_appdata.uv,_MainTex);
 				}
 				return t_ret;
 			}
 			
 			/** frag
 			*/
-			fixed4 frag(v2f i) : SV_Target
+			fixed4 frag(v2f a_v2f) : SV_Target
 			{
 				//クリップ。
 				if(clip_flag > 0){
-					if(clip_x1>i.vertex.x){
+					if(clip_x1>a_v2f.pos.x){
 						discard;
 					}
 
-					if(i.vertex.x>clip_x2){
+					if(a_v2f.pos.x>clip_x2){
 						discard;
 					}
 
 					#if(UNITY_UV_STARTS_AT_TOP)
-					if(clip_y2>i.vertex.y){
+					if(clip_y2>a_v2f.pos.y){
 						discard;
 					}
 
-					if(i.vertex.y>clip_y1){
+					if(a_v2f.pos.y>clip_y1){
 						discard;
 					}
 					#else
-					if((_ScreenParams.y - clip_y1)>i.vertex.y){
+					if((_ScreenParams.y - clip_y1)>a_v2f.pos.y){
 						discard;
 					}
 
-					if(i.vertex.y>(_ScreenParams.y - clip_y2)){
+					if(a_v2f.pos.y>(_ScreenParams.y - clip_y2)){
 						discard;
 					}
 					#endif
 				}
 
-				return tex2D(_MainTex,i.uv) * i.color;
+				return tex2D(_MainTex,a_v2f.uv) * a_v2f.color;
 			}
 			ENDCG
 		}

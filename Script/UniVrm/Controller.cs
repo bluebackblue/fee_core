@@ -86,6 +86,13 @@ namespace Fee.UniVrm
 			return this.root_transform;
 		}
 
+		/** ゲームオブジェクト。取得。
+		*/
+		public UnityEngine.GameObject GetGameObject()
+		{
+			return this.root_gameobject;
+		}
+
 		/** 表示。設定。
 		*/
 		public void SetVisible(bool a_flag)

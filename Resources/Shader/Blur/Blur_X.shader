@@ -7,7 +7,7 @@
 */
 
 
-Shader "Blur/BlurX"
+Shader "Fee/Blur/BlurX"
 {
     Properties
 	{
@@ -40,8 +40,8 @@ Shader "Blur/BlurX"
 			*/
 			struct v2f
 			{
+				float4 pos : SV_POSITION;
 				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
 			};
 
 			/** _MainTex
@@ -52,17 +52,19 @@ Shader "Blur/BlurX"
 
 			/** vert
 			*/
-			v2f vert(appdata v)
+			v2f vert(appdata a_appdata)
 			{
-				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				return o;
+				v2f t_ret;
+				{
+					t_ret.pos = UnityObjectToClipPos(a_appdata.vertex);
+					t_ret.uv = TRANSFORM_TEX(a_appdata.uv,_MainTex);
+				}
+				return t_ret;
 			}
 
 			/** frag
 			*/
-			fixed4 frag(v2f i) : SV_Target
+			fixed4 frag(v2f a_v2f) : SV_Target
 			{
 				half3 t_color = half3(0.0f,0.0f,0.0f);
 
@@ -109,22 +111,22 @@ Shader "Blur/BlurX"
 				float t_weight_8 = (t_weight_a_8 * rate_x) + (t_weight_b_8 * (1.0f - rate_x));
 				*/
 
-				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x *  1,0)).rgb * t_weight_1;
-				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x *  1,0)).rgb * t_weight_1;
-				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x *  3,0)).rgb * t_weight_2;
-				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x *  3,0)).rgb * t_weight_2;
-				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x *  5,0)).rgb * t_weight_3;
-				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x *  5,0)).rgb * t_weight_3;
-				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x *  7,0)).rgb * t_weight_4;
-				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x *  7,0)).rgb * t_weight_4;
-				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x *  9,0)).rgb * t_weight_5;
-				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x *  9,0)).rgb * t_weight_5;
-				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x * 11,0)).rgb * t_weight_6;
-				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x * 11,0)).rgb * t_weight_6;
-				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x * 13,0)).rgb * t_weight_7;
-				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x * 13,0)).rgb * t_weight_7;
-				t_color += tex2D(_MainTex,i.uv + float2( _MainTex_TexelSize.x * 15,0)).rgb * t_weight_8;
-				t_color += tex2D(_MainTex,i.uv + float2(-_MainTex_TexelSize.x * 15,0)).rgb * t_weight_8;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2( _MainTex_TexelSize.x *  1,0)).rgb * t_weight_1;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2(-_MainTex_TexelSize.x *  1,0)).rgb * t_weight_1;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2( _MainTex_TexelSize.x *  3,0)).rgb * t_weight_2;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2(-_MainTex_TexelSize.x *  3,0)).rgb * t_weight_2;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2( _MainTex_TexelSize.x *  5,0)).rgb * t_weight_3;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2(-_MainTex_TexelSize.x *  5,0)).rgb * t_weight_3;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2( _MainTex_TexelSize.x *  7,0)).rgb * t_weight_4;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2(-_MainTex_TexelSize.x *  7,0)).rgb * t_weight_4;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2( _MainTex_TexelSize.x *  9,0)).rgb * t_weight_5;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2(-_MainTex_TexelSize.x *  9,0)).rgb * t_weight_5;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2( _MainTex_TexelSize.x * 11,0)).rgb * t_weight_6;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2(-_MainTex_TexelSize.x * 11,0)).rgb * t_weight_6;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2( _MainTex_TexelSize.x * 13,0)).rgb * t_weight_7;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2(-_MainTex_TexelSize.x * 13,0)).rgb * t_weight_7;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2( _MainTex_TexelSize.x * 15,0)).rgb * t_weight_8;
+				t_color += tex2D(_MainTex,a_v2f.uv + float2(-_MainTex_TexelSize.x * 15,0)).rgb * t_weight_8;
 
 				return fixed4(t_color,1.0f);
 			}
