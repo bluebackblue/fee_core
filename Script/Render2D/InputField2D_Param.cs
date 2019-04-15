@@ -375,6 +375,9 @@ namespace Fee.Render2D
 
 			UnityEngine.GameObject.DestroyImmediate(this.raw_custom_textmaterial);
 			this.raw_custom_textmaterial = null;
+
+			UnityEngine.GameObject.DestroyImmediate(this.raw_custom_imagematerial);
+			this.raw_custom_imagematerial = null;
 		}
 
 		/** [内部からの呼び出し]サイズ。設定。

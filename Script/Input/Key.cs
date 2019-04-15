@@ -63,6 +63,10 @@ namespace Fee.Input
 			}
 		}
 
+		/** is_focus
+		*/
+		public bool is_focus;
+
 		/** ボタン。
 		*/
 		public Digital_Button l_left;
@@ -86,6 +90,9 @@ namespace Fee.Input
 		*/
 		private Key()
 		{
+			//is_focus
+			this.is_focus = false;
+
 			//ボタン。
 			this.l_left.Reset();
 			this.l_right.Reset();
@@ -134,20 +141,20 @@ namespace Fee.Input
 					bool t_right_menu_on = t_key_current[Config.INPUTSYSTEM_RIGHT_MENU].isPressed;
 
 					//設定。
-					this.l_left.Set(t_l_left_on);
-					this.l_right.Set(t_l_right_on);
-					this.l_up.Set(t_l_up_on);
-					this.l_down.Set(t_l_down_on);
-					this.r_left.Set(t_r_left_on);
-					this.r_right.Set(t_r_right_on);
-					this.r_up.Set(t_r_up_on);
-					this.r_down.Set(t_r_down_on);
-					this.enter.Set(t_enter_on);
-					this.escape.Set(t_escape_on);
-					this.sub1.Set(t_sub1_on);
-					this.sub2.Set(t_sub2_on);
-					this.left_menu.Set(t_left_menu_on);
-					this.right_menu.Set(t_right_menu_on);
+					this.l_left.Set(t_l_left_on & this.is_focus);
+					this.l_right.Set(t_l_right_on & this.is_focus);
+					this.l_up.Set(t_l_up_on & this.is_focus);
+					this.l_down.Set(t_l_down_on & this.is_focus);
+					this.r_left.Set(t_r_left_on & this.is_focus);
+					this.r_right.Set(t_r_right_on & this.is_focus);
+					this.r_up.Set(t_r_up_on & this.is_focus);
+					this.r_down.Set(t_r_down_on & this.is_focus);
+					this.enter.Set(t_enter_on & this.is_focus);
+					this.escape.Set(t_escape_on & this.is_focus);
+					this.sub1.Set(t_sub1_on & this.is_focus);
+					this.sub2.Set(t_sub2_on & this.is_focus);
+					this.left_menu.Set(t_left_menu_on & this.is_focus);
+					this.right_menu.Set(t_right_menu_on & this.is_focus);
 
 					return true;
 				}
@@ -178,20 +185,20 @@ namespace Fee.Input
 			bool t_right_menu_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Backspace);
 
 			//設定。
-			this.l_left.Set(t_l_left_on);
-			this.l_right.Set(t_l_right_on);
-			this.l_up.Set(t_l_up_on);
-			this.l_down.Set(t_l_down_on);
-			this.r_left.Set(t_r_left_on);
-			this.r_right.Set(t_r_right_on);
-			this.r_up.Set(t_r_up_on);
-			this.r_down.Set(t_r_down_on);
-			this.enter.Set(t_enter_on);
-			this.escape.Set(t_escape_on);
-			this.sub1.Set(t_sub1_on);
-			this.sub2.Set(t_sub2_on);
-			this.left_menu.Set(t_left_menu_on);
-			this.right_menu.Set(t_right_menu_on);
+			this.l_left.Set(t_l_left_on & this.is_focus);
+			this.l_right.Set(t_l_right_on & this.is_focus);
+			this.l_up.Set(t_l_up_on & this.is_focus);
+			this.l_down.Set(t_l_down_on & this.is_focus);
+			this.r_left.Set(t_r_left_on & this.is_focus);
+			this.r_right.Set(t_r_right_on & this.is_focus);
+			this.r_up.Set(t_r_up_on & this.is_focus);
+			this.r_down.Set(t_r_down_on & this.is_focus);
+			this.enter.Set(t_enter_on & this.is_focus);
+			this.escape.Set(t_escape_on & this.is_focus);
+			this.sub1.Set(t_sub1_on & this.is_focus);
+			this.sub2.Set(t_sub2_on & this.is_focus);
+			this.left_menu.Set(t_left_menu_on & this.is_focus);
+			this.right_menu.Set(t_right_menu_on & this.is_focus);
 
 			return true;	
 		}
@@ -217,8 +224,11 @@ namespace Fee.Input
 
 		/** 更新。
 		*/
-		public void Main()
+		public void Main(bool a_is_focus)
 		{
+			//フォーカス。
+			this.is_focus = a_is_focus;
+
 			try{
 				//更新。キー。
 				this.Main_Key();

@@ -69,6 +69,21 @@ namespace Fee.Render2D
 		{
 			return this.material_ui_image;
 		}
+
+		/** 削除。
+		*/
+		public void Delete()
+		{
+			if(this.list != null){
+				for(int ii=0;ii<this.list.Length;ii++){
+					if(this.list[ii] != null){
+						UnityEngine.GameObject.DestroyImmediate(this.list[ii]);
+						this.list[ii] = null;
+					}
+				}
+				this.list = null;
+			}
+		}
 	}
 }
 

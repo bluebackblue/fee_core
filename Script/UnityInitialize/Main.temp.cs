@@ -22,6 +22,10 @@ namespace Fee.UnityInitialize
 		*/
 		private static bool s_forced_quit = false;
 
+		/** s_is_focus
+		*/
+		private static bool s_is_focus = false;
+
 		/** アプリ起動時。
 		*/
 		[UnityEngine.RuntimeInitializeOnLoadMethod]
@@ -34,6 +38,13 @@ namespace Fee.UnityInitialize
 		void OnApplicationQuit()
 		{
 			s_forced_quit = true;
+		}
+
+		/** アプリフォーカス変更時。
+		*/
+		void OnApplicationFocus(bool a_flag)
+		{
+			s_is_focus = a_flag;
 		}
 
 		/** s_instance
@@ -399,18 +410,19 @@ namespace Fee.UnityInitialize
 				{
 					//入力。
 					{
+						//マウス。
 						#if(false)
-						Fee.Input.Mouse.GetInstance().Main(Fee.Render2D.Render2D.GetInstance());
+						Fee.Input.Mouse.GetInstance().Main(true,Fee.Render2D.Render2D.GetInstance());
 						#endif
 
 						//キー。
 						#if(false)
-						Fee.Input.Key.GetInstance().Main();
+						Fee.Input.Key.GetInstance().Main(s_is_focus);
 						#endif
 
 						//パッド。
 						#if(false)
-						Fee.Input.Pad.GetInstance().Main();
+						Fee.Input.Pad.GetInstance().Main(true);
 						#endif
 					}
 

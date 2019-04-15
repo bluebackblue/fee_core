@@ -78,6 +78,10 @@ namespace Fee.Input
 		}
 		private PadType padtype;
 
+		/** is_focus
+		*/
+		public bool is_focus;
+
 		/** デジタルボタン。
 		*/
 		public Digital_Button left;
@@ -120,6 +124,9 @@ namespace Fee.Input
 			#else
 			this.padtype = PadType.Type0;
 			#endif
+
+			//is_focus
+			this.is_focus = false;
 
 			//デジタルボタン。
 			this.left.Reset();
@@ -199,16 +206,16 @@ namespace Fee.Input
 					bool t_right_menu_on = t_gamepad_current.startButton.isPressed;
 
 					//設定。
-					this.left.Set(t_left_on);
-					this.right.Set(t_right_on);
-					this.up.Set(t_up_on);
-					this.down.Set(t_down_on);
-					this.enter.Set(t_enter_on);
-					this.escape.Set(t_escape_on);
-					this.sub1.Set(t_sub1_on);
-					this.sub2.Set(t_sub2_on);
-					this.left_menu.Set(t_left_menu_on);
-					this.right_menu.Set(t_right_menu_on);
+					this.left.Set(t_left_on & this.is_focus);
+					this.right.Set(t_right_on & this.is_focus);
+					this.up.Set(t_up_on & this.is_focus);
+					this.down.Set(t_down_on & this.is_focus);
+					this.enter.Set(t_enter_on & this.is_focus);
+					this.escape.Set(t_escape_on & this.is_focus);
+					this.sub1.Set(t_sub1_on & this.is_focus);
+					this.sub2.Set(t_sub2_on & this.is_focus);
+					this.left_menu.Set(t_left_menu_on & this.is_focus);
+					this.right_menu.Set(t_right_menu_on & this.is_focus);
 
 					return true;
 				}
@@ -236,16 +243,16 @@ namespace Fee.Input
 			bool t_right_menu_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_RMENU[(int)this.padtype]);
 
 			//設定。
-			this.left.Set(t_left_on);
-			this.right.Set(t_right_on);
-			this.up.Set(t_up_on);
-			this.down.Set(t_down_on);
-			this.enter.Set(t_enter_on);
-			this.escape.Set(t_escape_on);
-			this.sub1.Set(t_sub1_on);
-			this.sub2.Set(t_sub2_on);
-			this.left_menu.Set(t_left_menu_on);
-			this.right_menu.Set(t_right_menu_on);
+			this.left.Set(t_left_on & this.is_focus);
+			this.right.Set(t_right_on & this.is_focus);
+			this.up.Set(t_up_on & this.is_focus);
+			this.down.Set(t_down_on & this.is_focus);
+			this.enter.Set(t_enter_on & this.is_focus);
+			this.escape.Set(t_escape_on & this.is_focus);
+			this.sub1.Set(t_sub1_on & this.is_focus);
+			this.sub2.Set(t_sub2_on & this.is_focus);
+			this.left_menu.Set(t_left_menu_on & this.is_focus);
+			this.right_menu.Set(t_right_menu_on & this.is_focus);
 
 			return true;
 		}
@@ -268,11 +275,15 @@ namespace Fee.Input
 					bool t_r_on = t_gamepad_current.rightStickButton.isPressed;
 
 					//設定。
-					this.left_stick.Set(t_l_x,t_l_y);
-					this.right_stick.Set(t_r_x,t_r_y);
-					this.left_stick_button.Set(t_l_on);
-					this.right_stick_button.Set(t_r_on);
-
+					if(this.is_focus == true){
+						this.left_stick.Set(t_l_x,t_l_y);
+						this.right_stick.Set(t_r_x,t_r_y);
+					}else{
+						this.left_stick.Set(0.0f,0.0f);
+						this.right_stick.Set(0.0f,0.0f);
+					}
+					this.left_stick_button.Set(t_l_on & this.is_focus);
+					this.right_stick_button.Set(t_r_on & this.is_focus);
 					return true;
 				}
 			}
@@ -294,11 +305,15 @@ namespace Fee.Input
 			bool t_r_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_RSB[(int)this.padtype]);
 
 			//設定。
-			this.left_stick.Set(t_l_x,t_l_y);
-			this.right_stick.Set(t_r_x,t_r_y);
-			this.left_stick_button.Set(t_l_on);
-			this.right_stick_button.Set(t_r_on);
-
+			if(this.is_focus == true){
+				this.left_stick.Set(t_l_x,t_l_y);
+				this.right_stick.Set(t_r_x,t_r_y);
+			}else{
+				this.left_stick.Set(0.0f,0.0f);
+				this.right_stick.Set(0.0f,0.0f);
+			}
+			this.left_stick_button.Set(t_l_on & this.is_focus);
+			this.right_stick_button.Set(t_r_on & this.is_focus);
 			return true;
 		}
 
@@ -317,10 +332,15 @@ namespace Fee.Input
 					float t_r_2 = t_gamepad_current.rightTrigger.ReadValue();
 
 					//設定。
-					this.left_trigger1_button.Set(t_l_1);
-					this.right_trigger1_button.Set(t_r_1);
-					this.left_trigger2_button.Set(t_l_2);
-					this.right_trigger2_button.Set(t_r_2);
+					this.left_trigger1_button.Set(t_l_1 & this.is_focus);
+					this.right_trigger1_button.Set(t_r_1 & this.is_focus);
+					if(this.is_focus == true){
+						this.left_trigger2_button.Set(t_l_2);
+						this.right_trigger2_button.Set(t_r_2);
+					}else{
+						this.left_trigger2_button.Set(0.0f);
+						this.right_trigger2_button.Set(0.0f);
+					}
 
 					return true;
 				}
@@ -349,10 +369,15 @@ namespace Fee.Input
 			}
 
 			//設定。
-			this.left_trigger1_button.Set(t_l_1);
-			this.right_trigger1_button.Set(t_r_1);
-			this.left_trigger2_button.Set(t_l_2);
-			this.right_trigger2_button.Set(t_r_2);
+			this.left_trigger1_button.Set(t_l_1 & this.is_focus);
+			this.right_trigger1_button.Set(t_r_1 & this.is_focus);
+			if(this.is_focus == true){
+				this.left_trigger2_button.Set(t_l_2);
+				this.right_trigger2_button.Set(t_r_2);
+			}else{
+				this.left_trigger2_button.Set(0.0f);
+				this.right_trigger2_button.Set(0.0f);
+			}
 
 			return true;
 		}
@@ -455,8 +480,11 @@ namespace Fee.Input
 
 		/** 更新。
 		*/
-		public void Main()
+		public void Main(bool a_is_focus)
 		{
+			//is_focus
+			this.is_focus = a_is_focus;
+
 			try{
 				//デジタルボタン。更新。
 				this.Main_DigitalButton();

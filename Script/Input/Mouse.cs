@@ -63,6 +63,10 @@ namespace Fee.Input
 			}
 		}
 
+		/** is_focus
+		*/
+		public bool is_focus;
+
 		/** 位置。
 		*/
 		public Mouse_Pos pos;
@@ -81,6 +85,9 @@ namespace Fee.Input
 		*/
 		private Mouse()
 		{
+			//is_focus
+			this.is_focus = false;
+
 			//位置。
 			this.pos.Reset();
 
@@ -147,7 +154,11 @@ namespace Fee.Input
 					a_render2d.GuiScreenToVirtualScreen(t_pointer_x,t_pointer_y,out t_x,out t_y);
 
 					//設定。
-					this.pos.Set(t_x,t_y);
+					if(this.is_focus == true){
+						this.pos.Set(t_x,t_y);
+					}else{
+						this.pos.Set(this.pos.x_old,this.pos.y_old);
+					}
 
 					return true;
 				}
@@ -187,7 +198,11 @@ namespace Fee.Input
 					a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
 
 					//設定。
-					this.pos.Set(t_x,t_y);
+					if(this.is_focus == true){
+						this.pos.Set(t_x,t_y);
+					}else{
+						this.pos.Set(this.pos.x_old,this.pos.y_old);
+					}
 
 					return true;
 				}
@@ -219,7 +234,11 @@ namespace Fee.Input
 			a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
 
 			//設定。
-			this.pos.Set(t_x,t_y);
+			if(this.is_focus == true){
+				this.pos.Set(t_x,t_y);
+			}else{
+				this.pos.Set(this.pos.x_old,this.pos.y_old);
+			}
 
 			return true;
 		}
@@ -257,9 +276,9 @@ namespace Fee.Input
 					}
 
 					//設定。
-					this.left.Set(t_l_on);
-					this.right.Set(false);
-					this.middle.Set(false);
+					this.left.Set(t_l_on & this.is_focus);
+					this.right.Set(false & this.is_focus);
+					this.middle.Set(false & this.is_focus);
 
 					//設定。
 					return true;
@@ -284,9 +303,9 @@ namespace Fee.Input
 					bool t_m_on = t_mouse_current.middleButton.isPressed;
 
 					//設定。
-					this.left.Set(t_l_on);
-					this.right.Set(t_r_on);
-					this.middle.Set(t_m_on);
+					this.left.Set(t_l_on & this.is_focus);
+					this.right.Set(t_r_on & this.is_focus);
+					this.middle.Set(t_m_on & this.is_focus);
 
 					return true;
 				}
@@ -307,9 +326,9 @@ namespace Fee.Input
 			bool t_m_on = UnityEngine.Input.GetMouseButton(2);
 
 			//設定。
-			this.left.Set(t_l_on);
-			this.right.Set(t_r_on);
-			this.middle.Set(t_m_on);
+			this.left.Set(t_l_on & this.is_focus);
+			this.right.Set(t_r_on & this.is_focus);
+			this.middle.Set(t_m_on & this.is_focus);
 
 			return true;
 		}
@@ -328,7 +347,11 @@ namespace Fee.Input
 					int t_y = (int)t_mouse_current.scroll.ReadValue().y;
 
 					//設定。
-					this.mouse_wheel.Set(t_x,t_y);
+					if(this.is_focus == true){
+						this.mouse_wheel.Set(t_x,t_y);
+					}else{
+						this.mouse_wheel.Set(0,0);
+					}
 
 					return true;
 				}
@@ -347,10 +370,14 @@ namespace Fee.Input
 			float t_wheel = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_MOUSEWHEEL);
 
 			//設定。
-			if(t_wheel > 0.0f){
-				this.mouse_wheel.Set(0,20);
-			}else if(t_wheel < 0.0f){
-				this.mouse_wheel.Set(0,-20);
+			if(this.is_focus == true){
+				if(t_wheel > 0.0f){
+					this.mouse_wheel.Set(0,20);
+				}else if(t_wheel < 0.0f){
+					this.mouse_wheel.Set(0,-20);
+				}else{
+					this.mouse_wheel.Set(0,0);
+				}
 			}else{
 				this.mouse_wheel.Set(0,0);
 			}
@@ -432,8 +459,11 @@ namespace Fee.Input
 
 		/** 更新。
 		*/
-		public void Main(Fee.Render2D.Render2D a_render2d)
+		public void Main(bool a_is_focus,Fee.Render2D.Render2D a_render2d)
 		{
+			//is_focus
+			this.is_focus = a_is_focus;
+
 			try{
 				//位置。
 				this.Main_Pos(a_render2d);
