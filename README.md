@@ -10,9 +10,9 @@ MIT License
 * https://github.com/bluebackblue/fee_core/releases/
 
 ## sample project
-* Unity 2018.3.8f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2018_3 ]
-* Unity 2019.1.0b7 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_1 ]
-* Unity 2019.2.0a8 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_2 ]
+* Unity 2018.3.12f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2018_3_12f1 ]
+* Unity 2019.1.0f2 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_1_0f2 ]
+* Unity 2019.2.0a11 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_2_0a11 ]
 
 ## contact
 https://discord.gg/JH3B4SR
@@ -28,21 +28,28 @@ https://discord.gg/JH3B4SR
 * _ Blur [ブラー]
 * _ Crypt [暗号]
 * _ Deleter [インスタンス削除管理]
+* _ Depth [深度]
 * _ Dijkstra [ルート探査]
 * _ Directory [ディレクトリ探査]
 * _ EventPlate [イベント]
 * _ Fade [フェード]
 * _ File [ローカルセーブロード、アセットバンドルダウンロード、サウンドプールダウンロード]
+* _ Function [関数呼び出し]
 * _ Input [InputManager、InputSystem]
 * _ Instantiate [インスタンス作成]
 * _ JsonItem [Json]
+* _ MakeAssetBundle [アセットバンドル作成]
+* _ Model [モデル]
 * _ Network [通信]
 * _ PerformanceCounter [パフォーマンスカウンター]
+* _ Platform [プラットフォーム]
 * _ Render2D [GLスプライト描画、テキスト位置、入力フィールド位置]
 * _ Scene [シーン管理]
+* _ SoundPool [サウンドプール]
 * _ TaskW [タスク]
 * _ Ui [ボタン、縦スクロール、横スクロール、チェックボタン]
 * _ UniVrm [UniVrmの操作]
+* _ UnityInitialize [ＵＮＩＴＹ初期化]
 
 ## 使用ライセンス
 
