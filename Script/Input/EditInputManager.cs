@@ -182,7 +182,7 @@ namespace Fee.Input
 
 		/** インプットマネージャ初期化。
 		*/
-		#if((USE_DEF_FEE_EDITORMENU)&&(UNITY_EDITOR))
+		#if((!NOUSE_DEF_FEE_EDITORMENU)&&(UNITY_EDITOR))
 		[UnityEditor.MenuItem("Fee/Initialize/InputManager")]
 		private static void MakeInputManager()
 		{

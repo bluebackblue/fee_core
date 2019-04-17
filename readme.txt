@@ -18,7 +18,7 @@ DEVELOPMENT_BUILD
 Development Build オプションを有効にしてビルドしたプレイヤー
 
 ---------------------------
-USE_DEF_FEE_EDITORMENU
+NOUSE_DEF_FEE_EDITORMENU
 ---------------------------
 <Fee>
 エディターメニュを表示

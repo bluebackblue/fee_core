@@ -46,7 +46,7 @@ namespace System
 
 		/** 作成。
 		*/
-		#if(USE_DEF_FEE_EDITORMENU)
+		#if(!NOUSE_DEF_FEE_EDITORMENU)
 		[UnityEditor.MenuItem("Fee/MakeAssetBundle/All")]
 		private static void MakeAssetBundle_All()
 		{
@@ -59,7 +59,7 @@ namespace System
 
 		/** ウィンドウズ。
 		*/
-		#if(USE_DEF_FEE_EDITORMENU)
+		#if(!NOUSE_DEF_FEE_EDITORMENU)
 		[UnityEditor.MenuItem("Fee/MakeAssetBundle/StandaloneWindows")]
 		private static void MakeAssetBundle_StandaloneWindows()
 		{
@@ -75,7 +75,7 @@ namespace System
 
 		/** WebGL。
 		*/
-		#if(USE_DEF_FEE_EDITORMENU)
+		#if(!NOUSE_DEF_FEE_EDITORMENU)
 		[UnityEditor.MenuItem("Fee/MakeAssetBundle/WebGL")]
 		private static void MakeAssetBundle_WebGL()
 		{
@@ -91,7 +91,7 @@ namespace System
 
 		/** アンドロイド。
 		*/
-		#if(USE_DEF_FEE_EDITORMENU)
+		#if(!NOUSE_DEF_FEE_EDITORMENU)
 		[UnityEditor.MenuItem("Fee/MakeAssetBundle/Android")]
 		private static void MakeAssetBundle_Android()
 		{
@@ -107,7 +107,7 @@ namespace System
 
 		/** iOS。
 		*/
-		#if(USE_DEF_FEE_EDITORMENU)
+		#if(!NOUSE_DEF_FEE_EDITORMENU)
 		[UnityEditor.MenuItem("Fee/MakeAssetBundle/iOS")]
 		private static void MakeAssetBundle_iOS()
 		{
