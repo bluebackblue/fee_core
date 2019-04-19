@@ -281,6 +281,52 @@ namespace Fee.Ui
 
 		/** 矩形。設定。
 		*/
+		public void SetX(int a_x)
+		{
+			//rect
+			this.rect.x = a_x;
+
+			//eventplate
+			this.eventplate.SetX(a_x);
+
+			//位置更新。
+			if(this.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+					this.list[ii].SetClipRect(ref this.rect);
+					this.OnItemPositionChange(ii);
+					this.OnItemOtherPositionChange(ii);
+				}
+			}
+
+			//[Scroll_Base]コールバック。矩形。設定。
+			this.OnChangeRect();
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetY(int a_y)
+		{
+			//rect
+			this.rect.y = a_y;
+
+			//eventplate
+			this.eventplate.SetY(a_y);
+
+			//位置更新。
+			if(this.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+					this.list[ii].SetClipRect(ref this.rect);
+					this.OnItemPositionChange(ii);
+					this.OnItemOtherPositionChange(ii);
+				}
+			}
+
+			//[Scroll_Base]コールバック。矩形。設定。
+			this.OnChangeRect();
+		}
+
+		/** 矩形。設定。
+		*/
 		public void SetXY(int a_x,int a_y)
 		{
 			//rect
@@ -564,9 +610,9 @@ namespace Fee.Ui
 
 		/** ドラッグスクロール。更新。
 		*/
-		public void DragScrollUpdate(int a_x,int a_y,bool a_button)
+		public void DragScrollUpdate(int a_x,int a_y)
 		{
-			this.scroll_drag.Main(a_x,a_y,a_button);
+			this.scroll_drag.Main(a_x,a_y,this.is_onover);
 		}
 	}
 }

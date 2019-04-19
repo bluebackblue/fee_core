@@ -97,10 +97,10 @@ namespace Fee.Ui
 
 		/** 更新。
 		*/
-		public void Main(int a_x,int a_y,bool a_button)
+		public void Main(int a_x,int a_y,bool a_onover)
 		{
-			if((this.flag == false)&&(a_button == true)){
-				if(this.callback.IsRectIn(a_x,a_y) == true){
+			if((this.flag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)){
+				if((a_onover == true)&&(this.callback.IsRectIn(a_x,a_y) == true)){
 					//ドラッグ開始。
 					this.flag = true;
 					this.start_viewposition = this.callback.GetViewPosition();
@@ -109,7 +109,7 @@ namespace Fee.Ui
 
 					this.speed = 0.0f;
 				}
-			}else if((this.flag == true)&&(a_button == true)){
+			}else if((this.flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == true)){
 				//ドラッグ中。
 				this.callback.SetViewPosition(this.start_viewposition + this.start_pos - this.callback.GetScrollDirectionValue(a_x,a_y));
 
@@ -117,7 +117,7 @@ namespace Fee.Ui
 				int t_drag_new_pos =this.callback.GetScrollDirectionValue(a_x,a_y);
 				this.speed = this.speed * 0.3f + (this.old_pos - t_drag_new_pos) * 0.7f;
 				this.old_pos = t_drag_new_pos;
-			}else if((this.flag == true)&&(a_button == false)){
+			}else if((this.flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){
 				//ドラッグ終了。
 				this.flag = false;
 			}
