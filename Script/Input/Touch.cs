@@ -105,6 +105,11 @@ namespace Fee.Input
 		*/
 		public delegate void CallBack_OnTouch(Touch_Phase a_touch_phase);
 
+		/** screen
+		*/
+		public int screen_w;
+		public int screen_h;
+
 		/** コールバック。
 		*/
 		public CallBack_OnTouch callback;
@@ -129,6 +134,10 @@ namespace Fee.Input
 		*/
 		private Touch()
 		{
+			//screen_w
+			this.screen_w = UnityEngine.Screen.width;
+			this.screen_h = UnityEngine.Screen.height;
+
 			//callback
 			this.callback = null;
 
@@ -264,8 +273,17 @@ namespace Fee.Input
 				case UnityEngine.TouchPhase.Moved:
 				case UnityEngine.TouchPhase.Stationary:
 					{
+						float t_touch_x = t_touch.position.x;
+						float t_touch_y = t_touch.position.y;
+
+						//resolution
+						{
+							t_touch_x = t_touch_x * UnityEngine.Screen.width / this.screen_w;
+							t_touch_y = t_touch_y * UnityEngine.Screen.height / this.screen_h;
+						}
+
 						//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-						a_render2d.GuiScreenToVirtualScreen((int)t_touch.position.x,(int)(UnityEngine.Screen.height - t_touch.position.y),out this.device_item_list[this.device_item_list_count].x,out this.device_item_list[this.device_item_list_count].y);
+						a_render2d.GuiScreenToVirtualScreen((int)t_touch_x,(int)(this.screen_h - t_touch_y),out this.device_item_list[this.device_item_list_count].x,out this.device_item_list[this.device_item_list_count].y);
 
 						//フェーズ。
 						if(t_touch.phase == UnityEngine.TouchPhase.Began){
@@ -314,8 +332,14 @@ namespace Fee.Input
 				int t_touch_x = (int)UnityEngine.Input.mousePosition.x;
 				int t_touch_y = (int)UnityEngine.Input.mousePosition.y;
 
+				//resolution
+				{
+					t_touch_x = t_touch_x * UnityEngine.Screen.width / this.screen_w;
+					t_touch_y = t_touch_y * UnityEngine.Screen.height / this.screen_h;
+				}
+
 				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-				a_render2d.GuiScreenToVirtualScreen((int)t_touch_x,(int)(UnityEngine.Screen.height - t_touch_y),out this.device_item_list[this.device_item_list_count].x,out this.device_item_list[this.device_item_list_count].y);
+				a_render2d.GuiScreenToVirtualScreen((int)t_touch_x,(int)(this.screen_h - t_touch_y),out this.device_item_list[this.device_item_list_count].x,out this.device_item_list[this.device_item_list_count].y);
 
 				//フェーズ。
 				this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Moved;
@@ -369,6 +393,14 @@ namespace Fee.Input
 		*/
 		public void Main(Fee.Render2D.Render2D a_render2d)
 		{
+			//screen_w
+			#if(UNITY_EDITOR)||(UNITY_WEBGL)
+			{
+				this.screen_w = UnityEngine.Screen.width;
+				this.screen_h = UnityEngine.Screen.height;
+			}
+			#endif
+
 			try{
 				for(int ii=0;ii<this.list.Count;ii++){
 					this.list[ii].update = false;

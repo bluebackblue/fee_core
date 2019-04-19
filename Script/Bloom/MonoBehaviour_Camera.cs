@@ -163,14 +163,12 @@ namespace Fee.Bloom
 						UnityEngine.RenderTexture t_from = a_source;
 
 						//初回ダウンサンプリング（輝度抽出）。
-						this.work_rendertexture[ii].DiscardContents(true,true);
 						UnityEngine.Graphics.Blit(t_from,t_to,this.material_bloom_firstdownsampling);
 					}else{
 						UnityEngine.RenderTexture t_to = this.work_rendertexture[ii];
 						UnityEngine.RenderTexture t_from = this.work_rendertexture[ii - 1];
 
 						//ダウンサンプリング。
-						this.work_rendertexture[ii].DiscardContents(true,true);
 						UnityEngine.Graphics.Blit(t_from,t_to,this.material_bloom_downsampling);
 					}
 				}

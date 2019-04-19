@@ -108,13 +108,27 @@ namespace Fee.Render2D
 			return this.calc_sprite_h;
 		}
 
+		/**GetScreenWidth
+		*/
+		public static int GetScreenWidth()
+		{
+			return UnityEngine.Screen.width;
+		}
+
+		/** GetScreenHeight
+		*/
+		public static int GetScreenHeight()
+		{
+			return UnityEngine.Screen.height;
+		}
+
 		/** 事前計算。
 		*/
 		public void CalcScreen(System.Collections.Generic.List<Sprite2D> a_sprite_list)
 		{
 			//ＧＵＩスクリーン座標変更チェック。
-			if((this.gui_size.w != UnityEngine.Screen.width)||(this.gui_size.h != UnityEngine.Screen.height)){
-				this.gui_size.Set(UnityEngine.Screen.width, UnityEngine.Screen.height);
+			if((this.gui_size.w != Screen.GetScreenWidth())||(this.gui_size.h != Screen.GetScreenHeight())){
+				this.gui_size.Set(Screen.GetScreenWidth(),Screen.GetScreenHeight());
 				this.gui_change = true;
 			}else{
 				this.gui_change = false;
@@ -268,13 +282,13 @@ namespace Fee.Render2D
 				if(t_w > 0){
 					t_sizedelta.x =	t_w * this.calc_ui_scale;
 				}else{
-					t_sizedelta.x = UnityEngine.Screen.width;
+					t_sizedelta.x = Screen.GetScreenWidth();
 				}
 
 				if(t_h > 0){
 					t_sizedelta.y = t_h * this.calc_ui_scale;
 				}else{
-					t_sizedelta.y = UnityEngine.Screen.height;
+					t_sizedelta.y = Screen.GetScreenHeight();
 				}
 
 				//自動部分を最大設定。

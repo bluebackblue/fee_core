@@ -63,6 +63,11 @@ namespace Fee.Input
 			}
 		}
 
+		/** screen
+		*/
+		public int screen_w;
+		public int screen_h;
+
 		/** is_focus
 		*/
 		public bool is_focus;
@@ -85,6 +90,10 @@ namespace Fee.Input
 		*/
 		private Mouse()
 		{
+			//screen_w
+			this.screen_w = UnityEngine.Screen.width;
+			this.screen_h = UnityEngine.Screen.height;
+
 			//is_focus
 			this.is_focus = false;
 
@@ -136,10 +145,16 @@ namespace Fee.Input
 					int t_pointer_x = (int)t_pointer_current.position.x.ReadValue();
 
 					#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
-					int t_pointer_y = (int)(UnityEngine.Screen.height - t_pointer_current.position.y.ReadValue());
+					int t_pointer_y = (int)(this.screen_h - t_pointer_current.position.y.ReadValue());
 					#else
 					int t_pointer_y = (int)(t_pointer_current.position.y.ReadValue());
 					#endif
+
+					//resolution
+					{
+						t_pointer_x = (int)((float)t_pointer_x * UnityEngine.Screen.width / this.screen_w);
+						t_pointer_y = (int)((float)t_pointer_y * UnityEngine.Screen.height / this.screen_h);
+					}
 
 					#if(UNITY_EDITOR)
 					{
@@ -180,10 +195,16 @@ namespace Fee.Input
 					int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
 
 					#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
-					int t_mouse_y = (int)(UnityEngine.Screen.height - t_mouse_current.position.y.ReadValue());
+					int t_mouse_y = (int)(this.screen_h - t_mouse_current.position.y.ReadValue());
 					#else
 					int t_mouse_y = (int)(t_mouse_current.position.y.ReadValue());
 					#endif
+
+					//resolution
+					{
+						t_mouse_x = (int)((float)t_mouse_x * UnityEngine.Screen.width / this.screen_w);
+						t_mouse_y = (int)((float)t_mouse_y * UnityEngine.Screen.height / this.screen_h);
+					}
 
 					#if(UNITY_EDITOR)
 					{
@@ -220,6 +241,12 @@ namespace Fee.Input
 			//デバイス。
 			int t_mouse_x = (int)UnityEngine.Input.mousePosition.x;
 			int t_mouse_y = UnityEngine.Screen.height - (int)UnityEngine.Input.mousePosition.y;
+
+			//resolution
+			{
+				t_mouse_x = (int)((float)t_mouse_x * UnityEngine.Screen.width / this.screen_w);
+				t_mouse_y = (int)((float)t_mouse_y * UnityEngine.Screen.height / this.screen_h);
+			}
 
 			#if(UNITY_EDITOR)
 			{
@@ -463,6 +490,14 @@ namespace Fee.Input
 		{
 			//is_focus
 			this.is_focus = a_is_focus;
+
+			//screen_w
+			#if(UNITY_EDITOR)||(UNITY_WEBGL)
+			{
+				this.screen_w = UnityEngine.Screen.width;
+				this.screen_h = UnityEngine.Screen.height;
+			}
+			#endif
 
 			try{
 				//位置。

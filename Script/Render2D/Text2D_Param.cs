@@ -102,7 +102,7 @@ namespace Fee.Render2D
 			this.raw_recttransform.localScale = new UnityEngine.Vector3(1.0f,1.0f,1.0f);
 
 			//sizedelta
-			this.raw_recttransform.sizeDelta = new UnityEngine.Vector2(UnityEngine.Screen.width,UnityEngine.Screen.height);
+			this.raw_recttransform.sizeDelta = new UnityEngine.Vector2(Screen.GetScreenWidth(),Screen.GetScreenHeight());
 
 			{
 				UnityEngine.UI.BaseMeshEffect[] t_effect_list = this.raw_gameobject.GetComponents<UnityEngine.UI.BaseMeshEffect>();
