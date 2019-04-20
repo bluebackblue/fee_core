@@ -31,6 +31,7 @@ https://discord.gg/JH3B4SR
 * _ Depth [深度]
 * _ Dijkstra [ルート探査]
 * _ Directory [ディレクトリ探査]
+* _ EditorTool [エディターツール]
 * _ EventPlate [イベント]
 * _ Fade [フェード]
 * _ File [ローカルセーブロード、アセットバンドルダウンロード、サウンドプールダウンロード]
@@ -49,7 +50,6 @@ https://discord.gg/JH3B4SR
 * _ TaskW [タスク]
 * _ Ui [ボタン、縦スクロール、横スクロール、チェックボタン]
 * _ UniVrm [UniVrmの操作]
-* _ UnityInitialize [ＵＮＩＴＹ初期化]
 
 ## 使用ライセンス
 
