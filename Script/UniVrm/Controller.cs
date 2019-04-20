@@ -135,12 +135,13 @@ namespace Fee.UniVrm
 		/** [SimpleAnimation]モーション。再生。
 		*/
 		#if(USE_DEF_FEE_SIMPLEANIMATION)
-		public void PlayMotion_SimpleAnimation(string a_state_name,float a_time,bool a_cross)
+		public void PlayMotion_SimpleAnimation(string a_state_name,float a_cross_time,bool a_cross)
 		{
 			if(this.simpleanimationtion != null){
 				if(a_cross == true){
-					this.simpleanimationtion.CrossFade(a_state_name,a_time);
+					this.simpleanimationtion.CrossFade(a_state_name,a_cross_time);
 				}else{
+					this.simpleanimationtion.Stop();
 					this.simpleanimationtion.Play(a_state_name);
 				}
 			}else{

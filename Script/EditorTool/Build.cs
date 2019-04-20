@@ -5,23 +5,25 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＮＩＴＹ初期化。ビルド。
+ * @brief エディター。ビルド。
 */
 
 
-/** Fee.Initialize.BuildClass
+/** Fee.EditorTool
 
 https://docs.unity3d.com/ja/current/Manual/CommandLineArguments.html
 
 */
 #if(UNITY_EDITOR)
-namespace Fee.UnityInitialize
+namespace Fee.EditorTool
 {
+	/** Build
+	*/
 	public class Build
 	{
 		/** パッケージ。作成。
 		*/
-		[UnityEditor.MenuItem("Fee/Initialize/BuildPackage")]
+		[UnityEditor.MenuItem("Fee/EditorTool/BuildPackage")]
 		private static void Build_Package()
 		{
 			//サブディレクトリの再帰探査。

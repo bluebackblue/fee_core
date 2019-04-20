@@ -5,14 +5,14 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＮＩＴＹ初期化。メイン。
+ * @brief エディター。メイン。
 */
 
 
-/** Fee.UnityInitialize
+/** Fee.EditorTool
 */
 #if(USE_DEF_FEE_TEMP)
-namespace Fee.UnityInitialize
+namespace Fee.EditorTool
 {
 	/** Main
 	*/

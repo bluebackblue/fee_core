@@ -5,22 +5,22 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＮＩＴＹ初期化。メインスクリプト作成。
+ * @brief エディター。メインスクリプト作成。
 */
 
 
-/** Fee.UnityInitialize
+/** Fee.EditorTool
 */
-namespace Fee.UnityInitialize
+namespace Fee.EditorTool
 {
-	/** UnityInitialize
+	/** MakeMainScript
 	*/
 	#if(UNITY_EDITOR)
 	public class MakeMainScript
 	{
 		/** メインスクリプト作成。
 		*/
-		[UnityEditor.MenuItem("Fee/Initialize/CreateMainScript")]
+		[UnityEditor.MenuItem("Fee/EditorTool/CreateMainScript")]
 		private static void CreateMainScript()
 		{
 			string t_fullpath = UnityEngine.Application.dataPath + "/" + "Main.cs";
@@ -33,7 +33,7 @@ namespace Fee.UnityInitialize
 			//スクリプトテンプレートを読み込み。
 			string t_script_template = null;
 			{
-				string t_in_fullpath = Utility.FindFile("UnityInitialize","Main.temp.cs");
+				string t_in_fullpath = Utility.FindFile("Editor","Main.temp.cs");
 				if(t_in_fullpath != null){
 					t_script_template = Utility.ReadTextFile(t_in_fullpath);
 				}

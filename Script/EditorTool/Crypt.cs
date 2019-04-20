@@ -5,22 +5,22 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＵＮＩＴＹ初期化。暗号鍵。
+ * @brief エディター。暗号鍵。
 */
 
 
-/** Fee.UnityInitialize
+/** Fee.EditorTool
 */
-namespace Fee.UnityInitialize
+namespace Fee.EditorTool
 {
-	/** UnityInitialize
+	/** Crypt
 	*/
 	#if(UNITY_EDITOR)
-	public class CryptKey
+	public class Crypt
 	{
 		/** 公開鍵秘密鍵作成。
 		*/
-		[UnityEditor.MenuItem("Fee/Crypt/MakePublicKeyPrivateKey")]
+		[UnityEditor.MenuItem("Fee/EditorTool/Crypt/MakePublicKeyPrivateKey")]
 		private static void MakePublicKeyPrivateKey()
 		{
 			string t_public_key;
