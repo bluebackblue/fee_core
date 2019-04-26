@@ -86,6 +86,10 @@ namespace Fee.Input
 		public Digital_Button left_menu;
 		public Digital_Button right_menu;
 
+		public Digital_Button left_trigger_button;
+		public Digital_Button right_trigger_button;
+
+
 		/** [シングルトン]constructor
 		*/
 		private Key()
@@ -108,6 +112,8 @@ namespace Fee.Input
 			this.sub2.Reset();
 			this.left_menu.Reset();
 			this.right_menu.Reset();
+			this.left_trigger_button.Reset();
+			this.right_trigger_button.Reset();
 		}
 
 		/** [シングルトン]削除。
@@ -139,6 +145,8 @@ namespace Fee.Input
 					bool t_sub2_on = t_key_current[Config.INPUTSYSTEM_SUB2].isPressed;
 					bool t_left_menu_on = t_key_current[Config.INPUTSYSTEM_LEFT_MENU].isPressed;
 					bool t_right_menu_on = t_key_current[Config.INPUTSYSTEM_RIGHT_MENU].isPressed;
+					bool t_left_trigger_button_on = t_key_current[Config.INPUTSYSTEM_LEFT_TRIGGER_BUTTON].isPressed;
+					bool t_right_trigger_button_on = t_key_current[Config.INPUTSYSTEM_RIGHT_TRIGGER_BUTTON].isPressed;
 
 					//設定。
 					this.l_left.Set(t_l_left_on & this.is_focus);
@@ -155,6 +163,8 @@ namespace Fee.Input
 					this.sub2.Set(t_sub2_on & this.is_focus);
 					this.left_menu.Set(t_left_menu_on & this.is_focus);
 					this.right_menu.Set(t_right_menu_on & this.is_focus);
+					this.left_trigger_button.Set(t_left_trigger_button_on & this.is_focus);
+					this.right_trigger_button.Set(t_right_trigger_button_on & this.is_focus);
 
 					return true;
 				}
@@ -183,6 +193,8 @@ namespace Fee.Input
 			bool t_sub2_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.LeftControl);
 			bool t_left_menu_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Space);
 			bool t_right_menu_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Backspace);
+			bool t_left_trigger_button_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.L);
+			bool t_right_trigger_button_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.R);
 
 			//設定。
 			this.l_left.Set(t_l_left_on & this.is_focus);
@@ -199,6 +211,8 @@ namespace Fee.Input
 			this.sub2.Set(t_sub2_on & this.is_focus);
 			this.left_menu.Set(t_left_menu_on & this.is_focus);
 			this.right_menu.Set(t_right_menu_on & this.is_focus);
+			this.left_trigger_button.Set(t_left_trigger_button_on & this.is_focus);
+			this.right_trigger_button.Set(t_right_trigger_button_on & this.is_focus);
 
 			return true;	
 		}
@@ -248,6 +262,8 @@ namespace Fee.Input
 				this.sub2.Main();
 				this.left_menu.Main();
 				this.right_menu.Main();
+				this.left_trigger_button.Main();
+				this.right_trigger_button.Main();
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}

@@ -232,6 +232,22 @@ namespace Fee.Input
 		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_RIGHT_MENU = UnityEngine.Experimental.Input.Key.Backspace;
 		#endif
 
+
+		/** インプットシステム。左メニュー。
+		*/
+		#if(USE_DEF_FEE_INPUTSYSTEM)
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_LEFT_TRIGGER_BUTTON = UnityEngine.Experimental.Input.Key.L;
+		#endif
+
+		/** インプットシステム。右メニュー。
+		*/
+		#if(USE_DEF_FEE_INPUTSYSTEM)
+		public static UnityEngine.Experimental.Input.Key INPUTSYSTEM_RIGHT_TRIGGER_BUTTON = UnityEngine.Experimental.Input.Key.R;
+		#endif
+
+
+
+
 		/** インプットマネージャ。マウスホイール。
 		*/
 		public static string INPUTMANAGER_MOUSEWHEEL = "Mouse ScrollWheel";
