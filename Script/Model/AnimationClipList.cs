@@ -50,16 +50,23 @@ namespace Fee.Model
 			*/
 			public string tag;
 
+			/** filename
+			*/
+			public string filename;
+
 			/** animationclip
 			*/
 			public UnityEngine.AnimationClip animationclip;
 
 			/** constructor
 			*/
-			public AnimationItem(string a_tag,UnityEngine.AnimationClip a_animationclip)
+			public AnimationItem(string a_tag,string a_filename,UnityEngine.AnimationClip a_animationclip)
 			{
 				//tag
 				this.tag = a_tag;
+
+				//filename
+				this.filename = a_filename;
 
 				//animationclip
 				this.animationclip = a_animationclip;
@@ -75,14 +82,17 @@ namespace Fee.Model
 				foreach(PathItem t_item in a_list){
 					if(t_item.path.StartsWith("Assets/") == true){
 						System.Collections.Generic.List<string> t_file_list = Fee.EditorTool.Utility.GetFileNameList(t_item.path.Substring(7));
-						foreach(string t_filename in t_file_list){
-							if(System.Text.RegularExpressions.Regex.IsMatch(t_filename,"^*\\.(f|F)(b|B)|(x|X)$") == true){
+						foreach(string t_file_item in t_file_list){
+							string t_filename = t_file_item.ToLower();
+							if(System.Text.RegularExpressions.Regex.IsMatch(t_filename,"^.*\\.(fbx)$") == true){
 								UnityEngine.Object[] t_object_list = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(t_item.path + t_filename);
 								foreach(UnityEngine.Object t_object in t_object_list){
 									UnityEngine.AnimationClip t_animationclip = t_object as UnityEngine.AnimationClip;
 									if(t_animationclip != null){
-										if(t_animationclip.name != "__preview__Take 001"){
-											t_anemationclip_list.Add(new AnimationItem(t_item.tag,t_animationclip));
+										if(System.Text.RegularExpressions.Regex.IsMatch(t_animationclip.name,"^.*__preview__.*$") == true){
+											UnityEngine.Debug.Log("ignore : " + t_animationclip.name);
+										}else{
+											t_anemationclip_list.Add(new AnimationItem(t_item.tag,t_filename,t_animationclip));
 										}
 									}
 								}

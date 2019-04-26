@@ -93,6 +93,13 @@ namespace Fee.UniVrm
 			return this.root_gameobject;
 		}
 
+		/** ルートモーションの適応フラグ。設定。
+		*/
+		public void SetApplyRootMotionFlag(bool a_flag)
+		{
+			this.raw_animator.applyRootMotion = a_flag;
+		}
+
 		/** 表示。設定。
 		*/
 		public void SetVisible(bool a_flag)
@@ -129,6 +136,24 @@ namespace Fee.UniVrm
 			}else{
 				Tool.Assert(false);
 			}
+		}
+		#endif
+		
+		/** [SimpleAnimation]モーション。停止。
+		*/
+		#if(USE_DEF_FEE_SIMPLEANIMATION)
+		public void StopMotion_SimpleAnimation()
+		{
+			this.simpleanimationtion.Stop();
+		}
+		#endif
+
+		/** [SimpleAnimation]モーション。停止。
+		*/
+		#if(USE_DEF_FEE_SIMPLEANIMATION)
+		public void StopMotion_SimpleAnimation(string a_state_name)
+		{
+			this.simpleanimationtion.Stop(a_state_name);
 		}
 		#endif
 
