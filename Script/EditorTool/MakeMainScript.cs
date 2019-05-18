@@ -33,7 +33,7 @@ namespace Fee.EditorTool
 			//スクリプトテンプレートを読み込み。
 			string t_script_template = null;
 			{
-				string t_in_fullpath = Utility.FindFile("Editor","Main.temp.cs");
+				string t_in_fullpath = Utility.FindFile("EditorTool","Main.temp.cs");
 				if(t_in_fullpath != null){
 					t_script_template = Utility.ReadTextFile(t_in_fullpath);
 				}
