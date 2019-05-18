@@ -5,7 +5,7 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief モデル。アニメーションクリップリスト。
+ * @brief モデル。アニメーションクリップツール。
 */
 
 
@@ -13,10 +13,10 @@
 */
 namespace Fee.Model
 {
-	/** AnimationClipList
+	/** AnimationClipTool
 	*/
 	#if(UNITY_EDITOR)
-	public class AnimationClipList
+	public class AnimationClipTool
 	{
 		/** PathItem
 		*/
@@ -42,9 +42,9 @@ namespace Fee.Model
 			}
 		}
 
-		/** AnimationItem
+		/** Item
 		*/
-		public struct AnimationItem
+		public struct Item
 		{
 			/** tag
 			*/
@@ -60,7 +60,7 @@ namespace Fee.Model
 
 			/** constructor
 			*/
-			public AnimationItem(string a_tag,string a_filename,UnityEngine.AnimationClip a_animationclip)
+			public Item(string a_tag,string a_filename,UnityEngine.AnimationClip a_animationclip)
 			{
 				//tag
 				this.tag = a_tag;
@@ -75,9 +75,9 @@ namespace Fee.Model
 
 		/** アニメーションクリップリスト作成。ＦＢＸ。
 		*/
-		public static System.Collections.Generic.List<AnimationItem> CreateAnimationClipListFromFbx(PathItem[] a_list)
+		public static System.Collections.Generic.List<Item> CreateAnimationClipListFromFbx(PathItem[] a_list)
 		{
-			System.Collections.Generic.List<AnimationItem> t_anemationclip_list = new System.Collections.Generic.List<AnimationItem>();
+			System.Collections.Generic.List<Item> t_anemationclip_list = new System.Collections.Generic.List<Item>();
 			{
 				foreach(PathItem t_item in a_list){
 					if(t_item.path.StartsWith("Assets/") == true){
@@ -92,7 +92,7 @@ namespace Fee.Model
 										if(System.Text.RegularExpressions.Regex.IsMatch(t_animationclip.name,"^.*__preview__.*$") == true){
 											UnityEngine.Debug.Log("ignore : " + t_animationclip.name);
 										}else{
-											t_anemationclip_list.Add(new AnimationItem(t_item.tag,t_filename,t_animationclip));
+											t_anemationclip_list.Add(new Item(t_item.tag,t_filename,t_animationclip));
 										}
 									}
 								}
