@@ -13,6 +13,14 @@
 */
 namespace Fee.Input
 {
+	/** UnityEngine_InputSystem
+	*/
+	#if(UNITY_2018_3)
+	using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
+	#else
+	using UnityEngine_InputSystem = UnityEngine.InputSystem;
+	#endif
+
 	/** Mouse
 	*/
 	public class Mouse
@@ -139,7 +147,7 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Pointer t_pointer_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Pointer>();
+				UnityEngine_InputSystem.Pointer t_pointer_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Pointer>();
 				if(t_pointer_current != null){
 					//デバイス。
 					int t_pointer_x = (int)t_pointer_current.position.x.ReadValue();
@@ -189,7 +197,7 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Mouse t_mouse_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Mouse>();
+				UnityEngine_InputSystem.Mouse t_mouse_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Mouse>();
 				if(t_mouse_current != null){
 					//デバイス。
 					int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
@@ -277,26 +285,30 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Pointer t_pointer_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Pointer>();
+				UnityEngine_InputSystem.Pointer t_pointer_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Pointer>();
 				if(t_pointer_current != null){
 					bool t_l_on = this.left.on;
 
 					//デバイス。
 					switch(t_pointer_current.phase.ReadValue()){
-					case UnityEngine.InputSystem.PointerPhase.Began:
+					case UnityEngine_InputSystem.PointerPhase.Began:
 						{
 							//開始。
 							t_l_on = true;
 						}break;
-					case UnityEngine.InputSystem.PointerPhase.Ended:
-					case UnityEngine.InputSystem.PointerPhase.Canceled:
+					case UnityEngine_InputSystem.PointerPhase.Ended:
+					#if(UNITY_2018_3)
+					case UnityEngine_InputSystem.PointerPhase.Cancelled:
+					#else
+					case UnityEngine_InputSystem.PointerPhase.Canceled:
+					#endif
 						{
 							//終了。
 							t_l_on = false;
 						}break;
-					case UnityEngine.InputSystem.PointerPhase.Moved:
-					case UnityEngine.InputSystem.PointerPhase.None:
-					case UnityEngine.InputSystem.PointerPhase.Stationary:
+					case UnityEngine_InputSystem.PointerPhase.Moved:
+					case UnityEngine_InputSystem.PointerPhase.None:
+					case UnityEngine_InputSystem.PointerPhase.Stationary:
 						{
 							//保留。
 						}break;
@@ -322,7 +334,7 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Mouse t_mouse_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Mouse>();
+				UnityEngine_InputSystem.Mouse t_mouse_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Mouse>();
 				if(t_mouse_current != null){
 					//デバイス。
 					bool t_l_on = t_mouse_current.leftButton.isPressed;
@@ -367,7 +379,7 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Mouse t_mouse_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Mouse>();
+				UnityEngine_InputSystem.Mouse t_mouse_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Mouse>();
 				if(t_mouse_current != null){
 					//デバイス。
 					int t_x = (int)t_mouse_current.scroll.ReadValue().x;

@@ -13,6 +13,14 @@
 */
 namespace Fee.Input
 {
+	/** UnityEngine_InputSystem
+	*/
+	#if(UNITY_2018_3)
+	using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
+	#else
+	using UnityEngine_InputSystem = UnityEngine.InputSystem;
+	#endif
+
 	/** Touch
 	*/
 	public class Touch
@@ -189,7 +197,7 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Touchscreen t_touchscreen_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Touchscreen>();
+				UnityEngine_InputSystem.Touchscreen t_touchscreen_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Touchscreen>();
 				if(t_touchscreen_current != null){
 
 					this.device_item_list_count = 0;
@@ -201,9 +209,9 @@ namespace Fee.Input
 
 					for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
 						//デバイス。
-						UnityEngine.InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.activeTouches[ii];
+						UnityEngine_InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.activeTouches[ii];
 
-						UnityEngine.InputSystem.PointerPhase t_touch_phase = t_touch.phase.ReadValue();
+						UnityEngine_InputSystem.PointerPhase t_touch_phase = t_touch.phase.ReadValue();
 						int t_touch_id = t_touch.touchId.ReadValue();
 						int t_touch_x = (int)t_touch.position.x.ReadValue();
 						int t_touch_y = (int)t_touch.position.y.ReadValue();
@@ -213,15 +221,15 @@ namespace Fee.Input
 
 						//フェーズ。
 						switch(t_touch_phase){
-						case UnityEngine.InputSystem.PointerPhase.Began:
+						case UnityEngine_InputSystem.PointerPhase.Began:
 							{
 								this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Began;
 							}break;
-						case UnityEngine.InputSystem.PointerPhase.Moved:
+						case UnityEngine_InputSystem.PointerPhase.Moved:
 							{
 								this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Moved;
 							}break;
-						case UnityEngine.InputSystem.PointerPhase.Stationary:
+						case UnityEngine_InputSystem.PointerPhase.Stationary:
 							{
 								this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Stationary;
 							}break;

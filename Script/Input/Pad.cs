@@ -17,6 +17,14 @@
 */
 namespace Fee.Input
 {
+	/** UnityEngine_InputSystem
+	*/
+	#if(UNITY_2018_3)
+	using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
+	#else
+	using UnityEngine_InputSystem = UnityEngine.InputSystem;
+	#endif
+
 	/** Pad
 	*/
 	public class Pad
@@ -163,7 +171,7 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Gamepad t_gamepad_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Gamepad>();
+				UnityEngine_InputSystem.Gamepad t_gamepad_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Gamepad>();
 				if(t_gamepad_current != null){
 					t_gamepad_current.SetMotorSpeeds(0.0f,0.0f);
 				}
@@ -191,7 +199,7 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Gamepad t_gamepad_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Gamepad>();
+				UnityEngine_InputSystem.Gamepad t_gamepad_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Gamepad>();
 				if(t_gamepad_current != null){
 					//デバイス。
 					bool t_left_on = t_gamepad_current.dpad.left.isPressed;
@@ -264,7 +272,7 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Gamepad t_gamepad_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Gamepad>();
+				UnityEngine_InputSystem.Gamepad t_gamepad_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Gamepad>();
 				if(t_gamepad_current != null){
 					//デバイス。
 					float t_l_x = t_gamepad_current.leftStick.x.ReadValue();
@@ -323,7 +331,7 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Gamepad t_gamepad_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Gamepad>();
+				UnityEngine_InputSystem.Gamepad t_gamepad_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Gamepad>();
 				if(t_gamepad_current != null){
 					//デバイス。
 					bool t_l_1 = t_gamepad_current.leftShoulder.isPressed;
@@ -388,14 +396,13 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Gamepad t_gamepad_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Gamepad>();
+				UnityEngine_InputSystem.Gamepad t_gamepad_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Gamepad>();
 				if(t_gamepad_current != null){
 					float t_value_low = this.moter_low.GetValue();
 					float t_value_high = this.moter_high.GetValue();			
 					float t_raw_value_low = this.moter_low.GetRawValue();
 					float t_raw_value_high = this.moter_high.GetRawValue();
 
-					//if((t_value_low != t_raw_value_low)||(t_value_high != t_raw_value_high))
 					{
 						this.moter_low.SetRawValue(t_value_low);
 						this.moter_high.SetRawValue(t_value_high);

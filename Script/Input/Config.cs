@@ -13,6 +13,14 @@
 */
 namespace Fee.Input
 {
+	/** UnityEngine_InputSystem
+	*/
+	#if(UNITY_2018_3)
+	using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
+	#else
+	using UnityEngine_InputSystem = UnityEngine.InputSystem;
+	#endif
+
 	/** Config
 	*/
 	public class Config
@@ -151,101 +159,99 @@ namespace Fee.Input
 		/** インプットシステム。左。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_L_LEFT = UnityEngine.InputSystem.Key.A;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_L_LEFT = UnityEngine_InputSystem.Key.A;
 		#endif
 
 		/** インプットシステム。右。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_L_RIGHT = UnityEngine.InputSystem.Key.D;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_L_RIGHT = UnityEngine_InputSystem.Key.D;
 		#endif
 
 		/** インプットシステム。上。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_L_UP = UnityEngine.InputSystem.Key.W;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_L_UP = UnityEngine_InputSystem.Key.W;
 		#endif
 
 		/** インプットシステム。下。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_L_DOWN = UnityEngine.InputSystem.Key.S;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_L_DOWN = UnityEngine_InputSystem.Key.S;
 		#endif
 
 		/** インプットシステム。左。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_R_LEFT = UnityEngine.InputSystem.Key.LeftArrow;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_R_LEFT = UnityEngine_InputSystem.Key.LeftArrow;
 		#endif
 
 		/** インプットシステム。右。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_R_RIGHT = UnityEngine.InputSystem.Key.RightArrow;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_R_RIGHT = UnityEngine_InputSystem.Key.RightArrow;
 		#endif
 
 		/** インプットシステム。上。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_R_UP = UnityEngine.InputSystem.Key.UpArrow;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_R_UP = UnityEngine_InputSystem.Key.UpArrow;
 		#endif
 
 		/** インプットシステム。下。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_R_DOWN = UnityEngine.InputSystem.Key.DownArrow;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_R_DOWN = UnityEngine_InputSystem.Key.DownArrow;
 		#endif
 
 		/** インプットシステム。エンター。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_ENTER = UnityEngine.InputSystem.Key.Enter;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_ENTER = UnityEngine_InputSystem.Key.Enter;
 		#endif
 
 		/** インプットシステム。エスケープ。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_ESCAPE = UnityEngine.InputSystem.Key.Escape;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_ESCAPE = UnityEngine_InputSystem.Key.Escape;
 		#endif
 
 		/** インプットシステム。サブ１。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_SUB1 = UnityEngine.InputSystem.Key.LeftShift;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_SUB1 = UnityEngine_InputSystem.Key.LeftShift;
 		#endif
 
 		/** インプットシステム。サブ２。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_SUB2 = UnityEngine.InputSystem.Key.LeftCtrl;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_SUB2 = UnityEngine_InputSystem.Key.LeftCtrl;
 		#endif
 
 		/** インプットシステム。左メニュー。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_LEFT_MENU = UnityEngine.InputSystem.Key.Space;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_LEFT_MENU = UnityEngine_InputSystem.Key.Space;
 		#endif
 
 		/** インプットシステム。右メニュー。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_RIGHT_MENU = UnityEngine.InputSystem.Key.Backspace;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_RIGHT_MENU = UnityEngine_InputSystem.Key.Backspace;
 		#endif
 
 
 		/** インプットシステム。左メニュー。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_LEFT_TRIGGER_BUTTON = UnityEngine.InputSystem.Key.L;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_LEFT_TRIGGER_BUTTON = UnityEngine_InputSystem.Key.L;
 		#endif
 
 		/** インプットシステム。右メニュー。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine.InputSystem.Key INPUTSYSTEM_RIGHT_TRIGGER_BUTTON = UnityEngine.InputSystem.Key.R;
+		public static UnityEngine_InputSystem.Key INPUTSYSTEM_RIGHT_TRIGGER_BUTTON = UnityEngine_InputSystem.Key.R;
 		#endif
-
-
 
 
 		/** インプットマネージャ。マウスホイール。

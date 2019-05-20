@@ -13,6 +13,14 @@
 */
 namespace Fee.Input
 {
+	/** UnityEngine_InputSystem
+	*/
+	#if(UNITY_2018_3)
+	using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
+	#else
+	using UnityEngine_InputSystem = UnityEngine.InputSystem;
+	#endif
+
 	/** Key
 	*/
 	public class Key
@@ -128,7 +136,7 @@ namespace Fee.Input
 		{	
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine.InputSystem.Keyboard t_key_current = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Keyboard>();
+				UnityEngine_InputSystem.Keyboard t_key_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Keyboard>();
 				if(t_key_current != null){
 					//デバイス。
 					bool t_l_left_on = t_key_current[Config.INPUTSYSTEM_L_LEFT].isPressed;
