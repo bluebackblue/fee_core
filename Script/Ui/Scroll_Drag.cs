@@ -97,24 +97,31 @@ namespace Fee.Ui
 
 		/** 更新。
 		*/
-		public void Main(int a_x,int a_y,bool a_onover)
+		public void Main(bool a_is_onover)
 		{
-			if((this.flag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)){
-				if((a_onover == true)&&(this.callback.IsRectIn(a_x,a_y) == true)){
+			if((this.flag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)&&(a_is_onover == true)){
+				int t_x = Fee.Input.Mouse.GetInstance().pos.x;
+				int t_y = Fee.Input.Mouse.GetInstance().pos.y;
+
+				if(this.callback.IsRectIn(t_x,t_y) == true){
 					//ドラッグ開始。
 					this.flag = true;
 					this.start_viewposition = this.callback.GetViewPosition();
-					this.start_pos = this.callback.GetScrollDirectionValue(a_x,a_y);
+					this.start_pos = this.callback.GetScrollDirectionValue(t_x,t_y);
 					this.old_pos = this.start_pos;
 
 					this.speed = 0.0f;
 				}
 			}else if((this.flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == true)){
 				//ドラッグ中。
-				this.callback.SetViewPosition(this.start_viewposition + this.start_pos - this.callback.GetScrollDirectionValue(a_x,a_y));
+
+				int t_x = Fee.Input.Mouse.GetInstance().pos.x;
+				int t_y = Fee.Input.Mouse.GetInstance().pos.y;
+
+				this.callback.SetViewPosition(this.start_viewposition + this.start_pos - this.callback.GetScrollDirectionValue(t_x,t_y));
 
 				//慣性。
-				int t_drag_new_pos =this.callback.GetScrollDirectionValue(a_x,a_y);
+				int t_drag_new_pos =this.callback.GetScrollDirectionValue(t_x,t_y);
 				this.speed = this.speed * 0.3f + (this.old_pos - t_drag_new_pos) * 0.7f;
 				this.old_pos = t_drag_new_pos;
 			}else if((this.flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){

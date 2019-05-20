@@ -326,6 +326,18 @@ namespace Fee.Ui
 			this.OnChangeRect();
 		}
 
+		/** 矩形。設定。
+		*/
+		public void SetWH(int a_w,int a_h)
+		{
+			this.rect.w = a_w;
+			this.rect.h = a_h;
+			this.eventplate.SetWH(a_w,a_h);
+
+			//コールバック。矩形変更。
+			this.OnChangeRect();
+		}
+
 		/** 矩形。取得。
 		*/
 		public int GetX()

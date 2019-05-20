@@ -610,9 +610,9 @@ namespace Fee.Ui
 
 		/** ドラッグスクロール。更新。
 		*/
-		public void DragScrollUpdate(int a_x,int a_y)
+		public void DragScrollUpdate()
 		{
-			this.scroll_drag.Main(a_x,a_y,this.is_onover);
+			this.scroll_drag.Main(this.is_onover);
 		}
 	}
 }

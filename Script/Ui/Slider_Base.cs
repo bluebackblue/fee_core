@@ -239,7 +239,10 @@ namespace Fee.Ui
 		public void SetDrawPriority(long a_drawpriority)
 		{
 			if(this.drawpriority != a_drawpriority){
+				this.drawpriority = a_drawpriority;
+
 				this.eventplate.SetPriority(a_drawpriority);
+				this.eventplate_button.SetPriority(a_drawpriority + 1);
 
 				//コールバック。描画プライオリティ変更。
 				this.OnChangeDrawPriority();
@@ -314,6 +317,21 @@ namespace Fee.Ui
 
 		/** 矩形。設定。
 		*/
+		public void SetXY(int a_x,int a_y)
+		{
+			this.rect.x = a_x;
+			this.rect.y = a_y;
+			this.eventplate.SetXY(a_x,a_y);
+
+			//ボタン矩形。更新。
+			this.UpdateButtonRect();
+
+			//コールバック。矩形変更。
+			this.OnChangeRect();
+		}
+
+		/** 矩形。設定。
+		*/
 		public void SetX(int a_x)
 		{
 			this.rect.x = a_x;
@@ -332,6 +350,21 @@ namespace Fee.Ui
 		{
 			this.rect.y = a_y;
 			this.eventplate.SetY(a_y);
+
+			//ボタン矩形。更新。
+			this.UpdateButtonRect();
+
+			//コールバック。矩形変更。
+			this.OnChangeRect();
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetWH(int a_w,int a_h)
+		{
+			this.rect.w = a_w;
+			this.rect.h = a_h;
+			this.eventplate.SetWH(a_w,a_h);
 
 			//ボタン矩形。更新。
 			this.UpdateButtonRect();
@@ -454,6 +487,11 @@ namespace Fee.Ui
 		{
 			if(this.value != a_value){
 				this.value = a_value;
+				if(this.value < 0.0f){
+					this.value = 0.0f;
+				}else if(this.value >= this.value_scale){
+					this.value = this.value_scale;
+				}
 
 				//ボタン矩形。更新。
 				this.UpdateButtonRect();
@@ -465,6 +503,16 @@ namespace Fee.Ui
 				if(this.callback_change != null){
 					this.callback_change(this.callback_id,this.value);
 				}
+			}
+		}
+
+		/** CallChangeCallBack
+		*/
+		public void CallChangeCallBack()
+		{
+			//コールバック。
+			if(this.callback_change != null){
+				this.callback_change(this.callback_id,this.value);
 			}
 		}
 

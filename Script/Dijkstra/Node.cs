@@ -13,25 +13,31 @@
 */
 namespace Fee.Dijkstra
 {
+	/** Instance_Base
+	*/
+	public class Instance_Base
+	{
+	}
+
 	/** Node_Base
 	*/
 	public interface Node_Base
 	{
 		/** [Node_Base]計算フラグ。設定。
 		*/
-		void SetCalcFlag(bool a_flag);
+		void SetCalcFlag(Instance_Base a_instance,bool a_flag);
 
 		/** [Node_Base]計算フラグ。取得。
 		*/
-		bool GetCalcFlag();
+		bool GetCalcFlag(Instance_Base a_instance);
 
 		/** [Node_Base]到達コスト。設定。
 		*/
-		void SetTotalCost(long a_totalcost);
+		void SetTotalCost(Instance_Base a_instance,long a_totalcost);
 
 		/** [Node_Base]到達コスト。取得。
 		*/
-		long GetTotalCost();
+		long GetTotalCost(Instance_Base a_instance);
 	}
 
 	/** Node
@@ -60,18 +66,6 @@ namespace Fee.Dijkstra
 		*/
 		public const long TOTALCOST_DEFAULT = -1;
 
-		/** 計算フラグ。
-		*/
-		/*
-		private bool calcflag;
-		*/
-
-		/** 到達コスト。
-		*/
-		/*
-		private long total_cost;
-		*/
-
 		/** このノードへ到達するための隣接ノード。
 		*/
 		private Node<NODEKEY,NODEDATA,LINKDATA> prev_node;
@@ -84,64 +78,52 @@ namespace Fee.Dijkstra
 			this.nodedata = a_nodedata;
 			this.link_list = new System.Collections.Generic.List<Link<NODEKEY,NODEDATA,LINKDATA>>();
 
-			//this.calcflag = false;
-			//this.total_cost = -1;
-			//this.nodedata.SetCalcFlag(false);
-			//this.nodedata.SetTotalCost(-1);
-
 			this.prev_node = null;
 		}
 
 		/** 計算フラグのリセット。
 		*/
-		public void ResetCalcFlag()
+		public void ResetCalcFlag(Instance_Base a_instance)
 		{
 			this.prev_node = null;
 
-			//this.total_cost = -1;
-			//this.calcflag = false;
-			this.nodedata.SetTotalCost(-1);
-			this.nodedata.SetCalcFlag(false);
+			this.nodedata.SetTotalCost(a_instance,-1);
+			this.nodedata.SetCalcFlag(a_instance,false);
 		}
 
 		/** 開始ノードとしてコストを設定。
 		*/
-		public void SetStartCost()
+		public void SetStartCost(Instance_Base a_instance)
 		{
-			//this.total_cost = 0;
-			this.nodedata.SetTotalCost(0);
+			this.nodedata.SetTotalCost(a_instance,0);
 		}
 
 		/** 到達コスト。取得。
 		*/
-		public long GetTotalCost()
+		public long GetTotalCost(Instance_Base a_instance)
 		{
-			//return this.total_cost;
-			return this.nodedata.GetTotalCost();
+			return this.nodedata.GetTotalCost(a_instance);
 		}
 
 		/** 到達コスト。設定。
 		*/
-		public void SetTotalCost(long a_totalcost)
+		public void SetTotalCost(Instance_Base a_instance,long a_totalcost)
 		{
-			//this.total_cost = a_totalcost;
-			this.nodedata.SetTotalCost(a_totalcost);
+			this.nodedata.SetTotalCost(a_instance,a_totalcost);
 		}
 
 		/** 計算フラグ。設定。
 		*/
-		public void SetCalcFlag(bool a_flag)
+		public void SetCalcFlag(Instance_Base a_instance,bool a_flag)
 		{
-			//this.nodedata.calcflag = a_flag;
-			this.nodedata.SetCalcFlag(a_flag);
+			this.nodedata.SetCalcFlag(a_instance,a_flag);
 		}
 
 		/** 計算フラグ。取得。
 		*/
-		public bool GetCalcFlag()
+		public bool GetCalcFlag(Instance_Base a_instance)
 		{
-			//return this.calcflag;
-			return this.nodedata.GetCalcFlag();
+			return this.nodedata.GetCalcFlag(a_instance);
 		}
 
 		/** 隣接ノードの追加。
