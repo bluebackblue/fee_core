@@ -33,7 +33,10 @@ namespace Fee.Crypt
 			*/
 			public ResultType()
 			{
+				//binary
 				this.binary = null;
+
+				//errorstring
 				this.errorstring = null;
 			}
 		}

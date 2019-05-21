@@ -76,7 +76,7 @@ namespace Fee.UniVrm
 
 		/** 更新。
 
-		戻り値 = true : 完了。
+			return == true : 完了。
 
 		*/
 		public bool Main()

@@ -69,7 +69,7 @@ namespace Fee.Directory
 
 		/** ルート。取得。
 
-		return == null : ルートではない。
+			return == null : ルートではない。
 
 		*/
 		public Root GetRoot()

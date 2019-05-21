@@ -21,6 +21,10 @@ namespace Fee.Ui
 		*/
 		public delegate void CallBack_Click(int a_id);
 
+		/** [Button_Base]コールバック。オンオーバー。
+		*/
+		public delegate void CallBack_ChangeOnOver(int a_id,bool a_is_onover);
+
 		/** s_down_instance
 		*/
 		protected static Button_Base s_down_instance = null;
@@ -44,7 +48,12 @@ namespace Fee.Ui
 		/** callback_click
 		*/
 		protected CallBack_Click callback_click;
-		protected int callback_id;
+		protected int callback_click_id;
+
+		/** callback_changeonover
+		*/
+		protected CallBack_ChangeOnOver callback_changeonover;
+		protected int callback_changeonover_id;
 
 		/** is_onover
 		*/
@@ -80,7 +89,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Button_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_id)
+		public Button_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_click_id)
 		{
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();
@@ -97,7 +106,11 @@ namespace Fee.Ui
 
 			//callback_click
 			this.callback_click = a_callback_click;
-			this.callback_id = a_callback_id;
+			this.callback_click_id = a_callback_click_id;
+
+			//callback_changeonover
+			this.callback_changeonover = null;
+			this.callback_changeonover_id = -1;
 
 			//is_onover
 			this.is_onover = false;
@@ -385,7 +398,12 @@ namespace Fee.Ui
 		{
 			Tool.Log("Button_Base","OnOverEnter : " + a_value.ToString());
 
-			this.is_onover = true;
+			if(this.is_onover == false){
+				this.is_onover = true;
+				if(this.callback_changeonover != null){
+					this.callback_changeonover(this.callback_changeonover_id,this.is_onover);
+				}
+			}
 
 			//ターゲット登録。
 			Ui.GetInstance().SetTargetRequest(this);
@@ -397,7 +415,28 @@ namespace Fee.Ui
 		{
 			Tool.Log("Button_Base","OnOverLeave : " + a_value.ToString());
 
-			this.is_onover = false;
+			if(this.is_onover == true){
+				this.is_onover = false;
+				if(this.callback_changeonover != null){
+					this.callback_changeonover(this.callback_changeonover_id,this.is_onover);
+				}
+			}
+		}
+
+		/** コールバック。設定。
+		*/
+		public void SetClickCallBack(CallBack_Click a_callback_click,int a_id)
+		{
+			this.callback_click = a_callback_click;
+			this.callback_click_id = a_id;
+		}
+
+		/** コールバック。設定。
+		*/
+		public void SetChangeOnOverCallBack(CallBack_ChangeOnOver a_callback_changeonover,int a_id)
+		{
+			this.callback_changeonover = a_callback_changeonover;
+			this.callback_changeonover_id = a_id;
 		}
 
 		/** オンオーバー。取得。
@@ -483,7 +522,7 @@ namespace Fee.Ui
 
 					//コールバック。
 					if(this.callback_click != null){
-						this.callback_click(this.callback_id);
+						this.callback_click(this.callback_click_id);
 					}
 
 					if(this.is_onover == true){
@@ -515,7 +554,7 @@ namespace Fee.Ui
 					//コールバック。
 					if(this.is_onover == true){
 						if(this.callback_click != null){
-							this.callback_click(this.callback_id);
+							this.callback_click(this.callback_click_id);
 						}
 					}
 

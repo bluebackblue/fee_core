@@ -75,6 +75,9 @@ namespace Fee.Ui
 		//ターゲット削除リスト。
 		private System.Collections.Generic.List<OnTargetCallBack_Base> target_remove_list;
 
+		//ウィンドウレジュームリスト。
+		private Ui_WindowResumeList windowresumelist;
+
 		/** [シングルトン]constructor
 		*/
 		private Ui()
@@ -90,6 +93,9 @@ namespace Fee.Ui
 
 			//target_remove_list
 			this.target_remove_list = new System.Collections.Generic.List<OnTargetCallBack_Base>();
+
+			//ウィンドウレジュームリスト。
+			this.windowresumelist = new Ui_WindowResumeList();
 		}
 
 		/** [シングルトン]削除。
@@ -183,6 +189,27 @@ namespace Fee.Ui
 		public int GetWindowCount()
 		{
 			return this.windowlist.GetWindowCount();
+		}
+
+		/** ウィンドウレジューム。登録。
+		*/
+		public bool RegisterWindowResume(string a_label)
+		{
+			return this.windowresumelist.Register(a_label);
+		}
+
+		/** ウィンドウレジューム。解除。
+		*/
+		public void UnRegisterWindowResume(string a_label)
+		{
+			this.windowresumelist.UnRegist(a_label);
+		}
+
+		/** ウィンドウレジューム。取得。
+		*/
+		public WindowResumeItem GetWindowResumeItem(string a_label)
+		{
+			return this.windowresumelist.GetItem(a_label);
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace Fee.Scene
 	{
 		/** [Scene_Base]更新。
 
-		戻り値 = true : 終了。
+			return == true : 終了。
 
 		*/
 		bool Main();
@@ -38,14 +38,14 @@ namespace Fee.Scene
 
 		/** [Scene_Base]シーン開始。
 
-		戻り値 = true : 開始処理完了。
+			return == true : 開始処理完了。
 
 		*/
 		bool SceneStart();
 
 		/** [Scene_Base]シーン終了。
 
-		戻り値 = true : 終了処理完了。
+			return == true : 終了処理完了。
 
 		*/
 		bool SceneEnd();

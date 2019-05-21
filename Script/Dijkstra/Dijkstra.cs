@@ -37,7 +37,7 @@ namespace Fee.Dijkstra
 
 		/** 到達コストが最小のノードを検索。
 		*/
-		private static Node<NODEKEY,NODEDATA,LINKDATA> FindMinCostNode(Instance_Base a_instance,System.Collections.Generic.List<Node<NODEKEY,NODEDATA,LINKDATA>> a_calc_list)
+		private static Node<NODEKEY,NODEDATA,LINKDATA> FindMinCostNode(Fee.Dijkstra.Instance_Base a_instance,System.Collections.Generic.List<Node<NODEKEY,NODEDATA,LINKDATA>> a_calc_list)
 		{
 			Node<NODEKEY,NODEDATA,LINKDATA> t_find_node = null;
 
@@ -99,7 +99,7 @@ namespace Fee.Dijkstra
 
 		/** 開始ノードに設定。
 		*/
-		public void SetStartNode(Instance_Base a_instance,Node<NODEKEY,NODEDATA,LINKDATA> a_node_start)
+		public void SetStartNode(Fee.Dijkstra.Instance_Base a_instance,Node<NODEKEY,NODEDATA,LINKDATA> a_node_start)
 		{
 			//開始ノードとしてコストを設定。
 			a_node_start.SetStartCost(a_instance);
@@ -111,10 +111,10 @@ namespace Fee.Dijkstra
 
 		/** 計算。
 
-			戻り値 == true : 継続。
+			return == true : 継続。
 
 		*/
-		public bool Calc(Instance_Base a_instance)
+		public bool Calc(Fee.Dijkstra.Instance_Base a_instance)
 		{
 			//到達コストが最小のノードを検索。
 			Node<NODEKEY,NODEDATA,LINKDATA> t_node_current = Dijkstra<NODEKEY,NODEDATA,LINKDATA>.FindMinCostNode(a_instance,this.calc_list);

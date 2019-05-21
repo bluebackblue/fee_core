@@ -126,7 +126,24 @@ namespace Fee.Ui
 		*/
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
 		{
+			//rect
 			this.rect.Set(a_x,a_y,a_w,a_h);
+
+			//[Window_Base]コールバック。矩形変更。
+			this.OnChangeRect_FromBase();
+
+			//[Fee.Ui.OnWindowCallBack_Base]矩形変更。
+			if(this.callback != null){
+				this.callback.OnChangeRect(ref this.rect);
+			}
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		{
+			//rect
+			this.rect = a_rect;
 
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeRect_FromBase();
@@ -151,6 +168,27 @@ namespace Fee.Ui
 			if(this.callback != null){
 				this.callback.OnChangeXY(this.rect.x,this.rect.y);
 			}
+		}
+
+		/** レジュームラベルの登録。
+		*/
+		public WindowResumeItem RegisterResumeLabel(string a_label,ref Render2D.Rect2D_R<int> a_rect)
+		{
+			//登録。
+			bool t_is_new = false;
+			if(Ui.GetInstance().RegisterWindowResume(a_label) == true){
+				t_is_new = true;
+			}
+
+			//取得。
+			WindowResumeItem t_item = Ui.GetInstance().GetWindowResumeItem(a_label);
+			if(t_item != null){
+				if(t_is_new == true){
+					t_item.rect = a_rect;
+				}
+			}
+
+			return t_item;
 		}
 	}
 }

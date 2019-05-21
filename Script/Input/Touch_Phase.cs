@@ -62,30 +62,6 @@ namespace Fee.Input
 		*/
 		public int raw_id;
 
-		/** pressure
-		*/
-		/*
-		public float pressure;
-		*/
-
-		/** radius
-		*/
-		/*
-		public float radius;
-		*/
-
-		/** angle_altitude
-		*/
-		/*
-		public float angle_altitude;
-		*/
-
-		/** angle_azimuth
-		*/
-		/*
-		public float angle_azimuth;
-		*/
-
 		/** リセット。
 		*/
 		public void Reset()
@@ -106,27 +82,7 @@ namespace Fee.Input
 			this.phasetype = PhaseType.None;
 
 			//raw_id
-			this.raw_id = 0;
-
-			//pressure
-			/*
-			this.pressure = 0.0f;
-			*/
-
-			//radius
-			/*
-			this.radius = 0.0f;
-			*/
-
-			//angle_altitude
-			/*
-			this.angle_altitude = 0.0f;
-			*/
-
-			//angle_azimuth
-			/*
-			this.angle_azimuth = 0.0f;
-			*/
+			this.raw_id = Touch.INVALID_TOUCH_RAW_ID;
 		}
 
 		/** 設定。
@@ -149,39 +105,6 @@ namespace Fee.Input
 		{
 			this.raw_id = a_raw_id;
 		}
-
-		/** 圧力。
-		*/
-		/*
-		public void SetPressure(float a_pressure)
-		{
-			//pressure
-			this.pressure = a_pressure;
-		}
-		*/
-
-		/** 半径。
-		*/
-		/*
-		public void SetRadius(float a_radius)
-		{
-			//radius
-			this.radius = a_radius;
-		}
-		*/
-
-		/** 角度。
-		*/
-		/*
-		public void SetAngle(float a_angle_altitude,float a_angle_azimuth)
-		{
-			//angle_altitude
-			this.angle_altitude = a_angle_altitude;
-
-			//angle_azimuth
-			this.angle_azimuth = a_angle_azimuth;
-		}
-		*/
 
 		/** 更新。
 		*/

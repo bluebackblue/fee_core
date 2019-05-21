@@ -9,7 +9,7 @@
 */
 
 
-//Async block lacks `await' operator and will run synchronously.
+//Async block lacks await operator and will run synchronously.
 #pragma warning disable 1998
 
 
@@ -25,7 +25,12 @@ namespace Fee.Crypt
 		*/
 		public struct ResultType
 		{
+			/** verify
+			*/
 			public bool verify;
+
+			/** errorstring
+			*/
 			public string errorstring;
 		}
 

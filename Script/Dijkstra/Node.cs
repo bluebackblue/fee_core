@@ -25,19 +25,19 @@ namespace Fee.Dijkstra
 	{
 		/** [Node_Base]計算フラグ。設定。
 		*/
-		void SetCalcFlag(Instance_Base a_instance,bool a_flag);
+		void SetCalcFlag(Fee.Dijkstra.Instance_Base a_instance,bool a_flag);
 
 		/** [Node_Base]計算フラグ。取得。
 		*/
-		bool GetCalcFlag(Instance_Base a_instance);
+		bool GetCalcFlag(Fee.Dijkstra.Instance_Base a_instance);
 
 		/** [Node_Base]到達コスト。設定。
 		*/
-		void SetTotalCost(Instance_Base a_instance,long a_totalcost);
+		void SetTotalCost(Fee.Dijkstra.Instance_Base a_instance,long a_totalcost);
 
 		/** [Node_Base]到達コスト。取得。
 		*/
-		long GetTotalCost(Instance_Base a_instance);
+		long GetTotalCost(Fee.Dijkstra.Instance_Base a_instance);
 	}
 
 	/** Node
@@ -83,7 +83,7 @@ namespace Fee.Dijkstra
 
 		/** 計算フラグのリセット。
 		*/
-		public void ResetCalcFlag(Instance_Base a_instance)
+		public void ResetCalcFlag(Fee.Dijkstra.Instance_Base a_instance)
 		{
 			this.prev_node = null;
 
@@ -93,35 +93,35 @@ namespace Fee.Dijkstra
 
 		/** 開始ノードとしてコストを設定。
 		*/
-		public void SetStartCost(Instance_Base a_instance)
+		public void SetStartCost(Fee.Dijkstra.Instance_Base a_instance)
 		{
 			this.nodedata.SetTotalCost(a_instance,0);
 		}
 
 		/** 到達コスト。取得。
 		*/
-		public long GetTotalCost(Instance_Base a_instance)
+		public long GetTotalCost(Fee.Dijkstra.Instance_Base a_instance)
 		{
 			return this.nodedata.GetTotalCost(a_instance);
 		}
 
 		/** 到達コスト。設定。
 		*/
-		public void SetTotalCost(Instance_Base a_instance,long a_totalcost)
+		public void SetTotalCost(Fee.Dijkstra.Instance_Base a_instance,long a_totalcost)
 		{
 			this.nodedata.SetTotalCost(a_instance,a_totalcost);
 		}
 
 		/** 計算フラグ。設定。
 		*/
-		public void SetCalcFlag(Instance_Base a_instance,bool a_flag)
+		public void SetCalcFlag(Fee.Dijkstra.Instance_Base a_instance,bool a_flag)
 		{
 			this.nodedata.SetCalcFlag(a_instance,a_flag);
 		}
 
 		/** 計算フラグ。取得。
 		*/
-		public bool GetCalcFlag(Instance_Base a_instance)
+		public bool GetCalcFlag(Fee.Dijkstra.Instance_Base a_instance)
 		{
 			return this.nodedata.GetCalcFlag(a_instance);
 		}

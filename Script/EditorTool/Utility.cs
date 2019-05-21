@@ -19,6 +19,9 @@ namespace Fee.EditorTool
 	public class Utility
 	{
 		/** ディレクトリ内のファイルを列挙。
+
+			a_dir_name == "xxx/" : "Assets/xxx/"
+
 		*/
 		public static System.Collections.Generic.List<string> GetFileNameList(string a_dir_name)
 		{
@@ -37,7 +40,7 @@ namespace Fee.EditorTool
 
 		/** ファイル検索。
 
-		return == フルパス。
+			return == フルパス。
 
 		*/
 		public static string FindFile(string a_dir_name,string a_file_name)

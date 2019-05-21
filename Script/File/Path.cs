@@ -15,13 +15,13 @@ namespace Fee.File
 {
 	/** Path
 
-	path = X:/aaaa/bbbb/ccc/dddd
-	directorypath = X:/aaaa/bbbb/ccc/
-	filename = dddd
+		path == "X:/aaaa/bbbb/ccc/dddd" : フルパス
+		directorypath == "X:/aaaa/bbbb/ccc/"
+		filename == "dddd"
 
-	path = iii/jjj
-	directorypath = iii/
-	filename = jjj
+		path == "iii/jjj" : 相対パス
+		directorypath == "iii/"
+		filename == "jjj"
 
 	*/
 	public class Path

@@ -123,7 +123,7 @@ namespace Fee.Ui
 
 		/** マテリアルを更新する。
 
-		戻り値 = true : 変更あり。直後にSetPassの呼び出しが行われます。
+			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
 		public override bool UpdateMaterial(ref UnityEngine.Material a_material)

@@ -271,7 +271,7 @@ namespace Fee.File
 
 		/** [Fee.File.OnCoroutine_CallBack]コルーチンからのコールバック。
 
-		戻り値 == false : キャンセル。
+			return == false : キャンセル。
 
 		*/
 		public bool OnCoroutine(float a_progress_up,float a_progress_down)

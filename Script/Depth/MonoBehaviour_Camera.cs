@@ -44,11 +44,11 @@ namespace Fee.Depth
 			//マテリアル読み込み。
 			this.material_depth_view = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_DEPTHVIEW);
 
-			//比率。
-			this.rate_blend = 1.0f;
-
 			//rendertexture_depth
 			this.rendertexture_depth = null;
+
+			//比率。
+			this.rate_blend = 1.0f;
 		}
 
 		/** 削除。

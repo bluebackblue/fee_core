@@ -19,7 +19,7 @@ namespace Fee.File
 	{
 		/** [Fee.File.OnCoroutine_CallBack]コルーチン実行中。
 
-		戻り値 == false : キャンセル。
+			return == false : キャンセル。
 
 		*/
 		bool OnCoroutine(float a_progress_up,float a_progress_down);

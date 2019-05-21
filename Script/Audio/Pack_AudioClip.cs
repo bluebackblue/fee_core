@@ -15,7 +15,7 @@ namespace Fee.Audio
 {
 	/** Pack_AudioClip
 
-	アセットバンドル化するためのプレハブ。
+		アセットバンドル化するためのプレハブ。
 
 	*/
 	public class Pack_AudioClip : UnityEngine.MonoBehaviour

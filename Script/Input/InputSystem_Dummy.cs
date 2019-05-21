@@ -12,7 +12,7 @@
 /** ダミー
 */
 #if(false)
-namespace UnityEngine.Experimental.Input
+namespace InputSystemDummy
 {
 	/** PointerPhase
 	*/

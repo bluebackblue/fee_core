@@ -17,7 +17,7 @@ namespace Fee.Function
 	*/
 	public class Function
 	{
-		/** monobehaviour
+		/** s_monobehaviour
 		*/
 		static UnityEngine.MonoBehaviour s_monobehaviour;
 

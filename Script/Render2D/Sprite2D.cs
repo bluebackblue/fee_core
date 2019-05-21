@@ -134,7 +134,7 @@ namespace Fee.Render2D
 
 		/** [デフォルト処理]マテリアルを更新する。
 
-		戻り値 = true : 変更あり。直後にSetPassの呼び出しが行われます。
+			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
 		public virtual bool UpdateMaterial(ref UnityEngine.Material a_material)
