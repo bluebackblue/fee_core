@@ -104,6 +104,20 @@ namespace Fee.Ui
 			this.downpos.Set(0,0);
 		}
 
+		/** 色。設定。
+		*/
+		public void SetBgColor(ref UnityEngine.Color a_color)
+		{
+			this.bg_sprite.SetColor(ref a_color);
+		}
+
+		/** マテリアルタイプ。設定。
+		*/
+		public void SetBgMaterialType(Render2D.Config.MaterialType a_material)
+		{
+			this.bg_sprite.SetMaterialType(a_material);
+		}
+
 		/** GetTitleBarDrawPriorityOffset
 		*/
 		public long GetTitleBarDrawPriorityOffset()

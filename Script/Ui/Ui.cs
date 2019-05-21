@@ -192,10 +192,27 @@ namespace Fee.Ui
 		}
 
 		/** ウィンドウレジューム。登録。
+
+			a_new_rect : 新規作成の場合に設定する矩形。
+
 		*/
-		public bool RegisterWindowResume(string a_label)
+		public WindowResumeItem RegisterWindowResume(string a_label,ref Render2D.Rect2D_R<int> a_new_rect)
 		{
-			return this.windowresumelist.Register(a_label);
+			//登録。
+			bool t_is_new = false;
+			if(this.windowresumelist.Register(a_label) == true){
+				t_is_new = true;
+			}
+
+			//取得。
+			WindowResumeItem t_item = this.windowresumelist.GetItem(a_label);
+			if(t_item != null){
+				if(t_is_new == true){
+					t_item.rect = a_new_rect;
+				}
+			}
+
+			return t_item;
 		}
 
 		/** ウィンドウレジューム。解除。

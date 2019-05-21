@@ -33,6 +33,10 @@ namespace Fee.Ui
 		*/
 		private OnWindowCallBack_Base callback;
 
+		/** windowresumeitem
+		*/
+		private WindowResumeItem windowresumeitem;
+
 		/** [Window_Base]コールバック。削除。
 		*/
 		protected abstract void OnDelete_FromBase();
@@ -65,6 +69,9 @@ namespace Fee.Ui
 			//callback
 			this.callback = a_callback;
 
+			//windowresumeitem
+			this.windowresumeitem = null;
+
 			//削除管理。
 			if(a_deleter != null){
 				a_deleter.Register(this);
@@ -87,6 +94,7 @@ namespace Fee.Ui
 			//[Window_Base]コールバック。削除。
 			this.OnDelete_FromBase();
 
+			//削除。
 			this.deleter.DeleteAll();
 		}
 
@@ -122,12 +130,60 @@ namespace Fee.Ui
 			return this.rect.y;
 		}
 
+		/** ウィンドウレジューム。登録。
+		*/
+		public void RegisterWindowResume(string a_label,ref Fee.Render2D.Rect2D_R<int> t_new_rect)
+		{
+			this.windowresumeitem = Fee.Ui.Ui.GetInstance().RegisterWindowResume(a_label,ref t_new_rect);
+		}
+
+		/** ウィンドウレジューム。解除。
+		*/
+		public void UnRegisterWindowResume(string a_label)
+		{
+			Fee.Ui.Ui.GetInstance().UnRegisterWindowResume(a_label);
+			this.windowresumeitem = null;
+		}
+
+		/** ウィンドウレジューム。アンセット。
+		*/
+		public void UnSetWindowResume()
+		{
+			this.windowresumeitem = null;
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetRectFromWindowResumeItem()
+		{
+			//rect
+			this.rect = this.windowresumeitem.rect;
+
+			//rect
+			if(this.windowresumeitem != null){
+				this.windowresumeitem.rect = this.rect;
+			}
+
+			//[Window_Base]コールバック。矩形変更。
+			this.OnChangeRect_FromBase();
+
+			//[Fee.Ui.OnWindowCallBack_Base]矩形変更。
+			if(this.callback != null){
+				this.callback.OnChangeRect(ref this.rect);
+			}
+		}
+
 		/** 矩形。設定。
 		*/
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
 		{
 			//rect
 			this.rect.Set(a_x,a_y,a_w,a_h);
+
+			//rect
+			if(this.windowresumeitem != null){
+				this.windowresumeitem.rect = this.rect;
+			}
 
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeRect_FromBase();
@@ -145,6 +201,11 @@ namespace Fee.Ui
 			//rect
 			this.rect = a_rect;
 
+			//rect
+			if(this.windowresumeitem != null){
+				this.windowresumeitem.rect = this.rect;
+			}
+
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeRect_FromBase();
 
@@ -161,6 +222,11 @@ namespace Fee.Ui
 			this.rect.x = a_x;
 			this.rect.y = a_y;
 
+			//rect
+			if(this.windowresumeitem != null){
+				this.windowresumeitem.rect = this.rect;
+			}
+
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeXY_FromBase();
 
@@ -168,27 +234,6 @@ namespace Fee.Ui
 			if(this.callback != null){
 				this.callback.OnChangeXY(this.rect.x,this.rect.y);
 			}
-		}
-
-		/** レジュームラベルの登録。
-		*/
-		public WindowResumeItem RegisterResumeLabel(string a_label,ref Render2D.Rect2D_R<int> a_rect)
-		{
-			//登録。
-			bool t_is_new = false;
-			if(Ui.GetInstance().RegisterWindowResume(a_label) == true){
-				t_is_new = true;
-			}
-
-			//取得。
-			WindowResumeItem t_item = Ui.GetInstance().GetWindowResumeItem(a_label);
-			if(t_item != null){
-				if(t_is_new == true){
-					t_item.rect = a_rect;
-				}
-			}
-
-			return t_item;
 		}
 	}
 }
