@@ -37,6 +37,10 @@ namespace Fee.UniVrm
 		/** raw_animator
 		*/
 		private UnityEngine.Animator raw_animator;
+
+		/** raw_meta
+		*/
+		private VRM.VRMMeta raw_meta;
  
 		/** root_gameobject
 		*/
@@ -62,6 +66,9 @@ namespace Fee.UniVrm
 			//raw_animator
 			this.raw_animator = this.raw_context.Root.GetComponent<UnityEngine.Animator>();
 
+			//raw_meta
+			this.raw_meta = this.raw_context.Root.GetComponent<VRM.VRMMeta>();
+
 			//root_gameobject
 			this.root_gameobject = this.raw_context.Root;
 
@@ -83,6 +90,13 @@ namespace Fee.UniVrm
 			if(this.raw_context != null){
 				this.raw_context.Dispose();
 			}
+		}
+
+		/** メタ情報。取得。
+		*/
+		public VRM.VRMMeta GetMeta()
+		{
+			return this.raw_meta;
 		}
 
 		/** ボーン位置。取得。
