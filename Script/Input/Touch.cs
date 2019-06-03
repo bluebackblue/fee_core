@@ -15,10 +15,12 @@ namespace Fee.Input
 {
 	/** UnityEngine_InputSystem
 	*/
-	#if(UNITY_2018_3)
-	using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
-	#else
-	using UnityEngine_InputSystem = UnityEngine.InputSystem;
+	#if(USE_DEF_FEE_INPUTSYSTEM)
+		#if((UNITY_2018_3)||(UNITY_2018_4))
+			using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
+		#else
+			using UnityEngine_InputSystem = UnityEngine.InputSystem;
+		#endif
 	#endif
 
 	/** Touch

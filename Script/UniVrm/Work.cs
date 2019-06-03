@@ -34,17 +34,34 @@ namespace Fee.UniVrm
 			End
 		};
 
+		/** RequestType
+		*/
+		private enum RequestType
+		{
+			/** None
+			*/
+			None,
+
+			/** ロードＶＲＭ。
+			*/
+			LoadVrm,
+		}
+
 		/** mode
 		*/
 		private Mode mode;
+
+		/** request_type
+		*/
+		private RequestType request_type;
 
 		/** item
 		*/
 		private Item item;
 
-		/** binary
+		/** request_binary
 		*/
-		private byte[] binary;
+		private byte[] request_binary;
 
 		/** constructor
 		*/
@@ -53,18 +70,22 @@ namespace Fee.UniVrm
 			//mode
 			this.mode = Mode.Start;
 
+			//request_type
+			this.request_type = RequestType.None;
+
 			//item
 			this.item = new Item();
 
-			//binary
-			this.binary = null;
+			//request_binary
+			this.request_binary = null;
 		}
 
-		/** リクエスト。
+		/** リクエスト。ロードＶＲＭ
 		*/
-		public void Request(byte[] a_binary)
+		public void RequestLoadVrm(byte[] a_binary)
 		{
-			this.binary = a_binary;
+			this.request_type = RequestType.LoadVrm;
+			this.request_binary = a_binary;
 		}
 
 		/** アイテム。
@@ -84,10 +105,13 @@ namespace Fee.UniVrm
 			switch(this.mode){
 			case Mode.Start:
 				{
-					MonoBehaviour_Vrm t_vrm = Fee.UniVrm.UniVrm.GetInstance().GetMonoVrm();
-
-					if(t_vrm.RequestLoad(this.binary) == true){
-						this.mode = Mode.Do;
+					switch(this.request_type){
+					case RequestType.LoadVrm:
+						{
+							if(Fee.UniVrm.UniVrm.GetInstance().GetMainVrm().RequestLoadVrm(this.request_binary) == true){
+								this.mode = Mode.Do;
+							}
+						}break;
 					}
 				}break;
 			case Mode.End:
@@ -95,26 +119,34 @@ namespace Fee.UniVrm
 				}return true;
 			case Mode.Do:
 				{
-					MonoBehaviour_Vrm t_vrm = Fee.UniVrm.UniVrm.GetInstance().GetMonoVrm();
+					Main_Vrm t_main = Fee.UniVrm.UniVrm.GetInstance().GetMainVrm();
 
-					this.item.SetResultProgress(t_vrm.GetResultProgress());
+					this.item.SetResultProgress(t_main.GetResultProgress());
 
-					if(t_vrm.IsFix() == true){
+					if(t_main.GetResultType() != Main_Vrm.ResultType.None){
 						//結果。
-
-						if(t_vrm.GetResultType() == MonoBehaviour_Base.ResultType.Context){
-							this.item.SetResultContext(t_vrm.GetResultContext());
-						}else{
-							this.item.SetResultErrorString(t_vrm.GetResultErrorString());
+						bool t_success = false;
+						switch(t_main.GetResultType()){
+						case Main_Vrm.ResultType.Context:
+							{
+								if(t_main.GetResultContext() != null){
+									this.item.SetResultContext(t_main.GetResultContext());
+									t_success = true;
+								}
+							}break;
 						}
 
-						//リクエスト待ち開始。
-						t_vrm.WaitRequest();
+						if(t_success == false){
+							this.item.SetResultErrorString(t_main.GetResultErrorString());
+						}
+
+						//完了。
+						t_main.Fix();
 
 						this.mode = Mode.End;
 					}else if(this.item.IsCancel() == true){
 						//キャンセル。
-						t_vrm.Cancel();
+						t_main.Cancel();
 					}
 				}break;
 			}

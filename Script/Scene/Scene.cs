@@ -154,10 +154,10 @@ namespace Fee.Scene
 
 		/** 更新。
 		*/
-		public void Unity_LastUpdate()
+		public void Unity_LateUpdate(float a_delta)
 		{
 			if(this.is_scene == true){
-				this.current.Unity_LastUpdate();
+				this.current.Unity_LateUpdate(a_delta);
 			}
 		}
 

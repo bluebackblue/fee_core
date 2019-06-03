@@ -63,15 +63,9 @@ namespace Fee.UniVrm
 			}
 		}
 
-		/** ルート。
+		/** main_vrm
 		*/
-		private UnityEngine.GameObject root_gameobject;
-		private UnityEngine.Transform root_transform;
-
-		/** load
-		*/
-		private UnityEngine.GameObject vrm_gameobject;
-		private MonoBehaviour_Vrm vrm_script;
+		private Main_Vrm main_vrm;
 
 		/** work_list
 		*/
@@ -85,19 +79,8 @@ namespace Fee.UniVrm
 		*/
 		private UniVrm()
 		{
-			//ルート。
-			this.root_gameobject = new UnityEngine.GameObject();
-			this.root_gameobject.name = "UniVrm";
-			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
-			this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
-
-			//vrm
-			{
-				this.vrm_gameobject = new UnityEngine.GameObject();
-				this.vrm_gameobject.name = "UniVrm_Vrm";
-				this.vrm_script = this.vrm_gameobject.AddComponent<MonoBehaviour_Vrm>();
-				this.vrm_gameobject.GetComponent<UnityEngine.Transform>().SetParent(this.root_transform);
-			}
+			//main_vrm
+			this.main_vrm = new Main_Vrm();
 
 			//work_list
 			this.work_list = new System.Collections.Generic.List<Work>();
@@ -110,31 +93,21 @@ namespace Fee.UniVrm
 		*/
 		private void Delete()
 		{
-			//削除リクエスト。
-			if(this.vrm_gameobject != null){
-				this.vrm_gameobject.GetComponent<UnityEngine.Transform>().SetParent(null);
-				UnityEngine.GameObject.DontDestroyOnLoad(this.vrm_gameobject);
-			}
-			this.vrm_script.DeleteRequest();
-
-			//ルート削除。
-			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
-		/** MonoVrm。取得。
+		/** main_vrm。取得。
 		*/
-		public MonoBehaviour_Vrm GetMonoVrm()
+		public Main_Vrm GetMainVrm()
 		{
-			return this.vrm_script;
+			return this.main_vrm;
 		}
 
-		/** リクエスト。ロード。
+		/** リクエスト。ロードＶＲＭ。
 		*/
-		public Item Request(byte[] a_binary)
+		public Item RequestLoadVrm(byte[] a_binary)
 		{
 			Work t_work = new Work();
-			t_work.Request(a_binary);
-
+			t_work.RequestLoadVrm(a_binary);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}

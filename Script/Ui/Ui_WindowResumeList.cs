@@ -30,7 +30,7 @@ namespace Fee.Ui
 
 		/** 登録。
 
-		戻り値 == true : 新規。
+			return == true : 新規。
 
 		*/
 		public bool Register(string a_label)

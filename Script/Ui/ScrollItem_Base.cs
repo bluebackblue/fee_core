@@ -68,6 +68,10 @@ namespace Fee.Ui
 		*/
 		public abstract void SetX(int a_x);
 
+		/** [Fee.Ui.ScrollItem_Base]矩形。設定。
+		*/
+		public abstract void SetWH(int a_w,int a_h);
+
 		/** [Fee.Ui.ScrollItem_Base]クリップ矩形。設定。
 		*/
 		public abstract void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect);

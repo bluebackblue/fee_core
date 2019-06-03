@@ -19,10 +19,12 @@ namespace Fee.Input
 {
 	/** UnityEngine_InputSystem
 	*/
-	#if(UNITY_2018_3)
-	using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
-	#else
-	using UnityEngine_InputSystem = UnityEngine.InputSystem;
+	#if(USE_DEF_FEE_INPUTSYSTEM)
+		#if((UNITY_2018_3)||(UNITY_2018_4))
+			using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
+		#else
+			using UnityEngine_InputSystem = UnityEngine.InputSystem;
+		#endif
 	#endif
 
 	/** Pad
@@ -112,10 +114,10 @@ namespace Fee.Input
 
 		/** トリガーボタン。
 		*/
-		public Digital_Button left_trigger1_button;
-		public Digital_Button right_trigger1_button;
-		public Analog_Button left_trigger2_button;
-		public Analog_Button right_trigger2_button;
+		public Digital_Button l_trigger_1;
+		public Digital_Button r_trigger_1;
+		public Analog_Button l_trigger_2;
+		public Analog_Button r_trigger_2;
 
 		/** モーター。
 		*/
@@ -155,10 +157,10 @@ namespace Fee.Input
 			this.right_stick_button.Reset();
 
 			//トリガーボタン。
-			this.left_trigger1_button.Reset();
-			this.right_trigger1_button.Reset();
-			this.left_trigger2_button.Reset();
-			this.right_trigger2_button.Reset();
+			this.l_trigger_1.Reset();
+			this.r_trigger_1.Reset();
+			this.l_trigger_2.Reset();
+			this.r_trigger_2.Reset();
 
 			//モーター。
 			this.moter_low.Reset();
@@ -340,14 +342,14 @@ namespace Fee.Input
 					float t_r_2 = t_gamepad_current.rightTrigger.ReadValue();
 
 					//設定。
-					this.left_trigger1_button.Set(t_l_1 & this.is_focus);
-					this.right_trigger1_button.Set(t_r_1 & this.is_focus);
+					this.l_trigger_1.Set(t_l_1 & this.is_focus);
+					this.r_trigger_1.Set(t_r_1 & this.is_focus);
 					if(this.is_focus == true){
-						this.left_trigger2_button.Set(t_l_2);
-						this.right_trigger2_button.Set(t_r_2);
+						this.l_trigger_2.Set(t_l_2);
+						this.r_trigger_2.Set(t_r_2);
 					}else{
-						this.left_trigger2_button.Set(0.0f);
-						this.right_trigger2_button.Set(0.0f);
+						this.l_trigger_2.Set(0.0f);
+						this.r_trigger_2.Set(0.0f);
 					}
 
 					return true;
@@ -377,14 +379,14 @@ namespace Fee.Input
 			}
 
 			//設定。
-			this.left_trigger1_button.Set(t_l_1 & this.is_focus);
-			this.right_trigger1_button.Set(t_r_1 & this.is_focus);
+			this.l_trigger_1.Set(t_l_1 & this.is_focus);
+			this.r_trigger_1.Set(t_r_1 & this.is_focus);
 			if(this.is_focus == true){
-				this.left_trigger2_button.Set(t_l_2);
-				this.right_trigger2_button.Set(t_r_2);
+				this.l_trigger_2.Set(t_l_2);
+				this.r_trigger_2.Set(t_r_2);
 			}else{
-				this.left_trigger2_button.Set(0.0f);
-				this.right_trigger2_button.Set(0.0f);
+				this.l_trigger_2.Set(0.0f);
+				this.r_trigger_2.Set(0.0f);
 			}
 
 			return true;
@@ -524,10 +526,10 @@ namespace Fee.Input
 					this.right_stick_button.Main();
 
 					//トリガーボタン。
-					this.left_trigger1_button.Main();
-					this.right_trigger1_button.Main();
-					this.left_trigger2_button.Main();
-					this.right_trigger2_button.Main();
+					this.l_trigger_1.Main();
+					this.r_trigger_1.Main();
+					this.l_trigger_2.Main();
+					this.r_trigger_2.Main();
 
 					//モータ。
 					this.moter_low.Main(1);

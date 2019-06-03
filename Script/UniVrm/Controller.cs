@@ -21,7 +21,12 @@ namespace Fee.UniVrm
 		*/
 		public enum ControllerType
 		{
+			/** SimpleAnimation
+			*/
 			SimpleAnimation,
+
+			/** RuntimeAnimatorController
+			*/
 			RuntimeAnimatorController
 		}
 
@@ -51,11 +56,19 @@ namespace Fee.UniVrm
 		*/
 		public Controller(Item a_item,ControllerType a_controllertype)
 		{
+			//raw_context
 			this.raw_context = a_item.GetResultContext();
+
+			//raw_animator
 			this.raw_animator = this.raw_context.Root.GetComponent<UnityEngine.Animator>();
+
+			//root_gameobject
 			this.root_gameobject = this.raw_context.Root;
+
+			//root_transform
 			this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
 
+			//simpleanimationtion
 			if(a_controllertype == ControllerType.SimpleAnimation){
 				#if(USE_DEF_FEE_SIMPLEANIMATION)
 				this.simpleanimationtion = this.root_gameobject.AddComponent<SimpleAnimation>();

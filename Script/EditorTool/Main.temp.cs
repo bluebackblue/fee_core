@@ -585,17 +585,17 @@ namespace Fee.EditorTool
 			Fee.Scene.Scene.GetInstance().Unity_Update(UnityEngine.Time.deltaTime);
 		}
 
-		/** LastUpdate
+		/** LateUpdate
 
 		https://docs.unity3d.com/ja/current/Manual/ExecutionOrder.html
 		
 		シーンレンダリング前。Update呼び出し後。
 
 		*/
-		private void LastUpdate()
+		private void LateUpdate()
 		{
 			//シーン。
-			Fee.Scene.Scene.GetInstance().Unity_Update(UnityEngine.Time.deltaTime);
+			Fee.Scene.Scene.GetInstance().Unity_LateUpdate(UnityEngine.Time.deltaTime);
 		}
 
 		/** シーン遷移。

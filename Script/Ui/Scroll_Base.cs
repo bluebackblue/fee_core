@@ -242,6 +242,8 @@ namespace Fee.Ui
 					this.list[ii].SetClipRect(ref this.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
+
+					this.OnItemWHChange(ii);
 				}
 			}
 
@@ -272,6 +274,8 @@ namespace Fee.Ui
 					this.list[ii].SetClipRect(ref this.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
+
+					this.OnItemWHChange(ii);
 				}
 			}
 
@@ -394,21 +398,33 @@ namespace Fee.Ui
 			}
 		}
 
+		/** スクロールのWH変更。
+		*/
+		public void OnItemWHChange(int a_index)
+		{
+			this.list[a_index].SetWH(this.rect.w,this.rect.h);
+		}
+		
 		/** [Scroll_Value_CallBack]コールバック。表示変更。
 		*/
 		public void OnItemVisibleChange(int a_index,bool a_flag)
 		{
 			if(a_flag == true){
 
-				//スクロール方向とは違う方向の位置変更。
-				if(this.scroll_type == ScrollType.Vertical){
-					this.list[a_index].SetX(this.rect.x);
-				}else{
-					this.list[a_index].SetY(this.rect.y);
-				}
+				//スクロール処理は表示中のみなので表示開始時に復元。
+				{
+					//スクロール方向とは違う方向の位置変更。
+					if(this.scroll_type == ScrollType.Vertical){
+						this.list[a_index].SetX(this.rect.x);
+					}else{
+						this.list[a_index].SetY(this.rect.y);
+					}
 
-				//クリップ矩形。設定。
-				this.list[a_index].SetClipRect(ref this.rect);
+					this.list[a_index].SetWH(this.rect.w,this.rect.h);
+
+					//クリップ矩形。設定。
+					this.list[a_index].SetClipRect(ref this.rect);
+				}
 
 				this.list[a_index].OnViewIn();
 			}else{
@@ -430,6 +446,8 @@ namespace Fee.Ui
 			}else{
 				a_new_item.SetY(this.rect.y);
 			}
+
+			a_new_item.SetWH(this.rect.w,this.rect.h);
 
 			this.list.Add(a_new_item);
 			this.scroll_value.InsertItem(t_index);
@@ -459,6 +477,9 @@ namespace Fee.Ui
 		}
 
 		/** アイテム追加。インデックス指定。
+
+			a_index : リスト追加位置。
+
 		*/
 		public bool AddItem(ITEM a_new_item,int a_index)
 		{
@@ -473,6 +494,8 @@ namespace Fee.Ui
 				}else{
 					a_new_item.SetY(this.rect.y);
 				}
+
+				a_new_item.SetWH(this.rect.w,this.rect.h);
 
 				this.list.Insert(a_index,a_new_item);
 				this.scroll_value.InsertItem(a_index);

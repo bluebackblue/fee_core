@@ -15,10 +15,12 @@ namespace Fee.Input
 {
 	/** UnityEngine_InputSystem
 	*/
-	#if(UNITY_2018_3)
-	using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
-	#else
-	using UnityEngine_InputSystem = UnityEngine.InputSystem;
+	#if(USE_DEF_FEE_INPUTSYSTEM)
+		#if((UNITY_2018_3)||(UNITY_2018_4))
+			using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
+		#else
+			using UnityEngine_InputSystem = UnityEngine.InputSystem;
+		#endif
 	#endif
 
 	/** Mouse
@@ -297,7 +299,7 @@ namespace Fee.Input
 							t_l_on = true;
 						}break;
 					case UnityEngine_InputSystem.PointerPhase.Ended:
-					#if(UNITY_2018_3)
+					#if((UNITY_2018_3)||(UNITY_2018_4))
 					case UnityEngine_InputSystem.PointerPhase.Cancelled:
 					#else
 					case UnityEngine_InputSystem.PointerPhase.Canceled:

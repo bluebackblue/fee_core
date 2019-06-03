@@ -25,53 +25,22 @@ namespace Fee.Model
 
 		/** CreateCubeUvPattern
 
-		６面。２４頂点。
+			１面。４頂点。
 
 		*/
-		public static UnityEngine.Vector2[] CreateCubeUvPattern()
+		public static UnityEngine.Vector2[] CreateCubeUvPattern(float a_zero,float a_one)
 		{
 			return new UnityEngine.Vector2[]{
-				//X_0
-				new UnityEngine.Vector2(0,0),
-				new UnityEngine.Vector2(1,0),
-				new UnityEngine.Vector2(1,1),
-				new UnityEngine.Vector2(0,1),
-
-				//X_1
-				new UnityEngine.Vector2(0,0),
-				new UnityEngine.Vector2(1,0),
-				new UnityEngine.Vector2(1,1),
-				new UnityEngine.Vector2(0,1),
-
-				//Y_0
-				new UnityEngine.Vector2(0,0),
-				new UnityEngine.Vector2(1,0),
-				new UnityEngine.Vector2(1,1),
-				new UnityEngine.Vector2(0,1),
-
-				//Y_1
-				new UnityEngine.Vector2(0,0),
-				new UnityEngine.Vector2(1,0),
-				new UnityEngine.Vector2(1,1),
-				new UnityEngine.Vector2(0,1),
-
-				//Z_0
-				new UnityEngine.Vector2(0,0),
-				new UnityEngine.Vector2(1,0),
-				new UnityEngine.Vector2(1,1),
-				new UnityEngine.Vector2(0,1),
-
-				//Z_1
-				new UnityEngine.Vector2(0,0),
-				new UnityEngine.Vector2(1,0),
-				new UnityEngine.Vector2(1,1),
-				new UnityEngine.Vector2(0,1),
+				new UnityEngine.Vector2(a_zero,a_zero),
+				new UnityEngine.Vector2(a_one,a_zero),
+				new UnityEngine.Vector2(a_one,a_one),
+				new UnityEngine.Vector2(a_zero,a_one),
 			};
 		}
 
 		/** CreateCubeVertex
 
-		６面。２４頂点。
+			６面。２４頂点。
 
 		*/
 		public static UnityEngine.Vector3[] CreateCubeVertexPattern(float a_zero,float a_one)
@@ -117,7 +86,7 @@ namespace Fee.Model
 
 		/** CreateCubeIndex
 
-		１面。２トライアングル。６頂点。
+			１面。２トライアングル。６頂点。
 
 		*/
 		public static int[] CreateCubeIndexPattern()

@@ -15,10 +15,12 @@ namespace Fee.Input
 {
 	/** UnityEngine_InputSystem
 	*/
-	#if(UNITY_2018_3)
-	using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
-	#else
-	using UnityEngine_InputSystem = UnityEngine.InputSystem;
+	#if(USE_DEF_FEE_INPUTSYSTEM)
+		#if((UNITY_2018_3)||(UNITY_2018_4))
+			using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
+		#else
+			using UnityEngine_InputSystem = UnityEngine.InputSystem;
+		#endif
 	#endif
 
 	/** Key
@@ -75,28 +77,39 @@ namespace Fee.Input
 		*/
 		public bool is_focus;
 
-		/** ボタン。
-		*/
+		//デジタル。
+		public Digital_Button left;
+		public Digital_Button right;
+		public Digital_Button up;
+		public Digital_Button down;
+
+		//左アナログ。
 		public Digital_Button l_left;
 		public Digital_Button l_right;
 		public Digital_Button l_up;
 		public Digital_Button l_down;
 
+		//右アナログ。
 		public Digital_Button r_left;
 		public Digital_Button r_right;
 		public Digital_Button r_up;
 		public Digital_Button r_down;
 
+		//エンター。エスケープ。サブ１。サブ２。
 		public Digital_Button enter;
 		public Digital_Button escape;
 		public Digital_Button sub1;
 		public Digital_Button sub2;
+
+		//左メニュー。右メニュー。
 		public Digital_Button left_menu;
 		public Digital_Button right_menu;
 
-		public Digital_Button left_trigger_button;
-		public Digital_Button right_trigger_button;
-
+		//左トリガー１。右トリガー１。左トリガー２。右トリガー２。
+		public Digital_Button l_trigger_1;
+		public Digital_Button r_trigger_1;
+		public Digital_Button l_trigger_2;
+		public Digital_Button r_trigger_2;
 
 		/** [シングルトン]constructor
 		*/
@@ -105,23 +118,39 @@ namespace Fee.Input
 			//is_focus
 			this.is_focus = false;
 
-			//ボタン。
+			//デジタル。
+			this.left.Reset();
+			this.right.Reset();
+			this.up.Reset();
+			this.down.Reset();
+
+			//左アナログ。
 			this.l_left.Reset();
 			this.l_right.Reset();
 			this.l_up.Reset();
 			this.l_down.Reset();
+
+			//右アナログ。
 			this.r_left.Reset();
 			this.r_right.Reset();
 			this.r_up.Reset();
 			this.r_down.Reset();
+
+			//エンター。エスケープ。サブ１。サブ２。
 			this.enter.Reset();
 			this.escape.Reset();
 			this.sub1.Reset();
 			this.sub2.Reset();
+
+			//メニュー。
 			this.left_menu.Reset();
 			this.right_menu.Reset();
-			this.left_trigger_button.Reset();
-			this.right_trigger_button.Reset();
+
+			//トリガー。
+			this.l_trigger_1.Reset();
+			this.r_trigger_1.Reset();
+			this.l_trigger_2.Reset();
+			this.r_trigger_2.Reset();
 		}
 
 		/** [シングルトン]削除。
@@ -138,41 +167,76 @@ namespace Fee.Input
 			{
 				UnityEngine_InputSystem.Keyboard t_key_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Keyboard>();
 				if(t_key_current != null){
-					//デバイス。
-					bool t_l_left_on = t_key_current[Config.INPUTSYSTEM_L_LEFT].isPressed;
-					bool t_l_right_on = t_key_current[Config.INPUTSYSTEM_L_RIGHT].isPressed;
-					bool t_l_up_on = t_key_current[Config.INPUTSYSTEM_L_UP].isPressed;
-					bool t_l_down_on = t_key_current[Config.INPUTSYSTEM_L_DOWN].isPressed;
-					bool t_r_left_on = t_key_current[Config.INPUTSYSTEM_R_LEFT].isPressed;
-					bool t_r_right_on = t_key_current[Config.INPUTSYSTEM_R_RIGHT].isPressed;
-					bool t_r_up_on = t_key_current[Config.INPUTSYSTEM_R_UP].isPressed;
-					bool t_r_down_on = t_key_current[Config.INPUTSYSTEM_R_DOWN].isPressed;
-					bool t_enter_on = t_key_current[Config.INPUTSYSTEM_ENTER].isPressed;
-					bool t_escape_on = t_key_current[Config.INPUTSYSTEM_ESCAPE].isPressed;
-					bool t_sub1_on = t_key_current[Config.INPUTSYSTEM_SUB1].isPressed;
-					bool t_sub2_on = t_key_current[Config.INPUTSYSTEM_SUB2].isPressed;
-					bool t_left_menu_on = t_key_current[Config.INPUTSYSTEM_LEFT_MENU].isPressed;
-					bool t_right_menu_on = t_key_current[Config.INPUTSYSTEM_RIGHT_MENU].isPressed;
-					bool t_left_trigger_button_on = t_key_current[Config.INPUTSYSTEM_LEFT_TRIGGER_BUTTON].isPressed;
-					bool t_right_trigger_button_on = t_key_current[Config.INPUTSYSTEM_RIGHT_TRIGGER_BUTTON].isPressed;
 
-					//設定。
-					this.l_left.Set(t_l_left_on & this.is_focus);
-					this.l_right.Set(t_l_right_on & this.is_focus);
-					this.l_up.Set(t_l_up_on & this.is_focus);
-					this.l_down.Set(t_l_down_on & this.is_focus);
-					this.r_left.Set(t_r_left_on & this.is_focus);
-					this.r_right.Set(t_r_right_on & this.is_focus);
-					this.r_up.Set(t_r_up_on & this.is_focus);
-					this.r_down.Set(t_r_down_on & this.is_focus);
-					this.enter.Set(t_enter_on & this.is_focus);
-					this.escape.Set(t_escape_on & this.is_focus);
-					this.sub1.Set(t_sub1_on & this.is_focus);
-					this.sub2.Set(t_sub2_on & this.is_focus);
-					this.left_menu.Set(t_left_menu_on & this.is_focus);
-					this.right_menu.Set(t_right_menu_on & this.is_focus);
-					this.left_trigger_button.Set(t_left_trigger_button_on & this.is_focus);
-					this.right_trigger_button.Set(t_right_trigger_button_on & this.is_focus);
+					//デジタル。
+					bool t_left_on = t_key_current[Config.INPUTSYSTEM_B_LEFT].isPressed;
+					bool t_right_on = t_key_current[Config.INPUTSYSTEM_B_RIGHT].isPressed;
+					bool t_up_on = t_key_current[Config.INPUTSYSTEM_B_UP].isPressed;
+					bool t_down_on = t_key_current[Config.INPUTSYSTEM_B_DOWN].isPressed;
+
+					//左アナログ。
+					bool t_l_left_on = t_key_current[Config.INPUTSYSTEM_B_L_LEFT].isPressed;
+					bool t_l_right_on = t_key_current[Config.INPUTSYSTEM_B_L_RIGHT].isPressed;
+					bool t_l_up_on = t_key_current[Config.INPUTSYSTEM_B_L_UP].isPressed;
+					bool t_l_down_on = t_key_current[Config.INPUTSYSTEM_B_L_DOWN].isPressed;
+
+					//右アナログ。
+					bool t_r_left_on = t_key_current[Config.INPUTSYSTEM_B_R_LEFT].isPressed;
+					bool t_r_right_on = t_key_current[Config.INPUTSYSTEM_B_R_RIGHT].isPressed;
+					bool t_r_up_on = t_key_current[Config.INPUTSYSTEM_B_R_UP].isPressed;
+					bool t_r_down_on = t_key_current[Config.INPUTSYSTEM_B_R_DOWN].isPressed;
+
+					//エンター。エスケープ。サブ１。サブ２。
+					bool t_enter_on = t_key_current[Config.INPUTSYSTEM_B_ENTER].isPressed;
+					bool t_escape_on = t_key_current[Config.INPUTSYSTEM_B_ESCAPE].isPressed;
+					bool t_sub1_on = t_key_current[Config.INPUTSYSTEM_B_SUB1].isPressed;
+					bool t_sub2_on = t_key_current[Config.INPUTSYSTEM_B_SUB2].isPressed;
+
+					//メニュー。
+					bool t_left_menu_on = t_key_current[Config.INPUTSYSTEM_B_LEFT_MENU].isPressed;
+					bool t_right_menu_on = t_key_current[Config.INPUTSYSTEM_B_RIGHT_MENU].isPressed;
+
+					//トリガー。
+					bool t_l_trigger_1_on = t_key_current[Config.INPUTSYSTEM_B_L_TRIGGER_1].isPressed;
+					bool t_r_trigger_1_on = t_key_current[Config.INPUTSYSTEM_B_R_TRIGGER_1].isPressed;
+					bool t_l_trigger_2_on = t_key_current[Config.INPUTSYSTEM_B_L_TRIGGER_2].isPressed;
+					bool t_r_trigger_2_on = t_key_current[Config.INPUTSYSTEM_B_R_TRIGGER_2].isPressed;
+
+					{
+						//デジタル。
+						this.left.Set(this.is_focus & t_left_on);
+						this.right.Set(this.is_focus & t_right_on);
+						this.up.Set(this.is_focus & t_up_on);
+						this.down.Set(this.is_focus & t_down_on);
+
+						//左アナログ。
+						this.l_left.Set(this.is_focus & t_l_left_on);
+						this.l_right.Set(this.is_focus & t_l_right_on);
+						this.l_up.Set(this.is_focus & t_l_up_on);
+						this.l_down.Set(this.is_focus & t_l_down_on);
+
+						//右アナログ。
+						this.r_left.Set(this.is_focus & t_r_left_on);
+						this.r_right.Set(this.is_focus & t_r_right_on);
+						this.r_up.Set(this.is_focus & t_r_up_on);
+						this.r_down.Set(this.is_focus & t_r_down_on);
+
+						//エンター。エスケープ。サブ１。サブ２。
+						this.enter.Set(this.is_focus & t_enter_on);
+						this.escape.Set(this.is_focus & t_escape_on);
+						this.sub1.Set(this.is_focus & t_sub1_on);
+						this.sub2.Set(this.is_focus & t_sub2_on);
+
+						//メニュー。
+						this.left_menu.Set(this.is_focus & t_left_menu_on);
+						this.right_menu.Set(this.is_focus & t_right_menu_on);
+
+						//トリガー。
+						this.l_trigger_1.Set(this.is_focus & t_l_trigger_1_on);
+						this.r_trigger_1.Set(this.is_focus & t_r_trigger_1_on);
+						this.l_trigger_2.Set(this.is_focus & t_l_trigger_2_on);
+						this.r_trigger_2.Set(this.is_focus & t_r_trigger_2_on);
+					}
 
 					return true;
 				}
@@ -186,41 +250,75 @@ namespace Fee.Input
 		*/
 		public bool Main_InputManagerKey_Key()
 		{
-			//デバイス。
-			bool t_l_left_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.A);
-			bool t_l_right_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.D);
-			bool t_l_up_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.W);
-			bool t_l_down_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.S);
-			bool t_r_left_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.LeftArrow);
-			bool t_r_right_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.RightArrow);
-			bool t_r_up_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.UpArrow);
-			bool t_r_down_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.DownArrow);
-			bool t_enter_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Return);
-			bool t_escape_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Escape);
-			bool t_sub1_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.LeftShift);
-			bool t_sub2_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.LeftControl);
-			bool t_left_menu_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Space);
-			bool t_right_menu_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.Backspace);
-			bool t_left_trigger_button_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.L);
-			bool t_right_trigger_button_on = UnityEngine.Input.GetKey(UnityEngine.KeyCode.R);
+			//デジタル。
+			bool t_left_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_LEFT);
+			bool t_right_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_RIGHT);
+			bool t_up_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_UP);
+			bool t_down_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_DOWN);
 
-			//設定。
-			this.l_left.Set(t_l_left_on & this.is_focus);
-			this.l_right.Set(t_l_right_on & this.is_focus);
-			this.l_up.Set(t_l_up_on & this.is_focus);
-			this.l_down.Set(t_l_down_on & this.is_focus);
-			this.r_left.Set(t_r_left_on & this.is_focus);
-			this.r_right.Set(t_r_right_on & this.is_focus);
-			this.r_up.Set(t_r_up_on & this.is_focus);
-			this.r_down.Set(t_r_down_on & this.is_focus);
-			this.enter.Set(t_enter_on & this.is_focus);
-			this.escape.Set(t_escape_on & this.is_focus);
-			this.sub1.Set(t_sub1_on & this.is_focus);
-			this.sub2.Set(t_sub2_on & this.is_focus);
-			this.left_menu.Set(t_left_menu_on & this.is_focus);
-			this.right_menu.Set(t_right_menu_on & this.is_focus);
-			this.left_trigger_button.Set(t_left_trigger_button_on & this.is_focus);
-			this.right_trigger_button.Set(t_right_trigger_button_on & this.is_focus);
+			//左アナログ。
+			bool t_l_left_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_L_LEFT);
+			bool t_l_right_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_L_RIGHT);
+			bool t_l_up_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_L_UP);
+			bool t_l_down_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_L_DOWN);
+
+			//右アナログ。
+			bool t_r_left_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_R_LEFT);
+			bool t_r_right_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_R_RIGHT);
+			bool t_r_up_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_R_UP);
+			bool t_r_down_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_R_DOWN);
+
+			//エンター。エスケープ。サブ１。サブ２。
+			bool t_enter_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_ENTER);
+			bool t_escape_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_ESCAPE);
+			bool t_sub1_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_SUB1);
+			bool t_sub2_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_SUB2);
+
+			//メニュー。
+			bool t_left_menu_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_LEFT_MENU);
+			bool t_right_menu_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_RIGHT_MENU);
+
+			//トリガー。
+			bool t_l_trigger_1_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_L_TRIGGER_1);
+			bool t_r_trigger_1_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_R_TRIGGER_1);
+			bool t_l_trigger_2_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_L_TRIGGER_2);
+			bool t_r_trigger_2_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_R_TRIGGER_2);
+
+			{
+				//デジタル。
+				this.left.Set(this.is_focus & t_left_on);
+				this.right.Set(this.is_focus & t_right_on);
+				this.up.Set(this.is_focus & t_up_on);
+				this.down.Set(this.is_focus & t_down_on);
+
+				//左アナログ。
+				this.l_left.Set(this.is_focus & t_l_left_on);
+				this.l_right.Set(this.is_focus & t_l_right_on);
+				this.l_up.Set(this.is_focus & t_l_up_on);
+				this.l_down.Set(this.is_focus & t_l_down_on);
+
+				//右アナログ。
+				this.r_left.Set(this.is_focus & t_r_left_on);
+				this.r_right.Set(this.is_focus & t_r_right_on);
+				this.r_up.Set(this.is_focus & t_r_up_on);
+				this.r_down.Set(this.is_focus & t_r_down_on);
+
+				//エンター。エスケープ。サブ１。サブ２。
+				this.enter.Set(this.is_focus & t_enter_on);
+				this.escape.Set(this.is_focus & t_escape_on);
+				this.sub1.Set(this.is_focus & t_sub1_on);
+				this.sub2.Set(this.is_focus & t_sub2_on);
+
+				//メニュー。
+				this.left_menu.Set(this.is_focus & t_left_menu_on);
+				this.right_menu.Set(this.is_focus & t_right_menu_on);
+
+				//トリガー。
+				this.l_trigger_1.Set(this.is_focus & t_l_trigger_1_on);
+				this.r_trigger_1.Set(this.is_focus & t_r_trigger_1_on);
+				this.l_trigger_2.Set(this.is_focus & t_l_trigger_2_on);
+				this.r_trigger_2.Set(this.is_focus & t_r_trigger_2_on);
+			}
 
 			return true;	
 		}
@@ -256,22 +354,41 @@ namespace Fee.Input
 				this.Main_Key();
 
 				//更新。
+
+				//デジタル。
+				this.left.Main();
+				this.right.Main();
+				this.up.Main();
+				this.down.Main();
+
+				//左アナログ。
 				this.l_left.Main();
 				this.l_right.Main();
 				this.l_up.Main();
 				this.l_down.Main();
+
+				//右アナログ。
 				this.r_left.Main();
 				this.r_right.Main();
 				this.r_up.Main();
 				this.r_down.Main();
+
+				//エンター。エスケープ。サブ１。サブ２。
 				this.enter.Main();
 				this.escape.Main();
 				this.sub1.Main();
 				this.sub2.Main();
+
+				//メニュー。
 				this.left_menu.Main();
 				this.right_menu.Main();
-				this.left_trigger_button.Main();
-				this.right_trigger_button.Main();
+
+				//トリガー。
+				this.l_trigger_1.Main();
+				this.r_trigger_1.Main();
+				this.l_trigger_2.Main();
+				this.r_trigger_2.Main();
+
 			}catch(System.Exception t_exception){
 				Tool.LogError(t_exception);
 			}
