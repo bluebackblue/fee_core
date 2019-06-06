@@ -179,11 +179,14 @@ namespace Fee.Input
 					a_render2d.GuiScreenToVirtualScreen(t_pointer_x,t_pointer_y,out t_x,out t_y);
 
 					//設定。
+					/*
 					if(this.is_focus == true){
 						this.pos.Set(t_x,t_y);
 					}else{
 						this.pos.Set(this.pos.x_old,this.pos.y_old);
 					}
+					*/
+					this.pos.Set(t_x,t_y);
 
 					return true;
 				}
@@ -229,11 +232,14 @@ namespace Fee.Input
 					a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
 
 					//設定。
+					/*
 					if(this.is_focus == true){
 						this.pos.Set(t_x,t_y);
 					}else{
 						this.pos.Set(this.pos.x_old,this.pos.y_old);
 					}
+					*/
+					this.pos.Set(t_x,t_y);
 
 					return true;
 				}
@@ -271,11 +277,14 @@ namespace Fee.Input
 			a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
 
 			//設定。
+			/*
 			if(this.is_focus == true){
 				this.pos.Set(t_x,t_y);
 			}else{
 				this.pos.Set(this.pos.x_old,this.pos.y_old);
 			}
+			*/
+			this.pos.Set(t_x,t_y);
 
 			return true;
 		}
