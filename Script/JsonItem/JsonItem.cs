@@ -27,7 +27,7 @@ namespace Fee.JsonItem
 
 		/** バリアント型。
 		*/
-		private Value value;
+		public Value value;
 
 		/** constructor
 		*/
@@ -613,6 +613,28 @@ namespace Fee.JsonItem
 			return null;
 		}
 
+		/** [取得]インデックスリストのアイテム取得。
+		*/
+		public JsonItem GetItem(int a_index)
+		{
+			Tool.Assert(a_index >= 0);
+			int t_index = a_index;
+
+			Tool.Assert(this.valuetype == ValueType.IndexArray);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+		
+			if(t_index < this.value.index_array.Count){
+				return this.value.index_array[t_index];
+			}
+		
+			Tool.Assert(false);
+
+			return null;
+		}
+
 		/** [取得]連想リストのアイテムチェック。
 		*/
 		public bool IsExistItem(string a_itemname,ValueType a_valuetype = ValueType.None)
@@ -655,28 +677,6 @@ namespace Fee.JsonItem
 			return false;
 		}
 
-		/** [取得]インデックスリストのアイテム取得。
-		*/
-		public JsonItem GetItem(int a_index)
-		{
-			Tool.Assert(a_index >= 0);
-			int t_index = a_index;
-
-			Tool.Assert(this.valuetype == ValueType.IndexArray);
-
-			if(this.jsonstring != null){
-				this.JsonStringToValue();
-			}
-		
-			if(t_index < this.value.index_array.Count){
-				return this.value.index_array[t_index];
-			}
-		
-			Tool.Assert(false);
-
-			return null;
-		}
-
 		/** [取得]インデックスリストのアイテムチェック。
 		*/
 		public bool IsExistItem(int a_index,ValueType a_valuetype = ValueType.None)
@@ -701,9 +701,9 @@ namespace Fee.JsonItem
 			return false;
 		}
 
-		/** [設定]連想リストにアイテム追加。削除。
+		/** [設定]連想リストにアイテム追加。
 		*/
-		public void SetItem(string a_itemname,JsonItem a_item,bool a_deepcopy)
+		public void AddItem(string a_itemname,JsonItem a_item,bool a_deepcopy)
 		{
 			Tool.Assert(this.valuetype == ValueType.AssociativeArray);
 
@@ -711,14 +711,10 @@ namespace Fee.JsonItem
 				this.JsonStringToValue();
 			}
 
-			if(a_item != null){
-				if(a_deepcopy == true){
-					this.value.associative_array.Add(a_itemname,a_item.DeepCopy());
-				}else{
-					this.value.associative_array.Add(a_itemname,a_item);
-				}
+			if(a_deepcopy == true){
+				this.value.associative_array.Add(a_itemname,a_item.DeepCopy());
 			}else{
-				this.value.associative_array.Remove(a_itemname);
+				this.value.associative_array.Add(a_itemname,a_item);
 			}
 		}
 
@@ -739,7 +735,38 @@ namespace Fee.JsonItem
 			}
 		}
 
+		/** [設定]連想リストにアイテム設定。
+
+			上書き、追加。
+
+		*/
+		public void SetItem(string a_itemname,JsonItem a_item,bool a_deepcopy)
+		{
+			Tool.Assert(this.valuetype == ValueType.AssociativeArray);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			if(a_deepcopy == true){
+				if(this.value.associative_array.ContainsKey(a_itemname) == true){
+					this.value.associative_array[a_itemname] = a_item.DeepCopy();
+				}else{
+					this.value.associative_array.Add(a_itemname,a_item.DeepCopy());
+				}
+			}else{
+				if(this.value.associative_array.ContainsKey(a_itemname) == true){
+					this.value.associative_array[a_itemname] = a_item;
+				}else{
+					this.value.associative_array.Add(a_itemname,a_item);
+				}
+			}
+		}
+
 		/** [設定]インデックスリストにアイテム設定。
+
+			上書き。
+
 		*/
 		public void SetItem(int a_index,JsonItem a_item,bool a_deepcopy)
 		{
@@ -755,16 +782,31 @@ namespace Fee.JsonItem
 				}else{
 					this.value.index_array[a_index] = a_item;
 				}
+			}else{
+				Tool.Assert(false);
 			}
+		}
+
+		/** [削除]インデックスリストからアイテム削除。
+		*/
+		public void RemoveItem(string a_itemname)
+		{
+			Tool.Assert(this.valuetype == ValueType.AssociativeArray);
+			Tool.Assert(a_itemname != null);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+		
+			this.value.associative_array.Remove(a_itemname);
 		}
 
 		/** [削除]インデックスリストからアイテム削除。
 		*/
 		public void RemoveItem(int a_index)
 		{
-			Tool.Assert(a_index >= 0);
-
 			Tool.Assert(this.valuetype == ValueType.IndexArray);
+			Tool.Assert(a_index >= 0);
 
 			if(this.jsonstring != null){
 				this.JsonStringToValue();
@@ -932,6 +974,28 @@ namespace Fee.JsonItem
 			return t_ret_keylist;
 		}
 
+		/** 連想配列キーリスト総数。
+		*/
+		public int GetKeyListMax()
+		{
+			Tool.Assert(this.valuetype == ValueType.AssociativeArray);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			return this.value.associative_array.Count;
+		}
+
+		/** 適応。
+		*/
+		public void Apply()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+		}
+
 		/** オブジェクトへコンバート。
 		*/
 		public Type ConvertObject<Type>()
@@ -944,144 +1008,189 @@ namespace Fee.JsonItem
 
 		/** JsonStringへコンバート。
 		*/
-		public string ConvertJsonString()
+		public void ConvertJsonString(System.Text.StringBuilder a_stringbuilder)
 		{
 			if(this.jsonstring != null){
-				return this.jsonstring;
+				a_stringbuilder.Append(this.jsonstring);
+				return;
 			}
 
 			switch(this.valuetype){
 			case ValueType.StringData:
 				{
-					string t_jsonstring = "\"";
-					//t_jsonstring.reserve(64);
+					a_stringbuilder.Append("\"");
+					//string t_jsonstring = "\"";
+
 					{
 						int t_index = 0;
 						int t_max = this.value.string_data.Length;
 
 						while(t_index < t_max){
 							//１文字取得。
-							int t_add = Impl.GetMojiSize(this.value.string_data,t_index,false);
-							if(t_add == 1){
+							int t_moji_size = Impl.GetMojiSize(this.value.string_data,t_index,false);
+							if(t_moji_size == 1){
 								string t_add_string = Impl.CheckEscapeSequence(this.value.string_data[t_index]);
 								if(t_add_string == null){
 									//通常文字。
 								}else{
-									t_jsonstring += t_add_string;
+									//特殊文字。
+
+									a_stringbuilder.Append(t_add_string);
+									//t_jsonstring += t_add_string;
+
 									t_index++;
 									continue;
 								}
-							}else if(t_add <= 0){
+							}else if(t_moji_size <= 0){
 								//不明。
 								Tool.Assert(false);
 
-								return "";
+								//TODO:ロールバック。
+								//return "";
+
+								return;
 							}
 
-							t_jsonstring += this.value.string_data.Substring(t_index,t_add);
-							t_index += t_add;
+							a_stringbuilder.Append(this.value.string_data.Substring(t_index,t_moji_size));
+							//t_jsonstring += this.value.string_data.Substring(t_index,t_add);
+
+							t_index += t_moji_size;
 						}
 					}
-					t_jsonstring += "\"";
 
-					return t_jsonstring;
-				}//break;
+					a_stringbuilder.Append( "\"");
+					//t_jsonstring += "\"";
+
+				}return;
 			case ValueType.SignedNumber:
 				{
-					return this.value.signed_number.ToString();
-				}//break;
+					a_stringbuilder.Append(this.value.signed_number.ToString());
+				}return;
 			case ValueType.UnsignedNumber:
 				{
-					return this.value.unsigned_number.ToString();
-				}//break;
+					a_stringbuilder.Append(this.value.unsigned_number.ToString());
+				}return;
 			case ValueType.FloatingNumber:
 				{
-					return string.Format(DOUBLE_TO_STRING_FORMAT,this.value.floating_number);
-				}//break;
+					a_stringbuilder.Append(string.Format(DOUBLE_TO_STRING_FORMAT,this.value.floating_number));
+				}return;
 			case ValueType.IndexArray:
 				{
-					string t_jsonstring = "[";
-					//t_jsonstring.reserve(64);
+					a_stringbuilder.Append("[");
+					//string t_jsonstring = "[";
+
 					{
 						int t_count = this.value.index_array.Count;
 						int t_index = 0;
 
 						//一つ目。
 						if(t_count > 0){
-							t_jsonstring += this.value.index_array[0].ConvertJsonString();
+
+							this.value.index_array[0].ConvertJsonString(a_stringbuilder);
+							//t_jsonstring += this.value.index_array[0].ConvertJsonString();
 							t_index++;
 
 							//二つ目以降。
 							for(;t_index<t_count;t_index++){
-								t_jsonstring += ",";
-								t_jsonstring += this.value.index_array[t_index].ConvertJsonString();
+
+								a_stringbuilder.Append(",");
+								//t_jsonstring += ",";
+
+								this.value.index_array[t_index].ConvertJsonString(a_stringbuilder);
+								//t_jsonstring += this.value.index_array[t_index].ConvertJsonString();
 							}
 						}
 					}
-					t_jsonstring += "]";
-					return t_jsonstring;
-				}//break;
+
+					a_stringbuilder.Append("]");
+					//t_jsonstring += "]";
+
+				}return;
 			case ValueType.AssociativeArray:
 				{
-					string t_jsonstring = "{";
-					//t_jsonstring.reserve(64);
+					a_stringbuilder.Append("{");
+					//string t_jsonstring = "{";
+
 					{
 						bool t_first = true;
 
 						foreach(System.Collections.Generic.KeyValuePair<string,JsonItem> t_pair in this.value.associative_array){
 							if(t_first == true){
 								t_first = false;
-
 								//一つ目。
-								t_jsonstring += "\"";
-								t_jsonstring += t_pair.Key;
-								t_jsonstring += "\":";
-								t_jsonstring += t_pair.Value.ConvertJsonString();
+
+								a_stringbuilder.Append("\"");
+								//t_jsonstring += "\"";
+
+								a_stringbuilder.Append(t_pair.Key);
+								//t_jsonstring += t_pair.Key;
+
+								a_stringbuilder.Append("\":");
+								//t_jsonstring += "\":";
+
+								t_pair.Value.ConvertJsonString(a_stringbuilder);
+								//t_jsonstring += t_pair.Value.ConvertJsonString();
 							}else{
 								//二つ目以降。
-								t_jsonstring += ",\"";
-								t_jsonstring += t_pair.Key;
-								t_jsonstring += "\":";
-								t_jsonstring += t_pair.Value.ConvertJsonString();
+
+								a_stringbuilder.Append(",\"");
+								//t_jsonstring += ",\"";
+
+								a_stringbuilder.Append(t_pair.Key);
+								//t_jsonstring += t_pair.Key;
+
+								a_stringbuilder.Append("\":");
+								//t_jsonstring += "\":";
+
+								t_pair.Value.ConvertJsonString(a_stringbuilder);
+								//t_jsonstring += t_pair.Value.ConvertJsonString();
 							}
 						}
 					}
-					t_jsonstring += "}";
-					return t_jsonstring;
-				}//break;
+
+					a_stringbuilder.Append("}");
+					//t_jsonstring += "}";
+				}return;
 			case ValueType.BoolData:
 				{
 					if(this.value.bool_data){
-						return "true";
+						a_stringbuilder.Append("true");
+					}else{
+						a_stringbuilder.Append("false");
 					}
-					return "false";
-				}//break;
+				}return;
 			case ValueType.BinaryData:
 				{
-					string t_jsonstring = "<";
-					//t_jsonstring.reserve(64);
+					a_stringbuilder.Append("<");
+					//string t_jsonstring = "<";
+
 					{
 						int t_count = this.value.binary_data.Count;
 						int t_index = 0;
 
 						//一つ目。
 						if(t_count > 0){
-							t_jsonstring += string.Format("{0:X}",this.value.binary_data[t_index]);
+							a_stringbuilder.Append(string.Format("{0:X}",this.value.binary_data[t_index]));
+							//t_jsonstring += string.Format("{0:X}",this.value.binary_data[t_index]);
+
 							t_index++;
 
 							//二つ目以降。
 							for(;t_index<t_count;t_index++){
-								t_jsonstring += string.Format("{0:X}",this.value.binary_data[t_index]);
+								a_stringbuilder.Append(string.Format("{0:X}",this.value.binary_data[t_index]));
+								//t_jsonstring += string.Format("{0:X}",this.value.binary_data[t_index]);
 							}
 						}
 					}
-					t_jsonstring += ">";
-					return t_jsonstring;
-				}//break;
+
+					a_stringbuilder.Append(">");
+					//t_jsonstring += ">";
+
+				}return;
 			case ValueType.None:
 				{
-					return "null";
-				}//break;
+					a_stringbuilder.Append("null");
+				}return;
 			case ValueType.Calc_UnknownNumber:
 			case ValueType.Calc_BoolDataTrue:
 			case ValueType.Calc_BoolDataFalse:
@@ -1089,10 +1198,23 @@ namespace Fee.JsonItem
 				{
 					//不明。
 					Tool.Assert(false);
-
-					return "";
-				}//break;
+				}return;
 			}
+
+		}
+
+		/** JsonStringへコンバート。
+		*/
+		public string ConvertJsonString()
+		{
+			if(this.jsonstring != null){
+				return this.jsonstring;
+			}
+
+			System.Text.StringBuilder t_stringbuilder = new System.Text.StringBuilder();
+			this.ConvertJsonString(t_stringbuilder);
+
+			return t_stringbuilder.ToString();
 		}
 	}
 }
