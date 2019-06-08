@@ -31,6 +31,12 @@ namespace Fee.UniVrm
 		{
 			public System.Collections.Generic.List<RenderType> Renderers;
 		}
+
+		/** VRMMeta
+		*/
+		public class VRMMeta
+		{
+		}
 		
 		/** VRMImporterContext
 		*/
