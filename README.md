@@ -11,6 +11,7 @@ MIT License
 
 ## sample project
 * Unity 2018.3.12f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2018_3_12f1 ]
+* Unity 2018.4.0f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2018_4_0f1 ]
 * Unity 2019.1.0f2 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_1_0f2 ]
 * Unity 2019.2.0a11 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_2_0a11 ]
 
@@ -33,6 +34,7 @@ https://discord.gg/JH3B4SR
 * _ Directory [ディレクトリ探査]
 * _ EditorTool [エディターツール]
 * _ EventPlate [イベント]
+* _ Excel [エクセル]
 * _ Fade [フェード]
 * _ File [ローカルセーブロード、アセットバンドルダウンロード、サウンドプールダウンロード]
 * _ Function [関数呼び出し]
@@ -54,6 +56,7 @@ https://discord.gg/JH3B4SR
 ## 使用ライセンス
 
 ### M+ FONTS
+このリポジトリにフォントは含まれていません。以下から取得してください。
 * https://github.com/bluebackblue/fee_core/tree/master/license/mplus
 * http://mplus-fonts.osdn.jp/
 * Copyright (C) 2002-2017 M+ FONTS PROJECT
@@ -83,5 +86,11 @@ https://discord.gg/JH3B4SR
 このリポジトリにStandardAssetsは含まれていません。以下から取得してください。
 * https://github.com/bluebackblue/fee/tree/master/license/standardassets
 * https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-32351
+
+### NPOI
+このリポジトリにNPOIは含まれていません。以下から取得してください。
+* https://github.com/bluebackblue/fee_core/tree/master/license/npoi
+* https://github.com/tonyqus/npoi/
+
 
 
