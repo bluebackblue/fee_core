@@ -29,6 +29,11 @@ namespace Fee.Excel
 		*/
 		public static bool ASSERT_ENABLE = true;
 
+		/** コマンド検索範囲。
+		*/
+		public static int COMMAND_SEARCH_WIDTH = 100;
+		public static int COMMAND_SEARCH_HEIGHT = 1000;
+
 	}
 }
 

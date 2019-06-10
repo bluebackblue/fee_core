@@ -43,8 +43,25 @@ namespace Fee.Excel
 
 			//raw_sheet_instance
 			#if(USE_DEF_NPOI)
-			this.raw_sheet_instance = a_excel.GetRawSheetInstance(a_sheet_index);
+			this.raw_sheet_instance = null;
 			#endif
+		}
+
+		/** Open
+		*/
+		public bool Open()
+		{
+			//raw_sheet_instance
+			#if(USE_DEF_NPOI)
+			{
+				this.raw_sheet_instance = this.excel.GetRawSheetInstance(this.sheet_index);
+				if(this.raw_sheet_instance != null){
+					return true;
+				}
+			}
+			#endif
+
+			return false;
 		}
 
 		/** Close
@@ -74,10 +91,22 @@ namespace Fee.Excel
 					if(t_row != null){
 						NPOI.SS.UserModel.ICell t_cell = t_row.GetCell(a_x);
 						if(t_cell != null){
-							if(t_cell.StringCellValue != null){
-								return t_cell.StringCellValue;
+							switch(t_cell.CellType){
+							case NPOI.SS.UserModel.CellType.String:
+								{
+								}return t_cell.StringCellValue;
+							case NPOI.SS.UserModel.CellType.Numeric:
+								{
+									//TODO:
+								}return t_cell.NumericCellValue.ToString();
 							}
+						}else{
+							//データなし。
+							return null;
 						}
+					}else{
+						//データなし。
+						return null;
 					}
 				}catch(System.Exception t_exception){
 					Tool.LogError(t_exception);
@@ -86,7 +115,7 @@ namespace Fee.Excel
 			#endif
 
 			Tool.Assert(false);
-			return "";
+			return null;
 		}
 	}
 }

@@ -54,7 +54,8 @@ namespace Fee.Excel
 			#if(USE_DEF_NPOI)
 			{
 				try{
-					this.workbook = NPOI.SS.UserModel.WorkbookFactory.Create(this.path.GetPath());
+					string t_path = this.path.GetPath();
+					this.workbook = NPOI.SS.UserModel.WorkbookFactory.Create(t_path);
 				}catch(System.Exception t_exception){
 					Tool.LogError(t_exception);
 				}
@@ -126,16 +127,12 @@ namespace Fee.Excel
 				this.sheet = null;
 			}
 
-			try{
-				this.sheet = new Sheet(this,a_sheet_index);
-			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
-			}
-
-			if(this.sheet != null){
+			this.sheet = new Sheet(this,a_sheet_index);
+			if(this.sheet.Open() == true){
 				return true;
 			}
 
+			Tool.Assert(false);
 			return false;
 		}
 
@@ -166,7 +163,13 @@ namespace Fee.Excel
 		#if(USE_DEF_NPOI)
 		public NPOI.SS.UserModel.ISheet GetRawSheetInstance(int a_sheet_index)
 		{
-			return this.workbook.GetSheetAt(a_sheet_index);
+			NPOI.SS.UserModel.ISheet t_sheet = this.workbook.GetSheetAt(a_sheet_index);
+			if(t_sheet != null){
+				return t_sheet;
+			}
+
+			Tool.Assert(false);
+			return null;
 		}
 		#endif
 	}
