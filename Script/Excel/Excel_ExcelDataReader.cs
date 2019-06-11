@@ -5,7 +5,7 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief エクセル。ＮＰＯＩ。
+ * @brief エクセル。エクセルデータリーダー。
 */
 
 
@@ -25,11 +25,12 @@ namespace Fee.Excel
 			System.Data.DataSet t_workbook = null;
 
 			try{
-				System.IO.FileStream t_stream = System.IO.File.Open(a_path.GetPath(),System.IO.FileMode.Open,System.IO.FileAccess.Read);
-				if(t_stream != null){
-					ExcelDataReader.IExcelDataReader t_reader = ExcelDataReader.ExcelReaderFactory.CreateOpenXmlReader(t_stream);
-					if(t_reader != null){
-						t_workbook = ExcelDataReader.ExcelDataReaderExtensions.AsDataSet(t_reader);
+				using(System.IO.FileStream t_stream = System.IO.File.Open(a_path.GetPath(),System.IO.FileMode.Open,System.IO.FileAccess.Read)){
+					if(t_stream != null){
+						ExcelDataReader.IExcelDataReader t_reader = ExcelDataReader.ExcelReaderFactory.CreateOpenXmlReader(t_stream);
+						if(t_reader != null){
+							t_workbook = ExcelDataReader.ExcelDataReaderExtensions.AsDataSet(t_reader);
+						}
 					}
 				}
 			}catch(System.Exception t_exception){
@@ -125,9 +126,9 @@ namespace Fee.Excel
 
 		/** セルタイプ。取得。
 		*/
-		public static Excel.CellType GetCellType(object a_cell)
+		public static CellType GetCellType(object a_cell)
 		{
-			return Excel.CellType.StringType;
+			return CellType.StringType;
 		}
 
 		/** 文字列。取得。

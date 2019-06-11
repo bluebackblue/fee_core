@@ -119,24 +119,24 @@ namespace Fee.Excel
 
 		/** セルタイプ。取得。
 		*/
-		public static Excel.CellType GetCellType(NPOI.SS.UserModel.ICell a_cell)
+		public static CellType GetCellType(NPOI.SS.UserModel.ICell a_cell)
 		{
-			Excel.CellType t_celltype = Excel.CellType.None;
+			CellType t_celltype = CellType.None;
 
 			if(a_cell != null){
 				try{
 					switch(a_cell.CellType){
 					case NPOI.SS.UserModel.CellType.String:
 						{
-							t_celltype = Excel.CellType.StringType;
+							t_celltype = CellType.StringType;
 						}break;
 					case NPOI.SS.UserModel.CellType.Numeric:
 						{
-							t_celltype = Excel.CellType.NumericType;
+							t_celltype = CellType.NumericType;
 						}break;
 					default:
 						{
-							t_celltype = Excel.CellType.None;
+							t_celltype = CellType.None;
 						}break;
 					}
 				}catch(System.Exception t_exception){

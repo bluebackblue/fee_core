@@ -17,23 +17,6 @@ namespace Fee.Excel
 	*/
 	public class Excel
 	{
-		/** CellType
-		*/
-		public enum CellType
-		{
-			/** None
-			*/
-			None,
-
-			/** StringType
-			*/
-			StringType,
-
-			/** NumericType
-			*/
-			NumericType,
-		}
-
 		/** raw_excel
 		*/
 		#if(USE_DEF_NPOI)
