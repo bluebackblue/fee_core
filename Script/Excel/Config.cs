@@ -34,6 +34,17 @@ namespace Fee.Excel
 		public static int COMMAND_SEARCH_WIDTH = 100;
 		public static int COMMAND_SEARCH_HEIGHT = 1000;
 
+		/** COMMAND
+		*/
+		public static string COMMAND_PARAM_TYPE = "[param_type]";
+		public static string COMMAND_PARAM_NAME = "[param_name]";
+		public static string COMMAND_PARAM_END = "[end]";
+		public static string COMMAND_ON = "*";
+		
+		public const string PARAMTYPE_STRING = "string";
+		public const string PARAMTYPE_INT = "int";
+		public const string PARAMTYPE_FLOAT = "float";
+		public const string PARAMTYPE_COMMENT = "-comment";
 	}
 }
 

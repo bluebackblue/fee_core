@@ -25,78 +25,30 @@ namespace Fee.Excel
 		*/
 		private Fee.JsonItem.JsonItem jsonitem;
 
-		/** pos_root
-		*/
-		private Pos pos_root;
-		private Pos pos_paramtype;
-		private Pos pos_paramname;
-		private Pos pos_end_y;
-		private Pos pos_end_x;
-
-		/** Pos
-		*/
-		public readonly struct Pos
-		{
-			/** xy
-			*/
-			public readonly int x;
-			public readonly int y;
-
-			/** constructor
-			*/
-			public Pos(int a_x,int a_y)
-			{
-				this.x = a_x;
-				this.y = a_y;
-			}
-		}
-
-		/** ParamItem
-		*/
-		public struct ParamItem
-		{
-			/** パラメータタイプ。
-			*/
-			public string paramtype;
-
-			/** パラメメータ名。
-			*/
-			public string paramname;
-
-			/** 位置。
-			*/
-			public int pos_x;
-
-			/** constructor
-			*/
-			public ParamItem(string a_paramtype,string a_paramname,int a_pos_x)
-			{
-				this.paramtype = a_paramtype;
-				this.paramname = a_paramname;
-				this.pos_x = a_pos_x;
-			}
-		}
-
 		/** constructor
 		*/
-		public ExcelToJson(File.Path a_full_path)
+		public ExcelToJson()
 		{
-			this.excel = new Excel(a_full_path);
+			//excel
+			this.excel = null;
+
+			//jsonitem
+			this.jsonitem = null;
 		}
 
 		/** コンバート。
 		*/
-		public bool Convert()
+		public bool Convert(File.Path a_path)
 		{
 			this.jsonitem = new JsonItem.JsonItem(new Fee.JsonItem.Value_AssociativeArray());
 
 			{
-				if(this.excel.ReadOpen() == true){
-					int t_sheet_max = this.excel.GetSheetMax();
-					for(int ii=0;ii<t_sheet_max;ii++){
-						if(this.excel.OpenSheet(ii) == true){
+				this.excel = new Excel();
+				if(this.excel.ReadOpen(a_path) == true){
+					int t_sheet_count = this.excel.GetSheetCount();
+					for(int ii=0;ii<t_sheet_count;ii++){
+						if(this.excel.SetActiveSheet(ii) == true){
 							this.Convert_Sheet(ii);
-							this.excel.CloseSheet();
 						}
 					}
 					this.excel.Close();
@@ -109,37 +61,63 @@ namespace Fee.Excel
 			return true;
 		}
 
-		/** GetJsonString
+		/** ConvertJsonString
 		*/
-		public string GetJsonString()
+		public string ConvertJsonString()
 		{
 			return this.jsonitem.ConvertJsonString();
 		}
 
-		/** FindCell
+		/** セルの文字列をチェック。
 		*/
-		private bool FindCell(int a_x,int a_y,string a_text,ref Pos a_result_pos)
+		private bool CellStringCheck(int a_x,int a_y,string a_text,ref CellPosition a_result_pos)
 		{
-			string t_cell_string = this.excel.GetCell(a_x,a_y);
-			if(t_cell_string == a_text){
-				a_result_pos = new Pos(a_x,a_y);
-				return true;
+			if(this.excel.SetActiveCell(a_x,a_y) == true){
+				if(this.excel.GetCellType() == Excel_Npoi.CellType.StringType){
+					string t_value = this.excel.GetCellString();
+					if(t_value == a_text){
+						a_result_pos = new CellPosition(a_x,a_y);
+						return true;
+					}
+				}
 			}
 
 			return false;
 		}
 
-		/** FindCellBox
+		/** セルの文字列を取得。
 		*/
-		private bool FindCellBox(int a_x,int a_y,int a_size,string a_text,ref Pos a_result_pos)
+		private string GetTryCellString(int a_x,int a_y)
+		{
+			if(this.excel.SetActiveCell(a_x,a_y) == true){
+				if(this.excel.GetCellType() == Excel_Npoi.CellType.StringType){
+					return this.excel.GetCellString();
+				}
+			}
+			return null;
+		}
+
+		/** セルの数値を取得。
+		*/
+		private double GetTryCellNumeric(int a_x,int a_y)
+		{
+			if(this.excel.SetActiveCell(a_x,a_y) == true){
+				if(this.excel.GetCellType() == Excel_Npoi.CellType.NumericType){
+					return this.excel.GetCellNumeric();
+				}
+			}
+			return 0.0;
+		}
+
+		/** ボックス内を検索。
+		*/
+		private bool FindCellBox(int a_x,int a_y,int a_size,string a_text,ref CellPosition a_result_pos)
 		{
 			for(int xx=0;xx<a_size;xx++){
 				for(int yy=0;yy<a_size;yy++){
 					int t_x = a_x + xx;
 					int t_y = a_y + yy;
-					string t_cell_string = this.excel.GetCell(t_x,t_y);
-					if(t_cell_string == a_text){
-						a_result_pos = new Pos(t_x,t_y);
+					if(this.CellStringCheck(t_x,t_y,a_text,ref a_result_pos) == true){
 						return true;
 					}
 				}
@@ -148,16 +126,14 @@ namespace Fee.Excel
 			return false;
 		}
 
-		/** FindCellXLine
+		/** Ｘ軸方向に検索。
 		*/
-		private bool FindCellXLine(int a_x,int a_y,int a_size,string a_text,ref Pos a_result_pos)
+		private bool FindCellXLine(int a_x,int a_y,int a_size,string a_text,ref CellPosition a_result_pos)
 		{
 			for(int xx=0;xx<a_size;xx++){
 				int t_x = a_x + xx;
 				int t_y = a_y;
-				string t_cell_string = this.excel.GetCell(t_x,t_y);
-				if(t_cell_string == a_text){
-					a_result_pos = new Pos(t_x,t_y);
+				if(this.CellStringCheck(t_x,t_y,a_text,ref a_result_pos) == true){
 					return true;
 				}
 			}
@@ -165,16 +141,14 @@ namespace Fee.Excel
 			return false;
 		}
 
-		/** FindCellYLine
+		/** Ｙ軸方向に検索。
 		*/
-		private bool FindCellYLine(int a_x,int a_y,int a_size,string a_text,ref Pos a_result_pos)
+		private bool FindCellYLine(int a_x,int a_y,int a_size,string a_text,ref CellPosition a_result_pos)
 		{
 			for(int yy=0;yy<a_size;yy++){
 				int t_x = a_x;
 				int t_y = a_y + yy;
-				string t_cell_string = this.excel.GetCell(t_x,t_y);
-				if(t_cell_string == a_text){
-					a_result_pos = new Pos(t_x,t_y);
+				if(this.CellStringCheck(t_x,t_y,a_text,ref a_result_pos) == true){
 					return true;
 				}
 			}
@@ -182,14 +156,14 @@ namespace Fee.Excel
 			return false;
 		}
 
-		/** FindCell_Root
+		/** ルートを検索。
 		*/
-		private bool FindCell_Root()
+		private bool FindCell_Root(ref CellPosition a_result_pos)
 		{
 			int t_size = 5;
 			for(int xx=0;xx<10;xx++){
 				for(int yy=0;yy<10;yy++){
-					if(this.FindCellBox(xx * t_size,yy * t_size,t_size,"[root]",ref this.pos_root) == true){
+					if(this.FindCellBox(xx * t_size,yy * t_size,t_size,"[root]",ref a_result_pos) == true){
 						return true;
 					}
 				}
@@ -198,28 +172,36 @@ namespace Fee.Excel
 			return false;
 		}
 
-		/** 
+		/** パラメータタイプリスト。作成。
 		*/
-		private System.Collections.Generic.List<ParamItem> CreateParamList()
+		private System.Collections.Generic.List<ParamListItem> CreateParamTypeList(int a_param_type_y,int a_param_name_y,int a_start_x,int a_end_x)
 		{
-			System.Collections.Generic.List<ParamItem> t_list = new System.Collections.Generic.List<ParamItem>();
+			System.Collections.Generic.List<ParamListItem> t_list = new System.Collections.Generic.List<ParamListItem>();
 
-			for(int xx = this.pos_paramtype.x + 1;xx < this.pos_end_x.x;xx++){
-				string t_paramtype_string = this.excel.GetCell(xx,this.pos_paramtype.y);
-				string t_paramname_string = this.excel.GetCell(xx,this.pos_paramname.y);
-				switch(t_paramtype_string){
-				case "string":
-				case "int":
-				case "float":
+			for(int xx = a_start_x;xx < a_end_x;xx++){
+				string t_param_type = this.GetTryCellString(xx,a_param_type_y);
+				string t_param_name = this.GetTryCellString(xx,a_param_name_y);
+
+				switch(t_param_type){
+				case Config.PARAMTYPE_STRING:
 					{
-						t_list.Add(new ParamItem(t_paramtype_string,t_paramname_string,xx));
+						t_list.Add(new ParamListItem(ParamType.StringType,t_param_name,xx));
 					}break;
-				case "-comment":
+				case Config.PARAMTYPE_INT:
+					{
+						t_list.Add(new ParamListItem(ParamType.IntType,t_param_name,xx));
+					}break;
+				case Config.PARAMTYPE_FLOAT:
+					{
+						t_list.Add(new ParamListItem(ParamType.FloatType,t_param_name,xx));
+					}break;
+				case Config.PARAMTYPE_COMMENT:
 					{
 						//スキップ。
 					}break;
 				default:
 					{
+						//不明なパラメータタイプ。
 						Tool.Assert(false);
 					}break;
 				}
@@ -228,77 +210,87 @@ namespace Fee.Excel
 			return t_list;
 		}
 
-
 		/** コンバート。シート。
 		*/
 		private void Convert_Sheet(int a_index)
 		{
-			Pos t_pos_root = new Pos(-1,-1);
-			
-			if(this.FindCell_Root() == false){
+			/** pos
+			*/
+			CellPosition t_pos_root = new CellPosition(0,0);
+			CellPosition t_pos_param_type = new CellPosition(0,0);
+			CellPosition t_pos_param_name = new CellPosition(0,0);
+			CellPosition t_pos_end_y = new CellPosition(0,0);
+			CellPosition t_pos_end_x = new CellPosition(0,0);
+
+			if(this.FindCell_Root(ref t_pos_root) == false){
 				return;
 			}
 
-			if(this.FindCell(this.pos_root.x,this.pos_root.y + 1,"[paramtype]",ref this.pos_paramtype) == false){
+			//パラメータタイプ。検索。
+			if(this.CellStringCheck(t_pos_root.x,t_pos_root.y + 1,Config.COMMAND_PARAM_TYPE,ref t_pos_param_type) == false){
 				return;
 			}
 
-			if(this.FindCell(this.pos_root.x,this.pos_root.y + 2,"[paramname]",ref this.pos_paramname) == false){
+			//パラメータ名。検索。
+			if(this.CellStringCheck(t_pos_root.x,t_pos_root.y + 2,Config.COMMAND_PARAM_NAME,ref t_pos_param_name) == false){
 				return;
 			}
 
-			if(this.FindCellXLine(this.pos_paramtype.x + 1,this.pos_paramtype.y,Config.COMMAND_SEARCH_WIDTH,"[end]",ref this.pos_end_x) == false){
+			//Ｘ軸方向。終端検索。
+			if(this.FindCellXLine(t_pos_param_type.x + 1,t_pos_param_type.y,Config.COMMAND_SEARCH_WIDTH,Config.COMMAND_PARAM_END,ref t_pos_end_x) == false){
 				return;
 			}
 
-			if(this.FindCellYLine(this.pos_paramtype.x,this.pos_paramtype.y + 1,Config.COMMAND_SEARCH_WIDTH,"[end]",ref this.pos_end_y) == false){
+			//Ｙ軸方向。終端検索。
+			if(this.FindCellYLine(t_pos_param_type.x,t_pos_param_type.y + 1,Config.COMMAND_SEARCH_WIDTH,Config.COMMAND_PARAM_END,ref t_pos_end_y) == false){
 				return;
 			}
 
-			System.Collections.Generic.List<ParamItem> t_param_list = this.CreateParamList();
+			//パラメータリスト。作成。
+			System.Collections.Generic.List<ParamListItem> t_param_list = this.CreateParamTypeList(t_pos_param_type.y,t_pos_param_name.y,t_pos_param_type.x + 1,t_pos_end_x.x);
 
-			Fee.JsonItem.JsonItem t_jsonitem_list = new JsonItem.JsonItem(new Fee.JsonItem.Value_IndexArray());
+			{
+				Fee.JsonItem.JsonItem t_jsonitem_list = new JsonItem.JsonItem(new Fee.JsonItem.Value_IndexArray());
+				for(int yy=t_pos_param_name.y+1;yy<t_pos_end_y.y;yy++){
+					string t_flag = this.GetTryCellString(t_pos_param_name.x,yy);
+					if(t_flag == Config.COMMAND_ON){
+						Fee.JsonItem.JsonItem t_jsonitem_item = new JsonItem.JsonItem(new Fee.JsonItem.Value_AssociativeArray());
+						for(int ii=0;ii<t_param_list.Count;ii++){
+							switch(t_param_list[ii].param_type){
+							case ParamType.StringType:
+								{
+									//string
 
-			for(int yy=this.pos_paramname.y+1;yy<this.pos_end_y.y;yy++){
-				string t_flag = this.excel.GetCell(this.pos_paramname.x,yy);
-				if(t_flag == "*"){
-					Fee.JsonItem.JsonItem t_jsonitem_item = new JsonItem.JsonItem(new Fee.JsonItem.Value_AssociativeArray());
+									string t_value = this.GetTryCellString(t_param_list[ii].pos_x,yy);
+									t_jsonitem_item.AddItem(t_param_list[ii].param_name,new JsonItem.JsonItem(new  Fee.JsonItem.Value_StringData(t_value)),false);
+								}break;
+							case ParamType.IntType:
+								{
+									//int
 
-					for(int ii=0;ii<t_param_list.Count;ii++){
-						
-						switch(t_param_list[ii].paramtype){
-						case "string":
-							{
-								string t_cell = this.excel.GetCell(t_param_list[ii].pos_x,yy);
-								t_jsonitem_item.AddItem(t_param_list[ii].paramname,new JsonItem.JsonItem(new  Fee.JsonItem.Value_StringData(t_cell)),false);
-							}break;
-						case "int":
-							{
-								string t_cell = this.excel.GetCell(t_param_list[ii].pos_x,yy);
-								int t_cell_int = int.Parse(t_cell);
-								t_jsonitem_item.AddItem(t_param_list[ii].paramname,new JsonItem.JsonItem(new  Fee.JsonItem.Value_Int(t_cell_int)),false);
-							}break;
-						case "float":
-							{
-								string t_cell = this.excel.GetCell(t_param_list[ii].pos_x,yy);
-								float t_cell_float = float.Parse(t_cell);
-								t_jsonitem_item.AddItem(t_param_list[ii].paramname,new JsonItem.JsonItem(new  Fee.JsonItem.Value_Float(t_cell_float)),false);
-							}break;
-						default:
-							{
-								Tool.Assert(false);
-							}break;
+									double t_value = this.GetTryCellNumeric(t_param_list[ii].pos_x,yy);
+									t_jsonitem_item.AddItem(t_param_list[ii].param_name,new JsonItem.JsonItem(new  Fee.JsonItem.Value_Int((int)t_value)),false);
+								}break;
+							case ParamType.FloatType:
+								{
+									//float
+
+									double t_value = this.GetTryCellNumeric(t_param_list[ii].pos_x,yy);
+									t_jsonitem_item.AddItem(t_param_list[ii].param_name,new JsonItem.JsonItem(new  Fee.JsonItem.Value_Float((float)t_value)),false);
+								}break;
+							default:
+								{
+									Tool.Assert(false);
+								}break;
+							}
 						}
+						t_jsonitem_list.AddItem(t_jsonitem_item,false);
 					}
-
-					t_jsonitem_list.AddItem(t_jsonitem_item,false);
 				}
+				string t_root_name = this.GetTryCellString(t_pos_root.x + 1,t_pos_root.y);
+				this.jsonitem.AddItem(t_root_name,t_jsonitem_list,false);
 			}
-
-			string t_root_string = this.excel.GetCell(this.pos_root.x + 1,this.pos_root.y);
-			this.jsonitem.AddItem(t_root_string,t_jsonitem_list,false);
 		}
 	}
-
 }
 
