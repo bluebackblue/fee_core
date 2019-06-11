@@ -73,7 +73,7 @@ namespace Fee.Excel
 		private bool CellStringCheck(int a_x,int a_y,string a_text,ref CellPosition a_result_pos)
 		{
 			if(this.excel.SetActiveCell(a_x,a_y) == true){
-				if(this.excel.GetCellType() == Excel_Npoi.CellType.StringType){
+				if(this.excel.GetCellType() == Excel.CellType.StringType){
 					string t_value = this.excel.GetCellString();
 					if(t_value == a_text){
 						a_result_pos = new CellPosition(a_x,a_y);
@@ -90,7 +90,7 @@ namespace Fee.Excel
 		private string GetTryCellString(int a_x,int a_y)
 		{
 			if(this.excel.SetActiveCell(a_x,a_y) == true){
-				if(this.excel.GetCellType() == Excel_Npoi.CellType.StringType){
+				if(this.excel.GetCellType() == Excel.CellType.StringType){
 					return this.excel.GetCellString();
 				}
 			}
@@ -102,7 +102,7 @@ namespace Fee.Excel
 		private double GetTryCellNumeric(int a_x,int a_y)
 		{
 			if(this.excel.SetActiveCell(a_x,a_y) == true){
-				if(this.excel.GetCellType() == Excel_Npoi.CellType.NumericType){
+				if(this.excel.GetCellType() == Excel.CellType.NumericType){
 					return this.excel.GetCellNumeric();
 				}
 			}

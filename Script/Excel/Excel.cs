@@ -17,52 +17,85 @@ namespace Fee.Excel
 	*/
 	public class Excel
 	{
-		/** raw_npoi_excel
+		/** CellType
+		*/
+		public enum CellType
+		{
+			/** None
+			*/
+			None,
+
+			/** StringType
+			*/
+			StringType,
+
+			/** NumericType
+			*/
+			NumericType,
+		}
+
+		/** raw_excel
 		*/
 		#if(USE_DEF_NPOI)
-		private NPOI.SS.UserModel.IWorkbook raw_npoi_excel;
+		private NPOI.SS.UserModel.IWorkbook raw_excel;
+		#elif(USE_DEF_EXCELDATAREADER)
+		private System.Data.DataSet raw_excel;
 		#endif
 
-		/** raw_npoi_sheet
+		/** raw_sheet
 		*/
 		#if(USE_DEF_NPOI)
-		private NPOI.SS.UserModel.ISheet raw_npoi_sheet;
+		private NPOI.SS.UserModel.ISheet raw_sheet;
+		#elif(USE_DEF_EXCELDATAREADER)
+		private System.Data.DataTable raw_sheet;
 		#endif
 
-		/** raw_npoi_line
+		/** raw_line
 		*/
 		#if(USE_DEF_NPOI)
-		private NPOI.SS.UserModel.IRow raw_npoi_line;
+		private NPOI.SS.UserModel.IRow raw_line;
+		#elif(USE_DEF_EXCELDATAREADER)
+		private System.Data.DataRow raw_line;
 		#endif
 
-		/** raw_npoi_cell
+		/** raw_cell
 		*/
 		#if(USE_DEF_NPOI)
-		private NPOI.SS.UserModel.ICell raw_npoi_cell;
+		private NPOI.SS.UserModel.ICell raw_cell;
+		#elif(USE_DEF_EXCELDATAREADER)
+		private object raw_cell;
 		#endif
 
 		/** constructor
 		*/
 		public Excel()
 		{
-			//raw_npoi_workbook
+			//raw_workbook
 			#if(USE_DEF_NPOI)
-			this.raw_npoi_excel = null;
+			this.raw_excel = null;
+			#elif(USE_DEF_EXCELDATAREADER)
+			this.raw_excel = null;
 			#endif
 
-			//raw_npoi_sheet
+			//raw_sheet
 			#if(USE_DEF_NPOI)
-			this.raw_npoi_sheet = null;
+			this.raw_sheet = null;
+			#elif(USE_DEF_EXCELDATAREADER)
+			this.raw_sheet = null;
 			#endif
 
-			//raw_npoi_line
+			//raw_line
 			#if(USE_DEF_NPOI)
-			this.raw_npoi_line = null;
+			this.raw_line = null;
+			#elif(USE_DEF_EXCELDATAREADER)
+			this.raw_line = null;
 			#endif
 
-			//raw_npoi_cell
+			//raw_cell
 			#if(USE_DEF_NPOI)
-			this.raw_npoi_cell = null;
+			this.raw_cell = null;
+			#elif(USE_DEF_EXCELDATAREADER)
+			this.raw_cell = null;
 			#endif
 		}
 
@@ -72,8 +105,15 @@ namespace Fee.Excel
 		{
 			#if(USE_DEF_NPOI)
 			{
-				this.raw_npoi_excel = Excel_Npoi.Open(a_path);
-				if(this.raw_npoi_excel != null){
+				this.raw_excel = Excel_Npoi.Open(a_path);
+				if(this.raw_excel != null){
+					return true;
+				}
+			}
+			#elif(USE_DEF_EXCELDATAREADER)
+			{
+				this.raw_excel = Excel_ExcelDataReader.Open(a_path);
+				if(this.raw_excel != null){
 					return true;
 				}
 			}
@@ -93,10 +133,17 @@ namespace Fee.Excel
 		{
 			#if(USE_DEF_NPOI)
 			{
-				this.raw_npoi_excel = null;
-				this.raw_npoi_sheet = null;
-				this.raw_npoi_line = null;
-				this.raw_npoi_cell = null;
+				this.raw_excel = null;
+				this.raw_sheet = null;
+				this.raw_line = null;
+				this.raw_cell = null;
+			}
+			#elif(USE_DEF_EXCELDATAREADER)
+			{
+				this.raw_excel = null;
+				this.raw_sheet = null;
+				this.raw_line = null;
+				this.raw_cell = null;
 			}
 			#endif
 		}
@@ -107,7 +154,11 @@ namespace Fee.Excel
 		{
 			#if(USE_DEF_NPOI)
 			{
-				return Excel_Npoi.GetSheetCount(this.raw_npoi_excel);
+				return Excel_Npoi.GetSheetCount(this.raw_excel);
+			}
+			#elif(USE_DEF_EXCELDATAREADER)
+			{
+				return Excel_ExcelDataReader.GetSheetCount(this.raw_excel);
 			}
 			#else
 			{
@@ -123,8 +174,16 @@ namespace Fee.Excel
 		{
 			#if(USE_DEF_NPOI)
 			{
-				this.raw_npoi_sheet = Excel_Npoi.GetSheet(this.raw_npoi_excel,a_sheet_index);
-				if(this.raw_npoi_sheet == null){
+				this.raw_sheet = Excel_Npoi.GetSheet(this.raw_excel,a_sheet_index);
+				if(this.raw_sheet == null){
+					Tool.Assert(false);
+					return false;
+				}
+			}
+			#elif(USE_DEF_EXCELDATAREADER)
+			{
+				this.raw_sheet = Excel_ExcelDataReader.GetSheet(this.raw_excel,a_sheet_index);
+				if(this.raw_sheet == null){
 					Tool.Assert(false);
 					return false;
 				}
@@ -145,7 +204,11 @@ namespace Fee.Excel
 		{
 			#if(USE_DEF_NPOI)
 			{
-				this.raw_npoi_line = Excel_Npoi.GetLine(this.raw_npoi_sheet,a_y);
+				this.raw_line = Excel_Npoi.GetLine(this.raw_sheet,a_y);
+			}
+			#elif(USE_DEF_EXCELDATAREADER)
+			{
+				this.raw_line = Excel_ExcelDataReader.GetLine(this.raw_sheet,a_y);
 			}
 			#else
 			{
@@ -156,11 +219,20 @@ namespace Fee.Excel
 
 			#if(USE_DEF_NPOI)
 			{
-				if(this.raw_npoi_line == null){
+				if(this.raw_line == null){
 					//データのないライン。
-					this.raw_npoi_cell = null;
+					this.raw_cell = null;
 				}else{
-					this.raw_npoi_cell = Excel_Npoi.GetCell(this.raw_npoi_line,a_x);
+					this.raw_cell = Excel_Npoi.GetCell(this.raw_line,a_x);
+				}
+			}
+			#elif(USE_DEF_EXCELDATAREADER)
+			{
+				if(this.raw_line == null){
+					//データのないライン。
+					this.raw_cell = null;
+				}else{
+					this.raw_cell = Excel_ExcelDataReader.GetCell(this.raw_line,a_x);
 				}
 			}
 			#else
@@ -175,13 +247,21 @@ namespace Fee.Excel
 
 		/** セルタイプ。取得。
 		*/
-		public Excel_Npoi.CellType GetCellType()
+		public CellType GetCellType()
 		{
-			Excel_Npoi.CellType t_celltype = Excel_Npoi.CellType.None;
+			CellType t_celltype = CellType.None;
 
 			#if(USE_DEF_NPOI)
-			if(this.raw_npoi_cell != null){
-				t_celltype = Excel_Npoi.GetCellType(this.raw_npoi_cell);
+			{
+				if(this.raw_cell != null){
+					t_celltype = Excel_Npoi.GetCellType(this.raw_cell);
+				}
+			}
+			#elif(USE_DEF_EXCELDATAREADER)
+			{
+				if(this.raw_cell != null){
+					t_celltype = Excel_ExcelDataReader.GetCellType(this.raw_cell);
+				}
 			}
 			#endif
 
@@ -195,8 +275,16 @@ namespace Fee.Excel
 			string t_value = null;
 
 			#if(USE_DEF_NPOI)
-			if(this.raw_npoi_cell != null){
-				t_value = Excel_Npoi.GetCellString(this.raw_npoi_cell);
+			{
+				if(this.raw_cell != null){
+					t_value = Excel_Npoi.GetCellString(this.raw_cell);
+				}
+			}
+			#elif(USE_DEF_EXCELDATAREADER)
+			{
+				if(this.raw_cell != null){
+					t_value = Excel_ExcelDataReader.GetCellString(this.raw_cell);
+				}
 			}
 			#endif
 
@@ -210,8 +298,16 @@ namespace Fee.Excel
 			double t_value = 0.0;
 
 			#if(USE_DEF_NPOI)
-			if(this.raw_npoi_cell != null){
-				t_value = Excel_Npoi.GetCellNumeric(this.raw_npoi_cell);
+			{
+				if(this.raw_cell != null){
+					t_value = Excel_Npoi.GetCellNumeric(this.raw_cell);
+				}
+			}
+			#elif(USE_DEF_EXCELDATAREADER)
+			{
+				if(this.raw_cell != null){
+					t_value = Excel_ExcelDataReader.GetCellNumeric(this.raw_cell);
+				}
 			}
 			#endif
 

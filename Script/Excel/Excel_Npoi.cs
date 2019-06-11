@@ -18,23 +18,6 @@ namespace Fee.Excel
 	*/
 	public class Excel_Npoi
 	{
-		/** CellType
-		*/
-		public enum CellType
-		{
-			/** None
-			*/
-			None,
-
-			/** StringType
-			*/
-			StringType,
-
-			/** NumericType
-			*/
-			NumericType,
-		}
-
 		/** 開く。
 		*/
 		public static NPOI.SS.UserModel.IWorkbook Open(Fee.File.Path a_path)
@@ -136,24 +119,24 @@ namespace Fee.Excel
 
 		/** セルタイプ。取得。
 		*/
-		public static CellType GetCellType(NPOI.SS.UserModel.ICell a_cell)
+		public static Excel.CellType GetCellType(NPOI.SS.UserModel.ICell a_cell)
 		{
-			CellType t_celltype = CellType.None;
+			Excel.CellType t_celltype = Excel.CellType.None;
 
 			if(a_cell != null){
 				try{
 					switch(a_cell.CellType){
 					case NPOI.SS.UserModel.CellType.String:
 						{
-							t_celltype = CellType.StringType;
+							t_celltype = Excel.CellType.StringType;
 						}break;
 					case NPOI.SS.UserModel.CellType.Numeric:
 						{
-							t_celltype = CellType.NumericType;
+							t_celltype = Excel.CellType.NumericType;
 						}break;
 					default:
 						{
-							t_celltype = CellType.None;
+							t_celltype = Excel.CellType.None;
 						}break;
 					}
 				}catch(System.Exception t_exception){
