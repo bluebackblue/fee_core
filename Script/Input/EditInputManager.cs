@@ -304,8 +304,7 @@ namespace Fee.Input
 
 				//すでにリストに存在するものはリストから外す。
 				for(int ii=0;ii<t_list.Count;ii++){
-					Fee.Input.EditInputManager_Item t_item;
-					if(t_flag_list.TryGetValue(t_list[ii].m_Name,out t_item) == true){
+					if(t_flag_list.TryGetValue(t_list[ii].m_Name,out Fee.Input.EditInputManager_Item t_item) == true){
 						//すでに存在する。
 						t_flag_list[t_list[ii].m_Name] = null;
 					}

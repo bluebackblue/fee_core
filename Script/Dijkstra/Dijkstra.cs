@@ -71,9 +71,7 @@ namespace Fee.Dijkstra
 		*/
 		public Node<NODEKEY,NODEDATA,LINKDATA> GetNode(NODEKEY a_nodekey)
 		{
-			Node<NODEKEY,NODEDATA,LINKDATA> t_node;
-
-			if(this.node_list.TryGetValue(a_nodekey,out t_node) == true){
+			if(this.node_list.TryGetValue(a_nodekey,out Node<NODEKEY,NODEDATA,LINKDATA> t_node) == true){
 				return t_node;
 			}
 

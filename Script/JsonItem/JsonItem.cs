@@ -602,8 +602,7 @@ namespace Fee.JsonItem
 			}
 
 			{
-				JsonItem t_value;
-				if(this.value.associative_array.TryGetValue(a_itemname,out t_value) == true){
+				if(this.value.associative_array.TryGetValue(a_itemname,out JsonItem t_value) == true){
 					return t_value;
 				}
 			}
@@ -646,8 +645,7 @@ namespace Fee.JsonItem
 			}
 		
 			{
-				JsonItem t_value;
-				if(this.value.associative_array.TryGetValue(a_itemname,out t_value) == true){
+				if(this.value.associative_array.TryGetValue(a_itemname,out JsonItem t_value) == true){
 					if(a_valuetype == ValueType.None){
 						return true;
 					}else{

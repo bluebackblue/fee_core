@@ -53,9 +53,7 @@ namespace Fee.Ui
 		*/
 		public WindowResumeItem GetItem(string a_label)
 		{
-			WindowResumeItem t_item = null;
-
-			if(this.list.TryGetValue(a_label,out t_item) == true){
+			if(this.list.TryGetValue(a_label,out WindowResumeItem t_item) == true){
 				return t_item;
 			}
 

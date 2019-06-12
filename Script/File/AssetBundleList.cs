@@ -60,9 +60,7 @@ namespace Fee.File
 		*/
 		public UnityEngine.AssetBundle GetAssetBundle(long a_assetbundle_id)
 		{
-			UnityEngine.AssetBundle t_assetbundle;
-
-			if(this.list.TryGetValue(a_assetbundle_id,out t_assetbundle) == true){
+			if(this.list.TryGetValue(a_assetbundle_id,out UnityEngine.AssetBundle t_assetbundle) == true){
 				return t_assetbundle;
 			}
 
