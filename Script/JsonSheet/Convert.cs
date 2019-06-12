@@ -19,6 +19,7 @@ namespace Fee.JsonSheet
 {
 	/** Convert
 	*/
+	#if(UNITY_EDITOR)
 	public class Convert
 	{
 		/** コンバート
@@ -271,5 +272,6 @@ namespace Fee.JsonSheet
 			Fee.EditorTool.Utility.WriteTextFile(a_path.GetPath(),t_text);
 		}
 	}
+	#endif
 }
 
