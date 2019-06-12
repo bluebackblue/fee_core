@@ -93,7 +93,7 @@ https://discord.gg/JH3B4SR
 * https://github.com/tonyqus/npoi/
 
 ### ExcelDataReader
-このリポジトリにNPOIは含まれていません。以下から取得してください。
+このリポジトリにExcelDataReaderは含まれていません。以下から取得してください。
 * https://github.com/bluebackblue/fee_core/tree/master/license/exceldatareader
 * https://github.com/ExcelDataReader/ExcelDataReader/
 
