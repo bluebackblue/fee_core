@@ -137,7 +137,7 @@ namespace Fee.File
 		public static Path GetLocalPath(Path a_relative_path)
 		{
 			//a_relative_pathは相対パス。
-			return new Path(UnityEngine.Application.persistentDataPath + "/",a_relative_path.GetPath());
+			return new Path(UnityEngine.Application.persistentDataPath + "/" + a_relative_path.GetPath());
 		}
 
 		/** リクエスト。ロードローカル。バイナリファイル。

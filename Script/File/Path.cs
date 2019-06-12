@@ -40,9 +40,9 @@ namespace Fee.File
 
 		/** constructor
 		*/
-		public Path(string a_directorypath,string a_filename)
+		public Path(string a_path,string a_directorypath,string a_filename)
 		{
-			this.path = null;
+			this.path = a_path;
 			this.directorypath = a_directorypath;
 			this.filename = a_filename;
 		}
@@ -139,14 +139,14 @@ namespace Fee.File
 		*/
 		public Path CreateUrl_ChangeFileName(string a_filename)
 		{
-			return new Path(this.directorypath,a_filename);
+			return new Path(null,this.directorypath,a_filename);
 		}
 
 		/** ＵＲＬ作成。ディレクトリパス変更。
 		*/
 		public Path CreateUrl_ChangeDirectoryPath(string a_directorypath)
 		{
-			return new Path(a_directorypath,this.filename);
+			return new Path(null,a_directorypath,this.filename);
 		}
 	}
 }
