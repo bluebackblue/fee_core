@@ -5,7 +5,7 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief エクセル。エクセルＴＯＪＳＯＮ。
+ * @brief エクセル。エクセルからＪＳＯＮシート作成。
 */
 
 
@@ -13,34 +13,34 @@
 */
 namespace Fee.Excel
 {
-	/** ExcelToJson
+	/** エクセルからＪＳＯＮシート作成。
 	*/
-	public class ExcelToJson
+	public class ExcelToJsonSheet
 	{
 		/** excel
 		*/
 		private Excel excel;
 
-		/** jsonitem
+		/** jsonitem_jsonsheet
 		*/
-		private Fee.JsonItem.JsonItem jsonitem;
+		private Fee.JsonItem.JsonItem jsonitem_jsonsheet;
 
 		/** constructor
 		*/
-		public ExcelToJson()
+		public ExcelToJsonSheet()
 		{
 			//excel
 			this.excel = null;
 
-			//jsonitem
-			this.jsonitem = null;
+			//jsonitem_jsonsheet
+			this.jsonitem_jsonsheet = null;
 		}
 
 		/** コンバート。
 		*/
 		public bool Convert(File.Path a_path)
 		{
-			this.jsonitem = new JsonItem.JsonItem(new Fee.JsonItem.Value_AssociativeArray());
+			this.jsonitem_jsonsheet = new JsonItem.JsonItem(new Fee.JsonItem.Value_AssociativeArray());
 
 			{
 				this.excel = new Excel();
@@ -61,11 +61,11 @@ namespace Fee.Excel
 			return true;
 		}
 
-		/** ConvertJsonString
+		/** ＪＳＯＮシート。取得。
 		*/
-		public string ConvertJsonString()
+		public Fee.JsonItem.JsonItem GetJsonSheet()
 		{
-			return this.jsonitem.ConvertJsonString();
+			return this.jsonitem_jsonsheet;
 		}
 
 		/** セルの文字列をチェック。
@@ -222,26 +222,31 @@ namespace Fee.Excel
 			CellPosition t_pos_end_x = new CellPosition(0,0);
 
 			if(this.FindCell_Root(ref t_pos_root) == false){
+				Tool.Assert(false);
 				return;
 			}
 
 			//パラメータタイプ。検索。
 			if(this.CellStringCheck(t_pos_root.x,t_pos_root.y + 1,Config.COMMAND_PARAM_TYPE,ref t_pos_param_type) == false){
+				Tool.Assert(false);
 				return;
 			}
 
 			//パラメータ名。検索。
 			if(this.CellStringCheck(t_pos_root.x,t_pos_root.y + 2,Config.COMMAND_PARAM_NAME,ref t_pos_param_name) == false){
+				Tool.Assert(false);
 				return;
 			}
 
 			//Ｘ軸方向。終端検索。
 			if(this.FindCellXLine(t_pos_param_type.x + 1,t_pos_param_type.y,Config.END_SEARCH_WIDTH,Config.COMMAND_PARAM_END,ref t_pos_end_x) == false){
+				Tool.Assert(false);
 				return;
 			}
 
 			//Ｙ軸方向。終端検索。
 			if(this.FindCellYLine(t_pos_param_type.x,t_pos_param_type.y + 1,Config.END_SEARCH_HEIGHT,Config.COMMAND_PARAM_END,ref t_pos_end_y) == false){
+				Tool.Assert(false);
 				return;
 			}
 
@@ -287,7 +292,14 @@ namespace Fee.Excel
 					}
 				}
 				string t_root_name = this.GetTryCellString(t_pos_root.x + 1,t_pos_root.y);
-				this.jsonitem.AddItem(t_root_name,t_jsonitem_list,false);
+
+				if(this.jsonitem_jsonsheet.IsExistItem(t_root_name) == false){
+					this.jsonitem_jsonsheet.AddItem(t_root_name,t_jsonitem_list,false);
+				}else{
+					//ルート名が他のシートと重複している。
+					Tool.Assert(false);
+					return;
+				}
 			}
 		}
 	}
