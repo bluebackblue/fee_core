@@ -17,68 +17,80 @@ namespace Fee.Excel
 	*/
 	public class Excel
 	{
+		#if(USE_DEF_NPOI)
+
+
 		/** raw_excel
 		*/
-		#if(USE_DEF_NPOI)
 		private NPOI.SS.UserModel.IWorkbook raw_excel;
-		#elif(USE_DEF_EXCELDATAREADER)
-		private System.Data.DataSet raw_excel;
-		#endif
 
 		/** raw_sheet
 		*/
-		#if(USE_DEF_NPOI)
 		private NPOI.SS.UserModel.ISheet raw_sheet;
-		#elif(USE_DEF_EXCELDATAREADER)
-		private System.Data.DataTable raw_sheet;
-		#endif
 
 		/** raw_line
 		*/
-		#if(USE_DEF_NPOI)
 		private NPOI.SS.UserModel.IRow raw_line;
-		#elif(USE_DEF_EXCELDATAREADER)
-		private System.Data.DataRow raw_line;
-		#endif
 
 		/** raw_cell
 		*/
-		#if(USE_DEF_NPOI)
 		private NPOI.SS.UserModel.ICell raw_cell;
+
+
 		#elif(USE_DEF_EXCELDATAREADER)
-		private object raw_cell;
+
+
+		/** raw_excel
+		*/
+		private System.Data.DataSet raw_excel;
+
+		/** raw_sheet
+		*/
+		private System.Data.DataTable raw_sheet;
+
+		/** raw_line
+		*/
+		private System.Data.DataRow raw_line;
+
+		/** raw_cell
+		*/
+		private System.Object raw_cell;
+
+
 		#endif
 
 		/** constructor
 		*/
 		public Excel()
 		{
-			//raw_workbook
 			#if(USE_DEF_NPOI)
-			this.raw_excel = null;
-			#elif(USE_DEF_EXCELDATAREADER)
-			this.raw_excel = null;
-			#endif
+			{
+				//raw_excel
+				this.raw_excel = null;
 
-			//raw_sheet
-			#if(USE_DEF_NPOI)
-			this.raw_sheet = null;
-			#elif(USE_DEF_EXCELDATAREADER)
-			this.raw_sheet = null;
-			#endif
+				//raw_sheet
+				this.raw_sheet = null;
 
-			//raw_line
-			#if(USE_DEF_NPOI)
-			this.raw_line = null;
-			#elif(USE_DEF_EXCELDATAREADER)
-			this.raw_line = null;
-			#endif
+				//raw_line
+				this.raw_line = null;
 
-			//raw_cell
-			#if(USE_DEF_NPOI)
-			this.raw_cell = null;
+				//raw_cell
+				this.raw_cell = null;
+			}
 			#elif(USE_DEF_EXCELDATAREADER)
-			this.raw_cell = null;
+			{
+				//raw_excel
+				this.raw_excel = null;
+
+				//raw_sheet
+				this.raw_sheet = null;
+
+				//raw_line
+				this.raw_line = null;
+
+				//raw_cell
+				this.raw_cell = null;
+			}
 			#endif
 		}
 

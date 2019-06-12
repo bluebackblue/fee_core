@@ -27,9 +27,10 @@ namespace Fee.Excel
 			try{
 				using(System.IO.FileStream t_stream = System.IO.File.Open(a_path.GetPath(),System.IO.FileMode.Open,System.IO.FileAccess.Read)){
 					if(t_stream != null){
-						ExcelDataReader.IExcelDataReader t_reader = ExcelDataReader.ExcelReaderFactory.CreateOpenXmlReader(t_stream);
-						if(t_reader != null){
-							t_workbook = ExcelDataReader.ExcelDataReaderExtensions.AsDataSet(t_reader);
+						using(ExcelDataReader.IExcelDataReader t_reader = ExcelDataReader.ExcelReaderFactory.CreateOpenXmlReader(t_stream)){
+							if(t_reader != null){
+								t_workbook = ExcelDataReader.ExcelDataReaderExtensions.AsDataSet(t_reader);
+							}
 						}
 					}
 				}
