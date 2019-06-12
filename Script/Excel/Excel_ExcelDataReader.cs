@@ -61,14 +61,18 @@ namespace Fee.Excel
 
 		/** セル。取得。
 		*/
-		public static object GetCell(System.Data.DataRow a_line,int a_x)
+		public static System.Object GetCell(System.Data.DataRow a_line,int a_x)
 		{
-			object t_cell = null;
+			System.Object t_cell = null;
 
 			if(a_line != null){
 				if(0 <= a_x){
 					try{
-						t_cell = a_line.ItemArray[a_x];
+						if(a_x < a_line.ItemArray.Length){
+							t_cell = a_line.ItemArray[a_x];	
+						}else{
+							//データのないセル。
+						}
 					}catch(System.Exception t_exception){
 						Tool.LogError(t_exception);
 					}
@@ -124,39 +128,63 @@ namespace Fee.Excel
 			return t_sheet;
 		}
 
-		/** セルタイプ。取得。
-		*/
-		public static CellType GetCellType(object a_cell)
-		{
-			return CellType.StringType;
-		}
-
 		/** 文字列。取得。
 		*/
-		public static string GetCellString(object a_cell)
+		public static bool GetTryCellString(System.Object a_cell,out string a_result_value)
 		{
-			string t_value = null;
-
-			if(a_cell != null){
-				try{
-					t_value = a_cell.ToString();
-				}catch(System.Exception t_exception){
-					Tool.LogError(t_exception);
+			try{
+				if(a_cell != null){
+					string t_value_string = a_cell.ToString();
+					if(t_value_string != null){
+						a_result_value = t_value_string;
+						return true;
+					}
+				}else{
+					//データのないセル。
 				}
-			}else{
-				//データのないセル。
+			}catch(System.Exception t_exception){
+				Tool.LogError(t_exception);
 			}
 
-			return t_value;
+			//失敗。
+			a_result_value = null;
+			return false;
 		}
 
 		/** 数値。取得。
 		*/
-		public static double GetCellNumeric(object a_cell)
+		public static bool GetTryCellNumeric(System.Object a_cell,out double a_result_value)
 		{
-			//TODO:
-			Tool.Assert(false);
-			return 0.0;
+			try{
+				if(a_cell != null){
+					System.Type t_type = a_cell.GetType();
+					if(t_type.IsValueType == true){
+						//数値へのキャスト。
+						a_result_value = (double)a_cell;
+						return true;
+					}else if(t_type == typeof(string)){
+						string t_value_string = a_cell as string;
+						if(t_value_string != null){
+							if(double.TryParse(t_value_string,out double t_value_double) == true){
+								//数値へのパース。
+								a_result_value = t_value_double;
+								return true;
+							}
+						}
+					}else{
+						//不明。
+						Tool.Assert(false);
+					}
+				}else{
+					//データのないセル。
+				}
+			}catch(System.Exception t_exception){
+				Tool.LogError(t_exception);
+			}
+
+			//失敗。
+			a_result_value = 0.0;
+			return false;
 		}
 	}
 }

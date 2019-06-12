@@ -29,13 +29,14 @@ namespace Fee.Excel
 		*/
 		public static bool ASSERT_ENABLE = true;
 
-		/** コマンド検索範囲。
+		/** 終端検索範囲。
 		*/
-		public static int COMMAND_SEARCH_WIDTH = 100;
-		public static int COMMAND_SEARCH_HEIGHT = 1000;
+		public static int END_SEARCH_WIDTH = 100;
+		public static int END_SEARCH_HEIGHT = 1000;
 
 		/** COMMAND
 		*/
+		public static string COMMAND_PARAM_ROOT = "[root]";
 		public static string COMMAND_PARAM_TYPE = "[param_type]";
 		public static string COMMAND_PARAM_NAME = "[param_name]";
 		public static string COMMAND_PARAM_END = "[end]";

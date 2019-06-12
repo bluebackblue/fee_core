@@ -73,12 +73,11 @@ namespace Fee.Excel
 		private bool CellStringCheck(int a_x,int a_y,string a_text,ref CellPosition a_result_pos)
 		{
 			if(this.excel.SetActiveCell(a_x,a_y) == true){
-				if(this.excel.GetCellType() == Excel.CellType.StringType){
-					string t_value = this.excel.GetCellString();
-					if(t_value == a_text){
-						a_result_pos = new CellPosition(a_x,a_y);
-						return true;
-					}
+				string t_value;
+				this.excel.GetTryCellString(out t_value);
+				if(t_value == a_text){
+					a_result_pos = new CellPosition(a_x,a_y);
+					return true;
 				}
 			}
 
@@ -90,8 +89,8 @@ namespace Fee.Excel
 		private string GetTryCellString(int a_x,int a_y)
 		{
 			if(this.excel.SetActiveCell(a_x,a_y) == true){
-				if(this.excel.GetCellType() == Excel.CellType.StringType){
-					return this.excel.GetCellString();
+				if(this.excel.GetTryCellString(out string t_value) == true){
+					return t_value;
 				}
 			}
 			return null;
@@ -102,8 +101,8 @@ namespace Fee.Excel
 		private double GetTryCellNumeric(int a_x,int a_y)
 		{
 			if(this.excel.SetActiveCell(a_x,a_y) == true){
-				if(this.excel.GetCellType() == Excel.CellType.NumericType){
-					return this.excel.GetCellNumeric();
+				if(this.excel.GetTryCellNumeric(out double t_value) == true){
+					return t_value;
 				}
 			}
 			return 0.0;
@@ -113,8 +112,8 @@ namespace Fee.Excel
 		*/
 		private bool FindCellBox(int a_x,int a_y,int a_size,string a_text,ref CellPosition a_result_pos)
 		{
-			for(int xx=0;xx<a_size;xx++){
-				for(int yy=0;yy<a_size;yy++){
+			for(int yy=0;yy<a_size;yy++){
+				for(int xx=0;xx<a_size;xx++){
 					int t_x = a_x + xx;
 					int t_y = a_y + yy;
 					if(this.CellStringCheck(t_x,t_y,a_text,ref a_result_pos) == true){
@@ -160,10 +159,10 @@ namespace Fee.Excel
 		*/
 		private bool FindCell_Root(ref CellPosition a_result_pos)
 		{
-			int t_size = 5;
-			for(int xx=0;xx<10;xx++){
-				for(int yy=0;yy<10;yy++){
-					if(this.FindCellBox(xx * t_size,yy * t_size,t_size,"[root]",ref a_result_pos) == true){
+			int t_block_size = 16;
+			for(int yy=0;yy<10;yy++){
+				for(int xx=0;xx<10;xx++){
+					if(this.FindCellBox(xx * t_block_size,yy * t_block_size,t_block_size,Config.COMMAND_PARAM_ROOT,ref a_result_pos) == true){
 						return true;
 					}
 				}
@@ -237,12 +236,12 @@ namespace Fee.Excel
 			}
 
 			//Ｘ軸方向。終端検索。
-			if(this.FindCellXLine(t_pos_param_type.x + 1,t_pos_param_type.y,Config.COMMAND_SEARCH_WIDTH,Config.COMMAND_PARAM_END,ref t_pos_end_x) == false){
+			if(this.FindCellXLine(t_pos_param_type.x + 1,t_pos_param_type.y,Config.END_SEARCH_WIDTH,Config.COMMAND_PARAM_END,ref t_pos_end_x) == false){
 				return;
 			}
 
 			//Ｙ軸方向。終端検索。
-			if(this.FindCellYLine(t_pos_param_type.x,t_pos_param_type.y + 1,Config.COMMAND_SEARCH_WIDTH,Config.COMMAND_PARAM_END,ref t_pos_end_y) == false){
+			if(this.FindCellYLine(t_pos_param_type.x,t_pos_param_type.y + 1,Config.END_SEARCH_HEIGHT,Config.COMMAND_PARAM_END,ref t_pos_end_y) == false){
 				return;
 			}
 

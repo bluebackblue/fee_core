@@ -117,74 +117,69 @@ namespace Fee.Excel
 			return t_sheet;
 		}
 
-		/** セルタイプ。取得。
-		*/
-		public static CellType GetCellType(NPOI.SS.UserModel.ICell a_cell)
-		{
-			CellType t_celltype = CellType.None;
-
-			if(a_cell != null){
-				try{
-					switch(a_cell.CellType){
-					case NPOI.SS.UserModel.CellType.String:
-						{
-							t_celltype = CellType.StringType;
-						}break;
-					case NPOI.SS.UserModel.CellType.Numeric:
-						{
-							t_celltype = CellType.NumericType;
-						}break;
-					default:
-						{
-							t_celltype = CellType.None;
-						}break;
-					}
-				}catch(System.Exception t_exception){
-					Tool.LogError(t_exception);
-				}
-			}else{
-				Tool.Assert(false);
-			}
-			
-			return t_celltype;
-		}
-
 		/** 文字列。取得。
 		*/
-		public static string GetCellString(NPOI.SS.UserModel.ICell a_cell)
+		public static bool GetTryCellString(NPOI.SS.UserModel.ICell a_cell,out string a_result_value)
 		{
-			string t_value = null;
-
-			if(a_cell != null){
-				try{
-					t_value = a_cell.StringCellValue;
-				}catch(System.Exception t_exception){
-					Tool.LogError(t_exception);
+			try{
+				if(a_cell != null){
+					if(a_cell.CellType == NPOI.SS.UserModel.CellType.String){
+						string t_value_string = a_cell.StringCellValue;
+						if(t_value_string != null){
+							a_result_value = t_value_string;
+							return true;
+						}
+					}else if(a_cell.CellType == NPOI.SS.UserModel.CellType.Numeric){
+						double t_value_double = a_cell.NumericCellValue;
+						a_result_value = t_value_double.ToString();
+						return true;
+					}else{
+						//不明。
+						Tool.Assert(false);
+					}
+				}else{
+					//データのないセル。
 				}
-			}else{
-				Tool.Assert(false);
+			}catch(System.Exception t_exception){
+				Tool.LogError(t_exception);
 			}
 
-			return t_value;
+			//失敗。
+			a_result_value = null;
+			return false;
 		}
 
 		/** 数値。取得。
 		*/
-		public static double GetCellNumeric(NPOI.SS.UserModel.ICell a_cell)
+		public static bool GetTryCellNumeric(NPOI.SS.UserModel.ICell a_cell,out double a_result_value)
 		{
-			double t_value = 0.0;
-
-			if(a_cell != null){
-				try{
-					t_value = a_cell.NumericCellValue;
-				}catch(System.Exception t_exception){
-					Tool.LogError(t_exception);
+			try{
+				if(a_cell != null){
+					if(a_cell.CellType == NPOI.SS.UserModel.CellType.Numeric){
+						//数値へのキャッスト。
+						a_result_value = a_cell.NumericCellValue;
+						return true;
+					}else if(a_cell.CellType == NPOI.SS.UserModel.CellType.String){
+						string t_value_string = a_cell.StringCellValue;
+						if(t_value_string != null){
+							if(double.TryParse(t_value_string,out double t_value_double) == true){
+								//数値へのパース。
+								a_result_value = t_value_double;
+								return true;
+							}
+						}
+					}else{
+						//不明。
+						Tool.Assert(false);
+					}
 				}
-			}else{
-				Tool.Assert(false);
+			}catch(System.Exception t_exception){
+				Tool.LogError(t_exception);
 			}
 
-			return t_value;
+			//失敗。
+			a_result_value = 0.0;
+			return false;
 		}
 	}
 }

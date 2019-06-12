@@ -228,73 +228,44 @@ namespace Fee.Excel
 			return true;
 		}
 
-		/** セルタイプ。取得。
+		/** 文字列。取得。
 		*/
-		public CellType GetCellType()
+		public bool GetTryCellString(out string a_result_value)
 		{
-			CellType t_celltype = CellType.None;
-
 			#if(USE_DEF_NPOI)
 			{
-				if(this.raw_cell != null){
-					t_celltype = Excel_Npoi.GetCellType(this.raw_cell);
-				}
+				return Excel_Npoi.GetTryCellString(this.raw_cell,out a_result_value);
 			}
 			#elif(USE_DEF_EXCELDATAREADER)
 			{
-				if(this.raw_cell != null){
-					t_celltype = Excel_ExcelDataReader.GetCellType(this.raw_cell);
-				}
+				return Excel_ExcelDataReader.GetTryCellString(this.raw_cell,out a_result_value);
+			}
+			#else
+			{
+				a_result_value = null;
+				return false;
 			}
 			#endif
-
-			return t_celltype;
 		}
 
 		/** 文字列。取得。
 		*/
-		public string GetCellString()
+		public bool GetTryCellNumeric(out double a_result_value)
 		{
-			string t_value = null;
-
 			#if(USE_DEF_NPOI)
 			{
-				if(this.raw_cell != null){
-					t_value = Excel_Npoi.GetCellString(this.raw_cell);
-				}
+				return Excel_Npoi.GetTryCellNumeric(this.raw_cell,out a_result_value);
 			}
 			#elif(USE_DEF_EXCELDATAREADER)
 			{
-				if(this.raw_cell != null){
-					t_value = Excel_ExcelDataReader.GetCellString(this.raw_cell);
-				}
+				return Excel_ExcelDataReader.GetTryCellNumeric(this.raw_cell,out a_result_value);
+			}
+			#else
+			{
+				a_result_value = 0.0;
+				return false;
 			}
 			#endif
-
-			return t_value;
-		}
-
-		/** 数値。取得。
-		*/
-		public double GetCellNumeric()
-		{
-			double t_value = 0.0;
-
-			#if(USE_DEF_NPOI)
-			{
-				if(this.raw_cell != null){
-					t_value = Excel_Npoi.GetCellNumeric(this.raw_cell);
-				}
-			}
-			#elif(USE_DEF_EXCELDATAREADER)
-			{
-				if(this.raw_cell != null){
-					t_value = Excel_ExcelDataReader.GetCellNumeric(this.raw_cell);
-				}
-			}
-			#endif
-
-			return t_value;
 		}
 	}
 }
