@@ -41,6 +41,7 @@ https://discord.gg/JH3B4SR
 * _ Input [InputManager、InputSystem]
 * _ Instantiate [インスタンス作成]
 * _ JsonItem [Json]
+* _ JsonSheet [Jsonシート]
 * _ MakeAssetBundle [アセットバンドル作成]
 * _ Model [モデル]
 * _ Network [通信]
