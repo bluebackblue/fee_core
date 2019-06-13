@@ -39,6 +39,13 @@ namespace Fee.Input
 		*/
 		public static bool ASSERT_ENABLE = true;
 
+		/** リスロー。
+		*/
+		public static bool RETHROW_ENABLE = false;
+
+
+
+
 		/** インプットシステム。マウス。
 		*/
 		#if(UNITY_EDITOR)

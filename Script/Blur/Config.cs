@@ -29,6 +29,12 @@ namespace Fee.Blur
 		*/
 		public static bool ASSERT_ENABLE = true;
 
+		/** リスロー。
+		*/
+		public static bool RETHROW_ENABLE = false;
+
+
+
 		/** マテリアル名。
 		*/
 		public static string MATERIAL_NAME_BLURX = "Material/Blur/BlurX";

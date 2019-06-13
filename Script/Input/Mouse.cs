@@ -538,7 +538,7 @@ namespace Fee.Input
 				this.middle.Main(ref this.pos);
 				this.mouse_wheel.Main();
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 		}
 

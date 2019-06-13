@@ -29,6 +29,13 @@ namespace Fee.Render2D
 		*/
 		public static bool ASSERT_ENABLE = true;
 
+		/** リスロー。
+		*/
+		public static bool RETHROW_ENABLE = false;
+
+
+
+
 		/** 仮想スクリーンサイズ。
 		*/
 		public static int VIRTUAL_W = 960;

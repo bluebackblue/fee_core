@@ -86,7 +86,7 @@ namespace Fee.Render2D
 					Render2D.GetInstance().Draw_GL(this.index);
 				}
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 		}
 	}

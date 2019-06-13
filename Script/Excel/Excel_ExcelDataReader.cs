@@ -35,7 +35,7 @@ namespace Fee.Excel
 					}
 				}
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 
 			return t_workbook;
@@ -51,7 +51,7 @@ namespace Fee.Excel
 				try{
 					t_count = a_workbook.Tables.Count;
 				}catch(System.Exception t_exception){
-					Tool.LogError(t_exception);
+					Tool.DebugReThrow(t_exception);
 				}
 			}else{
 				Tool.Assert(false);
@@ -75,7 +75,7 @@ namespace Fee.Excel
 							//データのないセル。
 						}
 					}catch(System.Exception t_exception){
-						Tool.LogError(t_exception);
+						Tool.DebugReThrow(t_exception);
 					}
 				}else{
 					Tool.Assert(false);
@@ -98,7 +98,7 @@ namespace Fee.Excel
 					try{
 						t_line = a_sheet.Rows[a_y];
 					}catch(System.Exception t_exception){
-						Tool.LogError(t_exception);
+						Tool.DebugReThrow(t_exception);
 					}
 				}else{
 					Tool.Assert(false);
@@ -120,7 +120,7 @@ namespace Fee.Excel
 				try{
 					t_sheet = a_workbook.Tables[a_index];
 				}catch(System.Exception t_exception){
-					Tool.LogError(t_exception);
+					Tool.DebugReThrow(t_exception);
 				}
 			}else{
 				Tool.Assert(false);
@@ -144,7 +144,7 @@ namespace Fee.Excel
 					//データのないセル。
 				}
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 
 			//失敗。
@@ -180,7 +180,7 @@ namespace Fee.Excel
 					//データのないセル。
 				}
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 
 			//失敗。

@@ -186,7 +186,7 @@ namespace Fee.Bloom
 				//最終アップサンプリング（加算）。
 				UnityEngine.Graphics.Blit(this.work_rendertexture[0],a_dest,this.material_bloom_lastupsampling);
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 
 			//レンダーテクスチャー解放。

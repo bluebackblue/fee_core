@@ -29,6 +29,13 @@ namespace Fee.SoundPool
 		*/
 		public static bool ASSERT_ENABLE = true;
 
+		/** リスロー。
+		*/
+		public static bool RETHROW_ENABLE = false;
+
+
+
+
 		/** ダウンロードサウンドプール。キャッシュ。
 		*/
 		public static bool USE_DOWNLOAD_SOUNDPOOL_CACHE = true;

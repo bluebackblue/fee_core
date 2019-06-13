@@ -185,7 +185,7 @@ namespace Fee.Crypt
 					}
 				}
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 		}
 	}

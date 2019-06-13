@@ -29,6 +29,13 @@ namespace Fee.Network
 		*/
 		public static bool ASSERT_ENABLE = true;
 
+		/** リスロー。
+		*/
+		public static bool RETHROW_ENABLE = false;
+
+
+
+
 		/** ゲームバージョン。
 		*/
 		public static string GAME_VERSION = "1";

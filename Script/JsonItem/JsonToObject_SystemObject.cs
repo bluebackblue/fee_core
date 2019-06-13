@@ -44,7 +44,7 @@ namespace Fee.JsonItem
 					System.Type t_element_type = a_type.GetElementType();
 					t_return = System.Array.CreateInstance(t_element_type,t_list_count);
 				}catch(System.Exception t_exception){
-					Tool.LogError(t_exception);
+					Tool.DebugReThrow(t_exception);
 				}
 
 				return t_return;
@@ -55,7 +55,7 @@ namespace Fee.JsonItem
 					t_return = System.Activator.CreateInstance(a_type);
 				}catch(System.Exception t_exception){
 					//引数なしconstructorの呼び出しに失敗。
-					Tool.LogError(t_exception);
+					Tool.DebugReThrow(t_exception);
 				}
 
 				return t_return;
@@ -219,7 +219,7 @@ namespace Fee.JsonItem
 												try{
 													t_fieldinfo.SetValue(a_to_object,t_object_member);
 												}catch(System.Exception t_exception){
-													Tool.LogError(t_exception);
+													Tool.DebugReThrow(t_exception);
 												}
 											}else{
 												//ＪＳＯＮ側には存在しない。

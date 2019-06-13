@@ -29,6 +29,13 @@ namespace Fee.Ui
 		*/
 		public static bool ASSERT_ENABLE = true;
 
+		/** リスロー。
+		*/
+		public static bool RETHROW_ENABLE = false;
+
+
+
+
 		/** デフォルト。コーナーサイズ。
 		*/
 		public static int DEFAULT_BUTTON_CORNER_SIZE = 10;

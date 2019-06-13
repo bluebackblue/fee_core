@@ -29,6 +29,11 @@ namespace Fee.JsonSheet
 		*/
 		public static bool ASSERT_ENABLE = true;
 
+		/** リスロー。
+		*/
+		public static bool RETHROW_ENABLE = false;
+
+
 
 
 		/** シート名。コンバート。

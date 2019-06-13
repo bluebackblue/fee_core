@@ -26,7 +26,7 @@ namespace Fee.Render2D
 					Render2D.GetInstance().PreDraw();
 				}
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 		}
 	}

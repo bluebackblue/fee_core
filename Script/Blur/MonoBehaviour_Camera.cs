@@ -134,7 +134,7 @@ namespace Fee.Blur
 				this.material_blur_y.SetTexture("texture_original",a_source);
 				UnityEngine.Graphics.Blit(this.work_rendertexture,a_dest,this.material_blur_y);
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 
 			//レンダーテクスチャー解放。

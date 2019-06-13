@@ -29,6 +29,13 @@ namespace Fee.PerformanceCounter
 		*/
 		public static bool ASSERT_ENABLE = true;
 
+		/** リスロー。
+		*/
+		public static bool RETHROW_ENABLE = false;
+
+
+
+
 		/** ログプレフィックス。
 		*/
 		public static string LOG_TAGNAME_STRING = "-------- PerformanceCounter --------";

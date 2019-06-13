@@ -45,15 +45,23 @@ namespace Fee.Render2D
 			#endif
 		}
 
-		/** LogError
+		/** DebugReThrow
 		*/
-		public static void LogError(System.Exception a_exception)
+		public static void DebugReThrow(System.Exception a_exception)
 		{
 			#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)||(USE_DEF_FEE_DEBUGTOOL)
 			if(Config.LOGERROR_ENABLE == true){
 				UnityEngine.Debug.LogError(a_exception.StackTrace + "\n\n" + a_exception.Message);
 			}else if(Config.LOG_ENABLE == true){
 				UnityEngine.Debug.Log(a_exception.StackTrace + "\n\n" + a_exception.Message);
+			}
+
+			if(Config.RETHROW_ENABLE == true){
+				if(a_exception is Fee.ReThrowException.ReThrowException){
+					throw a_exception;
+				}else{
+					throw new Fee.ReThrowException.ReThrowException(a_exception.Message,a_exception);
+				}
 			}
 			#endif
 		}

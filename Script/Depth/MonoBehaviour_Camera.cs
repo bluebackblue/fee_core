@@ -113,7 +113,7 @@ namespace Fee.Depth
 				}
 				UnityEngine.Graphics.Blit(a_source,a_dest,this.material_depth_view);
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 		}
 	}

@@ -50,28 +50,9 @@ namespace Fee.Function
 			}
 		}
 
-		/** コルーチンから呼び出し。遅延。
-		*/
-		public static void CallFromCoroutineDelay(System.Func<ReturnType> a_function)
-		{
-			if(s_monobehaviour != null){
-				s_monobehaviour.StartCoroutine(Do_Coroutine_Delay(a_function));
-			}
-		}
-
 		/** 処理。コルーチン。
 		*/
 		private static System.Collections.IEnumerator Do_Coroutine(System.Func<ReturnType> a_function)
-		{
-			while(a_function() == ReturnType.Continue){
-				yield return null;
-			}
-			yield break;
-		}
-
-		/** 処理。コルーチン。遅延。
-		*/
-		private static System.Collections.IEnumerator Do_Coroutine_Delay(System.Func<ReturnType> a_function)
 		{
 			while(a_function() == ReturnType.Continue){
 				yield return null;

@@ -710,7 +710,7 @@ namespace Fee.Render2D
 						UnityEngine.GL.End();
 					}
 				}catch(System.Exception t_exception){
-					Tool.LogError(t_exception);
+					Tool.DebugReThrow(t_exception);
 				}
 
 				UnityEngine.GL.PopMatrix();

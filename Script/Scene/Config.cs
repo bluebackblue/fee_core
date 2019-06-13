@@ -28,6 +28,13 @@ namespace Fee.Scene
 		/** アサート。
 		*/
 		public static bool ASSERT_ENABLE = true;
+
+		/** リスロー。
+		*/
+		public static bool RETHROW_ENABLE = false;
+
+
+
 	}
 }
 
