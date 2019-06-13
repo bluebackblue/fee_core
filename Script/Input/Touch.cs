@@ -477,6 +477,9 @@ namespace Fee.Input
 		}
 
 		/** タッチリスト更新。
+
+			タッチアップされたアイテムはa_listから削除する。
+
 		*/
 		public static void UpdateTouchList<TYPE>(System.Collections.Generic.Dictionary<TYPE,Fee.Input.Touch_Phase> a_list)
 			where TYPE : Touch_Phase_Key_Base

@@ -107,10 +107,10 @@ namespace Fee.Input
 
 		/** アナログスティック。
 		*/
-		public Analog_Stick left_stick;
-		public Analog_Stick right_stick;	
-		public Digital_Button left_stick_button;
-		public Digital_Button right_stick_button;
+		public Analog_Stick l_stick;
+		public Analog_Stick r_stick;	
+		public Digital_Button l_stick_button;
+		public Digital_Button r_stick_button;
 
 		/** トリガーボタン。
 		*/
@@ -151,10 +151,10 @@ namespace Fee.Input
 			this.right_menu.Reset();
 
 			//アナログスティック。
-			this.left_stick.Reset();
-			this.right_stick.Reset();
-			this.left_stick_button.Reset();
-			this.right_stick_button.Reset();
+			this.l_stick.Reset();
+			this.r_stick.Reset();
+			this.l_stick_button.Reset();
+			this.r_stick_button.Reset();
 
 			//トリガーボタン。
 			this.l_trigger_1.Reset();
@@ -286,14 +286,14 @@ namespace Fee.Input
 
 					//設定。
 					if(this.is_focus == true){
-						this.left_stick.Set(t_l_x,t_l_y);
-						this.right_stick.Set(t_r_x,t_r_y);
+						this.l_stick.Set(t_l_x,t_l_y);
+						this.r_stick.Set(t_r_x,t_r_y);
 					}else{
-						this.left_stick.Set(0.0f,0.0f);
-						this.right_stick.Set(0.0f,0.0f);
+						this.l_stick.Set(0.0f,0.0f);
+						this.r_stick.Set(0.0f,0.0f);
 					}
-					this.left_stick_button.Set(t_l_on & this.is_focus);
-					this.right_stick_button.Set(t_r_on & this.is_focus);
+					this.l_stick_button.Set(t_l_on & this.is_focus);
+					this.r_stick_button.Set(t_r_on & this.is_focus);
 					return true;
 				}
 			}
@@ -316,14 +316,14 @@ namespace Fee.Input
 
 			//設定。
 			if(this.is_focus == true){
-				this.left_stick.Set(t_l_x,t_l_y);
-				this.right_stick.Set(t_r_x,t_r_y);
+				this.l_stick.Set(t_l_x,t_l_y);
+				this.r_stick.Set(t_r_x,t_r_y);
 			}else{
-				this.left_stick.Set(0.0f,0.0f);
-				this.right_stick.Set(0.0f,0.0f);
+				this.l_stick.Set(0.0f,0.0f);
+				this.r_stick.Set(0.0f,0.0f);
 			}
-			this.left_stick_button.Set(t_l_on & this.is_focus);
-			this.right_stick_button.Set(t_r_on & this.is_focus);
+			this.l_stick_button.Set(t_l_on & this.is_focus);
+			this.r_stick_button.Set(t_r_on & this.is_focus);
 			return true;
 		}
 
@@ -520,10 +520,10 @@ namespace Fee.Input
 					this.right_menu.Main();
 
 					//アナログスティック。
-					this.left_stick.Main();
-					this.right_stick.Main();
-					this.left_stick_button.Main();
-					this.right_stick_button.Main();
+					this.l_stick.Main();
+					this.r_stick.Main();
+					this.l_stick_button.Main();
+					this.r_stick_button.Main();
 
 					//トリガーボタン。
 					this.l_trigger_1.Main();
