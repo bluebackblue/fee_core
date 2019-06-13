@@ -47,11 +47,12 @@ https://discord.gg/JH3B4SR
 * _ Network [通信]
 * _ PerformanceCounter [パフォーマンスカウンター]
 * _ Platform [プラットフォーム]
-* _ Render2D [GLスプライト描画、テキスト位置、入力フィールド位置]
+* _ Render2D [GLスプライト描画、テキスト、入力フィールド]
+* _ ReThrowException [例外]
 * _ Scene [シーン管理]
 * _ SoundPool [サウンドプール]
 * _ TaskW [タスク]
-* _ Ui [ボタン、縦スクロール、横スクロール、チェックボタン]
+* _ Ui [ボタン、クリップスプライト、ウィンドウ、スライダー、縦スクロール、横スクロール、チェックボタン]
 * _ UniVrm [UniVrmの操作]
 
 ## 使用ライセンス
