@@ -103,6 +103,9 @@ namespace Fee.SoundPool
 		}
 
 		/** リクエスト。ロードローカル。サウンドプール。
+
+			管理ファイルを直接ロード。
+
 		*/
 		public Item RequestLoadLocalSoundPool(Fee.File.Path a_relative_path)
 		{
@@ -113,6 +116,9 @@ namespace Fee.SoundPool
 		}
 
 		/** リクエスト。ロードストリーミングアセット。サウンドプール。
+
+			ロード後ローカルセーブ。
+
 		*/
 		public Item RequestLoadStreamingAssetsSoundPool(Fee.File.Path a_relative_path,uint a_data_version)
 		{
@@ -123,6 +129,9 @@ namespace Fee.SoundPool
 		}
 
 		/** リクエスト。ダウンロード。サウンドプール。
+
+			ロード後ローカルセーブ。
+
 		*/
 		public Item RequestDownLoadSoundPool(File.Path a_path,UnityEngine.WWWForm a_post_data,uint a_data_version)
 		{

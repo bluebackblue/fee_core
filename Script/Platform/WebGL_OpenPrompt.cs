@@ -33,7 +33,7 @@ namespace Fee.Platform
 			try{
 				return WebGL_OpenPrompt.Fee_Platform_WebGLPlugin_OpenPrompt(a_title,a_text);
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 				return null;
 			}
 		}

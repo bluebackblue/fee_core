@@ -264,7 +264,7 @@ namespace Fee.SoundPool
 
 		/** リクエスト。ロードストリーミングアセット。サウンドプール。
 		*/
-		public bool RequestLoadStreamingAssetsSoundPool(Fee.File.Path a_path)
+		public bool RequestLoadStreamingAssetsSoundPool(Fee.File.Path a_path,uint a_data_version)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -276,7 +276,7 @@ namespace Fee.SoundPool
 				this.request_type = RequestType.LoadStreamingAssetsSoundPool;
 				this.request_path = a_path;
 				this.request_post_data = null;
-				this.request_data_version = 0;
+				this.request_data_version = a_data_version;
 
 				//result
 				this.result_progress_up = 0.0f;
@@ -299,8 +299,8 @@ namespace Fee.SoundPool
 		{
 			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsSoundPool);
 
-			Coroutine_LoadStreamingAssetsSoundPool t_coroutine = new Coroutine_LoadStreamingAssetsSoundPool();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_data_version);
+			Coroutine_LoadSoundPool t_coroutine = new Coroutine_LoadSoundPool();
+			yield return t_coroutine.CoroutineMain(this,this.request_path,null,true,this.request_data_version);
 
 			if(t_coroutine.result.soundpool != null){
 				this.result_progress_up = 1.0f;
@@ -354,8 +354,8 @@ namespace Fee.SoundPool
 		{
 			Tool.Assert(this.request_type == RequestType.DownLoadSoundPool);
 
-			Coroutine_DownLoadSoundPool t_coroutine = new Coroutine_DownLoadSoundPool();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,this.request_data_version);
+			Coroutine_LoadSoundPool t_coroutine = new Coroutine_LoadSoundPool();
+			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,false,this.request_data_version);
 
 			if(t_coroutine.result.soundpool != null){
 				this.result_progress_up = 1.0f;

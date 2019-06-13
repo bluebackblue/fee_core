@@ -36,7 +36,7 @@ namespace Fee.Platform
 					Tool.LogError("Fee_Platform_WebGLPlugin_SyncFs","error");
 				}
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 		}
 	}

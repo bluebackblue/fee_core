@@ -155,7 +155,7 @@ namespace Fee.SoundPool
 						}break;
 					case RequestType.LoadStreamingAssetsSoundPool:
 						{
-							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestLoadStreamingAssetsSoundPool(this.request_path) == true){
+							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestLoadStreamingAssetsSoundPool(this.request_path,this.request_data_version) == true){
 								this.mode = Mode.Do_File;
 							}
 						}break;

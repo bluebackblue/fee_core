@@ -27,7 +27,7 @@ namespace Fee.Excel
 			try{
 				t_workbook = NPOI.SS.UserModel.WorkbookFactory.Create(a_path.GetPath());
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 
 			return t_workbook;
@@ -43,7 +43,7 @@ namespace Fee.Excel
 				try{
 					t_count = a_workbook.NumberOfSheets;
 				}catch(System.Exception t_exception){
-					Tool.LogError(t_exception);
+					Tool.DebugReThrow(t_exception);
 				}
 			}else{
 				Tool.Assert(false);
@@ -63,7 +63,7 @@ namespace Fee.Excel
 					try{
 						t_cell = a_line.GetCell(a_x);
 					}catch(System.Exception t_exception){
-						Tool.LogError(t_exception);
+						Tool.DebugReThrow(t_exception);
 					}
 				}else{
 					Tool.Assert(false);
@@ -86,7 +86,7 @@ namespace Fee.Excel
 					try{
 						t_row = a_sheet.GetRow(a_y);
 					}catch(System.Exception t_exception){
-						Tool.LogError(t_exception);
+						Tool.DebugReThrow(t_exception);
 					}
 				}else{
 					Tool.Assert(false);
@@ -108,7 +108,7 @@ namespace Fee.Excel
 				try{
 					t_sheet = a_workbook.GetSheetAt(a_index);
 				}catch(System.Exception t_exception){
-					Tool.LogError(t_exception);
+					Tool.DebugReThrow(t_exception);
 				}
 			}else{
 				Tool.Assert(false);
@@ -141,7 +141,7 @@ namespace Fee.Excel
 					//データのないセル。
 				}
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 
 			//失敗。
@@ -174,7 +174,7 @@ namespace Fee.Excel
 					}
 				}
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 
 			//失敗。

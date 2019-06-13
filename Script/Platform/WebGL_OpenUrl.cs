@@ -33,7 +33,7 @@ namespace Fee.Platform
 			try{
 				WebGL_OpenUrl.Fee_Platform_WebGLPlugin_OpenUrl(a_url_string);
 			}catch(System.Exception t_exception){
-				Tool.LogError(t_exception);
+				Tool.DebugReThrow(t_exception);
 			}
 		}
 	}
