@@ -143,9 +143,9 @@ namespace Fee.Input
 			}
 		}
 
-		/** 更新。インプットシステムポインター。位置。
+		/** 更新。インプットシステム。ポインター。マウス位置。
 		*/
-		private bool Main_InputSystemPointer_Position(Fee.Render2D.Render2D a_render2d)
+		private bool Main_InputSystem_Pointer_MousePosition(Fee.Render2D.Render2D a_render2d)
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
@@ -196,9 +196,9 @@ namespace Fee.Input
 			return false;
 		}
 
-		/** 更新。インプットシステムマウス。位置。
+		/** 更新。インプットシステム。マウス。マウス位置。
 		*/
-		private bool Main_InputSystemMouse_Position(Fee.Render2D.Render2D a_render2d)
+		private bool Main_InputSystem_Mouse_MousePosition(Fee.Render2D.Render2D a_render2d)
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
@@ -249,10 +249,10 @@ namespace Fee.Input
 			return false;
 		}
 
-		/** 更新。インプットマネージャマウス。位置。
+		/** 更新。インプットマネージャ。インプットマウス。マウス位置。
 		*/
 		#if(true)
-		private bool Main_InputManagerMouse_Position(Fee.Render2D.Render2D a_render2d)
+		private bool Main_InputManager_InputMouse_MousePosition(Fee.Render2D.Render2D a_render2d)
 		{
 			//デバイス。
 			int t_mouse_x = (int)UnityEngine.Input.mousePosition.x;
@@ -290,9 +290,9 @@ namespace Fee.Input
 		}
 		#endif
 
-		/** 更新。インプットシステムポインター。ボタン。
+		/** 更新。インプットシステム。ポインター。マウスボタン。
 		*/
-		private bool Main_InputSystemPointer_Button()
+		private bool Main_InputSystem_Pointer_MouseButton()
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
@@ -339,9 +339,9 @@ namespace Fee.Input
 			return false;
 		}
 
-		/** 更新。インプットシステムマウス。ボタン。
+		/** 更新。インプットシステム。マウス。マウスボタン。
 		*/
-		private bool Main_InputSystemMouse_Button()
+		private bool Main_InputSystem_Mouse_MouseButton()
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
@@ -365,10 +365,10 @@ namespace Fee.Input
 			return false;
 		}
 
-		/** 更新。インプットマネージャマウス。ボタン。
+		/** 更新。インプットマネージャ。インプットマウス。マウスボタン。
 		*/
 		#if(true)
-		private bool Main_InputManagerMouse_Button()
+		private bool Main_InputManager_InputMouse_MouseButton()
 		{
 			//デバイス。
 			bool t_l_on = UnityEngine.Input.GetMouseButton(0);
@@ -384,9 +384,9 @@ namespace Fee.Input
 		}
 		#endif
 
-		/** 更新。インプットシステムマウス。ホイール。
+		/** 更新。インプットシステム。マウス。マウスホイール。
 		*/
-		private bool Main_InputSystemMouse_Wheel()
+		private bool Main_InputSystem_Mouse_MouseWheel()
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
@@ -411,10 +411,10 @@ namespace Fee.Input
 			return false;
 		}		
 
-		/** 更新。インプットマネージャマウス。ホイール。
+		/** 更新。インプットマネージャ。インプットネーム。マウスホイール。
 		*/
 		#if(true)
-		private bool Main_InputManagerMouse_Wheel()
+		private bool Main_InputManager_InputName_MouseWheel()
 		{
 			//デバイス。
 			float t_wheel = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_MOUSEWHEEL);
@@ -440,23 +440,23 @@ namespace Fee.Input
 		*/
 		private void Main_Pos(Fee.Render2D.Render2D a_render2d)
 		{
-			//インプットシステム。マウス。
-			if(Config.USE_INPUTSYSTEM_MOUSE == true){
-				if(this.Main_InputSystemMouse_Position(a_render2d) == true){
+			//インプットシステム。マウス。マウス位置。
+			if(Config.USE_INPUTSYSTEM_MOUSE_MOUSEPOSITION == true){
+				if(this.Main_InputSystem_Mouse_MousePosition(a_render2d) == true){
 					return;
 				}
 			}
 
-			//インプットシステム。ポインター。
-			if(Config.USE_INPUTSYSTEM_POINTER == true){
-				if(this.Main_InputSystemPointer_Position(a_render2d) == true){
+			//インプットシステム。ポインター。マウス位置。
+			if(Config.USE_INPUTSYSTEM_POINTER_MOUSEPOSITION == true){
+				if(this.Main_InputSystem_Pointer_MousePosition(a_render2d) == true){
 					return;
 				}
 			}
 
-			//インプットマネージャ。マウス。
-			if(Config.USE_INPUTMANAGER_MOUSE == true){
-				if(this.Main_InputManagerMouse_Position(a_render2d) == true){
+			//インプットマネージャ。インプットマウス。マウス位置。
+			if(Config.USE_INPUTMANAGER_INPUTMOUSE_MOUSEPOSITION == true){
+				if(this.Main_InputManager_InputMouse_MousePosition(a_render2d) == true){
 					return;
 				}
 			}
@@ -466,23 +466,23 @@ namespace Fee.Input
 		*/
 		private void Main_Button()
 		{
-			//インプットシステムマウス。
-			if(Config.USE_INPUTSYSTEM_MOUSE == true){
-				if(this.Main_InputSystemMouse_Button() == true){
+			//インプットシステム。マウス。マウスボタン。
+			if(Config.USE_INPUTSYSTEM_MOUSE_MOUSEBUTTON == true){
+				if(this.Main_InputSystem_Mouse_MouseButton() == true){
 					return;
 				}
 			}
 
-			//インプットシステムポインター。
-			if(Config.USE_INPUTSYSTEM_POINTER == true){
-				if(this.Main_InputSystemPointer_Button() == true){
+			//インプットシステム。ポインター。マウスボタン。
+			if(Config.USE_INPUTSYSTEM_POINTER_MOUSEBUTTON == true){
+				if(this.Main_InputSystem_Pointer_MouseButton() == true){
 					return;
 				}
 			}
 
-			//インプットマネージャマウス。
-			if(Config.USE_INPUTMANAGER_MOUSE == true){
-				if(this.Main_InputManagerMouse_Button() == true){
+			//インプットマネージャ。インプットマウス。マウスボタン。
+			if(Config.USE_INPUTMANAGER_INPUTMOUSE_MOUSEBUTTON == true){
+				if(this.Main_InputManager_InputMouse_MouseButton() == true){
 					return;
 				}
 			}
@@ -492,16 +492,16 @@ namespace Fee.Input
 		*/
 		private void Main_Wheel()
 		{
-			//インプットシステムマウス。
-			if(Config.USE_INPUTSYSTEM_MOUSE == true){
-				if(this.Main_InputSystemMouse_Wheel() == true){
+			//インプットシステム。マウス。マウスホイール。
+			if(Config.USE_INPUTSYSTEM_MOUSE_MOUSEWHEEL == true){
+				if(this.Main_InputSystem_Mouse_MouseWheel() == true){
 					return;
 				}
 			}
 
-			//インプットマネージャマウス。
-			if(Config.USE_INPUTMANAGER_MOUSE == true){
-				if(this.Main_InputManagerMouse_Wheel() == true){
+			//インプットマネージャ。インプットネーム。マウスホイール。
+			if(Config.USE_INPUTMANAGER_INPUTNAME_MOUSEWHEEL == true){
+				if(this.Main_InputManager_InputName_MouseWheel() == true){
 					return;
 				}
 			}

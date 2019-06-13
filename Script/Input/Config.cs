@@ -46,87 +46,233 @@ namespace Fee.Input
 
 
 
-		/** インプットシステム。マウス。
+		/** インプットシステム。マウス。マウス位置。
 		*/
 		#if(UNITY_EDITOR)
-		public static bool USE_INPUTSYSTEM_MOUSE = true;
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEPOSITION = true;
 		#elif(UNITY_ANDROID)
-		public static bool USE_INPUTSYSTEM_MOUSE = false;
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEPOSITION = false;
 		#else
-		public static bool USE_INPUTSYSTEM_MOUSE = true;
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEPOSITION = true;
 		#endif
 
-		/** インプットシステム。ポインター。
+		/** インプットシステム。ポインター。マウス位置。
 		*/
 		#if(UNITY_EDITOR)
-		public static bool USE_INPUTSYSTEM_POINTER = true;
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = true;
 		#elif(UNITY_ANDROID)
-		public static bool USE_INPUTSYSTEM_POINTER = true;
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = true;
 		#else
-		public static bool USE_INPUTSYSTEM_POINTER = true;
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = true;
 		#endif
 
-		/** インプットシステム。ゲームパッド。
+		/** インプットマネージャ。インプットマウス。マウス位置。
 		*/
 		#if(UNITY_EDITOR)
-		public static bool USE_INPUTSYSTEM_GAMEPAD = true;
+		public static bool USE_INPUTMANAGER_INPUTMOUSE_MOUSEPOSITION = true;
+		#else
+		public static bool USE_INPUTMANAGER_INPUTMOUSE_MOUSEPOSITION = true;
+		#endif
+
+
+
+
+		/** インプットシステム。マウス。マウスボタン。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEBUTTON = true;
+		#elif(UNITY_ANDROID)
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEBUTTON = false;
+		#else
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEBUTTON = true;
+		#endif
+
+		/** インプットシステム。ポインター。マウスボタン。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = true;
+		#elif(UNITY_ANDROID)
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = true;
+		#else
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = true;
+		#endif
+
+		/** インプットマネージャ。インプットマウス。マウスボタン。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTMANAGER_INPUTMOUSE_MOUSEBUTTON = true;
+		#else
+		public static bool USE_INPUTMANAGER_INPUTMOUSE_MOUSEBUTTON = true;
+		#endif
+
+
+
+
+		/** インプットシステム。マウス。マウスホイール。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEWHEEL= true;
+		#elif(UNITY_ANDROID)
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEWHEEL = false;
+		#else
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEWHEEL = true;
+		#endif
+
+		/** インプットマネージャ。インプットネーム。マウスホイール。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTMANAGER_INPUTNAME_MOUSEWHEEL = true;
+		#else
+		public static bool USE_INPUTMANAGER_INPUTNAME_MOUSEWHEEL = true;
+		#endif
+
+
+
+
+		/** インプットシステム。ゲームパッド。パッドデジタルボタン。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADDIGITALBUTTON = true;
 		#elif(UNITY_WEBGL)
-		public static bool USE_INPUTSYSTEM_GAMEPAD = false;
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADDIGITALBUTTON = false;
 		#else
-		public static bool USE_INPUTSYSTEM_GAMEPAD = true;
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADDIGITALBUTTON = true;
 		#endif
 
-		/** インプットシステム。タッチスクリーン。
+		/** インプットマネージャ。インプットネーム。パッドデジタルボタン。
 		*/
 		#if(UNITY_EDITOR)
-		public static bool USE_INPUTSYSTEM_TOUCHSCREEN = true;
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADDIGITALBUTTON = true;
 		#elif(UNITY_WEBGL)
-		public static bool USE_INPUTSYSTEM_TOUCHSCREEN = false;
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADDIGITALBUTTON = false;
 		#else
-		public static bool USE_INPUTSYSTEM_TOUCHSCREEN = true;
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADDIGITALBUTTON = true;
 		#endif
 
-		/** インプットシステム。キー。
-		*/
-		#if(UNITY_EDITOR)
-		public static bool USE_INPUTSYSTEM_KEY = true;
-		#else
-		public static bool USE_INPUTSYSTEM_KEY = true;
-		#endif
 
-		/** インプットマネージャ。マウス。
-		*/
-		#if(UNITY_EDITOR)
-		public static bool USE_INPUTMANAGER_MOUSE = true;
-		#else
-		public static bool USE_INPUTMANAGER_MOUSE = true;
-		#endif
 
-		/** インプットマネージャ。ゲームパッド。
-		*/
-		#if(UNITY_EDITOR)
-		public static bool USE_INPUTMANAGER_GAMEPAD = true;
-		#else
-		public static bool USE_INPUTMANAGER_GAMEPAD = true;
-		#endif
 
-		/** インプットマネージャ。タッチ。
+
+		/** インプットシステム。ゲームパッド。パッドスティック。
 		*/
 		#if(UNITY_EDITOR)
-		public static bool USE_INPUTMANAGER_TOUCH = false;
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADSTICK = true;
 		#elif(UNITY_WEBGL)
-		public static bool USE_INPUTMANAGER_TOUCH = false;
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADSTICK = false;
 		#else
-		public static bool USE_INPUTMANAGER_TOUCH = true;
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADSTICK = true;
 		#endif
 
-		/** インプットマネージャ。キー。
+		/** インプットマネージャ。インプットネーム。パッドスティック。
 		*/
 		#if(UNITY_EDITOR)
-		public static bool USE_INPUTMANAGER_KEY = true;
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADSTICK = true;
+		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADSTICK = false;
 		#else
-		public static bool USE_INPUTMANAGER_KEY = true;
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADSTICK = true;
 		#endif
+
+
+
+
+
+		/** インプットシステム。ゲームパッド。パッドトリガー。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADTRIGGER = true;
+		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADTRIGGER = false;
+		#else
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADTRIGGER = true;
+		#endif
+
+		/** インプットマネージャ。インプットネーム。パッドトリガー。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADTRIGGER = true;
+		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADTRIGGER = false;
+		#else
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADTRIGGER = true;
+		#endif
+
+
+
+
+
+		/** インプットシステム。ゲームパッド。パッドモーター。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADMOTOR = true;
+		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADMOTOR = false;
+		#else
+		public static bool USE_INPUTSYSTEM_GAMEPAD_PADMOTOR = true;
+		#endif
+
+
+
+
+		/** インプットシステム。キーボード。キー。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTSYSTEM_KEYBOARD_KEY = true;
+		#else
+		public static bool USE_INPUTSYSTEM_KEYBOARD_KEY = true;
+		#endif
+
+		/** インプットマネージャ。ゲットキー。キー。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTMANAGER_GETKEY_KEY = true;
+		#else
+		public static bool USE_INPUTMANAGER_GETKEY_KEY = true;
+		#endif
+
+
+
+
+
+		/** インプットシステム。タッチスクリーン。タッチ。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTSYSTEM_TOUCHSCREEN_TOUCH = true;
+		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTSYSTEM_TOUCHSCREEN_TOUCH = false;
+		#else
+		public static bool USE_INPUTSYSTEM_TOUCHSCREEN_TOUCH = true;
+		#endif
+
+		/** インプットマネージャ。インプットタッチ。タッチ。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTMANAGER_INPUTTOUCH_TOUCH = false;
+		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTMANAGER_INPUTTOUCH_TOUCH = false;
+		#else
+		public static bool USE_INPUTMANAGER_INPUTTOUCH_TOUCH = true;
+		#endif
+
+		/** インプットマネージャ。インプットマウス。タッチ。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTMANAGER_INPUTMOUSE_TOUCH = false;
+		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTMANAGER_INPUTMOUSE_TOUCH = false;
+		#else
+		public static bool USE_INPUTMANAGER_INPUTMOUSE_TOUCH = true;
+		#endif
+
+
+
+
+
+
+
+
+
+
 
 		/** ドラッグ判定閾値。4方向。
 		*/

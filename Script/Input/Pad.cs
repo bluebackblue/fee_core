@@ -195,9 +195,9 @@ namespace Fee.Input
 			return this.padtype;
 		}
 
-		/** 更新。インプットシステムゲームパッド。デジタルボタン。
+		/** 更新。インプットシステム。ゲームパッド。パッドデジタルボタン。
 		*/
-		private bool Main_InputSystemGamePad_DigitalButton()
+		private bool Main_InputSystem_GamePad_PadDigitalButton()
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
@@ -235,10 +235,10 @@ namespace Fee.Input
 			return false;
 		}
 
-		/** 更新。インプットマネージャゲームパッド。デジタルボタン。
+		/** 更新。インプットマネージャ。インプットネーム。パッドデジタルボタン。
 		*/
 		#if(true)
-		private bool Main_InputManagerGamePad_DigitalButton()
+		private bool Main_InputManager_InputName_PadDigitalButton()
 		{
 			bool t_left_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LEFT[(int)this.padtype]) < -0.5f) ? true : false;
 			bool t_right_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RIGHT[(int)this.padtype]) > 0.5f) ? true : false;
@@ -268,9 +268,9 @@ namespace Fee.Input
 		}
 		#endif
 
-		/** 更新。インプットシステムゲームパッド。スティック。
+		/** 更新。インプットシステム。ゲームパッド。パッドスティック。
 		*/
-		private bool Main_InputSystemGamePad_Stick()
+		private bool Main_InputSystem_GamePad_PadStick()
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
@@ -302,9 +302,9 @@ namespace Fee.Input
 			return false;
 		}
 
-		/** 更新。インプットマネージャゲームパッド。スティック。
+		/** 更新。インプットマネージャ。インプットネーム。パッドスティック。
 		*/
-		private bool Main_InputManagerGamePad_Stick()
+		private bool Main_InputManager_InputName_PadStick()
 		{
 			//デバイス。
 			float t_l_x = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LSX[(int)this.padtype]);
@@ -327,9 +327,9 @@ namespace Fee.Input
 			return true;
 		}
 
-		/** 更新。インプットシステムゲームパッド。トリガー。
+		/** 更新。インプットシステム。ゲームパッド。パッドトリガー。
 		*/
-		private bool Main_InputSystemGamePad_Trigger()
+		private bool Main_InputSystem_GamePad_PadTrigger()
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
@@ -360,9 +360,9 @@ namespace Fee.Input
 			return false;
 		}
 
-		/** 更新。インプットマネージャゲームパッド。トリガー。
+		/** 更新。インプットマネージャ。インプットネーム。パッドトリガー。
 		*/
-		private bool Main_InputManagerGamePad_Trigger()
+		private bool Main_InputManager_InputName_PadTrigger()
 		{
 			//デバイス。
 			bool t_l_1 = UnityEngine.Input.GetButton(Config.INPUTMANAGER_LT1[(int)this.padtype]);
@@ -392,9 +392,9 @@ namespace Fee.Input
 			return true;
 		}
 
-		/** 更新。インプットシステムゲームパッド。モータ。
+		/** 更新。インプットシステム。ゲームパッド。パッドモーター。
 		*/
-		private bool Main_InputSystemGamePad_Motor()
+		private bool Main_InputSystem_GamePad_PadMotor()
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
@@ -423,16 +423,16 @@ namespace Fee.Input
 		*/
 		private void Main_DigitalButton()
 		{
-			//インプットシステムゲームパッド。デジタルボタン。
-			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
-				if(this.Main_InputSystemGamePad_DigitalButton() == true){
+			//インプットシステム。ゲームパッド。パッドデジタルボタン。
+			if(Config.USE_INPUTSYSTEM_GAMEPAD_PADDIGITALBUTTON == true){
+				if(this.Main_InputSystem_GamePad_PadDigitalButton() == true){
 					return;
 				}
 			}
 
-			//インプットマネージャゲームパッド。デジタルボタン。
-			if(Config.USE_INPUTMANAGER_GAMEPAD == true){
-				if(this.Main_InputManagerGamePad_DigitalButton() == true){
+			//インプットマネージャ。インプットネーム。パッドデジタルボタン。
+			if(Config.USE_INPUTMANAGER_INPUTNAME_PADDIGITALBUTTON == true){
+				if(this.Main_InputManager_InputName_PadDigitalButton() == true){
 					return;
 				}
 			}
@@ -442,16 +442,16 @@ namespace Fee.Input
 		*/
 		private void Main_Stick()
 		{
-			//インプットシステムゲームパッド。スティック。
-			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
-				if(this.Main_InputSystemGamePad_Stick() == true){
+			//インプットシステム。ゲームパッド。パッドスティック。
+			if(Config.USE_INPUTSYSTEM_GAMEPAD_PADSTICK == true){
+				if(this.Main_InputSystem_GamePad_PadStick() == true){
 					return;
 				}
 			}
 
-			//インプットマネージャゲームパッド。スティック。
-			if(Config.USE_INPUTMANAGER_GAMEPAD == true){
-				if(this.Main_InputManagerGamePad_Stick() == true){
+			//インプットマネージャ。インプットネーム。パッドスティック。
+			if(Config.USE_INPUTMANAGER_INPUTNAME_PADSTICK == true){
+				if(this.Main_InputManager_InputName_PadStick() == true){
 					return;
 				}
 			}
@@ -461,16 +461,16 @@ namespace Fee.Input
 		*/
 		private void Main_Trigger()
 		{
-			//インプットシステムゲームパッド。トリガー。
-			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
-				if(this.Main_InputSystemGamePad_Trigger() == true){
+			//インプットシステム。ゲームパッド。パッドトリガー。
+			if(Config.USE_INPUTSYSTEM_GAMEPAD_PADTRIGGER == true){
+				if(this.Main_InputSystem_GamePad_PadTrigger() == true){
 					return;
 				}
 			}
 
-			//インプットマネージャゲームパッド。トリガー。
-			if(Config.USE_INPUTMANAGER_GAMEPAD == true){
-				if(this.Main_InputManagerGamePad_Trigger() == true){
+			//インプットマネージャ。インプットネーム。パッドトリガー。
+			if(Config.USE_INPUTMANAGER_INPUTNAME_PADTRIGGER == true){
+				if(this.Main_InputManager_InputName_PadTrigger() == true){
 					return;
 				}
 			}
@@ -480,9 +480,9 @@ namespace Fee.Input
 		*/
 		private void Main_Moter()
 		{
-			//インプットシステムゲームパッド。モータ。
-			if(Config.USE_INPUTSYSTEM_GAMEPAD == true){
-				if(this.Main_InputSystemGamePad_Motor() == true){
+			//インプットシステム。ゲームパッド。パッドモーター。
+			if(Config.USE_INPUTSYSTEM_GAMEPAD_PADMOTOR == true){
+				if(this.Main_InputSystem_GamePad_PadMotor() == true){
 					return;
 				}
 			}

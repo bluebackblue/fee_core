@@ -181,9 +181,9 @@ namespace Fee.Input
 			return t_ret_index;
 		}
 
-		/** 更新。インプットシステムタッチスクリーン。タッチ。
+		/** 更新。インプットシステム。タッチスクリーン。タッチ。
 		*/
-		public bool Main_InputSystemTouchscreen_Touch(Fee.Render2D.Render2D a_render2d)
+		public bool Main_InputSystem_Touchscreen_Touch(Fee.Render2D.Render2D a_render2d)
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
@@ -246,9 +246,9 @@ namespace Fee.Input
 			return false;
 		}
 
-		/** 更新。インプットマネージャタッチ。タッチ。
+		/** 更新。インプットマネージャ。インプットタッチ。タッチ。
 		*/
-		public bool Main_InputManagerTouch_Touch(Fee.Render2D.Render2D a_render2d)
+		public bool Main_InputManager_InputTouch_Touch(Fee.Render2D.Render2D a_render2d)
 		{
 			this.device_item_list_count = 0;
 
@@ -302,10 +302,10 @@ namespace Fee.Input
 			return true;
 		}
 
-		/** 更新。インプットマネージャマウス。タッチ。
+		/** 更新。インプットマネージャ。インプットマウス。タッチ。
 		*/
 		#if(true)
-		public bool Main_InputManagerMouse_Touch(Fee.Render2D.Render2D a_render2d)
+		public bool Main_InputManager_InputMouse_Touch(Fee.Render2D.Render2D a_render2d)
 		{
 			this.device_item_list_count = 0;
 
@@ -347,23 +347,23 @@ namespace Fee.Input
 		*/
 		public void Main_Touch(Fee.Render2D.Render2D a_render2d)
 		{
-			//インプットシステムタッチ。
-			if(Config.USE_INPUTSYSTEM_TOUCHSCREEN == true){
-				if(this.Main_InputSystemTouchscreen_Touch(a_render2d) == true){
+			//インプットシステム。タッチスクリーン。タッチ。
+			if(Config.USE_INPUTSYSTEM_TOUCHSCREEN_TOUCH == true){
+				if(this.Main_InputSystem_Touchscreen_Touch(a_render2d) == true){
 					return;
 				}
 			}
 
-			//インプットマネージャタッチ。
-			if(Config.USE_INPUTMANAGER_TOUCH == true){
-				if(this.Main_InputManagerTouch_Touch(a_render2d) == true){
+			//インプットマネージャ。インプットタッチ。タッチ。
+			if(Config.USE_INPUTMANAGER_INPUTTOUCH_TOUCH == true){
+				if(this.Main_InputManager_InputTouch_Touch(a_render2d) == true){
 					return;
 				}
 			}
 
-			//インプットマネージャマウス。
-			if(Config.USE_INPUTMANAGER_MOUSE == true){
-				if(this.Main_InputManagerMouse_Touch(a_render2d) == true){
+			//インプットマネージャ。インプットマウス。タッチ。
+			if(Config.USE_INPUTMANAGER_INPUTMOUSE_TOUCH == true){
+				if(this.Main_InputManager_InputMouse_Touch(a_render2d) == true){
 					return;
 				}
 			}

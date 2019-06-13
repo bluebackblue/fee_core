@@ -159,9 +159,9 @@ namespace Fee.Input
 		{
 		}
 
-		/** 更新。インプットシステムキー。
+		/** 更新。インプットシステム。キーボード。キー。
 		*/
-		public bool Main_InputSystemKey_Key()
+		public bool Main_InputSystem_KeyBoard_Key()
 		{	
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
@@ -246,9 +246,9 @@ namespace Fee.Input
 			return false;
 		}
 
-		/** 更新。インプットマネージャキーボード。
+		/** 更新。インプットマネージャ。ゲットキー。キー。
 		*/
-		public bool Main_InputManagerKey_Key()
+		public bool Main_InputManager_GetKey_Key()
 		{
 			//デジタル。
 			bool t_left_on = UnityEngine.Input.GetKey(Config.INPUTMANAGER_B_LEFT);
@@ -327,16 +327,16 @@ namespace Fee.Input
 		*/
 		public void Main_Key()
 		{
-			//インプットシステム。キー。
-			if(Config.USE_INPUTSYSTEM_KEY == true){
-				if(this.Main_InputSystemKey_Key() == true){
+			//インプットシステム。キーボード。キー。
+			if(Config.USE_INPUTSYSTEM_KEYBOARD_KEY == true){
+				if(this.Main_InputSystem_KeyBoard_Key() == true){
 					return;
 				}
 			}
 
-			//インプットマネージャ。キー。
-			if(Config.USE_INPUTMANAGER_KEY == true){
-				if(this.Main_InputManagerKey_Key() == true){
+			//インプットマネージャ。ゲットキー。キー。
+			if(Config.USE_INPUTMANAGER_GETKEY_KEY == true){
+				if(this.Main_InputManager_GetKey_Key() == true){
 					return;
 				}
 			}
