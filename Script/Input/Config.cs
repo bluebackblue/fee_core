@@ -59,11 +59,11 @@ namespace Fee.Input
 		/** インプットシステム。ポインター。マウス位置。
 		*/
 		#if(UNITY_EDITOR)
-		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = true;
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = false;
 		#elif(UNITY_ANDROID)
-		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = true;
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = false;
 		#else
-		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = true;
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = false;
 		#endif
 
 		/** インプットマネージャ。インプットマウス。マウス位置。
@@ -90,11 +90,11 @@ namespace Fee.Input
 		/** インプットシステム。ポインター。マウスボタン。
 		*/
 		#if(UNITY_EDITOR)
-		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = true;
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = false;
 		#elif(UNITY_ANDROID)
-		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = true;
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = false;
 		#else
-		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = true;
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = false;
 		#endif
 
 		/** インプットマネージャ。インプットマウス。マウスボタン。
