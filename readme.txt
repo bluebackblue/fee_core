@@ -1,76 +1,91 @@
 
 
 
----------------------------
-■デファイン
----------------------------
 
----------------------------
-UNITY_EDITOR
----------------------------
-<Unity>
-ゲームコードから Unity エディターのスクリプトを呼び出すための #define ディレクティブ
 
----------------------------
-DEVELOPMENT_BUILD
----------------------------
-<Unity>
-Development Build オプションを有効にしてビルドしたプレイヤー
+/** USE_DEF_FEE_INPUTSYSTEM
+*/
+「Fee.Input」でインプトシステムを使用する。
 
----------------------------
-NOUSE_DEF_FEE_EDITORMENU
----------------------------
-<Fee>
-エディターメニュを表示
 
----------------------------
-USE_DEF_FEE_DEBUGTOOL
----------------------------
-<Fee>
-デバッグログ
 
----------------------------
-USE_DEF_FEE_INPUTSYSTEM
----------------------------
-<Fee>
-インプットシステム
 
-以下から取得する必要がある
-https://github.com/Unity-Technologies/InputSystem
+/** USE_DEF_FEE_UTF8JSON
+*/
+「Fee.JsonItem.Convert」でUtf8Jsonを使用する。
 
----------------------------
-USE_DEF_FEE_PUN
----------------------------
-<Fee>
-PUN
 
-以下から取得する必要がある
-https://assetstore.unity.com/packages/tools/network/pun-2-free-119922
 
----------------------------
-USE_DEF_FEE_UNIVRM
----------------------------
-<Fee>
-UniVRM
 
-以下から取得する必要がある
-https://github.com/dwango/UniVRM
+/** USE_DEF_FEE_NPOI
+*/
+「Fee.Excel」でNPOIを使用する。
 
----------------------------
-USE_DEF_FEE_UTF8JSON
----------------------------
-<Fee>
-Utf8Json
 
-以下から取得する必要がある
-https://github.com/neuecc/Utf8Json
 
-以下の設定を変更する必要がある
-PlayerSettings->OtherSettings->Configuration->ApiCompatibilityLevel = .NET4.x
-PlayerSettings->OtherSettings->Configuration->All'unsafe'Code = true
+
+/** USE_DEF_FEE_EXCELDATAREADER
+*/
+「Fee.Excel」でExcelDataReaderを使用する。
+
+
+
+
+/** USE_DEF_FEE_PUN
+*/
+「Fee.Network」でPunを使用する。
+
+
+
+
+/** USE_DEF_FEE_UNIVRM
+*/
+「Fee.UniVrm」でUniVrmを使用する。
+
+
+
+
+/** USE_DEF_FEE_SIMPLEANIMATION
+*/
+「Fee.UniVrm」でSimpleAnimationを使用する。
+
+
+
+
+/** USE_DEF_FEE_TEMP
+*/
+「cs」テンプレートに使用。
+
+
+
+
+/** USE_DEF_FEE_EDITORMENU
+*/
+メニュー追加を有効にする。
+
+
+
+
+/** USE_DEF_FEE_DEBUGTOOL
+*/
+ログ出力を有効にする。
+
+
+
+
+
+
+
 
 ---------------------------
 ■rspテンプレート
 ---------------------------
--define:USE_DEF_FEE_EDITORMENU;NOUSE_DEF_FEE_DEBUGTOOL;NOUSE_DEF_FEE_INPUTSYSTEM;NOUSE_DEF_FEE_PUN;NOUSE_DEF_FEE_UNIVRM;NOUSE_DEF_FEE_UTF8JSON;NOUSE_DEF_FEE_SIMPLEANIMATION
+-define:
+
+
+
+
+
+
+
 

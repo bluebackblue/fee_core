@@ -144,7 +144,7 @@ namespace Fee.Input
 		#if(UNITY_EDITOR)
 		public static bool USE_INPUTMANAGER_INPUTNAME_PADDIGITALBUTTON = true;
 		#elif(UNITY_WEBGL)
-		public static bool USE_INPUTMANAGER_INPUTNAME_PADDIGITALBUTTON = false;
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADDIGITALBUTTON = true;
 		#else
 		public static bool USE_INPUTMANAGER_INPUTNAME_PADDIGITALBUTTON = true;
 		#endif
@@ -168,7 +168,7 @@ namespace Fee.Input
 		#if(UNITY_EDITOR)
 		public static bool USE_INPUTMANAGER_INPUTNAME_PADSTICK = true;
 		#elif(UNITY_WEBGL)
-		public static bool USE_INPUTMANAGER_INPUTNAME_PADSTICK = false;
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADSTICK = true;
 		#else
 		public static bool USE_INPUTMANAGER_INPUTNAME_PADSTICK = true;
 		#endif
@@ -192,7 +192,7 @@ namespace Fee.Input
 		#if(UNITY_EDITOR)
 		public static bool USE_INPUTMANAGER_INPUTNAME_PADTRIGGER = true;
 		#elif(UNITY_WEBGL)
-		public static bool USE_INPUTMANAGER_INPUTNAME_PADTRIGGER = false;
+		public static bool USE_INPUTMANAGER_INPUTNAME_PADTRIGGER = true;
 		#else
 		public static bool USE_INPUTMANAGER_INPUTNAME_PADTRIGGER = true;
 		#endif

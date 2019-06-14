@@ -17,7 +17,7 @@ namespace Fee.Excel
 	*/
 	public class Excel
 	{
-		#if(USE_DEF_NPOI)
+		#if(USE_DEF_FEE_NPOI)
 
 
 		/** raw_excel
@@ -37,7 +37,7 @@ namespace Fee.Excel
 		private NPOI.SS.UserModel.ICell raw_cell;
 
 
-		#elif(USE_DEF_EXCELDATAREADER)
+		#elif(USE_DEF_FEE_EXCELDATAREADER)
 
 
 		/** raw_excel
@@ -63,7 +63,7 @@ namespace Fee.Excel
 		*/
 		public Excel()
 		{
-			#if(USE_DEF_NPOI)
+			#if(USE_DEF_FEE_NPOI)
 			{
 				//raw_excel
 				this.raw_excel = null;
@@ -77,7 +77,7 @@ namespace Fee.Excel
 				//raw_cell
 				this.raw_cell = null;
 			}
-			#elif(USE_DEF_EXCELDATAREADER)
+			#elif(USE_DEF_FEE_EXCELDATAREADER)
 			{
 				//raw_excel
 				this.raw_excel = null;
@@ -98,7 +98,7 @@ namespace Fee.Excel
 		*/
 		public bool ReadOpen(Fee.File.Path a_path)
 		{
-			#if(USE_DEF_NPOI)
+			#if(USE_DEF_FEE_NPOI)
 			{
 				this.raw_excel = Excel_Npoi.Open(a_path);
 				if(this.raw_excel == null){
@@ -107,7 +107,7 @@ namespace Fee.Excel
 
 				return true;
 			}
-			#elif(USE_DEF_EXCELDATAREADER)
+			#elif(USE_DEF_FEE_EXCELDATAREADER)
 			{
 				this.raw_excel = Excel_ExcelDataReader.Open(a_path);
 				if(this.raw_excel == null){
@@ -128,14 +128,14 @@ namespace Fee.Excel
 		*/
 		public void Close()
 		{
-			#if(USE_DEF_NPOI)
+			#if(USE_DEF_FEE_NPOI)
 			{
 				this.raw_excel = null;
 				this.raw_sheet = null;
 				this.raw_line = null;
 				this.raw_cell = null;
 			}
-			#elif(USE_DEF_EXCELDATAREADER)
+			#elif(USE_DEF_FEE_EXCELDATAREADER)
 			{
 				this.raw_excel = null;
 				this.raw_sheet = null;
@@ -149,11 +149,11 @@ namespace Fee.Excel
 		*/
 		public int GetSheetCount()
 		{
-			#if(USE_DEF_NPOI)
+			#if(USE_DEF_FEE_NPOI)
 			{
 				return Excel_Npoi.GetSheetCount(this.raw_excel);
 			}
-			#elif(USE_DEF_EXCELDATAREADER)
+			#elif(USE_DEF_FEE_EXCELDATAREADER)
 			{
 				return Excel_ExcelDataReader.GetSheetCount(this.raw_excel);
 			}
@@ -169,7 +169,7 @@ namespace Fee.Excel
 		*/
 		public bool SetActiveSheet(int a_sheet_index)
 		{
-			#if(USE_DEF_NPOI)
+			#if(USE_DEF_FEE_NPOI)
 			{
 				this.raw_sheet = Excel_Npoi.GetSheet(this.raw_excel,a_sheet_index);
 				if(this.raw_sheet == null){
@@ -179,7 +179,7 @@ namespace Fee.Excel
 
 				return true;
 			}
-			#elif(USE_DEF_EXCELDATAREADER)
+			#elif(USE_DEF_FEE_EXCELDATAREADER)
 			{
 				this.raw_sheet = Excel_ExcelDataReader.GetSheet(this.raw_excel,a_sheet_index);
 				if(this.raw_sheet == null){
@@ -201,7 +201,7 @@ namespace Fee.Excel
 		*/
 		public bool SetActiveCell(int a_x,int a_y)
 		{
-			#if(USE_DEF_NPOI)
+			#if(USE_DEF_FEE_NPOI)
 			{
 				this.raw_line = Excel_Npoi.GetLine(this.raw_sheet,a_y);
 
@@ -214,7 +214,7 @@ namespace Fee.Excel
 
 				return true;
 			}
-			#elif(USE_DEF_EXCELDATAREADER)
+			#elif(USE_DEF_FEE_EXCELDATAREADER)
 			{
 				this.raw_line = Excel_ExcelDataReader.GetLine(this.raw_sheet,a_y);
 
@@ -239,11 +239,11 @@ namespace Fee.Excel
 		*/
 		public bool GetTryCellString(out string a_result_value)
 		{
-			#if(USE_DEF_NPOI)
+			#if(USE_DEF_FEE_NPOI)
 			{
 				return Excel_Npoi.GetTryCellString(this.raw_cell,out a_result_value);
 			}
-			#elif(USE_DEF_EXCELDATAREADER)
+			#elif(USE_DEF_FEE_EXCELDATAREADER)
 			{
 				return Excel_ExcelDataReader.GetTryCellString(this.raw_cell,out a_result_value);
 			}
@@ -259,11 +259,11 @@ namespace Fee.Excel
 		*/
 		public bool GetTryCellNumeric(out double a_result_value)
 		{
-			#if(USE_DEF_NPOI)
+			#if(USE_DEF_FEE_NPOI)
 			{
 				return Excel_Npoi.GetTryCellNumeric(this.raw_cell,out a_result_value);
 			}
-			#elif(USE_DEF_EXCELDATAREADER)
+			#elif(USE_DEF_FEE_EXCELDATAREADER)
 			{
 				return Excel_ExcelDataReader.GetTryCellNumeric(this.raw_cell,out a_result_value);
 			}

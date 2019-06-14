@@ -11,7 +11,7 @@
 
 /** Fee.Excel
 */
-#if(USE_DEF_NPOI)
+#if(USE_DEF_FEE_NPOI)
 namespace Fee.Excel
 {
 	/** Excel_Npoi

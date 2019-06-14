@@ -11,7 +11,7 @@
 
 /** Fee.Excel
 */
-#if(USE_DEF_EXCELDATAREADER)
+#if(USE_DEF_FEE_EXCELDATAREADER)
 namespace Fee.Excel
 {
 	/** Excel_ExcelDataReader

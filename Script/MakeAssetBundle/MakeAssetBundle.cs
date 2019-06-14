@@ -46,9 +46,9 @@ namespace System
 
 		/** 作成。
 		*/
-		#if(!NOUSE_DEF_FEE_EDITORMENU)
+		#if(USE_DEF_FEE_EDITORMENU)
 		[UnityEditor.MenuItem("Fee/MakeAssetBundle/All")]
-		private static void MakeAssetBundle_All()
+		private static void MenuItem_MakeAssetBundle_All()
 		{
 			MakeAssetBundle_StandaloneWindows();
 			MakeAssetBundle_WebGL();
@@ -57,10 +57,48 @@ namespace System
 		}
 		#endif
 
-		/** ウィンドウズ。
+		/** スタンドアローンウィンドウズ。
 		*/
-		#if(!NOUSE_DEF_FEE_EDITORMENU)
+		#if(USE_DEF_FEE_EDITORMENU)
 		[UnityEditor.MenuItem("Fee/MakeAssetBundle/StandaloneWindows")]
+		private static void MenuItem_MakeAssetBundle_StandaloneWindows()
+		{
+			MakeAssetBundle_StandaloneWindows();
+		}
+		#endif
+
+		/** WebGL。
+		*/
+		#if(USE_DEF_FEE_EDITORMENU)
+		[UnityEditor.MenuItem("Fee/MakeAssetBundle/WebGL")]
+		private static void MenuItem_MakeAssetBundle_WebGL()
+		{
+			MakeAssetBundle_WebGL();
+		}
+		#endif
+
+		/** アンドロイド。
+		*/
+		#if(USE_DEF_FEE_EDITORMENU)
+		[UnityEditor.MenuItem("Fee/MakeAssetBundle/Android")]
+		private static void MenuItem_MakeAssetBundle_Android()
+		{
+			MakeAssetBundle_Android();
+		}
+		#endif
+
+		/** iOS。
+		*/
+		#if(USE_DEF_FEE_EDITORMENU)
+		[UnityEditor.MenuItem("Fee/MakeAssetBundle/iOS")]
+		private static void MenuItem_MakeAssetBundle_iOS()
+		{
+			MakeAssetBundle_iOS();
+		}
+		#endif
+
+		/** スタンドアローンウィンドウズ。
+		*/
 		private static void MakeAssetBundle_StandaloneWindows()
 		{
 			MakeAssetBundle_MakeFolder("StandaloneWindows");
@@ -71,12 +109,9 @@ namespace System
 				UnityEngine.Debug.Log("StandaloneWindows::end");
 			}
 		}
-		#endif
 
 		/** WebGL。
 		*/
-		#if(!NOUSE_DEF_FEE_EDITORMENU)
-		[UnityEditor.MenuItem("Fee/MakeAssetBundle/WebGL")]
 		private static void MakeAssetBundle_WebGL()
 		{
 			MakeAssetBundle_MakeFolder("WebGL");
@@ -87,12 +122,9 @@ namespace System
 				UnityEngine.Debug.Log("WebGL::end");
 			}
 		}
-		#endif
 
 		/** アンドロイド。
 		*/
-		#if(!NOUSE_DEF_FEE_EDITORMENU)
-		[UnityEditor.MenuItem("Fee/MakeAssetBundle/Android")]
 		private static void MakeAssetBundle_Android()
 		{
 			MakeAssetBundle_MakeFolder("Android");
@@ -103,12 +135,9 @@ namespace System
 				UnityEngine.Debug.Log("Android::end");
 			}
 		}
-		#endif
 
 		/** iOS。
 		*/
-		#if(!NOUSE_DEF_FEE_EDITORMENU)
-		[UnityEditor.MenuItem("Fee/MakeAssetBundle/iOS")]
 		private static void MakeAssetBundle_iOS()
 		{
 			MakeAssetBundle_MakeFolder("iOS");
@@ -119,7 +148,6 @@ namespace System
 				UnityEngine.Debug.Log("iOS::end");
 			}
 		}
-		#endif
 	}
 	#endif
 }
