@@ -38,9 +38,10 @@ namespace Fee.File
 				t_binary.data = a_binary;
 
 				//保存。
-				bool t_ret;
-				UnityEditor.PrefabUtility.SaveAsPrefabAsset(t_prefab,a_output_path,out t_ret);
-				UnityEngine.Debug.Assert(t_ret);
+				{
+					UnityEditor.PrefabUtility.SaveAsPrefabAsset(t_prefab,a_output_path,out bool t_ret);
+					Tool.Assert(t_ret);
+				}
 			}
 			UnityEngine.GameObject.DestroyImmediate(t_prefab);
 		}
