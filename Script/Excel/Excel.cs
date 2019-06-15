@@ -9,6 +9,22 @@
 */
 
 
+/** USE_DEF_FEE_NPOI
+*/
+#if((UNITY_EDITOR)&&(USE_DEF_EDITOR_FEE_NPOI))
+	#define USE_DEF_FEE_NPOI
+#endif
+
+
+
+/** USE_DEF_FEE_EDITOR_EXCELDATAREADER
+*/
+#if((UNITY_EDITOR)&&(USE_DEF_FEE_EDITOR_EXCELDATAREADER))
+	#define USE_DEF_FEE_EXCELDATAREADER
+#endif
+
+
+
 /** Fee.Excel
 */
 namespace Fee.Excel

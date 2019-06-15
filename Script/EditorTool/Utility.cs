@@ -38,6 +38,26 @@ namespace Fee.EditorTool
 			return t_list;
 		}
 
+		/** ディレクトリ内のディレクトリを列挙。
+
+			a_dir_name == "xxx/" : "Assets/xxx/"
+
+		*/
+		public static System.Collections.Generic.List<string> GetDirectoryNameList(string a_dir_name)
+		{
+			System.Collections.Generic.List<string> t_list = new System.Collections.Generic.List<string>();
+			{
+				string[] t_fullpath_list = System.IO.Directory.GetDirectories(UnityEngine.Application.dataPath,a_dir_name,System.IO.SearchOption.TopDirectoryOnly);
+				for(int ii=0;ii<t_fullpath_list.Length;ii++){
+					string t_filename = System.IO.Path.GetFileName(t_fullpath_list[ii]);
+					if(t_filename.Length > 0){
+						t_list.Add(t_filename);
+					}
+				}
+			}
+			return t_list;
+		}
+
 		/** ファイル検索。
 
 			return == フルパス。

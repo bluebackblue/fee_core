@@ -9,6 +9,13 @@
 */
 
 
+/** USE_DEF_FEE_NPOI
+*/
+#if((UNITY_EDITOR)&&(USE_DEF_EDITOR_FEE_NPOI))
+	#define USE_DEF_FEE_NPOI
+#endif
+
+
 /** Fee.Excel
 */
 #if(USE_DEF_FEE_NPOI)
@@ -133,6 +140,8 @@ namespace Fee.Excel
 						double t_value_double = a_cell.NumericCellValue;
 						a_result_value = t_value_double.ToString();
 						return true;
+					}else if(a_cell.CellType == NPOI.SS.UserModel.CellType.Blank){
+						//データのないセル。
 					}else{
 						//不明。
 						Tool.Assert(false);
@@ -168,6 +177,8 @@ namespace Fee.Excel
 								return true;
 							}
 						}
+					}else if(a_cell.CellType == NPOI.SS.UserModel.CellType.Blank){
+						//データのないセル。
 					}else{
 						//不明。
 						Tool.Assert(false);
