@@ -5,7 +5,7 @@
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
  * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief ＪＳＯＮシート。コンフィグ。
+ * @brief ＪＳＯＮシート。インデックスリストアイテム。
 */
 
 
@@ -17,30 +17,30 @@ namespace Fee.JsonSheet
 	*/
 	public class ConvertSheet_ListItem
 	{
-		/** command
+		/** convert_command
 
 			<enum> : ＥＮＵＭ出力。
 			<json> : ＪＳＯＮ出力。
 
 		*/
-		public string command;
+		public string convert_command;
 
-		/** output
+		/** convert_output
 
 			相対パス
 
 		*/
-		public string output;
+		public string convert_output;
 
-		/** key
+		/** convert_sheet
 
 			連結ルート名
 
 		*/
-		public string key_0;
-		public string key_1;
-		public string key_2;
-		public string key_3;
+		public string convert_sheet_0;
+		public string convert_sheet_1;
+		public string convert_sheet_2;
+		public string convert_sheet_3;
 	}
 }
 

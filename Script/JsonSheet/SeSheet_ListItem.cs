@@ -13,21 +13,25 @@
 */
 namespace Fee.JsonSheet
 {
-	/** ＥＮＵＭシート。リストアイテム。
+	/** ＳＥシート。リストアイテム。
 	*/
-	public class EnumSheet_ListItem
+	public class SeSheet_ListItem
 	{
-		/** enum_command
+		/** se_command
 		*/
-		public string enum_command;
+		public string se_command;
 
-		/** enum_name
+		/** se_name
 		*/
-		public string enum_name;
+		public string se_name;
 
-		/** enum_comment
+		/** se_file
 		*/
-		public string enum_comment;
+		public string se_file;
+
+		/** se_volume
+		*/
+		public float se_volume;
 	}
 }
 

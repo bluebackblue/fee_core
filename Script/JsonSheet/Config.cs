@@ -44,40 +44,67 @@ namespace Fee.JsonSheet
 
 		/** コンバートシート。コマンド。
 
-			TODO
+			インデックスリストＪＳＯＮにコンバート。
 
 		*/
 		public static string CONVERTSHEET_COMMAND_JSON = "<json>";
 
 		/** コンバートシート。コマンド。
 
-			TODO
+			ＥＮＵＭにコンバート。
 
 		*/
 		public static string CONVERTSHEET_COMMAND_ENUM = "<enum>";
 
+		/** コンバートシート。コマンド。
+
+			ＳＥにコンバート。
+
+		*/
+		public static string CONVERTSHEET_COMMAND_SE = "<se>";
+
 		/** ＥＮＵＭシート。コマンド。
 
-			text : xxx.xxx
+			ネームスペース設定。
 
 		*/
 		public static string ENUMSHEET_COMMAND_NAMESPACE = "<namespace>";
 
 		/** ＥＮＵＭシート。コマンド。
 
-			text : enumの型名。
-			comment : コメント
+			ＥＮＵＭ名設定。
 
 		*/
 		public static string ENUMSHEET_COMMAND_ENUMNAME = "<enumname>";
 
 		/** ＥＮＵＭシート。コマンド。
 
-			text : enumの要素名。
-			comment : コメント
+			要素設定。
 
 		*/
 		public static string ENUMSHEET_COMMAND_ITEM = "<item>";
+
+		/** ＳＥシート。コマンド。
+		
+			ＳＥ名設定。
+
+		*/
+		public static string SESHEET_COMMAND_NAME = "<sename>";
+
+		/** ＳＥシート。コマンド。
+		
+			要素設定。
+
+		*/
+		public static string SESHEET_COMMAND_ITEM = "<item>";
+
+
+
+
+
+
+
+
 
 
 
@@ -108,6 +135,9 @@ namespace <<namespace>>
 		<<itemname>>,
 
 ";
+
+
+
 
 
 		/** ＥＮＵＭコンバート。置換キーワード。
