@@ -111,7 +111,7 @@ namespace Fee.Ui
 
 		/** テキストフォントサイズ。設定。
 		*/
-		public void SetFrontSize(int a_fontsize)
+		public void SetFontSize(int a_fontsize)
 		{
 			this.text.SetFontSize(a_fontsize);	
 		}
