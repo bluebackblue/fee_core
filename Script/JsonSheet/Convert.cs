@@ -256,7 +256,7 @@ namespace Fee.JsonSheet
 		*/
 		public static void Convert_Write_SeSheet(Fee.File.Path a_path,Fee.JsonItem.JsonItem[] a_json)
 		{
-			string t_prefab_name = null;
+			//string t_prefab_name = null;
 			System.Collections.Generic.List<System.Tuple<string,float>> t_list = new System.Collections.Generic.List<System.Tuple<string,float>>();
 
 			for(int ii=0;ii<a_json.Length;ii++){
@@ -264,12 +264,7 @@ namespace Fee.JsonSheet
 					System.Collections.Generic.List<SeSheet_ListItem> t_enum_sheet = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<SeSheet_ListItem>>(a_json[ii]);
 					for(int jj=0;jj<t_enum_sheet.Count;jj++){
 
-						if(Config.SESHEET_COMMAND_NAME == t_enum_sheet[jj].se_command){
-							//<sename>
-
-							t_prefab_name = t_enum_sheet[jj].se_name;
-
-						}else if(Config.SESHEET_COMMAND_ITEM == t_enum_sheet[jj].se_command){
+						if(Config.SESHEET_COMMAND_ITEM == t_enum_sheet[jj].se_command){
 							//<item>
 
 							t_list.Add(new System.Tuple<string,float>(
@@ -287,11 +282,13 @@ namespace Fee.JsonSheet
 			//保存。
 			{
 				UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
+				//t_prefab.name = t_prefab_name;
+
 				Fee.Audio.Pack_AudioClip t_pack = t_prefab.AddComponent<Fee.Audio.Pack_AudioClip>();
 
 				{
 					for(int ii=0;ii<t_list.Count;ii++){
-						UnityEngine.AudioClip t_audio_cilp = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.AudioClip>("Assets/" + t_list[ii].Item2);
+						UnityEngine.AudioClip t_audio_cilp = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.AudioClip>("Assets/" + t_list[ii].Item1);
 						float t_volume = t_list[ii].Item2;
 
 						t_pack.audioclip_list.Add(t_audio_cilp);
@@ -306,13 +303,6 @@ namespace Fee.JsonSheet
 
 				UnityEngine.GameObject.DestroyImmediate(t_prefab);
 			}
-
-			/*
-			//<<itemroot>>の置換。
-			t_text = t_text.Replace(Config.ENUMCONVERT_KEYWORD_ITEMROOT,"");
-
-			Fee.EditorTool.Utility.WriteTextFile(a_path.GetPath(),t_text);
-			*/
 		}
 	}
 	#endif

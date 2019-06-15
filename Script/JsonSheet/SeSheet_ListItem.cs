@@ -21,10 +21,6 @@ namespace Fee.JsonSheet
 		*/
 		public string se_command;
 
-		/** se_name
-		*/
-		public string se_name;
-
 		/** se_file
 		*/
 		public string se_file;

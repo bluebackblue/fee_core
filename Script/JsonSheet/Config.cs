@@ -86,13 +86,6 @@ namespace Fee.JsonSheet
 
 		/** ＳＥシート。コマンド。
 		
-			ＳＥ名設定。
-
-		*/
-		public static string SESHEET_COMMAND_NAME = "<sename>";
-
-		/** ＳＥシート。コマンド。
-		
 			要素設定。
 
 		*/
