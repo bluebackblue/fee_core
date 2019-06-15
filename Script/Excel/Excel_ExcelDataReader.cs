@@ -172,6 +172,8 @@ namespace Fee.Excel
 								return true;
 							}
 						}
+					}else if(t_type == typeof(System.DBNull)){
+						//データのないセル。
 					}else{
 						//不明。
 						Tool.Assert(false);
