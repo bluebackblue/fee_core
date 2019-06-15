@@ -61,7 +61,7 @@ https://discord.gg/JH3B4SR
 * 「USE_DEF_FEE_INPUTSYSTEM」
 
 ### Utf8Jsonを使用する
-** 「USE_DEF_FEE_UTF8JSON」
+* 「USE_DEF_FEE_UTF8JSON」
 
 ### NPOIを使用する
 * 「USE_DEF_FEE_NPOI」
