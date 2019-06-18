@@ -17,7 +17,12 @@ namespace Fee.Ui
 	*/
 	public enum ScrollType
 	{
+		/** Vertical
+		*/
 		Vertical,
+
+		/** Horizontal
+		*/
 		Horizontal,
 	}
 
@@ -402,7 +407,18 @@ namespace Fee.Ui
 		*/
 		public void OnItemWHChange(int a_index)
 		{
-			this.list[a_index].SetWH(this.rect.w,this.rect.h);
+			this.SetItemWH(this.list[a_index]);
+		}
+
+		/** SetItemWH
+		*/
+		private void SetItemWH(ITEM a_item)
+		{
+			if(this.scroll_type == ScrollType.Vertical){
+				a_item.SetWH(this.rect.w,this.GetItemLength());
+			}else{
+				a_item.SetWH(this.GetItemLength(),this.rect.h);
+			}
 		}
 		
 		/** [Scroll_Value_CallBack]コールバック。表示変更。
@@ -420,7 +436,7 @@ namespace Fee.Ui
 						this.list[a_index].SetY(this.rect.y);
 					}
 
-					this.list[a_index].SetWH(this.rect.w,this.rect.h);
+					this.OnItemWHChange(a_index);
 
 					//クリップ矩形。設定。
 					this.list[a_index].SetClipRect(ref this.rect);
@@ -447,7 +463,7 @@ namespace Fee.Ui
 				a_new_item.SetY(this.rect.y);
 			}
 
-			a_new_item.SetWH(this.rect.w,this.rect.h);
+			this.SetItemWH(a_new_item);
 
 			this.list.Add(a_new_item);
 			this.scroll_value.InsertItem(t_index);
@@ -495,7 +511,7 @@ namespace Fee.Ui
 					a_new_item.SetY(this.rect.y);
 				}
 
-				a_new_item.SetWH(this.rect.w,this.rect.h);
+				this.SetItemWH(a_new_item);
 
 				this.list.Insert(a_index,a_new_item);
 				this.scroll_value.InsertItem(a_index);
