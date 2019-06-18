@@ -20,7 +20,7 @@ namespace Fee.JsonSheet
 		/** data_command
 
 			<packitem>		: パックアイテム。
-			<resouceitem>	: リソースアイテム。
+			<resourcesitem>	: リソースアイテム。
 
 		*/
 		public string data_command;

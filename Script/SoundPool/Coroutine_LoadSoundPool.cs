@@ -153,7 +153,7 @@ namespace Fee.SoundPool
 							{
 								t_local_soundpool.fullpath_list = new System.Collections.Generic.List<File.Path>();
 								for(int ii=0;ii<t_local_soundpool.name_list.Count;ii++){
-									t_local_soundpool.fullpath_list.Add(File.File.GetLocalPath(new File.Path(t_local_soundpool.name_list[ii])));
+									t_local_soundpool.fullpath_list.Add(File.Path.CreateLocalPath(t_local_soundpool.name_list[ii]));
 								}
 							}
 
@@ -237,7 +237,7 @@ namespace Fee.SoundPool
 
 					//ロード。
 					{
-						Fee.File.Path t_sound_url = a_path.CreateUrl_ChangeFileName(t_load_soundpool.name_list[ii]);
+						Fee.File.Path t_sound_url = a_path.CreateFileNameChangePath(t_load_soundpool.name_list[ii]);
 
 						Fee.File.Item t_item = null;
 
@@ -310,7 +310,7 @@ namespace Fee.SoundPool
 			{
 				t_load_soundpool.fullpath_list = new System.Collections.Generic.List<File.Path>();
 				for(int ii=0;ii<t_load_soundpool.name_list.Count;ii++){
-					t_load_soundpool.fullpath_list.Add(File.File.GetLocalPath(new File.Path(t_load_soundpool.name_list[ii])));
+					t_load_soundpool.fullpath_list.Add(Fee.File.Path.CreateLocalPath(t_load_soundpool.name_list[ii]));
 				}
 			}
 

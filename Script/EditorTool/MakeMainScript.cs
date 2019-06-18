@@ -21,32 +21,32 @@ namespace Fee.EditorTool
 		/** メインスクリプト作成。
 		*/
 		#if(USE_DEF_FEE_EDITORMENU)
-		[UnityEditor.MenuItem("Fee/EditorTool/CreateMainScript")]
+		[UnityEditor.MenuItem("Fee/CreateMainScript")]
 		private static void MenuItem_CreateMainScript()
 		{
-			string t_fullpath = UnityEngine.Application.dataPath + "/" + "Main.cs";
+			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath("Main.cs");
 
 			//存在チェック。
-			if(Utility.IsExistFile(t_fullpath) == true){
+			if(Utility.IsExistFile(t_path) == true){
 				return;
 			}
 
 			//スクリプトテンプレートを読み込み。
-			string t_script_template = null;
+			string t_template_string = null;
 			{
-				string t_in_fullpath = Utility.FindFile("EditorTool","Main.temp.cs");
-				if(t_in_fullpath != null){
-					t_script_template = Utility.ReadTextFile(t_in_fullpath);
+				Fee.File.Path t_fullpath_temp = Utility.FindFile("EditorTool","Main.temp.cs");
+				if(t_fullpath_temp != null){
+					t_template_string = Utility.ReadTextFile(t_fullpath_temp);
 				}
-				if(t_script_template != null){
-					t_script_template = t_script_template.Replace("USE_DEF_FEE_TEMP","true");
+				if(t_template_string != null){
+					t_template_string = t_template_string.Replace("USE_DEF_FEE_TEMP","true");
 				}else{
 					return;
 				}
 			}
 
 			//スクリプトの書き込み。
-			Utility.WriteTextFile(t_fullpath,t_script_template);
+			Utility.WriteTextFile(t_path,t_template_string);
 
 			//更新。
 			UnityEditor.AssetDatabase.Refresh();

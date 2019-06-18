@@ -14,6 +14,9 @@
 namespace Fee.File
 {
 	/** ダウンロード。アセットバンドル。
+
+		TODO:バイナリからの変換。
+
 	*/
 	public class Coroutine_DownLoadAssetBundle
 	{
@@ -37,8 +40,13 @@ namespace Fee.File
 			*/
 			public ResultType()
 			{
+				//assetbundle
 				this.assetbundle = null;
+
+				//errorstring
 				this.errorstring = null;
+
+				//responseheader
 				this.responseheader = null;
 			}
 		}

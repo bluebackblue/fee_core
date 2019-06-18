@@ -330,10 +330,10 @@ namespace Fee.File
 			Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
-			if(t_coroutine.result.binary != null){
+			if(t_coroutine.result.binary_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_binary = t_coroutine.result.binary;
+				this.result_binary = t_coroutine.result.binary_file;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Binary;
 				yield break;
@@ -373,6 +373,7 @@ namespace Fee.File
 				this.result_text = null;
 				this.result_texture = null;
 				this.result_assetbundle = null;
+				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoDownLoadTextFile());
 				return true;
@@ -390,10 +391,10 @@ namespace Fee.File
 			Coroutine_DownLoadTextFile t_coroutine = new Coroutine_DownLoadTextFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
-			if(t_coroutine.result.text != null){
+			if(t_coroutine.result.text_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_text = t_coroutine.result.text;
+				this.result_text = t_coroutine.result.text_file;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Text;
 				yield break;
@@ -433,6 +434,7 @@ namespace Fee.File
 				this.result_text = null;
 				this.result_texture = null;
 				this.result_assetbundle = null;
+				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoDownLoadTextureFile());
 				return true;
@@ -450,10 +452,10 @@ namespace Fee.File
 			Coroutine_DownLoadTextureFile t_coroutine = new Coroutine_DownLoadTextureFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
-			if(t_coroutine.result.texture != null){
+			if(t_coroutine.result.texture_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_texture = t_coroutine.result.texture;
+				this.result_texture = t_coroutine.result.texture_file;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Texture;
 				yield break;
@@ -493,6 +495,7 @@ namespace Fee.File
 				this.result_text = null;
 				this.result_texture = null;
 				this.result_assetbundle = null;
+				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoDownLoadAssetBundle());
 				return true;
@@ -553,6 +556,7 @@ namespace Fee.File
 				this.result_text = null;
 				this.result_texture = null;
 				this.result_assetbundle = null;
+				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsBinaryFile());
 				return true;
@@ -568,15 +572,15 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsBinaryFile);
 
 			//request_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/" + this.request_path.GetPath());
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
 			Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,null);
 
-			if(t_coroutine.result.binary != null){
+			if(t_coroutine.result.binary_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_binary = t_coroutine.result.binary;
+				this.result_binary = t_coroutine.result.binary_file;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Binary;
 				yield break;
@@ -616,6 +620,7 @@ namespace Fee.File
 				this.result_text = null;
 				this.result_texture = null;
 				this.result_assetbundle = null;
+				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsTextFile());
 				return true;
@@ -631,15 +636,15 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextFile);
 
 			//request_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/" + this.request_path.GetPath());
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
 			Coroutine_DownLoadTextFile t_coroutine = new Coroutine_DownLoadTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,null);
 
-			if(t_coroutine.result.text != null){
+			if(t_coroutine.result.text_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_text = t_coroutine.result.text;
+				this.result_text = t_coroutine.result.text_file;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Text;
 				yield break;
@@ -679,6 +684,7 @@ namespace Fee.File
 				this.result_text = null;
 				this.result_texture = null;
 				this.result_assetbundle = null;
+				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsTextureFile());
 				return true;
@@ -694,15 +700,15 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextureFile);
 
 			//request_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/" + this.request_path.GetPath());
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
 			Coroutine_DownLoadTextureFile t_coroutine = new Coroutine_DownLoadTextureFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,null);
 
-			if(t_coroutine.result.texture != null){
+			if(t_coroutine.result.texture_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_texture = t_coroutine.result.texture;
+				this.result_texture = t_coroutine.result.texture_file;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Texture;
 				yield break;

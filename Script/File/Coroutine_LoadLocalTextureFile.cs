@@ -21,9 +21,9 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
-			/** テクスチャー。
+			/** テクスチャーファイル。
 			*/
-			public UnityEngine.Texture2D texture;
+			public UnityEngine.Texture2D texture_file;
 
 			/** エラー文字列。
 			*/
@@ -33,7 +33,10 @@ namespace Fee.File
 			*/
 			public ResultType()
 			{
-				this.texture = null;
+				//texture_file
+				this.texture_file = null;
+
+				//errorstring
 				this.errorstring = null;
 			}
 		}
@@ -98,7 +101,7 @@ namespace Fee.File
 					}
 
 					if(t_result_texture != null){
-						this.result.texture = t_result_texture;
+						this.result.texture_file = t_result_texture;
 						yield break;
 					}else{
 						this.result.errorstring = "Coroutine_LoadLocalTextureFile : result_texture == null";

@@ -33,7 +33,10 @@ namespace Fee.File
 			*/
 			public ResultType()
 			{
+				//saveend
 				this.saveend = false;
+
+				//errorstring
 				this.errorstring = null;
 			}
 		}

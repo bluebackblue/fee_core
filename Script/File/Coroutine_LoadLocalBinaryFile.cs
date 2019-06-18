@@ -21,9 +21,9 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
-			/** バイナリー。
+			/** バイナリーファイル。
 			*/
-			public byte[] binary;
+			public byte[] binary_file;
 
 			/** エラー文字列。
 			*/
@@ -33,7 +33,10 @@ namespace Fee.File
 			*/
 			public ResultType()
 			{
-				this.binary = null;
+				//binary_file
+				this.binary_file = null;
+
+				//errorstring
 				this.errorstring = null;
 			}
 		}
@@ -86,7 +89,7 @@ namespace Fee.File
 			//成功。
 			if(t_task.IsSuccess() == true){
 				if(t_result.binary != null){
-					this.result.binary = t_result.binary;
+					this.result.binary_file = t_result.binary;
 					yield break;
 				}
 			}

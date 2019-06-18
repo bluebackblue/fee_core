@@ -15,116 +15,78 @@ namespace Fee.File
 {
 	/** Path
 
-		path == "X:/aaaa/bbbb/ccc/dddd" : フルパス
+		a_path == "X:/aaaa/bbbb/ccc/dddd" : フルパス
 		directorypath == "X:/aaaa/bbbb/ccc/"
 		filename == "dddd"
 
-		path == "iii/jjj" : 相対パス
+		a_path == "iii/jjj" : 相対パス
 		directorypath == "iii/"
 		filename == "jjj"
 
 	*/
 	public class Path
 	{
-		/** path
+		/** filename
 		*/
-		private string path;
+		private readonly string filename;
 
 		/** directorypath
 		*/
-		private string directorypath;
-
-		/** filename
-		*/
-		private string filename;
+		private readonly string directorypath;
 
 		/** constructor
 		*/
-		public Path(string a_path,string a_directorypath,string a_filename)
+		public Path(string a_directorypath,string a_filename)
 		{
-			this.path = a_path;
-			this.directorypath = a_directorypath;
-			this.filename = a_filename;
+			//filename
+			if(a_filename != null){
+				this.filename = a_filename;
+
+				Tool.Assert(System.IO.Path.GetFileName(a_filename) == this.filename);
+			}else{
+				this.filename = "";
+			}
+
+			//directorypath
+			if(a_directorypath != null){
+				this.directorypath = a_directorypath;
+
+				Tool.Assert(System.IO.Path.GetFileName(a_directorypath) == "");
+			}else{
+				this.directorypath = "";
+			}
 		}
 
 		/** constructor
 		*/
 		public Path(string a_path)
 		{
-			this.path = a_path;
-			this.directorypath = null;
-			this.filename = null;
-		}
-
-		/** CalcPath
-		*/
-		private void CalcPath(string a_directorypath,string a_filename)
-		{
-			if((a_directorypath != null)&&(a_filename != null)){
-				this.path = a_directorypath + a_filename;
-			}else if(a_directorypath != null){
-				this.path = a_directorypath;
-			}else if(a_filename != null){
-				this.path = a_filename;
-			}else{
-				this.path = "";
-			}
-		}
-
-		/** CalcOther
-		*/
-		private void CalcOther(string a_path)
-		{
 			if(a_path != null){
+				//filename
 				this.filename = System.IO.Path.GetFileName(a_path);
-				this.directorypath = a_path.Substring(0,a_path.Length - filename.Length);
+
+				//directorypath
+				this.directorypath = a_path.Substring(0,a_path.Length - this.filename.Length);
 			}else{
+				//filename
 				this.filename = "";
+
+				//directorypath
 				this.directorypath = "";
 			}
-		}
-
-		/** フルパス。設定。
-		*/
-		public void SetPath(string a_path)
-		{
-			this.path = a_path;
-			this.CalcOther(a_path);
-		}
-
-		/** ディレクトリパス。設定。
-		*/
-		public void SetDirectoryPath(string a_directorypath)
-		{
-			this.directorypath = a_directorypath;
-			this.CalcPath(a_directorypath,this.filename);
-		}
-
-		/** ファイル名。設定。
-		*/
-		public void SetFileName(string a_filename)
-		{
-			this.filename = a_filename;
-			this.CalcPath(this.directorypath,a_filename);
 		}
 
 		/** フルパス。取得。
 		*/
 		public string GetPath()
 		{
-			if(this.path == null){
-				this.CalcPath(this.directorypath,this.filename);
-			}
-			return this.path;
+			return this.directorypath + this.filename;;
 		}
 
 		/** ファイル名。取得。
 		*/
 		public string GetFileName()
 		{
-			if(this.filename == null){
-				this.CalcOther(this.path);
-			}
 			return this.filename;
 		}
 
@@ -135,19 +97,94 @@ namespace Fee.File
 			return this.directorypath;
 		}
 
-		/** ＵＲＬ作成。名前変更。
+		/** ファイル名を変更したパス。作成。
 		*/
-		public Path CreateUrl_ChangeFileName(string a_filename)
+		public Path CreateFileNameChangePath(string a_filename)
 		{
-			return new Path(null,this.directorypath,a_filename);
+			return new Path(this.directorypath,a_filename);
 		}
 
-		/** ＵＲＬ作成。ディレクトリパス変更。
+		/** ファイル名を変更したパス。作成。
 		*/
-		public Path CreateUrl_ChangeDirectoryPath(string a_directorypath)
+		public Path CreateDirectoryPathChangePath(string a_directorypath)
 		{
-			return new Path(null,a_directorypath,this.filename);
+			return new Path(a_directorypath,this.filename);
 		}
+
+		/** CreateLocalPath
+		*/
+		public static Path CreateLocalPath()
+		{
+			return new Path(UnityEngine.Application.persistentDataPath);
+		}
+
+		/** CreateLocalPath
+		*/
+		public static Path CreateLocalPath(Path a_relative_path)
+		{
+			//a_relative_pathは相対パス。
+			return new Path(UnityEngine.Application.persistentDataPath + "/" + a_relative_path.GetPath());
+		}
+
+		/** CreateLocalPath
+		*/
+		public static Path CreateLocalPath(string a_relative_path)
+		{
+			//a_relative_pathは相対パス。
+			return new Path(UnityEngine.Application.persistentDataPath + "/" + a_relative_path);
+		}
+
+		/** CreateStreamingAssetsPath
+		*/
+		public static Path CreateStreamingAssetsPath()
+		{
+			return new Path(UnityEngine.Application.streamingAssetsPath);
+		}
+
+		/** CreateStreamingAssetsPath
+		*/
+		public static Path CreateStreamingAssetsPath(Path a_relative_path)
+		{
+			//a_relative_pathは相対パス。
+			return new Path(UnityEngine.Application.streamingAssetsPath + "/" + a_relative_path.GetPath());
+		}
+
+		/** CreateStreamingAssetsPath
+		*/
+		public static Path CreateStreamingAssetsPath(string a_relative_path)
+		{
+			//a_relative_pathは相対パス。
+			return new Path(UnityEngine.Application.streamingAssetsPath + "/" + a_relative_path);
+		}
+
+		/** CreateAssetsPath
+		*/
+		#if(UNITY_EDITOR)
+		public static Path CreateAssetsPath()
+		{
+			return new Path(UnityEngine.Application.dataPath);
+		}
+		#endif
+
+		/** CreateAssetsPath
+		*/
+		#if(UNITY_EDITOR)
+		public static Path CreateAssetsPath(Path a_relative_path)
+		{
+			//a_relative_pathは相対パス。
+			return new Path(UnityEngine.Application.dataPath + "/" + a_relative_path.GetPath());
+		}
+		#endif
+
+		/** CreateAssetsPath
+		*/
+		#if(UNITY_EDITOR)
+		public static Path CreateAssetsPath(string a_relative_path)
+		{
+			//a_relative_pathは相対パス。
+			return new Path(UnityEngine.Application.dataPath + "/" + a_relative_path);
+		}
+		#endif
 	}
 }
 

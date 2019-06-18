@@ -79,7 +79,7 @@ namespace Fee.SoundPool
 			{
 				t_local_soundpool.fullpath_list = new System.Collections.Generic.List<File.Path>();
 				for(int ii=0;ii<t_local_soundpool.name_list.Count;ii++){
-					t_local_soundpool.fullpath_list.Add(File.File.GetLocalPath(new File.Path(t_local_soundpool.name_list[ii])));
+					t_local_soundpool.fullpath_list.Add(File.Path.CreateLocalPath(t_local_soundpool.name_list[ii]));
 				}
 			}
 

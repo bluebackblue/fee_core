@@ -21,9 +21,9 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
-			/** テキスト。
+			/** テキストファイル。
 			*/
-			public string text;
+			public string text_file;
 
 			/** エラー文字列。
 			*/
@@ -33,7 +33,10 @@ namespace Fee.File
 			*/
 			public ResultType()
 			{
-				this.text = null;
+				//text_file
+				this.text_file = null;
+
+				//errorstring
 				this.errorstring = null;
 			}
 		}
@@ -86,7 +89,7 @@ namespace Fee.File
 			//成功。
 			if(t_task.IsSuccess() == true){
 				if(t_result.text != null){
-					this.result.text = t_result.text;
+					this.result.text_file = t_result.text;
 					yield break;
 				}
 			}

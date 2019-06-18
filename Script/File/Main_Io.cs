@@ -317,15 +317,15 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.LoadLocalBinaryFile);
 
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
 
 			Coroutine_LoadLocalBinaryFile t_coroutine = new Coroutine_LoadLocalBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
 
-			if(t_coroutine.result.binary != null){
+			if(t_coroutine.result.binary_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_binary = t_coroutine.result.binary;
+				this.result_binary = t_coroutine.result.binary_file;
 				this.result_type = ResultType.Binary;
 				yield break;
 			}else{
@@ -378,15 +378,15 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.LoadLocalTextFile);
 
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
 
 			Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
 
-			if(t_coroutine.result.text != null){
+			if(t_coroutine.result.text_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_text = t_coroutine.result.text;
+				this.result_text = t_coroutine.result.text_file;
 				this.result_type = ResultType.Text;
 				yield break;
 			}else{
@@ -439,15 +439,15 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.LoadLocalTextureFile);
 
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
 
 			Coroutine_LoadLocalTextureFile t_coroutine = new Coroutine_LoadLocalTextureFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
 
-			if(t_coroutine.result.texture != null){
+			if(t_coroutine.result.texture_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_texture = t_coroutine.result.texture;
+				this.result_texture = t_coroutine.result.texture_file;
 				this.result_type = ResultType.Texture;
 				yield break;
 			}else{
@@ -500,7 +500,7 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.SaveLocalBinaryFile);
 
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
 
 			Coroutine_SaveLocalBinaryFile t_coroutine = new Coroutine_SaveLocalBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,this.request_binary);
@@ -560,7 +560,7 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.SaveLocalTextFile);
 
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
 
 			Coroutine_SaveLocalTextFile t_coroutine = new Coroutine_SaveLocalTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,this.request_text);
@@ -620,7 +620,7 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.SaveLocalTextureFile);
 
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = File.GetLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
 
 			Coroutine_SaveLocalTextureFile t_coroutine = new Coroutine_SaveLocalTextureFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,this.request_texture);
@@ -680,15 +680,15 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsBinaryFile);
 
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/" + this.request_relative_path.GetPath());
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path);
 
 			Coroutine_LoadLocalBinaryFile t_coroutine = new Coroutine_LoadLocalBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
 
-			if(t_coroutine.result.binary != null){
+			if(t_coroutine.result.binary_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_binary = t_coroutine.result.binary;
+				this.result_binary = t_coroutine.result.binary_file;
 				this.result_type = ResultType.Binary;
 				yield break;
 			}else{
@@ -741,15 +741,15 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextFile);
 
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/" + this.request_relative_path.GetPath());
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path);
 
 			Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
 
-			if(t_coroutine.result.text != null){
+			if(t_coroutine.result.text_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_text = t_coroutine.result.text;
+				this.result_text = t_coroutine.result.text_file;
 				this.result_type = ResultType.Text;
 				yield break;
 			}else{
@@ -802,15 +802,15 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextureFile);
 
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = new Path(UnityEngine.Application.streamingAssetsPath + "/" + this.request_relative_path.GetPath());
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path);
 
 			Coroutine_LoadLocalTextureFile t_coroutine = new Coroutine_LoadLocalTextureFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
 
-			if(t_coroutine.result.texture != null){
+			if(t_coroutine.result.texture_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_texture = t_coroutine.result.texture;
+				this.result_texture = t_coroutine.result.texture_file;
 				this.result_type = ResultType.Texture;
 				yield break;
 			}else{

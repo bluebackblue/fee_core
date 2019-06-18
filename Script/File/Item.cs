@@ -137,6 +137,10 @@ namespace Fee.File
 			/** アセットバンドル。
 			*/
 			AssetBundle,
+
+			/** アセットファイル。
+			*/
+			Asset,
 		}
 
 		/** result_type
@@ -170,6 +174,10 @@ namespace Fee.File
 		/** result_texture
 		*/
 		private UnityEngine.Texture2D result_texture;
+
+		/** result_asset
+		*/
+		private UnityEngine.Object result_asset;
 
 		/** result_assetbundle
 		*/
@@ -206,6 +214,9 @@ namespace Fee.File
 
 			//result_texture
 			this.result_texture = null;
+
+			//result_asset
+			this.result_asset = null;
 
 			//result_assetbundle
 			this.result_assetbundle = null;
@@ -342,6 +353,22 @@ namespace Fee.File
 		public UnityEngine.Texture2D GetResultTexture()
 		{
 			return this.result_texture;
+		}
+
+		/** 結果。アセット。設定。
+		*/
+		public void SetResultAsset(UnityEngine.Object a_asset)
+		{
+			this.result_type = ResultType.Asset;
+
+			this.result_asset = a_asset;
+		}
+
+		/** 結果。アセット。取得。
+		*/
+		public UnityEngine.Object GetResultAsset()
+		{
+			return this.result_asset;
 		}
 
 		/** 結果。アセットバンドル。設定。

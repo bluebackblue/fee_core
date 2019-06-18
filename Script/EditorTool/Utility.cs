@@ -27,7 +27,7 @@ namespace Fee.EditorTool
 		{
 			System.Collections.Generic.List<string> t_list = new System.Collections.Generic.List<string>();
 			{
-				string[] t_fullpath_list = System.IO.Directory.GetFiles(UnityEngine.Application.dataPath,a_dir_name,System.IO.SearchOption.TopDirectoryOnly);
+				string[] t_fullpath_list = System.IO.Directory.GetFiles(Fee.File.Path.CreateAssetsPath().GetPath(),a_dir_name,System.IO.SearchOption.TopDirectoryOnly);
 				for(int ii=0;ii<t_fullpath_list.Length;ii++){
 					string t_filename = System.IO.Path.GetFileName(t_fullpath_list[ii]);
 					if(t_filename.Length > 0){
@@ -47,7 +47,7 @@ namespace Fee.EditorTool
 		{
 			System.Collections.Generic.List<string> t_list = new System.Collections.Generic.List<string>();
 			{
-				string[] t_fullpath_list = System.IO.Directory.GetDirectories(UnityEngine.Application.dataPath,a_dir_name,System.IO.SearchOption.TopDirectoryOnly);
+				string[] t_fullpath_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),a_dir_name,System.IO.SearchOption.TopDirectoryOnly);
 				for(int ii=0;ii<t_fullpath_list.Length;ii++){
 					string t_filename = System.IO.Path.GetFileName(t_fullpath_list[ii]);
 					if(t_filename.Length > 0){
@@ -63,14 +63,14 @@ namespace Fee.EditorTool
 			return == フルパス。
 
 		*/
-		public static string FindFile(string a_dir_name,string a_file_name)
+		public static Fee.File.Path FindFile(string a_dir_name,string a_file_name)
 		{
-			string[] t_dir_list = System.IO.Directory.GetDirectories(UnityEngine.Application.dataPath,a_dir_name,System.IO.SearchOption.AllDirectories);
+			string[] t_dir_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),a_dir_name,System.IO.SearchOption.AllDirectories);
 			for(int ii=0;ii<t_dir_list.Length;ii++){
 				string[] t_file_list = System.IO.Directory.GetFiles(t_dir_list[ii],a_file_name,System.IO.SearchOption.TopDirectoryOnly);
 				if(t_file_list != null){
 					if(t_file_list.Length > 0){
-						return t_file_list[0];
+						return new Fee.File.Path(t_file_list[0]);
 					}
 				}
 			}
@@ -78,21 +78,25 @@ namespace Fee.EditorTool
 		}
 
 		/** ファイル存在チェック。
+
+			a_path : フルパス。
+
 		*/
-		public static bool IsExistFile(string a_full_path)
+		public static bool IsExistFile(Fee.File.Path a_path)
 		{
-			return System.IO.File.Exists(a_full_path);
+			return System.IO.File.Exists(a_path.GetPath());
 		}
 
 		/** テキストファイル読み込み。
-		*/
-		public static string ReadTextFile(string a_full_path)
-		{
-			string t_full_path = a_full_path;
 
+			a_path : フルパス。
+
+		*/
+		public static string ReadTextFile(Fee.File.Path a_path)
+		{
 			string t_string = null;
 			try{
-				using(System.IO.StreamReader t_stream = new System.IO.StreamReader(t_full_path)){
+				using(System.IO.StreamReader t_stream = new System.IO.StreamReader(a_path.GetPath())){
 					t_string = t_stream.ReadToEnd();
 					t_stream.Close();
 				}
@@ -103,13 +107,14 @@ namespace Fee.EditorTool
 		}
 
 		/** テキストファイル書き込み。
-		*/
-		public static void WriteTextFile(string a_full_path,string a_text)
-		{
-			string t_full_path = a_full_path;
 
+			a_path : フルパス。
+
+		*/
+		public static void WriteTextFile(Fee.File.Path a_path,string a_text)
+		{
 			try{
-				using(System.IO.StreamWriter t_stream = new System.IO.StreamWriter(t_full_path,false,System.Text.Encoding.UTF8)){
+				using(System.IO.StreamWriter t_stream = new System.IO.StreamWriter(a_path.GetPath(),false,System.Text.Encoding.UTF8)){
 					t_stream.Write(a_text);
 					t_stream.Flush();
 					t_stream.Close();
@@ -122,13 +127,16 @@ namespace Fee.EditorTool
 		}
 
 		/** ＪＳＯＮファイル書き込み。
+
+			a_path : フルパス。
+
 		*/
-		public static void WriteJsonFile(Fee.JsonItem.JsonItem a_jsonitem,string a_full_path)
+		public static void WriteJsonFile(Fee.File.Path a_path,Fee.JsonItem.JsonItem a_jsonitem)
 		{
 			string t_json_string = a_jsonitem.ConvertJsonString();
 
 			try{
-				using(System.IO.StreamWriter t_steram = new System.IO.StreamWriter(a_full_path,false,System.Text.Encoding.UTF8)){
+				using(System.IO.StreamWriter t_steram = new System.IO.StreamWriter(a_path.GetPath(),false,System.Text.Encoding.UTF8)){
 					t_steram.Write(t_json_string);
 					t_steram.Flush();
 					t_steram.Close();

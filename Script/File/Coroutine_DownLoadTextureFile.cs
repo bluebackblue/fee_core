@@ -21,9 +21,9 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
-			/** テクスチャー。
+			/** テクスチャーファイル。
 			*/
-			public UnityEngine.Texture2D texture;
+			public UnityEngine.Texture2D texture_file;
 
 			/** エラー文字列。
 			*/
@@ -37,8 +37,13 @@ namespace Fee.File
 			*/
 			public ResultType()
 			{
-				this.texture = null;
+				//texture_file
+				this.texture_file = null;
+
+				//errorstring
 				this.errorstring = null;
+
+				//responseheader
 				this.responseheader = null;
 			}
 		}
@@ -51,18 +56,10 @@ namespace Fee.File
 		*/
 		private static UnityEngine.Networking.UnityWebRequest CreateWebRequestInstance(Fee.File.Path a_path,UnityEngine.WWWForm a_post_data)
 		{
-			#if(false)
-			{
-				return UnityEngine.Networking.UnityWebRequestTexture.GetTexture(a_path.GetPath());
+			if(a_post_data != null){
+				return UnityEngine.Networking.UnityWebRequest.Post(a_path.GetPath(),a_post_data);
 			}
-			#else
-			{
-				if(a_post_data != null){
-					return UnityEngine.Networking.UnityWebRequest.Post(a_path.GetPath(),a_post_data);
-				}
-				return UnityEngine.Networking.UnityWebRequest.Get(a_path.GetPath());
-			}
-			#endif
+			return UnityEngine.Networking.UnityWebRequest.Get(a_path.GetPath());
 		}
 
 		/** CoroutineMain
@@ -117,15 +114,7 @@ namespace Fee.File
 					//レスポンスヘッダー。
 					this.result.responseheader = t_webrequest.GetResponseHeaders();
 
-					#if(false)
-					{
-						t_result_texture = UnityEngine.Networking.DownloadHandlerTexture.GetContent(t_webrequest);
-					}
-					#else
-					{
-						t_result_texture = BinaryToTexture2D.Convert(t_webrequest.downloadHandler.data);
-					}
-					#endif
+					t_result_texture = Fee.File.BinaryToTexture2D.Convert(t_webrequest.downloadHandler.data);
 
 				}catch(System.Exception t_exception){
 					this.result.errorstring = "Coroutine_DownLoadTextureFile : " + t_exception.Message;
@@ -134,7 +123,7 @@ namespace Fee.File
 
 				//成功。
 				if(t_result_texture != null){
-					this.result.texture = t_result_texture;
+					this.result.texture_file = t_result_texture;
 					yield break;
 				}
 

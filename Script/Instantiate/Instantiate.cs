@@ -25,16 +25,16 @@ namespace Fee.Instantiate
 		*/
 		public static UnityEngine.GameObject CreateUiInputField(string a_name,UnityEngine.Transform a_parent_transform)
 		{
-			UnityEngine.UI.DefaultControls.Resources t_resouce = new UnityEngine.UI.DefaultControls.Resources();
+			UnityEngine.UI.DefaultControls.Resources t_resources = new UnityEngine.UI.DefaultControls.Resources();
 			{
 				if(s_texture_inputfield == null){
 					s_texture_inputfield = UnityEngine.Resources.Load<UnityEngine.Texture2D>("Texture/Instantiate/InputField");
 				}
 
-				t_resouce.inputField = UnityEngine.Sprite.Create(s_texture_inputfield,new UnityEngine.Rect(0.0f,0.0f,s_texture_inputfield.width,s_texture_inputfield.height),new UnityEngine.Vector2(0.0f,0.0f));
+				t_resources.inputField = UnityEngine.Sprite.Create(s_texture_inputfield,new UnityEngine.Rect(0.0f,0.0f,s_texture_inputfield.width,s_texture_inputfield.height),new UnityEngine.Vector2(0.0f,0.0f));
 			}
 
-			UnityEngine.GameObject t_gameobject = UnityEngine.UI.DefaultControls.CreateInputField(t_resouce);
+			UnityEngine.GameObject t_gameobject = UnityEngine.UI.DefaultControls.CreateInputField(t_resources);
 
 			if(t_gameobject != null){
 				UnityEngine.UI.Image t_image = t_gameobject.GetComponent<UnityEngine.UI.Image>();
@@ -50,10 +50,10 @@ namespace Fee.Instantiate
 		*/
 		public static UnityEngine.GameObject CreateUiText(string a_name,UnityEngine.Transform a_parent_transform)
 		{
-			UnityEngine.UI.DefaultControls.Resources t_resouce = new UnityEngine.UI.DefaultControls.Resources();
+			UnityEngine.UI.DefaultControls.Resources t_resources = new UnityEngine.UI.DefaultControls.Resources();
 			{
 			}
-			UnityEngine.GameObject t_gameobject = UnityEngine.UI.DefaultControls.CreateText(t_resouce);
+			UnityEngine.GameObject t_gameobject = UnityEngine.UI.DefaultControls.CreateText(t_resources);
 			{
 				UnityEngine.UI.Outline t_outline = t_gameobject.AddComponent<UnityEngine.UI.Outline>();
 				{

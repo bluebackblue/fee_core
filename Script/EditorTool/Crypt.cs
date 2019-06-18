@@ -20,9 +20,7 @@ namespace Fee.EditorTool
 	{
 		/** 公開鍵秘密鍵作成。
 		*/
-		#if(USE_DEF_FEE_EDITORMENU)
-		[UnityEditor.MenuItem("Fee/EditorTool/Crypt/MakePublicKeyPrivateKey")]
-		private static void MenuItem_MakePublicKeyPrivateKey()
+		public static void MakePublicKeyPrivateKey(Fee.File.Path a_public_key,Fee.File.Path a_private_key)
 		{
 			string t_public_key;
 			string t_private_key;
@@ -34,7 +32,7 @@ namespace Fee.EditorTool
 					Fee.JsonItem.JsonItem t_jsonitem_public = new Fee.JsonItem.JsonItem(new Fee.JsonItem.Value_StringData(t_public_key));
 					t_jsonitem.SetItem("public",t_jsonitem_public,false);
 
-					Utility.WriteJsonFile(t_jsonitem,UnityEngine.Application.dataPath + "/Resources/public_key.json");
+					Utility.WriteJsonFile(a_public_key,t_jsonitem);
 				}
 
 				//private
@@ -43,13 +41,12 @@ namespace Fee.EditorTool
 					Fee.JsonItem.JsonItem t_jsonitem_private = new Fee.JsonItem.JsonItem(new Fee.JsonItem.Value_StringData(t_private_key));
 					t_jsonitem.SetItem("private",t_jsonitem_private,false);
 
-					Utility.WriteJsonFile(t_jsonitem,UnityEngine.Application.dataPath + "/Resources/private_key.json");
+					Utility.WriteJsonFile(a_private_key,t_jsonitem);
 				}
 			
 				UnityEditor.AssetDatabase.Refresh();
 			}
 		}
-		#endif
 
 		/** 暗号鍵作成。
 		*/

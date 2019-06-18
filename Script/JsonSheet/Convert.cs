@@ -179,7 +179,9 @@ namespace Fee.JsonSheet
 					Convert.Convert_Write_SeSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
 				}else if(t_list_convert[ii].convert_command == Config.CONVERTSHEET_COMMAND_DATA){
 					//データシートを連続出力。
+					/*
 					Convert.Convert_Write_DataSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
+					*/
 				}
 			}
 
@@ -191,7 +193,7 @@ namespace Fee.JsonSheet
 			a_output : 「Assets/**.json」
 
 		*/
-		public static void Convert_Write_JsonSheet(Fee.File.Path a_path,Fee.JsonItem.JsonItem[] a_json)
+		public static void Convert_Write_JsonSheet(Fee.File.Path a_relative_path,Fee.JsonItem.JsonItem[] a_json)
 		{
 			Fee.JsonItem.JsonItem t_jsonitem = new Fee.JsonItem.JsonItem(new Fee.JsonItem.Value_IndexArray());
 
@@ -204,12 +206,12 @@ namespace Fee.JsonSheet
 				}
 			}
 
-			Fee.EditorTool.Utility.WriteTextFile(UnityEngine.Application.dataPath + "/" + a_path.GetPath(),t_jsonitem.ConvertJsonString());
+			Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_relative_path),t_jsonitem.ConvertJsonString());
 		}
 
 		/** ＥＮＵＭシートを連結出力。
 		*/
-		public static void Convert_Write_EnumSheet(Fee.File.Path a_path,Fee.JsonItem.JsonItem[] a_json)
+		public static void Convert_Write_EnumSheet(Fee.File.Path a_relative_path,Fee.JsonItem.JsonItem[] a_json)
 		{
 			string t_text = Config.ENUMCONVERT_TEMPLATE_MAIN;
 
@@ -256,7 +258,7 @@ namespace Fee.JsonSheet
 			//<<itemroot>>の置換。
 			t_text = t_text.Replace(Config.ENUMCONVERT_KEYWORD_ITEMROOT,"");
 
-			Fee.EditorTool.Utility.WriteTextFile(UnityEngine.Application.dataPath + "/" + a_path.GetPath(),t_text);
+			Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_relative_path),t_text);
 		}
 
 		/** ＳＥシートを連結出力。
@@ -314,7 +316,8 @@ namespace Fee.JsonSheet
 
 		/** データシートを連続出力。
 		*/
-		public static void Convert_Write_DataSheet(Fee.File.Path a_path,Fee.JsonItem.JsonItem[] a_json)
+		/*
+		public static void Convert_Write_DataSheet(Fee.File.Path a_relative_path,Fee.JsonItem.JsonItem[] a_json)
 		{
 			System.Collections.Generic.Dictionary<string,Data.DataItem> t_list = new System.Collections.Generic.Dictionary<string,Data.DataItem>();
 
@@ -423,6 +426,7 @@ namespace Fee.JsonSheet
 				UnityEditor.BuildPipeline.BuildAssetBundles(t_output_path,t_assetbundlebuild,t_option,UnityEditor.BuildTarget.StandaloneWindows);
 			}
 		}
+		*/
 	}
 	#endif
 }

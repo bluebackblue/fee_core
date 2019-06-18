@@ -33,6 +33,10 @@ namespace Fee.File
 			*/
 			Do_WebRequest,
 
+			/** Do_Resources
+			*/
+			Do_Resources,
+
 			/** 完了。
 			*/
 			End
@@ -97,6 +101,10 @@ namespace Fee.File
 			/** ロードストリーミングアセット。テクスチャーファイル。
 			*/
 			LoadStreamingAssetsTextureFile,
+
+			/** リソース。アセットファイル。
+			*/
+			LoadResourcesAssetFile,
 		};
 
 		/** mode
@@ -135,6 +143,10 @@ namespace Fee.File
 		*/
 		private UnityEngine.Texture2D request_texture;
 
+		/** result_object
+		*/
+		private UnityEngine.Object result_object;
+
 		/** item
 		*/
 		private Item item;
@@ -169,6 +181,9 @@ namespace Fee.File
 
 			//request_texture
 			this.request_texture = null;
+
+			//result_object
+			this.result_object = null;
 
 			//item
 			this.item = new Item();
@@ -286,6 +301,14 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
+		/** リクエスト、ロードリソース。アセット。
+		*/
+		public void RequestLoadResourcesAssetFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadResourcesAssetFile;
+			this.request_path = a_relative_path;
+		}
+
 		/** アイテム。
 		*/
 		public Item GetItem()
@@ -374,6 +397,7 @@ namespace Fee.File
 							}
 							#else
 							{
+								//UNITY_ANDROID || UNITY_WEBGL
 								if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadStreamingAssetsBinaryFile(this.request_path) == true){
 									this.mode = Mode.Do_WebRequest;
 								}	
@@ -390,6 +414,7 @@ namespace Fee.File
 							}
 							#else
 							{
+								//UNITY_ANDROID || UNITY_WEBGL
 								if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadStreamingAssetsTextFile(this.request_path) == true){
 									this.mode = Mode.Do_WebRequest;
 								}	
@@ -406,11 +431,18 @@ namespace Fee.File
 							}
 							#else
 							{
+								//UNITY_ANDROID || UNITY_WEBGL
 								if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadStreamingAssetsTextureFile(this.request_path) == true){
 									this.mode = Mode.Do_WebRequest;
 								}	
 							}
 							#endif
+						}break;
+					case RequestType.LoadResourcesAssetFile:
+						{
+							if(Fee.File.File.GetInstance().GetMainResources().RequestLoadResourcesAssetFile(this.request_path) == true){
+								this.mode = Mode.Do_Resources;
+							}
 						}break;
 					}
 				}break;
@@ -520,6 +552,39 @@ namespace Fee.File
 
 						//完了。
 						t_main.Fix();				
+
+						this.mode = Mode.End;
+					}else if(this.item.IsCancel() == true){
+						//キャンセル。
+						t_main.Cancel();
+					}
+				}break;
+			case Mode.Do_Resources:
+				{
+					Main_Resources t_main = Fee.File.File.GetInstance().GetMainResources();
+
+					this.item.SetResultProgressUp(t_main.GetResultProgressUp());
+					this.item.SetResultProgressDown(t_main.GetResultProgressDown());
+
+					if(t_main.GetResultType() != Main_Resources.ResultType.None){
+						//結果。
+						bool t_success = false;
+						switch(t_main.GetResultType()){
+						case Main_Resources.ResultType.Asset:
+							{
+								if(t_main.GetResultAsset() != null){
+									this.item.SetResultAsset(t_main.GetResultAsset());
+									t_success = true;
+								}
+							}break;
+						}
+
+						if(t_success == false){
+							this.item.SetResultErrorString(t_main.GetResultErrorString());
+						}
+
+						//完了。
+						t_main.Fix();
 
 						this.mode = Mode.End;
 					}else if(this.item.IsCancel() == true){

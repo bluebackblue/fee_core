@@ -191,7 +191,8 @@ namespace Fee.Audio
 					//1固定。
 					int t_priority = (int)LoadPriority.RESERVATION;
 					if(this.java_soundpool != null){
-						t_sound_id = this.java_soundpool.Call<int>("load",UnityEngine.Application.persistentDataPath + "/" + a_name,t_priority);
+						Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(a_name);
+						t_sound_id = this.java_soundpool.Call<int>("load",t_path.GetPath(),t_priority);
 					}
 				}catch(System.Exception t_exception){
 					Tool.DebugReThrow(t_exception);
