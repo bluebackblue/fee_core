@@ -42,6 +42,7 @@ namespace Fee.JsonSheet
 
 
 
+
 		/** コンバートシート。コマンド。
 
 			インデックスリストＪＳＯＮにコンバート。
@@ -62,6 +63,16 @@ namespace Fee.JsonSheet
 
 		*/
 		public static string CONVERTSHEET_COMMAND_SE = "<se>";
+
+		/** コンバートシート。コマンド。
+
+			データにコンバート。
+
+		*/
+		public static string CONVERTSHEET_COMMAND_DATA = "<data>";
+
+
+
 
 		/** ＥＮＵＭシート。コマンド。
 
@@ -91,9 +102,26 @@ namespace Fee.JsonSheet
 		*/
 		public static string SESHEET_COMMAND_ITEM = "<item>";
 
+		/** データシート。コマンド。
 
+			要素設定。アセットバンドルアイテム。
 
+		*/
+		public static string DATASHEET_COMMAND_ASSETBUNDLEITEM = "<assetbundleitem>";
 
+		/** データシート。コマンド。
+
+			要素設定。リソースアイテム。
+
+		*/
+		public static string DATASHEET_COMMAND_RESOURCESITEM = "<resourcesitem>";
+
+		/** データシート。コマンド。
+
+			要素設定。ストリーミングアセットアイテム。
+
+		*/
+		public static string DATASHEET_COMMAND_STREAMINGASSETSITEM = "<streamingassetsitem>";
 
 
 
