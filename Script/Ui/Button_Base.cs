@@ -87,6 +87,10 @@ namespace Fee.Ui
 		*/
 		protected Button_Mode mode;
 
+		/** dragcancel_flag
+		*/
+		protected bool dragcancel_flag;
+
 		/** constructor
 		*/
 		public Button_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_click_id)
@@ -135,6 +139,9 @@ namespace Fee.Ui
 
 			//mode
 			this.mode = Button_Mode.Normal;
+
+			//dragcancel_flag
+			this.dragcancel_flag = false;
 
 			//削除管理。
 			if(a_deleter != null){
@@ -191,6 +198,16 @@ namespace Fee.Ui
 				//コールバック。モード変更。
 				this.OnChangeMode();
 			}
+		}
+
+		/** ドラッグキャンセル。設定。
+
+			a_flag == true : ドラッグ時、ダウンフラグをキャンセル。
+
+		*/
+		public void SetDragCancelFlag(bool a_flag)
+		{
+			this.dragcancel_flag = a_flag;
 		}
 
 		/** 描画プライオリティ。設定。
@@ -563,6 +580,21 @@ namespace Fee.Ui
 					}else{
 						this.SetMode(Button_Mode.Normal);
 					}
+				}else if((this.down_flag == true)&&(this.dragcancel_flag == true)&&(Fee.Input.Mouse.GetInstance().left.drag_dir_magnitude >= 1.0f)){
+					//ドラッグ時、ダウンフラグをキャンセル。
+
+					//ダウンキャンセル。
+					this.down_flag = false;
+					if(Button_Base.s_down_instance == this){
+						Button_Base.s_down_instance = null;
+					}
+
+					if(this.is_onover == true){
+						this.SetMode(Button_Mode.On);
+					}else{
+						this.SetMode(Button_Mode.Normal);
+					}
+
 				}else if((this.is_onover == true)&&(this.down_flag == true)){
 					//ダウン中オーバー中。
 
