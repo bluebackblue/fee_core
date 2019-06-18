@@ -212,7 +212,7 @@ namespace Fee.File
 			Tool.Assert(this.request_type == RequestType.LoadResourcesAssetFile);
 
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = this.request_relative_path;
 
 			Coroutine_LoadResourcesAssetFile t_coroutine = new Coroutine_LoadResourcesAssetFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
