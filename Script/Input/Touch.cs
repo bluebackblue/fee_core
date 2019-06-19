@@ -569,6 +569,7 @@ namespace Fee.Input
 								this.list.RemoveAt(ii);
 							}else{
 								this.list[ii].update = true;
+								this.list[ii].phasetype = Touch_Phase.PhaseType.FadeOut;
 							}
 						}else{
 							ii++;

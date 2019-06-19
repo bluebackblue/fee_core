@@ -20,21 +20,25 @@ namespace Fee.Input
 		*/
 		public enum PhaseType
 		{
-			/** 
+			/** None
 			*/
 			None,
 
-			/** 
+			/** Began
 			*/
 			Began,
 
-			/** 
+			/** Moved
 			*/
 			Moved,
 
-			/** 
+			/** Stationary
 			*/
 			Stationary,
+
+			/** FadeOut
+			*/
+			FadeOut,
 		};
 
 		/** value_x
