@@ -212,9 +212,16 @@ namespace Fee.Audio
 
 		/** ＢＧＭ。ロード。
 		*/
-		public void LoadBgm(Pack_AudioClip a_pack)
+		public bool LoadBgm(Pack_AudioClip a_pack)
 		{
-			this.bgm_audiosource_script.SetBank(new Bank(a_pack));
+			return this.bgm_audiosource_script.SetBank(new Bank(a_pack));
+		}
+
+		/** ＢＧＭ。アンロード。
+		*/
+		public bool UnLoadBgm()
+		{
+			return this.bgm_audiosource_script.UnSetBank();
 		}
 
 		/** ＳＥ。ロード。

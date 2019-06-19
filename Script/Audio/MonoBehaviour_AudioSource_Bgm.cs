@@ -80,6 +80,14 @@ namespace Fee.Audio
 		*/
 		private float playposition;
 
+		/** ロード。
+		*/
+		private Bank load_work;
+
+		/** アンロード。
+		*/
+		private Bank unload_work;
+
 		/** 初期化。
 		*/
 		public void Initialize(Volume a_volume_master,Volume a_volume_bgm)
@@ -139,6 +147,12 @@ namespace Fee.Audio
 
 			//再生位置。
 			this.playposition = 0.0f;
+
+			//load
+			this.load_work = null;
+
+			//unload
+			this.unload_work = null;
 		}
 
 		/** 削除。
@@ -157,11 +171,31 @@ namespace Fee.Audio
 			}
 		}
 
-		/** クリップパック。設定。
+		/** バンク。設定。
 		*/
-		public void SetBank(Bank a_bank)
+		public bool SetBank(Bank a_bank)
 		{
-			this.bank = a_bank;
+			if(this.load_work == null){
+				this.load_work = a_bank;
+
+				return true;
+			}
+
+			return false;
+		}
+
+		/** バンク。解除。
+		*/
+		public bool UnSetBank()
+		{
+			if(this.unload_work == null){
+				this.unload_work = this.bank;
+				this.bank = null;
+
+				return true;
+			}
+
+			return false;
 		}
 
 		/** 再生。
@@ -199,134 +233,136 @@ namespace Fee.Audio
 		*/
 		public void Update()
 		{
+			int t_request_index = this.request_index;
+
+			if(this.load_work != null){
+				//ロード中。
+
+				//ストリーミング再生。
+				//this.load_work.LoadMain();
+				//t_request_index = -1;
+
+				this.bank = this.load_work;
+				this.load_work = null;
+			}
+
+			if(this.unload_work != null){
+				//アンロード中。
+
+				t_request_index = -1;
+
+				if(this.mode == Mode.Wait){
+					if(this.unload_work.UnloadMain() == true){
+						this.unload_work = null;
+					}
+				}
+			}
+
 			switch(this.mode){
 			case Mode.Wait:
 				{
-					if(this.request_index >= 0){
-
-						//オーディオクリップ。
-						UnityEngine.AudioClip t_audioclip = null;
-						float t_volume = 0.0f;
+					if(t_request_index >= 0){
 						if(this.bank != null){
-							this.bank.GetAudioClip(this.request_index,out t_audioclip,out t_volume);
+
+							//オーディオクリップ。
+							UnityEngine.AudioClip t_audioclip = null;
+							float t_volume = 0.0f;
+							if(this.bank != null){
+								this.bank.GetAudioClip(t_request_index,out t_audioclip,out t_volume);
+							}
+
+							//再生。
+							this.myaudiosource_data_volume[0] = t_volume;
+							this.myaudiosource[0].clip = t_audioclip;
+							this.myaudiosource[0].Play();
+							this.myaudiosource_time[0] = 0.0f;
+
+							//ボリューム。
+							this.myaudiosource_volume[0] = 1.0f;
+							this.UpdateVolume();
+
+							this.play_index = t_request_index;
+							this.mode = Mode.Play0;
+
+							this.loopcount = 0;
+							this.playposition = 0.0f;
+
 						}
-
-						//再生。
-						this.myaudiosource_data_volume[0] = t_volume;
-						this.myaudiosource[0].clip = t_audioclip;
-						this.myaudiosource[0].Play();
-						this.myaudiosource_time[0] = 0.0f;
-
-						//ボリューム。
-						this.myaudiosource_volume[0] = 1.0f;
-						this.UpdateVolume();
-
-						this.play_index = this.request_index;
-						this.mode = Mode.Play0;
-
-						this.loopcount = 0;
-						this.playposition = 0.0f;
 					}
 				}break;
 			case Mode.Play0:
+			case Mode.Play1:
 				{
-					if(this.play_index != this.request_index){
+					int t_index;
+					int t_index_next;
+					if(this.mode == Mode.Play1){
+						t_index = 0;
+						t_index_next = 1;
+					}else{
+						t_index = 1;
+						t_index_next = 0;
+					}
+
+					if(this.play_index != t_request_index){
 						//クロスフェード開始。
 
 						this.fadetime = 0.0f;
 
 						//ボリューム。
 						if(Config.BGM_PLAY_FADEIN == true){
-							this.myaudiosource_volume[1] = 0.0f;
+							this.myaudiosource_volume[t_index_next] = 0.0f;
 						}else{
-							this.myaudiosource_volume[1] = 1.0f;
+							this.myaudiosource_volume[t_index_next] = 1.0f;
 						}
 						this.UpdateVolume();
 
 						//再生。
-						if(this.request_index >= 0){
+						if(t_request_index >= 0){
 
 							//オーディオクリップ。
 							UnityEngine.AudioClip t_audioclip = null;
 							float t_volume = 0.0f;
 							if(this.bank != null){
-								this.bank.GetAudioClip(this.request_index,out t_audioclip,out t_volume);
+								this.bank.GetAudioClip(t_request_index,out t_audioclip,out t_volume);
 							}
 
-							this.myaudiosource_data_volume[1] = t_volume;
-							this.myaudiosource[1].clip = t_audioclip;
-							this.myaudiosource[1].Play();
-							this.myaudiosource_time[1] = 0.0f;
+							this.myaudiosource_data_volume[t_index_next] = t_volume;
+							this.myaudiosource[t_index_next].clip = t_audioclip;
+							this.myaudiosource[t_index_next].Play();
+							this.myaudiosource_time[t_index_next] = 0.0f;
 						}
 
-						this.play_index = this.request_index;
+						this.play_index = t_request_index;
 						this.mode = Mode.Cross0To1;
 
 						this.loopcount = 0;
 						this.playposition = 0.0f;
 					}else{
 						//再生中。
-						float t_old = this.myaudiosource_time[0];
-						this.myaudiosource_time[0] = this.myaudiosource[0].time;
-						this.playposition = this.myaudiosource_time[0];
+						float t_old = this.myaudiosource_time[t_index];
+						this.myaudiosource_time[t_index] = this.myaudiosource[t_index].time;
+						this.playposition = this.myaudiosource_time[t_index];
 
-						if(t_old > this.myaudiosource_time[0]){
-							Tool.Log("Bgm","loop : " + t_old.ToString() + " : " + this.myaudiosource_time[0].ToString());
-							this.loopcount++;
-						}
-					}
-				}break;
-			case Mode.Play1:
-				{
-					if(this.play_index != this.request_index){
-						//クロスフェード開始。
-
-						this.fadetime = 0.0f;
-
-						//ボリューム。
-						if(Config.BGM_PLAY_FADEIN == true){
-							this.myaudiosource_volume[0] = 0.0f;
-						}else{
-							this.myaudiosource_volume[0] = 1.0f;
-						}
-						this.UpdateVolume();
-
-						//再生。
-						if(this.request_index >= 0){
-
-							//オーディオクリップ。
-							UnityEngine.AudioClip t_audioclip = null;
-							float t_volume = 0.0f;
-							if(this.bank != null){
-								this.bank.GetAudioClip(this.request_index,out t_audioclip,out t_volume);
-							}
-
-							this.myaudiosource_data_volume[0] = t_volume;
-							this.myaudiosource[0].clip = t_audioclip;
-							this.myaudiosource[0].Play();
-							this.myaudiosource_time[0] = 0.0f;
-						}
-
-						this.play_index = this.request_index;
-						this.mode = Mode.Cross1To0;
-
-						this.loopcount = 0;
-						this.playposition = 0.0f;
-					}else{
-						//再生中。
-						float t_old = this.myaudiosource_time[1];
-						this.myaudiosource_time[1] = this.myaudiosource[1].time;
-						this.playposition = this.myaudiosource_time[1];
-
-						if(t_old > this.myaudiosource_time[1]){
-							Tool.Log("Bgm","loop : " + t_old.ToString() + " : " + this.myaudiosource_time[1].ToString());
+						if(t_old > this.myaudiosource_time[t_index]){
+							Tool.Log("Bgm","loop : " + t_old.ToString() + " : " + this.myaudiosource_time[t_index].ToString());
 							this.loopcount++;
 						}
 					}
 				}break;
 			case Mode.Cross0To1:
+			case Mode.Cross1To0:
 				{
-					this.playposition = this.myaudiosource[1].time;
+					int t_index;
+					int t_index_next;
+					if(this.mode == Mode.Cross0To1){
+						t_index = 0;
+						t_index_next = 1;
+					}else{
+						t_index = 1;
+						t_index_next = 0;
+					}
+
+					this.playposition = this.myaudiosource[t_index_next].time;
 
 					if(Config.BGM_PLAY_FADEIN == true){
 						this.fadetime += Config.BGM_CROSSFADE_SPEED;
@@ -336,69 +372,29 @@ namespace Fee.Audio
 
 					if(this.fadetime < 1.0f){
 						//ボリューム。
-						this.myaudiosource_volume[1] = this.fadetime;
-						this.myaudiosource_volume[0] = 1.0f - this.fadetime;
+						this.myaudiosource_volume[t_index_next] = this.fadetime;
+						this.myaudiosource_volume[t_index] = 1.0f - this.fadetime;
 						this.UpdateVolume();
 
 						//再生位置。
-						this.myaudiosource_time[1] = this.myaudiosource[1].time;
+						this.myaudiosource_time[t_index_next] = this.myaudiosource[t_index_next].time;
 						
 					}else{
 						//ボリューム。
-						this.myaudiosource_volume[1] = 1.0f;
-						this.myaudiosource_volume[0] = 0.0f;
+						this.myaudiosource_volume[t_index_next] = 1.0f;
+						this.myaudiosource_volume[t_index] = 0.0f;
 						this.UpdateVolume();
 
 						//停止。
-						this.myaudiosource[0].Stop();
-						this.myaudiosource[0].clip = null;
-						this.myaudiosource[0].time = 0.0f;
-						this.myaudiosource_time[0] = 0.0f;
+						this.myaudiosource[t_index].Stop();
+						this.myaudiosource[t_index].clip = null;
+						this.myaudiosource[t_index].time = 0.0f;
+						this.myaudiosource_time[t_index] = 0.0f;
 
 						if(this.play_index < 0){
 							this.mode = Mode.Wait;
 						}else{
 							this.mode = Mode.Play1;
-						}
-					}
-				}break;
-			case Mode.Cross1To0:
-				{
-					this.playposition = this.myaudiosource[0].time;
-
-					this.fadetime += Config.BGM_CROSSFADE_SPEED;
-
-					if(Config.BGM_PLAY_FADEIN == true){
-						this.fadetime += Config.BGM_CROSSFADE_SPEED;
-					}else{
-						this.fadetime = 1.0f;
-					}
-
-					if(this.fadetime < 1.0f){
-						//ボリューム。
-						this.myaudiosource_volume[0] = this.fadetime;
-						this.myaudiosource_volume[1] = 1.0f - this.fadetime;
-						this.UpdateVolume();
-
-						//再生位置。
-						this.myaudiosource_time[0] = this.myaudiosource[0].time;
-
-					}else{
-						//ボリューム。
-						this.myaudiosource_volume[0] = 1.0f;
-						this.myaudiosource_volume[1] = 0.0f;
-						this.UpdateVolume();
-
-						//停止。
-						this.myaudiosource[1].Stop();
-						this.myaudiosource[1].clip = null;
-						this.myaudiosource[1].time = 0.0f;
-						this.myaudiosource_time[1] = 0.0f;
-
-						if(this.play_index < 0){
-							this.mode = Mode.Wait;
-						}else{
-							this.mode = Mode.Play0;
 						}
 					}
 				}break;
