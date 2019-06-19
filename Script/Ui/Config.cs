@@ -4,7 +4,6 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
  * @brief ＵＩ。コンフィグ。
 */
 
@@ -59,6 +58,11 @@ namespace Fee.Ui
 		/** ボタンテクスチャー。ミップマップ。チェック。
 		*/
 		public static bool BUTTONTEXTURE_CHECK_MIPMAPCOUNT_ENABLE = true;
+
+		/** ドラッグキャンセル。ドラッグ距離閾値。
+		*/
+		public static float DRAGCANCEL_THRESHOLD = 2.0f;
+
 	}
 }
 

@@ -4,13 +4,8 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
- * @brief 入力。関数呼び出し。
+ * @brief 関数呼び出し。ツール。
 */
-
-
-//Unreachable code detected.
-#pragma warning disable 0162
 
 
 /** Fee.Function

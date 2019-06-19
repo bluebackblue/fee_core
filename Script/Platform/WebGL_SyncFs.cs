@@ -4,7 +4,6 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
  * @brief プラットフォーム。仮想DBからIDBへの書き込み。
 */
 

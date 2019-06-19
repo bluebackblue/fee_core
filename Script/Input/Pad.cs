@@ -4,13 +4,8 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
  * @brief 入力。パッド。
 */
-
-
-//The variable "" is assigned but its value is never used.
-#pragma warning disable 0219
 
 
 /** Fee.Input

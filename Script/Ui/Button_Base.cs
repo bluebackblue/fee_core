@@ -4,7 +4,6 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * http://bbbproject.sakura.ne.jp/wordpress/mitlicense
  * @brief ＵＩ。ボタン。
 */
 
@@ -580,8 +579,8 @@ namespace Fee.Ui
 					}else{
 						this.SetMode(Button_Mode.Normal);
 					}
-				}else if((this.down_flag == true)&&(this.dragcancel_flag == true)&&(Fee.Input.Mouse.GetInstance().left.drag_dir_magnitude >= 1.0f)){
-					//ドラッグ時、ダウンフラグをキャンセル。
+				}else if((this.down_flag == true)&&(this.dragcancel_flag == true)&&(Fee.Input.Mouse.GetInstance().left.drag_dir_magnitude >= Config.DRAGCANCEL_THRESHOLD)){
+					//ドラッグ距離でダウンをキャンセル。
 
 					//ダウンキャンセル。
 					this.down_flag = false;
