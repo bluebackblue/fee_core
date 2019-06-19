@@ -12,17 +12,17 @@
 */
 namespace Fee.File
 {
-	/** ロードリソース。アセットファイル。
+	/** ロードリソース。テクスチャーファイル。
 	*/
-	public class Coroutine_LoadResourcesAssetFile
+	public class Coroutine_LoadResourcesTextureFile
 	{
 		/** ResultType
 		*/
 		public class ResultType
 		{
-			/** アセットファイル。
+			/** テクスチャーファイル。
 			*/
-			public UnityEngine.Object asset_file;
+			public UnityEngine.Texture2D texture_file;
 
 			/** エラー文字列。
 			*/
@@ -32,8 +32,8 @@ namespace Fee.File
 			*/
 			public ResultType()
 			{
-				//asset_file
-				this.asset_file = null;
+				//texture_file
+				this.texture_file = null;
 
 				//errorstring
 				this.errorstring = null;
@@ -60,7 +60,7 @@ namespace Fee.File
 			}
 
 			if(t_resourcerequest == null){
-				this.result.errorstring = "Coroutine_LoadResourcesAssetFile : " + a_path.GetPath();
+				this.result.errorstring = "Coroutine_LoadResourcesTextureFile : " + a_path.GetPath();
 				yield break;
 			}
 
@@ -75,14 +75,15 @@ namespace Fee.File
 				yield return null;
 			}
 
-			UnityEngine.Object t_result_asset = t_resourcerequest.asset;
+			//Texture
+			UnityEngine.Texture2D t_result_texture = t_resourcerequest.asset as UnityEngine.Texture2D;
 
-			if(t_result_asset == null){
-				this.result.errorstring = "Coroutine_LoadResourcesAssetFile : result_asset == null : " + a_path.GetPath();
+			if(t_result_texture == null){
+				this.result.errorstring = "Coroutine_LoadResourcesTextureFile : result_texture == null : " + a_path.GetPath();
 				yield break;
 			}
-			
-			this.result.asset_file = t_result_asset;
+
+			this.result.texture_file = t_result_texture;
 			yield break;
 		}
 	}

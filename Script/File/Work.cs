@@ -104,6 +104,15 @@ namespace Fee.File
 			/** リソース。アセットファイル。
 			*/
 			LoadResourcesAssetFile,
+
+			/** リソース。テキストファイル。
+			*/
+			LoadResourcesTextFile,
+
+			/** リソース。テクスチャーファイル。
+			*/
+			LoadResourcesTextureFile,
+
 		};
 
 		/** mode
@@ -300,11 +309,27 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
-		/** リクエスト、ロードリソース。アセット。
+		/** リクエスト、ロードリソース。アセットファイル。
 		*/
 		public void RequestLoadResourcesAssetFile(Path a_relative_path)
 		{
 			this.request_type = RequestType.LoadResourcesAssetFile;
+			this.request_path = a_relative_path;
+		}
+
+		/** リクエスト、ロードリソース。テキストファイル。
+		*/
+		public void RequestLoadResourcesTextFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadResourcesTextFile;
+			this.request_path = a_relative_path;
+		}
+
+		/** リクエスト。ロードリソース。テクスチャーファイル。
+		*/
+		public void RequestLoadResourcesTextureFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadResourcesTextureFile;
 			this.request_path = a_relative_path;
 		}
 
@@ -443,6 +468,18 @@ namespace Fee.File
 								this.mode = Mode.Do_Resources;
 							}
 						}break;
+					case RequestType.LoadResourcesTextFile:
+						{
+							if(Fee.File.File.GetInstance().GetMainResources().RequestLoadResourcesTextFile(this.request_path) == true){
+								this.mode = Mode.Do_Resources;
+							}
+						}break;
+					case RequestType.LoadResourcesTextureFile:
+						{
+							if(Fee.File.File.GetInstance().GetMainResources().RequestLoadResourcesTextureFile(this.request_path) == true){
+								this.mode = Mode.Do_Resources;
+							}
+						}break;
 					}
 				}break;
 			case Mode.End:
@@ -573,6 +610,20 @@ namespace Fee.File
 							{
 								if(t_main.GetResultAsset() != null){
 									this.item.SetResultAsset(t_main.GetResultAsset());
+									t_success = true;
+								}
+							}break;
+						case Main_Resources.ResultType.Text:
+							{
+								if(t_main.GetResultText() != null){
+									this.item.SetResultText(t_main.GetResultText());
+									t_success = true;
+								}
+							}break;
+						case Main_Resources.ResultType.Texture:
+							{
+								if(t_main.GetResultTexture() != null){
+									this.item.SetResultTexture(t_main.GetResultTexture());
 									t_success = true;
 								}
 							}break;

@@ -12,9 +12,9 @@
 */
 namespace Fee.File
 {
-	/** ロードリソース。アセットファイル。
+	/** ロードリソース。テキストファイル。
 	*/
-	public class Coroutine_LoadResourcesAssetFile
+	public class Coroutine_LoadResourcesTextFile
 	{
 		/** ResultType
 		*/
@@ -22,7 +22,7 @@ namespace Fee.File
 		{
 			/** アセットファイル。
 			*/
-			public UnityEngine.Object asset_file;
+			public string text_file;
 
 			/** エラー文字列。
 			*/
@@ -32,8 +32,8 @@ namespace Fee.File
 			*/
 			public ResultType()
 			{
-				//asset_file
-				this.asset_file = null;
+				//text_file
+				this.text_file = null;
 
 				//errorstring
 				this.errorstring = null;
@@ -60,7 +60,7 @@ namespace Fee.File
 			}
 
 			if(t_resourcerequest == null){
-				this.result.errorstring = "Coroutine_LoadResourcesAssetFile : " + a_path.GetPath();
+				this.result.errorstring = "Coroutine_LoadResourcesTextFile : " + a_path.GetPath();
 				yield break;
 			}
 
@@ -75,14 +75,26 @@ namespace Fee.File
 				yield return null;
 			}
 
-			UnityEngine.Object t_result_asset = t_resourcerequest.asset;
+			//TextAsset
+			UnityEngine.TextAsset t_result_textasset = t_resourcerequest.asset as UnityEngine.TextAsset;
 
-			if(t_result_asset == null){
-				this.result.errorstring = "Coroutine_LoadResourcesAssetFile : result_asset == null : " + a_path.GetPath();
+			if(t_result_textasset == null){
+				this.result.errorstring = "Coroutine_LoadResourcesTextFile : result_textasset == null : " + a_path.GetPath();
+				yield break;
+			}
+
+			//string
+			string t_result_string = null;
+			if(t_result_textasset != null){
+				t_result_string = t_result_textasset.text;
+			}
+
+			if(t_result_string == null){
+				this.result.errorstring = "Coroutine_LoadResourcesTextFile : result_string == null : " + a_path.GetPath();
 				yield break;
 			}
 			
-			this.result.asset_file = t_result_asset;
+			this.result.text_file = t_result_string;
 			yield break;
 		}
 	}

@@ -51,7 +51,7 @@ namespace Fee.SoundPool
 			//ローカル、サウンドプール管理ファイルのロード。
 			Fee.JsonItem.JsonItem t_local_soundpool_json = null;
 			{
-				Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoadLocalTextFile(a_path);
+				Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadLocalTextFile,a_path);
 				while(t_item.IsBusy() == true){
 					yield return null;
 				}

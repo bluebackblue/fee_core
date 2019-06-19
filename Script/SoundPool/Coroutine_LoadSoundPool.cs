@@ -120,7 +120,7 @@ namespace Fee.SoundPool
 			//ローカル、サウンドプール管理ファイルのロード。
 			Fee.JsonItem.JsonItem t_local_soundpool_json = null;
 			if(Config.USE_DOWNLOAD_SOUNDPOOL_CACHE == true){
-				Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoadLocalTextFile(t_local_caoundpool_path);
+				Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadLocalTextFile,t_local_caoundpool_path);
 				while(t_item.IsBusy() == true){
 
 					this.UpdateProgress(a_instance,(int)t_main_step,1,0,t_item.GetResultProgressDown());
@@ -184,9 +184,9 @@ namespace Fee.SoundPool
 				Fee.File.Item t_item = null;
 				
 				if(a_is_streamingassets == true){
-					t_item = Fee.File.File.GetInstance().RequestLoadStreamingAssetsTextFile(a_path);
+					t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadStreamingAssetsTextFile,a_path);
 				}else{
-					t_item = Fee.File.File.GetInstance().RequestDownLoadTextFile(a_path,a_post_data);
+					t_item = Fee.File.File.GetInstance().RequestDownLoad(File.File.LoadRequestType.DownLoadTextFile,a_path,a_post_data);
 				}
 				
 				while(t_item.IsBusy() == true){
@@ -241,9 +241,9 @@ namespace Fee.SoundPool
 						Fee.File.Item t_item = null;
 
 						if(a_is_streamingassets){
-							t_item = Fee.File.File.GetInstance().RequestLoadStreamingAssetsBinaryFile(t_sound_url);
+							t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadStreamingAssetsBinaryFile,t_sound_url);
 						}else{
-							t_item = Fee.File.File.GetInstance().RequestDownLoadBinaryFile(t_sound_url,null);
+							t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.DownLoadBinaryFile,t_sound_url);
 						}
 
 						while(t_item.IsBusy() == true){

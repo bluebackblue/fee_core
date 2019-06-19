@@ -25,6 +25,14 @@ namespace Fee.File
 			/** ロードリソース。アセットファイル。
 			*/
 			LoadResourcesAssetFile,
+
+			/** ロードリソース。テキストファイル。
+			*/
+			LoadResourcesTextFile,
+
+			/** ロードリソース。テクスチャーファイル。
+			*/
+			LoadResourcesTextureFile,
 		};
 
 		/** ResultType
@@ -39,9 +47,17 @@ namespace Fee.File
 			*/
 			Error,
 
-			/** アセットファイル。
+			/** アセット。
 			*/
 			Asset,
+
+			/** テキスト。
+			*/
+			Text,
+
+			/** テクスチャー。
+			*/
+			Texture,
 		};
 
 		/** is_busy
@@ -84,6 +100,14 @@ namespace Fee.File
 		*/
 		private UnityEngine.Object result_asset;
 
+		/** result_text
+		*/
+		private string result_text;
+
+		/** result_texture
+		*/
+		private UnityEngine.Texture2D result_texture;
+
 		/** constructor
 		*/
 		public Main_Resources()
@@ -102,6 +126,8 @@ namespace Fee.File
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
 			this.result_asset = null;
+			this.result_text = null;
+			this.result_texture = null;
 		}
 
 		/** 削除。
@@ -160,6 +186,20 @@ namespace Fee.File
 			return this.result_asset;
 		}
 
+		/** GetResultText
+		*/
+		public string GetResultText()
+		{
+			return this.result_text;
+		}
+
+		/** GetResultTexture
+		*/
+		public UnityEngine.Texture2D GetResultTexture()
+		{
+			return this.result_texture;
+		}
+
 		/** [Fee.File.OnCoroutine_CallBack]コルーチンからのコールバック。
 
 			return == false : キャンセル。
@@ -192,6 +232,8 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
+				this.result_text = null;
+				this.result_texture = null;
 
 				//request
 				this.request_type = RequestType.LoadResourcesAssetFile;
@@ -230,6 +272,125 @@ namespace Fee.File
 				yield break;
 			}
 		}
+
+		/** リクエスト。ロードリソース。テキストファイル。
+		*/
+		public bool RequestLoadResourcesTextFile(Fee.File.Path a_relative_path)
+		{
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//result
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_asset = null;
+				this.result_text = null;
+				this.result_texture = null;
+
+				//request
+				this.request_type = RequestType.LoadResourcesTextFile;
+				this.request_relative_path = a_relative_path;
+
+				Function.Function.StartCoroutine(this.DoLoadResourcesTextFile());
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 実行。ロードリソース。アセットファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadResourcesTextFile()
+		{
+			Tool.Assert(this.request_type == RequestType.LoadResourcesTextFile);
+
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = this.request_relative_path;
+
+			Coroutine_LoadResourcesTextFile t_coroutine = new Coroutine_LoadResourcesTextFile();
+			yield return t_coroutine.CoroutineMain(this,t_path);
+
+			if(t_coroutine.result.text_file != null){
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_text = t_coroutine.result.text_file;
+				this.result_type = ResultType.Text;
+				yield break;
+			}else{
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
+		}
+
+
+
+
+		/** リクエスト。ロードリソース。テクスチャーファイル。
+		*/
+		public bool RequestLoadResourcesTextureFile(Fee.File.Path a_relative_path)
+		{
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//result
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_asset = null;
+				this.result_text = null;
+				this.result_texture = null;
+
+				//request
+				this.request_type = RequestType.LoadResourcesTextureFile;
+				this.request_relative_path = a_relative_path;
+
+				Function.Function.StartCoroutine(this.DoLoadResourcesTextureFile());
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 実行。ロードリソース。テクスチャーファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadResourcesTextureFile()
+		{
+			Tool.Assert(this.request_type == RequestType.LoadResourcesTextureFile);
+
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = this.request_relative_path;
+
+			Coroutine_LoadResourcesTextureFile t_coroutine = new Coroutine_LoadResourcesTextureFile();
+			yield return t_coroutine.CoroutineMain(this,t_path);
+
+			if(t_coroutine.result.texture_file != null){
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_texture = t_coroutine.result.texture_file;
+				this.result_type = ResultType.Texture;
+				yield break;
+			}else{
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
+		}
+
+
 	}
 }
 
