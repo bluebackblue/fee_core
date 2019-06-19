@@ -42,7 +42,7 @@ namespace Fee.Depth
 			this.mycamera = this.GetComponent<UnityEngine.Camera>();
 
 			//マテリアル読み込み。
-			this.material_depth_view = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_DEPTHVIEW);
+			this.material_depth_view = new UnityEngine.Material(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_DEPTHVIEW));
 
 			//rendertexture_depth
 			this.rendertexture_depth = null;

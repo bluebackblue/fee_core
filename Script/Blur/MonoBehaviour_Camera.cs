@@ -46,8 +46,8 @@ namespace Fee.Blur
 			this.mycamera = this.GetComponent<UnityEngine.Camera>();
 
 			//マテリアル読み込み。
-			this.material_blur_x = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_BLURX);
-			this.material_blur_y = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_BLURY);
+			this.material_blur_x = new UnityEngine.Material(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_BLURX));
+			this.material_blur_y = new UnityEngine.Material(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_BLURY));
 
 			//比率。
 			this.rate_blend = 1.0f;

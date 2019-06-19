@@ -59,10 +59,10 @@ namespace Fee.Bloom
 			this.mycamera = this.GetComponent<UnityEngine.Camera>();
 
 			//マテリアル読み込み。
-			this.material_bloom_firstdownsampling = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_FIRSTDOWNSAMPLING);
-			this.material_bloom_downsampling = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_DOWNSAMPLING);
-			this.material_bloom_upsampling = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_UPSAMPLING);
-			this.material_bloom_lastupsampling = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_LASTUPSAMPLING);
+			this.material_bloom_firstdownsampling = new UnityEngine.Material(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_FIRSTDOWNSAMPLING));
+			this.material_bloom_downsampling = new UnityEngine.Material(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_DOWNSAMPLING));
+			this.material_bloom_upsampling = new UnityEngine.Material(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_UPSAMPLING));
+			this.material_bloom_lastupsampling = new UnityEngine.Material(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_LASTUPSAMPLING));
 
 			//閾値。
 			this.threshold = Config.DEFAULT_THRESHOLD;
