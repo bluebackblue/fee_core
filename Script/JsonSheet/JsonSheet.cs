@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ＪＳＯＮシート。コンバート。
+ * @brief ＪＳＯＮシート。
 */
 
 
@@ -12,10 +12,10 @@
 */
 namespace Fee.JsonSheet
 {
-	/** Convert
+	/** JsonSheet
 	*/
 	#if(UNITY_EDITOR)
-	public class Convert
+	public class JsonSheet
 	{
 		/** コンバート
 
@@ -169,13 +169,13 @@ namespace Fee.JsonSheet
 
 				if(t_list_convert[ii].convert_command == Config.CONVERTSHEET_COMMAND_JSON){
 					//ＪＳＯＮシートを連結出力。
-					Convert.Convert_Write_JsonSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
+					JsonSheet.Convert_Write_JsonSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
 				}else if(t_list_convert[ii].convert_command == Config.CONVERTSHEET_COMMAND_ENUM){
 					//ＥＮＵＭシートを連結出力。
-					Convert.Convert_Write_EnumSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
+					JsonSheet.Convert_Write_EnumSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
 				}else if(t_list_convert[ii].convert_command == Config.CONVERTSHEET_COMMAND_SE){
 					//ＳＥシートを連結出力。
-					Convert.Convert_Write_SeSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
+					JsonSheet.Convert_Write_SeSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
 				}else if(t_list_convert[ii].convert_command == Config.CONVERTSHEET_COMMAND_DATA){
 					//データシートを連続出力。
 					/*

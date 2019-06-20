@@ -154,6 +154,8 @@ namespace Fee.File
 		*/
 		public enum LoadRequestType
 		{
+			None,
+
 			LoadLocalBinaryFile,
 			LoadLocalTextFile,
 			LoadLocalTextureFile,
@@ -162,7 +164,7 @@ namespace Fee.File
 			LoadStreamingAssetsTextFile,
 			LoadStreamingAssetsTextureFile,
 
-			LoadResourcesAssetFile,
+			LoadResourcesAnythingFile,
 			LoadResourcesTextFile,
 			LoadResourcesTextureFile,
 
@@ -227,10 +229,10 @@ namespace Fee.File
 
 			//ロードリソース。
 
-			case LoadRequestType.LoadResourcesAssetFile:
+			case LoadRequestType.LoadResourcesAnythingFile:
 				{
 					Work t_work = new Work();
-					t_work.RequestLoadResourcesAssetFile(a_path);
+					t_work.RequestLoadResourcesAnythingFile(a_path);
 					this.add_list.Add(t_work);
 					return t_work.GetItem();
 				}break;

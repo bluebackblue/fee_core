@@ -20,7 +20,7 @@ namespace Fee.EditorTool
 		/** メインスクリプト作成。
 		*/
 		#if(USE_DEF_FEE_EDITORMENU)
-		[UnityEditor.MenuItem("Fee/CreateMainScript")]
+		[UnityEditor.MenuItem("Fee/Initialize/CreateMainScript")]
 		private static void MenuItem_CreateMainScript()
 		{
 			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath("Main.cs");

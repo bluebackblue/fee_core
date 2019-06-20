@@ -12,9 +12,9 @@
 */
 namespace Fee.File
 {
-	/** ロードリソース。アセットファイル。
+	/** ロードリソース。なんでもファイル。
 	*/
-	public class Coroutine_LoadResourcesAssetFile
+	public class Coroutine_LoadResourcesAnythingFile
 	{
 		/** ResultType
 		*/
@@ -22,7 +22,7 @@ namespace Fee.File
 		{
 			/** アセットファイル。
 			*/
-			public UnityEngine.Object asset_file;
+			public UnityEngine.Object anything_file;
 
 			/** エラー文字列。
 			*/
@@ -32,8 +32,8 @@ namespace Fee.File
 			*/
 			public ResultType()
 			{
-				//asset_file
-				this.asset_file = null;
+				//anything_file
+				this.anything_file = null;
 
 				//errorstring
 				this.errorstring = null;
@@ -60,7 +60,7 @@ namespace Fee.File
 			}
 
 			if(t_resourcerequest == null){
-				this.result.errorstring = "Coroutine_LoadResourcesAssetFile : " + a_path.GetPath();
+				this.result.errorstring = "Coroutine_LoadResourcesAnythingFile : " + a_path.GetPath();
 				yield break;
 			}
 
@@ -75,14 +75,14 @@ namespace Fee.File
 				yield return null;
 			}
 
-			UnityEngine.Object t_result_asset = t_resourcerequest.asset;
+			UnityEngine.Object t_result_anything = t_resourcerequest.asset;
 
-			if(t_result_asset == null){
-				this.result.errorstring = "Coroutine_LoadResourcesAssetFile : result_asset == null : " + a_path.GetPath();
+			if(t_result_anything == null){
+				this.result.errorstring = "Coroutine_LoadResourcesAnythingFile : result_anything == null : " + a_path.GetPath();
 				yield break;
 			}
 			
-			this.result.asset_file = t_result_asset;
+			this.result.anything_file = t_result_anything;
 			yield break;
 		}
 	}

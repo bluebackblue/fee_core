@@ -127,8 +127,8 @@ namespace Fee.SoundPool
 					yield return null;
 
 				}
-				if(t_item.GetResultType()==File.Item.ResultType.Text){
-					t_local_soundpool_json = new JsonItem.JsonItem(t_item.GetResultText());
+				if(t_item.GetResultAssetType() == Asset.AssetType.Text){
+					t_local_soundpool_json = new JsonItem.JsonItem(t_item.GetResultAssetText());
 					if(t_local_soundpool_json == null){
 						//コンバート失敗。
 						this.result.errorstring = "Coroutine_LoadSoundPool : local_soundpool_json == null";
@@ -197,9 +197,9 @@ namespace Fee.SoundPool
 				}
 				this.result.responseheader = t_item.GetResultResponseHeader();
 
-				if(t_item.GetResultType()==File.Item.ResultType.Text){
+				if(t_item.GetResultAssetType() == Asset.AssetType.Text){
 					//成功。
-					t_load_stringjson = t_item.GetResultText();
+					t_load_stringjson = t_item.GetResultAssetText();
 				}else{
 					//失敗。
 					this.result.errorstring = t_item.GetResultErrorString();
@@ -252,9 +252,9 @@ namespace Fee.SoundPool
 							yield return null;
 
 						}
-						if(t_item.GetResultType()==File.Item.ResultType.Binary){
+						if(t_item.GetResultAssetType() == Asset.AssetType.Binary){
 							//成功。
-							t_sound_binary = t_item.GetResultBinary();
+							t_sound_binary = t_item.GetResultAssetBinary();
 						}else{
 							//失敗。
 							this.result.errorstring = t_item.GetResultErrorString();

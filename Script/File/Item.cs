@@ -12,98 +12,9 @@
 */
 namespace Fee.File
 {
-	/** Item_Base
-	*/
-	public interface Item_Base
-	{
-		/** 処理中。チェック。
-		*/
-		bool IsBusy();
-
-		/** キャンセル。設定。
-		*/
-		void Cancel();
-
-		/** キャンセル。取得。
-		*/
-		bool IsCancel();
-
-		/** 結果。タイプ。取得。
-		*/
-		Item.ResultType GetResultType();
-
-		/** プログレス。設定。
-		*/
-		void SetResultProgressUp(float a_result_progress_up);
-
-		/** プログレス。取得。
-		*/
-		float GetResultProgressUp();
-
-		/** プログレス。設定。
-		*/
-		void SetResultProgressDown(float a_result_progress_down);
-
-		/** プログレス。取得。
-		*/
-		float GetResultProgressDown();
-
-		/** 結果。エラー文字。設定。
-		*/
-		void SetResultErrorString(string a_error_string);
-
-		/** 結果。エラー文字。取得。
-		*/
-		string GetResultErrorString();
-
-		/** 結果。セーブ完了。設定。
-		*/
-		void SetResultSaveEnd();
-
-		/** 結果。バイナリ。設定。
-		*/
-		void SetResultBinary(byte[] a_binary);
-
-		/** 結果。バイナリ。取得。
-		*/
-		byte[] GetResultBinary();
-
-		/** 結果。テキスト。設定。
-		*/
-		void SetResultText(string a_text);
-
-		/** 結果。テキスト。取得。
-		*/
-		string GetResultText();
-
-		/** 結果。テクスチャ。設定。
-		*/
-		void SetResultTexture(UnityEngine.Texture2D a_texture);
-
-		/** 結果。テクスチャ。取得。
-		*/
-		UnityEngine.Texture2D GetResultTexture();
-
-		/** 結果。アセットバンドル。設定。
-		*/
-		void SetResultAssetBundle(UnityEngine.AssetBundle a_assetbundle);
-
-		/** 結果。アセットバンドル。取得。
-		*/
-		UnityEngine.AssetBundle GetResultAssetBundle();
-
-		/** 結果。レスポンスヘッダー。設定。
-		*/
-		void SetResultResponseHeader(System.Collections.Generic.Dictionary<string,string> a_responseheader);
-
-		/** 結果。レスポンスヘッダー。取得。
-		*/
-		System.Collections.Generic.Dictionary<string,string> GetResultResponseHeader();
-	}
-
 	/** Item
 	*/
-	public class Item : Item_Base
+	public class Item
 	{
 		/** ResultType
 		*/
@@ -121,23 +32,11 @@ namespace Fee.File
 			*/
 			Error,
 
-			/** バイナリ。
-			*/
-			Binary,
-
-			/** テキスト。
-			*/
-			Text,
-
-			/** テクスチャ。
-			*/
-			Texture,
-
 			/** アセットバンドル。
 			*/
 			AssetBundle,
 
-			/** アセットファイル。
+			/** アセット。
 			*/
 			Asset,
 		}
@@ -162,29 +61,17 @@ namespace Fee.File
 		*/
 		private bool cancel_flag;
 
-		/** result_binary
+		/** result_responseheader
 		*/
-		private byte[] result_binary;
-
-		/** result_text
-		*/
-		private string result_text;
-
-		/** result_texture
-		*/
-		private UnityEngine.Texture2D result_texture;
+		private System.Collections.Generic.Dictionary<string,string> result_responseheader;
 
 		/** result_asset
 		*/
-		private UnityEngine.Object result_asset;
+		private Fee.Asset.Asset result_asset;
 
 		/** result_assetbundle
 		*/
 		private UnityEngine.AssetBundle result_assetbundle;
-
-		/** result_responseheader
-		*/
-		private System.Collections.Generic.Dictionary<string,string> result_responseheader;
 
 		/** constructor
 		*/
@@ -205,23 +92,14 @@ namespace Fee.File
 			//cancel_flag
 			this.cancel_flag = false;
 
-			//result_binary
-			this.result_binary = null;
-
-			//result_text
-			this.result_text = null;
-
-			//result_texture
-			this.result_texture = null;
+			//result_responseheader
+			this.result_responseheader = null;
 
 			//result_asset
 			this.result_asset = null;
 
 			//result_assetbundle
 			this.result_assetbundle = null;
-
-			//result_responseheader
-			this.result_responseheader = null;
 		}
 
 		/** 処理中。チェック。
@@ -306,68 +184,18 @@ namespace Fee.File
 			this.result_type = ResultType.SaveEnd;
 		}
 
-		/** 結果。バイナリ。設定。
+		/** 結果。レスポンスヘッダー。設定。
 		*/
-		public void SetResultBinary(byte[] a_binary)
+		public void SetResultResponseHeader(System.Collections.Generic.Dictionary<string,string> a_responseheader)
 		{
-			this.result_type = ResultType.Binary;
-
-			this.result_binary = a_binary;
+			this.result_responseheader = a_responseheader;
 		}
 
-		/** 結果。バイナリ。取得。
+		/** 結果。レスポンスヘッダー。取得。
 		*/
-		public byte[] GetResultBinary()
+		public System.Collections.Generic.Dictionary<string,string> GetResultResponseHeader()
 		{
-			return this.result_binary;
-		}
-
-		/** 結果。テキスト。設定。
-		*/
-		public void SetResultText(string a_text)
-		{
-			this.result_type = ResultType.Text;
-
-			this.result_text = a_text;
-		}
-
-		/** 結果。テキスト。取得。
-		*/
-		public string GetResultText()
-		{
-			return this.result_text;
-		}
-
-		/** 結果。テクスチャ。設定。
-		*/
-		public void SetResultTexture(UnityEngine.Texture2D a_texture)
-		{
-			this.result_type = ResultType.Texture;
-
-			this.result_texture = a_texture;
-		}
-
-		/** 結果。テクスチャ。取得。
-		*/
-		public UnityEngine.Texture2D GetResultTexture()
-		{
-			return this.result_texture;
-		}
-
-		/** 結果。アセット。設定。
-		*/
-		public void SetResultAsset(UnityEngine.Object a_asset)
-		{
-			this.result_type = ResultType.Asset;
-
-			this.result_asset = a_asset;
-		}
-
-		/** 結果。アセット。取得。
-		*/
-		public UnityEngine.Object GetResultAsset()
-		{
-			return this.result_asset;
+			return this.result_responseheader;
 		}
 
 		/** 結果。アセットバンドル。設定。
@@ -386,18 +214,70 @@ namespace Fee.File
 			return this.result_assetbundle;
 		}
 
-		/** 結果。レスポンスヘッダー。設定。
+		/** 結果。アセット。設定。
 		*/
-		public void SetResultResponseHeader(System.Collections.Generic.Dictionary<string,string> a_responseheader)
+		public void SetResultAsset(Fee.Asset.Asset a_asset)
 		{
-			this.result_responseheader = a_responseheader;
+			this.result_type = ResultType.Asset;
+
+			this.result_asset = a_asset;
 		}
 
-		/** 結果。レスポンスヘッダー。取得。
+		/** 結果。アセット。取得。
 		*/
-		public System.Collections.Generic.Dictionary<string,string> GetResultResponseHeader()
+		public Fee.Asset.Asset GetResultAsset()
 		{
-			return this.result_responseheader;
+			return this.result_asset;
+		}
+
+		/** GetResultAssetType
+		*/
+		public Fee.Asset.AssetType GetResultAssetType()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetAssetType();
+			}
+			return Asset.AssetType.None;
+		}
+
+		/** GetResultAssetAnything
+		*/
+		public object GetResultAssetAnything()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetAnything();
+			}
+			return null;
+		}
+
+		/** GetResultAssetBinary
+		*/
+		public byte[] GetResultAssetBinary()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetBinary();
+			}
+			return null;
+		}
+
+		/** GetResultAssetTexture
+		*/
+		public UnityEngine.Texture2D GetResultAssetTexture()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetTexture();
+			}
+			return null;
+		}
+
+		/** GetResultAssetText
+		*/
+		public string GetResultAssetText()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetText();
+			}
+			return null;
 		}
 	}
 }

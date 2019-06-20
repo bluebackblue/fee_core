@@ -23,16 +23,16 @@ namespace Fee.EditorTool
 		/** パッケージ。作成。
 		*/
 		#if(USE_DEF_FEE_EDITORMENU)
-		[UnityEditor.MenuItem("Fee/EditorTool/BuildPackage")]
-		private static void MenuItem_Build_Package()
+		[UnityEditor.MenuItem("Fee/EditorTool/BuildFeePackage")]
+		private static void MenuItem_BuildFeePackage()
 		{
-			Build.Build_Package();
+			Build.BuildFeePackage();
 		}
 		#endif
 
 		/** パッケージ。作成。
 		*/
-		private static void Build_Package()
+		private static void BuildFeePackage()
 		{
 			//サブディレクトリの再帰探査。
 			UnityEditor.ExportPackageOptions t_options = UnityEditor.ExportPackageOptions.Recurse;

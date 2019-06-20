@@ -79,6 +79,10 @@ namespace Fee.EditorTool
 					#endif
 				}
 
+				//アセット。
+				{
+				}
+
 				//オーディオ。
 				#if(false)
 				{
@@ -107,6 +111,13 @@ namespace Fee.EditorTool
 				}
 				#endif
 
+				//データ。
+				#if(false)
+				{
+					Fee.Data.Data.CreateInstance();
+				}
+				#endif
+
 				//削除管理。
 				{
 				}
@@ -126,12 +137,20 @@ namespace Fee.EditorTool
 				{
 				}
 
+				//エディターツール。
+				{
+				}
+
 				//イベントプレート。
 				#if(false)
 				{
 					Fee.EventPlate.EventPlate.CreateInstance();
 				}
 				#endif
+
+				//エクセル。
+				{
+				}
 
 				//フェード。
 				#if(false)
@@ -189,6 +208,10 @@ namespace Fee.EditorTool
 				{
 				}
 
+				//ＪＳＯＮシート。
+				{
+				}
+
 				//アセットバンドル作成。
 				{
 				}
@@ -216,6 +239,12 @@ namespace Fee.EditorTool
 				}
 
 				//２Ｄ描画。
+				{
+				}
+
+				//リスロー。
+				{
+				}
 
 				//シーン。
 				#if(false)
@@ -245,10 +274,6 @@ namespace Fee.EditorTool
 				}
 				#endif
 
-				//ＵＮＩＴＹ初期化。
-				{
-				}
-
 				//ＵＮＩＶＲＭ。
 				#if(false)
 				{
@@ -262,6 +287,10 @@ namespace Fee.EditorTool
 		*/
 		public void DeleteLibInstance()
 		{
+			//アセット。
+			{
+			}
+
 			//オーディオ。
 			{
 				Fee.Audio.Audio.DeleteInstance();
@@ -282,6 +311,11 @@ namespace Fee.EditorTool
 				Fee.Crypt.Crypt.DeleteInstance();
 			}
 
+			//データ。
+			{
+				Fee.Data.Data.DeleteInstance();
+			}
+
 			//削除管理。
 			{
 			}
@@ -299,9 +333,17 @@ namespace Fee.EditorTool
 			{
 			}
 
+			//エディターツール。
+			{
+			}
+
 			//イベントプレート。
 			{
 				Fee.EventPlate.EventPlate.DeleteInstance();
+			}
+
+			//エクセル。
+			{
 			}
 
 			//フェード。
@@ -339,12 +381,16 @@ namespace Fee.EditorTool
 			{
 			}
 
+			//ＪＳＯＮシート。
+			{
+			}
+
 			//アセットバンドル作成。
 			{
 			}
 
 			//モデル。
-			{		
+			{
 			}
 
 			//ネットワーク。
@@ -366,6 +412,10 @@ namespace Fee.EditorTool
 				Fee.Render2D.Render2D.DeleteInstance();
 			}
 
+			//リスロー。
+			{
+			}
+
 			//シーン。
 			{
 				Fee.Scene.Scene.DeleteInstance();
@@ -384,10 +434,6 @@ namespace Fee.EditorTool
 			//ＵＩ。
 			{
 				Fee.Ui.Ui.DeleteInstance();
-			}
-
-			//ＵＮＩＴＹ初期化。
-			{
 			}
 
 			//ＵＮＩＶＲＭ。
@@ -447,6 +493,10 @@ namespace Fee.EditorTool
 					#endif
 				}
 
+				//アセット。
+				{
+				}
+
 				//オーディオ。
 				{
 				}
@@ -466,6 +516,13 @@ namespace Fee.EditorTool
 				}
 				#endif
 
+				//データ。
+				#if(false)
+				{
+					Fee.Data.Data.GetInstance().Main();
+				}
+				#endif
+
 				//削除管理。
 				{
 				}
@@ -482,7 +539,17 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//イベントプレート。
+				//エディターツール。
+				{
+				}
+
+				//イベントプレート。順序変更。
+				{
+				}
+
+				//エクセル。
+				{
+				}
 
 				//フェード。
 				#if(false)
@@ -503,13 +570,19 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//入力。
+				//入力。順序変更。
+				{
+				}
 
 				//インスタンス作成。
 				{
 				}
 
 				//ＪＳＯＮ。
+				{
+				}
+
+				//ＪＳＯＮシート。
 				{
 				}
 
@@ -540,7 +613,13 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//シーン。
+				//リスロー。
+				{
+				}
+
+				//シーン。順序変更。
+				{
+				}
 
 				//サウンドプール。
 				#if(false)
@@ -553,9 +632,7 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//ＵＩ。
-
-				//ＵＮＩＴＹ初期化。
+				//ＵＩ。順序変更。
 				{
 				}
 

@@ -101,9 +101,9 @@ namespace Fee.File
 			*/
 			LoadStreamingAssetsTextureFile,
 
-			/** リソース。アセットファイル。
+			/** リソース。なんでもファイル。
 			*/
-			LoadResourcesAssetFile,
+			LoadResourcesAnythingFile,
 
 			/** リソース。テキストファイル。
 			*/
@@ -309,11 +309,11 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
-		/** リクエスト、ロードリソース。アセットファイル。
+		/** リクエスト、ロードリソース。なんでもファイル。
 		*/
-		public void RequestLoadResourcesAssetFile(Path a_relative_path)
+		public void RequestLoadResourcesAnythingFile(Path a_relative_path)
 		{
-			this.request_type = RequestType.LoadResourcesAssetFile;
+			this.request_type = RequestType.LoadResourcesAnythingFile;
 			this.request_path = a_relative_path;
 		}
 
@@ -462,9 +462,9 @@ namespace Fee.File
 							}
 							#endif
 						}break;
-					case RequestType.LoadResourcesAssetFile:
+					case RequestType.LoadResourcesAnythingFile:
 						{
-							if(Fee.File.File.GetInstance().GetMainResources().RequestLoadResourcesAssetFile(this.request_path) == true){
+							if(Fee.File.File.GetInstance().GetMainResources().RequestLoadResourcesAnythingFile(this.request_path) == true){
 								this.mode = Mode.Do_Resources;
 							}
 						}break;
@@ -496,24 +496,10 @@ namespace Fee.File
 						//結果。
 						bool t_success = false;
 						switch(t_main.GetResultType()){
-						case Main_Io.ResultType.Binary:
+						case Main_Io.ResultType.Asset:
 							{
-								if(t_main.GetResultBinary() != null){
-									this.item.SetResultBinary(t_main.GetResultBinary());
-									t_success = true;
-								}
-							}break;
-						case Main_Io.ResultType.Text:
-							{
-								if(t_main.GetResultText() != null){
-									this.item.SetResultText(t_main.GetResultText());
-									t_success = true;
-								}
-							}break;
-						case Main_Io.ResultType.Texture:
-							{
-								if(t_main.GetResultTexture() != null){
-									this.item.SetResultTexture(t_main.GetResultTexture());
+								if(t_main.GetResultAsset() != null){
+									this.item.SetResultAsset(t_main.GetResultAsset());
 									t_success = true;
 								}
 							}break;
@@ -548,27 +534,11 @@ namespace Fee.File
 						//結果。
 						bool t_success = false;
 						switch(t_main.GetResultType()){
-						case Main_WebRequest.ResultType.Binary:
+						case Main_WebRequest.ResultType.Asset:
 							{
-								if(t_main.GetResultBinary() != null){
+								if(t_main.GetResultAsset() != null){
 									this.item.SetResultResponseHeader(t_main.GetResultResponseHeader());
-									this.item.SetResultBinary(t_main.GetResultBinary());
-									t_success = true;
-								}
-							}break;
-						case Main_WebRequest.ResultType.Text:
-							{
-								if(t_main.GetResultText() != null){
-									this.item.SetResultResponseHeader(t_main.GetResultResponseHeader());
-									this.item.SetResultText(t_main.GetResultText());
-									t_success = true;
-								}
-							}break;
-						case Main_WebRequest.ResultType.Texture:
-							{
-								if(t_main.GetResultTexture() != null){
-									this.item.SetResultResponseHeader(t_main.GetResultResponseHeader());
-									this.item.SetResultTexture(t_main.GetResultTexture());
+									this.item.SetResultAsset(t_main.GetResultAsset());
 									t_success = true;
 								}
 							}break;
@@ -610,20 +580,6 @@ namespace Fee.File
 							{
 								if(t_main.GetResultAsset() != null){
 									this.item.SetResultAsset(t_main.GetResultAsset());
-									t_success = true;
-								}
-							}break;
-						case Main_Resources.ResultType.Text:
-							{
-								if(t_main.GetResultText() != null){
-									this.item.SetResultText(t_main.GetResultText());
-									t_success = true;
-								}
-							}break;
-						case Main_Resources.ResultType.Texture:
-							{
-								if(t_main.GetResultTexture() != null){
-									this.item.SetResultTexture(t_main.GetResultTexture());
 									t_success = true;
 								}
 							}break;

@@ -66,23 +66,17 @@ namespace Fee.Data
 		*/
 		private System.Collections.Generic.Dictionary<string,ListItem> list;
 
-		/** main_security
+		/** main_normal
 		*/
-		/*
-		private Main_Security main_security;
-		*/
+		private Main_Normal main_normal;
 
 		/** work_list
 		*/
-		/*
 		private System.Collections.Generic.List<Work> work_list;
-		*/
 
 		/** add_list
 		*/
-		/*
 		private System.Collections.Generic.List<Work> add_list;
-		*/
 
 		/** [シングルトン]constructor
 		*/
@@ -91,64 +85,61 @@ namespace Fee.Data
 			//list
 			this.list = new System.Collections.Generic.Dictionary<string,ListItem>();
 
-			/*
-			//main_security
-			this.main_security = new Main_Security();
+			//main_normal
+			this.main_normal = new Main_Normal();
 
 			//work_list
 			this.work_list = new System.Collections.Generic.List<Work>();
 
 			//add_list
 			this.add_list = new System.Collections.Generic.List<Work>();
-			*/
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
-			/*
-			this.main_security.Delete();
-			*/
+			this.main_normal.Delete();
 		}
 
 		/** メイン。取得。
 		*/
-		/*
-		public Main_Security GetMainSecurity()
+		public Main_Normal GetMainNormal()
 		{
-			return this.main_security;
+			return this.main_normal;
 		}
-		*/
 
 		/** リソースアイテム。登録。
 		*/
-		public void RegisterResourcesItem(string a_name,Fee.File.Path a_path)
+		public void RegisterResourcesItem(string a_name,PathType a_path_type,Fee.File.Path a_path)
 		{
 			if(this.list.ContainsKey(a_name) == false){
-				this.list.Add(a_name,new ListItem(a_path));
+				this.list.Add(a_name,new ListItem(a_path_type,a_path));
 			}else{
 				Tool.Assert(false);
 			}
 		}
 
-		/** リクエスト。暗号化。パブリックキー。
+		/** リクエスト。ノーマル。
 		*/
-		/*
-		public Item RequestEncryptPublicKey(byte[] a_binary,string a_key)
+		public Item RequestNormal(string a_name)
 		{
-			Work t_work = new Work();
-			t_work.RequestEncryptPublicKey(a_binary,a_key);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			if(this.list.TryGetValue(a_name,out ListItem t_item) == true){
+				Work t_work = new Work();
+				t_work.RequestNormal(t_item);
+				this.add_list.Add(t_work);
+				return t_work.GetItem();
+			}else{
+				Item t_result = new Item();
+				t_result.SetResultErrorString("name not found : " + a_name);
+				return t_result;
+			}
 		}
-		*/
 
 		/** 更新。
 		*/
 		public void Main()
 		{
-			/*
 			try{
 				//追加。
 				if(this.add_list.Count > 0){
@@ -169,7 +160,6 @@ namespace Fee.Data
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 			}
-			*/
 		}
 	}
 }

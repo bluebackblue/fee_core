@@ -22,9 +22,9 @@ namespace Fee.File
 		{
 			None = -1,
 
-			/** ロードリソース。アセットファイル。
+			/** ロードリソース。なんでもファイル。
 			*/
-			LoadResourcesAssetFile,
+			LoadResourcesAnythingFile,
 
 			/** ロードリソース。テキストファイル。
 			*/
@@ -50,14 +50,6 @@ namespace Fee.File
 			/** アセット。
 			*/
 			Asset,
-
-			/** テキスト。
-			*/
-			Text,
-
-			/** テクスチャー。
-			*/
-			Texture,
 		};
 
 		/** is_busy
@@ -98,15 +90,7 @@ namespace Fee.File
 
 		/** result_asset
 		*/
-		private UnityEngine.Object result_asset;
-
-		/** result_text
-		*/
-		private string result_text;
-
-		/** result_texture
-		*/
-		private UnityEngine.Texture2D result_texture;
+		private Fee.Asset.Asset result_asset;
 
 		/** constructor
 		*/
@@ -126,8 +110,6 @@ namespace Fee.File
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
 			this.result_asset = null;
-			this.result_text = null;
-			this.result_texture = null;
 		}
 
 		/** 削除。
@@ -181,23 +163,9 @@ namespace Fee.File
 
 		/** GetResultAsset
 		*/
-		public UnityEngine.Object GetResultAsset()
+		public Fee.Asset.Asset GetResultAsset()
 		{
 			return this.result_asset;
-		}
-
-		/** GetResultText
-		*/
-		public string GetResultText()
-		{
-			return this.result_text;
-		}
-
-		/** GetResultTexture
-		*/
-		public UnityEngine.Texture2D GetResultTexture()
-		{
-			return this.result_texture;
 		}
 
 		/** [Fee.File.OnCoroutine_CallBack]コルーチンからのコールバック。
@@ -216,9 +184,9 @@ namespace Fee.File
 			return true;
 		}
 
-		/** リクエスト。ロードリソース。アセットファイル。
+		/** リクエスト。ロードリソース。なんでもファイル。
 		*/
-		public bool RequestLoadResourcesAssetFile(Fee.File.Path a_relative_path)
+		public bool RequestLoadResourcesAnythingFile(Fee.File.Path a_relative_path)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -232,36 +200,34 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_text = null;
-				this.result_texture = null;
 
 				//request
-				this.request_type = RequestType.LoadResourcesAssetFile;
+				this.request_type = RequestType.LoadResourcesAnythingFile;
 				this.request_relative_path = a_relative_path;
 
-				Function.Function.StartCoroutine(this.DoLoadResourcesAssetFile());
+				Function.Function.StartCoroutine(this.DoLoadResourcesAnythingFile());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ロードリソース。アセットファイル。
+		/** 実行。ロードリソース。なんでもファイル。
 		*/
-		private System.Collections.IEnumerator DoLoadResourcesAssetFile()
+		private System.Collections.IEnumerator DoLoadResourcesAnythingFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadResourcesAssetFile);
+			Tool.Assert(this.request_type == RequestType.LoadResourcesAnythingFile);
 
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = this.request_relative_path;
 
-			Coroutine_LoadResourcesAssetFile t_coroutine = new Coroutine_LoadResourcesAssetFile();
+			Coroutine_LoadResourcesAnythingFile t_coroutine = new Coroutine_LoadResourcesAnythingFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
 
-			if(t_coroutine.result.asset_file != null){
+			if(t_coroutine.result.anything_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_asset = t_coroutine.result.asset_file;
+				this.result_asset = new Asset.Asset(Asset.AssetType.Anything,t_coroutine.result.anything_file);
 				this.result_type = ResultType.Asset;
 				yield break;
 			}else{
@@ -289,8 +255,6 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_text = null;
-				this.result_texture = null;
 
 				//request
 				this.request_type = RequestType.LoadResourcesTextFile;
@@ -318,8 +282,8 @@ namespace Fee.File
 			if(t_coroutine.result.text_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_text = t_coroutine.result.text_file;
-				this.result_type = ResultType.Text;
+				this.result_asset = new Asset.Asset(Asset.AssetType.Text,t_coroutine.result.text_file);
+				this.result_type = ResultType.Asset;
 				yield break;
 			}else{
 				this.result_progress_up = 1.0f;
@@ -349,8 +313,6 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_text = null;
-				this.result_texture = null;
 
 				//request
 				this.request_type = RequestType.LoadResourcesTextureFile;
@@ -378,8 +340,8 @@ namespace Fee.File
 			if(t_coroutine.result.texture_file != null){
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
-				this.result_texture = t_coroutine.result.texture_file;
-				this.result_type = ResultType.Texture;
+				this.result_asset = new Asset.Asset(Asset.AssetType.Texture,t_coroutine.result.texture_file);
+				this.result_type = ResultType.Asset;
 				yield break;
 			}else{
 				this.result_progress_up = 1.0f;
@@ -389,8 +351,6 @@ namespace Fee.File
 				yield break;
 			}
 		}
-
-
 	}
 }
 

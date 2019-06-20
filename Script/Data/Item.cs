@@ -28,17 +28,9 @@ namespace Fee.Data
 			*/
 			Error,
 
-			/** バイナリー。
+			/** アセット。
 			*/
-			/*
-			Binary,
-			*/
-
-			/** 検証成功。
-			*/
-			/*
-			VerifySuccess,
-			*/
+			Asset,
 		}
 
 		/** result_type
@@ -57,11 +49,9 @@ namespace Fee.Data
 		*/
 		private bool cancel_flag;
 
-		/** result_binary
+		/** result_asset
 		*/
-		/*
-		private byte[] result_binary;
-		*/
+		private Fee.Asset.Asset result_asset;
 
 		/** constructor
 		*/
@@ -79,10 +69,8 @@ namespace Fee.Data
 			//cancel_flag
 			this.cancel_flag = false;
 
-			//result_binary
-			/*
-			this.result_binary = null;
-			*/
+			//result_asset
+			this.result_asset = null;
 		}
 
 		/** 削除。
@@ -154,32 +142,19 @@ namespace Fee.Data
 
 		/** 結果。バイナリ。設定。
 		*/
-		/*
-		public void SetResultBinary(byte[] a_binary)
+		public void SetResultAsset(Fee.Asset.Asset a_asset)
 		{
-			this.result_type = ResultType.Binary;
+			this.result_type = ResultType.Asset;
 
-			this.result_binary = a_binary;
+			this.result_asset = a_asset;
 		}
-		*/
 
-		/** 結果。バイナリ。取得。
+		/** 結果。アセット。取得。
 		*/
-		/*
-		public byte[] GetResultBinary()
+		public Fee.Asset.Asset GetResultBinary()
 		{
-			return this.result_binary;
+			return this.result_asset;
 		}
-		*/
-
-		/** 結果。検証成功。設定。
-		*/
-		/*
-		public void SetResultVerifySuccess()
-		{
-			this.result_type = ResultType.VerifySuccess;
-		}
-		*/
 	}
 }
 

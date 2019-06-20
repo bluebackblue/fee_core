@@ -55,8 +55,8 @@ namespace Fee.SoundPool
 				while(t_item.IsBusy() == true){
 					yield return null;
 				}
-				if(t_item.GetResultType()==File.Item.ResultType.Text){
-					t_local_soundpool_json = new JsonItem.JsonItem(t_item.GetResultText());
+				if(t_item.GetResultAssetType() == Asset.AssetType.Text){
+					t_local_soundpool_json = new JsonItem.JsonItem(t_item.GetResultAssetText());
 					if(t_local_soundpool_json == null){
 						//コンバート失敗。
 						this.result.errorstring = "Coroutine_LoadLocalSoundPool : local_soundpool_json == null";
