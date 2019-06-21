@@ -201,30 +201,39 @@ namespace Fee.JsonItem
 									if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.Ignore),false) == true){
 										//無視する。
 									}else{
-										if((t_fieldinfo.Attributes == System.Reflection.FieldAttributes.Public)||(t_fieldinfo.Attributes == System.Reflection.FieldAttributes.Private)){
-											if(a_jsonitem.IsExistItem(t_fieldinfo.Name) == true){
-												System.Type t_type_member = t_fieldinfo.FieldType;
 
-												JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_fieldinfo.Name);
+										switch(t_fieldinfo.Attributes){
+										case System.Reflection.FieldAttributes.Public:
+										case System.Reflection.FieldAttributes.Private:
+										case System.Reflection.FieldAttributes.Public | System.Reflection.FieldAttributes.InitOnly:
+										case System.Reflection.FieldAttributes.Private | System.Reflection.FieldAttributes.InitOnly:
+											{
+												if(a_jsonitem.IsExistItem(t_fieldinfo.Name) == true){
+													System.Type t_type_member = t_fieldinfo.FieldType;
 
-												System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+													JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_fieldinfo.Name);
 
-												if((t_object_member != null)&&(t_type_member.IsClass == true)){
-													t_workpool.Add(new JsonToObject_Work(t_object_member,t_type_member,t_jsonitem_member));
+													System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+
+													if((t_object_member != null)&&(t_type_member.IsClass == true)){
+														t_workpool.Add(new JsonToObject_Work(t_object_member,t_type_member,t_jsonitem_member));
+													}else{
+														JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member);
+													}
+
+													try{
+														t_fieldinfo.SetValue(a_to_object,t_object_member);
+													}catch(System.Exception t_exception){
+														Tool.DebugReThrow(t_exception);
+													}
 												}else{
-													JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member);
+													//ＪＳＯＮ側には存在しない。
 												}
-
-												try{
-													t_fieldinfo.SetValue(a_to_object,t_object_member);
-												}catch(System.Exception t_exception){
-													Tool.DebugReThrow(t_exception);
-												}
-											}else{
-												//ＪＳＯＮ側には存在しない。
-											}
-										}else{
-											//オブジェクト化しない方型。
+											}break;
+										default:
+											{
+												//オブジェクト化しない方型。
+											}break;
 										}
 									}
 								}else{
