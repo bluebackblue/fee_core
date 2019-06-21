@@ -518,6 +518,28 @@ namespace Fee.JsonSheet
 				UnityEditor.BuildPipeline.BuildAssetBundles(t_output_path,t_assetbundlebuild,t_option,UnityEditor.BuildTarget.StandaloneWindows);
 			}
 			*/
+
+			/* TODO:アセットバンドル作成。
+			{
+				//object
+				UnityEditor.AssetBundleBuild[] t_object = new UnityEditor.AssetBundleBuild[1];
+				{
+					t_object[0].assetBundleName = "se.assetbundle";
+					t_object[0].assetBundleVariant = null;
+					t_object[0].assetNames = new string[1]{
+						"Assets/Data/ConvertFromExcel/excel_to_se_prefab.prefab"
+					};
+				}
+
+				//outputpath
+				string t_output_path = "Assets/Data/AssetBundle";
+
+				//option
+				UnityEditor.BuildAssetBundleOptions t_option = UnityEditor.BuildAssetBundleOptions.None;
+
+				UnityEditor.BuildPipeline.BuildAssetBundles(t_output_path,t_object,t_option,UnityEditor.BuildTarget.StandaloneWindows);
+			}
+			*/
 	}
 	#endif
 }

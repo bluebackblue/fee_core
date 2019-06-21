@@ -34,6 +34,17 @@ namespace Fee.File
 		private readonly string directorypath;
 
 		/** constructor
+
+			JsonToObject
+
+		*/
+		public Path()
+		{
+			this.filename = "";
+			this.directorypath = "";
+		}
+
+		/** constructor
 		*/
 		public Path(string a_directorypath,string a_filename)
 		{

@@ -16,6 +16,10 @@ namespace Fee.Data
 	*/
 	public enum PathType
 	{
+		/**
+		*/
+		None,
+
 		/** Resources_Prefab
 		*/
 		Resources_Prefab,
