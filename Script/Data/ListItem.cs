@@ -24,15 +24,22 @@ namespace Fee.Data
 		*/
 		public Fee.File.Path path;
 
+		/** packname
+		*/
+		public string packname;
+
 		/** constructor
 		*/
-		public ListItem(PathType a_path_type,Fee.File.Path a_path)
+		public ListItem(PathType a_path_type,Fee.File.Path a_path,string a_packname)
 		{
 			//path_type
 			this.path_type = a_path_type;
 
 			//path
 			this.path = a_path;
+
+			//packname
+			this.packname = a_packname;
 		}
 	}
 }

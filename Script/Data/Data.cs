@@ -114,7 +114,7 @@ namespace Fee.Data
 		public void RegisterResourcesItem(string a_name,PathType a_path_type,Fee.File.Path a_path)
 		{
 			if(this.list.ContainsKey(a_name) == false){
-				this.list.Add(a_name,new ListItem(a_path_type,a_path));
+				this.list.Add(a_name,new ListItem(a_path_type,a_path,null));
 			}else{
 				Tool.Assert(false);
 			}

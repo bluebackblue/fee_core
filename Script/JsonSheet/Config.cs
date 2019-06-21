@@ -65,11 +65,17 @@ namespace Fee.JsonSheet
 
 		/** コンバートシート。コマンド。
 
-			データにコンバート。
+			エディターデータにコンバート。
 
 		*/
-		public static string CONVERTSHEET_COMMAND_DATA = "<data>";
+		public static string CONVERTSHEET_COMMAND_EDITORDATA = "<editordata>";
 
+		/** コンバートシート。コマンド。
+
+			リリースデータにコンバート。
+
+		*/
+		public static string CONVERTSHEET_COMMAND_RELEASEDATA = "<releasedata>";
 
 
 
@@ -103,24 +109,24 @@ namespace Fee.JsonSheet
 
 		/** データシート。コマンド。
 
-			要素設定。アセットバンドルアイテム。
+			要素設定。リソース。プレハブ。
 
 		*/
-		public static string DATASHEET_COMMAND_ASSETBUNDLEITEM = "<assetbundleitem>";
+		public static string DATASHEET_COMMAND_RESOURCES_PREFAB = "<resources_prefab>";
 
 		/** データシート。コマンド。
 
-			要素設定。リソースアイテム。
+			要素設定。リソース。テクスチャー。
 
 		*/
-		public static string DATASHEET_COMMAND_RESOURCESITEM = "<resourcesitem>";
+		public static string DATASHEET_COMMAND_RESOURCES_TEXTURE = "<resources_texture>";
 
 		/** データシート。コマンド。
 
-			要素設定。ストリーミングアセットアイテム。
+			要素設定。ストリーミングアセット。テクスチャー。
 
 		*/
-		public static string DATASHEET_COMMAND_STREAMINGASSETSITEM = "<streamingassetsitem>";
+		public static string DATASHEET_COMMAND_STREAMINGASSETS_TEXTURE = "<streamingassets_texture>";
 
 
 

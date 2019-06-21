@@ -113,6 +113,10 @@ namespace Fee.File
 			*/
 			LoadResourcesTextureFile,
 
+			/** リソース。プレハブファイル。
+			*/
+			LoadResourcesPrefabFile,
+
 		};
 
 		/** mode
@@ -333,6 +337,14 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
+		/** リクエスト。ロードリソース。プレハブファイル。
+		*/
+		public void RequestLoadResourcesPrefabFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadResourcesPrefabFile;
+			this.request_path = a_relative_path;
+		}
+
 		/** アイテム。
 		*/
 		public Item GetItem()
@@ -480,6 +492,13 @@ namespace Fee.File
 								this.mode = Mode.Do_Resources;
 							}
 						}break;
+					case RequestType.LoadResourcesPrefabFile:
+						{
+							if(Fee.File.File.GetInstance().GetMainResources().RequestLoadResourcesPrefabFile(this.request_path) == true){
+								this.mode = Mode.Do_Resources;
+							}
+						}break;
+
 					}
 				}break;
 			case Mode.End:

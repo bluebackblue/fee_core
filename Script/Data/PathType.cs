@@ -16,13 +16,17 @@ namespace Fee.Data
 	*/
 	public enum PathType
 	{
+		/** Resources_Prefab
+		*/
+		Resources_Prefab,
+
 		/** Resources_Texture
 		*/
 		Resources_Texture,
 
-		/** Resources_Text
+		/** StreamingAssets_Texture
 		*/
-		Resources_Text,
+		StreamingAssets_Texture,
 	}
 }
 

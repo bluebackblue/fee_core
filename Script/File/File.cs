@@ -167,6 +167,7 @@ namespace Fee.File
 			LoadResourcesAnythingFile,
 			LoadResourcesTextFile,
 			LoadResourcesTextureFile,
+			LoadResourcesPrefabFile,
 
 			DownLoadBinaryFile,
 			DownLoadTextFile,
@@ -247,6 +248,13 @@ namespace Fee.File
 				{
 					Work t_work = new Work();
 					t_work.RequestLoadResourcesTextureFile(a_path);
+					this.add_list.Add(t_work);
+					return t_work.GetItem();
+				}break;
+			case LoadRequestType.LoadResourcesPrefabFile:
+				{
+					Work t_work = new Work();
+					t_work.RequestLoadResourcesPrefabFile(a_path);
 					this.add_list.Add(t_work);
 					return t_work.GetItem();
 				}break;

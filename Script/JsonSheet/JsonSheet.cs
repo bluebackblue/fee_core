@@ -39,6 +39,14 @@ namespace Fee.JsonSheet
 				"convert" : {
 					[
 						{
+							"convert_command" : <json>,							//ＪＳＯＮシートを連結出力。
+							"convert_output" : "StreamingAssets/***.json",		//出力先。
+							"convert_sheet_0" : "jjjj1",						//連結するＪＳＯＮシート名。
+							"convert_sheet_1" : "jjjj2",						//連結するＪＳＯＮシート名。
+							"convert_sheet_2" : "",								//連結するＪＳＯＮシート名。
+							"convert_sheet_3" : "",								//連結するＪＳＯＮシート名。
+						},
+						{
 							"convert_command" : <enum>,							//ＥＮＵＭシートを連結出力。
 							"convert_output" : "StreamingAssets/***.cs",		//出力先。
 							"convert_sheet_0" : "jjjj1",						//連結するＪＳＯＮシート名。
@@ -47,13 +55,17 @@ namespace Fee.JsonSheet
 							"convert_sheet_3" : "",								//連結するＪＳＯＮシート名。
 						},
 						{
-							"convert_command" : <json>,							//ＪＳＯＮシートを連結出力。
-							"convert_output" : "StreamingAssets/***.json",		//出力先。
-							"convert_sheet_0" : "jjjj1",						//連結するＪＳＯＮシート名。
-							"convert_sheet_1" : "jjjj2",						//連結するＪＳＯＮシート名。
-							"convert_sheet_2" : "",								//連結するＪＳＯＮシート名。
-							"convert_sheet_3" : "",								//連結するＪＳＯＮシート名。
+							"convert_command" : <se>,							//ＳＥシートを連結出力。
+							...略。
 						},
+						{
+							"convert_command" : <editordata>,					//エディターデータシートを連結出力。
+							...略。
+						}.
+						{
+							"convert_command" : <releasedata>,					//リリースデータシートを連結出力。
+							...略。
+						}.
 
 						...略。
 					]
@@ -71,14 +83,14 @@ namespace Fee.JsonSheet
 				//ＥＮＵＭシート。
 				"eeee1" : {
 					[
-						"enum_command" : "<namespace>"		//ネームスペース名の設定。
-						"enum_name" : "Xxx.Yyy"				//ネームスペース。
-						"enum_comment" : ""					//未使用。
+						"enum_command" : "<namespace>",		//ネームスペース名の設定。
+						"enum_name" : "Xxx.Yyy",			//ネームスペース。
+						"enum_comment" : "",				//未使用。
 					],
 					[
-						"enum_command" : "<enumname>"		//ＥＮＵＭ型名の設定。
-						"enum_name" : "EnumType"			//ＥＮＵＭ型名。
-						"enum_comment" : "コメント"			//コメント。
+						"enum_command" : "<enumname>",		//ＥＮＵＭ型名の設定。
+						"enum_name" : "EnumType",			//ＥＮＵＭ型名。
+						"enum_comment" : "コメント",		//コメント。
 					],
 					[
 						"enum_command" : "<item>"			//ＥＮＵＭ要素名の設定。
@@ -92,10 +104,55 @@ namespace Fee.JsonSheet
 				//ＳＥシート。
 				"sssss1" : {
 					[
-						"se_command" : "<item>"				//ＳＥ要素の設定。
-						"se_file" : "xxxx.mp3"				//ＳＥファイルパス。
-						"se_volume" :						//ＳＥボリューム。
+						"se_command" : "<item>",				//ＳＥ要素の設定。
+						"se_file" : "xxxx.mp3",					//ＳＥファイルパス。
+						"se_volume" : 1.0,						//ＳＥボリューム。
 					]
+
+					...略。
+				}
+
+				//エディターデータシート。
+				"ddddd1" : {
+					[
+						"data_command" : "<resources_prefab>"			//リソース。プレハブ。
+						"data_id" : "xxxx"								//データＩＤ。
+						"data_path" : "xxx/xxx/xxx"						//リソースパス。
+					],
+					[
+						"data_command" : "<streamingassets_texture>"	//ストリーミングアセット。テクスチャー。
+						"data_id" : "xxxx"								//データＩＤ。
+						"data_path" : "xxx/xxx/xxx.png"					//リソースパス。
+					],
+					[
+						"data_command" : "<url_text>"					//ＵＲＬ。テキスト。
+						"data_id" : "xxxx"								//データＩＤ。
+						"data_path" : "https://xxx.xx/text.txt"			//リソースパス。
+					],
+
+					...略。
+				}
+
+				//リリースデータシート。
+				"ddddd1" : {
+					[
+						"data_command" : "<resources_prefab>"			//リソース。プレハブ。
+						"data_id" : "xxxx"								//データＩＤ。
+						"data_path" : "xxx/xxx/xxx"						//リソースパス。
+						"data_packname" : ""							//パック名。
+					],
+					[
+						"data_command" : "<streamingassets_texture>"	//ストリーミングアセット。テクスチャー。
+						"data_id" : "xxxx"								//データＩＤ。
+						"data_path" : "xxx/xxx/xxx.png"					//リソースパス。
+						"data_packname" : ""							//パック名。
+					],
+					[
+						"data_command" : "<url_text>"					//ＵＲＬ。テキスト。
+						"data_id" : "xxxx"								//データＩＤ。
+						"data_path" : "https://xxx.xx/text.txt"			//リソースパス。
+						"data_packname" : ""							//パック名。
+					],
 
 					...略。
 				}
@@ -176,11 +233,12 @@ namespace Fee.JsonSheet
 				}else if(t_list_convert[ii].convert_command == Config.CONVERTSHEET_COMMAND_SE){
 					//ＳＥシートを連結出力。
 					JsonSheet.Convert_Write_SeSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
-				}else if(t_list_convert[ii].convert_command == Config.CONVERTSHEET_COMMAND_DATA){
-					//データシートを連続出力。
-					/*
-					Convert.Convert_Write_DataSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
-					*/
+				}else if(t_list_convert[ii].convert_command == Config.CONVERTSHEET_COMMAND_EDITORDATA){
+					//エディターデータシートを連続出力。
+					JsonSheet.Convert_Write_EditorDataSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
+				}else if(t_list_convert[ii].convert_command == Config.CONVERTSHEET_COMMAND_RELEASEDATA){
+					//リリースデータシートを連続出力。
+					JsonSheet.Convert_Write_ReleaseDataSheet(new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
 				}
 			}
 
@@ -192,7 +250,7 @@ namespace Fee.JsonSheet
 			a_output : 「Assets/**.json」
 
 		*/
-		public static void Convert_Write_JsonSheet(Fee.File.Path a_relative_path,Fee.JsonItem.JsonItem[] a_json)
+		public static void Convert_Write_JsonSheet(Fee.File.Path a_path,Fee.JsonItem.JsonItem[] a_json)
 		{
 			Fee.JsonItem.JsonItem t_jsonitem = new Fee.JsonItem.JsonItem(new Fee.JsonItem.Value_IndexArray());
 
@@ -205,12 +263,12 @@ namespace Fee.JsonSheet
 				}
 			}
 
-			Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_relative_path),t_jsonitem.ConvertJsonString());
+			Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_path),t_jsonitem.ConvertJsonString());
 		}
 
 		/** ＥＮＵＭシートを連結出力。
 		*/
-		public static void Convert_Write_EnumSheet(Fee.File.Path a_relative_path,Fee.JsonItem.JsonItem[] a_json)
+		public static void Convert_Write_EnumSheet(Fee.File.Path a_path,Fee.JsonItem.JsonItem[] a_json)
 		{
 			string t_text = Config.ENUMCONVERT_TEMPLATE_MAIN;
 
@@ -257,7 +315,7 @@ namespace Fee.JsonSheet
 			//<<itemroot>>の置換。
 			t_text = t_text.Replace(Config.ENUMCONVERT_KEYWORD_ITEMROOT,"");
 
-			Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_relative_path),t_text);
+			Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_path),t_text);
 		}
 
 		/** ＳＥシートを連結出力。
@@ -297,6 +355,11 @@ namespace Fee.JsonSheet
 				{
 					for(int ii=0;ii<t_list.Count;ii++){
 						UnityEngine.AudioClip t_audio_cilp = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.AudioClip>("Assets/" + t_list[ii].Item1);
+						if(t_audio_cilp == null){
+							Tool.Log("Convert_Write_SeSheet","Not Found : " + t_list[ii].Item1);
+						}
+
+
 						float t_volume = t_list[ii].Item2;
 
 						t_pack.audioclip_list.Add(t_audio_cilp);
@@ -313,56 +376,37 @@ namespace Fee.JsonSheet
 			}
 		}
 
-		/** データシートを連続出力。
+		/** エディターデータシートを連続出力。
 		*/
-		/*
-		public static void Convert_Write_DataSheet(Fee.File.Path a_relative_path,Fee.JsonItem.JsonItem[] a_json)
+		public static void Convert_Write_EditorDataSheet(Fee.File.Path a_path,Fee.JsonItem.JsonItem[] a_json)
 		{
-			System.Collections.Generic.Dictionary<string,Data.DataItem> t_list = new System.Collections.Generic.Dictionary<string,Data.DataItem>();
+			System.Collections.Generic.Dictionary<string,Data.ListItem> t_list = new System.Collections.Generic.Dictionary<string,Data.ListItem>();
 
 			for(int ii=0;ii<a_json.Length;ii++){
 				if(a_json[ii] != null){
-					System.Collections.Generic.List<DataSheet_ListItem> t_enum_sheet = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<DataSheet_ListItem>>(a_json[ii]);
+					System.Collections.Generic.List<EditorDataSheet_ListItem> t_enum_sheet = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<EditorDataSheet_ListItem>>(a_json[ii]);
 					for(int jj=0;jj<t_enum_sheet.Count;jj++){
 
-						if(Config.DATASHEET_COMMAND_ASSETBUNDLEITEM == t_enum_sheet[jj].data_command){
-							//<assetbundleitem>
+						if(Config.DATASHEET_COMMAND_RESOURCES_PREFAB == t_enum_sheet[jj].data_command){
+							//<resources_prefab>
 
 							string t_id = t_enum_sheet[jj].data_id;
+							Data.ListItem t_item = new Data.ListItem(Data.PathType.Resources_Prefab,new Fee.File.Path(t_enum_sheet[jj].data_path),null);
+							t_list.Add(t_id,t_item);
 
-							Data.DataItem t_dataitem = new Data.DataItem();
-							{
-								t_dataitem.datatype = Data.DataItem.DataType.AssetBundle;
-								t_dataitem.path = t_enum_sheet[jj].data_path;
-								t_dataitem.packname = t_enum_sheet[jj].data_packname;
-							}
-							t_list.Add(t_id,t_dataitem);
-
-						}else if(Config.DATASHEET_COMMAND_RESOURCESITEM == t_enum_sheet[jj].data_command){
-							//<resourcesitem>
+						}else if(Config.DATASHEET_COMMAND_RESOURCES_TEXTURE == t_enum_sheet[jj].data_command){
+							//<resources_texture>
 
 							string t_id = t_enum_sheet[jj].data_id;
+							Data.ListItem t_item = new Data.ListItem(Data.PathType.Resources_Texture,new Fee.File.Path(t_enum_sheet[jj].data_path),null);
+							t_list.Add(t_id,t_item);
 
-							Data.DataItem t_dataitem = new Data.DataItem();
-							{
-								t_dataitem.datatype = Data.DataItem.DataType.Resources;
-								t_dataitem.path = t_enum_sheet[jj].data_path;
-								t_dataitem.packname = null;//t_enum_sheet[jj].data_packname;
-							}
-							t_list.Add(t_id,t_dataitem);
-
-						}else if(Config.DATASHEET_COMMAND_STREAMINGASSETSITEM == t_enum_sheet[jj].data_command){
-							//<streamingassetsitem>
+						}else if(Config.DATASHEET_COMMAND_STREAMINGASSETS_TEXTURE == t_enum_sheet[jj].data_command){
+							//<streamingassets_texture>
 
 							string t_id = t_enum_sheet[jj].data_id;
-
-							Data.DataItem t_dataitem = new Data.DataItem();
-							{
-								t_dataitem.datatype = Data.DataItem.DataType.StreamingAssets;
-								t_dataitem.path = t_enum_sheet[jj].data_path;
-								t_dataitem.packname = null;//t_enum_sheet[jj].data_packname;
-							}
-							t_list.Add(t_id,t_dataitem);
+							Data.ListItem t_item = new Data.ListItem(Data.PathType.StreamingAssets_Texture,new Fee.File.Path(t_enum_sheet[jj].data_path),null);
+							t_list.Add(t_id,t_item);
 
 						}else{
 							//無関係。
@@ -375,9 +419,58 @@ namespace Fee.JsonSheet
 			{
 				Fee.JsonItem.JsonItem t_jsonitem = Fee.JsonItem.Convert.ObjectToJsonItem(t_list);
 				string t_jsonstring = t_jsonitem.ConvertJsonString();
-				Fee.EditorTool.Utility.WriteTextFile(UnityEngine.Application.dataPath + "/" + a_path.GetPath(), t_jsonstring);
+				Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_path),t_jsonstring);
+			}
+		}
+
+		/** リリースデータシートを連続出力。
+		*/
+		public static void Convert_Write_ReleaseDataSheet(Fee.File.Path a_path,Fee.JsonItem.JsonItem[] a_json)
+		{
+			System.Collections.Generic.Dictionary<string,Data.ListItem> t_list = new System.Collections.Generic.Dictionary<string,Data.ListItem>();
+
+			for(int ii=0;ii<a_json.Length;ii++){
+				if(a_json[ii] != null){
+					System.Collections.Generic.List<ReleaseDataSheet_ListItem> t_enum_sheet = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<ReleaseDataSheet_ListItem>>(a_json[ii]);
+					for(int jj=0;jj<t_enum_sheet.Count;jj++){
+
+						if(Config.DATASHEET_COMMAND_RESOURCES_PREFAB == t_enum_sheet[jj].data_command){
+							//<resources_prefab>
+
+							string t_id = t_enum_sheet[jj].data_id;
+							Data.ListItem t_item = new Data.ListItem(Data.PathType.Resources_Prefab,new Fee.File.Path(t_enum_sheet[jj].data_path),null);
+							t_list.Add(t_id,t_item);
+
+						}else if(Config.DATASHEET_COMMAND_RESOURCES_TEXTURE == t_enum_sheet[jj].data_command){
+							//<resources_texture>
+
+							string t_id = t_enum_sheet[jj].data_id;
+							Data.ListItem t_item = new Data.ListItem(Data.PathType.Resources_Texture,new Fee.File.Path(t_enum_sheet[jj].data_path),null);
+							t_list.Add(t_id,t_item);
+
+						}else if(Config.DATASHEET_COMMAND_STREAMINGASSETS_TEXTURE == t_enum_sheet[jj].data_command){
+							//<streamingassets_texture>
+
+							string t_id = t_enum_sheet[jj].data_id;
+							Data.ListItem t_item = new Data.ListItem(Data.PathType.StreamingAssets_Texture,new Fee.File.Path(t_enum_sheet[jj].data_path),null);
+							t_list.Add(t_id,t_item);
+
+						}else{
+							//無関係。
+						}
+					}
+				}
 			}
 
+			//ＪＳＯＮ。出力。
+			{
+				Fee.JsonItem.JsonItem t_jsonitem = Fee.JsonItem.Convert.ObjectToJsonItem(t_list);
+				string t_jsonstring = t_jsonitem.ConvertJsonString();
+				Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_path),t_jsonstring);
+			}
+		}
+
+			/*
 			//アセットバンドル。作成。
 			{
 				System.Collections.Generic.Dictionary<string,System.Collections.Generic.List<Data.DataItem>> t_all = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.List<Data.DataItem>>();
@@ -424,8 +517,7 @@ namespace Fee.JsonSheet
 
 				UnityEditor.BuildPipeline.BuildAssetBundles(t_output_path,t_assetbundlebuild,t_option,UnityEditor.BuildTarget.StandaloneWindows);
 			}
-		}
-		*/
+			*/
 	}
 	#endif
 }

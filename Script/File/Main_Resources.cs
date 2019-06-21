@@ -33,6 +33,11 @@ namespace Fee.File
 			/** ロードリソース。テクスチャーファイル。
 			*/
 			LoadResourcesTextureFile,
+
+			/** ロードリソース。プレハブファイル。
+			*/
+			LoadResourcesPrefabFile,
+
 		};
 
 		/** ResultType
@@ -267,7 +272,7 @@ namespace Fee.File
 			return false;
 		}
 
-		/** 実行。ロードリソース。アセットファイル。
+		/** 実行。ロードリソース。テキストファイル。
 		*/
 		private System.Collections.IEnumerator DoLoadResourcesTextFile()
 		{
@@ -293,9 +298,6 @@ namespace Fee.File
 				yield break;
 			}
 		}
-
-
-
 
 		/** リクエスト。ロードリソース。テクスチャーファイル。
 		*/
@@ -341,6 +343,61 @@ namespace Fee.File
 				this.result_progress_up = 1.0f;
 				this.result_progress_down = 1.0f;
 				this.result_asset = new Asset.Asset(Asset.AssetType.Texture,t_coroutine.result.texture_file);
+				this.result_type = ResultType.Asset;
+				yield break;
+			}else{
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
+		}
+
+		/** リクエスト。ロードリソース。プレハブファイル。
+		*/
+		public bool RequestLoadResourcesPrefabFile(Fee.File.Path a_relative_path)
+		{
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//result
+				this.result_progress_up = 0.0f;
+				this.result_progress_down = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_asset = null;
+
+				//request
+				this.request_type = RequestType.LoadResourcesPrefabFile;
+				this.request_relative_path = a_relative_path;
+
+				Function.Function.StartCoroutine(this.DoLoadResourcesPrefabFile());
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 実行。ロードリソース。プレハブファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadResourcesPrefabFile()
+		{
+			Tool.Assert(this.request_type == RequestType.LoadResourcesPrefabFile);
+
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = this.request_relative_path;
+
+			Coroutine_LoadResourcesPrefabFile t_coroutine = new Coroutine_LoadResourcesPrefabFile();
+			yield return t_coroutine.CoroutineMain(this,t_path);
+
+			if(t_coroutine.result.prefab_file != null){
+				this.result_progress_up = 1.0f;
+				this.result_progress_down = 1.0f;
+				this.result_asset = new Asset.Asset(Asset.AssetType.Prefab,t_coroutine.result.prefab_file);
 				this.result_type = ResultType.Asset;
 				yield break;
 			}else{

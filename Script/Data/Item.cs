@@ -140,7 +140,7 @@ namespace Fee.Data
 			return this.result_errorstring;
 		}
 
-		/** 結果。バイナリ。設定。
+		/** 結果。アセット。設定。
 		*/
 		public void SetResultAsset(Fee.Asset.Asset a_asset)
 		{
@@ -151,9 +151,59 @@ namespace Fee.Data
 
 		/** 結果。アセット。取得。
 		*/
-		public Fee.Asset.Asset GetResultBinary()
+		public Fee.Asset.Asset GetResultAsset()
 		{
 			return this.result_asset;
+		}
+
+		/** GetResultAssetType
+		*/
+		public Fee.Asset.AssetType GetResultAssetType()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetAssetType();
+			}
+			return Asset.AssetType.None;
+		}
+
+		/** GetResultAssetAnything
+		*/
+		public object GetResultAssetAnything()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetAnything();
+			}
+			return null;
+		}
+
+		/** GetResultAssetBinary
+		*/
+		public byte[] GetResultAssetBinary()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetBinary();
+			}
+			return null;
+		}
+
+		/** GetResultAssetTexture
+		*/
+		public UnityEngine.Texture2D GetResultAssetTexture()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetTexture();
+			}
+			return null;
+		}
+
+		/** GetResultAssetText
+		*/
+		public string GetResultAssetText()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetText();
+			}
+			return null;
 		}
 	}
 }

@@ -61,13 +61,17 @@ namespace Fee.Data
 			//LoadRequestType
 			Fee.File.File.LoadRequestType t_loadrequest_type = File.File.LoadRequestType.None;
 			switch(a_listitem.path_type){
-			case PathType.Resources_Text:
+			case PathType.Resources_Prefab:
 				{
-					t_loadrequest_type = File.File.LoadRequestType.LoadResourcesTextFile;
+					t_loadrequest_type = File.File.LoadRequestType.LoadResourcesPrefabFile;
 				}break;
 			case PathType.Resources_Texture:
 				{
 					t_loadrequest_type = File.File.LoadRequestType.LoadResourcesTextureFile;
+				}break;
+			case PathType.StreamingAssets_Texture:
+				{
+					t_loadrequest_type = File.File.LoadRequestType.LoadStreamingAssetsTextureFile;
 				}break;
 			default:
 				{

@@ -12,14 +12,16 @@
 */
 namespace Fee.JsonSheet
 {
-	/** データシート。リストアイテム。
+	/** リリースデータシート。リストアイテム。
 	*/
-	public class DataSheet_ListItem
+	public class ReleaseDataSheet_ListItem
 	{
 		/** data_command
 
-			<packitem>		: パックアイテム。
-			<resourcesitem>	: リソースアイテム。
+			<resources_prefab>			: リソース。プレハブ。
+			<resources_texture>			: リソース。テクスチャー。
+			<streamingassets_texture>	: ストリーミングアセット。テクスチャー。
+			<url_text>					: ＵＲＬ。テキスト。
 
 		*/
 		public string data_command;
@@ -28,13 +30,13 @@ namespace Fee.JsonSheet
 		*/
 		public string data_id;
 
-		/** data_packname
-		*/
-		public string data_packname;
-
 		/** data_path
 		*/
 		public string data_path;
+
+		/** data_packname
+		*/
+		public string data_packname;
 	}
 }
 

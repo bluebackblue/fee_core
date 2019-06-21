@@ -35,6 +35,10 @@ namespace Fee.Asset
 		/** Binary
 		*/
 		Binary,
+
+		/** Prefab
+		*/
+		Prefab
 	}
 
 	/** Asset
