@@ -195,19 +195,28 @@ namespace Fee.JsonItem
 									//無視する。
 								}else{
 									ObjectToJson_Work.ObjectOption t_objectoption = new ObjectToJson_Work.ObjectOption();
+
 									if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.EnumString),false) == true){
 										t_objectoption.attribute_enumstring = true;
 									}
 
-									if((t_fieldinfo.Attributes == System.Reflection.FieldAttributes.Public)||(t_fieldinfo.Attributes == System.Reflection.FieldAttributes.Private)){
-										System.Object t_raw = t_fieldinfo.GetValue(a_instance);
-										if(t_raw != null){
-											t_workpool.Add(new ObjectToJson_Work(t_raw,t_objectoption,t_fieldinfo.Name,t_jsonitem));
-										}else{
-											//nullの子は追加しない。
-										}
-									}else{
-										//ＪＳＯＮ化しない型。
+									switch(t_fieldinfo.Attributes){
+									case System.Reflection.FieldAttributes.Public:
+									case System.Reflection.FieldAttributes.Private:
+									case System.Reflection.FieldAttributes.Public | System.Reflection.FieldAttributes.InitOnly:
+									case System.Reflection.FieldAttributes.Private | System.Reflection.FieldAttributes.InitOnly:
+										{
+											System.Object t_raw = t_fieldinfo.GetValue(a_instance);
+											if(t_raw != null){
+												t_workpool.Add(new ObjectToJson_Work(t_raw,t_objectoption,t_fieldinfo.Name,t_jsonitem));
+											}else{
+												//nullの子は追加しない。
+											}
+										}break;
+									default:
+										{
+											//ＪＳＯＮ化しない型。
+										}break;
 									}
 								}
 							}else{
