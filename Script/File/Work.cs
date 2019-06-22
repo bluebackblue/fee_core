@@ -101,10 +101,6 @@ namespace Fee.File
 			*/
 			LoadStreamingAssetsTextureFile,
 
-			/** リソース。なんでもファイル。
-			*/
-			LoadResourcesAnythingFile,
-
 			/** リソース。テキストファイル。
 			*/
 			LoadResourcesTextFile,
@@ -306,14 +302,6 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
-		/** リクエスト、ロードリソース。なんでもファイル。
-		*/
-		public void RequestLoadResourcesAnythingFile(Path a_relative_path)
-		{
-			this.request_type = RequestType.LoadResourcesAnythingFile;
-			this.request_path = a_relative_path;
-		}
-
 		/** リクエスト、ロードリソース。テキストファイル。
 		*/
 		public void RequestLoadResourcesTextFile(Path a_relative_path)
@@ -466,12 +454,6 @@ namespace Fee.File
 								}	
 							}
 							#endif
-						}break;
-					case RequestType.LoadResourcesAnythingFile:
-						{
-							if(Fee.File.File.GetInstance().GetMainResources().RequestLoadResourcesAnythingFile(this.request_path) == true){
-								this.mode = Mode.Do_Resources;
-							}
 						}break;
 					case RequestType.LoadResourcesTextFile:
 						{

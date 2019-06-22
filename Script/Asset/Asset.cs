@@ -20,10 +20,6 @@ namespace Fee.Asset
 		*/
 		None,
 
-		/** Anything
-		*/
-		Anything,
-
 		/** Text
 		*/
 		Text,
@@ -75,22 +71,12 @@ namespace Fee.Asset
 			this.asset_object = a_asset_object;
 		}
 
-		/** GetAnything
-		*/
-		public object GetAnything()
-		{
-			return this.asset_object;
-		}
-
 		/** GetAssetType
 		*/
 		public AssetType GetAssetType()
 		{
 			return this.asset_type;
 		}
-
-
-
 
 		/** GetText
 		*/
@@ -113,8 +99,12 @@ namespace Fee.Asset
 			return this.asset_object as byte[];
 		}
 
-
-
+		/** GetPrefab
+		*/
+		public UnityEngine.GameObject GetPrefab()
+		{
+			return this.asset_object as UnityEngine.GameObject;
+		}
 
 		/** SetText
 		*/
@@ -138,6 +128,14 @@ namespace Fee.Asset
 		{
 			this.asset_type = AssetType.Text;
 			this.asset_object = a_binary;
+		}
+
+		/** SetPrefab
+		*/
+		public void SetPrefab(UnityEngine.GameObject a_prefab)
+		{
+			this.asset_type = AssetType.Prefab;
+			this.asset_object = a_prefab;
 		}
 	}
 }

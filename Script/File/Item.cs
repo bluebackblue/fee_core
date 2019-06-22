@@ -240,16 +240,6 @@ namespace Fee.File
 			return Asset.AssetType.None;
 		}
 
-		/** GetResultAssetAnything
-		*/
-		public object GetResultAssetAnything()
-		{
-			if(this.result_asset != null){
-				return this.result_asset.GetAnything();
-			}
-			return null;
-		}
-
 		/** GetResultAssetBinary
 		*/
 		public byte[] GetResultAssetBinary()

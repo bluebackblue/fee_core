@@ -22,10 +22,6 @@ namespace Fee.File
 		{
 			None = -1,
 
-			/** ロードリソース。なんでもファイル。
-			*/
-			LoadResourcesAnythingFile,
-
 			/** ロードリソース。テキストファイル。
 			*/
 			LoadResourcesTextFile,
@@ -187,61 +183,6 @@ namespace Fee.File
 			this.result_progress_up = a_progress_up;
 			this.result_progress_down = a_progress_down;
 			return true;
-		}
-
-		/** リクエスト。ロードリソース。なんでもファイル。
-		*/
-		public bool RequestLoadResourcesAnythingFile(Fee.File.Path a_relative_path)
-		{
-			if(this.is_busy == false){
-				this.is_busy = true;
-
-				//is_cancel
-				this.is_cancel = false;
-
-				//result
-				this.result_progress_up = 0.0f;
-				this.result_progress_down = 0.0f;
-				this.result_errorstring = null;
-				this.result_type = ResultType.None;
-				this.result_asset = null;
-
-				//request
-				this.request_type = RequestType.LoadResourcesAnythingFile;
-				this.request_relative_path = a_relative_path;
-
-				Function.Function.StartCoroutine(this.DoLoadResourcesAnythingFile());
-				return true;
-			}
-
-			return false;
-		}
-
-		/** 実行。ロードリソース。なんでもファイル。
-		*/
-		private System.Collections.IEnumerator DoLoadResourcesAnythingFile()
-		{
-			Tool.Assert(this.request_type == RequestType.LoadResourcesAnythingFile);
-
-			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = this.request_relative_path;
-
-			Coroutine_LoadResourcesAnythingFile t_coroutine = new Coroutine_LoadResourcesAnythingFile();
-			yield return t_coroutine.CoroutineMain(this,t_path);
-
-			if(t_coroutine.result.anything_file != null){
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
-				this.result_asset = new Asset.Asset(Asset.AssetType.Anything,t_coroutine.result.anything_file);
-				this.result_type = ResultType.Asset;
-				yield break;
-			}else{
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
-				this.result_errorstring = t_coroutine.result.errorstring;
-				this.result_type = ResultType.Error;
-				yield break;
-			}
 		}
 
 		/** リクエスト。ロードリソース。テキストファイル。

@@ -164,7 +164,6 @@ namespace Fee.File
 			LoadStreamingAssetsTextFile,
 			LoadStreamingAssetsTextureFile,
 
-			LoadResourcesAnythingFile,
 			LoadResourcesTextFile,
 			LoadResourcesTextureFile,
 			LoadResourcesPrefabFile,
@@ -230,13 +229,6 @@ namespace Fee.File
 
 			//ロードリソース。
 
-			case LoadRequestType.LoadResourcesAnythingFile:
-				{
-					Work t_work = new Work();
-					t_work.RequestLoadResourcesAnythingFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
-				}break;
 			case LoadRequestType.LoadResourcesTextFile:
 				{
 					Work t_work = new Work();

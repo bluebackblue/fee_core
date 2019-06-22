@@ -166,16 +166,6 @@ namespace Fee.Data
 			return Asset.AssetType.None;
 		}
 
-		/** GetResultAssetAnything
-		*/
-		public object GetResultAssetAnything()
-		{
-			if(this.result_asset != null){
-				return this.result_asset.GetAnything();
-			}
-			return null;
-		}
-
 		/** GetResultAssetBinary
 		*/
 		public byte[] GetResultAssetBinary()
@@ -202,6 +192,16 @@ namespace Fee.Data
 		{
 			if(this.result_asset != null){
 				return this.result_asset.GetText();
+			}
+			return null;
+		}
+
+		/** GetResultAssetPrefab
+		*/
+		public UnityEngine.GameObject GetResultAssetPrefab()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetPrefab();
 			}
 			return null;
 		}

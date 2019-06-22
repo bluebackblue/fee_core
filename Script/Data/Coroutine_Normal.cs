@@ -61,17 +61,53 @@ namespace Fee.Data
 			//LoadRequestType
 			Fee.File.File.LoadRequestType t_loadrequest_type = File.File.LoadRequestType.None;
 			switch(a_listitem.path_type){
+
+			/** アセットバンドル化可能。
+			*/
 			case PathType.Resources_Prefab:
 				{
+					//リソース。プレハブ。
 					t_loadrequest_type = File.File.LoadRequestType.LoadResourcesPrefabFile;
 				}break;
 			case PathType.Resources_Texture:
 				{
+					//リソース。テクスチャー。
 					t_loadrequest_type = File.File.LoadRequestType.LoadResourcesTextureFile;
+				}break;
+			case PathType.Resources_Text:
+				{
+					//リソース。テキスト。
+					t_loadrequest_type = File.File.LoadRequestType.LoadResourcesTextFile;
 				}break;
 			case PathType.StreamingAssets_Texture:
 				{
+					//ストリーミングアセット。テクスチャー。
 					t_loadrequest_type = File.File.LoadRequestType.LoadStreamingAssetsTextureFile;
+				}break;
+			case PathType.StreamingAssets_Text:
+				{
+					//ストリーミングアセット。テキスト。
+					t_loadrequest_type = File.File.LoadRequestType.LoadStreamingAssetsTextFile;
+				}break;
+			case PathType.StreamingAssets_Binary:
+				{
+					//ストリーミングアセット。バイナリー。
+					t_loadrequest_type = File.File.LoadRequestType.LoadStreamingAssetsBinaryFile;
+				}break;
+			case PathType.Url_Texture:
+				{
+					//ＵＲＬ。テクスチャー。
+					t_loadrequest_type = File.File.LoadRequestType.DownLoadTextureFile;
+				}break;
+			case PathType.Url_Text:
+				{
+					//ＵＲＬ。テキスト。
+					t_loadrequest_type = File.File.LoadRequestType.DownLoadTextFile;
+				}break;
+			case PathType.Url_Binary:
+				{
+					//ＵＲＬ。バイナリー。
+					t_loadrequest_type = File.File.LoadRequestType.DownLoadBinaryFile;
 				}break;
 			default:
 				{

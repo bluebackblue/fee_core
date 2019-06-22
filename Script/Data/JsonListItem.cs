@@ -18,6 +18,7 @@ namespace Fee.Data
 	{
 		/** path_type
 		*/
+		[Fee.JsonItem.EnumString]
 		public PathType path_type;
 
 		/** path

@@ -219,21 +219,21 @@ namespace Fee.JsonSheet
 											//ＵＲＬ。テクスチャー。
 
 											Tool.Assert(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == true);
-											t_item = new Data.JsonListItem(Data.PathType.StreamingAssets_Binary,t_sheet[jj].data_path,"");
+											t_item = new Data.JsonListItem(Data.PathType.Url_Texture,t_sheet[jj].data_path,"");
 										}break;
 									case Convert_DataSheet.DATACOMMAND_URL_TEXT:
 										{
 											//ＵＲＬ。テキスト。
 
 											Tool.Assert(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == true);
-											t_item = new Data.JsonListItem(Data.PathType.StreamingAssets_Binary,t_sheet[jj].data_path,"");
+											t_item = new Data.JsonListItem(Data.PathType.Url_Text,t_sheet[jj].data_path,"");
 										}break;
 									case Convert_DataSheet.DATACOMMAND_URL_BINARY:
 										{
 											//ＵＲＬ。バイナリー。
 
 											Tool.Assert(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == true);
-											t_item = new Data.JsonListItem(Data.PathType.StreamingAssets_Binary,t_sheet[jj].data_path,"");
+											t_item = new Data.JsonListItem(Data.PathType.Url_Binary,t_sheet[jj].data_path,"");
 										}break;
 									}
 
