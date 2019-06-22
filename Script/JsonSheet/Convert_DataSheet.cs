@@ -286,8 +286,8 @@ namespace Fee.JsonSheet
 								"Common/Texture/ui_button"
 							},
 							{
-								"SKYIMAGE" :
-								"Common/Texture/skyimage.jpg"
+								"IMAGE" :
+								"Common/Texture/image.jpg"
 							},
 
 							...
