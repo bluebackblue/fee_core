@@ -297,15 +297,30 @@ namespace Fee.Input
 						//デバイス。
 						UnityEngine_InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.activeTouches[ii];
 
+						int t_x;
+						int t_y;
+						{
+							int t_pos_x = (int)t_touch.position.x.ReadValue();
+
+							#if(UNITY_ANDROID)
+							int t_pos_y = (int)(this.screen_h - t_touch.position.y.ReadValue());
+							#else
+							int t_pos_y = (int)t_touch.position.y.ReadValue();
+							#endif
+
+							/*
+							{
+								t_pos_x = (int)((float)t_pos_x * UnityEngine.Screen.width / this.screen_w);
+								t_pos_y = (int)((float)t_pos_y * UnityEngine.Screen.height / this.screen_h);
+							}
+							*/
+
+							//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+							a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
+						}
+
 						UnityEngine_InputSystem.PointerPhase t_touch_phase = t_touch.phase.ReadValue();
 						int t_touch_id = t_touch.touchId.ReadValue();
-						int t_touch_x = (int)t_touch.position.x.ReadValue();
-
-						#if(UNITY_ANDROID)
-						int t_touch_y = (int)(this.screen_h - t_touch.position.y.ReadValue());
-						#else
-						int t_touch_y = (int)t_touch.position.y.ReadValue();
-						#endif
 
 						//インプットシステムのバグ。
 						{
@@ -322,8 +337,9 @@ namespace Fee.Input
 
 						if(this.device_item_list_count < this.device_item_list.Length){
 
-							//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-							a_render2d.GuiScreenToVirtualScreen(t_touch_x,t_touch_y,out this.device_item_list[this.device_item_list_count].x,out this.device_item_list[this.device_item_list_count].y);
+							//位置。
+							this.device_item_list[this.device_item_list_count].x = t_x;
+							this.device_item_list[this.device_item_list_count].y = t_y;
 
 							//フェーズ。
 							switch(t_touch_phase){
@@ -363,6 +379,69 @@ namespace Fee.Input
 			return false;
 		}
 
+		/** 更新。インプットシステム。マウス。タッチ。
+		*/
+		public bool Main_InputSystem_Mouse_Touch(Fee.Render2D.Render2D a_render2d)
+		{
+			#if(USE_DEF_FEE_INPUTSYSTEM)
+			{
+				UnityEngine_InputSystem.Mouse t_mouse_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Mouse>();
+				if(t_mouse_current != null){
+					this.device_item_list_count = 0;
+
+					//リスト作成。
+					if(this.device_item_list.Length < 1){
+						this.device_item_list = new Touch_Device_Item[1];
+					}
+
+					if(t_mouse_current.leftButton.isPressed == true){
+						//デバイス。
+						int t_x;
+						int t_y;
+						{
+							int t_pos_x = (int)t_mouse_current.position.x.ReadValue();
+
+							#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
+							int t_pos_y = (int)(this.screen_h - t_mouse_current.position.y.ReadValue());
+							#else
+							int t_pos_y = (int)(t_mouse_current.position.y.ReadValue());
+							#endif
+
+							/*
+							{
+								t_pos_x = (int)((float)t_pos_x * UnityEngine.Screen.width / this.screen_w);
+								t_pos_y = (int)((float)t_pos_y * UnityEngine.Screen.height / this.screen_h);
+							}
+							*/
+
+							//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+							a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
+						}
+
+						//位置。
+						this.device_item_list[this.device_item_list_count].x = t_x;
+						this.device_item_list[this.device_item_list_count].y = t_y;
+
+						//フェーズ。
+						this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Moved;
+
+						//フラグ。
+						this.device_item_list[this.device_item_list_count].link = false;
+
+						//追加情報。
+						this.device_item_list[this.device_item_list_count].touch_raw_id = Touch.INVALID_TOUCH_RAW_ID;
+
+						this.device_item_list_count++;
+					}
+
+					return true;
+				}
+			}
+			#endif
+
+			return false;
+		}
+
 		/** 更新。インプットマネージャ。インプットタッチ。タッチ。
 		*/
 		public bool Main_InputManager_InputTouch_Touch(Fee.Render2D.Render2D a_render2d)
@@ -382,18 +461,27 @@ namespace Fee.Input
 				case UnityEngine.TouchPhase.Moved:
 				case UnityEngine.TouchPhase.Stationary:
 					{
-						float t_touch_x = t_touch.position.x;
-						float t_touch_y = t_touch.position.y;
-
-						/*
+						//デバイス。
+						int t_x;
+						int t_y;
 						{
-							t_touch_x = t_touch_x * UnityEngine.Screen.width / this.screen_w;
-							t_touch_y = t_touch_y * UnityEngine.Screen.height / this.screen_h;
-						}
-						*/
+							int t_pos_x = (int)t_touch.position.x;
+							int t_pos_y = this.screen_h - (int)t_touch.position.y;
 
-						//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-						a_render2d.GuiScreenToVirtualScreen((int)t_touch_x,(int)(this.screen_h - t_touch_y),out this.device_item_list[this.device_item_list_count].x,out this.device_item_list[this.device_item_list_count].y);
+							/*
+							{
+								t_pos_x = t_pos_x * UnityEngine.Screen.width / this.screen_w;
+								t_pos_y = t_pos_y * UnityEngine.Screen.height / this.screen_h;
+							}
+							*/
+
+							//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+							a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
+						}
+
+						//位置。
+						this.device_item_list[this.device_item_list_count].x = t_x;
+						this.device_item_list[this.device_item_list_count].y = t_y;
 
 						//フェーズ。
 						if(t_touch.phase == UnityEngine.TouchPhase.Began){
@@ -433,18 +521,27 @@ namespace Fee.Input
 			}
 
 			if(UnityEngine.Input.GetMouseButton(0) == true){
-				int t_touch_x = (int)UnityEngine.Input.mousePosition.x;
-				int t_touch_y = (int)UnityEngine.Input.mousePosition.y;
-
-				/*
+				//デバイス。
+				int t_x;
+				int t_y;
 				{
-					t_touch_x = t_touch_x * UnityEngine.Screen.width / this.screen_w;
-					t_touch_y = t_touch_y * UnityEngine.Screen.height / this.screen_h;
-				}
-				*/
+					int t_pos_x = (int)UnityEngine.Input.mousePosition.x;
+					int t_pos_y = this.screen_h - (int)UnityEngine.Input.mousePosition.y;
 
-				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-				a_render2d.GuiScreenToVirtualScreen((int)t_touch_x,(int)(this.screen_h - t_touch_y),out this.device_item_list[this.device_item_list_count].x,out this.device_item_list[this.device_item_list_count].y);
+					/*
+					{
+						t_pos_x = t_pos_x * UnityEngine.Screen.width / this.screen_w;
+						t_pos_y = t_pos_y * UnityEngine.Screen.height / this.screen_h;
+					}
+					*/
+
+					//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+					a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
+				}
+
+				//位置。
+				this.device_item_list[this.device_item_list_count].x = t_x;
+				this.device_item_list[this.device_item_list_count].y = t_y;
 
 				//フェーズ。
 				this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Moved;
@@ -466,6 +563,20 @@ namespace Fee.Input
 		*/
 		public void Main_Touch(Fee.Render2D.Render2D a_render2d)
 		{
+			//インプットシステム。マウス。タッチ。
+			if(Config.USE_INPUTSYSTEM_MOUSE_TOUCH == true){
+				if(this.Main_InputSystem_Mouse_Touch(a_render2d) == true){
+					return;
+				}
+			}
+
+			//インプットマネージャ。インプットマウス。タッチ。
+			if(Config.USE_INPUTMANAGER_INPUTMOUSE_TOUCH == true){
+				if(this.Main_InputManager_InputMouse_Touch(a_render2d) == true){
+					return;
+				}
+			}
+
 			//インプットシステム。タッチスクリーン。タッチ。
 			if(Config.USE_INPUTSYSTEM_TOUCHSCREEN_TOUCH == true){
 				if(this.Main_InputSystem_Touchscreen_Touch(a_render2d) == true){
@@ -476,13 +587,6 @@ namespace Fee.Input
 			//インプットマネージャ。インプットタッチ。タッチ。
 			if(Config.USE_INPUTMANAGER_INPUTTOUCH_TOUCH == true){
 				if(this.Main_InputManager_InputTouch_Touch(a_render2d) == true){
-					return;
-				}
-			}
-
-			//インプットマネージャ。インプットマウス。タッチ。
-			if(Config.USE_INPUTMANAGER_INPUTMOUSE_TOUCH == true){
-				if(this.Main_InputManager_InputMouse_Touch(a_render2d) == true){
 					return;
 				}
 			}

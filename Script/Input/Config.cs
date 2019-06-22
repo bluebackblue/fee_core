@@ -233,35 +233,47 @@ namespace Fee.Input
 
 
 
+		/** インプットシステム。マウス。タッチ。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTSYSTEM_MOUSE_TOUCH = false;
+		#elif(UNITY_ANDROID)
+		public static bool USE_INPUTSYSTEM_MOUSE_TOUCH = true;
+		#else
+		public static bool USE_INPUTSYSTEM_MOUSE_TOUCH = false;
+		#endif
+
+		/** インプットマネージャ。インプットマウス。タッチ。
+		*/
+		#if(UNITY_EDITOR)
+		public static bool USE_INPUTMANAGER_INPUTMOUSE_TOUCH = true;
+		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTMANAGER_INPUTMOUSE_TOUCH = true;
+		#else
+		public static bool USE_INPUTMANAGER_INPUTMOUSE_TOUCH = true;
+		#endif
+
 		/** インプットシステム。タッチスクリーン。タッチ。
 		*/
 		#if(UNITY_EDITOR)
-		public static bool USE_INPUTSYSTEM_TOUCHSCREEN_TOUCH = true;
-		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTSYSTEM_TOUCHSCREEN_TOUCH = false;
+		#elif(UNITY_ANDROID)
 		public static bool USE_INPUTSYSTEM_TOUCHSCREEN_TOUCH = false;
 		#else
-		public static bool USE_INPUTSYSTEM_TOUCHSCREEN_TOUCH = true;
+		public static bool USE_INPUTSYSTEM_TOUCHSCREEN_TOUCH = false;
 		#endif
 
 		/** インプットマネージャ。インプットタッチ。タッチ。
 		*/
 		#if(UNITY_EDITOR)
 		public static bool USE_INPUTMANAGER_INPUTTOUCH_TOUCH = false;
-		#elif(UNITY_WEBGL)
-		public static bool USE_INPUTMANAGER_INPUTTOUCH_TOUCH = false;
-		#else
+		#elif(UNITY_ANDROID)
 		public static bool USE_INPUTMANAGER_INPUTTOUCH_TOUCH = true;
+		#else
+		public static bool USE_INPUTMANAGER_INPUTTOUCH_TOUCH = false;
 		#endif
 
-		/** インプットマネージャ。インプットマウス。タッチ。
-		*/
-		#if(UNITY_EDITOR)
-		public static bool USE_INPUTMANAGER_INPUTMOUSE_TOUCH = false;
-		#elif(UNITY_WEBGL)
-		public static bool USE_INPUTMANAGER_INPUTMOUSE_TOUCH = false;
-		#else
-		public static bool USE_INPUTMANAGER_INPUTMOUSE_TOUCH = true;
-		#endif
+
 
 
 

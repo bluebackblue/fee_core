@@ -151,32 +151,27 @@ namespace Fee.Input
 				UnityEngine_InputSystem.Pointer t_pointer_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Pointer>();
 				if(t_pointer_current != null){
 					//デバイス。
-					int t_pointer_x = (int)t_pointer_current.position.x.ReadValue();
-
-					#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN)||(UNITY_ANDROID))
-					int t_pointer_y = (int)(this.screen_h - t_pointer_current.position.y.ReadValue());
-					#else
-					int t_pointer_y = (int)(t_pointer_current.position.y.ReadValue());
-					#endif
-
-					/*
-					{
-						t_pointer_x = (int)((float)t_pointer_x * UnityEngine.Screen.width / this.screen_w);
-						t_pointer_y = (int)((float)t_pointer_y * UnityEngine.Screen.height / this.screen_h);
-					}
-					*/
-
-					#if(UNITY_EDITOR)
-					{
-						t_pointer_x += Config.MOUSE_EDITOR_OFFSET_X;
-						t_pointer_y += Config.MOUSE_EDITOR_OFFSET_Y;
-					}
-					#endif
-
-					//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 					int t_x;
 					int t_y;
-					a_render2d.GuiScreenToVirtualScreen(t_pointer_x,t_pointer_y,out t_x,out t_y);
+					{
+						int t_pos_x = (int)t_pointer_current.position.x.ReadValue();
+
+						#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN)||(UNITY_ANDROID))
+						int t_pos_y = (int)(this.screen_h - t_pointer_current.position.y.ReadValue());
+						#else
+						int t_pos_y = (int)(t_pointer_current.position.y.ReadValue());
+						#endif
+
+						/*
+						{
+							t_pos_x = (int)((float)t_pos_x * UnityEngine.Screen.width / this.screen_w);
+							t_pos_y = (int)((float)t_pos_y * UnityEngine.Screen.height / this.screen_h);
+						}
+						*/
+
+						//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+						a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
+					}
 
 					//設定。
 					/*
@@ -205,32 +200,27 @@ namespace Fee.Input
 				UnityEngine_InputSystem.Mouse t_mouse_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Mouse>();
 				if(t_mouse_current != null){
 					//デバイス。
-					int t_mouse_x = (int)t_mouse_current.position.x.ReadValue();
-
-					#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
-					int t_mouse_y = (int)(this.screen_h - t_mouse_current.position.y.ReadValue());
-					#else
-					int t_mouse_y = (int)(t_mouse_current.position.y.ReadValue());
-					#endif
-
-					/*
-					{
-						t_mouse_x = (int)((float)t_mouse_x * UnityEngine.Screen.width / this.screen_w);
-						t_mouse_y = (int)((float)t_mouse_y * UnityEngine.Screen.height / this.screen_h);
-					}
-					*/
-
-					#if(UNITY_EDITOR)
-					{
-						t_mouse_x += Config.MOUSE_EDITOR_OFFSET_X;
-						t_mouse_y += Config.MOUSE_EDITOR_OFFSET_Y;
-					}
-					#endif
-
-					//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 					int t_x;
 					int t_y;
-					a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
+					{
+						int t_pos_x = (int)t_mouse_current.position.x.ReadValue();
+
+						#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
+						int t_pos_y = (int)(this.screen_h - t_mouse_current.position.y.ReadValue());
+						#else
+						int t_pos_y = (int)(t_mouse_current.position.y.ReadValue());
+						#endif
+
+						/*
+						{
+							t_pos_x = (int)((float)t_pos_x * UnityEngine.Screen.width / this.screen_w);
+							t_pos_y = (int)((float)t_pos_y * UnityEngine.Screen.height / this.screen_h);
+						}
+						*/
+
+						//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+						a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
+					}
 
 					//設定。
 					/*
@@ -256,27 +246,22 @@ namespace Fee.Input
 		private bool Main_InputManager_InputMouse_MousePosition(Fee.Render2D.Render2D a_render2d)
 		{
 			//デバイス。
-			int t_mouse_x = (int)UnityEngine.Input.mousePosition.x;
-			int t_mouse_y = UnityEngine.Screen.height - (int)UnityEngine.Input.mousePosition.y;
-
-			/*
-			{
-				t_mouse_x = (int)((float)t_mouse_x * UnityEngine.Screen.width / this.screen_w);
-				t_mouse_y = (int)((float)t_mouse_y * UnityEngine.Screen.height / this.screen_h);
-			}
-			*/
-
-			#if(UNITY_EDITOR)
-			{
-				t_mouse_x += Config.MOUSE_EDITOR_OFFSET_X;
-				t_mouse_y += Config.MOUSE_EDITOR_OFFSET_Y;
-			}
-			#endif
-
-			//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 			int t_x;
 			int t_y;
-			a_render2d.GuiScreenToVirtualScreen(t_mouse_x,t_mouse_y,out t_x,out t_y);
+			{
+				int t_pos_x = (int)UnityEngine.Input.mousePosition.x;
+				int t_pos_y = this.screen_h - (int)UnityEngine.Input.mousePosition.y;
+
+				/*
+				{
+					t_pos_x = (int)((float)t_pos_x * UnityEngine.Screen.width / this.screen_w);
+					t_pos_y = (int)((float)t_pos_y * UnityEngine.Screen.height / this.screen_h);
+				}
+				*/
+
+				//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+				a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
+			}
 
 			//設定。
 			/*
