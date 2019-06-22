@@ -8,6 +8,11 @@
 */
 
 
+/** Unreachable code detected.
+*/
+#pragma warning disable 0162
+
+
 /** Fee.Bloom
 */
 namespace Fee.Bloom

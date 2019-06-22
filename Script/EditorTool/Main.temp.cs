@@ -73,7 +73,6 @@ namespace Fee.EditorTool
 					//２Ｄ描画。
 					#if(false)
 					{
-						Fee.Render2D.Config.MAX_LAYER = Setting.RENDER_LAYER_INDEX_MAX;
 						Fee.Render2D.Render2D.CreateInstance();
 					}
 					#endif
@@ -457,7 +456,7 @@ namespace Fee.EditorTool
 					{
 						//マウス。
 						#if(false)
-						Fee.Input.Mouse.GetInstance().Main(true,Fee.Render2D.Render2D.GetInstance());
+						Fee.Input.Mouse.GetInstance().Main(s_is_focus,Fee.Render2D.Render2D.GetInstance());
 						#endif
 
 						//キー。
@@ -467,7 +466,7 @@ namespace Fee.EditorTool
 
 						//パッド。
 						#if(false)
-						Fee.Input.Pad.GetInstance().Main(true);
+						Fee.Input.Pad.GetInstance().Main(s_is_focus);
 						#endif
 					}
 

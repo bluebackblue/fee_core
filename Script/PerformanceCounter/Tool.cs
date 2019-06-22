@@ -8,6 +8,11 @@
 */
 
 
+/** Unreachable code detected.
+*/
+#pragma warning disable 0162
+
+
 /** Fee.PerformanceCounter
 */
 namespace Fee.PerformanceCounter

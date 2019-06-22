@@ -155,10 +155,6 @@ namespace Fee.File
 		*/
 		private UnityEngine.Texture2D request_texture;
 
-		/** result_object
-		*/
-		private UnityEngine.Object result_object;
-
 		/** item
 		*/
 		private Item item;
@@ -193,9 +189,6 @@ namespace Fee.File
 
 			//request_texture
 			this.request_texture = null;
-
-			//result_object
-			this.result_object = null;
 
 			//item
 			this.item = new Item();

@@ -8,6 +8,11 @@
 */
 
 
+/** Unreachable code detected.
+*/
+#pragma warning disable 0162
+
+
 /** Fee.Input
 */
 namespace Fee.Input

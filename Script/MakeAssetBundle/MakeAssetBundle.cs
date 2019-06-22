@@ -14,7 +14,7 @@ namespace System
 {
 	/** MakeAssetBundle
 	*/
-	#if(UNITY_EDITOR)
+	#if(false)
 	public class MakeAssetBundle
 	{
 		/** s_directoryname
