@@ -32,7 +32,6 @@ namespace Fee.Ui
 		{
 			//sprite
 			this.sprite = new Fee.Ui.Button_Sprite2D(this.deleter,a_drawpriority);
-			this.sprite.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 
 			//text
 			this.text = new Fee.Render2D.Text2D(this.deleter,a_drawpriority);

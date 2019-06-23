@@ -165,7 +165,8 @@ Shader "Fee/Render2D/Slice9"
 					t_tex_x = t_to_gui_x * t_pix_x;
 				}else if(t_to_gui_x >= t_gui_w - corner_size){
 					//右corner_sizeピクセル。
-					t_tex_x = (t_gui_w - t_to_gui_x) * t_pix_x;
+					int t_offset = t_to_gui_x - t_gui_w + corner_size;
+					t_tex_x = (t_offset + _MainTex_TexelSize.z * texture_w - corner_size) * t_pix_x;
 				}else{
 					//真ん中。
 					float t_per = float(t_to_gui_x - corner_size) / float(t_gui_w - corner_size*2);
@@ -179,7 +180,8 @@ Shader "Fee/Render2D/Slice9"
 					t_tex_y = t_to_gui_y * t_pix_y;
 				}else if(t_to_gui_y >= t_gui_h - corner_size){
 					//下corner_sizeピクセル。
-					t_tex_y = (t_gui_h - t_to_gui_y) * t_pix_y;
+					int t_offset = t_to_gui_y - t_gui_h + corner_size;
+					t_tex_y = (t_offset + _MainTex_TexelSize.w * texture_h - corner_size) * t_pix_y;
 				}else{
 					//真ん中。
 					float t_per = float(t_to_gui_y - corner_size) / float(t_gui_h - corner_size*2);

@@ -52,6 +52,7 @@ namespace Fee.Ui
 
 			//マテリアル設定。
 			this.SetMaterialType(Fee.Render2D.Config.MaterialType.Slice9);
+			this.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 		}
 
 		/** ロックフラグ。設定。
