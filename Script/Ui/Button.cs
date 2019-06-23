@@ -18,7 +18,10 @@ namespace Fee.Ui
 	{
 		/** sprite
 		*/
-		private Fee.Ui.Button_Sprite2D sprite;
+		private Fee.Ui.Slice9Sprite normal_sprite;
+		private Fee.Ui.Slice9Sprite on_sprite;
+		private Fee.Ui.Slice9Sprite down_sprite;
+		private Fee.Ui.Slice9Sprite lock_sprite;
 
 		/** text
 		*/
@@ -31,7 +34,21 @@ namespace Fee.Ui
 			base(a_deleter,a_drawpriority,a_callback_click,a_callback_click_id)
 		{
 			//sprite
-			this.sprite = new Fee.Ui.Button_Sprite2D(this.deleter,a_drawpriority);
+			this.normal_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority);
+			this.normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+			this.normal_sprite.SetVisible(true);
+
+			this.on_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority);
+			this.on_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+			this.on_sprite.SetVisible(false);
+
+			this.down_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority);
+			this.down_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+			this.down_sprite.SetVisible(false);
+
+			this.lock_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority);
+			this.lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+			this.lock_sprite.SetVisible(false);
 
 			//text
 			this.text = new Fee.Render2D.Text2D(this.deleter,a_drawpriority);
@@ -49,14 +66,49 @@ namespace Fee.Ui
 		*/
 		protected override void OnChangeMode()
 		{
-			this.sprite.SetMode(this.mode);
+			switch(this.mode){
+			case Button_Mode.Normal:
+				{
+					this.normal_sprite.SetVisible(this.visible_flag);
+					this.on_sprite.SetVisible(false);
+					this.down_sprite.SetVisible(false);
+					this.lock_sprite.SetVisible(false);
+				}break;
+			case Button_Mode.On:
+				{
+					this.normal_sprite.SetVisible(false);
+					this.on_sprite.SetVisible(this.visible_flag);
+					this.down_sprite.SetVisible(false);
+					this.lock_sprite.SetVisible(false);
+				}break;
+			case Button_Mode.Down:
+				{
+					this.normal_sprite.SetVisible(false);
+					this.on_sprite.SetVisible(false);
+					this.down_sprite.SetVisible(this.visible_flag);
+					this.lock_sprite.SetVisible(false);
+				}break;
+			case Button_Mode.Lock:
+				{
+					this.normal_sprite.SetVisible(false);
+					this.on_sprite.SetVisible(false);
+					this.down_sprite.SetVisible(false);
+					this.lock_sprite.SetVisible(this.visible_flag);
+				}break;
+			}
 		}
 
 		/** [Button_Base]コールバック。クリップフラグ変更。
 		*/
 		protected override void OnChangeClipFlag()
 		{
-			this.sprite.SetClip(this.clip_flag);
+			//sprite
+			this.normal_sprite.SetClip(this.clip_flag);
+			this.on_sprite.SetClip(this.clip_flag);
+			this.down_sprite.SetClip(this.clip_flag);
+			this.lock_sprite.SetClip(this.clip_flag);
+
+			//text
 			this.text.SetClip(this.clip_flag);
 		}
 
@@ -64,7 +116,13 @@ namespace Fee.Ui
 		*/
 		protected override void OnChangeClipRect()
 		{
-			this.sprite.SetClipRect(ref this.clip_rect);
+			//sprite
+			this.normal_sprite.SetClipRect(ref this.clip_rect);
+			this.on_sprite.SetClipRect(ref this.clip_rect);
+			this.down_sprite.SetClipRect(ref this.clip_rect);
+			this.lock_sprite.SetClipRect(ref this.clip_rect);
+
+			//text
 			this.text.SetClipRect(ref this.clip_rect);
 		}
 
@@ -72,7 +130,39 @@ namespace Fee.Ui
 		*/
 		protected override void OnChangeVisibleFlag()
 		{
-			this.sprite.SetVisible(this.visible_flag);
+			//sprite
+			switch(this.mode){
+			case Button_Mode.Normal:
+				{
+					this.normal_sprite.SetVisible(this.visible_flag);
+					this.on_sprite.SetVisible(false);
+					this.down_sprite.SetVisible(false);
+					this.lock_sprite.SetVisible(false);
+				}break;
+			case Button_Mode.On:
+				{
+					this.normal_sprite.SetVisible(false);
+					this.on_sprite.SetVisible(this.visible_flag);
+					this.down_sprite.SetVisible(false);
+					this.lock_sprite.SetVisible(false);
+				}break;
+			case Button_Mode.Down:
+				{
+					this.normal_sprite.SetVisible(false);
+					this.on_sprite.SetVisible(false);
+					this.down_sprite.SetVisible(this.visible_flag);
+					this.lock_sprite.SetVisible(false);
+				}break;
+			case Button_Mode.Lock:
+				{
+					this.normal_sprite.SetVisible(false);
+					this.on_sprite.SetVisible(false);
+					this.down_sprite.SetVisible(false);
+					this.lock_sprite.SetVisible(this.visible_flag);
+				}break;
+			}
+
+			//text
 			this.text.SetVisible(this.visible_flag);
 		}
 
@@ -80,24 +170,14 @@ namespace Fee.Ui
 		*/
 		protected override void OnChangeDrawPriority()
 		{
-			this.sprite.SetDrawPriority(this.drawpriority);
+			//sprite
+			this.normal_sprite.SetDrawPriority(this.drawpriority);
+			this.on_sprite.SetDrawPriority(this.drawpriority);
+			this.down_sprite.SetDrawPriority(this.drawpriority);
+			this.lock_sprite.SetDrawPriority(this.drawpriority);
+
+			//text
 			this.text.SetDrawPriority(this.drawpriority);
-		}
-
-		/** テクスチャ設定。
-		*/
-		public void SetTexture(UnityEngine.Texture2D a_texture)
-		{
-			#if(UNITY_EDITOR)
-			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.filterMode != UnityEngine.FilterMode.Point)){
-				Tool.Assert(false);
-			}
-			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.mipmapCount != 1)){
-				Tool.Assert(false);
-			}
-			#endif
-
-			this.sprite.SetTexture(a_texture);
 		}
 
 		/** テキスト。
@@ -118,15 +198,145 @@ namespace Fee.Ui
 		*/
 		public void SetTextureCornerSize(int a_corner_size)
 		{
-			this.sprite.SetCornerSize(a_corner_size);
+			//sprite
+			this.normal_sprite.SetCornerSize(a_corner_size);
+			this.on_sprite.SetCornerSize(a_corner_size);
+			this.down_sprite.SetCornerSize(a_corner_size);
+			this.lock_sprite.SetCornerSize(a_corner_size);
 		}
 
 		/** 更新。表示。
 		*/
 		public void UpdateView()
 		{
-			this.sprite.SetRect(ref this.rect);
+			//sprite
+			this.normal_sprite.SetRect(ref this.rect);
+			this.on_sprite.SetRect(ref this.rect);
+			this.down_sprite.SetRect(ref this.rect);
+			this.lock_sprite.SetRect(ref this.rect);
+
+			//text
 			this.text.SetRect(this.rect.x+this.rect.w/2,this.rect.y+this.rect.h/2,0,0);
+		}
+
+		/** ノーマルテクスチャ。設定。
+		*/
+		public void SetNormalTexture(UnityEngine.Texture2D a_texture)
+		{
+			#if(UNITY_EDITOR)
+			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.filterMode != UnityEngine.FilterMode.Point)){
+				Tool.Assert(false);
+			}
+			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.mipmapCount != 1)){
+				Tool.Assert(false);
+			}
+			#endif
+
+			this.normal_sprite.SetTexture(a_texture);
+		}
+
+		/** オンテクスチャ。設定。
+		*/
+		public void SetOnTexture(UnityEngine.Texture2D a_texture)
+		{
+			#if(UNITY_EDITOR)
+			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.filterMode != UnityEngine.FilterMode.Point)){
+				Tool.Assert(false);
+			}
+			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.mipmapCount != 1)){
+				Tool.Assert(false);
+			}
+			#endif
+
+			this.on_sprite.SetTexture(a_texture);
+		}
+
+		/** ダウンテクスチャ。設定。
+		*/
+		public void SetDownTexture(UnityEngine.Texture2D a_texture)
+		{
+			#if(UNITY_EDITOR)
+			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.filterMode != UnityEngine.FilterMode.Point)){
+				Tool.Assert(false);
+			}
+			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.mipmapCount != 1)){
+				Tool.Assert(false);
+			}
+			#endif
+
+			this.down_sprite.SetTexture(a_texture);
+		}
+
+		/** ロックテクスチャ。設定。
+		*/
+		public void SetLockTexture(UnityEngine.Texture2D a_texture)
+		{
+			#if(UNITY_EDITOR)
+			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.filterMode != UnityEngine.FilterMode.Point)){
+				Tool.Assert(false);
+			}
+			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.mipmapCount != 1)){
+				Tool.Assert(false);
+			}
+			#endif
+
+			this.lock_sprite.SetTexture(a_texture);
+		}
+
+		/** ノーマルテクスチャ矩形。設定。
+		*/
+		public void SetNormalTextureRect(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		{
+			this.normal_sprite.SetTextureRect(ref a_texture_rect);
+		}
+
+		/** オンテクスチャ矩形。設定。
+		*/
+		public void SetOnTextureRect(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		{
+			this.on_sprite.SetTextureRect(ref a_texture_rect);
+		}
+
+		/** ダウンテクスチャ矩形。設定。
+		*/
+		public void SetDownTextureRect(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		{
+			this.down_sprite.SetTextureRect(ref a_texture_rect);
+		}
+
+		/** ロックテクスチャ矩形。設定。
+		*/
+		public void SetLockTextureRect(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		{
+			this.lock_sprite.SetTextureRect(ref a_texture_rect);
+		}
+
+		/** ノーマル色。設定。
+		*/
+		public void SetNormalColor(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		{
+			this.normal_sprite.SetTextureRect(ref a_texture_rect);
+		}
+
+		/** オン色。設定。
+		*/
+		public void SetOnColor(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		{
+			this.on_sprite.SetTextureRect(ref a_texture_rect);
+		}
+
+		/** ダウン色。設定。
+		*/
+		public void SetDownColor(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		{
+			this.down_sprite.SetTextureRect(ref a_texture_rect);
+		}
+
+		/** ロック色。設定。
+		*/
+		public void SetLockColor(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		{
+			this.lock_sprite.SetTextureRect(ref a_texture_rect);
 		}
 	}
 }
