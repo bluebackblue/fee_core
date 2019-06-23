@@ -318,10 +318,9 @@ namespace Fee.Render2D
 				if(a_text.IsCenterW() == false){
 					t_localposition.x += t_sizedelta.x / 2;
 				}
+
 				if(a_text.IsCenterH() == false){
 					t_localposition.y -= t_sizedelta.y / 2;
-				}else{
-					t_localposition.y -= t_sizedelta.y * 3 / 4;
 				}
 			}
 			a_text.Raw_SetRectTransformLocalPosition(ref t_localposition);

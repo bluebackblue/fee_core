@@ -25,6 +25,9 @@ namespace Fee.Ui
 		public delegate void CallBack_ChangeOnOver(int a_id,bool a_is_onover);
 
 		/** s_down_instance
+
+			TODO:UIインスタンスで管理したほうが良いかも。
+
 		*/
 		protected static Button_Base s_down_instance = null;
 

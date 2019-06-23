@@ -216,7 +216,7 @@ namespace Fee.Ui
 			this.lock_sprite.SetRect(ref this.rect);
 
 			//text
-			this.text.SetRect(this.rect.x+this.rect.w/2,this.rect.y+this.rect.h/2,0,0);
+			this.text.SetRect(this.rect.x + this.rect.w / 2,this.rect.y + this.rect.h / 2,0,0);
 		}
 
 		/** ノーマルテクスチャ。設定。

@@ -24,6 +24,14 @@ namespace Fee.Ui
 		*/
 		protected Fee.Deleter.Deleter deleter;
 
+		/** 矩形。
+		*/
+		protected Fee.Render2D.Rect2D_R<int> rect;
+
+		/** drawpriority
+		*/
+		protected long drawpriority;
+
 		/** eventplate
 		*/
 		protected Fee.EventPlate.Item eventplate;
@@ -45,9 +53,13 @@ namespace Fee.Ui
 		*/
 		protected bool clip_flag;
 
-		/** visible
+		/** clip_rect
 		*/
-		protected bool visible;
+		protected Fee.Render2D.Rect2D_R<int> clip_rect;
+
+		/** visible_flag
+		*/
+		protected bool visible_flag;
 
 		/** mode
 		*/
@@ -64,8 +76,14 @@ namespace Fee.Ui
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();
 
+			//rect
+			this.rect.Set(0,0,0,0);
+
+			//drawpriority
+			this.drawpriority = a_drawpriority;
+
 			//eventplate
-			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,a_drawpriority);
+			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority);
 			this.eventplate.SetOnOverCallBack(this);
 
 			//callback_change
@@ -81,8 +99,11 @@ namespace Fee.Ui
 			//clip_flag
 			this.clip_flag = false;
 
-			//visible
-			this.visible = true;
+			//clip_rect
+			this.clip_rect.Set(0,0,0,0);
+
+			//visible_flag
+			this.visible_flag = true;
 
 			//mode
 			this.mode = CheckButton_Mode.Normal;
@@ -96,37 +117,33 @@ namespace Fee.Ui
 			}
 		}
 
-		/** コールバック。削除。
+		/** [CheckButton_Base]コールバック。矩形変更。
 		*/
-		protected abstract void OnDeleteCallBack();
+		protected abstract void OnChangeRect();
 
-		/** コールバック。矩形。設定。
+		/** [CheckButton_Base]コールバック。クリップフラグ変更。
 		*/
-		protected abstract void OnSetRectCallBack(int a_x,int a_y,int a_w,int a_h);
+		protected abstract void OnChangeClipFlag();
 
-		/** コールバック。矩形。設定。
+		/** [CheckButton_Base]コールバック。クリップ矩形変更。
 		*/
-		protected abstract void OnSetRectCallBack(ref Fee.Render2D.Rect2D_R<int> a_rect);
+		protected abstract void OnChangeClipRect();
 
-		/** コールバック。モード。設定。
+		/** [CheckButton_Base]コールバック。モード変更。
 		*/
-		protected abstract void OnSetModeCallBack(CheckButton_Mode a_mode);
+		protected abstract void OnChangeMode();
 
-		/** コールバック。チェック。設定。
+		/** [CheckButton_Base]コールバック。チェックフラグ変更。
 		*/
-		protected abstract void OnSetCheckCallBack(bool a_flag);
+		protected abstract void OnChangeCheckFlag();
 
-		/** コールバック。クリップ。設定。
+		/** [Slider_Base]コールバック。表示フラグ変更。
 		*/
-		protected abstract void OnSetClipCallBack(bool a_flag);
+		protected abstract void OnChangeVisibleFlag();
 
-		/** コールバック。クリップ矩形。設定。
+		/** [Slider_Base]コールバック。描画プライオリティ変更。
 		*/
-		protected abstract void OnSetClipRectCallBack(int a_x,int a_y,int a_w,int a_h);
-
-		/** コールバック。クリップ矩形。設定。
-		*/
-		protected abstract void OnSetClipRectCallBack(ref Fee.Render2D.Rect2D_R<int> a_rect);
+		protected abstract void OnChangeDrawPriority();
 
 		/** 削除。
 		*/
@@ -136,9 +153,6 @@ namespace Fee.Ui
 
 			//ターゲット解除。
 			Fee.Ui.Ui.GetInstance().UnSetTargetRequest(this);
-
-			//コールバック。削除。
-			this.OnDeleteCallBack();
 		}
 
 		/** モード。設定。
@@ -148,7 +162,8 @@ namespace Fee.Ui
 			if(this.mode != a_mode){
 				this.mode = a_mode;
 
-				this.OnSetModeCallBack(a_mode);
+				//コールバック。モード変更。
+				this.OnChangeMode();
 			}
 		}
 
@@ -156,7 +171,14 @@ namespace Fee.Ui
 		*/
 		public void SetDrawPriority(long a_drawpriority)
 		{
-			this.eventplate.SetPriority(a_drawpriority);
+			if(this.drawpriority != a_drawpriority){
+				this.drawpriority = a_drawpriority;
+
+				this.eventplate.SetPriority(a_drawpriority);
+
+				//コールバック。描画プライオリティ変更。
+				this.OnChangeDrawPriority();
+			}
 		}
 
 		/** ロック。設定。
@@ -186,8 +208,8 @@ namespace Fee.Ui
 				this.clip_flag = a_flag;
 				this.eventplate.SetClip(a_flag);
 
-				//コールバック。クリップ。設定。
-				this.OnSetClipCallBack(a_flag);
+				//コールバック。クリップフラグ変更。
+				this.OnChangeClipFlag();
 			}
 		}
 		
@@ -195,49 +217,56 @@ namespace Fee.Ui
 		*/
 		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
+			this.clip_rect = a_rect;
 			this.eventplate.SetClipRect(ref a_rect);
 
-			//コールバック。クリップ矩形。設定。
-			this.OnSetClipRectCallBack(ref a_rect);
+			//コールバック。クリップ矩形変更。
+			this.OnChangeClipRect();
 		}
 
 		/** クリップ矩形。設定。
 		*/
 		public void SetClipRect(int a_x,int a_y,int a_w,int a_h)
 		{
+			this.clip_rect.Set(a_x,a_y,a_w,a_h);
 			this.eventplate.SetClipRect(a_x,a_y,a_w,a_h);
 
-			//コールバック。クリップ矩形。設定。
-			this.OnSetClipRectCallBack(a_x,a_y,a_w,a_h);
+			//コールバック。クリップ矩形変更。
+			this.OnChangeClipRect();
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
 		{
+			this.rect = a_rect;
 			this.eventplate.SetRect(ref a_rect);
 
-			//コールバック。矩形。設定。
-			this.OnSetRectCallBack(ref a_rect);
+			//コールバック。矩形変更。
+			this.OnChangeRect();
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
 		{
+			this.rect.Set(a_x,a_y,a_w,a_h);
 			this.eventplate.SetRect(a_x,a_y,a_w,a_h);
 
-			//コールバック。矩形。設定。
-			this.OnSetRectCallBack(a_x,a_y,a_w,a_h);
+			//コールバック。矩形変更。
+			this.OnChangeRect();
 		}
 
 		/** 表示。設定。
 		*/
 		public void SetVisible(bool a_flag)
 		{
-			if(this.visible != a_flag){
-				this.visible = a_flag;
+			if(this.visible_flag != a_flag){
+				this.visible_flag = a_flag;
 				this.eventplate.SetEnable(a_flag);
+
+				//コールバック。表示フラグ変更。
+				this.OnChangeVisibleFlag();
 			}
 		}
 
@@ -276,8 +305,8 @@ namespace Fee.Ui
 			if(this.check_flag != a_flag){
 				this.check_flag = a_flag;
 
-				//コールバック。チェック。設定。
-				this.OnSetCheckCallBack(this.check_flag);
+				//コールバック。チェックフラグ変更。
+				this.OnChangeCheckFlag();
 
 				//コールバック。
 				if(this.callback_change != null){
@@ -306,7 +335,7 @@ namespace Fee.Ui
 				}
 
 				this.SetMode(CheckButton_Mode.Lock);
-			}else if(this.visible == false){
+			}else if(this.visible_flag == false){
 				//非表示。
 
 				//ターゲット解除。
@@ -322,8 +351,8 @@ namespace Fee.Ui
 				if(Fee.Input.Mouse.GetInstance().left.down == true){
 					this.check_flag = !this.check_flag;
 
-					//コールバック。チェック。設定。
-					this.OnSetCheckCallBack(this.check_flag);
+					//コールバック。チェックフラグ変更。
+					this.OnChangeCheckFlag();
 
 					//コールバック。
 					if(this.callback_change != null){

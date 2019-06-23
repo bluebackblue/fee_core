@@ -73,145 +73,127 @@ namespace Fee.Ui
 			this.text_offset_x = 5;
 		}
 
-		/** [Button_Base]コールバック。削除。
-
-			TODO:いらない。
-
+		/** [CheckButton_Base]コールバック。矩形変更。
 		*/
-		protected override void OnDeleteCallBack()
-		{
-		}
-
-		/** コールバック。矩形。設定。
-
-			TODO:OnChange
-
-		*/
-		protected override void OnSetRectCallBack(int a_x,int a_y,int a_w,int a_h)
+		protected override void OnChangeRect()
 		{
 			//bg
-			this.bg_normal_sprite.SetRect(a_x,a_y,a_w,a_h);
-			this.bg_on_sprite.SetRect(a_x,a_y,a_w,a_h);
-			this.bg_lock_sprite.SetRect(a_x,a_y,a_w,a_h);
+			this.bg_normal_sprite.SetRect(ref this.rect);
+			this.bg_on_sprite.SetRect(ref this.rect);
+			this.bg_lock_sprite.SetRect(ref this.rect);
 
 			//check
-			this.check_sprite.SetRect(a_x,a_y,a_w,a_h);
+			this.check_sprite.SetRect(ref this.rect);
 
-			this.text.SetRect(a_x + a_w + this.text_offset_x,a_y+a_h/2,0,0);
+			//text
+			this.text.SetRect(this.rect.x + this.rect.w + this.text_offset_x,this.rect.y + this.rect.h / 2,0,0);
 		}
 
-		/** コールバック。矩形。設定。
-
-			TODO:OnChange
-
+		/** [CheckButton_Base]コールバック。クリップフラグ変更。
 		*/
-		protected override void OnSetRectCallBack(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		protected override void OnChangeClipFlag()
 		{
 			//bg
-			this.bg_normal_sprite.SetRect(ref a_rect);
-			this.bg_on_sprite.SetRect(ref a_rect);
-			this.bg_lock_sprite.SetRect(ref a_rect);
+			this.bg_normal_sprite.SetClip(this.clip_flag);
+			this.bg_on_sprite.SetClip(this.clip_flag);
+			this.bg_lock_sprite.SetClip(this.clip_flag);
 
 			//check
-			this.check_sprite.SetRect(ref a_rect);
+			this.check_sprite.SetClip(this.clip_flag);
 
-			this.text.SetRect(a_rect.x + a_rect.w + this.text_offset_x,a_rect.y+a_rect.h/2,0,0);
+			//text
+			this.text.SetClip(this.clip_flag);
 		}
 
-		/** コールバック。モード。設定。
-
-			TODO:OnChange
-
+		/** [CheckButton_Base]コールバック。クリップ矩形変更。
 		*/
-		protected override void OnSetModeCallBack(CheckButton_Mode a_mode)
+		protected override void OnChangeClipRect()
 		{
-			switch(a_mode){
+			//bg
+			this.bg_normal_sprite.SetClipRect(ref this.clip_rect);
+			this.bg_on_sprite.SetClipRect(ref this.clip_rect);
+			this.bg_lock_sprite.SetClipRect(ref this.clip_rect);
+
+			//check
+			this.check_sprite.SetClipRect(ref this.clip_rect);
+
+			//text
+			this.text.SetClipRect(ref this.clip_rect);
+		}
+
+		/** [CheckButton_Base]コールバック。モード変更。
+		*/
+		protected override void OnChangeMode()
+		{
+			switch(this.mode){
 			case CheckButton_Mode.Normal:
 				{
-					this.bg_normal_sprite.SetVisible(true);
+					this.bg_normal_sprite.SetVisible(this.visible_flag);
 					this.bg_on_sprite.SetVisible(false);
 					this.bg_lock_sprite.SetVisible(false);
 				}break;
 			case CheckButton_Mode.On:
 				{
 					this.bg_normal_sprite.SetVisible(false);
-					this.bg_on_sprite.SetVisible(true);
+					this.bg_on_sprite.SetVisible(this.visible_flag);
 					this.bg_lock_sprite.SetVisible(false);
 				}break;
 			case CheckButton_Mode.Lock:
 				{
 					this.bg_normal_sprite.SetVisible(false);
 					this.bg_on_sprite.SetVisible(false);
-					this.bg_lock_sprite.SetVisible(true);
+					this.bg_lock_sprite.SetVisible(this.visible_flag);
 				}break;
 			}
 		}
 
-		/** コールバック。チェック。設定。
-
-			TODO:OnChangeCheckFlag
-
+		/** [CheckButton_Base]コールバック。チェックフラグ変更。
 		*/
-		protected override void OnSetCheckCallBack(bool a_flag)
+		protected override void OnChangeCheckFlag()
 		{
-			this.check_sprite.SetVisible(a_flag);
+			this.check_sprite.SetVisible(this.check_flag);
 		}
 
-		/** コールバック。クリップ。設定。
-
-			TODO:OnChangeClipFlag
-
+		/** [Slider_Base]コールバック。表示フラグ変更。
 		*/
-		protected override void OnSetClipCallBack(bool a_flag)
+		protected override void OnChangeVisibleFlag()
 		{
-			//bg
-			this.bg_normal_sprite.SetClip(a_flag);
-			this.bg_on_sprite.SetClip(a_flag);
-			this.bg_lock_sprite.SetClip(a_flag);
-
-			//check
-			this.check_sprite.SetClip(a_flag);
-
-			//text
-			this.text.SetClip(a_flag);
+			switch(this.mode){
+			case CheckButton_Mode.Normal:
+				{
+					this.bg_normal_sprite.SetVisible(this.visible_flag);
+					this.bg_on_sprite.SetVisible(false);
+					this.bg_lock_sprite.SetVisible(false);
+				}break;
+			case CheckButton_Mode.On:
+				{
+					this.bg_normal_sprite.SetVisible(false);
+					this.bg_on_sprite.SetVisible(this.visible_flag);
+					this.bg_lock_sprite.SetVisible(false);
+				}break;
+			case CheckButton_Mode.Lock:
+				{
+					this.bg_normal_sprite.SetVisible(false);
+					this.bg_on_sprite.SetVisible(false);
+					this.bg_lock_sprite.SetVisible(this.visible_flag);
+				}break;
+			}
 		}
 
-		/** コールバック。クリップ矩形。設定。
-
-			TODO:OnChangeClipRect
-
+		/** [Slider_Base]コールバック。描画プライオリティ変更。
 		*/
-		protected override void OnSetClipRectCallBack(int a_x,int a_y,int a_w,int a_h)
+		protected override void OnChangeDrawPriority()
 		{
 			//bg
-			this.bg_normal_sprite.SetClipRect(a_x,a_y,a_w,a_h);
-			this.bg_on_sprite.SetClipRect(a_x,a_y,a_w,a_h);
-			this.bg_lock_sprite.SetClipRect(a_x,a_y,a_w,a_h);
+			this.bg_normal_sprite.SetDrawPriority(this.drawpriority + 0);
+			this.bg_on_sprite.SetDrawPriority(this.drawpriority + 0);
+			this.bg_lock_sprite.SetDrawPriority(this.drawpriority + 0);
 
 			//check
-			this.check_sprite.SetClipRect(a_x,a_y,a_w,a_h);
+			this.check_sprite.SetDrawPriority(this.drawpriority + 1);
 
 			//text
-			this.text.SetClipRect(a_x,a_y,a_w,a_h);
-		}
-
-		/** コールバック。クリップ矩形。設定。
-
-			TODO:OnChangeClipRect
-
-		*/
-		protected override void OnSetClipRectCallBack(ref Fee.Render2D.Rect2D_R<int> a_rect)
-		{
-			//bg
-			this.bg_normal_sprite.SetClipRect(ref a_rect);
-			this.bg_on_sprite.SetClipRect(ref a_rect);
-			this.bg_lock_sprite.SetClipRect(ref a_rect);
-
-			//check
-			this.check_sprite.SetClipRect(ref a_rect);
-
-			//text
-			this.text.SetClipRect(ref a_rect);
+			this.text.SetDrawPriority(this.drawpriority + 0);
 		}
 
 		/** テキスト。設定。
@@ -219,6 +201,23 @@ namespace Fee.Ui
 		public void SetText(string a_text)
 		{
 			this.text.SetText(a_text);
+		}
+
+		/** テキストフォントサイズ。設定。
+		*/
+		public void SetFontSize(int a_fontsize)
+		{
+			this.text.SetFontSize(a_fontsize);	
+		}
+
+		/**　ＢＧテクスチャーコーナーサイズ。設定。
+		*/
+		public void SetBgTextureCornerSize(int a_corner_size)
+		{
+			//sprite
+			this.bg_normal_sprite.SetCornerSize(a_corner_size);
+			this.bg_on_sprite.SetCornerSize(a_corner_size);
+			this.bg_lock_sprite.SetCornerSize(a_corner_size);
 		}
 
 		/** テクスチャ。設定。
