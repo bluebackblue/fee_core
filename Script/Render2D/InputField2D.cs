@@ -14,7 +14,7 @@ namespace Fee.Render2D
 {
 	/** InputField2D
 	*/
-	public class InputField2D : Fee.Deleter.DeleteItem_Base
+	public class InputField2D : Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** 表示フラグ。
 		*/
@@ -63,9 +63,9 @@ namespace Fee.Render2D
 			}
 		}
 
-		/** 削除。
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
-		public void Delete()
+		public void OnDelete()
 		{
 			this.deletereq = true;
 

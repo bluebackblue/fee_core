@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Window_Base
 	*/
-	public abstract class Window_Base : Fee.Deleter.DeleteItem_Base
+	public abstract class Window_Base : Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** deleter
 		*/
@@ -83,9 +83,9 @@ namespace Fee.Ui
 			Fee.Ui.Ui.GetInstance().SetWindowPriorityTopMost(this);
 		}
 
-		/** 削除。
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
-		public void Delete()
+		public void OnDelete()
 		{
 			//ウィンドウ解除。
 			Fee.Ui.Ui.GetInstance().UnRegisterWindow(this);

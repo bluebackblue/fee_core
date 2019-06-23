@@ -14,7 +14,7 @@ namespace Fee.File
 {
 	/** セーブローカル。テクスチャーファイル。
 	*/
-	public class Coroutine_SaveLocalTextureFile : OnTask_CallBack
+	public class Coroutine_SaveLocalTextureFile : Fee.File.OnTask_CallBackInterface
 	{
 		/** ResultType
 		*/
@@ -48,7 +48,7 @@ namespace Fee.File
 		*/
 		public float taskprogress;
 
-		/** [Fee.File.OnTask_CallBack]タスク実行中。
+		/** [Fee.File.OnTask_CallBackInterface]タスク実行中。
 		*/
 		public void OnTask(float a_progress)
 		{
@@ -57,7 +57,7 @@ namespace Fee.File
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBack a_instance,Fee.File.Path a_path,UnityEngine.Texture2D a_texture)
+		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnCoroutine_CallBackInterface a_callback,Fee.File.Path a_path,UnityEngine.Texture2D a_texture)
 		{
 			//result
 			this.result = new ResultType();
@@ -91,8 +91,8 @@ namespace Fee.File
 			//終了待ち。
 			do{
 				//キャンセル。
-				if(a_instance != null){
-					if(a_instance.OnCoroutine(this.taskprogress,0.0f) == false){
+				if(a_callback != null){
+					if(a_callback.OnCoroutine(this.taskprogress,0.0f) == false){
 						t_cancel_token.Cancel();
 					}
 				}

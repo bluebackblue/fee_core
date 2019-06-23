@@ -14,7 +14,7 @@ namespace Fee.File
 {
 	/** Main_Io
 	*/
-	public class Main_Io : OnCoroutine_CallBack
+	public class Main_Io : Fee.File.OnCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/

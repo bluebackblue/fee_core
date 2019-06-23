@@ -14,7 +14,7 @@ namespace Fee.EventPlate
 {
 	/** Item
 	*/
-	public class Item : Fee.Deleter.DeleteItem_Base
+	public class Item : Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** priority
 		*/
@@ -40,10 +40,10 @@ namespace Fee.EventPlate
 		*/
 		private bool clip;
 
-		/** onovercallback
+		/** onover
 		*/
-		private OnOverCallBack_Base onover_callback;
-		private int onover_callback_value;
+		private OnOver_CallBackInterface onover_callbackinterface;
+		private int onover_value;
 
 		/** 削除済み。
 		*/
@@ -71,9 +71,9 @@ namespace Fee.EventPlate
 			//clip
 			this.clip = false;
 
-			//onover_callback
-			this.onover_callback = null;
-			this.onover_callback_value = 0;
+			//onover
+			this.onover_callbackinterface = null;
+			this.onover_value = 0;
 
 			//deleted
 			this.deleted = false;
@@ -86,9 +86,9 @@ namespace Fee.EventPlate
 			EventPlate.GetInstance().Add(this,this.eventtype);
 		}
 
-		/** 削除。
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
-		public void Delete()
+		public void OnDelete()
 		{
 			Tool.Assert(this.deleted == false);
 			this.deleted = true;
@@ -267,38 +267,38 @@ namespace Fee.EventPlate
 
 		/** コールバック。設定。
 		*/
-		public void SetOnOverCallBack(OnOverCallBack_Base a_onover_callback)
+		public void SetOnOverCallBackInterface(OnOver_CallBackInterface a_callbackinterface)
 		{
-			this.onover_callback = a_onover_callback;
+			this.onover_callbackinterface = a_callbackinterface;
 		}
 
 		/** コールバック。取得。
 		*/
-		public OnOverCallBack_Base GetOnOverCallBack()
+		public OnOver_CallBackInterface GetOnOverCallBackInterface()
 		{
-			return this.onover_callback;
+			return this.onover_callbackinterface;
 		}
 
 		/** コールバック。設定。
 		*/
 		public void SetOnOverCallBackValue(int a_value)
 		{
-			this.onover_callback_value = a_value;
+			this.onover_value = a_value;
 		}
 
 		/** コールバック。取得。
 		*/
 		public int GetOnOverCallBackValue()
 		{	
-			return this.onover_callback_value;
+			return this.onover_value;
 		}
 
 		/** コールバック。呼び出し。
 		*/
 		public void CallOnOverEnter()
 		{
-			if(this.onover_callback != null){
-				this.onover_callback.OnOverEnter(this.onover_callback_value);
+			if(this.onover_callbackinterface != null){
+				this.onover_callbackinterface.OnOverEnter(this.onover_value);
 			}
 		}
 
@@ -306,8 +306,8 @@ namespace Fee.EventPlate
 		*/
 		public void CallOnOverLeave()
 		{
-			if(this.onover_callback != null){
-				this.onover_callback.OnOverLeave(this.onover_callback_value);
+			if(this.onover_callbackinterface != null){
+				this.onover_callbackinterface.OnOverLeave(this.onover_value);
 			}
 		}
 	}

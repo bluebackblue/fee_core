@@ -14,7 +14,7 @@ namespace Fee.File
 {
 	/** Main_WebRequest
 	*/
-	public class Main_WebRequest : OnCoroutine_CallBack
+	public class Main_WebRequest : Fee.File.OnCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/

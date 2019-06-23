@@ -12,11 +12,11 @@
 */
 namespace Fee.UniVrm
 {
-	/** OnCoroutine_CallBack
+	/** OnCoroutine_CallBackInterface
 	*/
-	public interface OnCoroutine_CallBack
+	public interface OnCoroutine_CallBackInterface
 	{
-		/** [Fee.UniVrm.OnCoroutine_CallBack]コルーチン実行中。
+		/** [Fee.UniVrm.OnCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 

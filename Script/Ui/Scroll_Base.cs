@@ -27,7 +27,7 @@ namespace Fee.Ui
 
 	/** Scroll2_Base
 	*/
-	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack , Fee.Deleter.DeleteItem_Base , Fee.EventPlate.OnOverCallBack_Base
+	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack , Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface
 		where ITEM : ScrollItem_Base
 	{
 		/** deleter
@@ -71,7 +71,7 @@ namespace Fee.Ui
 
 			//eventplate
 			this.eventplate = new EventPlate.Item(this.deleter,EventPlate.EventType.View,a_drawpriority);
-			this.eventplate.SetOnOverCallBack(this);
+			this.eventplate.SetOnOverCallBackInterface(this);
 
 			//list
 			this.list = new System.Collections.Generic.List<ITEM>();
@@ -115,21 +115,21 @@ namespace Fee.Ui
 		*/
 		protected abstract void OnChangeDrawPriority(long a_drawpriority);
 
-		/** 削除。
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
-		public void Delete()
+		public void OnDelete()
 		{
 			this.deleter.DeleteAll();
 		}
 
-		/** [Fee.EventPlateOnOverCallBack_Base]OnOverEnter
+		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートに入場。
 		*/
 		public void OnOverEnter(int a_value)
 		{
 			this.is_onover = true;
 		}
 
-		/** [Fee.EventPlateOnOverCallBack_Base]OnOverLeave
+		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートから退場。
 		*/
 		public void OnOverLeave(int a_value)
 		{

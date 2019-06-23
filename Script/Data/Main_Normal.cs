@@ -14,7 +14,7 @@ namespace Fee.Data
 {
 	/** Main_Normal
 	*/
-	public class Main_Normal : OnCoroutine_CallBack
+	public class Main_Normal : Fee.Data.OnCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/
@@ -148,7 +148,7 @@ namespace Fee.Data
 			return this.result_asset;
 		}
 
-		/** [Fee.Data.OnCoroutine_CallBack]コルーチンからのコールバック。
+		/** [Fee.Data.OnCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 

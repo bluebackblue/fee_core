@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Slice9Sprite
 	*/
-	public class Slice9Sprite : Fee.Deleter.DeleteItem_Base
+	public class Slice9Sprite : Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** deleter
 		*/
@@ -43,9 +43,9 @@ namespace Fee.Ui
 			}
 		}
 
-		/** 削除。
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
-		public void Delete()
+		public void OnDelete()
 		{
 			this.deleter.DeleteAll();
 		}

@@ -14,7 +14,7 @@ namespace Fee.Crypt
 {
 	/** Main_Security
 	*/
-	public class Main_Security : OnCoroutine_CallBack
+	public class Main_Security : Fee.Crypt.OnCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/

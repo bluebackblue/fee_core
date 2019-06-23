@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** CheckButton_Base
 	*/
-	public abstract class CheckButton_Base : Fee.Deleter.DeleteItem_Base , Fee.EventPlate.OnOverCallBack_Base , Fee.Ui.OnTargetCallBack_Base
+	public abstract class CheckButton_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTargetCallBack_Base
 	{
 		/** [CheckButton_Base]コールバック。変更。
 		*/
@@ -84,7 +84,7 @@ namespace Fee.Ui
 
 			//eventplate
 			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority);
-			this.eventplate.SetOnOverCallBack(this);
+			this.eventplate.SetOnOverCallBackInterface(this);
 
 			//callback_change
 			this.callback_change = a_callback_change;
@@ -145,9 +145,9 @@ namespace Fee.Ui
 		*/
 		protected abstract void OnChangeDrawPriority();
 
-		/** 削除。
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
-		public void Delete()
+		public void OnDelete()
 		{
 			this.deleter.DeleteAll();
 
@@ -270,7 +270,7 @@ namespace Fee.Ui
 			}
 		}
 
-		/** [Fee.EventPlateOnOverCallBack_Base]OnOverEnter
+		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートに入場。
 		*/
 		public void OnOverEnter(int a_value)
 		{
@@ -282,7 +282,7 @@ namespace Fee.Ui
 			Ui.GetInstance().SetTargetRequest(this);
 		}
 
-		/** [Fee.EventPlateOnOverCallBack_Base]OnOverLeave
+		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートから退場。
 		*/
 		public void OnOverLeave(int a_value)
 		{

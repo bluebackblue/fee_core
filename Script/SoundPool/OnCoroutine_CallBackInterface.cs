@@ -12,11 +12,11 @@
 */
 namespace Fee.SoundPool
 {
-	/** OnCoroutine_CallBack
+	/** OnCoroutine_CallBackInterface
 	*/
-	public interface OnCoroutine_CallBack
+	public interface OnCoroutine_CallBackInterface
 	{
-		/** [Fee.SoundPool.OnCoroutine_CallBack]コルーチン実行中。
+		/** [Fee.SoundPool.OnCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 

@@ -13,6 +13,9 @@
 namespace Fee.Network
 {
 	/** OnRemoteCallBack_Base
+
+		TODO:OnRemote_CallBackInterface
+
 	*/
 	public interface OnRemoteCallBack_Base
 	{

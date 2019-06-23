@@ -14,7 +14,7 @@ namespace Fee.UniVrm
 {
 	/** Main_Vrm
 	*/
-	public class Main_Vrm : OnCoroutine_CallBack
+	public class Main_Vrm : Fee.UniVrm.OnCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/
@@ -150,7 +150,7 @@ namespace Fee.UniVrm
 			return this.result_context;
 		}
 
-		/** [Fee.File.OnCoroutine_CallBack]コルーチンからのコールバック。
+		/** [Fee.UniVrm.OnCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 

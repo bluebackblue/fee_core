@@ -14,7 +14,7 @@ namespace Fee.EventPlate
 {
 	/** BlockItem
 	*/
-	public class BlockItem : Fee.Deleter.DeleteItem_Base
+	public class BlockItem : Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** deleter
 		*/
@@ -68,9 +68,9 @@ namespace Fee.EventPlate
 			}
 		}
 
-		/** 削除。
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
-		public void Delete()
+		public void OnDelete()
 		{
 			this.deleter.DeleteAll();
 		}

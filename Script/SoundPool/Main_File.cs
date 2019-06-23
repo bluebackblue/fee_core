@@ -14,7 +14,7 @@ namespace Fee.SoundPool
 {
 	/** Main_File
 	*/
-	public class Main_File : OnCoroutine_CallBack
+	public class Main_File : Fee.SoundPool.OnCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/
@@ -190,7 +190,7 @@ namespace Fee.SoundPool
 			return this.result_responseheader;
 		}
 
-		/** [Fee.File.OnCoroutine_CallBack]コルーチンからのコールバック。
+		/** [Fee.SoundPool.OnCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 

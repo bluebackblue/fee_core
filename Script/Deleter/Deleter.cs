@@ -18,27 +18,27 @@ namespace Fee.Deleter
 	{
 		/** リスト。
 		*/
-		public System.Collections.Generic.List<DeleteItem_Base> list;
+		public System.Collections.Generic.List<OnDelete_CallBackInterface> list;
 
 		/** constructor
 		*/
 		public Deleter()
 		{
-			this.list = new System.Collections.Generic.List<DeleteItem_Base>();
+			this.list = new System.Collections.Generic.List<OnDelete_CallBackInterface>();
 		}
 
 		/** 登録。
 		*/
-		public void Register(DeleteItem_Base a_item)
+		public void Register(OnDelete_CallBackInterface a_callbackinterface)
 		{
-			this.list.Add(a_item);
+			this.list.Add(a_callbackinterface);
 		}
 
 		/** 解除。
 		*/
-		public void UnRegister(DeleteItem_Base a_item)
+		public void UnRegister(OnDelete_CallBackInterface a_callbackinterface)
 		{
-			this.list.Remove(a_item);
+			this.list.Remove(a_callbackinterface);
 		}
 
 		/** すべて削除。
@@ -46,7 +46,7 @@ namespace Fee.Deleter
 		public void DeleteAll()
 		{
 			for(int ii=0;ii<this.list.Count;ii++){
-				this.list[ii].Delete();
+				this.list[ii].OnDelete();
 			}
 			this.list.Clear();
 		}
