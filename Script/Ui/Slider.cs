@@ -32,9 +32,13 @@ namespace Fee.Ui
 		*/
 		private Fee.Ui.Slice9Sprite value_lock_sprite;
 
-		/** button_sprite
+		/** button_normal_sprite
 		*/
-		private Fee.Ui.Slider_Button_Sprite2D button_sprite;
+		private Fee.Ui.Slice9Sprite button_normal_sprite;
+
+		/** button_lock_sprite
+		*/
+		private Fee.Ui.Slice9Sprite button_lock_sprite;
 
 		/** constructor
 		*/
@@ -62,18 +66,21 @@ namespace Fee.Ui
 			this.value_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.value_lock_sprite.SetVisible(false);
 
-			/*
-			//sprite_value
-			this.sprite_value = new Fee.Ui.Slider_Value_Sprite2D(this.deleter,a_drawpriority + 1);
-			this.sprite_value.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			*/
+			//button_normal_sprite
+			this.button_normal_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority + 2);
+			this.button_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+			this.button_normal_sprite.SetVisible(true);
 
-			//button_sprite
-			this.button_sprite = new Slider_Button_Sprite2D(this.deleter,a_drawpriority + 2);
-			this.button_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+			//button_lock_sprite
+			this.button_lock_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority + 2);
+			this.button_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+			this.button_lock_sprite.SetVisible(false);
 		}
 
 		/** [Slider_Base]コールバック。ロックフラグ変更。
+
+			TODO:大量にスプライトを登録するとループが重いので、ここで切り替えたほうがよういかも。
+
 		*/
 		protected override void OnChangeLockFlag()
 		{
@@ -85,6 +92,10 @@ namespace Fee.Ui
 				//value
 				this.value_normal_sprite.SetVisible(false);
 				this.value_lock_sprite.SetVisible(this.visible_flag);
+
+				//button
+				this.button_normal_sprite.SetVisible(false);
+				this.button_lock_sprite.SetVisible(this.visible_flag);
 			}else{
 				//bg
 				this.bg_normal_sprite.SetVisible(this.visible_flag);
@@ -93,9 +104,11 @@ namespace Fee.Ui
 				//value
 				this.value_normal_sprite.SetVisible(this.visible_flag);
 				this.value_lock_sprite.SetVisible(false);
-			}
 
-			this.button_sprite.SetLock(this.lock_flag);
+				//button
+				this.button_normal_sprite.SetVisible(this.visible_flag);
+				this.button_lock_sprite.SetVisible(false);
+			}
 		}
 
 		/** [Slider_Base]コールバック。矩形変更。
@@ -117,7 +130,9 @@ namespace Fee.Ui
 			this.value_normal_sprite.SetClip(this.clip_flag);
 			this.value_lock_sprite.SetClip(this.clip_flag);
 
-			this.button_sprite.SetClip(this.clip_flag);
+			//button
+			this.button_normal_sprite.SetClip(this.clip_flag);
+			this.button_lock_sprite.SetClip(this.clip_flag);
 		}
 
 		/** [Slider_Base]コールバック。クリップ矩形変更。
@@ -132,7 +147,9 @@ namespace Fee.Ui
 			this.value_normal_sprite.SetClipRect(ref this.clip_rect);
 			this.value_lock_sprite.SetClipRect(ref this.clip_rect);
 
-			this.button_sprite.SetClipRect(ref this.clip_rect);
+			//button
+			this.button_normal_sprite.SetClipRect(ref this.clip_rect);
+			this.button_lock_sprite.SetClipRect(ref this.clip_rect);
 		}
 
 		/** [Slider_Base]コールバック。表示フラグ変更。
@@ -147,17 +164,23 @@ namespace Fee.Ui
 				//value
 				this.value_normal_sprite.SetVisible(false);
 				this.value_lock_sprite.SetVisible(this.visible_flag);
+
+				//button
+				this.button_normal_sprite.SetVisible(false);
+				this.button_lock_sprite.SetVisible(this.visible_flag);
 			}else{
 				//bg
 				this.bg_normal_sprite.SetVisible(this.visible_flag);
 				this.bg_lock_sprite.SetVisible(false);
 
 				//value
-				this.value_normal_sprite.SetVisible(false);
-				this.value_lock_sprite.SetVisible(this.visible_flag);
-			}
+				this.value_normal_sprite.SetVisible(this.visible_flag);
+				this.value_lock_sprite.SetVisible(false);
 
-			this.button_sprite.SetVisible(this.visible_flag);
+				//button
+				this.button_normal_sprite.SetVisible(this.visible_flag);
+				this.button_lock_sprite.SetVisible(false);
+			}
 		}
 
 		/** [Slider_Base]コールバック。描画プライオリティ変更。
@@ -172,7 +195,9 @@ namespace Fee.Ui
 			this.value_normal_sprite.SetDrawPriority(this.drawpriority + 1);
 			this.value_lock_sprite.SetDrawPriority(this.drawpriority + 1);
 
-			this.button_sprite.SetDrawPriority(this.drawpriority + 2);
+			//button
+			this.button_normal_sprite.SetDrawPriority(this.drawpriority + 2);
+			this.button_lock_sprite.SetDrawPriority(this.drawpriority + 2);
 		}
 
 		/** 更新。表示。
@@ -189,7 +214,9 @@ namespace Fee.Ui
 			this.value_normal_sprite.SetRect(this.rect.x,this.rect.y,t_value_w,this.rect.h);
 			this.value_lock_sprite.SetRect(this.rect.x,this.rect.y,t_value_w,this.rect.h);
 
-			this.button_sprite.SetRect(this.eventplate_button.GetX(),this.eventplate_button.GetY(),this.eventplate_button.GetW(),this.eventplate_button.GetH());
+			//button
+			this.button_normal_sprite.SetRect(this.eventplate_button.GetX(),this.eventplate_button.GetY(),this.eventplate_button.GetW(),this.eventplate_button.GetH());
+			this.button_lock_sprite.SetRect(this.eventplate_button.GetX(),this.eventplate_button.GetY(),this.eventplate_button.GetW(),this.eventplate_button.GetH());
 		}
 
 		/**　ボタンテクスチャーコーナーサイズ。設定。
@@ -205,18 +232,14 @@ namespace Fee.Ui
 			this.value_lock_sprite.SetCornerSize(a_corner_size);
 		}
 
-		/** ボタンテクスチャ。設定。
-		*/
-		public void SetButtonTexture(UnityEngine.Texture2D a_texture)
-		{
-			this.button_sprite.SetTexture(a_texture);
-		}
+
 
 		/**　ボタンテクスチャーコーナーサイズ。設定。
 		*/
 		public void SetButtonTextureCornerSize(int a_corner_size)
 		{
-			this.button_sprite.SetCornerSize(a_corner_size);
+			this.button_normal_sprite.SetCornerSize(a_corner_size);
+			this.button_lock_sprite.SetCornerSize(a_corner_size);
 		}
 
 		/** パックテクスチャ。設定。（ＢＧ。バリュー）。
@@ -235,6 +258,48 @@ namespace Fee.Ui
 			this.sprite_value.SetTexture(a_texture);
 		}
 		#endif
+
+		/** ボタンノーマルテクスチャ。設定。
+		*/
+		public void SetButtonNormalTexture(UnityEngine.Texture2D a_texture)
+		{
+			this.button_normal_sprite.SetTexture(a_texture);
+		}
+
+		/** ボタンロックテクスチャ。設定。
+		*/
+		public void SetButtonLockTexture(UnityEngine.Texture2D a_texture)
+		{
+			this.button_lock_sprite.SetTexture(a_texture);
+		}
+
+		/** ボタンノーマルテクスチャ矩形。設定。
+		*/
+		public void SetButtonNormalTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		{
+			this.button_normal_sprite.SetTextureRect(ref a_texture_rect);
+		}
+
+		/** ボタンロックテクスチャ矩形。設定。
+		*/
+		public void SetButtonLockTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		{
+			this.button_lock_sprite.SetTextureRect(ref a_texture_rect);
+		}
+
+		/** ボタンノーマル色。設定。
+		*/
+		public void SetButtonNormalColor(ref UnityEngine.Color a_color)
+		{
+			this.button_normal_sprite.SetColor(ref a_color);
+		}
+
+		/** ボタンロック色。設定。
+		*/
+		public void SetButtonLockColor(ref UnityEngine.Color a_color)
+		{
+			this.button_lock_sprite.SetColor(ref a_color);
+		}
 
 		/** ＢＧノーマルテクスチャー。設定。
 		*/

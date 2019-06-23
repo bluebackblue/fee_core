@@ -53,6 +53,13 @@ namespace Fee.Render2D
 		*/
 		public static Rect2D_R<int> VIRTUAL_RECT_MAX = new Rect2D_R<int>(0,0,VIRTUAL_W,VIRTUAL_H);
 
+		/** テクスチャ矩形。４分の１。
+		*/
+		public static Fee.Render2D.Rect2D_R<float> TEXTURE_RECT_LU = new Fee.Render2D.Rect2D_R<float>(0.0f,									0.0f,									Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
+		public static Fee.Render2D.Rect2D_R<float> TEXTURE_RECT_RU = new Fee.Render2D.Rect2D_R<float>(Fee.Render2D.Render2D.TEXTURE_W / 2,	0.0f,									Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
+		public static Fee.Render2D.Rect2D_R<float> TEXTURE_RECT_LD = new Fee.Render2D.Rect2D_R<float>(0.0f,									Fee.Render2D.Render2D.TEXTURE_H / 2,	Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
+		public static Fee.Render2D.Rect2D_R<float> TEXTURE_RECT_RD = new Fee.Render2D.Rect2D_R<float>(Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2,	Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
+
 		/** 描画プライオリティ分割単位。
 		*/
 		public static long DRAWPRIORITY_STEP = 1000;
@@ -154,6 +161,26 @@ namespace Fee.Render2D
 		/** デフォルト。フォント名。
 		*/
 		public static string DEFAULT_FONT_NAME = "Arial.ttf";
+
+		/** VIRTUAL_W、VIRTUAL_H、TEXTURE_W、TEXTURE_Hを変更した場合の一括再計算。
+		*/
+		public static void ReCalcWH()
+		{
+			/** テクスチャ矩形。最大値。
+			*/
+			TEXTURE_RECT_MAX = new Rect2D_R<float>(0.0f,0.0f,TEXTURE_W,TEXTURE_H);
+
+			/** 矩形。最大値。
+			*/
+			VIRTUAL_RECT_MAX = new Rect2D_R<int>(0,0,VIRTUAL_W,VIRTUAL_H);
+
+			/** テクスチャ矩形。４分の１。
+			*/
+			TEXTURE_RECT_LU = new Fee.Render2D.Rect2D_R<float>(0.0f,								0.0f,									Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
+			TEXTURE_RECT_RU = new Fee.Render2D.Rect2D_R<float>(Fee.Render2D.Render2D.TEXTURE_W / 2,	0.0f,									Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
+			TEXTURE_RECT_LD = new Fee.Render2D.Rect2D_R<float>(0.0f,								Fee.Render2D.Render2D.TEXTURE_H / 2,	Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
+			TEXTURE_RECT_RD = new Fee.Render2D.Rect2D_R<float>(Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2,	Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
+		}
 	}
 }
 

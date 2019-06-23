@@ -73,6 +73,7 @@ namespace Fee.EditorTool
 					//２Ｄ描画。
 					#if(false)
 					{
+						Fee.Render2D.Config.ReCalcWH();
 						Fee.Render2D.Render2D.CreateInstance();
 					}
 					#endif
