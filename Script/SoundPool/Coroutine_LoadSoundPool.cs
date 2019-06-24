@@ -88,17 +88,17 @@ namespace Fee.SoundPool
 
 		/** プログレス更新。
 		*/
-		private void UpdateProgress(OnCoroutine_CallBackInterface a_callback,int a_mainstep,int a_substep_max,int a_substep,float a_progress)
+		private void UpdateProgress(OnCoroutine_CallBackInterface a_callback_interface,int a_mainstep,int a_substep_max,int a_substep,float a_progress)
 		{
 			float t_progress = this.CalcProgress(this.mainstep_per_list,a_mainstep,a_substep_max,a_substep,a_progress);
-			if(a_callback != null){
-				a_callback.OnCoroutine(1.0f,t_progress);
+			if(a_callback_interface != null){
+				a_callback_interface.OnCoroutine(1.0f,t_progress);
 			}
 		}
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBackInterface a_callback,File.Path a_path,UnityEngine.WWWForm a_post_data,bool a_is_streamingassets,uint a_data_version)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBackInterface a_callback_interface,File.Path a_path,UnityEngine.WWWForm a_post_data,bool a_is_streamingassets,uint a_data_version)
 		{
 			//result
 			this.result = new ResultType();
@@ -123,7 +123,7 @@ namespace Fee.SoundPool
 				Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadLocalTextFile,t_local_caoundpool_path);
 				while(t_item.IsBusy() == true){
 
-					this.UpdateProgress(a_callback,(int)t_main_step,1,0,t_item.GetResultProgressDown());
+					this.UpdateProgress(a_callback_interface,(int)t_main_step,1,0,t_item.GetResultProgressDown());
 					yield return null;
 
 				}
@@ -191,7 +191,7 @@ namespace Fee.SoundPool
 				
 				while(t_item.IsBusy() == true){
 
-					this.UpdateProgress(a_callback,(int)t_main_step,1,0,t_item.GetResultProgressDown());
+					this.UpdateProgress(a_callback_interface,(int)t_main_step,1,0,t_item.GetResultProgressDown());
 					yield return null;
 
 				}
@@ -248,7 +248,7 @@ namespace Fee.SoundPool
 
 						while(t_item.IsBusy() == true){
 
-							this.UpdateProgress(a_callback,(int)t_main_step,t_substep_max,ii*2+0,t_item.GetResultProgressDown());
+							this.UpdateProgress(a_callback_interface,(int)t_main_step,t_substep_max,ii*2+0,t_item.GetResultProgressDown());
 							yield return null;
 
 						}
@@ -269,7 +269,7 @@ namespace Fee.SoundPool
 						File.Item t_item = Fee.File.File.GetInstance().RequestSaveLocalBinaryFile(t_sound_url,t_sound_binary);
 						while(t_item.IsBusy() == true){
 
-							this.UpdateProgress(a_callback,(int)t_main_step,t_substep_max,ii*2+1,t_item.GetResultProgressDown());
+							this.UpdateProgress(a_callback_interface,(int)t_main_step,t_substep_max,ii*2+1,t_item.GetResultProgressDown());
 							yield return null;
 
 						}
@@ -292,7 +292,7 @@ namespace Fee.SoundPool
 				File.Item t_item = Fee.File.File.GetInstance().RequestSaveLocalTextFile(t_local_caoundpool_path,t_load_stringjson);
 				while(t_item.IsBusy() == true){
 
-					this.UpdateProgress(a_callback,(int)t_main_step,1,0,t_item.GetResultProgressDown());
+					this.UpdateProgress(a_callback_interface,(int)t_main_step,1,0,t_item.GetResultProgressDown());
 					yield return null;
 
 				}

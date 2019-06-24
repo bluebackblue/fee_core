@@ -14,12 +14,8 @@ namespace Fee.Ui
 {
 	/** Slider_Base
 	*/
-	public abstract class Slider_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTargetCallBack_Base
+	public abstract class Slider_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTarget_CallBackInterface
 	{
-		/** [Slider_Base]コールバック。変更。
-		*/
-		public delegate void CallBack_Change(int a_id,float a_value);
-
 		/** deleter
 		*/
 		protected Fee.Deleter.Deleter deleter;
@@ -44,10 +40,9 @@ namespace Fee.Ui
 		*/
 		protected Fee.EventPlate.Item eventplate_button;
 
-		/** callback_change
+		/** callbackparam_changevalue
 		*/
-		protected CallBack_Change callback_change;
-		protected int callback_id;
+		protected OnSliderChangeValue_CallBackParam callbackparam_changevalue;
 
 		/** is_onover
 		*/
@@ -87,7 +82,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Slider_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,CallBack_Change a_callback_change,int a_callback_id)
+		public Slider_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();
@@ -111,9 +106,8 @@ namespace Fee.Ui
 			this.eventplate_button.SetOnOverCallBackInterface(this);
 			this.eventplate_button.SetOnOverCallBackValue(1);
 
-			//callback_change
-			this.callback_change = a_callback_change;
-			this.callback_id = a_callback_id;
+			//callbackparam_changevalue
+			this.callbackparam_changevalue = null;
 
 			//is_onover
 			this.is_onover = false;
@@ -473,6 +467,17 @@ namespace Fee.Ui
 			}
 		}
 
+		/** コールバックインターフェイス。設定。
+		*/
+		public void SetOnSliderChangeValue<T>(Fee.Ui.OnSliderChangeValue_CallBackInterface< T > a_callback_interface,T a_id)
+		{
+			if(a_callback_interface != null){
+				this.callbackparam_changevalue = new Fee.Ui.OnSliderChangeValue_CallBackParam_Generic< T >(a_callback_interface,a_id);
+			}else{
+				this.callbackparam_changevalue = null;
+			}
+		}
+
 		/** オンオーバー。取得。
 		*/
 		public bool IsOnOver()
@@ -499,8 +504,8 @@ namespace Fee.Ui
 				this.OnChangeRect();
 
 				//コールバック。
-				if(this.callback_change != null){
-					this.callback_change(this.callback_id,this.value);
+				if(this.callbackparam_changevalue != null){
+					this.callbackparam_changevalue.Call(this.value);
 				}
 			}
 		}
@@ -510,8 +515,8 @@ namespace Fee.Ui
 		public void CallChangeCallBack()
 		{
 			//コールバック。
-			if(this.callback_change != null){
-				this.callback_change(this.callback_id,this.value);
+			if(this.callbackparam_changevalue != null){
+				this.callbackparam_changevalue.Call(this.value);
 			}
 		}
 
@@ -536,7 +541,7 @@ namespace Fee.Ui
 			this.value_scale = a_value_scale;
 		}
 
-		/** [Fee.Ui.OnTargetCallBack_Base]OnTarget
+		/** [Fee.Ui.OnTarget_CallBackInterface]ターゲット中。
 		*/
 		public void OnTarget()
 		{

@@ -57,7 +57,7 @@ namespace Fee.Crypt
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.Crypt.OnCoroutine_CallBackInterface a_callback,byte[] a_binary,byte[] a_signature_binary,string a_key)
+		public System.Collections.IEnumerator CoroutineMain(Fee.Crypt.OnCoroutine_CallBackInterface a_callback_interface,byte[] a_binary,byte[] a_signature_binary,string a_key)
 		{
 			//result
 			this.result = new ResultType();
@@ -74,8 +74,8 @@ namespace Fee.Crypt
 			//終了待ち。
 			do{
 				//キャンセル。
-				if(a_callback != null){
-					if(a_callback.OnCoroutine(this.taskprogress) == false){
+				if(a_callback_interface != null){
+					if(a_callback_interface.OnCoroutine(this.taskprogress) == false){
 						t_cancel_token.Cancel();
 					}
 				}

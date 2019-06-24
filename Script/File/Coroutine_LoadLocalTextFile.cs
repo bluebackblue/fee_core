@@ -57,7 +57,7 @@ namespace Fee.File
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnCoroutine_CallBackInterface a_callback,Fee.File.Path a_path)
+		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path)
 		{
 			//result
 			this.result = new ResultType();
@@ -74,8 +74,8 @@ namespace Fee.File
 			//終了待ち。
 			do{
 				//キャンセル。
-				if(a_callback != null){
-					if(a_callback.OnCoroutine(1.0f,this.taskprogress) == false){
+				if(a_callback_interface != null){
+					if(a_callback_interface.OnCoroutine(1.0f,this.taskprogress) == false){
 						t_cancel_token.Cancel();
 					}
 				}

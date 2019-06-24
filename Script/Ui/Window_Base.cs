@@ -28,9 +28,9 @@ namespace Fee.Ui
 		*/
 		protected int layerindex;
 
-		/** コールバック。
+		/** コールバックインターフェイス。
 		*/
-		private OnWindowCallBack_Base callback;
+		private Fee.Ui.OnWindow_CallBackInterface callback_interface;
 
 		/** windowresumeitem
 		*/
@@ -54,7 +54,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Window_Base(Fee.Deleter.Deleter a_deleter,Fee.Ui.OnWindowCallBack_Base a_callback)
+		public Window_Base(Fee.Deleter.Deleter a_deleter,Fee.Ui.OnWindow_CallBackInterface a_callback_interface)
 		{
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();
@@ -65,8 +65,8 @@ namespace Fee.Ui
 			//layerindex
 			this.layerindex = 0;
 
-			//callback
-			this.callback = a_callback;
+			//callback_interface
+			this.callback_interface = a_callback_interface;
 
 			//windowresumeitem
 			this.windowresumeitem = null;
@@ -109,9 +109,9 @@ namespace Fee.Ui
 			//[Window_Base]コールバック。レイヤーインデックス変更。
 			this.OnChangeLayerIndex_FromBase();
 
-			//[Fee.Ui.OnWindowCallBack_Base]レイヤーインデックス変更。
-			if(this.callback != null){
-				this.callback.OnChangeLayerIndex(this.layerindex);
+			//[Fee.Ui.OnDelete_CallBackInterface]レイヤーインデックス変更。
+			if(this.callback_interface != null){
+				this.callback_interface.OnWindowChangeLayerIndex(this.layerindex);
 			}
 		}
 
@@ -166,9 +166,9 @@ namespace Fee.Ui
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeRect_FromBase();
 
-			//[Fee.Ui.OnWindowCallBack_Base]矩形変更。
-			if(this.callback != null){
-				this.callback.OnChangeRect(ref this.rect);
+			//[Fee.Ui.OnDelete_CallBackInterface]矩形変更。
+			if(this.callback_interface != null){
+				this.callback_interface.OnWindowChangeRect(ref this.rect);
 			}
 		}
 
@@ -187,9 +187,9 @@ namespace Fee.Ui
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeRect_FromBase();
 
-			//[Fee.Ui.OnWindowCallBack_Base]矩形変更。
-			if(this.callback != null){
-				this.callback.OnChangeRect(ref this.rect);
+			//[Fee.Ui.OnDelete_CallBackInterface]矩形変更。
+			if(this.callback_interface != null){
+				this.callback_interface.OnWindowChangeRect(ref this.rect);
 			}
 		}
 
@@ -208,9 +208,9 @@ namespace Fee.Ui
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeRect_FromBase();
 
-			//[Fee.Ui.OnWindowCallBack_Base]矩形変更。
-			if(this.callback != null){
-				this.callback.OnChangeRect(ref this.rect);
+			//[Fee.Ui.OnDelete_CallBackInterface]矩形変更。
+			if(this.callback_interface != null){
+				this.callback_interface.OnWindowChangeRect(ref this.rect);
 			}
 		}
 
@@ -229,9 +229,9 @@ namespace Fee.Ui
 			//[Window_Base]コールバック。矩形変更。
 			this.OnChangeXY_FromBase();
 
-			//[Fee.Ui.OnWindowCallBack_Base]矩形変更。
-			if(this.callback != null){
-				this.callback.OnChangeXY(this.rect.x,this.rect.y);
+			//[Fee.Ui.OnDelete_CallBackInterface]矩形変更。
+			if(this.callback_interface != null){
+				this.callback_interface.OnWindowChangeXY(this.rect.x,this.rect.y);
 			}
 		}
 	}

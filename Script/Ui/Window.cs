@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Window
 	*/
-	public class Window : Window_Base , Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTargetCallBack_Base
+	public class Window : Window_Base , Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTarget_CallBackInterface
 	{
 		/** bg_sprite
 		*/
@@ -58,9 +58,9 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Window(Fee.Deleter.Deleter a_deleter,OnWindowCallBack_Base a_callback)
+		public Window(Fee.Deleter.Deleter a_deleter,OnWindow_CallBackInterface a_callback_interface)
 			:
-			base(a_deleter,a_callback)
+			base(a_deleter,a_callback_interface)
 		{
 			//bg_sprite
 			this.bg_sprite = new Fee.Render2D.Sprite2D(this.deleter,0);
@@ -234,7 +234,7 @@ namespace Fee.Ui
 			return (this.is_onover_bg || this.is_onover_titlebar);
 		}
 
-		/** [Fee.Ui.OnTargetCallBack_Base]OnTarget
+		/** [Fee.Ui.OnTarget_CallBackInterface]ターゲット中。
 		*/
 		public void OnTarget()
 		{

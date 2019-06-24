@@ -42,7 +42,7 @@ namespace Fee.EventPlate
 
 		/** onover
 		*/
-		private OnOver_CallBackInterface onover_callbackinterface;
+		private OnOver_CallBackInterface onover_callback_interface;
 		private int onover_value;
 
 		/** 削除済み。
@@ -72,7 +72,7 @@ namespace Fee.EventPlate
 			this.clip = false;
 
 			//onover
-			this.onover_callbackinterface = null;
+			this.onover_callback_interface = null;
 			this.onover_value = 0;
 
 			//deleted
@@ -269,14 +269,14 @@ namespace Fee.EventPlate
 		*/
 		public void SetOnOverCallBackInterface(OnOver_CallBackInterface a_callbackinterface)
 		{
-			this.onover_callbackinterface = a_callbackinterface;
+			this.onover_callback_interface = a_callbackinterface;
 		}
 
 		/** コールバック。取得。
 		*/
 		public OnOver_CallBackInterface GetOnOverCallBackInterface()
 		{
-			return this.onover_callbackinterface;
+			return this.onover_callback_interface;
 		}
 
 		/** コールバック。設定。
@@ -297,8 +297,8 @@ namespace Fee.EventPlate
 		*/
 		public void CallOnOverEnter()
 		{
-			if(this.onover_callbackinterface != null){
-				this.onover_callbackinterface.OnOverEnter(this.onover_value);
+			if(this.onover_callback_interface != null){
+				this.onover_callback_interface.OnOverEnter(this.onover_value);
 			}
 		}
 
@@ -306,8 +306,8 @@ namespace Fee.EventPlate
 		*/
 		public void CallOnOverLeave()
 		{
-			if(this.onover_callbackinterface != null){
-				this.onover_callbackinterface.OnOverLeave(this.onover_value);
+			if(this.onover_callback_interface != null){
+				this.onover_callback_interface.OnOverLeave(this.onover_value);
 			}
 		}
 	}

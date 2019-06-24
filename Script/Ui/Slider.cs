@@ -42,9 +42,9 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Slider(Fee.Deleter.Deleter a_deleter,long a_drawpriority,Slider_Base.CallBack_Change a_callback_change,int a_callback_id)
+		public Slider(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 			:
-			base(a_deleter,a_drawpriority,a_callback_change,a_callback_id)
+			base(a_deleter,a_drawpriority)
 		{
 			//bg_normal_sprite
 			this.bg_normal_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority + 0);

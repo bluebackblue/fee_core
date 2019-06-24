@@ -29,16 +29,16 @@ namespace Fee.Deleter
 
 		/** 登録。
 		*/
-		public void Register(OnDelete_CallBackInterface a_callbackinterface)
+		public void Register(OnDelete_CallBackInterface a_callback_interface)
 		{
-			this.list.Add(a_callbackinterface);
+			this.list.Add(a_callback_interface);
 		}
 
 		/** 解除。
 		*/
-		public void UnRegister(OnDelete_CallBackInterface a_callbackinterface)
+		public void UnRegister(OnDelete_CallBackInterface a_callback_interface)
 		{
-			this.list.Remove(a_callbackinterface);
+			this.list.Remove(a_callback_interface);
 		}
 
 		/** すべて削除。

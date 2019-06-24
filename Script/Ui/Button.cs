@@ -29,9 +29,9 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Button(Fee.Deleter.Deleter a_deleter,long a_drawpriority,Button_Base.CallBack_Click a_callback_click,int a_callback_click_id)
+		public Button(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 			:
-			base(a_deleter,a_drawpriority,a_callback_click,a_callback_click_id)
+			base(a_deleter,a_drawpriority)
 		{
 			//sprite
 			this.normal_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority);

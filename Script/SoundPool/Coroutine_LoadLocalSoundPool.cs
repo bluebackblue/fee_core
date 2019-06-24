@@ -43,7 +43,7 @@ namespace Fee.SoundPool
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBackInterface a_callback,Fee.File.Path a_path)
+		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path)
 		{
 			//result
 			this.result = new ResultType();
@@ -53,8 +53,8 @@ namespace Fee.SoundPool
 			{
 				Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadLocalTextFile,a_path);
 				while(t_item.IsBusy() == true){
-					if(a_callback != null){
-						a_callback.OnCoroutine(t_item.GetResultProgressUp(),t_item.GetResultProgressDown());
+					if(a_callback_interface != null){
+						a_callback_interface.OnCoroutine(t_item.GetResultProgressUp(),t_item.GetResultProgressDown());
 					}
 					yield return null;
 				}

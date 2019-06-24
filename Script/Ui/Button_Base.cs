@@ -14,12 +14,8 @@ namespace Fee.Ui
 {
 	/** Button_Base
 	*/
-	public abstract class Button_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTargetCallBack_Base
+	public abstract class Button_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTarget_CallBackInterface
 	{
-		/** [Button_Base]コールバック。クリック。
-		*/
-		public delegate void CallBack_Click(int a_id);
-
 		/** [Button_Base]コールバック。オンオーバー。
 		*/
 		public delegate void CallBack_ChangeOnOver(int a_id,bool a_is_onover);
@@ -47,15 +43,13 @@ namespace Fee.Ui
 		*/
 		protected Fee.EventPlate.Item eventplate;
 
-		/** callback_click
+		/** callbackparam_click
 		*/
-		protected CallBack_Click callback_click;
-		protected int callback_click_id;
+		protected Fee.Ui.OnButtonClick_CallBackParam callbackparam_click;
 
-		/** callback_changeonover
+		/** callbackparam_changeoverflag
 		*/
-		protected CallBack_ChangeOnOver callback_changeonover;
-		protected int callback_changeonover_id;
+		protected Fee.Ui.OnButtonChangeOverFlag_CallBackParam callbackparam_changeoverflag;
 
 		/** is_onover
 		*/
@@ -95,7 +89,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Button_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,CallBack_Click a_callback_click,int a_callback_click_id)
+		public Button_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();
@@ -110,13 +104,11 @@ namespace Fee.Ui
 			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority);
 			this.eventplate.SetOnOverCallBackInterface(this);
 
-			//callback_click
-			this.callback_click = a_callback_click;
-			this.callback_click_id = a_callback_click_id;
+			//callbackparam_click
+			this.callbackparam_click = null;
 
-			//callback_changeonover
-			this.callback_changeonover = null;
-			this.callback_changeonover_id = -1;
+			//callbackparam_changeoverflag
+			this.callbackparam_changeoverflag = null;
 
 			//is_onover
 			this.is_onover = false;
@@ -419,8 +411,8 @@ namespace Fee.Ui
 
 			if(this.is_onover == false){
 				this.is_onover = true;
-				if(this.callback_changeonover != null){
-					this.callback_changeonover(this.callback_changeonover_id,this.is_onover);
+				if(this.callbackparam_changeoverflag != null){
+					this.callbackparam_changeoverflag.Call(this.is_onover);
 				}
 			}
 
@@ -436,26 +428,32 @@ namespace Fee.Ui
 
 			if(this.is_onover == true){
 				this.is_onover = false;
-				if(this.callback_changeonover != null){
-					this.callback_changeonover(this.callback_changeonover_id,this.is_onover);
+				if(this.callbackparam_changeoverflag != null){
+					this.callbackparam_changeoverflag.Call(this.is_onover);
 				}
 			}
 		}
 
-		/** コールバック。設定。
+		/** コールバックインターフェイス。設定。
 		*/
-		public void SetClickCallBack(CallBack_Click a_callback_click,int a_id)
+		public void SetOnButtonClick<T>(Fee.Ui.OnButtonClick_CallBackInterface< T > a_callback_interface,T a_id)
 		{
-			this.callback_click = a_callback_click;
-			this.callback_click_id = a_id;
+			if(a_callback_interface != null){
+				this.callbackparam_click = new Fee.Ui.OnButtonClick_CallBackParam_Generic< T >(a_callback_interface,a_id);
+			}else{
+				this.callbackparam_click = null;
+			}
 		}
 
-		/** コールバック。設定。
+		/** コールバックインターフェイス。設定。
 		*/
-		public void SetChangeOnOverCallBack(CallBack_ChangeOnOver a_callback_changeonover,int a_id)
+		public void SetOnButtonChangeOverFlag<T>(Fee.Ui.OnButtonChangeOverFlag_CallBackInterface< T > a_callback_interface,T a_id)
 		{
-			this.callback_changeonover = a_callback_changeonover;
-			this.callback_changeonover_id = a_id;
+			if(a_callback_interface != null){
+				this.callbackparam_changeoverflag = new Fee.Ui.OnButtonChangeOverFlag_CallBackParam_Generic< T >(a_callback_interface,a_id);
+			}else{
+				this.callbackparam_changeoverflag = null;
+			}
 		}
 
 		/** オンオーバー。取得。
@@ -484,7 +482,7 @@ namespace Fee.Ui
 			}
 		}
 
-		/** [Fee.Ui.OnTargetCallBack_Base]OnTarget
+		/** [Fee.Ui.OnTarget_CallBackInterface]ターゲット中。
 		*/
 		public void OnTarget()
 		{
@@ -540,8 +538,8 @@ namespace Fee.Ui
 					Ui.GetInstance().UnSetTargetRequest(this);
 
 					//コールバック。
-					if(this.callback_click != null){
-						this.callback_click(this.callback_click_id);
+					if(this.callbackparam_click != null){
+						this.callbackparam_click.Call();
 					}
 
 					if(this.is_onover == true){
@@ -572,8 +570,8 @@ namespace Fee.Ui
 
 					//コールバック。
 					if(this.is_onover == true){
-						if(this.callback_click != null){
-							this.callback_click(this.callback_click_id);
+						if(this.callbackparam_click != null){
+							this.callbackparam_click.Call();
 						}
 					}
 

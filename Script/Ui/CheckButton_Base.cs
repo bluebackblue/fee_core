@@ -14,12 +14,8 @@ namespace Fee.Ui
 {
 	/** CheckButton_Base
 	*/
-	public abstract class CheckButton_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTargetCallBack_Base
+	public abstract class CheckButton_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTarget_CallBackInterface
 	{
-		/** [CheckButton_Base]コールバック。変更。
-		*/
-		public delegate void CallBack_Change(int a_id,bool a_flag);
-
 		/** deleter
 		*/
 		protected Fee.Deleter.Deleter deleter;
@@ -36,10 +32,9 @@ namespace Fee.Ui
 		*/
 		protected Fee.EventPlate.Item eventplate;
 
-		/** callback_change
+		/** callbackparam_changecheck
 		*/
-		protected CallBack_Change callback_change;
-		protected int callback_id;
+		protected Fee.Ui.OnCheckButtonChangekCheck_CallBackParam callbackparam_changecheck;
 
 		/** is_onover
 		*/
@@ -71,7 +66,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public CheckButton_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,CallBack_Change a_callback_change,int a_callback_id)
+		public CheckButton_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();
@@ -86,9 +81,8 @@ namespace Fee.Ui
 			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority);
 			this.eventplate.SetOnOverCallBackInterface(this);
 
-			//callback_change
-			this.callback_change = a_callback_change;
-			this.callback_id = a_callback_id;
+			//callbackparam_changecheck
+			this.callbackparam_changecheck = null;
 
 			//is_onover
 			this.is_onover = false;
@@ -291,6 +285,18 @@ namespace Fee.Ui
 			this.is_onover = false;
 		}
 
+		/** コールバックインターフェイス。設定。
+		*/
+		public void SetOnCheckButtonChangekCheck<T>(Fee.Ui.OnCheckButtonChangekCheck_CallBackInterface< T > a_callback_interface,T a_id)
+		{
+			if(a_callback_interface != null){
+				this.callbackparam_changecheck = new Fee.Ui.OnCheckButtonChangekCheck_CallBackParam_Generic< T >(a_callback_interface,a_id);
+			}else{
+				this.callbackparam_changecheck = null;
+			}
+		}
+
+
 		/** オンオーバー。取得。
 		*/
 		public bool IsOnOver()
@@ -309,8 +315,8 @@ namespace Fee.Ui
 				this.OnChangeCheckFlag();
 
 				//コールバック。
-				if(this.callback_change != null){
-					this.callback_change(this.callback_id,this.check_flag);
+				if(this.callbackparam_changecheck != null){
+					this.callbackparam_changecheck.Call(this.check_flag);
 				}
 			}
 		}
@@ -322,7 +328,7 @@ namespace Fee.Ui
 			return this.check_flag;
 		}
 
-		/** [Fee.Ui.OnTargetCallBack_Base]OnTarget
+		/** [Fee.Ui.OnTarget_CallBackInterface]ターゲット中。
 		*/
 		public void OnTarget()
 		{
@@ -355,8 +361,8 @@ namespace Fee.Ui
 					this.OnChangeCheckFlag();
 
 					//コールバック。
-					if(this.callback_change != null){
-						this.callback_change(this.callback_id,this.check_flag);
+					if(this.callbackparam_changecheck != null){
+						this.callbackparam_changecheck.Call(this.check_flag);
 					}
 				}
 			}else{

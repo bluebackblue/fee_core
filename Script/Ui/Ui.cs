@@ -66,13 +66,13 @@ namespace Fee.Ui
 		private Ui_WindowList windowlist;
 
 		//ターゲットリスト。
-		private System.Collections.Generic.List<OnTargetCallBack_Base> target_list;
+		private System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface> target_list;
 
 		//ターゲット追加リスト。
-		private System.Collections.Generic.List<OnTargetCallBack_Base> target_add_list;
+		private System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface> target_add_list;
 
 		//ターゲット削除リスト。
-		private System.Collections.Generic.List<OnTargetCallBack_Base> target_remove_list;
+		private System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface> target_remove_list;
 
 		//ウィンドウレジュームリスト。
 		private Ui_WindowResumeList windowresumelist;
@@ -85,13 +85,13 @@ namespace Fee.Ui
 			this.windowlist = new Ui_WindowList();
 
 			//target_list
-			this.target_list = new System.Collections.Generic.List<OnTargetCallBack_Base>();
+			this.target_list = new System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface>();
 
 			//target_add_list
-			this.target_add_list = new System.Collections.Generic.List<OnTargetCallBack_Base>();
+			this.target_add_list = new System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface>();
 
 			//target_remove_list
-			this.target_remove_list = new System.Collections.Generic.List<OnTargetCallBack_Base>();
+			this.target_remove_list = new System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface>();
 
 			//ウィンドウレジュームリスト。
 			this.windowresumelist = new Ui_WindowResumeList();
@@ -134,18 +134,18 @@ namespace Fee.Ui
 
 		/** 追加リクエスト。設定。
 		*/
-		public void SetTargetRequest(OnTargetCallBack_Base a_item)
+		public void SetTargetRequest(Fee.Ui.OnTarget_CallBackInterface a_callback_interface)
 		{
-			this.target_add_list.Add(a_item);
-			this.target_remove_list.Remove(a_item);
+			this.target_add_list.Add(a_callback_interface);
+			this.target_remove_list.Remove(a_callback_interface);
 		}
 
 		/** 削除リクエスト。解除。
 		*/
-		public void UnSetTargetRequest(OnTargetCallBack_Base a_item)
+		public void UnSetTargetRequest(Fee.Ui.OnTarget_CallBackInterface a_callback_interface)
 		{
-			this.target_remove_list.Add(a_item);
-			this.target_add_list.Remove(a_item);
+			this.target_remove_list.Add(a_callback_interface);
+			this.target_add_list.Remove(a_callback_interface);
 		}
 
 		/** ウィンドウ登録。

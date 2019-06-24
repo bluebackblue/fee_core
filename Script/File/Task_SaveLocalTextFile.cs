@@ -30,7 +30,7 @@ namespace Fee.File
 
 		/** TaskMain
 		*/
-		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.File.OnTask_CallBackInterface a_callback,Path a_path,string a_text,System.Threading.CancellationToken a_cancel)
+		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.File.OnTask_CallBackInterface a_callback_interface,Path a_path,string a_text,System.Threading.CancellationToken a_cancel)
 		{
 			ResultType t_ret;
 			{
@@ -96,12 +96,12 @@ namespace Fee.File
 
 		/** 実行。
 		*/
-		public static Fee.TaskW.Task<ResultType> Run(Fee.File.OnTask_CallBackInterface a_callback,Path a_path,string a_text,Fee.TaskW.CancelToken a_cancel)
+		public static Fee.TaskW.Task<ResultType> Run(Fee.File.OnTask_CallBackInterface a_callback_interface,Path a_path,string a_text,Fee.TaskW.CancelToken a_cancel)
 		{
 			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
 
 			return new Fee.TaskW.Task<ResultType>(() => {
-				return Task_SaveLocalTextFile.TaskMain(a_callback,a_path,a_text,t_cancel_token);
+				return Task_SaveLocalTextFile.TaskMain(a_callback_interface,a_path,a_text,t_cancel_token);
 			});
 		}
 	}

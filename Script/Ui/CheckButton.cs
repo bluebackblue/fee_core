@@ -28,9 +28,13 @@ namespace Fee.Ui
 		*/
 		private Fee.Ui.Slice9Sprite bg_lock_sprite;
 
-		/** check_sprite
+		/** check_normal_sprite
 		*/
-		private Fee.Ui.ClipSprite check_sprite;
+		private Fee.Ui.ClipSprite check_normal_sprite;
+
+		/** check_lock_sprite
+		*/
+		private Fee.Ui.ClipSprite check_lock_sprite;
 
 		/** text
 		*/
@@ -42,9 +46,9 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public CheckButton(Fee.Deleter.Deleter a_deleter,long a_drawpriority,CheckButton_Base.CallBack_Change a_callback_chnage,int a_callback_id)
+		public CheckButton(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 			:
-			base(a_deleter,a_drawpriority,a_callback_chnage,a_callback_id)
+			base(a_deleter,a_drawpriority)
 		{
 			//bg_normal_sprite
 			this.bg_normal_sprite = new Slice9Sprite(this.deleter,a_drawpriority + 0);
@@ -61,10 +65,15 @@ namespace Fee.Ui
 			this.bg_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg_lock_sprite.SetVisible(false);
 
-			//check_sprite
-			this.check_sprite = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority + 1);
-			this.check_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.check_sprite.SetVisible(false);
+			//check_normal_sprite
+			this.check_normal_sprite = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority + 1);
+			this.check_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+			this.check_normal_sprite.SetVisible(false);
+
+			//check_lock_sprite
+			this.check_lock_sprite = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority + 1);
+			this.check_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+			this.check_lock_sprite.SetVisible(false);
 
 			//text
 			this.text = new Fee.Render2D.Text2D(this.deleter,a_drawpriority);
@@ -83,7 +92,8 @@ namespace Fee.Ui
 			this.bg_lock_sprite.SetRect(ref this.rect);
 
 			//check
-			this.check_sprite.SetRect(ref this.rect);
+			this.check_normal_sprite.SetRect(ref this.rect);
+			this.check_lock_sprite.SetRect(ref this.rect);
 
 			//text
 			this.text.SetRect(this.rect.x + this.rect.w + this.text_offset_x,this.rect.y + this.rect.h / 2,0,0);
@@ -99,7 +109,8 @@ namespace Fee.Ui
 			this.bg_lock_sprite.SetClip(this.clip_flag);
 
 			//check
-			this.check_sprite.SetClip(this.clip_flag);
+			this.check_normal_sprite.SetClip(this.clip_flag);
+			this.check_lock_sprite.SetClip(this.clip_flag);
 
 			//text
 			this.text.SetClip(this.clip_flag);
@@ -115,7 +126,8 @@ namespace Fee.Ui
 			this.bg_lock_sprite.SetClipRect(ref this.clip_rect);
 
 			//check
-			this.check_sprite.SetClipRect(ref this.clip_rect);
+			this.check_normal_sprite.SetClipRect(ref this.clip_rect);
+			this.check_lock_sprite.SetClipRect(ref this.clip_rect);
 
 			//text
 			this.text.SetClipRect(ref this.clip_rect);
@@ -128,21 +140,36 @@ namespace Fee.Ui
 			switch(this.mode){
 			case CheckButton_Mode.Normal:
 				{
+					//bg
 					this.bg_normal_sprite.SetVisible(this.visible_flag);
 					this.bg_on_sprite.SetVisible(false);
 					this.bg_lock_sprite.SetVisible(false);
+
+					//check
+					this.check_lock_sprite.SetVisible(false);
+					this.check_normal_sprite.SetVisible(this.check_flag & this.visible_flag);
 				}break;
 			case CheckButton_Mode.On:
 				{
+					//bg
 					this.bg_normal_sprite.SetVisible(false);
 					this.bg_on_sprite.SetVisible(this.visible_flag);
 					this.bg_lock_sprite.SetVisible(false);
+
+					//check
+					this.check_lock_sprite.SetVisible(false);
+					this.check_normal_sprite.SetVisible(this.check_flag & this.visible_flag);
 				}break;
 			case CheckButton_Mode.Lock:
 				{
+					//bg
 					this.bg_normal_sprite.SetVisible(false);
 					this.bg_on_sprite.SetVisible(false);
 					this.bg_lock_sprite.SetVisible(this.visible_flag);
+
+					//check
+					this.check_lock_sprite.SetVisible(this.check_flag & this.visible_flag);
+					this.check_normal_sprite.SetVisible(false);
 				}break;
 			}
 		}
@@ -151,7 +178,18 @@ namespace Fee.Ui
 		*/
 		protected override void OnChangeCheckFlag()
 		{
-			this.check_sprite.SetVisible(this.check_flag);
+			switch(this.mode){
+			case CheckButton_Mode.Lock:
+				{
+					this.check_lock_sprite.SetVisible(this.check_flag & this.visible_flag);
+					this.check_normal_sprite.SetVisible(false);
+				}break;
+			default:
+				{
+					this.check_lock_sprite.SetVisible(false);
+					this.check_normal_sprite.SetVisible(this.check_flag & this.visible_flag);
+				}break;
+			}
 		}
 
 		/** [Slider_Base]コールバック。表示フラグ変更。
@@ -161,21 +199,37 @@ namespace Fee.Ui
 			switch(this.mode){
 			case CheckButton_Mode.Normal:
 				{
+					//bg
 					this.bg_normal_sprite.SetVisible(this.visible_flag);
 					this.bg_on_sprite.SetVisible(false);
 					this.bg_lock_sprite.SetVisible(false);
+
+					//check
+					this.check_lock_sprite.SetVisible(false);
+					this.check_normal_sprite.SetVisible(this.check_flag & this.visible_flag);
+
 				}break;
 			case CheckButton_Mode.On:
 				{
+					//bg
 					this.bg_normal_sprite.SetVisible(false);
 					this.bg_on_sprite.SetVisible(this.visible_flag);
 					this.bg_lock_sprite.SetVisible(false);
+
+					//check
+					this.check_lock_sprite.SetVisible(false);
+					this.check_normal_sprite.SetVisible(this.check_flag & this.visible_flag);
 				}break;
 			case CheckButton_Mode.Lock:
 				{
+					//bg
 					this.bg_normal_sprite.SetVisible(false);
 					this.bg_on_sprite.SetVisible(false);
 					this.bg_lock_sprite.SetVisible(this.visible_flag);
+
+					//check
+					this.check_lock_sprite.SetVisible(this.check_flag & this.visible_flag);
+					this.check_normal_sprite.SetVisible(false);
 				}break;
 			}
 		}
@@ -190,7 +244,8 @@ namespace Fee.Ui
 			this.bg_lock_sprite.SetDrawPriority(this.drawpriority + 0);
 
 			//check
-			this.check_sprite.SetDrawPriority(this.drawpriority + 1);
+			this.check_normal_sprite.SetDrawPriority(this.drawpriority + 1);
+			this.check_lock_sprite.SetDrawPriority(this.drawpriority + 1);
 
 			//text
 			this.text.SetDrawPriority(this.drawpriority + 0);
@@ -323,33 +378,64 @@ namespace Fee.Ui
 			this.bg_lock_sprite.SetColor(a_r,a_g,a_b,a_a);
 		}
 
-		/** チェックテクスチャー。設定。
+		/** チェックノーマルテクスチャー。設定。
 		*/
-		public void SetCheckTexture(UnityEngine.Texture2D a_texture)
+		public void SetCheckNormalTexture(UnityEngine.Texture2D a_texture)
 		{
-			this.check_sprite.SetTexture(a_texture);
+			this.check_normal_sprite.SetTexture(a_texture);
 		}
 
-		/** チェックテクスチャー矩形。設定。
+		/** チェックノーマルテクスチャー矩形。設定。
 		*/
-		public void SetCheckTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetCheckNormalTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
 		{
-			this.check_sprite.SetTextureRect(ref a_texture_rect);
+			this.check_normal_sprite.SetTextureRect(ref a_texture_rect);
 		}
 
-		/** チェックテクスチャー色。設定。
+		/** チェックノーマルテクスチャー色。設定。
 		*/
-		public void SetCheckTextureColor(ref UnityEngine.Color a_color)
+		public void SetCheckNormalTextureColor(ref UnityEngine.Color a_color)
 		{
-			this.check_sprite.SetColor(ref a_color);
+			this.check_normal_sprite.SetColor(ref a_color);
 		}
 
-		/** チェックテクスチャー色。設定。
+		/** チェックノーマルテクスチャー色。設定。
 		*/
-		public void SetCheckTextureColor(float a_r,float a_g,float a_b,float a_a)
+		public void SetCheckNormalTextureColor(float a_r,float a_g,float a_b,float a_a)
 		{
-			this.check_sprite.SetColor(a_r,a_g,a_b,a_a);
+			this.check_normal_sprite.SetColor(a_r,a_g,a_b,a_a);
 		}
+
+		/** チェックロックテクスチャー。設定。
+		*/
+		public void SetCheckLockTexture(UnityEngine.Texture2D a_texture)
+		{
+			this.check_lock_sprite.SetTexture(a_texture);
+		}
+
+		/** チェックロックテクスチャー矩形。設定。
+		*/
+		public void SetCheckLockTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		{
+			this.check_lock_sprite.SetTextureRect(ref a_texture_rect);
+		}
+
+		/** チェックロックテクスチャー色。設定。
+		*/
+		public void SetCheckLockTextureColor(ref UnityEngine.Color a_color)
+		{
+			this.check_lock_sprite.SetColor(ref a_color);
+		}
+
+		/** チェックロックテクスチャー色。設定。
+		*/
+		public void SetCheckLockTextureColor(float a_r,float a_g,float a_b,float a_a)
+		{
+			this.check_lock_sprite.SetColor(a_r,a_g,a_b,a_a);
+		}
+
+
+
 	}
 }
 

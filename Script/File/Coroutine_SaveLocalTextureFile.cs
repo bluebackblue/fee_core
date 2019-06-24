@@ -57,7 +57,7 @@ namespace Fee.File
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnCoroutine_CallBackInterface a_callback,Fee.File.Path a_path,UnityEngine.Texture2D a_texture)
+		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path,UnityEngine.Texture2D a_texture)
 		{
 			//result
 			this.result = new ResultType();
@@ -91,8 +91,8 @@ namespace Fee.File
 			//終了待ち。
 			do{
 				//キャンセル。
-				if(a_callback != null){
-					if(a_callback.OnCoroutine(this.taskprogress,0.0f) == false){
+				if(a_callback_interface != null){
+					if(a_callback_interface.OnCoroutine(this.taskprogress,0.0f) == false){
 						t_cancel_token.Cancel();
 					}
 				}
