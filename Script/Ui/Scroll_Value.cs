@@ -328,9 +328,12 @@ namespace Fee.Ui
 						}
 					}
 
-					//[表示変更]追加。
 					if((this.viewindex_st <= a_insert_index)&&(a_insert_index <= this.viewindex_en)){
+						//[表示変更]表示範囲内への追加。
 						this.callabck.OnItemVisibleChange(a_insert_index,true);
+					}else if(this.viewindex_st > a_insert_index){
+						//[表示変更]一番上を表示範囲内へ追加。
+						this.callabck.OnItemVisibleChange(this.viewindex_st,true);
 					}
 				}else{
 					//表示に変化なし。
