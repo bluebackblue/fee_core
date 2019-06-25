@@ -12,13 +12,13 @@
 */
 namespace Fee.File
 {
-	/** OnTask_CallBackInterface
+	/** OnFileTask_CallBackInterface
 	*/
-	public interface OnTask_CallBackInterface
+	public interface OnFileTask_CallBackInterface
 	{
-		/** [Fee.File.OnTask_CallBackInterface]タスク実行中。
+		/** [Fee.File.OnFileTask_CallBackInterface]タスク実行中。
 		*/
-		void OnTask(float a_progress);
+		void OnFileTask(float a_progress);
 	}
 }
 

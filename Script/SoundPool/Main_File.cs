@@ -14,7 +14,7 @@ namespace Fee.SoundPool
 {
 	/** Main_File
 	*/
-	public class Main_File : Fee.SoundPool.OnCoroutine_CallBackInterface
+	public class Main_File : Fee.SoundPool.OnSoundPoolCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/
@@ -190,12 +190,12 @@ namespace Fee.SoundPool
 			return this.result_responseheader;
 		}
 
-		/** [Fee.SoundPool.OnCoroutine_CallBackInterface]コルーチン実行中。
+		/** [Fee.SoundPool.OnSoundPoolCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 
 		*/
-		public bool OnCoroutine(float a_progress_up,float a_progress_down)
+		public bool OnSoundPoolCoroutine(float a_progress_up,float a_progress_down)
 		{
 			if((this.is_cancel == true)||(this.is_shutdown == true)){
 				return false;

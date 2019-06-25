@@ -12,16 +12,16 @@
 */
 namespace Fee.File
 {
-	/** OnCoroutine_CallBackInterface
+	/** OnFileCoroutine_CallBackInterface
 	*/
-	public interface OnCoroutine_CallBackInterface
+	public interface OnFileCoroutine_CallBackInterface
 	{
-		/** [Fee.File.OnCoroutine_CallBackInterface]コルーチン実行中。
+		/** [Fee.File.OnFileCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 
 		*/
-		bool OnCoroutine(float a_progress_up,float a_progress_down);
+		bool OnFileCoroutine(float a_progress_up,float a_progress_down);
 	}
 }
 

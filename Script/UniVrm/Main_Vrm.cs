@@ -14,7 +14,7 @@ namespace Fee.UniVrm
 {
 	/** Main_Vrm
 	*/
-	public class Main_Vrm : Fee.UniVrm.OnCoroutine_CallBackInterface
+	public class Main_Vrm : Fee.UniVrm.OnUniVrmCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/
@@ -150,12 +150,12 @@ namespace Fee.UniVrm
 			return this.result_context;
 		}
 
-		/** [Fee.UniVrm.OnCoroutine_CallBackInterface]コルーチン実行中。
+		/** [Fee.UniVrm.OnUniVrmCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 
 		*/
-		public bool OnCoroutine(float a_progress)
+		public bool OnUniVrmCoroutine(float a_progress)
 		{
 			if((this.is_cancel == true)||(this.is_shutdown == true)){
 				return false;

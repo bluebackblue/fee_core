@@ -88,17 +88,17 @@ namespace Fee.SoundPool
 
 		/** プログレス更新。
 		*/
-		private void UpdateProgress(OnCoroutine_CallBackInterface a_callback_interface,int a_mainstep,int a_substep_max,int a_substep,float a_progress)
+		private void UpdateProgress(OnSoundPoolCoroutine_CallBackInterface a_callback_interface,int a_mainstep,int a_substep_max,int a_substep,float a_progress)
 		{
 			float t_progress = this.CalcProgress(this.mainstep_per_list,a_mainstep,a_substep_max,a_substep,a_progress);
 			if(a_callback_interface != null){
-				a_callback_interface.OnCoroutine(1.0f,t_progress);
+				a_callback_interface.OnSoundPoolCoroutine(1.0f,t_progress);
 			}
 		}
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnCoroutine_CallBackInterface a_callback_interface,File.Path a_path,UnityEngine.WWWForm a_post_data,bool a_is_streamingassets,uint a_data_version)
+		public System.Collections.IEnumerator CoroutineMain(OnSoundPoolCoroutine_CallBackInterface a_callback_interface,File.Path a_path,UnityEngine.WWWForm a_post_data,bool a_is_streamingassets,uint a_data_version)
 		{
 			//result
 			this.result = new ResultType();

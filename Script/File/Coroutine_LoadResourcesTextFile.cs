@@ -46,7 +46,7 @@ namespace Fee.File
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path)
+		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnFileCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path)
 		{
 			//result
 			this.result = new ResultType();
@@ -70,7 +70,7 @@ namespace Fee.File
 			//isDone
 			while(t_resourcerequest.isDone == false){
 				if(a_callback_interface != null){
-					a_callback_interface.OnCoroutine(1.0f,t_resourcerequest.progress);
+					a_callback_interface.OnFileCoroutine(1.0f,t_resourcerequest.progress);
 				}
 				yield return null;
 			}

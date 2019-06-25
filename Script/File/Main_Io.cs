@@ -14,7 +14,7 @@ namespace Fee.File
 {
 	/** Main_Io
 	*/
-	public class Main_Io : Fee.File.OnCoroutine_CallBackInterface
+	public class Main_Io : Fee.File.OnFileCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/
@@ -227,12 +227,12 @@ namespace Fee.File
 			return this.result_assetbundle;
 		}
 
-		/** [Fee.File.OnCoroutine_CallBack]コルーチンからのコールバック。
+		/** [Fee.File.OnFileCoroutine_CallBackInterface]コルーチンからのコールバック。
 
 			return == false : キャンセル。
 
 		*/
-		public bool OnCoroutine(float a_progress_up,float a_progress_down)
+		public bool OnFileCoroutine(float a_progress_up,float a_progress_down)
 		{
 			if((this.is_cancel == true)||(this.is_shutdown == true)){
 				return false;

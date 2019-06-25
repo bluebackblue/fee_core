@@ -53,7 +53,7 @@ namespace Fee.Data
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.Data.OnCoroutine_CallBackInterface a_callback_interface,ListItem a_listitem)
+		public System.Collections.IEnumerator CoroutineMain(Fee.Data.OnDataCoroutine_CallBackInterface a_callback_interface,ListItem a_listitem)
 		{
 			//result
 			this.result = new ResultType();
@@ -134,7 +134,7 @@ namespace Fee.Data
 				}
 
 				if(a_callback_interface != null){
-					a_callback_interface.OnCoroutine(t_item.GetResultProgressDown());
+					a_callback_interface.OnDataCoroutine(t_item.GetResultProgressDown());
 				}
 
 				yield return null;

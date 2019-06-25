@@ -46,7 +46,7 @@ namespace Fee.UniVrm
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.UniVrm.OnCoroutine_CallBackInterface a_callback,byte[] a_binary)
+		public System.Collections.IEnumerator CoroutineMain(Fee.UniVrm.OnUniVrmCoroutine_CallBackInterface a_callback,byte[] a_binary)
 		{
 			//result
 			this.result = new ResultType();
@@ -57,7 +57,7 @@ namespace Fee.UniVrm
 				//キャンセル。
 				if(this.result.errorstring == null){
 					if(a_callback != null){
-						if(a_callback.OnCoroutine(0.0f) == false){
+						if(a_callback.OnUniVrmCoroutine(0.0f) == false){
 							this.result.errorstring = "Coroutine_Load : Cancel";
 						}
 					}
@@ -85,7 +85,7 @@ namespace Fee.UniVrm
 				//キャンセル。
 				if(this.result.errorstring == null){
 					if(a_callback != null){
-						if(a_callback.OnCoroutine(0.5f) == false){
+						if(a_callback.OnUniVrmCoroutine(0.5f) == false){
 							this.result.errorstring = "Coroutine_Load : Cancel";
 						}
 					}

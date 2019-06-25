@@ -31,7 +31,7 @@ namespace Fee.Excel
 			System.Data.DataSet t_workbook = null;
 
 			try{
-				using(System.IO.FileStream t_stream = System.IO.File.Open(a_path.GetPath(),System.IO.FileMode.Open,System.IO.FileAccess.Read,System.IO.FileShare.Read)){
+				using(System.IO.FileStream t_stream = System.IO.File.Open(a_path.GetPath(),System.IO.FileMode.Open,System.IO.FileAccess.Read,System.IO.FileShare.ReadWrite)){
 					if(t_stream != null){
 						using(ExcelDataReader.IExcelDataReader t_reader = ExcelDataReader.ExcelReaderFactory.CreateOpenXmlReader(t_stream)){
 							if(t_reader != null){

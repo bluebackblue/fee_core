@@ -12,16 +12,16 @@
 */
 namespace Fee.Crypt
 {
-	/** OnCoroutine_CallBackInterface
+	/** OnCryptCoroutine_CallBackInterface
 	*/
-	public interface OnCoroutine_CallBackInterface
+	public interface OnCryptCoroutine_CallBackInterface
 	{
-		/** [Fee.Crypt.OnCoroutine_CallBack]コルーチンからのコールバック。
+		/** [Fee.Crypt.OnCryptCoroutine_CallBackInterface]コルーチンからのコールバック。
 
 			return == false : キャンセル。
 
 		*/
-		bool OnCoroutine(float a_progress);
+		bool OnCryptCoroutine(float a_progress);
 	}
 }
 

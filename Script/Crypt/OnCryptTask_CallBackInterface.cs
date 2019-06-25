@@ -12,13 +12,13 @@
 */
 namespace Fee.Crypt
 {
-	/** OnTask_CallBackInterface
+	/** OnCryptTask_CallBackInterface
 	*/
-	public interface OnTask_CallBackInterface
+	public interface OnCryptTask_CallBackInterface
 	{
-		/** [Fee.Crypt.OnTask_CallBackInterface]タスク実行中。
+		/** [Fee.Crypt.OnCryptTask_CallBackInterface]タスク実行中。
 		*/
-		void OnTask(float a_progress);
+		void OnCryptTask(float a_progress);
 	}
 }
 

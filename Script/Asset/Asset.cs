@@ -12,31 +12,6 @@
 */
 namespace Fee.Asset
 {
-	/** AssetType
-	*/
-	public enum AssetType
-	{
-		/** None
-		*/
-		None,
-
-		/** Text
-		*/
-		Text,
-
-		/** Texture
-		*/
-		Texture,
-
-		/** Binary
-		*/
-		Binary,
-
-		/** Prefab
-		*/
-		Prefab
-	}
-
 	/** Asset
 	*/
 	public class Asset

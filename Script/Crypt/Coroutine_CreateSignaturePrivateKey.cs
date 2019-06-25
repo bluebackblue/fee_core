@@ -14,7 +14,7 @@ namespace Fee.Crypt
 {
 	/** 証明書作成。プライベートキー。
 	*/
-	public class Coroutine_CreateSignaturePrivateKey : Fee.Crypt.OnTask_CallBackInterface
+	public class Coroutine_CreateSignaturePrivateKey : Fee.Crypt.OnCryptTask_CallBackInterface
 	{
 		/** ResultType
 		*/
@@ -32,7 +32,10 @@ namespace Fee.Crypt
 			*/
 			public ResultType()
 			{
+				//binary
 				this.binary = null;
+
+				//errorstring
 				this.errorstring = null;
 			}
 		}
@@ -45,16 +48,16 @@ namespace Fee.Crypt
 		*/
 		public float taskprogress;
 
-		/** [Fee.Crypt.OnTask_CallBackInterface]タスク実行中。
+		/** [Fee.Crypt.OnCryptTask_CallBackInterface]タスク実行中。
 		*/
-		public void OnTask(float a_progress)
+		public void OnCryptTask(float a_progress)
 		{
 			this.taskprogress = a_progress;
 		}
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.Crypt.OnCoroutine_CallBackInterface a_callback_interface,byte[] a_binary,string a_key)
+		public System.Collections.IEnumerator CoroutineMain(Fee.Crypt.OnCryptCoroutine_CallBackInterface a_callback_interface,byte[] a_binary,string a_key)
 		{
 			//result
 			this.result = new ResultType();
@@ -72,7 +75,7 @@ namespace Fee.Crypt
 			do{
 				//キャンセル。
 				if(a_callback_interface != null){
-					if(a_callback_interface.OnCoroutine(this.taskprogress) == false){
+					if(a_callback_interface.OnCryptCoroutine(this.taskprogress) == false){
 						t_cancel_token.Cancel();
 					}
 				}

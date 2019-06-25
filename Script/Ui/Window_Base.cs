@@ -97,14 +97,18 @@ namespace Fee.Ui
 			this.deleter.DeleteAll();
 		}
 
+		/** 描画プライオリティ。取得。
+		*/
+		public int GetLayerIndex()
+		{
+			return this.layerindex;
+		}
+
 		/** レイヤーインデックス。変更。
 		*/
 		public void ChangeLayerIndex(int a_layerindex)
 		{
 			this.layerindex = a_layerindex;
-
-			//drawpriority
-			long t_drawpriority = this.layerindex * Fee.Render2D.Render2D.DRAWPRIORITY_STEP;
 
 			//[Window_Base]コールバック。レイヤーインデックス変更。
 			this.OnChangeLayerIndex_FromBase();
@@ -127,6 +131,20 @@ namespace Fee.Ui
 		public int GetY()
 		{
 			return this.rect.y;
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetW()
+		{
+			return this.rect.w;
+		}
+
+		/** 矩形。取得。
+		*/
+		public int GetH()
+		{
+			return this.rect.h;
 		}
 
 		/** ウィンドウレジューム。登録。

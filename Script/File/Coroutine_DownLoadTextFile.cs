@@ -63,7 +63,7 @@ namespace Fee.File
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path,UnityEngine.WWWForm a_post_data)
+		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnFileCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path,UnityEngine.WWWForm a_post_data)
 		{
 			//result
 			this.result = new ResultType();
@@ -94,7 +94,7 @@ namespace Fee.File
 
 					//キャンセル。
 					if(a_callback_interface != null){
-						if(a_callback_interface.OnCoroutine(t_webrequest.uploadProgress,t_webrequest.downloadProgress) == false){
+						if(a_callback_interface.OnFileCoroutine(t_webrequest.uploadProgress,t_webrequest.downloadProgress) == false){
 							t_webrequest.Abort();
 						}
 					}

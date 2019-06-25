@@ -14,7 +14,7 @@ namespace Fee.File
 {
 	/** セーブローカル。バイナリファイル。
 	*/
-	public class Coroutine_SaveLocalBinaryFile : Fee.File.OnTask_CallBackInterface
+	public class Coroutine_SaveLocalBinaryFile : Fee.File.OnFileTask_CallBackInterface
 	{
 		/** ResultType
 		*/
@@ -48,16 +48,16 @@ namespace Fee.File
 		*/
 		public float taskprogress;
 
-		/** [Fee.File.OnTask_CallBackInterface]タスク実行中。
+		/** [Fee.File.OnFileTask_CallBackInterface]タスク実行中。
 		*/
-		public void OnTask(float a_progress)
+		public void OnFileTask(float a_progress)
 		{
 			this.taskprogress = a_progress;
 		}
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path,byte[] a_binary)
+		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnFileCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path,byte[] a_binary)
 		{
 			//result
 			this.result = new ResultType();
@@ -75,7 +75,7 @@ namespace Fee.File
 			do{
 				//キャンセル。
 				if(a_callback_interface != null){
-					if(a_callback_interface.OnCoroutine(this.taskprogress,0.0f) == false){
+					if(a_callback_interface.OnFileCoroutine(this.taskprogress,0.0f) == false){
 						t_cancel_token.Cancel();
 					}
 				}

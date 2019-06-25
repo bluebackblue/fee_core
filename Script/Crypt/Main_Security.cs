@@ -14,7 +14,7 @@ namespace Fee.Crypt
 {
 	/** Main_Security
 	*/
-	public class Main_Security : Fee.Crypt.OnCoroutine_CallBackInterface
+	public class Main_Security : Fee.Crypt.OnCryptCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/
@@ -193,12 +193,12 @@ namespace Fee.Crypt
 			return this.result_binary;
 		}
 
-		/** [Fee.File.OnCoroutine_CallBack]コルーチンからのコールバック。
+		/** [Fee.File.OnCryptCoroutine_CallBack]コルーチンからのコールバック。
 
 			return == false : キャンセル。
 
 		*/
-		public bool OnCoroutine(float a_progress)
+		public bool OnCryptCoroutine(float a_progress)
 		{
 			if((this.is_cancel == true)||(this.is_shutdown == true)){
 				return false;

@@ -35,7 +35,7 @@ namespace Fee.Crypt
 
 		/** TaskMain
 		*/
-		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.Crypt.OnTask_CallBackInterface a_callback_interface,byte[] a_binary,byte[] a_signature_binary,string a_key,System.Threading.CancellationToken a_cancel)
+		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,byte[] a_signature_binary,string a_key,System.Threading.CancellationToken a_cancel)
 		{
 			ResultType t_ret;
 			{
@@ -86,7 +86,7 @@ namespace Fee.Crypt
 
 		/** 実行。
 		*/
-		public static Fee.TaskW.Task<ResultType> Run(Fee.Crypt.OnTask_CallBackInterface a_callback_interface,byte[] a_binary,byte[] a_signature_binary,string a_key,Fee.TaskW.CancelToken a_cancel)
+		public static Fee.TaskW.Task<ResultType> Run(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,byte[] a_signature_binary,string a_key,Fee.TaskW.CancelToken a_cancel)
 		{
 			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
 

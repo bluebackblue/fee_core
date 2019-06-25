@@ -14,7 +14,7 @@ namespace Fee.Crypt
 {
 	/** 暗号化。パス。
 	*/
-	public class Coroutine_EncryptPass : Fee.Crypt.OnTask_CallBackInterface
+	public class Coroutine_EncryptPass : Fee.Crypt.OnCryptTask_CallBackInterface
 	{
 		/** ResultType
 		*/
@@ -48,16 +48,16 @@ namespace Fee.Crypt
 		*/
 		public float taskprogress;
 
-		/** [Fee.Crypt.OnTask_CallBackInterface]タスク実行中。
+		/** [Fee.Crypt.OnCryptTask_CallBackInterface]タスク実行中。
 		*/
-		public void OnTask(float a_progress)
+		public void OnCryptTask(float a_progress)
 		{
 			this.taskprogress = a_progress;
 		}
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.Crypt.OnCoroutine_CallBackInterface a_callback_interface,byte[] a_binary,string a_pass,string a_salt)
+		public System.Collections.IEnumerator CoroutineMain(Fee.Crypt.OnCryptCoroutine_CallBackInterface a_callback_interface,byte[] a_binary,string a_pass,string a_salt)
 		{
 			//result
 			this.result = new ResultType();
@@ -75,7 +75,7 @@ namespace Fee.Crypt
 			do{
 				//キャンセル。
 				if(a_callback_interface != null){
-					if(a_callback_interface.OnCoroutine(this.taskprogress) == false){
+					if(a_callback_interface.OnCryptCoroutine(this.taskprogress) == false){
 						t_cancel_token.Cancel();
 					}
 				}
