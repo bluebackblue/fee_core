@@ -8,9 +8,9 @@
 */
 
 
-/** Fee.AssetBundle
+/** Fee.AssetBundleList
 */
-namespace Fee.AssetBundle
+namespace Fee.AssetBundleList
 {
 	/** Progress
 	*/

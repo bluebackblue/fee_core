@@ -13,9 +13,9 @@
 #pragma warning disable 0162
 
 
-/** Fee.AssetBundle
+/** Fee.AssetBundleList
 */
-namespace Fee.AssetBundle
+namespace Fee.AssetBundleList
 {
 	/** Tool
 	*/

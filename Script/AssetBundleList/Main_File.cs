@@ -8,13 +8,13 @@
 */
 
 
-/** Fee.AssetBundle
+/** Fee.AssetBundleList
 */
-namespace Fee.AssetBundle
+namespace Fee.AssetBundleList
 {
 	/** Main_File
 	*/
-	public class Main_File : Fee.AssetBundle.OnAssetBundleCoroutine_CallBackInterface
+	public class Main_File : Fee.AssetBundleList.OnAssetBundleCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/
@@ -148,7 +148,7 @@ namespace Fee.AssetBundle
 			return this.result_assetbundle;
 		}
 
-		/** [Fee.AssetBundle.OnAssetBundleCoroutine_CallBackInterface]コルーチン実行中。
+		/** [Fee.AssetBundleList.OnAssetBundleCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 

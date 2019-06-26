@@ -8,9 +8,9 @@
 */
 
 
-/** Fee.AssetBundle
+/** Fee.AssetBundleList
 */
-namespace Fee.AssetBundle
+namespace Fee.AssetBundleList
 {
 	/** Item
 	*/
@@ -53,10 +53,6 @@ namespace Fee.AssetBundle
 		*/
 		private System.Collections.Generic.Dictionary<string,string> result_responseheader;
 
-		/** result_asset
-		*/
-		private Fee.Asset.Asset result_asset;
-
 		/** result_assetbundle
 		*/
 		private UnityEngine.AssetBundle result_assetbundle;
@@ -79,9 +75,6 @@ namespace Fee.AssetBundle
 
 			//result_responseheader
 			this.result_responseheader = null;
-
-			//result_asset
-			this.result_asset = null;
 
 			//result_assetbundle
 			this.result_assetbundle = null;

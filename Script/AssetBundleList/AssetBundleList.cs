@@ -8,24 +8,24 @@
 */
 
 
-/** Fee.AssetBundle
+/** Fee.AssetBundleList
 */
-namespace Fee.AssetBundle
+namespace Fee.AssetBundleList
 {
-	/** AssetBundle
+	/** AssetBundleList
 	*/
-	public class AssetBundle : Config
+	public class AssetBundleList : Config
 	{
 		/** [シングルトン]s_instance
 		*/
-		private static AssetBundle s_instance = null;
+		private static AssetBundleList s_instance = null;
 
 		/** [シングルトン]インスタンス。作成。
 		*/
 		public static void CreateInstance()
 		{
 			if(s_instance == null){
-				s_instance = new AssetBundle();
+				s_instance = new AssetBundleList();
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace Fee.AssetBundle
 
 		/** [シングルトン]インスタンス。取得。
 		*/
-		public static AssetBundle GetInstance()
+		public static AssetBundleList GetInstance()
 		{
 			#if(UNITY_EDITOR)
 			if(s_instance == null){
@@ -183,7 +183,7 @@ namespace Fee.AssetBundle
 
 		/** [シングルトン]constructor
 		*/
-		private AssetBundle()
+		private AssetBundleList()
 		{
 			//work_list
 			this.work_list = new System.Collections.Generic.List<Work>();

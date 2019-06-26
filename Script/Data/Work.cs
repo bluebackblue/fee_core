@@ -105,7 +105,6 @@ namespace Fee.Data
 			case Mode.Start:
 				{
 					switch(this.request_type){
-
 					case RequestType.File:
 						{
 							if(Fee.Data.Data.GetInstance().GetMainFile().RequestFile(this.request_listitem) == true){

@@ -64,9 +64,6 @@ namespace Fee.File
 				yield break;
 			}
 
-			//priority
-			t_request.priority = 100;
-
 			//isDone
 			while(t_request.isDone == false){
 				if(a_callback_interface != null){

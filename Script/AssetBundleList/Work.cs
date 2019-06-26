@@ -8,9 +8,9 @@
 */
 
 
-/** Fee.AssetBundle
+/** Fee.AssetBundleList
 */
-namespace Fee.AssetBundle
+namespace Fee.AssetBundleList
 {
 	/** Work
 	*/
@@ -107,7 +107,7 @@ namespace Fee.AssetBundle
 					switch(this.request_type){
 					case RequestType.File:
 						{
-							if(Fee.AssetBundle.AssetBundle.GetInstance().GetMainFile().RequestFile(this.request_id) == true){
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainFile().RequestFile(this.request_id) == true){
 								this.mode = Mode.Do_File;
 							}
 						}break;
@@ -118,7 +118,7 @@ namespace Fee.AssetBundle
 				}return true;
 			case Mode.Do_File:
 				{
-					Main_File t_main = Fee.AssetBundle.AssetBundle.GetInstance().GetMainFile();
+					Main_File t_main = Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainFile();
 
 					this.item.SetResultProgress(t_main.GetResultProgress());
 

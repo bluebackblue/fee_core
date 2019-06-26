@@ -8,9 +8,9 @@
 */
 
 
-/** Fee.AssetBundle
+/** Fee.AssetBundleList
 */
-namespace Fee.AssetBundle
+namespace Fee.AssetBundleList
 {
 	/** ファイル。
 	*/
@@ -63,7 +63,7 @@ namespace Fee.AssetBundle
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.AssetBundle.OnAssetBundleCoroutine_CallBackInterface a_callback_interface,string a_id)
+		public System.Collections.IEnumerator CoroutineMain(Fee.AssetBundleList.OnAssetBundleCoroutine_CallBackInterface a_callback_interface,string a_id)
 		{
 			//result
 			this.result = new ResultType();
@@ -76,7 +76,7 @@ namespace Fee.AssetBundle
 			});
 
 			{
-				UnityEngine.AssetBundle t_assetbundle = AssetBundle.GetInstance().GetAssetBundle(a_id);
+				UnityEngine.AssetBundle t_assetbundle = AssetBundleList.GetInstance().GetAssetBundle(a_id);
 				if(t_assetbundle != null){
 					//成功。
 					this.result.assetbundle_file = t_assetbundle;
@@ -84,7 +84,7 @@ namespace Fee.AssetBundle
 				}
 			}
 
-			AssetBundle.PathItem t_pathitem = AssetBundle.GetInstance().GetPathItem(a_id);
+			AssetBundleList.PathItem t_pathitem = AssetBundleList.GetInstance().GetPathItem(a_id);
 			if(t_pathitem == null){
 				//失敗。
 				this.result.errorstring = "Coroutine_File : Not Found Path : " + a_id;
@@ -98,7 +98,7 @@ namespace Fee.AssetBundle
 
 				switch(t_pathitem.pathtype){
 				#if(UNITY_EDITOR)
-				case AssetBundle.PathType.AssetsPath:
+				case AssetBundleList.PathType.AssetsPath:
 					{
 						t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadAssetsBinaryFile,t_pathitem.path);
 					}break;
@@ -153,8 +153,6 @@ namespace Fee.AssetBundle
 				yield break;
 			}
 
-			t_request.priority = 100;
-			
 			//isDone
 			while(t_request.isDone == true){
 				//■ステップ１。
@@ -173,7 +171,7 @@ namespace Fee.AssetBundle
 			}
 
 			//■アセットバンドル登録。
-			Fee.AssetBundle.AssetBundle.GetInstance().RegisterAssetBundle(a_id,t_result_assetbundle);
+			Fee.AssetBundleList.AssetBundleList.GetInstance().RegisterAssetBundle(a_id,t_result_assetbundle);
 
 			this.result.assetbundle_file = t_result_assetbundle;
 			yield break;

@@ -111,10 +111,10 @@ namespace Fee.Data
 
 		/** リソースアイテム。登録。
 		*/
-		public void RegisterResourcesItem(string a_name,PathType a_path_type,Fee.File.Path a_path)
+		public void RegisterResourcesItem(string a_id,PathType a_path_type,Fee.File.Path a_path,string a_assetbundle_name)
 		{
-			if(this.list.ContainsKey(a_name) == false){
-				this.list.Add(a_name,new ListItem(a_path_type,a_path,null));
+			if(this.list.ContainsKey(a_id) == false){
+				this.list.Add(a_id,new ListItem(a_id,a_path_type,a_path,a_assetbundle_name));
 			}else{
 				Tool.Assert(false);
 			}
@@ -122,16 +122,16 @@ namespace Fee.Data
 
 		/** リクエスト。ファイル。
 		*/
-		public Item RequestFile(string a_name)
+		public Item RequestFile(string a_id)
 		{
-			if(this.list.TryGetValue(a_name,out ListItem t_item) == true){
+			if(this.list.TryGetValue(a_id,out ListItem t_item) == true){
 				Work t_work = new Work();
 				t_work.RequestFile(t_item);
 				this.add_list.Add(t_work);
 				return t_work.GetItem();
 			}else{
 				Item t_result = new Item();
-				t_result.SetResultErrorString("name not found : " + a_name);
+				t_result.SetResultErrorString("ID Not Found : " + a_id);
 				return t_result;
 			}
 		}

@@ -8,15 +8,15 @@
 */
 
 
-/** Fee.AssetBundle
+/** Fee.AssetBundleList
 */
-namespace Fee.AssetBundle
+namespace Fee.AssetBundleList
 {
 	/** OnAssetBundleCoroutine_CallBackInterface
 	*/
 	public interface OnAssetBundleCoroutine_CallBackInterface
 	{
-		/** [Fee.AssetBundle.OnAssetBundleCoroutine_CallBackInterface]コルーチン実行中。
+		/** [Fee.AssetBundleList.OnAssetBundleCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 

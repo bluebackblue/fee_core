@@ -86,7 +86,7 @@ namespace Fee.EditorTool
 				//アセットバンドル。
 				#if(false)
 				{
-					Fee.AssetBundle.AssetBundle.CreateInstance();
+					Fee.AssetBundleList.AssetBundleList.CreateInstance();
 				}
 				#endif
 
@@ -300,7 +300,7 @@ namespace Fee.EditorTool
 
 			//アセットバンドル。
 			{
-				Fee.AssetBundle.AssetBundle.DeleteInstance();
+				Fee.AssetBundleList.AssetBundleList.DeleteInstance();
 			}
 
 			//オーディオ。
@@ -511,7 +511,7 @@ namespace Fee.EditorTool
 
 				//アセットバンドル。
 				{
-					Fee.AssetBundle.AssetBundle.GetInstance().Main();
+					Fee.AssetBundleList.AssetBundleList.GetInstance().Main();
 				}
 
 				//オーディオ。

@@ -66,18 +66,84 @@ namespace Fee.Data
 			*/
 			case PathType.Resources_Prefab:
 				{
-					//リソース。プレハブ。
-					t_loadrequest_type = File.File.LoadRequestType.LoadResourcesPrefabFile;
+					if(a_listitem.assetbundle_name != null){
+						//アセットバンドル。プレハブ。
+
+						UnityEngine.AssetBundle t_assetbundle = Fee.AssetBundleList.AssetBundleList.GetInstance().GetAssetBundle(a_listitem.assetbundle_name);
+						if(t_assetbundle != null){
+							UnityEngine.Object t_assetobject = t_assetbundle.LoadAsset(a_listitem.id);
+							if(t_assetobject != null){
+								Fee.Asset.Asset t_result_asset = new Asset.Asset(Asset.AssetType.Prefab,t_assetobject);
+								if(t_result_asset != null){
+									this.result.asset_file = t_result_asset;
+									yield break;
+								}
+							}
+						}
+
+						//失敗。
+						this.result.errorstring = "Coroutine_File : AssetBundle : " + a_listitem.assetbundle_name;
+						yield break;
+					}else{
+						//リソース。プレハブ。
+						t_loadrequest_type = File.File.LoadRequestType.LoadResourcesPrefabFile;
+					}
 				}break;
 			case PathType.Resources_Texture:
 				{
-					//リソース。テクスチャー。
-					t_loadrequest_type = File.File.LoadRequestType.LoadResourcesTextureFile;
+					if(a_listitem.assetbundle_name != null){
+						//アセットバンドル。テクスチャー。
+
+						UnityEngine.AssetBundle t_assetbundle = Fee.AssetBundleList.AssetBundleList.GetInstance().GetAssetBundle(a_listitem.assetbundle_name);
+						if(t_assetbundle != null){
+							UnityEngine.Object t_assetobject = t_assetbundle.LoadAsset(a_listitem.id);
+							if(t_assetobject != null){
+								Fee.Asset.Asset t_result_asset = new Asset.Asset(Asset.AssetType.Texture,t_assetobject);
+								if(t_result_asset != null){
+									this.result.asset_file = t_result_asset;
+									yield break;
+								}
+							}
+						}
+
+						//失敗。
+						this.result.errorstring = "Coroutine_File : AssetBundle : " + a_listitem.assetbundle_name;
+						yield break;
+					}else{
+						//リソース。テクスチャー。
+						t_loadrequest_type = File.File.LoadRequestType.LoadResourcesTextureFile;
+					}
 				}break;
 			case PathType.Resources_Text:
 				{
-					//リソース。テキスト。
-					t_loadrequest_type = File.File.LoadRequestType.LoadResourcesTextFile;
+					if(a_listitem.assetbundle_name != null){
+						//アセットバンドル。テキスト。
+
+						UnityEngine.AssetBundle t_assetbundle = Fee.AssetBundleList.AssetBundleList.GetInstance().GetAssetBundle(a_listitem.assetbundle_name);
+						if(t_assetbundle != null){
+							UnityEngine.Object t_assetobject = t_assetbundle.LoadAsset(a_listitem.id);
+							if(t_assetobject != null){
+								UnityEngine.TextAsset t_textasset = t_assetobject as UnityEngine.TextAsset;
+								if(t_textasset != null){
+									string t_string = t_textasset.text;
+									if(t_string != null){
+										Fee.Asset.Asset t_result_asset = new Asset.Asset(Asset.AssetType.Text,t_string);
+										if(t_result_asset != null){
+											this.result.asset_file = t_result_asset;
+											yield break;
+										}
+									}
+								}
+							}
+						}
+
+						//失敗。
+						this.result.errorstring = "Coroutine_File : AssetBundle : " + a_listitem.assetbundle_name;
+						yield break;
+					}else{
+						//リソース。テキスト。
+						t_loadrequest_type = File.File.LoadRequestType.LoadResourcesTextFile;
+					}
 				}break;
 			case PathType.StreamingAssets_Texture:
 				{
@@ -115,29 +181,31 @@ namespace Fee.Data
 				}break;
 			}
 
-			//RequestLoad
-			Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(t_loadrequest_type,a_listitem.path);
+			{
+				//RequestLoad
+				Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(t_loadrequest_type,a_listitem.path);
 
-			while(true){
-				if(t_item.GetResultType() != File.Item.ResultType.None){
-					if(t_item.GetResultType() == File.Item.ResultType.Asset){
-						//成功。
-						this.result.asset_file = t_item.GetResultAsset();
-						yield break;
-					}else if(t_item.GetResultType() == File.Item.ResultType.Error){
-						//失敗。
-						this.result.errorstring = "Coroutine_File : " + t_item.GetResultErrorString();
-						yield break;
-					}else{
-						break;
+				while(true){
+					if(t_item.GetResultType() != File.Item.ResultType.None){
+						if(t_item.GetResultType() == File.Item.ResultType.Asset){
+							//成功。
+							this.result.asset_file = t_item.GetResultAsset();
+							yield break;
+						}else if(t_item.GetResultType() == File.Item.ResultType.Error){
+							//失敗。
+							this.result.errorstring = "Coroutine_File : " + t_item.GetResultErrorString();
+							yield break;
+						}else{
+							break;
+						}
 					}
-				}
 
-				if(a_callback_interface != null){
-					a_callback_interface.OnDataCoroutine(t_item.GetResultProgress());
-				}
+					if(a_callback_interface != null){
+						a_callback_interface.OnDataCoroutine(t_item.GetResultProgress());
+					}
 
-				yield return null;
+					yield return null;
+				}
 			}
 
 			//不明。

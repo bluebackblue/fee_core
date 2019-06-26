@@ -16,6 +16,10 @@ namespace Fee.Data
 	*/
 	public class ListItem
 	{
+		/** id
+		*/
+		public string id;
+
 		/** path_type
 		*/
 		public PathType path_type;
@@ -24,9 +28,9 @@ namespace Fee.Data
 		*/
 		public Fee.File.Path path;
 
-		/** packname
+		/** assetbundle_name
 		*/
-		public string packname;
+		public string assetbundle_name;
 
 		/** constructor
 
@@ -35,28 +39,34 @@ namespace Fee.Data
 		*/
 		public ListItem()
 		{
+			//id
+			this.id = null;
+
 			//path_type
 			this.path_type = PathType.None;
 
 			//path
 			this.path = null;
 
-			//packname
-			this.packname = null;
+			//assetbundle_name
+			this.assetbundle_name = null;
 		}
 
 		/** constructor
 		*/
-		public ListItem(PathType a_path_type,Fee.File.Path a_path,string a_packname)
+		public ListItem(string a_id,PathType a_path_type,Fee.File.Path a_path,string a_assetbundle_name)
 		{
+			//id
+			this.id = a_id;
+
 			//path_type
 			this.path_type = a_path_type;
 
 			//path
 			this.path = a_path;
 
-			//packname
-			this.packname = a_packname;
+			//assetbundle_name
+			this.assetbundle_name = a_assetbundle_name;
 		}
 	}
 }
