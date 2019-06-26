@@ -4,17 +4,17 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief データ。ノーマル。
+ * @brief アセットバンドル。ファイル。
 */
 
 
-/** Fee.Data
+/** Fee.AssetBundle
 */
-namespace Fee.Data
+namespace Fee.AssetBundle
 {
-	/** Main_Normal
+	/** Main_File
 	*/
-	public class Main_Normal : Fee.Data.OnDataCoroutine_CallBackInterface
+	public class Main_File : Fee.AssetBundle.OnAssetBundleCoroutine_CallBackInterface
 	{
 		/**  リクエストタイプ。
 		*/
@@ -22,9 +22,9 @@ namespace Fee.Data
 		{
 			None = -1,
 
-			/** ノーマル
+			/** ファイル
 			*/
-			Normal,
+			File,
 		};
 
 		/** ResultType
@@ -39,9 +39,9 @@ namespace Fee.Data
 			*/
 			Error,
 
-			/** アセット。
+			/** アセットバンドル。
 			*/
-			Asset,
+			AssetBundle,
 		};
 
 		/** is_busy
@@ -60,9 +60,9 @@ namespace Fee.Data
 		*/
 		private RequestType request_type;
 
-		/** request_listitem
+		/** request_id
 		*/
-		private ListItem request_listitem;
+		private string request_id;
 
 		/** result_progress
 		*/
@@ -76,13 +76,13 @@ namespace Fee.Data
 		*/
 		private ResultType result_type;
 
-		/** result_asset
+		/** result_assetbundle
 		*/
-		private Fee.Asset.Asset result_asset;
+		private UnityEngine.AssetBundle result_assetbundle;
 
 		/** constructor
 		*/
-		public Main_Normal()
+		public Main_File()
 		{
 			this.is_busy = false;
 			this.is_cancel = false;
@@ -90,13 +90,13 @@ namespace Fee.Data
 
 			//request
 			this.request_type = RequestType.None;
-			this.request_listitem = null;
+			this.request_id = null;
 
 			//result
 			this.result_progress = 0.0f;
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
-			this.result_asset = null;
+			this.result_assetbundle = null;
 		}
 
 		/** 削除。
@@ -141,19 +141,19 @@ namespace Fee.Data
 			return this.result_type;
 		}
 
-		/** GetResultAsset
+		/** GetResultAssetBundle
 		*/
-		public Fee.Asset.Asset GetResultAsset()
+		public UnityEngine.AssetBundle GetResultAssetBundle()
 		{
-			return this.result_asset;
+			return this.result_assetbundle;
 		}
 
-		/** [Fee.Data.OnDataCoroutine_CallBackInterface]コルーチン実行中。
+		/** [Fee.AssetBundle.OnAssetBundleCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 
 		*/
-		public bool OnDataCoroutine(float a_progress)
+		public bool OnAssetBundleCoroutine(float a_progress)
 		{
 			if((this.is_cancel == true)||(this.is_shutdown == true)){
 				return false;
@@ -163,9 +163,9 @@ namespace Fee.Data
 			return true;
 		}
 
-		/** リクエスト。ノーマル。
+		/** リクエスト。ファイル。
 		*/
-		public bool RequestNormal(ListItem a_listitem)
+		public bool RequestFile(string a_id)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -177,32 +177,32 @@ namespace Fee.Data
 				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
-				this.result_asset = null;
+				this.result_assetbundle = null;
 
 				//request
-				this.request_type = RequestType.Normal;
-				this.request_listitem = a_listitem;
+				this.request_type = RequestType.File;
+				this.request_id = a_id;
 
-				Function.Function.StartCoroutine(this.DoNormal());
+				Function.Function.StartCoroutine(this.DoFile());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ノーマル。
+		/** 実行。ファイル。
 		*/
-		private System.Collections.IEnumerator DoNormal()
+		private System.Collections.IEnumerator DoFile()
 		{
-			Tool.Assert(this.request_type == RequestType.Normal);
+			Tool.Assert(this.request_type == RequestType.File);
 
-			Coroutine_Normal t_coroutine = new Coroutine_Normal();
-			yield return t_coroutine.CoroutineMain(this,this.request_listitem);
+			Coroutine_File t_coroutine = new Coroutine_File();
+			yield return t_coroutine.CoroutineMain(this,this.request_id);
 
-			if(t_coroutine.result.asset_file != null){
+			if(t_coroutine.result.assetbundle_file != null){
 				this.result_progress = 1.0f;
-				this.result_asset = t_coroutine.result.asset_file;
-				this.result_type = ResultType.Asset;
+				this.result_assetbundle = t_coroutine.result.assetbundle_file;
+				this.result_type = ResultType.AssetBundle;
 				yield break;
 			}else{
 				this.result_progress = 1.0f;

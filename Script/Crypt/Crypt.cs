@@ -162,6 +162,16 @@ namespace Fee.Crypt
 			return t_work.GetItem();
 		}
 
+		/** 処理中。チェック。
+		*/
+		public bool IsBusy()
+		{
+			if((this.work_list.Count > 0)||(this.add_list.Count > 0)){
+				return true;
+			}
+			return false;
+		}
+
 		/** 更新。
 		*/
 		public void Main()

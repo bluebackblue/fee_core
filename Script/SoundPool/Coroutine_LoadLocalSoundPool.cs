@@ -54,7 +54,7 @@ namespace Fee.SoundPool
 				Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadLocalTextFile,a_path);
 				while(t_item.IsBusy() == true){
 					if(a_callback_interface != null){
-						a_callback_interface.OnSoundPoolCoroutine(t_item.GetResultProgressUp(),t_item.GetResultProgressDown());
+						a_callback_interface.OnSoundPoolCoroutine(t_item.GetResultProgress());
 					}
 					yield return null;
 				}

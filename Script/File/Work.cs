@@ -101,18 +101,23 @@ namespace Fee.File
 			*/
 			LoadStreamingAssetsTextureFile,
 
-			/** リソース。テキストファイル。
+			/** ロードリソース。テキストファイル。
 			*/
 			LoadResourcesTextFile,
 
-			/** リソース。テクスチャーファイル。
+			/** ロードリソース。テクスチャーファイル。
 			*/
 			LoadResourcesTextureFile,
 
-			/** リソース。プレハブファイル。
+			/** ロードリソース。プレハブファイル。
 			*/
 			LoadResourcesPrefabFile,
 
+			/** ロードアセット。バイナリファイル。
+			*/
+			#if(UNITY_EDITOR)
+			LoadAssetsBinaryFile,
+			#endif
 		};
 
 		/** mode
@@ -326,6 +331,16 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
+		/** リクエスト。ロードアセット。バイナリファイル。
+		*/
+		#if(UNITY_EDITOR)
+		public void RequestLoadAssetsBinaryFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadAssetsBinaryFile;
+			this.request_path = a_relative_path;
+		}
+		#endif
+
 		/** アイテム。
 		*/
 		public Item GetItem()
@@ -473,7 +488,14 @@ namespace Fee.File
 								this.mode = Mode.Do_Resources;
 							}
 						}break;
-
+					#if(UNITY_EDITOR)
+					case RequestType.LoadAssetsBinaryFile:
+						{
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadAssetsBinaryFile(this.request_path) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+					#endif
 					}
 				}break;
 			case Mode.End:
@@ -483,8 +505,7 @@ namespace Fee.File
 				{
 					Main_Io t_main = Fee.File.File.GetInstance().GetMainIo();
 
-					this.item.SetResultProgressUp(t_main.GetResultProgressUp());
-					this.item.SetResultProgressDown(t_main.GetResultProgressDown());
+					this.item.SetResultProgress(t_main.GetResultProgress());
 
 					if(t_main.GetResultType() != Main_Io.ResultType.None){ 
 						//結果。
@@ -521,8 +542,7 @@ namespace Fee.File
 				{
 					Main_WebRequest t_main = Fee.File.File.GetInstance().GetMainWebRequest();
 
-					this.item.SetResultProgressUp(t_main.GetResultProgressUp());
-					this.item.SetResultProgressDown(t_main.GetResultProgressDown());
+					this.item.SetResultProgress(t_main.GetResultProgress());
 
 					if(t_main.GetResultType() != Main_WebRequest.ResultType.None){
 						//結果。
@@ -563,8 +583,7 @@ namespace Fee.File
 				{
 					Main_Resources t_main = Fee.File.File.GetInstance().GetMainResources();
 
-					this.item.SetResultProgressUp(t_main.GetResultProgressUp());
-					this.item.SetResultProgressDown(t_main.GetResultProgressDown());
+					this.item.SetResultProgress(t_main.GetResultProgress());
 
 					if(t_main.GetResultType() != Main_Resources.ResultType.None){
 						//結果。

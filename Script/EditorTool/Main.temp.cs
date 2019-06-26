@@ -83,6 +83,13 @@ namespace Fee.EditorTool
 				{
 				}
 
+				//アセットバンドル。
+				#if(false)
+				{
+					Fee.AssetBundle.AssetBundle.CreateInstance();
+				}
+				#endif
+
 				//オーディオ。
 				#if(false)
 				{
@@ -291,6 +298,11 @@ namespace Fee.EditorTool
 			{
 			}
 
+			//アセットバンドル。
+			{
+				Fee.AssetBundle.AssetBundle.DeleteInstance();
+			}
+
 			//オーディオ。
 			{
 				Fee.Audio.Audio.DeleteInstance();
@@ -495,6 +507,11 @@ namespace Fee.EditorTool
 
 				//アセット。
 				{
+				}
+
+				//アセットバンドル。
+				{
+					Fee.AssetBundle.AssetBundle.GetInstance().Main();
 				}
 
 				//オーディオ。

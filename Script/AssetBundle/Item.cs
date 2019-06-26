@@ -4,13 +4,13 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief サウンドプール。アイテム。
+ * @brief アセットバンドル。アイテム。
 */
 
 
-/** Fee.SoundPool
+/** Fee.AssetBundle
 */
-namespace Fee.SoundPool
+namespace Fee.AssetBundle
 {
 	/** Item
 	*/
@@ -28,9 +28,9 @@ namespace Fee.SoundPool
 			*/
 			Error,
 
-			/** サウンドプール。
+			/** アセットバンドル。
 			*/
-			SoundPool,
+			AssetBundle,
 		}
 
 		/** result_type
@@ -49,13 +49,17 @@ namespace Fee.SoundPool
 		*/
 		private bool cancel_flag;
 
-		/** result_soundpool
-		*/
-		private Fee.Audio.Pack_SoundPool result_soundpool;
-
 		/** result_responseheader
 		*/
 		private System.Collections.Generic.Dictionary<string,string> result_responseheader;
+
+		/** result_asset
+		*/
+		private Fee.Asset.Asset result_asset;
+
+		/** result_assetbundle
+		*/
+		private UnityEngine.AssetBundle result_assetbundle;
 
 		/** constructor
 		*/
@@ -75,6 +79,12 @@ namespace Fee.SoundPool
 
 			//result_responseheader
 			this.result_responseheader = null;
+
+			//result_asset
+			this.result_asset = null;
+
+			//result_assetbundle
+			this.result_assetbundle = null;
 		}
 
 		/** 処理中。チェック。
@@ -138,22 +148,6 @@ namespace Fee.SoundPool
 			return this.result_errorstring;
 		}
 
-		/** 結果。サウンドプール。設定。
-		*/
-		public void SetResultSoundPool(Fee.Audio.Pack_SoundPool a_soundpool)
-		{
-			this.result_type = ResultType.SoundPool;
-
-			this.result_soundpool = a_soundpool;
-		}
-
-		/** 結果。サウンドプール。取得。
-		*/
-		public Fee.Audio.Pack_SoundPool GetResultSoundPool()
-		{
-			return this.result_soundpool;
-		}
-
 		/** 結果。レスポンスヘッダー。設定。
 		*/
 		public void SetResultResponseHeader(System.Collections.Generic.Dictionary<string,string> a_responseheader)
@@ -166,6 +160,22 @@ namespace Fee.SoundPool
 		public System.Collections.Generic.Dictionary<string,string> GetResultResponseHeader()
 		{
 			return this.result_responseheader;
+		}
+
+		/** 結果。アセットバンドル。設定。
+		*/
+		public void SetResultAssetBundle(UnityEngine.AssetBundle a_assetbundle)
+		{
+			this.result_type = ResultType.AssetBundle;
+
+			this.result_assetbundle = a_assetbundle;
+		}
+
+		/** 結果。アセットバンドル。取得。
+		*/
+		public UnityEngine.AssetBundle GetResultAssetBundle()
+		{
+			return this.result_assetbundle;
 		}
 	}
 }

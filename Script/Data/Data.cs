@@ -66,9 +66,9 @@ namespace Fee.Data
 		*/
 		private System.Collections.Generic.Dictionary<string,ListItem> list;
 
-		/** main_normal
+		/** main_file
 		*/
-		private Main_Normal main_normal;
+		private Main_File main_file;
 
 		/** work_list
 		*/
@@ -85,8 +85,8 @@ namespace Fee.Data
 			//list
 			this.list = new System.Collections.Generic.Dictionary<string,ListItem>();
 
-			//main_normal
-			this.main_normal = new Main_Normal();
+			//main_file
+			this.main_file = new Main_File();
 
 			//work_list
 			this.work_list = new System.Collections.Generic.List<Work>();
@@ -99,14 +99,14 @@ namespace Fee.Data
 		*/
 		private void Delete()
 		{
-			this.main_normal.Delete();
+			this.main_file.Delete();
 		}
 
 		/** メイン。取得。
 		*/
-		public Main_Normal GetMainNormal()
+		public Main_File GetMainFile()
 		{
-			return this.main_normal;
+			return this.main_file;
 		}
 
 		/** リソースアイテム。登録。
@@ -120,13 +120,13 @@ namespace Fee.Data
 			}
 		}
 
-		/** リクエスト。ノーマル。
+		/** リクエスト。ファイル。
 		*/
-		public Item RequestNormal(string a_name)
+		public Item RequestFile(string a_name)
 		{
 			if(this.list.TryGetValue(a_name,out ListItem t_item) == true){
 				Work t_work = new Work();
-				t_work.RequestNormal(t_item);
+				t_work.RequestFile(t_item);
 				this.add_list.Add(t_work);
 				return t_work.GetItem();
 			}else{
@@ -134,6 +134,16 @@ namespace Fee.Data
 				t_result.SetResultErrorString("name not found : " + a_name);
 				return t_result;
 			}
+		}
+
+		/** 処理中。チェック。
+		*/
+		public bool IsBusy()
+		{
+			if((this.work_list.Count > 0)||(this.add_list.Count > 0)){
+				return true;
+			}
+			return false;
 		}
 
 		/** 更新。

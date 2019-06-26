@@ -21,7 +21,7 @@ namespace Fee.SoundPool
 			return == false : キャンセル。
 
 		*/
-		bool OnSoundPoolCoroutine(float a_progress_up,float a_progress_down);
+		bool OnSoundPoolCoroutine(float a_progress);
 	}
 }
 

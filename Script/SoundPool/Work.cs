@@ -173,8 +173,7 @@ namespace Fee.SoundPool
 				{
 					Main_File t_main = Fee.SoundPool.SoundPool.GetInstance().GetMainFile();
 
-					this.item.SetResultProgressUp(t_main.GetResultProgressUp());
-					this.item.SetResultProgressDown(t_main.GetResultProgressDown());
+					this.item.SetResultProgress(t_main.GetResultProgress());
 
 					if(t_main.GetResultType() != Main_File.ResultType.None){ 
 						//結果。

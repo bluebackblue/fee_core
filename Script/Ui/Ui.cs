@@ -218,7 +218,7 @@ namespace Fee.Ui
 		*/
 		public void UnRegisterWindowResume(string a_label)
 		{
-			this.windowresumelist.UnRegist(a_label);
+			this.windowresumelist.UnRegister(a_label);
 		}
 
 		/** ウィンドウレジューム。取得。

@@ -108,13 +108,9 @@ namespace Fee.File
 		*/
 		private uint request_data_crc;
 
-		/** result_progress_up
+		/** result_progress
 		*/
-		private float result_progress_up;
-
-		/** result_progress_down
-		*/
-		private float result_progress_down;
+		private float result_progress;
 
 		/** result_errorstring
 		*/
@@ -153,8 +149,7 @@ namespace Fee.File
 			this.request_data_crc = 0;
 
 			//result
-			this.result_progress_up = 0.0f;
-			this.result_progress_down = 0.0f;
+			this.result_progress = 0.0f;
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
 			this.result_asset = null;
@@ -183,18 +178,11 @@ namespace Fee.File
 			this.is_busy = false;
 		}
 
-		/** GetResultProgressUp
+		/** GetResultProgress
 		*/
-		public float GetResultProgressUp()
+		public float GetResultProgress()
 		{
-			return this.result_progress_up;
-		}
-
-		/** GetResultProgressDown
-		*/
-		public float GetResultProgressDown()
-		{
-			return this.result_progress_down;
+			return this.result_progress;
 		}
 
 		/** GetResultErrorString
@@ -237,14 +225,13 @@ namespace Fee.File
 			return == false : キャンセル。
 
 		*/
-		public bool OnFileCoroutine(float a_progress_up,float a_progress_down)
+		public bool OnFileCoroutine(float a_progress)
 		{
 			if((this.is_cancel == true)||(this.is_shutdown == true)){
 				return false;
 			}
 
-			this.result_progress_up = a_progress_up;
-			this.result_progress_down = a_progress_down;
+			this.result_progress = a_progress;
 			return true;
 		}
 
@@ -267,8 +254,7 @@ namespace Fee.File
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress_up = 0.0f;
-				this.result_progress_down = 0.0f;
+				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
@@ -292,15 +278,13 @@ namespace Fee.File
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
 			if(t_coroutine.result.binary_file != null){
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_asset = new Asset.Asset(Asset.AssetType.Binary,t_coroutine.result.binary_file);
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Asset;
 				yield break;
 			}else{
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -326,8 +310,7 @@ namespace Fee.File
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress_up = 0.0f;
-				this.result_progress_down = 0.0f;
+				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
@@ -351,15 +334,13 @@ namespace Fee.File
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
 			if(t_coroutine.result.text_file != null){
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_asset = new Asset.Asset(Asset.AssetType.Text,t_coroutine.result.text_file);
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Asset;
 				yield break;
 			}else{
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -385,8 +366,7 @@ namespace Fee.File
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress_up = 0.0f;
-				this.result_progress_down = 0.0f;
+				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
@@ -410,15 +390,13 @@ namespace Fee.File
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
 			if(t_coroutine.result.texture_file != null){
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_asset =new Asset.Asset(Asset.AssetType.Texture,t_coroutine.result.texture_file);
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Asset;
 				yield break;
 			}else{
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -444,8 +422,7 @@ namespace Fee.File
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress_up = 0.0f;
-				this.result_progress_down = 0.0f;
+				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
@@ -469,15 +446,13 @@ namespace Fee.File
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,request_assetbundle_id,this.request_data_version,this.request_data_crc);
 
 			if(t_coroutine.result.assetbundle != null){
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_assetbundle = t_coroutine.result.assetbundle;
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.AssetBundle;
 				yield break;
 			}else{
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -503,8 +478,7 @@ namespace Fee.File
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress_up = 0.0f;
-				this.result_progress_down = 0.0f;
+				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
@@ -531,15 +505,13 @@ namespace Fee.File
 			yield return t_coroutine.CoroutineMain(this,t_path,null);
 
 			if(t_coroutine.result.binary_file != null){
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_asset = new Asset.Asset(Asset.AssetType.Binary,t_coroutine.result.binary_file);
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Asset;
 				yield break;
 			}else{
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -565,8 +537,7 @@ namespace Fee.File
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress_up = 0.0f;
-				this.result_progress_down = 0.0f;
+				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
@@ -593,15 +564,13 @@ namespace Fee.File
 			yield return t_coroutine.CoroutineMain(this,t_path,null);
 
 			if(t_coroutine.result.text_file != null){
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_asset = new Asset.Asset(Asset.AssetType.Text,t_coroutine.result.text_file);
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Asset;
 				yield break;
 			}else{
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;
@@ -627,8 +596,7 @@ namespace Fee.File
 				this.request_data_crc = 0;
 
 				//result
-				this.result_progress_up = 0.0f;
-				this.result_progress_down = 0.0f;
+				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
@@ -655,15 +623,13 @@ namespace Fee.File
 			yield return t_coroutine.CoroutineMain(this,t_path,null);
 
 			if(t_coroutine.result.texture_file != null){
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_asset = new Asset.Asset(Asset.AssetType.Texture,t_coroutine.result.texture_file);
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Asset;
 				yield break;
 			}else{
-				this.result_progress_up = 1.0f;
-				this.result_progress_down = 1.0f;
+				this.result_progress = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
 				this.result_type = ResultType.Error;
 				yield break;

@@ -106,7 +106,8 @@ namespace Fee.File
 
 					//キャンセル。
 					if(a_callback_interface != null){
-						if(a_callback_interface.OnFileCoroutine(t_webrequest.uploadProgress,t_webrequest.downloadProgress) == false){
+						float t_progress = (t_webrequest.uploadProgress + t_webrequest.downloadProgress) / 2;
+						if(a_callback_interface.OnFileCoroutine(t_progress) == false){
 							t_webrequest.Abort();
 						}
 					}
@@ -135,7 +136,7 @@ namespace Fee.File
 
 					//キャッシュに登録。
 					if(Fee.File.File.GetInstance() != null){
-						Fee.File.File.GetInstance().GetAssetBundleList().Regist(a_assetbundle_id,t_result);
+						Fee.File.File.GetInstance().GetAssetBundleList().Register(a_assetbundle_id,t_result);
 					}
 
 					this.result.assetbundle = t_result;

@@ -51,31 +51,31 @@ namespace Fee.File
 			//result
 			this.result = new ResultType();
 
-			UnityEngine.ResourceRequest t_resourcerequest = null;
+			UnityEngine.ResourceRequest t_request = null;
 
 			try{
-				t_resourcerequest = UnityEngine.Resources.LoadAsync(a_path.GetPath());
+				t_request = UnityEngine.Resources.LoadAsync(a_path.GetPath());
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 			}
 
-			if(t_resourcerequest == null){
+			if(t_request == null){
 				this.result.errorstring = "Coroutine_LoadResourcesPrefabFile : " + a_path.GetPath();
 				yield break;
 			}
 
 			//priority
-			t_resourcerequest.priority = 100;
+			t_request.priority = 100;
 
 			//isDone
-			while(t_resourcerequest.isDone == false){
+			while(t_request.isDone == false){
 				if(a_callback_interface != null){
-					a_callback_interface.OnFileCoroutine(1.0f,t_resourcerequest.progress);
+					a_callback_interface.OnFileCoroutine(t_request.progress);
 				}
 				yield return null;
 			}
 
-			UnityEngine.GameObject t_result_prefab = t_resourcerequest.asset as UnityEngine.GameObject;
+			UnityEngine.GameObject t_result_prefab = t_request.asset as UnityEngine.GameObject;
 
 			if(t_result_prefab == null){
 				this.result.errorstring = "Coroutine_LoadResourcesPrefabFile : result_prefab == null : " + a_path.GetPath();

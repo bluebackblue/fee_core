@@ -36,7 +36,7 @@ namespace Fee.File
 
 		/** アセットバンドル。登録。
 		*/
-		public void Regist(long a_assetbundle_id,UnityEngine.AssetBundle a_assetbundle)
+		public void Register(long a_assetbundle_id,UnityEngine.AssetBundle a_assetbundle)
 		{
 			this.list.Add(a_assetbundle_id,a_assetbundle);
 		}

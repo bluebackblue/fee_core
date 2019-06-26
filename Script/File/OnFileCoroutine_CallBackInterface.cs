@@ -21,7 +21,7 @@ namespace Fee.File
 			return == false : キャンセル。
 
 		*/
-		bool OnFileCoroutine(float a_progress_up,float a_progress_down);
+		bool OnFileCoroutine(float a_progress);
 	}
 }
 

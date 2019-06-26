@@ -75,7 +75,7 @@ namespace Fee.File
 			do{
 				//キャンセル。
 				if(a_callback_interface != null){
-					if(a_callback_interface.OnFileCoroutine(1.0f,this.taskprogress) == false){
+					if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
 						t_cancel_token.Cancel();
 					}
 				}

@@ -46,54 +46,16 @@ namespace Fee.SoundPool
 		*/
 		public ResultType result;
 
-		/** MainStep
+		/** Progress_MainStep
 		*/
-		private enum MainStep
+		private enum Progress_MainStep
 		{
-			LoadLocal_SoundPool = 0,
-			Load_SoundPool,
-			Sound,
-			SaveLocal_SoundPool,
+			Progress_MainStep_0_LoadLocal_SoundPool = 0,
+			Progress_MainStep_1_Load_SoundPool = 1,
+			Progress_MainStep_2_Sound = 2,
+			Progress_MainStep_3_SaveLocal_SoundPool = 3,
+
 			Max,
-		}
-
-		/** mainstep_per_list
-		*/
-		private float[] mainstep_per_list;
-
-		/** CalcProgress
-		*/
-		private float CalcProgress(float[] a_mainstep_per_list,int a_mainstep,int a_substep_max,int a_substep,float a_progress)
-		{
-			float t_progress = 0;
-
-			//main
-			for(int ii=0;ii<a_mainstep;ii++){
-				t_progress += a_mainstep_per_list[ii];
-			}
-
-			//sub
-			t_progress += a_mainstep_per_list[a_mainstep] * a_substep / a_substep_max;
-
-			//subsub
-			float t_sub_sub_use_progress = a_mainstep_per_list[a_mainstep] / a_substep_max;
-			t_progress += t_sub_sub_use_progress * a_progress;
-
-			//progress
-			if(t_progress > 1.0f){
-				t_progress = 1.0f;
-			}
-			return t_progress;
-		}
-
-		/** プログレス更新。
-		*/
-		private void UpdateProgress(OnSoundPoolCoroutine_CallBackInterface a_callback_interface,int a_mainstep,int a_substep_max,int a_substep,float a_progress)
-		{
-			float t_progress = this.CalcProgress(this.mainstep_per_list,a_mainstep,a_substep_max,a_substep,a_progress);
-			if(a_callback_interface != null){
-				a_callback_interface.OnSoundPoolCoroutine(1.0f,t_progress);
-			}
 		}
 
 		/** CoroutineMain
@@ -103,16 +65,12 @@ namespace Fee.SoundPool
 			//result
 			this.result = new ResultType();
 
-			//mainstep_per_list
-			this.mainstep_per_list = new float[(int)MainStep.Max]{
+			Progress t_progress = new Progress(new float[]{
 				0.05f,
 				0.1f,
 				0.8f,
 				0.05f
-			};
-
-			//■ロードローカル。
-			MainStep t_main_step = MainStep.LoadLocal_SoundPool;
+			});
 
 			//ローカル、サウンロプール管理ファイル。相対パス。
 			Fee.File.Path t_local_caoundpool_path = new File.Path(a_path.GetFileName());
@@ -122,8 +80,11 @@ namespace Fee.SoundPool
 			if(Config.USE_DOWNLOAD_SOUNDPOOL_CACHE == true){
 				Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadLocalTextFile,t_local_caoundpool_path);
 				while(t_item.IsBusy() == true){
-
-					this.UpdateProgress(a_callback_interface,(int)t_main_step,1,0,t_item.GetResultProgressDown());
+					//■ステップ０。
+					if(a_callback_interface != null){
+						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_0_LoadLocal_SoundPool,(int)Progress_MainStep.Max,0,1);
+						a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
+					}
 					yield return null;
 
 				}
@@ -172,9 +133,6 @@ namespace Fee.SoundPool
 				t_local_soundpool_json = null;
 			}
 
-			//■ロード。
-			t_main_step = MainStep.Load_SoundPool;
-
 			//ロード。
 			string t_load_stringjson = null;
 			Fee.Audio.Pack_SoundPool t_load_soundpool = null;
@@ -190,8 +148,11 @@ namespace Fee.SoundPool
 				}
 				
 				while(t_item.IsBusy() == true){
-
-					this.UpdateProgress(a_callback_interface,(int)t_main_step,1,0,t_item.GetResultProgressDown());
+					//■ステップ１。
+					if(a_callback_interface != null){
+						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_1_Load_SoundPool,(int)Progress_MainStep.Max,0,1);
+						a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
+					}
 					yield return null;
 
 				}
@@ -223,13 +184,8 @@ namespace Fee.SoundPool
 				}
 			}
 
-			//■サウンド。
-			t_main_step = MainStep.Sound;
-
 			//登録サウンドのロード。
 			{
-				int t_substep_max = t_load_soundpool.name_list.Count * 2;
-
 				for(int ii=0;ii<t_load_soundpool.name_list.Count;ii++){
 
 					byte[] t_sound_binary = null;
@@ -247,8 +203,11 @@ namespace Fee.SoundPool
 						}
 
 						while(t_item.IsBusy() == true){
-
-							this.UpdateProgress(a_callback_interface,(int)t_main_step,t_substep_max,ii*2+0,t_item.GetResultProgressDown());
+							//■ステップ２。
+							if(a_callback_interface != null){
+								t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_2_Sound,(int)Progress_MainStep.Max,ii * 2 + 0,t_load_soundpool.name_list.Count * 2);
+								a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
+							}
 							yield return null;
 
 						}
@@ -268,10 +227,12 @@ namespace Fee.SoundPool
 
 						File.Item t_item = Fee.File.File.GetInstance().RequestSaveLocalBinaryFile(t_sound_url,t_sound_binary);
 						while(t_item.IsBusy() == true){
-
-							this.UpdateProgress(a_callback_interface,(int)t_main_step,t_substep_max,ii*2+1,t_item.GetResultProgressDown());
+							//■ステップ２。
+							if(a_callback_interface != null){
+								t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_2_Sound,(int)Progress_MainStep.Max,ii * 2 + 1,t_load_soundpool.name_list.Count * 2);
+								a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
+							}
 							yield return null;
-
 						}
 						if(t_item.GetResultType() == File.Item.ResultType.SaveEnd){
 							//成功。
@@ -284,17 +245,16 @@ namespace Fee.SoundPool
 				}
 			}
 
-			//■サウンド。
-			t_main_step = MainStep.SaveLocal_SoundPool;
-
 			//ローカル、サウンドプール管理ファイルのセーブ。
 			{
 				File.Item t_item = Fee.File.File.GetInstance().RequestSaveLocalTextFile(t_local_caoundpool_path,t_load_stringjson);
 				while(t_item.IsBusy() == true){
-
-					this.UpdateProgress(a_callback_interface,(int)t_main_step,1,0,t_item.GetResultProgressDown());
+					//■ステップ３。
+					if(a_callback_interface != null){
+						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_3_SaveLocal_SoundPool,(int)Progress_MainStep.Max,0,1);
+						a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
+					}
 					yield return null;
-
 				}
 				if(t_item.GetResultType()==File.Item.ResultType.SaveEnd){
 					//成功。

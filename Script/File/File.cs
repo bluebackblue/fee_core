@@ -171,6 +171,10 @@ namespace Fee.File
 			DownLoadBinaryFile,
 			DownLoadTextFile,
 			DownLoadTextureFile,
+
+			#if(UNITY_EDITOR)
+			LoadAssetsBinaryFile,
+			#endif
 		};
 
 		/** RequestLoad
@@ -274,6 +278,20 @@ namespace Fee.File
 					this.add_list.Add(t_work);
 					return t_work.GetItem();
 				}break;
+
+			#if(UNITY_EDITOR)
+
+			//アセット。
+
+			case LoadRequestType.LoadAssetsBinaryFile:
+				{
+					Work t_work = new Work();
+					t_work.RequestLoadAssetsBinaryFile(a_path);
+					this.add_list.Add(t_work);
+					return t_work.GetItem();
+				}break;
+
+			#endif
 
 			}
 

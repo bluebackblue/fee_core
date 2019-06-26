@@ -94,7 +94,8 @@ namespace Fee.File
 
 					//キャンセル。
 					if(a_callback_interface != null){
-						if(a_callback_interface.OnFileCoroutine(t_webrequest.uploadProgress,t_webrequest.downloadProgress) == false){
+						float t_progress = (t_webrequest.uploadProgress + t_webrequest.downloadProgress) / 2;
+						if(a_callback_interface.OnFileCoroutine(t_progress) == false){
 							t_webrequest.Abort();
 						}
 					}

@@ -45,13 +45,9 @@ namespace Fee.File
 		*/
 		private ResultType result_type;
 
-		/** result_progress_up
+		/** result_progress
 		*/
-		private float result_progress_up;
-
-		/** result_progress_down
-		*/
-		private float result_progress_down;
+		private float result_progress;
 
 		/** result_errorstring
 		*/
@@ -80,11 +76,8 @@ namespace Fee.File
 			//result_type
 			this.result_type = ResultType.None;
 
-			//result_progress_up
-			this.result_progress_up = 0.0f;
-
-			//result_progress_down
-			this.result_progress_down = 0.0f;
+			//result_progress
+			this.result_progress = 0.0f;
 
 			//result_errorstring
 			this.result_errorstring = null;
@@ -135,30 +128,16 @@ namespace Fee.File
 
 		/** プログレス。設定。
 		*/
-		public void SetResultProgressUp(float a_result_progress_up)
+		public void SetResultProgress(float a_result_progress)
 		{
-			this.result_progress_up = a_result_progress_up;
+			this.result_progress = a_result_progress;
 		}
 
 		/** プログレス。取得。
 		*/
-		public float GetResultProgressUp()
+		public float GetResultProgress()
 		{
-			return this.result_progress_up;
-		}
-
-		/** プログレス。設定。
-		*/
-		public void SetResultProgressDown(float a_result_progress_down)
-		{
-			this.result_progress_down = a_result_progress_down;
-		}
-
-		/** プログレス。取得。
-		*/
-		public float GetResultProgressDown()
-		{
-			return this.result_progress_down;
+			return this.result_progress;
 		}
 
 		/** 結果。エラー文字。設定。

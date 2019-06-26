@@ -12,9 +12,9 @@
 */
 namespace Fee.Data
 {
-	/** ノーマル。
+	/** ファイル。
 	*/
-	public class Coroutine_Normal
+	public class Coroutine_File
 	{
 		/** ResultType
 		*/
@@ -126,7 +126,7 @@ namespace Fee.Data
 						yield break;
 					}else if(t_item.GetResultType() == File.Item.ResultType.Error){
 						//失敗。
-						this.result.errorstring = "Coroutine_Normal : " + t_item.GetResultErrorString();
+						this.result.errorstring = "Coroutine_File : " + t_item.GetResultErrorString();
 						yield break;
 					}else{
 						break;
@@ -134,7 +134,7 @@ namespace Fee.Data
 				}
 
 				if(a_callback_interface != null){
-					a_callback_interface.OnDataCoroutine(t_item.GetResultProgressDown());
+					a_callback_interface.OnDataCoroutine(t_item.GetResultProgress());
 				}
 
 				yield return null;
@@ -142,7 +142,7 @@ namespace Fee.Data
 
 			//不明。
 			Tool.Assert(false);
-			this.result.errorstring = "Coroutine_Normal : " + "Unknown";
+			this.result.errorstring = "Coroutine_File : " + "Unknown";
 			yield break;
 		}
 	}
