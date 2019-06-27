@@ -35,9 +35,9 @@ namespace Fee.SoundPool
 
 
 
-		/** ダウンロードサウンドプール。キャッシュ。
+		/** ロードＵＲＬサウンドプール。キャッシュ。
 		*/
-		public static bool USE_DOWNLOAD_SOUNDPOOL_CACHE = true;
+		public static bool USE_LOADURL_SOUNDPOOL_CACHE = true;
 
 		/** ロードストリーミングアセットサウンドプール。キャッシュ。
 		*/

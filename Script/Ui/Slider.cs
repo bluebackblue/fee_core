@@ -219,7 +219,7 @@ namespace Fee.Ui
 			this.button_lock_sprite.SetRect(this.eventplate_button.GetX(),this.eventplate_button.GetY(),this.eventplate_button.GetW(),this.eventplate_button.GetH());
 		}
 
-		/**　ボタンテクスチャーコーナーサイズ。設定。
+		/**　ボタンテクスチャコーナーサイズ。設定。
 		*/
 		public void SetTextureCornerSize(int a_corner_size)
 		{
@@ -234,7 +234,7 @@ namespace Fee.Ui
 
 
 
-		/**　ボタンテクスチャーコーナーサイズ。設定。
+		/**　ボタンテクスチャコーナーサイズ。設定。
 		*/
 		public void SetButtonTextureCornerSize(int a_corner_size)
 		{
@@ -301,28 +301,28 @@ namespace Fee.Ui
 			this.button_lock_sprite.SetColor(ref a_color);
 		}
 
-		/** ＢＧノーマルテクスチャー。設定。
+		/** ＢＧノーマルテクスチャ。設定。
 		*/
 		public void SetBgNormalTexture(UnityEngine.Texture2D a_texture)
 		{
 			this.bg_normal_sprite.SetTexture(a_texture);
 		}
 
-		/** ＢＧロックテクスチャー。設定。
+		/** ＢＧロックテクスチャ。設定。
 		*/
 		public void SetBgLockTexture(UnityEngine.Texture2D a_texture)
 		{
 			this.bg_lock_sprite.SetTexture(a_texture);
 		}
 
-		/** ＢＧノーマルテクスチャー矩形。設定。
+		/** ＢＧノーマルテクスチャ矩形。設定。
 		*/
 		public void SetBgNormalTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
 		{
 			this.bg_normal_sprite.SetTextureRect(ref a_texture_rect);
 		}
 
-		/** ＢＧロックテクスチャー矩形。設定。
+		/** ＢＧロックテクスチャ矩形。設定。
 		*/
 		public void SetBgLockTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
 		{
@@ -357,28 +357,28 @@ namespace Fee.Ui
 			this.bg_lock_sprite.SetColor(a_r,a_g,a_b,a_a);
 		}
 
-		/** バリューノーマルテクスチャー。設定。
+		/** バリューノーマルテクスチャ。設定。
 		*/
 		public void SetValueNormalTexture(UnityEngine.Texture2D a_texture)
 		{
 			this.value_normal_sprite.SetTexture(a_texture);
 		}
 
-		/** バリューロックテクスチャー。設定。
+		/** バリューロックテクスチャ。設定。
 		*/
 		public void SetValueLockTexture(UnityEngine.Texture2D a_texture)
 		{
 			this.value_lock_sprite.SetTexture(a_texture);
 		}
 
-		/** バリューノーマルテクスチャー矩形。設定。
+		/** バリューノーマルテクスチャ矩形。設定。
 		*/
 		public void SetValueNormalTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
 		{
 			this.value_normal_sprite.SetTextureRect(ref a_texture_rect);
 		}
 
-		/** バリューロックテクスチャー矩形。設定。
+		/** バリューロックテクスチャ矩形。設定。
 		*/
 		public void SetValueLockTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
 		{

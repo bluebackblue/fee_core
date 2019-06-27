@@ -92,7 +92,7 @@ namespace Fee.Data
 			case PathType.Resources_Texture:
 				{
 					if(a_listitem.assetbundle_name != null){
-						//アセットバンドル。テクスチャー。
+						//アセットバンドル。テクスチャ。
 
 						UnityEngine.AssetBundle t_assetbundle = Fee.AssetBundleList.AssetBundleList.GetInstance().GetAssetBundle(a_listitem.assetbundle_name);
 						if(t_assetbundle != null){
@@ -110,7 +110,7 @@ namespace Fee.Data
 						this.result.errorstring = "Coroutine_File : AssetBundle : " + a_listitem.assetbundle_name;
 						yield break;
 					}else{
-						//リソース。テクスチャー。
+						//リソース。テクスチャ。
 						t_loadrequest_type = File.File.LoadRequestType.LoadResourcesTextureFile;
 					}
 				}break;
@@ -147,7 +147,7 @@ namespace Fee.Data
 				}break;
 			case PathType.StreamingAssets_Texture:
 				{
-					//ストリーミングアセット。テクスチャー。
+					//ストリーミングアセット。テクスチャ。
 					t_loadrequest_type = File.File.LoadRequestType.LoadStreamingAssetsTextureFile;
 				}break;
 			case PathType.StreamingAssets_Text:
@@ -157,23 +157,23 @@ namespace Fee.Data
 				}break;
 			case PathType.StreamingAssets_Binary:
 				{
-					//ストリーミングアセット。バイナリー。
+					//ストリーミングアセット。バイナリ。
 					t_loadrequest_type = File.File.LoadRequestType.LoadStreamingAssetsBinaryFile;
 				}break;
 			case PathType.Url_Texture:
 				{
-					//ＵＲＬ。テクスチャー。
-					t_loadrequest_type = File.File.LoadRequestType.DownLoadTextureFile;
+					//ＵＲＬ。テクスチャ。
+					t_loadrequest_type = File.File.LoadRequestType.LoadUrlTextureFile;
 				}break;
 			case PathType.Url_Text:
 				{
 					//ＵＲＬ。テキスト。
-					t_loadrequest_type = File.File.LoadRequestType.DownLoadTextFile;
+					t_loadrequest_type = File.File.LoadRequestType.LoadUrlTextFile;
 				}break;
 			case PathType.Url_Binary:
 				{
-					//ＵＲＬ。バイナリー。
-					t_loadrequest_type = File.File.LoadRequestType.DownLoadBinaryFile;
+					//ＵＲＬ。バイナリ。
+					t_loadrequest_type = File.File.LoadRequestType.LoadUrlBinaryFile;
 				}break;
 			default:
 				{

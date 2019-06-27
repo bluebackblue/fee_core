@@ -98,11 +98,15 @@ namespace Fee.AssetBundleList
 
 				switch(t_pathitem.pathtype){
 				#if(UNITY_EDITOR)
-				case AssetBundleList.PathType.AssetsPath:
+				case Fee.AssetBundleList.PathType.AssetsAssetBundle:
 					{
 						t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadAssetsBinaryFile,t_pathitem.path);
 					}break;
 				#endif
+				case Fee.AssetBundleList.PathType.UrlAssetBundle:
+					{
+						t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadUrlBinaryFile,t_pathitem.path);
+					}break;
 				}
 
 				if(t_item != null){

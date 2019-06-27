@@ -194,7 +194,7 @@ namespace Fee.Ui
 			this.text.SetFontSize(a_fontsize);	
 		}
 
-		/**　テクスチャーコーナーサイズ。設定。
+		/**　テクスチャコーナーサイズ。設定。
 		*/
 		public void SetTextureCornerSize(int a_corner_size)
 		{

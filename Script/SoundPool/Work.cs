@@ -49,9 +49,9 @@ namespace Fee.SoundPool
 			*/
 			LoadStreamingAssetsSoundPool,
 
-			/** ダウンロード。サウンドプール。
+			/** ロードＵＲＬ。サウンドプール。
 			*/
-			DownLoadSoundPool,
+			LoadUrlSoundPool,
 		};
 
 		/** mode
@@ -118,11 +118,11 @@ namespace Fee.SoundPool
 			this.request_data_version = a_data_version;
 		}
 
-		/** リクエスト。ダウンロード。サウンドプール。
+		/** リクエスト。ロードＵＲＬ。サウンドプール。
 		*/
-		public void RequestDownLoadBinaryFile(File.Path a_url_path,UnityEngine.WWWForm a_post_data,uint a_data_version)
+		public void RequestLoadUrlBinaryFile(File.Path a_url_path,UnityEngine.WWWForm a_post_data,uint a_data_version)
 		{
-			this.request_type = RequestType.DownLoadSoundPool;
+			this.request_type = RequestType.LoadUrlSoundPool;
 			this.request_path = a_url_path;
 			this.request_post_data = a_post_data;
 			this.request_data_version = a_data_version;
@@ -158,9 +158,9 @@ namespace Fee.SoundPool
 								this.mode = Mode.Do_File;
 							}
 						}break;
-					case RequestType.DownLoadSoundPool:
+					case RequestType.LoadUrlSoundPool:
 						{
-							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestDownLoadSoundPool(this.request_path,this.request_post_data,this.request_data_version) == true){
+							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestLoadUrlSoundPool(this.request_path,this.request_post_data,this.request_data_version) == true){
 								this.mode = Mode.Do_File;
 							}
 						}break;

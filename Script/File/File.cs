@@ -168,9 +168,9 @@ namespace Fee.File
 			LoadResourcesTextureFile,
 			LoadResourcesPrefabFile,
 
-			DownLoadBinaryFile,
-			DownLoadTextFile,
-			DownLoadTextureFile,
+			LoadUrlBinaryFile,
+			LoadUrlTextFile,
+			LoadUrlTextureFile,
 
 			#if(UNITY_EDITOR)
 			LoadAssetsBinaryFile,
@@ -179,7 +179,7 @@ namespace Fee.File
 
 		/** RequestLoad
 		*/
-		public Item RequestLoad(LoadRequestType a_request_type,Path a_path)
+		public Item RequestLoad(LoadRequestType a_request_type,Path a_path,UnityEngine.WWWForm a_post_data = null)
 		{
 			switch(a_request_type){
 
@@ -255,26 +255,26 @@ namespace Fee.File
 					return t_work.GetItem();
 				}break;
 
-			//ダウンロード。
+			//ロードＵＲＬ。
 
-			case LoadRequestType.DownLoadBinaryFile:
+			case LoadRequestType.LoadUrlBinaryFile:
 				{
 					Work t_work = new Work();
-					t_work.RequestDownLoadBinaryFile(a_path,null);
+					t_work.RequestLoadUrlBinaryFile(a_path,a_post_data);
 					this.add_list.Add(t_work);
 					return t_work.GetItem();
 				}break;
-			case LoadRequestType.DownLoadTextFile:
+			case LoadRequestType.LoadUrlTextFile:
 				{
 					Work t_work = new Work();
-					t_work.RequestDownLoadTextFile(a_path,null);
+					t_work.RequestLoadUrlTextFile(a_path,a_post_data);
 					this.add_list.Add(t_work);
 					return t_work.GetItem();
 				}break;
-			case LoadRequestType.DownLoadTextureFile:
+			case LoadRequestType.LoadUrlTextureFile:
 				{
 					Work t_work = new Work();
-					t_work.RequestDownLoadTextureFile(a_path,null);
+					t_work.RequestLoadUrlTextureFile(a_path,a_post_data);
 					this.add_list.Add(t_work);
 					return t_work.GetItem();
 				}break;
@@ -293,41 +293,6 @@ namespace Fee.File
 
 			#endif
 
-			}
-
-			Tool.Assert(false);
-			return null;
-		}
-
-		/** RequestDownLoad
-		*/
-		public Item RequestDownLoad(LoadRequestType a_request_type,Path a_url_path,UnityEngine.WWWForm a_post_data)
-		{
-			switch(a_request_type){
-			
-			//ダウンロード。
-
-			case LoadRequestType.DownLoadBinaryFile:
-				{
-					Work t_work = new Work();
-					t_work.RequestDownLoadBinaryFile(a_url_path,a_post_data);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
-				}break;
-			case LoadRequestType.DownLoadTextFile:
-				{
-					Work t_work = new Work();
-					t_work.RequestDownLoadTextFile(a_url_path,a_post_data);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
-				}break;
-			case LoadRequestType.DownLoadTextureFile:
-				{
-					Work t_work = new Work();
-					t_work.RequestDownLoadTextureFile(a_url_path,a_post_data);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
-				}break;
 			}
 
 			Tool.Assert(false);
@@ -360,21 +325,6 @@ namespace Fee.File
 		{
 			Work t_work = new Work();
 			t_work.RequestSaveLocalTextureFile(a_relative_path,a_texture);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
-		}
-
-		/** リクエスト。アセットバンドル。
-
-		a_path                : パス。
-		a_assetbundle_id      : 重複チェック用のＩＤ。
-		a_data_version        : 再ダウンロードチェック用のバージョン値。
-
-		*/
-		public Item RequestDownLoadAssetBundle(Path a_url_path,long a_assetbundle_id,uint a_data_version)
-		{
-			Work t_work = new Work();
-			t_work.RequestDownLoadAssetBundle(a_url_path,a_assetbundle_id,a_data_version);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}

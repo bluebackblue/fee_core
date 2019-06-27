@@ -70,7 +70,7 @@ namespace Fee.Depth
 			return this.mycamera.depth;
 		}
 
-		/** 深度テクスチャー。設定。
+		/** 深度テクスチャ。設定。
 		*/
 		public void SetDepthTexture(UnityEngine.RenderTexture a_rendertexture_depth)
 		{

@@ -12,7 +12,7 @@
 */
 namespace Fee.File
 {
-	/** ロードローカル。テクスチャーファイル。
+	/** ロードローカル。テクスチャファイル。
 	*/
 	public class Coroutine_LoadLocalTextureFile : Fee.File.OnFileTask_CallBackInterface
 	{
@@ -20,7 +20,7 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
-			/** テクスチャーファイル。
+			/** テクスチャファイル。
 			*/
 			public UnityEngine.Texture2D texture_file;
 

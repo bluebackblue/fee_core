@@ -24,7 +24,7 @@ namespace Fee.Data
 		*/
 		Resources_Prefab,
 
-		/** リソース。テクスチャー。アセットバンドル化可能。
+		/** リソース。テクスチャ。アセットバンドル化可能。
 		*/
 		Resources_Texture,
 
@@ -32,7 +32,7 @@ namespace Fee.Data
 		*/
 		Resources_Text,
 
-		/** ストリーミングアセット。テクスチャー。
+		/** ストリーミングアセット。テクスチャ。
 		*/
 		StreamingAssets_Texture,
 
@@ -40,11 +40,11 @@ namespace Fee.Data
 		*/
 		StreamingAssets_Text,
 
-		/** ストリーミングアセット。バイナリー。
+		/** ストリーミングアセット。バイナリ。
 		*/
 		StreamingAssets_Binary,
 
-		/** ＵＲＬ。テクスチャー。
+		/** ＵＲＬ。テクスチャ。
 		*/
 		Url_Texture,
 
@@ -52,7 +52,7 @@ namespace Fee.Data
 		*/
 		Url_Text,
 
-		/** ＵＲＬ。バイナリー。
+		/** ＵＲＬ。バイナリ。
 		*/
 		Url_Binary,
 

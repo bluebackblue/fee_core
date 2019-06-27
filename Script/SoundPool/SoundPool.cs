@@ -127,15 +127,15 @@ namespace Fee.SoundPool
 			return t_work.GetItem();
 		}
 
-		/** リクエスト。ダウンロード。サウンドプール。
+		/** リクエスト。ロードＵＲＬ。サウンドプール。
 
 			ロード後ローカルセーブ。
 
 		*/
-		public Item RequestDownLoadSoundPool(File.Path a_path,UnityEngine.WWWForm a_post_data,uint a_data_version)
+		public Item RequestLoadUrlSoundPool(File.Path a_path,UnityEngine.WWWForm a_post_data,uint a_data_version)
 		{
 			Work t_work = new Work();
-			t_work.RequestDownLoadBinaryFile(a_path,a_post_data,a_data_version);
+			t_work.RequestLoadUrlBinaryFile(a_path,a_post_data,a_data_version);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}

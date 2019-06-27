@@ -69,7 +69,7 @@ namespace Fee.Bloom
 			//加算強度。
 			this.intensity = Config.DEFAULT_INTENSITY;
 
-			//レンダーテクスチャー。
+			//レンダーテクスチャ。
 			int t_downsampling_count = 3;
 			this.work_rendertexture = new UnityEngine.RenderTexture[t_downsampling_count];
 		}
@@ -136,7 +136,7 @@ namespace Fee.Bloom
 		*/
 		private void OnRenderImage(UnityEngine.RenderTexture a_source,UnityEngine.RenderTexture a_dest)
 		{
-			//レンダリングテクスチャー作成。
+			//レンダリングテクスチャ作成。
 			{
 				int t_width = a_source.width;
 				int t_height = a_source.height;
@@ -188,7 +188,7 @@ namespace Fee.Bloom
 				Tool.DebugReThrow(t_exception);
 			}
 
-			//レンダーテクスチャー解放。
+			//レンダーテクスチャ解放。
 			for(int ii=0;ii<this.work_rendertexture.Length;ii++){
 				if(this.work_rendertexture[ii] != null){
 					UnityEngine.RenderTexture.ReleaseTemporary(this.work_rendertexture[ii]);

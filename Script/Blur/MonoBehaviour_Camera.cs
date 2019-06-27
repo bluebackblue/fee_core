@@ -51,7 +51,7 @@ namespace Fee.Blur
 			//比率。
 			this.rate_blend = 1.0f;
 
-			//レンダーテクスチャー。
+			//レンダーテクスチャ。
 			this.work_rendertexture = null;
 
 			#if(UNITY_EDITOR)
@@ -121,7 +121,7 @@ namespace Fee.Blur
 		*/
 		private void OnRenderImage(UnityEngine.RenderTexture a_source,UnityEngine.RenderTexture a_dest)
 		{
-			//レンダリングテクスチャー作成。
+			//レンダリングテクスチャ作成。
 			this.work_rendertexture = UnityEngine.RenderTexture.GetTemporary(a_source.width,a_source.height,0,a_source.format,UnityEngine.RenderTextureReadWrite.Default);
 
 			try{
@@ -136,7 +136,7 @@ namespace Fee.Blur
 				Tool.DebugReThrow(t_exception);
 			}
 
-			//レンダーテクスチャー解放。
+			//レンダーテクスチャ解放。
 			if(this.work_rendertexture != null){
 				UnityEngine.RenderTexture.ReleaseTemporary(this.work_rendertexture);
 				this.work_rendertexture = null;

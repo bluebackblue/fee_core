@@ -30,9 +30,9 @@ namespace Fee.SoundPool
 			*/
 			LoadStreamingAssetsSoundPool,
 
-			/** ダウンロード。サウンドプール。
+			/** ロードＵＲＬ。サウンドプール。
 			*/
-			DownLoadSoundPool,
+			LoadUrlSoundPool,
 		};
 
 		/** ResultType
@@ -297,9 +297,9 @@ namespace Fee.SoundPool
 			}
 		}
 
-		/** リクエスト。ダウンロード。サウンドプール。
+		/** リクエスト。ロードＵＲＬ。サウンドプール。
 		*/
-		public bool RequestDownLoadSoundPool(File.Path a_path,UnityEngine.WWWForm a_post_data,uint a_data_version)
+		public bool RequestLoadUrlSoundPool(File.Path a_path,UnityEngine.WWWForm a_post_data,uint a_data_version)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -308,7 +308,7 @@ namespace Fee.SoundPool
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.DownLoadSoundPool;
+				this.request_type = RequestType.LoadUrlSoundPool;
 				this.request_path = a_path;
 				this.request_post_data = a_post_data;
 				this.request_data_version = a_data_version;
@@ -320,7 +320,7 @@ namespace Fee.SoundPool
 				this.result_soundpool = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoDownLoadSoundPool());
+				Function.Function.StartCoroutine(this.DoLoadUrlSoundPool());
 				return true;
 			}
 
@@ -329,9 +329,9 @@ namespace Fee.SoundPool
 
 		/** 実行。ダウンロード。サウンドプール。
 		*/
-		private System.Collections.IEnumerator DoDownLoadSoundPool()
+		private System.Collections.IEnumerator DoLoadUrlSoundPool()
 		{
-			Tool.Assert(this.request_type == RequestType.DownLoadSoundPool);
+			Tool.Assert(this.request_type == RequestType.LoadUrlSoundPool);
 
 			Coroutine_LoadSoundPool t_coroutine = new Coroutine_LoadSoundPool();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,false,this.request_data_version);

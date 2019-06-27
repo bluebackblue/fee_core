@@ -28,7 +28,7 @@ namespace Fee.Crypt
 			*/
 			Error,
 
-			/** バイナリー。
+			/** バイナリ。
 			*/
 			Binary,
 

@@ -12,7 +12,7 @@
 */
 namespace Fee.File
 {
-	/** ロードリソース。テクスチャーファイル。
+	/** ロードリソース。テクスチャファイル。
 	*/
 	public class Coroutine_LoadResourcesTextureFile
 	{
@@ -20,7 +20,7 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
-			/** テクスチャーファイル。
+			/** テクスチャファイル。
 			*/
 			public UnityEngine.Texture2D texture_file;
 

@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ファイル。バイナリーコンポーネント。
+ * @brief ファイル。バイナリコンポーネント。
 */
 
 
@@ -32,7 +32,7 @@ namespace Fee.File
 			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
 			t_prefab.name = "prefab_temp";
 			{
-				//バイナリーコンポーネント追加。
+				//バイナリコンポーネント追加。
 				Binary_Component t_binary = t_prefab.AddComponent<Binary_Component>();
 				t_binary.data = a_binary;
 

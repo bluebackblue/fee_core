@@ -22,21 +22,17 @@ namespace Fee.File
 		{
 			None = -1,
 
-			/** ダウンロード。バイナリファイル。
+			/** ロードＵＲＬ。バイナリファイル。
 			*/
-			DownLoadBinaryFile,
+			LoadUrlBinaryFile,
 
-			/** ダウンロード。テキストファイル。
+			/** ロードＵＲＬ。テキストファイル。
 			*/
-			DownLoadTextFile,
+			LoadUrlTextFile,
 
-			/** ダウンロード。テクスチャファイル。
+			/** ロードＵＲＬ。テクスチャファイル。
 			*/
-			DownLoadTextureFile,
-
-			/** ダウンロード。アセットバンドル。
-			*/
-			DownLoadAssetBundle,
+			LoadUrlTextureFile,
 
 			/** ロードストリーミングアセット。バイナリファイル。
 			*/
@@ -46,7 +42,7 @@ namespace Fee.File
 			*/
 			LoadStreamingAssetsTextFile,
 
-			/** ロードストリーミングアセット。テクスチャーファイル。
+			/** ロードストリーミングアセット。テクスチャファイル。
 			*/
 			LoadStreamingAssetsTextureFile,
 		};
@@ -66,10 +62,6 @@ namespace Fee.File
 			/** アセット。
 			*/
 			Asset,
-
-			/** アセットバンドル。
-			*/
-			AssetBundle,
 		};
 
 		/** is_busy
@@ -95,18 +87,6 @@ namespace Fee.File
 		/** request_path
 		*/
 		private Path request_path;
-
-		/** request_assetbundle_id
-		*/
-		private long request_assetbundle_id;
-
-		/** request_data_version
-		*/
-		private uint request_data_version;
-
-		/** request_data_crc
-		*/
-		private uint request_data_crc;
 
 		/** result_progress
 		*/
@@ -144,9 +124,6 @@ namespace Fee.File
 			this.request_type = RequestType.None;
 			this.request_post_data = null;
 			this.request_path = null;
-			this.request_assetbundle_id = 0;
-			this.request_data_version = 0;
-			this.request_data_crc = 0;
 
 			//result
 			this.result_progress = 0.0f;
@@ -235,9 +212,9 @@ namespace Fee.File
 			return true;
 		}
 
-		/** リクエスト。ダウンロード。バイナリファイル。
+		/** リクエスト。ロードＵＲＬ。バイナリファイル。
 		*/
-		public bool RequestDownLoadBinaryFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
+		public bool RequestLoadUrlBinaryFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -246,12 +223,9 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.DownLoadBinaryFile;
+				this.request_type = RequestType.LoadUrlBinaryFile;
 				this.request_post_data = a_post_data;
 				this.request_path = a_url_path;
-				this.request_assetbundle_id = 0;
-				this.request_data_version = 0;
-				this.request_data_crc = 0;
 
 				//result
 				this.result_progress = 0.0f;
@@ -261,20 +235,20 @@ namespace Fee.File
 				this.result_assetbundle = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoDownLoadBinaryFile());
+				Function.Function.StartCoroutine(this.DoLoadUrlBinaryFile());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ダウンロード。バイナリファイル。
+		/** 実行。ロードＵＲＬ。バイナリファイル。
 		*/
-		private System.Collections.IEnumerator DoDownLoadBinaryFile()
+		private System.Collections.IEnumerator DoLoadUrlBinaryFile()
 		{
-			Tool.Assert(this.request_type == RequestType.DownLoadBinaryFile);
+			Tool.Assert(this.request_type == RequestType.LoadUrlBinaryFile);
 
-			Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
+			Coroutine_LoadUrlBinaryFile t_coroutine = new Coroutine_LoadUrlBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
 			if(t_coroutine.result.binary_file != null){
@@ -291,9 +265,9 @@ namespace Fee.File
 			}
 		}
 
-		/** リクエスト。ダウンロード。テキストファイル。
+		/** リクエスト。ロードＵＲＬ。テキストファイル。
 		*/
-		public bool RequestDownLoadTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
+		public bool RequestLoadUrlTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -302,12 +276,9 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.DownLoadTextFile;
+				this.request_type = RequestType.LoadUrlTextFile;
 				this.request_post_data = a_post_data;
 				this.request_path = a_url_path;
-				this.request_assetbundle_id = 0;
-				this.request_data_version = 0;
-				this.request_data_crc = 0;
 
 				//result
 				this.result_progress = 0.0f;
@@ -317,20 +288,20 @@ namespace Fee.File
 				this.result_assetbundle = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoDownLoadTextFile());
+				Function.Function.StartCoroutine(this.DoLoadUrlTextFile());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ダウンロード。テキストファイル。
+		/** 実行。ロードＵＲＬ。テキストファイル。
 		*/
-		private System.Collections.IEnumerator DoDownLoadTextFile()
+		private System.Collections.IEnumerator DoLoadUrlTextFile()
 		{
-			Tool.Assert(this.request_type == RequestType.DownLoadTextFile);
+			Tool.Assert(this.request_type == RequestType.LoadUrlTextFile);
 
-			Coroutine_DownLoadTextFile t_coroutine = new Coroutine_DownLoadTextFile();
+			Coroutine_LoadUrlTextFile t_coroutine = new Coroutine_LoadUrlTextFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
 			if(t_coroutine.result.text_file != null){
@@ -347,9 +318,9 @@ namespace Fee.File
 			}
 		}
 
-		/** リクエスト。ダウンロード。テクスチャーファイル。
+		/** リクエスト。ロードＵＲＬ。テクスチャファイル。
 		*/
-		public bool RequestDownLoadTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
+		public bool RequestLoadUrlTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -358,12 +329,9 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.DownLoadTextureFile;
+				this.request_type = RequestType.LoadUrlTextureFile;
 				this.request_post_data = a_post_data;
 				this.request_path = a_url_path;
-				this.request_assetbundle_id = 0;
-				this.request_data_version = 0;
-				this.request_data_crc = 0;
 
 				//result
 				this.result_progress = 0.0f;
@@ -373,20 +341,20 @@ namespace Fee.File
 				this.result_assetbundle = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoDownLoadTextureFile());
+				Function.Function.StartCoroutine(this.DoLoadUrlTextureFile());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ダウンロード。テクスチャーファイル。
+		/** 実行。ロードＵＲＬ。テクスチャファイル。
 		*/
-		private System.Collections.IEnumerator DoDownLoadTextureFile()
+		private System.Collections.IEnumerator DoLoadUrlTextureFile()
 		{
-			Tool.Assert(this.request_type == RequestType.DownLoadTextureFile);
+			Tool.Assert(this.request_type == RequestType.LoadUrlTextureFile);
 
-			Coroutine_DownLoadTextureFile t_coroutine = new Coroutine_DownLoadTextureFile();
+			Coroutine_LoadUrlTextureFile t_coroutine = new Coroutine_LoadUrlTextureFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
 			if(t_coroutine.result.texture_file != null){
@@ -394,62 +362,6 @@ namespace Fee.File
 				this.result_asset =new Asset.Asset(Asset.AssetType.Texture,t_coroutine.result.texture_file);
 				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Asset;
-				yield break;
-			}else{
-				this.result_progress = 1.0f;
-				this.result_errorstring = t_coroutine.result.errorstring;
-				this.result_type = ResultType.Error;
-				yield break;
-			}
-		}
-
-		/** リクエスト。ダウンロード。アセットバンドル。
-		*/
-		public bool RequestDownLoadAssetBundle(Path a_url_path,UnityEngine.WWWForm a_post_data,long a_assetbundle_id,uint a_data_version)
-		{
-			if(this.is_busy == false){
-				this.is_busy = true;
-
-				//is_cancel
-				this.is_cancel = false;
-
-				//request
-				this.request_type = RequestType.DownLoadAssetBundle;
-				this.request_post_data = a_post_data;
-				this.request_path = a_url_path;
-				this.request_assetbundle_id = a_assetbundle_id;
-				this.request_data_version = a_data_version;
-				this.request_data_crc = 0;
-
-				//result
-				this.result_progress = 0.0f;
-				this.result_errorstring = null;
-				this.result_type = ResultType.None;
-				this.result_asset = null;
-				this.result_assetbundle = null;
-				this.result_responseheader = null;
-
-				Function.Function.StartCoroutine(this.DoDownLoadAssetBundle());
-				return true;
-			}
-
-			return false;
-		}
-
-		/** 実行。ダウンロード。アセットバンドル。
-		*/
-		private System.Collections.IEnumerator DoDownLoadAssetBundle()
-		{
-			Tool.Assert(this.request_type == RequestType.DownLoadAssetBundle);
-
-			Coroutine_DownLoadAssetBundle t_coroutine = new Coroutine_DownLoadAssetBundle();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,request_assetbundle_id,this.request_data_version,this.request_data_crc);
-
-			if(t_coroutine.result.assetbundle != null){
-				this.result_progress = 1.0f;
-				this.result_assetbundle = t_coroutine.result.assetbundle;
-				this.result_responseheader = t_coroutine.result.responseheader;
-				this.result_type = ResultType.AssetBundle;
 				yield break;
 			}else{
 				this.result_progress = 1.0f;
@@ -473,9 +385,6 @@ namespace Fee.File
 				this.request_type = RequestType.LoadStreamingAssetsBinaryFile;
 				this.request_post_data = null;
 				this.request_path = a_relative_path;
-				this.request_assetbundle_id = 0;
-				this.request_data_version = 0;
-				this.request_data_crc = 0;
 
 				//result
 				this.result_progress = 0.0f;
@@ -501,7 +410,7 @@ namespace Fee.File
 			//request_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
-			Coroutine_DownLoadBinaryFile t_coroutine = new Coroutine_DownLoadBinaryFile();
+			Coroutine_LoadUrlBinaryFile t_coroutine = new Coroutine_LoadUrlBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,null);
 
 			if(t_coroutine.result.binary_file != null){
@@ -532,9 +441,6 @@ namespace Fee.File
 				this.request_type = RequestType.LoadStreamingAssetsTextFile;
 				this.request_post_data = null;
 				this.request_path = a_relative_path;
-				this.request_assetbundle_id = 0;
-				this.request_data_version = 0;
-				this.request_data_crc = 0;
 
 				//result
 				this.result_progress = 0.0f;
@@ -560,7 +466,7 @@ namespace Fee.File
 			//request_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
-			Coroutine_DownLoadTextFile t_coroutine = new Coroutine_DownLoadTextFile();
+			Coroutine_LoadUrlTextFile t_coroutine = new Coroutine_LoadUrlTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,null);
 
 			if(t_coroutine.result.text_file != null){
@@ -577,7 +483,7 @@ namespace Fee.File
 			}
 		}
 
-		/** リクエスト。ロードストリーミングアセット。テクスチャーファイル。
+		/** リクエスト。ロードストリーミングアセット。テクスチャファイル。
 		*/
 		public bool RequestLoadStreamingAssetsTextureFile(Path a_relative_path)
 		{
@@ -591,9 +497,6 @@ namespace Fee.File
 				this.request_type = RequestType.LoadStreamingAssetsTextureFile;
 				this.request_post_data = null;
 				this.request_path = a_relative_path;
-				this.request_assetbundle_id = 0;
-				this.request_data_version = 0;
-				this.request_data_crc = 0;
 
 				//result
 				this.result_progress = 0.0f;
@@ -610,7 +513,7 @@ namespace Fee.File
 			return false;
 		}
 
-		/** 実行。ロードストリーミングアセット。テクスチャーファイル。
+		/** 実行。ロードストリーミングアセット。テクスチャファイル。
 		*/
 		private System.Collections.IEnumerator DoLoadStreamingAssetsTextureFile()
 		{
@@ -619,7 +522,7 @@ namespace Fee.File
 			//request_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
-			Coroutine_DownLoadTextureFile t_coroutine = new Coroutine_DownLoadTextureFile();
+			Coroutine_LoadUrlTextureFile t_coroutine = new Coroutine_LoadUrlTextureFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,null);
 
 			if(t_coroutine.result.texture_file != null){

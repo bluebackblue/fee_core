@@ -163,7 +163,7 @@ namespace Fee.JsonSheet
 										}break;
 									case Convert_DataSheet.DATACOMMAND_RESOURCES_TEXTURE:
 										{
-											//リソース。テクスチャー。
+											//リソース。テクスチャ。
 
 											if(a_param == Convert_DataSheet.DATAPARAM_RELEASE){
 												if(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == false){
@@ -195,7 +195,7 @@ namespace Fee.JsonSheet
 										}break;
 									case Convert_DataSheet.DATACOMMAND_STREAMINGASSETS_TEXTURE:
 										{
-											//ストリーミングアセット。テクスチャー。
+											//ストリーミングアセット。テクスチャ。
 
 											Tool.Assert(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == true);
 											t_item = new Data.JsonListItem(Data.PathType.StreamingAssets_Texture,t_sheet[jj].data_path,"");
@@ -216,7 +216,7 @@ namespace Fee.JsonSheet
 										}break;
 									case Convert_DataSheet.DATACOMMAND_URL_TEXTURE:
 										{
-											//ＵＲＬ。テクスチャー。
+											//ＵＲＬ。テクスチャ。
 
 											Tool.Assert(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == true);
 											t_item = new Data.JsonListItem(Data.PathType.Url_Texture,t_sheet[jj].data_path,"");
@@ -230,7 +230,7 @@ namespace Fee.JsonSheet
 										}break;
 									case Convert_DataSheet.DATACOMMAND_URL_BINARY:
 										{
-											//ＵＲＬ。バイナリー。
+											//ＵＲＬ。バイナリ。
 
 											Tool.Assert(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == true);
 											t_item = new Data.JsonListItem(Data.PathType.Url_Binary,t_sheet[jj].data_path,"");

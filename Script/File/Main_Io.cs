@@ -54,7 +54,7 @@ namespace Fee.File
 			*/
 			LoadStreamingAssetsTextFile,
 
-			/** ロードストリーミングアセット。テクスチャーファイル。
+			/** ロードストリーミングアセット。テクスチャファイル。
 			*/
 			LoadStreamingAssetsTextureFile,
 
@@ -679,7 +679,7 @@ namespace Fee.File
 			}
 		}
 
-		/** リクエスト。ロードストリーミングアセット。テクスチャーファイル。
+		/** リクエスト。ロードストリーミングアセット。テクスチャファイル。
 		*/
 		public bool RequestLoadStreamingAssetsTextureFile(Fee.File.Path a_relative_path)
 		{
@@ -710,7 +710,7 @@ namespace Fee.File
 			return false;
 		}
 
-		/** 実行。ロードストリーミングアセット。テクスチャーファイル。
+		/** 実行。ロードストリーミングアセット。テクスチャファイル。
 		*/
 		private System.Collections.IEnumerator DoLoadStreamingAssetsTextureFile()
 		{

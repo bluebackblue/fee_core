@@ -62,17 +62,6 @@ namespace Fee.AssetBundleList
 			}
 		}
 
-		/** PathType
-		*/
-		public enum PathType
-		{
-			#if(UNITY_EDITOR)
-			AssetsPath,
-			#endif
-
-			UrlPath,
-		}
-
 		/** PathItem
 		*/
 		public class PathItem

@@ -20,7 +20,7 @@ namespace Fee.Crypt
 		*/
 		public class ResultType
 		{
-			/** バイナリー。
+			/** バイナリ。
 			*/
 			public byte[] binary;
 

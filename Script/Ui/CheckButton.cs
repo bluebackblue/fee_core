@@ -265,7 +265,7 @@ namespace Fee.Ui
 			this.text.SetFontSize(a_fontsize);	
 		}
 
-		/**　ＢＧテクスチャーコーナーサイズ。設定。
+		/**　ＢＧテクスチャコーナーサイズ。設定。
 		*/
 		public void SetBgTextureCornerSize(int a_corner_size)
 		{
@@ -294,42 +294,42 @@ namespace Fee.Ui
 		}
 		#endif
 
-		/** ＢＧノーマルテクスチャー。設定。
+		/** ＢＧノーマルテクスチャ。設定。
 		*/
 		public void SetBgNormalTexture(UnityEngine.Texture2D a_texture)
 		{
 			this.bg_normal_sprite.SetTexture(a_texture);
 		}
 
-		/** ＢＧオンテクスチャー。設定。
+		/** ＢＧオンテクスチャ。設定。
 		*/
 		public void SetBgOnTexture(UnityEngine.Texture2D a_texture)
 		{
 			this.bg_on_sprite.SetTexture(a_texture);
 		}
 
-		/** ＢＧロックテクスチャー。設定。
+		/** ＢＧロックテクスチャ。設定。
 		*/
 		public void SetBgLockTexture(UnityEngine.Texture2D a_texture)
 		{
 			this.bg_lock_sprite.SetTexture(a_texture);
 		}
 
-		/** ＢＧノーマルテクスチャー。設定。
+		/** ＢＧノーマルテクスチャ。設定。
 		*/
 		public void SetBgNormalTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
 		{
 			this.bg_normal_sprite.SetTextureRect(ref a_texture_rect);
 		}
 
-		/** ＢＧオンテクスチャー。設定。
+		/** ＢＧオンテクスチャ。設定。
 		*/
 		public void SetBgOnTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
 		{
 			this.bg_on_sprite.SetTextureRect(ref a_texture_rect);
 		}
 
-		/** ＢＧロックテクスチャー。設定。
+		/** ＢＧロックテクスチャ。設定。
 		*/
 		public void SetBgLockTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
 		{
@@ -378,56 +378,56 @@ namespace Fee.Ui
 			this.bg_lock_sprite.SetColor(a_r,a_g,a_b,a_a);
 		}
 
-		/** チェックノーマルテクスチャー。設定。
+		/** チェックノーマルテクスチャ。設定。
 		*/
 		public void SetCheckNormalTexture(UnityEngine.Texture2D a_texture)
 		{
 			this.check_normal_sprite.SetTexture(a_texture);
 		}
 
-		/** チェックノーマルテクスチャー矩形。設定。
+		/** チェックノーマルテクスチャ矩形。設定。
 		*/
 		public void SetCheckNormalTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
 		{
 			this.check_normal_sprite.SetTextureRect(ref a_texture_rect);
 		}
 
-		/** チェックノーマルテクスチャー色。設定。
+		/** チェックノーマルテクスチャ色。設定。
 		*/
 		public void SetCheckNormalTextureColor(ref UnityEngine.Color a_color)
 		{
 			this.check_normal_sprite.SetColor(ref a_color);
 		}
 
-		/** チェックノーマルテクスチャー色。設定。
+		/** チェックノーマルテクスチャ色。設定。
 		*/
 		public void SetCheckNormalTextureColor(float a_r,float a_g,float a_b,float a_a)
 		{
 			this.check_normal_sprite.SetColor(a_r,a_g,a_b,a_a);
 		}
 
-		/** チェックロックテクスチャー。設定。
+		/** チェックロックテクスチャ。設定。
 		*/
 		public void SetCheckLockTexture(UnityEngine.Texture2D a_texture)
 		{
 			this.check_lock_sprite.SetTexture(a_texture);
 		}
 
-		/** チェックロックテクスチャー矩形。設定。
+		/** チェックロックテクスチャ矩形。設定。
 		*/
 		public void SetCheckLockTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
 		{
 			this.check_lock_sprite.SetTextureRect(ref a_texture_rect);
 		}
 
-		/** チェックロックテクスチャー色。設定。
+		/** チェックロックテクスチャ色。設定。
 		*/
 		public void SetCheckLockTextureColor(ref UnityEngine.Color a_color)
 		{
 			this.check_lock_sprite.SetColor(ref a_color);
 		}
 
-		/** チェックロックテクスチャー色。設定。
+		/** チェックロックテクスチャ色。設定。
 		*/
 		public void SetCheckLockTextureColor(float a_r,float a_g,float a_b,float a_a)
 		{

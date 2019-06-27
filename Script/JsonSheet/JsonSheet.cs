@@ -120,7 +120,7 @@ namespace Fee.JsonSheet
 						"data_path" : "xxx/xxx/xxx"						//リソースパス。
 					],
 					[
-						"data_command" : "<streamingassets_texture>"	//ストリーミングアセット。テクスチャー。
+						"data_command" : "<streamingassets_texture>"	//ストリーミングアセット。テクスチャ。
 						"data_id" : "xxxx"								//データＩＤ。
 						"data_path" : "xxx/xxx/xxx.png"					//リソースパス。
 					],
@@ -142,7 +142,7 @@ namespace Fee.JsonSheet
 						"data_packname" : ""							//パック名。
 					],
 					[
-						"data_command" : "<streamingassets_texture>"	//ストリーミングアセット。テクスチャー。
+						"data_command" : "<streamingassets_texture>"	//ストリーミングアセット。テクスチャ。
 						"data_id" : "xxxx"								//データＩＤ。
 						"data_path" : "xxx/xxx/xxx.png"					//リソースパス。
 						"data_packname" : ""							//パック名。

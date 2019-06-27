@@ -26,7 +26,7 @@ namespace Fee.File
 			*/
 			LoadResourcesTextFile,
 
-			/** ロードリソース。テクスチャーファイル。
+			/** ロードリソース。テクスチャファイル。
 			*/
 			LoadResourcesTextureFile,
 
@@ -224,7 +224,7 @@ namespace Fee.File
 			}
 		}
 
-		/** リクエスト。ロードリソース。テクスチャーファイル。
+		/** リクエスト。ロードリソース。テクスチャファイル。
 		*/
 		public bool RequestLoadResourcesTextureFile(Fee.File.Path a_relative_path)
 		{
@@ -251,7 +251,7 @@ namespace Fee.File
 			return false;
 		}
 
-		/** 実行。ロードリソース。テクスチャーファイル。
+		/** 実行。ロードリソース。テクスチャファイル。
 		*/
 		private System.Collections.IEnumerator DoLoadResourcesTextureFile()
 		{

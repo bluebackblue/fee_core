@@ -12,7 +12,7 @@
 */
 namespace Fee.File
 {
-	/** セーブローカル。テクスチャーファイル。
+	/** セーブローカル。テクスチャファイル。
 	*/
 	public class Coroutine_SaveLocalTextureFile : Fee.File.OnFileTask_CallBackInterface
 	{

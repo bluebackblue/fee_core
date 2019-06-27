@@ -51,11 +51,11 @@ namespace Fee.Ui
 		*/
 		public static int DEFAULT_WINDOW_LAYER_INDEX_START = 1;
 
-		/** ボタンテクスチャー。フィルターモード。チェック。
+		/** ボタンテクスチャ。フィルターモード。チェック。
 		*/
 		public static bool BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE = true;
 
-		/** ボタンテクスチャー。ミップマップ。チェック。
+		/** ボタンテクスチャ。ミップマップ。チェック。
 		*/
 		public static bool BUTTONTEXTURE_CHECK_MIPMAPCOUNT_ENABLE = true;
 

@@ -57,7 +57,7 @@ namespace Fee.File
 			*/
 			LoadLocalTextFile,
 
-			/** ロードローカル。テクスチャーファイル。
+			/** ロードローカル。テクスチャファイル。
 			*/
 			LoadLocalTextureFile,
 
@@ -69,25 +69,21 @@ namespace Fee.File
 			*/
 			SaveLocalTextFile,
 
-			/** セーブローカル。テクスチャーファイル。
+			/** セーブローカル。テクスチャファイル。
 			*/
 			SaveLocalTextureFile,
 
-			/** ダウンロード。バイナリファイル。
+			/** ロードＵＲＬ。バイナリファイル。
 			*/
-			DownLoadBinaryFile,
+			LoadUrlBinaryFile,
 
-			/** ダウンロード。テキストファイル。
+			/** ロードＵＲＬ。テキストファイル。
 			*/
-			DownLoadTextFile,
+			LoadUrlTextFile,
 	
-			/** ダウンロード。テクスチャーファイル。
+			/** ロードＵＲＬ。テクスチャファイル。
 			*/
-			DownLoadTextureFile,
-
-			/** ダウンロード。アセットバンドル。
-			*/
-			DownLoadAssetBundle,
+			LoadUrlTextureFile,
 
 			/** ロードストリーミングアセット。バイナリファイル。
 			*/
@@ -97,7 +93,7 @@ namespace Fee.File
 			*/
 			LoadStreamingAssetsTextFile,
 
-			/** ロードストリーミングアセット。テクスチャーファイル。
+			/** ロードストリーミングアセット。テクスチャファイル。
 			*/
 			LoadStreamingAssetsTextureFile,
 
@@ -105,7 +101,7 @@ namespace Fee.File
 			*/
 			LoadResourcesTextFile,
 
-			/** ロードリソース。テクスチャーファイル。
+			/** ロードリソース。テクスチャファイル。
 			*/
 			LoadResourcesTextureFile,
 
@@ -135,14 +131,6 @@ namespace Fee.File
 		/** request_post_data
 		*/
 		private UnityEngine.WWWForm request_post_data;
-
-		/** request_assetbundle_id
-		*/
-		private long request_assetbundle_id;
-
-		/** request_data_version
-		*/
-		private uint request_data_version;
 
 		/** request_binary
 		*/
@@ -176,12 +164,6 @@ namespace Fee.File
 			//request_post_data
 			this.request_post_data = null;
 
-			//request_assetbundle_id
-			this.request_assetbundle_id = 0;
-
-			//request_data_version
-			this.request_data_version = 0;
-
 			//request_binary
 			this.request_binary = null;
 
@@ -211,7 +193,7 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
-		/** リクエスト。ロードローカル。テクスチャーファイル。
+		/** リクエスト。ロードローカル。テクスチャファイル。
 		*/
 		public void RequestLoadLocalTextureFile(Path a_relative_path)
 		{
@@ -237,7 +219,7 @@ namespace Fee.File
 			this.request_text = a_text;
 		}
 
-		/** リクエスト。セーブローカル。テクスチャーファイル。
+		/** リクエスト。セーブローカル。テクスチャファイル。
 		*/
 		public void RequestSaveLocalTextureFile(Path a_relative_path,UnityEngine.Texture2D a_texture)
 		{
@@ -246,41 +228,31 @@ namespace Fee.File
 			this.request_texture = a_texture;
 		}
 
-		/** リクエスト。ダウンロード。バイナリファイル。
+		/** リクエスト。ロードＵＲＬ。バイナリファイル。
 		*/
-		public void RequestDownLoadBinaryFile(Path a_relative_path,UnityEngine.WWWForm a_post_data)
+		public void RequestLoadUrlBinaryFile(Path a_relative_path,UnityEngine.WWWForm a_post_data)
 		{
-			this.request_type = RequestType.DownLoadBinaryFile;
+			this.request_type = RequestType.LoadUrlBinaryFile;
 			this.request_path = a_relative_path;
 			this.request_post_data = a_post_data;
 		}
 
-		/** リクエスト。ダウンロード。テキストファイル。
+		/** リクエスト。ロードＵＲＬ。テキストファイル。
 		*/
-		public void RequestDownLoadTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
+		public void RequestLoadUrlTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
-			this.request_type = RequestType.DownLoadTextFile;
+			this.request_type = RequestType.LoadUrlTextFile;
 			this.request_path = a_url_path;
 			this.request_post_data = a_post_data;
 		}
 
-		/** リクエスト。ダウンロード。テクスチャーファイル。
+		/** リクエスト。ロードＵＲＬ。テクスチャファイル。
 		*/
-		public void RequestDownLoadTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
+		public void RequestLoadUrlTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
 		{
-			this.request_type = RequestType.DownLoadTextureFile;
+			this.request_type = RequestType.LoadUrlTextureFile;
 			this.request_path = a_url_path;
 			this.request_post_data = a_post_data;
-		}
-
-		/** リクエスト。ダウンロード。アセットバンドル。
-		*/
-		public void RequestDownLoadAssetBundle(Path a_url_path,long a_assetbundle_id,uint a_data_version)
-		{
-			this.request_type = RequestType.DownLoadAssetBundle;
-			this.request_path = a_url_path;
-			this.request_assetbundle_id = a_assetbundle_id;
-			this.request_data_version = a_data_version;
 		}
 
 		/** リクエスト。ロードストリーミングアセット。バイナリファイル。
@@ -299,7 +271,7 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
-		/** リクエスト。ロードストリーミングアセット。テクスチャーファイル。
+		/** リクエスト。ロードストリーミングアセット。テクスチャファイル。
 		*/
 		public void RequestLoadStreamingAssetsTextureFile(Path a_relative_path)
 		{
@@ -315,7 +287,7 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
-		/** リクエスト。ロードリソース。テクスチャーファイル。
+		/** リクエスト。ロードリソース。テクスチャファイル。
 		*/
 		public void RequestLoadResourcesTextureFile(Path a_relative_path)
 		{
@@ -395,27 +367,21 @@ namespace Fee.File
 								this.mode = Mode.Do_Io;
 							}
 						}break;
-					case RequestType.DownLoadBinaryFile:
+					case RequestType.LoadUrlBinaryFile:
 						{
-							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestDownLoadBinaryFile(this.request_path,this.request_post_data) == true){
+							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlBinaryFile(this.request_path,this.request_post_data) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
-					case RequestType.DownLoadTextFile:
+					case RequestType.LoadUrlTextFile:
 						{
-							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestDownLoadTextFile(this.request_path,this.request_post_data) == true){
+							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlTextFile(this.request_path,this.request_post_data) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
-					case RequestType.DownLoadTextureFile:
+					case RequestType.LoadUrlTextureFile:
 						{
-							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestDownLoadTextureFile(this.request_path,this.request_post_data) == true){
-								this.mode = Mode.Do_WebRequest;
-							}
-						}break;
-					case RequestType.DownLoadAssetBundle:
-						{
-							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestDownLoadAssetBundle(this.request_path,this.request_post_data,this.request_assetbundle_id,this.request_data_version) == true){
+							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlTextureFile(this.request_path,this.request_post_data) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
@@ -556,13 +522,9 @@ namespace Fee.File
 									t_success = true;
 								}
 							}break;
-						case Main_WebRequest.ResultType.AssetBundle:
+						default:
 							{
-								if(t_main.GetResultAssetBundle() != null){
-									this.item.SetResultResponseHeader(t_main.GetResultResponseHeader());
-									this.item.SetResultAssetBundle(t_main.GetResultAssetBundle());
-									t_success = true;
-								}
+								Tool.Assert(false);
 							}break;
 						}
 

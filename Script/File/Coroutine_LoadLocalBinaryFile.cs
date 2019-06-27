@@ -20,7 +20,7 @@ namespace Fee.File
 		*/
 		public class ResultType
 		{
-			/** バイナリーファイル。
+			/** バイナリファイル。
 			*/
 			public byte[] binary_file;
 
