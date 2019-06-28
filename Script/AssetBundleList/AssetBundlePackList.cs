@@ -62,7 +62,6 @@ namespace Fee.AssetBundleList
 				return t_item;
 			}
 
-			Tool.Assert(false);
 			return null;
 		}
 

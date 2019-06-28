@@ -49,6 +49,10 @@ namespace Fee.AssetBundleList
 		*/
 		private string request_id;
 
+		/** request_assetname
+		*/
+		private string request_assetname;
+
 		/** result_progress
 		*/
 		private float result_progress;
@@ -75,6 +79,7 @@ namespace Fee.AssetBundleList
 
 			//request
 			this.request_id = null;
+			this.request_assetname = null;
 
 			//result
 			this.result_progress = 0.0f;
@@ -165,6 +170,7 @@ namespace Fee.AssetBundleList
 
 				//request
 				this.request_id = a_id;
+				this.request_assetname = a_assetname;
 
 				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemTextFile());
 				return true;
@@ -177,40 +183,112 @@ namespace Fee.AssetBundleList
 		*/
 		private System.Collections.IEnumerator DoLoadAssetBundleItemTextFile()
 		{
-			//TODO:
-			yield break;
+			Coroutine_LoadAssetBundleItemTextFile t_coroutine = new Coroutine_LoadAssetBundleItemTextFile();
+			yield return t_coroutine.CoroutineMain(this,this.request_id,this.request_assetname);
+
+			if(t_coroutine.result.asset_file != null){
+				this.result_progress = 1.0f;
+				this.result_asset = t_coroutine.result.asset_file;
+				this.result_type = ResultType.Asset;
+				yield break;
+			}else{
+				this.result_progress = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
 		}
 
 		/** リクエスト。ロードアセットバンドルアイテム。テクスチャファイル。
 		*/
 		public bool RequestLoadAssetBundleItemTextureFile(string a_id,string a_assetname)
 		{
-			//TODO:
-			return true;
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//result
+				this.result_progress = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_asset = null;
+
+				//request
+				this.request_id = a_id;
+
+				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemTextureFile());
+				return true;
+			}
+
+			return false;
 		}
 
 		/** 実行。ロードアセットバンドルアイテム。テクスチャファイル。
 		*/
 		private System.Collections.IEnumerator DoLoadAssetBundleItemTextureFile()
 		{
-			//TODO:
-			yield break;
+			Coroutine_LoadAssetBundleItemTextureFile t_coroutine = new Coroutine_LoadAssetBundleItemTextureFile();
+			yield return t_coroutine.CoroutineMain(this,this.request_id,this.request_assetname);
+
+			if(t_coroutine.result.asset_file != null){
+				this.result_progress = 1.0f;
+				this.result_asset = t_coroutine.result.asset_file;
+				this.result_type = ResultType.Asset;
+				yield break;
+			}else{
+				this.result_progress = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
 		}
 
 		/** リクエスト。ロードアセットバンドルアイテム。プレハブファイル。
 		*/
 		public bool RequestLoadAssetBundleItemPrefabFile(string a_id,string a_assetname)
 		{
-			//TODO:
-			return true;
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//result
+				this.result_progress = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_asset = null;
+
+				//request
+				this.request_id = a_id;
+
+				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemPrefabFile());
+				return true;
+			}
+
+			return false;
 		}
 
 		/** 実行。ロードアセットバンドルアイテム。プレハブファイル。
 		*/
 		private System.Collections.IEnumerator DoLoadAssetBundleItemPrefabFile()
 		{
-			//TODO:
-			yield break;
+			Coroutine_LoadAssetBundleItemPrefabFile t_coroutine = new Coroutine_LoadAssetBundleItemPrefabFile();
+			yield return t_coroutine.CoroutineMain(this,this.request_id,this.request_assetname);
+
+			if(t_coroutine.result.asset_file != null){
+				this.result_progress = 1.0f;
+				this.result_asset = t_coroutine.result.asset_file;
+				this.result_type = ResultType.Asset;
+				yield break;
+			}else{
+				this.result_progress = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
 		}
 	}
 }

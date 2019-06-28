@@ -92,7 +92,7 @@ namespace Fee.Data
 				{
 					//アセットバンドル。テクスチャ。
 
-					AssetBundleList.Item t_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadAssetBundleItemPrefabFile(a_listitem.assetbundle_name,a_listitem.id);
+					AssetBundleList.Item t_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadAssetBundleItemTextureFile(a_listitem.assetbundle_name,a_listitem.id);
 					if(t_item == null){
 						//失敗。
 						this.result.errorstring = "Coroutine_File : " + a_listitem.assetbundle_name + " : " + a_listitem.id;
@@ -101,7 +101,7 @@ namespace Fee.Data
 					while(t_item.IsBusy() == true){
 						yield return null;
 					}
-					if(t_item.GetResultAssetType() == Asset.AssetType.Prefab){
+					if(t_item.GetResultAssetType() == Asset.AssetType.Texture){
 						this.result.asset_file = t_item.GetResultAsset();
 						yield break;
 					}
@@ -114,7 +114,7 @@ namespace Fee.Data
 				{
 					//アセットバンドル。テキスト。
 
-					AssetBundleList.Item t_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadAssetBundleItemPrefabFile(a_listitem.assetbundle_name,a_listitem.id);
+					AssetBundleList.Item t_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadAssetBundleItemTextFile(a_listitem.assetbundle_name,a_listitem.id);
 					if(t_item == null){
 						//失敗。
 						this.result.errorstring = "Coroutine_File : " + a_listitem.assetbundle_name + " : " + a_listitem.id;
@@ -123,7 +123,7 @@ namespace Fee.Data
 					while(t_item.IsBusy() == true){
 						yield return null;
 					}
-					if(t_item.GetResultAssetType() == Asset.AssetType.Prefab){
+					if(t_item.GetResultAssetType() == Asset.AssetType.Text){
 						this.result.asset_file = t_item.GetResultAsset();
 						yield break;
 					}
