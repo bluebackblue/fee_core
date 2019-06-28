@@ -16,26 +16,6 @@ namespace Fee.File
 	*/
 	public class Main_Resources : Fee.File.OnFileCoroutine_CallBackInterface
 	{
-		/**  リクエストタイプ。
-		*/
-		private enum RequestType
-		{
-			None = -1,
-
-			/** ロードリソース。テキストファイル。
-			*/
-			LoadResourcesTextFile,
-
-			/** ロードリソース。テクスチャファイル。
-			*/
-			LoadResourcesTextureFile,
-
-			/** ロードリソース。プレハブファイル。
-			*/
-			LoadResourcesPrefabFile,
-
-		};
-
 		/** ResultType
 		*/
 		public enum ResultType
@@ -64,10 +44,6 @@ namespace Fee.File
 		/** シャットダウン。チェック。
 		*/
 		private bool is_shutdown;
-
-		/** request_type
-		*/
-		private RequestType request_type;
 
 		/** request_relative_path
 		*/
@@ -98,7 +74,6 @@ namespace Fee.File
 			this.is_shutdown = false;
 
 			//request
-			this.request_type = RequestType.None;
 			this.request_relative_path = null;
 
 			//result
@@ -189,7 +164,6 @@ namespace Fee.File
 				this.result_asset = null;
 
 				//request
-				this.request_type = RequestType.LoadResourcesTextFile;
 				this.request_relative_path = a_relative_path;
 
 				Function.Function.StartCoroutine(this.DoLoadResourcesTextFile());
@@ -203,8 +177,6 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadResourcesTextFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadResourcesTextFile);
-
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = this.request_relative_path;
 
@@ -241,7 +213,6 @@ namespace Fee.File
 				this.result_asset = null;
 
 				//request
-				this.request_type = RequestType.LoadResourcesTextureFile;
 				this.request_relative_path = a_relative_path;
 
 				Function.Function.StartCoroutine(this.DoLoadResourcesTextureFile());
@@ -255,8 +226,6 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadResourcesTextureFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadResourcesTextureFile);
-
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = this.request_relative_path;
 
@@ -293,7 +262,6 @@ namespace Fee.File
 				this.result_asset = null;
 
 				//request
-				this.request_type = RequestType.LoadResourcesPrefabFile;
 				this.request_relative_path = a_relative_path;
 
 				Function.Function.StartCoroutine(this.DoLoadResourcesPrefabFile());
@@ -307,8 +275,6 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadResourcesPrefabFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadResourcesPrefabFile);
-
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = this.request_relative_path;
 

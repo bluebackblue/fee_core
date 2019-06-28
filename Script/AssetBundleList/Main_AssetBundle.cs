@@ -16,17 +16,6 @@ namespace Fee.AssetBundleList
 	*/
 	public class Main_AssetBundle : Fee.AssetBundleList.OnAssetBundleListCoroutine_CallBackInterface
 	{
-		/**  リクエストタイプ。
-		*/
-		private enum RequestType
-		{
-			None = -1,
-
-			/** アセットバンドルアイテム。
-			*/
-			AssetBundleItem,
-		};
-
 		/** ResultType
 		*/
 		public enum ResultType
@@ -61,10 +50,6 @@ namespace Fee.AssetBundleList
 		*/
 		private bool is_shutdown;
 
-		/** request_type
-		*/
-		private RequestType request_type;
-
 		/** request_id
 		*/
 		private string request_id;
@@ -94,7 +79,6 @@ namespace Fee.AssetBundleList
 			this.is_shutdown = false;
 
 			//request
-			this.request_type = RequestType.None;
 			this.request_id = null;
 
 			//result
@@ -185,7 +169,6 @@ namespace Fee.AssetBundleList
 				this.result_assetbundleitem = null;
 
 				//request
-				this.request_type = RequestType.AssetBundleItem;
 				this.request_id = a_id;
 
 				Function.Function.StartCoroutine(this.DoLoadPathAssetBundleItem());
@@ -199,8 +182,6 @@ namespace Fee.AssetBundleList
 		*/
 		private System.Collections.IEnumerator DoLoadPathAssetBundleItem()
 		{
-			Tool.Assert(this.request_type == RequestType.AssetBundleItem);
-
 			Coroutine_LoadPathAssetBundleItem t_coroutine = new Coroutine_LoadPathAssetBundleItem();
 			yield return t_coroutine.CoroutineMain(this,this.request_id);
 
@@ -234,7 +215,6 @@ namespace Fee.AssetBundleList
 				this.result_assetbundleitem = null;
 
 				//request
-				this.request_type = RequestType.AssetBundleItem;
 				this.request_id = a_id;
 
 				Function.Function.StartCoroutine(this.DoUnLoadPathAssetBundleItem());
@@ -248,8 +228,6 @@ namespace Fee.AssetBundleList
 		*/
 		private System.Collections.IEnumerator DoUnLoadPathAssetBundleItem()
 		{
-			Tool.Assert(this.request_type == RequestType.AssetBundleItem);
-
 			Coroutine_UnloadPathAssetBundleItem t_coroutine = new Coroutine_UnloadPathAssetBundleItem();
 			yield return t_coroutine.CoroutineMain(this,this.request_id);
 

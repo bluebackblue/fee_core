@@ -16,19 +16,6 @@ namespace Fee.UniVrm
 	*/
 	public class Main_Vrm : Fee.UniVrm.OnUniVrmCoroutine_CallBackInterface
 	{
-		/**  リクエストタイプ。
-		*/
-		private enum RequestType
-		{
-			/** None
-			*/
-			None = -1,
-
-			/** ロードＶＲＭ。
-			*/
-			LoadVrm,
-		};
-
 		/** ResultType
 		*/
 		public enum ResultType
@@ -57,10 +44,6 @@ namespace Fee.UniVrm
 		/** シャットダウン。チェック。
 		*/
 		private bool is_shutdown;
-
-		/** request_type
-		*/
-		private RequestType request_type;
 
 		/** request_binary
 		*/
@@ -91,7 +74,6 @@ namespace Fee.UniVrm
 			this.is_shutdown = false;
 
 			//request
-			this.request_type = RequestType.None;
 			this.request_binary = null;
 
 			//result
@@ -182,7 +164,6 @@ namespace Fee.UniVrm
 				this.result_context = null;
 
 				//request
-				this.request_type = RequestType.LoadVrm;
 				this.request_binary = a_binary;
 
 				Function.Function.StartCoroutine(this.DoLoadVrm());
@@ -196,8 +177,6 @@ namespace Fee.UniVrm
 		*/
 		private System.Collections.IEnumerator DoLoadVrm()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadVrm);
-
 			Coroutine_LoadVrm t_coroutine = new Coroutine_LoadVrm();
 			yield return t_coroutine.CoroutineMain(this,this.request_binary);
 

@@ -56,10 +56,6 @@ namespace Fee.Data
 		*/
 		private bool is_shutdown;
 
-		/** request_type
-		*/
-		private RequestType request_type;
-
 		/** request_listitem
 		*/
 		private ListItem request_listitem;
@@ -89,7 +85,6 @@ namespace Fee.Data
 			this.is_shutdown = false;
 
 			//request
-			this.request_type = RequestType.None;
 			this.request_listitem = null;
 
 			//result
@@ -180,7 +175,6 @@ namespace Fee.Data
 				this.result_asset = null;
 
 				//request
-				this.request_type = RequestType.File;
 				this.request_listitem = a_listitem;
 
 				Function.Function.StartCoroutine(this.DoFile());
@@ -194,8 +188,6 @@ namespace Fee.Data
 		*/
 		private System.Collections.IEnumerator DoFile()
 		{
-			Tool.Assert(this.request_type == RequestType.File);
-
 			Coroutine_File t_coroutine = new Coroutine_File();
 			yield return t_coroutine.CoroutineMain(this,this.request_listitem);
 

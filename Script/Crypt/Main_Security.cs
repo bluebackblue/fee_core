@@ -16,37 +16,6 @@ namespace Fee.Crypt
 	*/
 	public class Main_Security : Fee.Crypt.OnCryptCoroutine_CallBackInterface
 	{
-		/**  リクエストタイプ。
-		*/
-		private enum RequestType
-		{
-			None = -1,
-
-			/** 暗号化。パブリックキー。
-			*/
-			EncryptPublicKey,
-
-			/** 複合化。プライベートキー。
-			*/
-			DecryptPrivateKey,
-
-			/** 証明書作成。プライベートキー。
-			*/
-			CreateSignaturePrivateKey,
-
-			/** 証明書検証。パブリックキー。
-			*/
-			VerifySignaturePublicKey,
-
-			/** 暗号化。パス。
-			*/
-			EncryptPass,
-
-			/** 複合化。パス。
-			*/
-			DecryptPass,
-		};
-
 		/** ResultType
 		*/
 		public enum ResultType
@@ -79,10 +48,6 @@ namespace Fee.Crypt
 		/** シャットダウン。チェック。
 		*/
 		private bool is_shutdown;
-
-		/** request_type
-		*/
-		private RequestType request_type;
 
 		/** request_binary
 		*/
@@ -129,7 +94,6 @@ namespace Fee.Crypt
 			this.is_shutdown = false;
 
 			//request
-			this.request_type = RequestType.None;
 			this.request_binary = null;
 			this.request_key = null;
 			this.request_signature_binary = null;
@@ -225,7 +189,6 @@ namespace Fee.Crypt
 				this.result_binary = null;
 
 				//request
-				this.request_type = RequestType.EncryptPublicKey;
 				this.request_binary = a_binary;
 				this.request_key = a_key;
 				this.request_signature_binary = null;
@@ -243,8 +206,6 @@ namespace Fee.Crypt
 		*/
 		private System.Collections.IEnumerator DoEncryptPublicKey()
 		{
-			Tool.Assert(this.request_type == RequestType.EncryptPublicKey);
-
 			Coroutine_EncryptPublicKey t_coroutine = new Coroutine_EncryptPublicKey();
 			yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_key);
 
@@ -278,7 +239,6 @@ namespace Fee.Crypt
 				this.result_binary = null;
 
 				//request
-				this.request_type = RequestType.DecryptPrivateKey;
 				this.request_binary = a_binary;
 				this.request_key = a_key;
 				this.request_signature_binary = null;
@@ -296,8 +256,6 @@ namespace Fee.Crypt
 		*/
 		private System.Collections.IEnumerator DoDecryptPrivateKey()
 		{
-			Tool.Assert(this.request_type == RequestType.DecryptPrivateKey);
-
 			Coroutine_DecryptPrivateKey t_coroutine = new Coroutine_DecryptPrivateKey();
 			yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_key);
 
@@ -331,7 +289,6 @@ namespace Fee.Crypt
 				this.result_binary = null;
 
 				//request
-				this.request_type = RequestType.CreateSignaturePrivateKey;
 				this.request_binary = a_binary;
 				this.request_key = a_key;
 				this.request_signature_binary = null;
@@ -349,8 +306,6 @@ namespace Fee.Crypt
 		*/
 		private System.Collections.IEnumerator DoCreateSignaturePrivateKey()
 		{
-			Tool.Assert(this.request_type == RequestType.CreateSignaturePrivateKey);
-
 			Coroutine_CreateSignaturePrivateKey t_coroutine = new Coroutine_CreateSignaturePrivateKey();
 			yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_key);
 
@@ -384,7 +339,6 @@ namespace Fee.Crypt
 				this.result_binary = null;
 
 				//request
-				this.request_type = RequestType.VerifySignaturePublicKey;
 				this.request_binary = a_binary;
 				this.request_key = a_key;
 				this.request_signature_binary = a_signature_binary;
@@ -402,8 +356,6 @@ namespace Fee.Crypt
 		*/
 		private System.Collections.IEnumerator DoVerifySignaturePublicKey()
 		{
-			Tool.Assert(this.request_type == RequestType.VerifySignaturePublicKey);
-
 			Coroutine_VerifySignaturePublicKey t_coroutine = new Coroutine_VerifySignaturePublicKey();
 			yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_signature_binary,this.request_key);
 
@@ -436,7 +388,6 @@ namespace Fee.Crypt
 				this.result_binary = null;
 
 				//request
-				this.request_type = RequestType.EncryptPass;
 				this.request_binary = a_binary;
 				this.request_key = null;
 				this.request_signature_binary = null;
@@ -454,8 +405,6 @@ namespace Fee.Crypt
 		*/
 		private System.Collections.IEnumerator DoEncryptPass()
 		{
-			Tool.Assert(this.request_type == RequestType.EncryptPass);
-
 			Coroutine_EncryptPass t_coroutine = new Coroutine_EncryptPass();
 			yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_pass,this.request_salt);
 
@@ -489,7 +438,6 @@ namespace Fee.Crypt
 				this.result_binary = null;
 
 				//request
-				this.request_type = RequestType.DecryptPass;
 				this.request_binary = a_binary;
 				this.request_key = null;
 				this.request_signature_binary = null;
@@ -507,8 +455,6 @@ namespace Fee.Crypt
 		*/
 		private System.Collections.IEnumerator DoDecryptPass()
 		{
-			Tool.Assert(this.request_type == RequestType.DecryptPass);
-
 			Coroutine_DecryptPass t_coroutine = new Coroutine_DecryptPass();
 			yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_pass,this.request_salt);
 

@@ -104,6 +104,10 @@ namespace Fee.AssetBundleList
 					yield break;
 				}
 
+				while(t_item_bianry.IsBusy() == true){
+					yield return null;
+				}
+
 				if(t_item_bianry.GetResultAssetType() == Asset.AssetType.Binary){
 					t_result_binary = t_item_bianry.GetResultAssetBinary();
 				}

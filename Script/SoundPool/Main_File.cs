@@ -16,25 +16,6 @@ namespace Fee.SoundPool
 	*/
 	public class Main_File : Fee.SoundPool.OnSoundPoolCoroutine_CallBackInterface
 	{
-		/**  リクエストタイプ。
-		*/
-		private enum RequestType
-		{
-			None = -1,
-
-			/** ロードローカル。サウンドプール。
-			*/
-			LoadLocalSoundPool,
-
-			/** ロードストリーミングアセット。サウンドプール。
-			*/
-			LoadStreamingAssetsSoundPool,
-
-			/** ロードＵＲＬ。サウンドプール。
-			*/
-			LoadUrlSoundPool,
-		};
-
 		/** ResultType
 		*/
 		public enum ResultType
@@ -63,10 +44,6 @@ namespace Fee.SoundPool
 		/** シャットダウン。チェック。
 		*/
 		private bool is_shutdown;
-
-		/** request_type
-		*/
-		private RequestType request_type;
 
 		/** request_path
 		*/
@@ -109,7 +86,6 @@ namespace Fee.SoundPool
 			this.is_shutdown = false;
 
 			//request
-			this.request_type = RequestType.None;
 			this.request_path = null;
 			this.request_post_data = null;
 			this.request_data_version = 0;
@@ -204,7 +180,6 @@ namespace Fee.SoundPool
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.LoadLocalSoundPool;
 				this.request_path = a_path;
 				this.request_post_data = null;
 				this.request_data_version = 0;
@@ -227,8 +202,6 @@ namespace Fee.SoundPool
 		*/
 		private System.Collections.IEnumerator DoLoadLocalSoundPool()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadLocalSoundPool);
-
 			Coroutine_LoadLocalSoundPool t_coroutine = new Coroutine_LoadLocalSoundPool();
 			yield return t_coroutine.CoroutineMain(this,this.request_path);
 
@@ -256,7 +229,6 @@ namespace Fee.SoundPool
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.LoadStreamingAssetsSoundPool;
 				this.request_path = a_path;
 				this.request_post_data = null;
 				this.request_data_version = a_data_version;
@@ -279,8 +251,6 @@ namespace Fee.SoundPool
 		*/
 		private System.Collections.IEnumerator DoLoadStreamingAssetsSoundPool()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsSoundPool);
-
 			Coroutine_LoadSoundPool t_coroutine = new Coroutine_LoadSoundPool();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,null,true,this.request_data_version);
 
@@ -308,7 +278,6 @@ namespace Fee.SoundPool
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.LoadUrlSoundPool;
 				this.request_path = a_path;
 				this.request_post_data = a_post_data;
 				this.request_data_version = a_data_version;
@@ -331,8 +300,6 @@ namespace Fee.SoundPool
 		*/
 		private System.Collections.IEnumerator DoLoadUrlSoundPool()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadUrlSoundPool);
-
 			Coroutine_LoadSoundPool t_coroutine = new Coroutine_LoadSoundPool();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,false,this.request_data_version);
 

@@ -16,37 +16,6 @@ namespace Fee.File
 	*/
 	public class Main_WebRequest : Fee.File.OnFileCoroutine_CallBackInterface
 	{
-		/**  リクエストタイプ。
-		*/
-		private enum RequestType
-		{
-			None = -1,
-
-			/** ロードＵＲＬ。バイナリファイル。
-			*/
-			LoadUrlBinaryFile,
-
-			/** ロードＵＲＬ。テキストファイル。
-			*/
-			LoadUrlTextFile,
-
-			/** ロードＵＲＬ。テクスチャファイル。
-			*/
-			LoadUrlTextureFile,
-
-			/** ロードストリーミングアセット。バイナリファイル。
-			*/
-			LoadStreamingAssetsBinaryFile,
-
-			/** ロードストリーミングアセット。テキストファイル。
-			*/
-			LoadStreamingAssetsTextFile,
-
-			/** ロードストリーミングアセット。テクスチャファイル。
-			*/
-			LoadStreamingAssetsTextureFile,
-		};
-
 		/** ResultType
 		*/
 		public enum ResultType
@@ -75,10 +44,6 @@ namespace Fee.File
 		/** シャットダウン。チェック。
 		*/
 		private bool is_shutdown;
-
-		/** request_type
-		*/
-		private RequestType request_type;
 
 		/** request_post_data
 		*/
@@ -117,7 +82,6 @@ namespace Fee.File
 			this.is_shutdown = false;
 
 			//request
-			this.request_type = RequestType.None;
 			this.request_post_data = null;
 			this.request_path = null;
 
@@ -211,7 +175,6 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.LoadUrlBinaryFile;
 				this.request_post_data = a_post_data;
 				this.request_path = a_url_path;
 
@@ -233,8 +196,6 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadUrlBinaryFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadUrlBinaryFile);
-
 			Coroutine_LoadUrlBinaryFile t_coroutine = new Coroutine_LoadUrlBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
@@ -263,7 +224,6 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.LoadUrlTextFile;
 				this.request_post_data = a_post_data;
 				this.request_path = a_url_path;
 
@@ -285,8 +245,6 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadUrlTextFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadUrlTextFile);
-
 			Coroutine_LoadUrlTextFile t_coroutine = new Coroutine_LoadUrlTextFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
@@ -315,7 +273,6 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.LoadUrlTextureFile;
 				this.request_post_data = a_post_data;
 				this.request_path = a_url_path;
 
@@ -337,8 +294,6 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadUrlTextureFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadUrlTextureFile);
-
 			Coroutine_LoadUrlTextureFile t_coroutine = new Coroutine_LoadUrlTextureFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
 
@@ -367,7 +322,6 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.LoadStreamingAssetsBinaryFile;
 				this.request_post_data = null;
 				this.request_path = a_relative_path;
 
@@ -389,8 +343,6 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadStreamingAssetsBinaryFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsBinaryFile);
-
 			//request_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
@@ -422,7 +374,6 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.LoadStreamingAssetsTextFile;
 				this.request_post_data = null;
 				this.request_path = a_relative_path;
 
@@ -444,8 +395,6 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadStreamingAssetsTextFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextFile);
-
 			//request_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
@@ -477,7 +426,6 @@ namespace Fee.File
 				this.is_cancel = false;
 
 				//request
-				this.request_type = RequestType.LoadStreamingAssetsTextureFile;
 				this.request_post_data = null;
 				this.request_path = a_relative_path;
 
@@ -499,8 +447,6 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadStreamingAssetsTextureFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextureFile);
-
 			//request_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
