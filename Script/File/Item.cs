@@ -32,10 +32,6 @@ namespace Fee.File
 			*/
 			Error,
 
-			/** アセットバンドル。
-			*/
-			AssetBundle,
-
 			/** アセット。
 			*/
 			Asset,
@@ -65,10 +61,6 @@ namespace Fee.File
 		*/
 		private Fee.Asset.Asset result_asset;
 
-		/** result_assetbundle
-		*/
-		private UnityEngine.AssetBundle result_assetbundle;
-
 		/** constructor
 		*/
 		public Item()
@@ -90,9 +82,6 @@ namespace Fee.File
 
 			//result_asset
 			this.result_asset = null;
-
-			//result_assetbundle
-			this.result_assetbundle = null;
 		}
 
 		/** 処理中。チェック。
@@ -175,22 +164,6 @@ namespace Fee.File
 		public System.Collections.Generic.Dictionary<string,string> GetResultResponseHeader()
 		{
 			return this.result_responseheader;
-		}
-
-		/** 結果。アセットバンドル。設定。
-		*/
-		public void SetResultAssetBundle(UnityEngine.AssetBundle a_assetbundle)
-		{
-			this.result_type = ResultType.AssetBundle;
-
-			this.result_assetbundle = a_assetbundle;
-		}
-
-		/** 結果。アセットバンドル。取得。
-		*/
-		public UnityEngine.AssetBundle GetResultAssetBundle()
-		{
-			return this.result_assetbundle;
 		}
 
 		/** 結果。アセット。設定。

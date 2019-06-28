@@ -20,15 +20,27 @@ namespace Fee.Data
 		*/
 		None,
 
-		/** リソース。プレハブ。アセットバンドル化可能。
+		/** アセットバンドル。プレハブ。
+		*/
+		AssetBundle_Prefab,
+
+		/** アセットバンドル。テクスチャ。
+		*/
+		AssetBundle_Texture,
+
+		/** アセットバンドル。テキスト。
+		*/
+		AssetBundle_Text,
+
+		/** リソース。プレハブ。
 		*/
 		Resources_Prefab,
 
-		/** リソース。テクスチャ。アセットバンドル化可能。
+		/** リソース。テクスチャ。
 		*/
 		Resources_Texture,
 
-		/** リソース。テキスト。アセットバンドル化可能。
+		/** リソース。テキスト。
 		*/
 		Resources_Text,
 

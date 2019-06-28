@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief サウンドプール。プログレス。
+ * @brief アセットバンドルリスト。プログレス。
 */
 
 

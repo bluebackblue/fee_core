@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief アセットバンドル。
+ * @brief アセットバンドルリスト。
 */
 
 
@@ -62,28 +62,6 @@ namespace Fee.AssetBundleList
 			}
 		}
 
-		/** PathItem
-		*/
-		public class PathItem
-		{
-			//pathtype
-			public PathType pathtype;
-
-			//path
-			public Fee.File.Path path;
-
-			/**
-			*/
-			public PathItem(PathType a_pathtype,Fee.File.Path a_path)
-			{
-				//pathtype
-				this.pathtype = a_pathtype;
-
-				//path
-				this.path = a_path;
-			}
-		}
-
 		/** work_list
 		*/
 		private System.Collections.Generic.List<Work> work_list;
@@ -92,83 +70,21 @@ namespace Fee.AssetBundleList
 		*/
 		private System.Collections.Generic.List<Work> add_list;
 
-		/** main_file
+		/** main_assetbundle
 		*/
-		private Main_File main_file;
+		private Main_AssetBundle main_assetbundle;
 
-		/** list
+		/** main_asset
 		*/
-		private System.Collections.Generic.Dictionary<string,UnityEngine.AssetBundle> assetbundle_list;
+		private Main_Asset main_asset;
 
-		/** path_list
+		/** assetbundlepathlist
 		*/
-		private System.Collections.Generic.Dictionary<string,PathItem> path_list;
+		private AssetBundlePathList assetbundlepathlist;
 
-		/** アセットバンドル。登録。
+		/** assetbundlepacklist
 		*/
-		public void RegisterAssetBundle(string a_id,UnityEngine.AssetBundle a_assetbundle)
-		{
-			this.assetbundle_list.Add(a_id,a_assetbundle);
-		}
-
-		/** アセットバンドル。アンロード。
-		*/
-		public void UnloadAssetBundle(string a_id)
-		{
-			if(this.assetbundle_list.TryGetValue(a_id,out UnityEngine.AssetBundle t_assetbundle) == true){
-				this.assetbundle_list.Remove(a_id);
-				if(t_assetbundle != null){
-					t_assetbundle.Unload(false);
-				}
-			}
-		}
-
-		/** 全アセットバンドル。アンロード。
-		*/
-		public void UnloadAllAssetBundle()
-		{
-			foreach(System.Collections.Generic.KeyValuePair<string,UnityEngine.AssetBundle> t_pair in this.assetbundle_list){
-				t_pair.Value.Unload(false);
-			}
-			this.assetbundle_list.Clear();
-		}
-
-		/** パス追加。
-		*/
-		public void AddPath(string a_id,PathType a_pathtype,Fee.File.Path a_path)
-		{
-			this.path_list.Add(a_id,new PathItem(a_pathtype,a_path));
-		}
-
-		/** RequestLoad
-		*/
-		public Item RequestLoad(string a_id)
-		{
-			Work t_work = new Work();
-			t_work.RequestFile(a_id);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
-		}
-
-		/** アセットバンドル。取得。
-		*/
-		public UnityEngine.AssetBundle GetAssetBundle(string a_id)
-		{
-			if(this.assetbundle_list.TryGetValue(a_id,out UnityEngine.AssetBundle t_assetbundle) == true){
-				return t_assetbundle;
-			}
-			return null;
-		}
-
-		/** パスアイテム。取得。
-		*/
-		public PathItem GetPathItem(string a_id)
-		{
-			if(this.path_list.TryGetValue(a_id,out PathItem t_pathitem) == true){
-				return t_pathitem;
-			}
-			return null;
-		}
+		private AssetBundlePackList assetbundlepacklist;
 
 		/** [シングルトン]constructor
 		*/
@@ -180,32 +96,133 @@ namespace Fee.AssetBundleList
 			//add_list
 			this.add_list = new System.Collections.Generic.List<Work>();
 
-			//main_file
-			this.main_file = new Main_File();
+			//main_assetbundle
+			this.main_assetbundle = new Main_AssetBundle();
 
-			//assetbundle_list
-			this.assetbundle_list = new System.Collections.Generic.Dictionary<string,UnityEngine.AssetBundle>();
+			//main_asset
+			this.main_asset = new Main_Asset();
 
-			//path_list
-			this.path_list = new System.Collections.Generic.Dictionary<string,PathItem>();
+			//assetbundlepathlist
+			this.assetbundlepathlist = new AssetBundlePathList();
 
+			//assetbundlepacklist
+			this.assetbundlepacklist = new AssetBundlePackList();
+		}
+
+		/** [パス]パス。登録。
+		*/
+		public void RegisterPath(string a_id,AssetBundlePathList_PathType a_pathtype,Fee.File.Path a_path)
+		{
+			this.assetbundlepathlist.Register(a_id,a_pathtype,a_path);
+		}
+
+		/** [パス]パス。解除。
+		*/
+		public void UnRegisterPath(string a_id)
+		{
+			this.assetbundlepathlist.UnRegister(a_id);
+		}
+
+		/** [パス]パスアイテム。取得。
+		*/
+		public AssetBundlePathList_PathItem GetPathItem(string a_id)
+		{
+			return this.assetbundlepathlist.GetPathItem(a_id);
+		}
+
+		/** [アセットバンドル]アセットバンドルアイテム。取得。
+		*/
+		public AssetBundlePackList_AssetBundleItem GetAssetBundleItem(string a_id)
+		{
+			return this.assetbundlepacklist.GetAssetBundleItem(a_id);
+		}
+
+		/** [アセットバンドル]アセットバンドルアイテム。登録。
+		*/
+		public void RegisterAssetBundle(string a_id,AssetBundlePackList_AssetBundleItem a_item)
+		{
+			this.assetbundlepacklist.Register(a_id,a_item);
+		}
+
+		/** [アセットバンドル]アセットバンドルアイテム。解除。
+		*/
+		public void UnRegisterAssetBundle(string a_id)
+		{
+			this.assetbundlepacklist.UnRegister(a_id);
+		}
+
+		/** ロードパス。アセットバンドルアイテム。
+		*/
+		public Item RequestLoadPathAssetBundleItem(string a_id)
+		{
+			Work t_work = new Work();
+			t_work.RequestLoadPathAssetBundleItem(a_id);
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** アンロードパス。アセットバンドルアイテム。
+		*/
+		public Item RequestUnLoadPathAssetBundleItem(string a_id)
+		{
+			Work t_work = new Work();
+			t_work.RequestUnLoadPathAssetBundleItem(a_id);
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** ロードアセットバンドルアイテム。テキストファイル。
+		*/
+		public Item RequestLoadAssetBundleItemTextFile(string a_id,string a_assetname)
+		{
+			Work t_work = new Work();
+			t_work.RequestLoadAssetBundleItemTextFile(a_id,a_assetname);
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** ロードアセットバンドルアイテム。テクスチャファイル。
+		*/
+		public Item RequestLoadAssetBundleItemTextureFile(string a_id,string a_assetname)
+		{
+			Work t_work = new Work();
+			t_work.RequestLoadAssetBundleItemTextureFile(a_id,a_assetname);
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
+		}
+
+		/** ロードアセットバンドルアイテム。プレハブファイル。
+		*/
+		public Item RequestLoadAssetBundleItemPrefabFile(string a_id,string a_assetname)
+		{
+			Work t_work = new Work();
+			t_work.RequestLoadAssetBundleItemPrefabFile(a_id,a_assetname);
+			this.add_list.Add(t_work);
+			return t_work.GetItem();
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
-			//全アセットバンドル。アンロード。
-			this.UnloadAllAssetBundle();
+			this.assetbundlepathlist.Delete();
+			this.assetbundlepacklist.Delete();
 
-			this.main_file.Delete();
+			this.main_assetbundle.Delete();
 		}
 
 		/** メイン。取得。
 		*/
-		public Main_File GetMainFile()
+		public Main_AssetBundle GetMainAssetBundle()
 		{
-			return this.main_file;
+			return this.main_assetbundle;
+		}
+
+		/** メイン。取得。
+		*/
+		public Main_Asset GetMainAsset()
+		{
+			return this.main_asset;
 		}
 
 		/** 処理中。チェック。

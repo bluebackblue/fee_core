@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief アセットバンドル。アイテム。
+ * @brief アセットバンドルリスト。アイテム。
 */
 
 
@@ -28,9 +28,17 @@ namespace Fee.AssetBundleList
 			*/
 			Error,
 
-			/** アセットバンドル。
+			/** アセットバンドルアイテム。ロード。
 			*/
-			AssetBundle,
+			LoadAssetBundleItem,
+
+			/** アセットバンドルアイテム。アンロード。
+			*/
+			UnLoadAssetBundleItem,
+
+			/** アセット。
+			*/
+			Asset,
 		}
 
 		/** result_type
@@ -53,9 +61,13 @@ namespace Fee.AssetBundleList
 		*/
 		private System.Collections.Generic.Dictionary<string,string> result_responseheader;
 
-		/** result_assetbundle
+		/** result_assetbundleitem
 		*/
-		private UnityEngine.AssetBundle result_assetbundle;
+		private AssetBundlePackList_AssetBundleItem result_assetbundleitem;
+
+		/** result_asset
+		*/
+		private Fee.Asset.Asset result_asset;
 
 		/** constructor
 		*/
@@ -76,8 +88,11 @@ namespace Fee.AssetBundleList
 			//result_responseheader
 			this.result_responseheader = null;
 
-			//result_assetbundle
-			this.result_assetbundle = null;
+			//result_assetbundleitem
+			this.result_assetbundleitem = null;
+
+			//result_asset
+			this.result_asset = null;
 		}
 
 		/** 処理中。チェック。
@@ -109,6 +124,16 @@ namespace Fee.AssetBundleList
 		public ResultType GetResultType()
 		{
 			return this.result_type;
+		}
+
+		/** 結果。タイプ。取得。
+		*/
+		public Fee.Asset.AssetType GetResultAssetType()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetAssetType();
+			}
+			return Asset.AssetType.None;
 		}
 
 		/** プログレス。設定。
@@ -155,20 +180,42 @@ namespace Fee.AssetBundleList
 			return this.result_responseheader;
 		}
 
-		/** 結果。アセットバンドル。設定。
+		/** 結果。アセットバンドルアイテム。アンロード。
 		*/
-		public void SetResultAssetBundle(UnityEngine.AssetBundle a_assetbundle)
+		public void SetResultUnLoadAssetBundleItem()
 		{
-			this.result_type = ResultType.AssetBundle;
-
-			this.result_assetbundle = a_assetbundle;
+			this.result_type = ResultType.UnLoadAssetBundleItem;
 		}
 
-		/** 結果。アセットバンドル。取得。
+		/** 結果。アセットバンドルアイテム。設定。
 		*/
-		public UnityEngine.AssetBundle GetResultAssetBundle()
+		public void SetResultAssetBundleItem(AssetBundlePackList_AssetBundleItem a_assetbundleitem)
 		{
-			return this.result_assetbundle;
+			this.result_type = ResultType.LoadAssetBundleItem;
+
+			this.result_assetbundleitem = a_assetbundleitem;
+		}
+
+		/** 結果。アセットバンドルアイテム。取得。
+		*/
+		public AssetBundlePackList_AssetBundleItem GetResultAssetBundleItem()
+		{
+			return this.result_assetbundleitem;
+		}
+
+		/** 結果。アセット。設定。
+		*/
+		public void SetResultAsset(Fee.Asset.Asset a_asset)
+		{
+			this.result_type = ResultType.Asset;
+			this.result_asset = a_asset;
+		}
+
+		/** 結果。アセット。取得。
+		*/
+		public Fee.Asset.Asset GetResultAsset()
+		{
+			return this.result_asset;
 		}
 	}
 }

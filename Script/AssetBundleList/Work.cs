@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief アセットバンドル。ワーク。
+ * @brief アセットバンドルリスト。ワーク。
 */
 
 
@@ -24,9 +24,13 @@ namespace Fee.AssetBundleList
 			*/
 			Start,
 
-			/** Do_File
+			/** Do_AssetBundle
 			*/
-			Do_File,
+			Do_AssetBundle,
+
+			/** Do_Asset
+			*/
+			Do_Asset,
 
 			/** 完了。
 			*/
@@ -41,9 +45,25 @@ namespace Fee.AssetBundleList
 			*/
 			None,
 
-			/** ファイル。
+			/** ロードパス。アセットバンドルアイテム。
 			*/
-			File,
+			LoadPathAssetBundleItem,
+
+			/** アンロードパス。アセットバンドルアイテム。
+			*/
+			UnLoadPathAssetBundleItem,
+
+			/** ロードアセットバンドルアイテム。テキストファイル。
+			*/
+			LoadAssetBundleItemTextFile,
+
+			/** ロードアセットバンドルアイテム。テクスチャファイル。
+			*/
+			LoadAssetBundleItemTextureFile,
+
+			/** ロードアセットバンドルアイテム。プレハブファイル。
+			*/
+			LoadAssetBundleItemPrefabFile,
 		};
 
 		/** mode
@@ -57,6 +77,10 @@ namespace Fee.AssetBundleList
 		/** request_id
 		*/
 		private string request_id;
+
+		/** request_assetname
+		*/
+		private string request_assetname;
 
 		/** item
 		*/
@@ -79,12 +103,47 @@ namespace Fee.AssetBundleList
 			this.item = new Item();
 		}
 
-		/** リクエスト。
+		/** リクエスト。ロードパス。アセットバンドルアイテム。
 		*/
-		public void RequestFile(string a_id)
+		public void RequestLoadPathAssetBundleItem(string a_id)
 		{
-			this.request_type = RequestType.File;
+			this.request_type = RequestType.LoadPathAssetBundleItem;
 			this.request_id = a_id;
+		}
+
+		/** リクエスト。アンロードパス。アセットバンドルアイテム。
+		*/
+		public void RequestUnLoadPathAssetBundleItem(string a_id)
+		{
+			this.request_type = RequestType.UnLoadPathAssetBundleItem;
+			this.request_id = a_id;
+		}
+
+		/** リクエスト。ロードアセットバンドルアイテム。テキストファイル。
+		*/
+		public void RequestLoadAssetBundleItemTextFile(string a_id,string a_assetname)
+		{
+			this.request_type = RequestType.LoadAssetBundleItemTextFile;
+			this.request_id = a_id;
+			this.request_assetname = a_assetname; 
+		}
+
+		/** リクエスト。ロードアセットバンドルアイテム。テクスチャファイル。
+		*/
+		public void RequestLoadAssetBundleItemTextureFile(string a_id,string a_assetname)
+		{
+			this.request_type = RequestType.LoadAssetBundleItemTextureFile;
+			this.request_id = a_id;
+			this.request_assetname = a_assetname; 
+		}
+
+		/** リクエスト。ロードアセットバンドルアイテム。プレハブファイル。
+		*/
+		public void RequestLoadAssetBundleItemPrefabFile(string a_id,string a_assetname)
+		{
+			this.request_type = RequestType.LoadAssetBundleItemPrefabFile;
+			this.request_id = a_id;
+			this.request_assetname = a_assetname; 
 		}
 
 		/** アイテム。
@@ -105,33 +164,110 @@ namespace Fee.AssetBundleList
 			case Mode.Start:
 				{
 					switch(this.request_type){
-					case RequestType.File:
+					case RequestType.LoadPathAssetBundleItem:
 						{
-							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainFile().RequestFile(this.request_id) == true){
-								this.mode = Mode.Do_File;
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAssetBundle().RequestLoadPathAssetBundleItem(this.request_id) == true){
+								this.mode = Mode.Do_AssetBundle;
 							}
+						}break;
+					case RequestType.UnLoadPathAssetBundleItem:
+						{
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAssetBundle().RequestUnLoadPathAssetBundleItem(this.request_id) == true){
+								this.mode = Mode.Do_AssetBundle;
+							}
+						}break;
+					case RequestType.LoadAssetBundleItemTextFile:
+						{
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemTextFile(this.request_id,this.request_assetname) == true){
+								this.mode = Mode.Do_Asset;
+							}
+						}break;
+					case RequestType.LoadAssetBundleItemTextureFile:
+						{
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemTextureFile(this.request_id,this.request_assetname) == true){
+								this.mode = Mode.Do_Asset;
+							}
+						}break;
+					case RequestType.LoadAssetBundleItemPrefabFile:
+						{
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemPrefabFile(this.request_id,this.request_assetname) == true){
+								this.mode = Mode.Do_Asset;
+							}
+						}break;
+					default:
+						{
+							Tool.Assert(false);
 						}break;
 					}
 				}break;
 			case Mode.End:
 				{
 				}return true;
-			case Mode.Do_File:
+			case Mode.Do_AssetBundle:
 				{
-					Main_File t_main = Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainFile();
+					Main_AssetBundle t_main = Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAssetBundle();
 
 					this.item.SetResultProgress(t_main.GetResultProgress());
 
-					if(t_main.GetResultType() != Main_File.ResultType.None){
+					if(t_main.GetResultType() != Main_AssetBundle.ResultType.None){
 						//結果。
 						bool t_success = false;
 						switch(t_main.GetResultType()){
-						case Main_File.ResultType.AssetBundle:
+						case Main_AssetBundle.ResultType.LoadPathAssetBundleItem:
 							{
-								if(t_main.GetResultAssetBundle() != null){
-									this.item.SetResultAssetBundle(t_main.GetResultAssetBundle());
+								//ロードパス。アセットバンドルアイテム。
+
+								if(t_main.GetResultAssetBundleItem() != null){
+									this.item.SetResultAssetBundleItem(t_main.GetResultAssetBundleItem());
 									t_success = true;
 								}
+							}break;
+						case Main_AssetBundle.ResultType.UnLoadPathAssetBundleItem:
+							{
+								//アンロードパス。アセットバンドルアイテム。
+
+								this.item.SetResultUnLoadAssetBundleItem();
+								t_success = true;
+							}break;
+						default:
+							{
+								Tool.Assert(false);
+							}break;
+						}
+
+						if(t_success == false){
+							this.item.SetResultErrorString(t_main.GetResultErrorString());
+						}
+
+						//完了。
+						t_main.Fix();
+
+						this.mode = Mode.End;
+					}else if(this.item.IsCancel() == true){
+						//キャンセル。
+						t_main.Cancel();
+					}
+				}break;
+			case Mode.Do_Asset:
+				{
+					Main_Asset t_main = Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset();
+
+					this.item.SetResultProgress(t_main.GetResultProgress());
+
+					if(t_main.GetResultType() != Main_Asset.ResultType.None){
+						//結果。
+						bool t_success = false;
+						switch(t_main.GetResultType()){
+						case Main_Asset.ResultType.Asset:
+							{
+								if(t_main.GetResultAsset() != null){
+									this.item.SetResultAsset(t_main.GetResultAsset());
+									t_success = true;
+								}
+							}break;
+						default:
+							{
+								Tool.Assert(false);
 							}break;
 						}
 

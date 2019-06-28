@@ -18,6 +18,7 @@ namespace Fee.File
 	{
 		/**  リクエストタイプ。
 		*/
+		#if(false)
 		private enum RequestType
 		{
 			None = -1,
@@ -62,6 +63,7 @@ namespace Fee.File
 			*/
 			LoadAssetsBinaryFile,
 		};
+		#endif
 
 		/** ResultType
 		*/
@@ -82,10 +84,6 @@ namespace Fee.File
 			/** アセット。
 			*/
 			Asset,
-
-			/** アセットバンドル。
-			*/
-			AssetBundle,
 		};
 
 		/** is_busy
@@ -102,7 +100,7 @@ namespace Fee.File
 
 		/** request_type
 		*/
-		private RequestType request_type;
+		//private RequestType request_type;
 
 		/** request_relative_path
 		*/
@@ -136,10 +134,6 @@ namespace Fee.File
 		*/
 		private Fee.Asset.Asset result_asset;
 
-		/** result_assetbundle
-		*/
-		private UnityEngine.AssetBundle result_assetbundle;
-
 		/** constructor
 		*/
 		public Main_Io()
@@ -149,7 +143,7 @@ namespace Fee.File
 			this.is_shutdown = false;
 
 			//request
-			this.request_type = RequestType.None;
+			//this.request_type = RequestType.None;
 			this.request_relative_path = null;
 			this.request_binary = null;
 			this.request_text = null;
@@ -160,7 +154,6 @@ namespace Fee.File
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
 			this.result_asset = null;
-			this.result_assetbundle = null;
 		}
 
 		/** 削除。
@@ -212,13 +205,6 @@ namespace Fee.File
 			return this.result_asset;
 		}
 
-		/** GetResultAssetBundle
-		*/
-		public UnityEngine.AssetBundle GetResultAssetBundle()
-		{
-			return this.result_assetbundle;
-		}
-
 		/** [Fee.File.OnFileCoroutine_CallBackInterface]コルーチンからのコールバック。
 
 			return == false : キャンセル。
@@ -249,10 +235,9 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 
 				//request
-				this.request_type = RequestType.LoadLocalBinaryFile;
+				//this.request_type = RequestType.LoadLocalBinaryFile;
 				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
@@ -269,7 +254,7 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadLocalBinaryFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadLocalBinaryFile);
+			//Tool.Assert(this.request_type == RequestType.LoadLocalBinaryFile);
 
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
@@ -305,10 +290,9 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 
 				//request
-				this.request_type = RequestType.LoadLocalTextFile;
+				//this.request_type = RequestType.LoadLocalTextFile;
 				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
@@ -325,7 +309,7 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadLocalTextFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadLocalTextFile);
+			//Tool.Assert(this.request_type == RequestType.LoadLocalTextFile);
 
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
@@ -361,10 +345,9 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 
 				//request
-				this.request_type = RequestType.LoadLocalTextureFile;
+				//this.request_type = RequestType.LoadLocalTextureFile;
 				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
@@ -381,7 +364,7 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadLocalTextureFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadLocalTextureFile);
+			//Tool.Assert(this.request_type == RequestType.LoadLocalTextureFile);
 
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
@@ -417,10 +400,9 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 
 				//request
-				this.request_type = RequestType.SaveLocalBinaryFile;
+				//this.request_type = RequestType.SaveLocalBinaryFile;
 				this.request_relative_path = a_relative_path;
 				this.request_binary = a_binary;
 				this.request_text = null;
@@ -437,7 +419,7 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoSaveLocalBinaryFile()
 		{
-			Tool.Assert(this.request_type == RequestType.SaveLocalBinaryFile);
+			//Tool.Assert(this.request_type == RequestType.SaveLocalBinaryFile);
 
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
@@ -472,10 +454,9 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 
 				//request
-				this.request_type = RequestType.SaveLocalTextFile;
+				//this.request_type = RequestType.SaveLocalTextFile;
 				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = a_text;
@@ -492,7 +473,7 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoSaveLocalTextFile()
 		{
-			Tool.Assert(this.request_type == RequestType.SaveLocalTextFile);
+			//Tool.Assert(this.request_type == RequestType.SaveLocalTextFile);
 
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
@@ -527,10 +508,9 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 
 				//request
-				this.request_type = RequestType.SaveLocalTextureFile;
+				//this.request_type = RequestType.SaveLocalTextureFile;
 				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
@@ -547,7 +527,7 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoSaveLocalTextureFile()
 		{
-			Tool.Assert(this.request_type == RequestType.SaveLocalTextureFile);
+			//Tool.Assert(this.request_type == RequestType.SaveLocalTextureFile);
 
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
@@ -582,10 +562,9 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 
 				//request
-				this.request_type = RequestType.LoadStreamingAssetsBinaryFile;
+				//this.request_type = RequestType.LoadStreamingAssetsBinaryFile;
 				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
@@ -602,7 +581,7 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadStreamingAssetsBinaryFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsBinaryFile);
+			//Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsBinaryFile);
 
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path);
@@ -638,10 +617,9 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 
 				//request
-				this.request_type = RequestType.LoadStreamingAssetsTextFile;
+				//this.request_type = RequestType.LoadStreamingAssetsTextFile;
 				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
@@ -658,7 +636,7 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadStreamingAssetsTextFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextFile);
+			//Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextFile);
 
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path);
@@ -694,10 +672,9 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 
 				//request
-				this.request_type = RequestType.LoadStreamingAssetsTextureFile;
+				//this.request_type = RequestType.LoadStreamingAssetsTextureFile;
 				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
@@ -714,7 +691,7 @@ namespace Fee.File
 		*/
 		private System.Collections.IEnumerator DoLoadStreamingAssetsTextureFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextureFile);
+			//Tool.Assert(this.request_type == RequestType.LoadStreamingAssetsTextureFile);
 
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path);
@@ -751,10 +728,9 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 
 				//request
-				this.request_type = RequestType.LoadAssetsBinaryFile;
+				//this.request_type = RequestType.LoadAssetsBinaryFile;
 				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
@@ -773,7 +749,7 @@ namespace Fee.File
 		#if(UNITY_EDITOR)
 		private System.Collections.IEnumerator DoLoadAssetsBinaryFile()
 		{
-			Tool.Assert(this.request_type == RequestType.LoadAssetsBinaryFile);
+			//Tool.Assert(this.request_type == RequestType.LoadAssetsBinaryFile);
 
 			//request_relative_pathは相対パス。
 			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath(this.request_relative_path);

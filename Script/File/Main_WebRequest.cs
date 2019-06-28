@@ -104,10 +104,6 @@ namespace Fee.File
 		*/
 		private Fee.Asset.Asset result_asset;
 
-		/** result_assetbundle
-		*/
-		private UnityEngine.AssetBundle result_assetbundle;
-
 		/** result_responseheader
 		*/
 		private System.Collections.Generic.Dictionary<string,string> result_responseheader;
@@ -130,7 +126,6 @@ namespace Fee.File
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
 			this.result_asset = null;
-			this.result_assetbundle = null;
 			this.result_responseheader = null;
 		}
 		
@@ -183,13 +178,6 @@ namespace Fee.File
 			return this.result_asset;
 		}
 
-		/** GetResultAssetBundle
-		*/
-		public UnityEngine.AssetBundle GetResultAssetBundle()
-		{
-			return this.result_assetbundle;
-		}
-
 		/** GetResultResponseHeader
 		*/
 		public System.Collections.Generic.Dictionary<string,string> GetResultResponseHeader()
@@ -232,7 +220,6 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoLoadUrlBinaryFile());
@@ -285,7 +272,6 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoLoadUrlTextFile());
@@ -338,7 +324,6 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoLoadUrlTextureFile());
@@ -391,7 +376,6 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsBinaryFile());
@@ -447,7 +431,6 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsTextFile());
@@ -503,7 +486,6 @@ namespace Fee.File
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
 				this.result_asset = null;
-				this.result_assetbundle = null;
 				this.result_responseheader = null;
 
 				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsTextureFile());

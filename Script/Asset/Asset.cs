@@ -46,6 +46,14 @@ namespace Fee.Asset
 			this.asset_object = a_asset_object;
 		}
 
+		/** SetError
+		*/
+		public void SetError()
+		{
+			this.asset_type = AssetType.None;
+			this.asset_object = null;
+		}
+
 		/** GetAssetType
 		*/
 		public AssetType GetAssetType()

@@ -87,10 +87,6 @@ namespace Fee.File
 		*/
 		private System.Collections.Generic.List<Work> add_list;
 
-		/** アセットバンドルリスト。
-		*/
-		private AssetBundleList assetbundle_list;
-
 		/** [シングルトン]constructor
 		*/
 		private File()
@@ -109,17 +105,12 @@ namespace Fee.File
 
 			//add_list
 			this.add_list = new System.Collections.Generic.List<Work>();
-
-			//assetbundle_list
-			this.assetbundle_list = new AssetBundleList();
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
-			//管理しているアセットバンドルをすべてアンロード。
-			this.assetbundle_list.UnloadAllAssetBundle();
 		}
 
 		/** main_io。取得。
@@ -141,13 +132,6 @@ namespace Fee.File
 		public Main_Resources GetMainResources()
 		{
 			return this.main_resources;
-		}
-
-		/** アセットバンドルリスト。取得。
-		*/
-		public AssetBundleList GetAssetBundleList()
-		{
-			return this.assetbundle_list;
 		}
 
 		/** LoadRequestType
@@ -337,13 +321,6 @@ namespace Fee.File
 				return true;
 			}
 			return false;
-		}
-
-		/** アセットバンドル数。取得。
-		*/
-		public int GetAssetBundleCount()
-		{
-			return this.assetbundle_list.GetCount();
 		}
 
 		/** 更新。

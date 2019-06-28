@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief アセットバンドル。ファイル。
+ * @brief アセットバンドルリスト。ファイル。
 */
 
 
@@ -12,21 +12,10 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** Main_File
+	/** Main_Asset
 	*/
-	public class Main_File : Fee.AssetBundleList.OnAssetBundleCoroutine_CallBackInterface
+	public class Main_Asset : Fee.AssetBundleList.OnAssetBundleListCoroutine_CallBackInterface
 	{
-		/**  リクエストタイプ。
-		*/
-		private enum RequestType
-		{
-			None = -1,
-
-			/** ファイル
-			*/
-			File,
-		};
-
 		/** ResultType
 		*/
 		public enum ResultType
@@ -39,9 +28,9 @@ namespace Fee.AssetBundleList
 			*/
 			Error,
 
-			/** アセットバンドル。
+			/** アセット。
 			*/
-			AssetBundle,
+			Asset,
 		};
 
 		/** is_busy
@@ -55,10 +44,6 @@ namespace Fee.AssetBundleList
 		/** シャットダウン。チェック。
 		*/
 		private bool is_shutdown;
-
-		/** request_type
-		*/
-		private RequestType request_type;
 
 		/** request_id
 		*/
@@ -76,27 +61,26 @@ namespace Fee.AssetBundleList
 		*/
 		private ResultType result_type;
 
-		/** result_assetbundle
+		/** result_asset
 		*/
-		private UnityEngine.AssetBundle result_assetbundle;
+		private Fee.Asset.Asset result_asset;
 
 		/** constructor
 		*/
-		public Main_File()
+		public Main_Asset()
 		{
 			this.is_busy = false;
 			this.is_cancel = false;
 			this.is_shutdown = false;
 
 			//request
-			this.request_type = RequestType.None;
 			this.request_id = null;
 
 			//result
 			this.result_progress = 0.0f;
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
-			this.result_assetbundle = null;
+			this.result_asset = null;
 		}
 
 		/** 削除。
@@ -141,19 +125,19 @@ namespace Fee.AssetBundleList
 			return this.result_type;
 		}
 
-		/** GetResultAssetBundle
+		/** GetResultAsset
 		*/
-		public UnityEngine.AssetBundle GetResultAssetBundle()
+		public Fee.Asset.Asset GetResultAsset()
 		{
-			return this.result_assetbundle;
+			return this.result_asset;
 		}
 
-		/** [Fee.AssetBundleList.OnAssetBundleCoroutine_CallBackInterface]コルーチン実行中。
+		/** [Fee.AssetBundleList.OnAssetBundleListCoroutine_CallBackInterface]コルーチン実行中。
 
 			return == false : キャンセル。
 
 		*/
-		public bool OnAssetBundleCoroutine(float a_progress)
+		public bool OnAssetBundleListCoroutine(float a_progress)
 		{
 			if((this.is_cancel == true)||(this.is_shutdown == true)){
 				return false;
@@ -163,9 +147,9 @@ namespace Fee.AssetBundleList
 			return true;
 		}
 
-		/** リクエスト。ファイル。
+		/** リクエスト。ロードアセットバンドルアイテム。テキストファイル。
 		*/
-		public bool RequestFile(string a_id)
+		public bool RequestLoadAssetBundleItemTextFile(string a_id,string a_assetname)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -177,39 +161,56 @@ namespace Fee.AssetBundleList
 				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
-				this.result_assetbundle = null;
+				this.result_asset = null;
 
 				//request
-				this.request_type = RequestType.File;
 				this.request_id = a_id;
 
-				Function.Function.StartCoroutine(this.DoFile());
+				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemTextFile());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ファイル。
+		/** 実行。ロードアセットバンドルアイテム。テキストファイル。
 		*/
-		private System.Collections.IEnumerator DoFile()
+		private System.Collections.IEnumerator DoLoadAssetBundleItemTextFile()
 		{
-			Tool.Assert(this.request_type == RequestType.File);
+			//TODO:
+			yield break;
+		}
 
-			Coroutine_File t_coroutine = new Coroutine_File();
-			yield return t_coroutine.CoroutineMain(this,this.request_id);
+		/** リクエスト。ロードアセットバンドルアイテム。テクスチャファイル。
+		*/
+		public bool RequestLoadAssetBundleItemTextureFile(string a_id,string a_assetname)
+		{
+			//TODO:
+			return true;
+		}
 
-			if(t_coroutine.result.assetbundle_file != null){
-				this.result_progress = 1.0f;
-				this.result_assetbundle = t_coroutine.result.assetbundle_file;
-				this.result_type = ResultType.AssetBundle;
-				yield break;
-			}else{
-				this.result_progress = 1.0f;
-				this.result_errorstring = t_coroutine.result.errorstring;
-				this.result_type = ResultType.Error;
-				yield break;
-			}
+		/** 実行。ロードアセットバンドルアイテム。テクスチャファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadAssetBundleItemTextureFile()
+		{
+			//TODO:
+			yield break;
+		}
+
+		/** リクエスト。ロードアセットバンドルアイテム。プレハブファイル。
+		*/
+		public bool RequestLoadAssetBundleItemPrefabFile(string a_id,string a_assetname)
+		{
+			//TODO:
+			return true;
+		}
+
+		/** 実行。ロードアセットバンドルアイテム。プレハブファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadAssetBundleItemPrefabFile()
+		{
+			//TODO:
+			yield break;
 		}
 	}
 }

@@ -88,6 +88,10 @@ namespace Fee.JsonSheet
 
 		/** データパラメータ。
 		*/
+		public const string DATAPARAM_DUMMY = "<dummy>";
+
+		/** データパラメータ。
+		*/
 		public const string DATAPARAM_STANDALONEWINDOWS = "<standalonewindows>";
 
 		/** データパラメータ。
@@ -101,8 +105,6 @@ namespace Fee.JsonSheet
 		/** データパラメータ。
 		*/
 		public const string DATAPARAM_IOS = "<ios>";
-
-
 
 		/** コンバート。
 
@@ -152,9 +154,9 @@ namespace Fee.JsonSheet
 											if(a_param == Convert_DataSheet.DATAPARAM_RELEASE){
 												if(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == false){
 													//アセットバンドル使用。
-													t_item = new Data.JsonListItem(Data.PathType.Resources_Prefab,"",t_sheet[jj].data_assetbundle_name);
+													t_item = new Data.JsonListItem(Data.PathType.AssetBundle_Prefab,"",t_sheet[jj].data_assetbundle_name);
 												}else{
-													//アセットバンドル未使用。
+													//リソース使用。
 													t_item = new Data.JsonListItem(Data.PathType.Resources_Prefab,t_sheet[jj].data_path,"");
 												}
 											}else{
@@ -168,9 +170,9 @@ namespace Fee.JsonSheet
 											if(a_param == Convert_DataSheet.DATAPARAM_RELEASE){
 												if(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == false){
 													//アセットバンドル使用。
-													t_item = new Data.JsonListItem(Data.PathType.Resources_Texture,"",t_sheet[jj].data_assetbundle_name);
+													t_item = new Data.JsonListItem(Data.PathType.AssetBundle_Texture,"",t_sheet[jj].data_assetbundle_name);
 												}else{
-													//アセットバンドル未使用。
+													//リソース使用。
 													t_item = new Data.JsonListItem(Data.PathType.Resources_Texture,t_sheet[jj].data_path,"");
 												}
 											}else{
@@ -184,9 +186,9 @@ namespace Fee.JsonSheet
 											if(a_param == Convert_DataSheet.DATAPARAM_RELEASE){
 												if(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == false){
 													//アセットバンドル使用。
-													t_item = new Data.JsonListItem(Data.PathType.Resources_Text,"",t_sheet[jj].data_assetbundle_name);
+													t_item = new Data.JsonListItem(Data.PathType.AssetBundle_Text,"",t_sheet[jj].data_assetbundle_name);
 												}else{
-													//アセットバンドル未使用。
+													//リソース使用。
 													t_item = new Data.JsonListItem(Data.PathType.Resources_Text,t_sheet[jj].data_path,"");
 												}
 											}else{
@@ -334,86 +336,149 @@ namespace Fee.JsonSheet
 						}
 					}
 
-					{
-						//t_assetbundle_build
-						UnityEditor.AssetBundleBuild[] t_assetbundle_build = new UnityEditor.AssetBundleBuild[t_assetbundlelist.Count];
+					switch(a_param){
+					case Convert_DataSheet.DATAPARAM_DUMMY:
 						{
-							int t_count = 0;
+							//ダミー。
 
-							foreach(System.Collections.Generic.KeyValuePair<string,System.Collections.Generic.Dictionary<string,ListItem>> t_pair in t_assetbundlelist){
+							System.Collections.Generic.List<Fee.AssetBundleList.DummryAssetBundle> t_dummy_assetbundle_list = new System.Collections.Generic.List<AssetBundleList.DummryAssetBundle>();
+							{
+								foreach(System.Collections.Generic.KeyValuePair<string,System.Collections.Generic.Dictionary<string,ListItem>> t_pair in t_assetbundlelist){
+									Fee.AssetBundleList.DummryAssetBundle t_dummy_assetbundle = new AssetBundleList.DummryAssetBundle();
 
-								//パック名。
-								t_assetbundle_build[t_count].assetBundleName = t_pair.Key;
+									//パック名。
+									t_dummy_assetbundle.assetbundle_name = t_pair.Key;
 
-								//assetBundleVariant
-								t_assetbundle_build[t_count].assetBundleVariant = null;
+									//assetname_list
+									t_dummy_assetbundle.assetname_list = new System.Collections.Generic.List<string>();
 
-								//key_list
-								System.Collections.Generic.List<string> t_key_list = new System.Collections.Generic.List<string>(t_pair.Value.Keys);
-								t_assetbundle_build[t_count].assetNames = new string[t_key_list.Count];
-								t_assetbundle_build[t_count].addressableNames = new string[t_key_list.Count];
+									//addressable_name_list
+									t_dummy_assetbundle.addressable_name_list = new System.Collections.Generic.List<string>();
 
-								for(int ii=0;ii<t_key_list.Count;ii++){
-									if(t_pair.Value.TryGetValue(t_key_list[ii],out ListItem t_listitem) == true){
-
-										string t_asset_path = null;
-										{
-											try{
-												UnityEngine.Object t_object = UnityEngine.Resources.Load(t_listitem.data_path);
-												if(t_object != null){
-													t_asset_path = UnityEditor.AssetDatabase.GetAssetPath(t_object);
-												}else{
-													Tool.Assert(false);
+									System.Collections.Generic.List<string> t_key_list = new System.Collections.Generic.List<string>(t_pair.Value.Keys);
+									for(int ii=0;ii<t_key_list.Count;ii++){
+										if(t_pair.Value.TryGetValue(t_key_list[ii],out ListItem t_listitem) == true){
+											string t_asset_path = null;
+											{
+												try{
+													UnityEngine.Object t_object = UnityEngine.Resources.Load(t_listitem.data_path);
+													if(t_object != null){
+														t_asset_path = UnityEditor.AssetDatabase.GetAssetPath(t_object);
+													}else{
+														Tool.Assert(false);
+													}
+												}catch(System.Exception t_exception){
+													Tool.DebugReThrow(t_exception);
 												}
-											}catch(System.Exception t_exception){
-												Tool.DebugReThrow(t_exception);
 											}
+
+											//assetname_list
+											t_dummy_assetbundle.assetname_list.Add(t_asset_path);
+
+											//addressable_name_list
+											t_dummy_assetbundle.addressable_name_list.Add(t_key_list[ii]);
+										}else{
+											Tool.Assert(false);
 										}
-
-										//assetNames
-										t_assetbundle_build[t_count].assetNames[ii] = t_asset_path;
-
-										//addressableNames
-										t_assetbundle_build[t_count].addressableNames[ii] = t_key_list[ii];
-
-									}else{
-										Tool.Assert(false);
 									}
+
+									t_dummy_assetbundle_list.Add(t_dummy_assetbundle);
 								}
-
-								t_count++;
 							}
-						}
 
-						//option
-						UnityEditor.BuildAssetBundleOptions t_option = UnityEditor.BuildAssetBundleOptions.ForceRebuildAssetBundle;
+							string t_jsonstring = Fee.JsonItem.Convert.ObjectToJsonString<System.Collections.Generic.List<Fee.AssetBundleList.DummryAssetBundle>>(t_dummy_assetbundle_list);
+							EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_assets_path),t_jsonstring);
+						}break;
+					case Convert_DataSheet.DATAPARAM_STANDALONEWINDOWS:
+					case Convert_DataSheet.DATAPARAM_ANDROID:
+					case Convert_DataSheet.DATAPARAM_WEBGL:
+					case Convert_DataSheet.DATAPARAM_IOS:
+						{
+							//アセットバンドル。
 
-						UnityEditor.BuildTarget t_buildtarget = UnityEditor.BuildTarget.StandaloneWindows;
+							//t_assetbundle_build
+							UnityEditor.AssetBundleBuild[] t_assetbundle_build = new UnityEditor.AssetBundleBuild[t_assetbundlelist.Count];
+							{
+								int t_count = 0;
+								foreach(System.Collections.Generic.KeyValuePair<string,System.Collections.Generic.Dictionary<string,ListItem>> t_pair in t_assetbundlelist){
 
-						switch(a_param){
-						case Convert_DataSheet.DATAPARAM_STANDALONEWINDOWS:
-							{
-								t_buildtarget = UnityEditor.BuildTarget.StandaloneWindows;
-							}break;
-						case Convert_DataSheet.DATAPARAM_ANDROID:
-							{
-								t_buildtarget = UnityEditor.BuildTarget.Android;
-							}break;
-						case Convert_DataSheet.DATAPARAM_WEBGL:
-							{
-								t_buildtarget = UnityEditor.BuildTarget.WebGL;
-							}break;
-						case Convert_DataSheet.DATAPARAM_IOS:
-							{
-								t_buildtarget = UnityEditor.BuildTarget.iOS;
-							}break;
-						default:
-							{
-								Tool.Assert(false);
-							}break;
-						}
+									//パック名。
+									t_assetbundle_build[t_count].assetBundleName = t_pair.Key;
 
-						UnityEditor.BuildPipeline.BuildAssetBundles("Assets/" + a_assets_path.GetPath(),t_assetbundle_build,t_option,t_buildtarget);
+									//assetBundleVariant
+									t_assetbundle_build[t_count].assetBundleVariant = null;
+
+									//key_list
+									System.Collections.Generic.List<string> t_key_list = new System.Collections.Generic.List<string>(t_pair.Value.Keys);
+									t_assetbundle_build[t_count].assetNames = new string[t_key_list.Count];
+									t_assetbundle_build[t_count].addressableNames = new string[t_key_list.Count];
+
+									for(int ii=0;ii<t_key_list.Count;ii++){
+										if(t_pair.Value.TryGetValue(t_key_list[ii],out ListItem t_listitem) == true){
+
+											string t_asset_path = null;
+											{
+												try{
+													UnityEngine.Object t_object = UnityEngine.Resources.Load(t_listitem.data_path);
+													if(t_object != null){
+														t_asset_path = UnityEditor.AssetDatabase.GetAssetPath(t_object);
+													}else{
+														Tool.Assert(false);
+													}
+												}catch(System.Exception t_exception){
+													Tool.DebugReThrow(t_exception);
+												}
+											}
+
+											//assetNames
+											t_assetbundle_build[t_count].assetNames[ii] = t_asset_path;
+
+											//addressableNames
+											t_assetbundle_build[t_count].addressableNames[ii] = t_key_list[ii];
+
+										}else{
+											Tool.Assert(false);
+										}
+									}
+
+									t_count++;
+								}
+							}
+
+							//BuildAssetBundleOptions
+							UnityEditor.BuildAssetBundleOptions t_option = UnityEditor.BuildAssetBundleOptions.ForceRebuildAssetBundle;
+
+							//BuildTarget
+							UnityEditor.BuildTarget t_buildtarget = UnityEditor.BuildTarget.StandaloneWindows;
+							switch(a_param){
+							case Convert_DataSheet.DATAPARAM_STANDALONEWINDOWS:
+								{
+									t_buildtarget = UnityEditor.BuildTarget.StandaloneWindows;
+								}break;
+							case Convert_DataSheet.DATAPARAM_ANDROID:
+								{
+									t_buildtarget = UnityEditor.BuildTarget.Android;
+								}break;
+							case Convert_DataSheet.DATAPARAM_WEBGL:
+								{
+									t_buildtarget = UnityEditor.BuildTarget.WebGL;
+								}break;
+							case Convert_DataSheet.DATAPARAM_IOS:
+								{
+									t_buildtarget = UnityEditor.BuildTarget.iOS;
+								}break;
+							default:
+								{
+									Tool.Assert(false);
+								}break;
+							}
+
+							UnityEditor.BuildPipeline.BuildAssetBundles("Assets/" + a_assets_path.GetPath(),t_assetbundle_build,t_option,t_buildtarget);
+						}break;
+					default:
+						{
+							Tool.Assert(false);
+						}break;
 					}
 				}else{
 					Tool.Assert(false);
