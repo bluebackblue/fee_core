@@ -192,6 +192,16 @@ namespace Fee.File
 			return Asset.AssetType.None;
 		}
 
+		/** GetResultAssetPrefab
+		*/
+		public UnityEngine.GameObject GetResultAssetPrefab()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetPrefab();
+			}
+			return null;
+		}
+
 		/** GetResultAssetBinary
 		*/
 		public byte[] GetResultAssetBinary()

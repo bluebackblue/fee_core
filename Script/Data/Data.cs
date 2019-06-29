@@ -109,9 +109,18 @@ namespace Fee.Data
 			return this.main_file;
 		}
 
-		/** リソースアイテム。登録。
+		/** データリスト。登録。
 		*/
-		public void RegisterResourcesItem(string a_id,PathType a_path_type,Fee.File.Path a_path,string a_assetbundle_name)
+		public void RegisterDataList(System.Collections.Generic.Dictionary<string,Fee.Data.JsonListItem> a_list)
+		{
+			foreach(System.Collections.Generic.KeyValuePair<string,Fee.Data.JsonListItem> t_pair in a_list){
+				this.RegisterDataItem(t_pair.Key,t_pair.Value.path_type,new Fee.File.Path(t_pair.Value.path),t_pair.Value.assetbundle_name);
+			}
+		}
+
+		/** データアイテム。登録。
+		*/
+		public void RegisterDataItem(string a_id,PathType a_path_type,Fee.File.Path a_path,string a_assetbundle_name)
 		{
 			if(this.list.ContainsKey(a_id) == false){
 				this.list.Add(a_id,new ListItem(a_id,a_path_type,a_path,a_assetbundle_name));
@@ -120,13 +129,13 @@ namespace Fee.Data
 			}
 		}
 
-		/** リクエスト。ファイル。
+		/** リクエスト。ロード。
 		*/
-		public Item RequestFile(string a_id)
+		public Item RequestLoad(string a_id)
 		{
 			if(this.list.TryGetValue(a_id,out ListItem t_item) == true){
 				Work t_work = new Work();
-				t_work.RequestFile(t_item);
+				t_work.RequestLoad(t_item);
 				this.add_list.Add(t_work);
 				return t_work.GetItem();
 			}else{

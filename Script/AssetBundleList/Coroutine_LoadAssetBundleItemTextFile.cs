@@ -89,15 +89,15 @@ namespace Fee.AssetBundleList
 				yield return null;
 			}
 
-			UnityEngine.TextAsset t_textasset = t_request.asset as UnityEngine.TextAsset;
+			UnityEngine.TextAsset t_text = t_request.asset as UnityEngine.TextAsset;
 
-			if(t_textasset == null){
+			if(t_text == null){
 				//失敗。
 				this.result.errorstring = "Coroutine_LoadAssetBundleItemTextFile : " + a_id;
 				yield break;
 			}
 
-			string t_string = t_textasset.text;
+			string t_string = t_text.text;
 
 			if(t_string == null){
 				//失敗。

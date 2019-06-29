@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief アセットバンドルリスト。ファイル。
+ * @brief アセットバンドルリスト。アセット。
 */
 
 
@@ -217,6 +217,7 @@ namespace Fee.AssetBundleList
 
 				//request
 				this.request_id = a_id;
+				this.request_assetname = a_assetname;
 
 				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemTextureFile());
 				return true;
@@ -263,6 +264,7 @@ namespace Fee.AssetBundleList
 
 				//request
 				this.request_id = a_id;
+				this.request_assetname = a_assetname;
 
 				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemPrefabFile());
 				return true;

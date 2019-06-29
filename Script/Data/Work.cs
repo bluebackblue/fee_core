@@ -41,9 +41,9 @@ namespace Fee.Data
 			*/
 			None,
 
-			/** ファイル。
+			/** ロード。
 			*/
-			File,
+			Load,
 		};
 
 		/** mode
@@ -81,9 +81,9 @@ namespace Fee.Data
 
 		/** リクエスト。
 		*/
-		public void RequestFile(ListItem a_listitem)
+		public void RequestLoad(ListItem a_listitem)
 		{
-			this.request_type = RequestType.File;
+			this.request_type = RequestType.Load;
 			this.request_listitem = a_listitem;
 		}
 
@@ -105,9 +105,9 @@ namespace Fee.Data
 			case Mode.Start:
 				{
 					switch(this.request_type){
-					case RequestType.File:
+					case RequestType.Load:
 						{
-							if(Fee.Data.Data.GetInstance().GetMainFile().RequestFile(this.request_listitem) == true){
+							if(Fee.Data.Data.GetInstance().GetMainFile().RequestLoad(this.request_listitem) == true){
 								this.mode = Mode.Do_File;
 							}
 						}break;

@@ -159,8 +159,11 @@ namespace Fee.JsonSheet
 													//リソース使用。
 													t_item = new Data.JsonListItem(Data.PathType.Resources_Prefab,t_sheet[jj].data_path,"");
 												}
+											}else if(a_param == Convert_DataSheet.DATAPARAM_DEBUG){
+												//リソース使用。
+												t_item = new Data.JsonListItem(Data.PathType.Resources_Prefab,t_sheet[jj].data_path,"");
 											}else{
-												t_item = new Data.JsonListItem(Data.PathType.Resources_Prefab,t_sheet[jj].data_path,t_sheet[jj].data_assetbundle_name);
+												Tool.Assert(false);
 											}
 										}break;
 									case Convert_DataSheet.DATACOMMAND_RESOURCES_TEXTURE:
@@ -175,8 +178,11 @@ namespace Fee.JsonSheet
 													//リソース使用。
 													t_item = new Data.JsonListItem(Data.PathType.Resources_Texture,t_sheet[jj].data_path,"");
 												}
+											}else if(a_param == Convert_DataSheet.DATAPARAM_DEBUG){
+												//リソース使用。
+												t_item = new Data.JsonListItem(Data.PathType.Resources_Texture,t_sheet[jj].data_path,"");
 											}else{
-												t_item = new Data.JsonListItem(Data.PathType.Resources_Texture,t_sheet[jj].data_path,t_sheet[jj].data_assetbundle_name);
+												Tool.Assert(false);
 											}
 										}break;
 									case Convert_DataSheet.DATACOMMAND_RESOURCES_TEXT:
@@ -191,8 +197,11 @@ namespace Fee.JsonSheet
 													//リソース使用。
 													t_item = new Data.JsonListItem(Data.PathType.Resources_Text,t_sheet[jj].data_path,"");
 												}
+											}else if(a_param == Convert_DataSheet.DATAPARAM_DEBUG){
+												//リソース使用。
+												t_item = new Data.JsonListItem(Data.PathType.Resources_Text,t_sheet[jj].data_path,"");
 											}else{
-												t_item = new Data.JsonListItem(Data.PathType.Resources_Text,t_sheet[jj].data_path,t_sheet[jj].data_assetbundle_name);
+												Tool.Assert(false);
 											}
 										}break;
 									case Convert_DataSheet.DATACOMMAND_STREAMINGASSETS_TEXTURE:

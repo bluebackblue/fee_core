@@ -158,9 +158,9 @@ namespace Fee.Data
 			return true;
 		}
 
-		/** リクエスト。ファイル。
+		/** リクエスト。ロード。
 		*/
-		public bool RequestFile(ListItem a_listitem)
+		public bool RequestLoad(ListItem a_listitem)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -177,18 +177,18 @@ namespace Fee.Data
 				//request
 				this.request_listitem = a_listitem;
 
-				Function.Function.StartCoroutine(this.DoFile());
+				Function.Function.StartCoroutine(this.DoLoad());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ファイル。
+		/** 実行。ロード。
 		*/
-		private System.Collections.IEnumerator DoFile()
+		private System.Collections.IEnumerator DoLoad()
 		{
-			Coroutine_File t_coroutine = new Coroutine_File();
+			Coroutine_Load t_coroutine = new Coroutine_Load();
 			yield return t_coroutine.CoroutineMain(this,this.request_listitem);
 
 			if(t_coroutine.result.asset_file != null){

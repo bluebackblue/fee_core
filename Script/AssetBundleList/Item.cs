@@ -217,6 +217,36 @@ namespace Fee.AssetBundleList
 		{
 			return this.result_asset;
 		}
+
+		/** 結果。アセットプレハブ。取得。
+		*/
+		public UnityEngine.GameObject GetResultAssetPrefab()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetPrefab();
+			}
+			return null;
+		}
+
+		/** 結果。アセットテクスチャ。取得。
+		*/
+		public UnityEngine.Texture2D GetResultAssetTexture()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetTexture();
+			}
+			return null;
+		}
+
+		/** 結果。アセットテキスト。取得。
+		*/
+		public string GetResultAssetText()
+		{
+			if(this.result_asset != null){
+				return this.result_asset.GetText();
+			}
+			return null;
+		}
 	}
 }
 

@@ -89,23 +89,15 @@ namespace Fee.AssetBundleList
 				yield return null;
 			}
 
-			UnityEngine.TextAsset t_textasset = t_request.asset as UnityEngine.TextAsset;
+			UnityEngine.GameObject t_prefab = t_request.asset as UnityEngine.GameObject;
 
-			if(t_textasset == null){
+			if(t_prefab == null){
 				//失敗。
 				this.result.errorstring = "Coroutine_LoadAssetBundleItemPrefabFile : " + a_id;
 				yield break;
 			}
 
-			string t_string = t_textasset.text;
-
-			if(t_string == null){
-				//失敗。
-				this.result.errorstring = "Coroutine_LoadAssetBundleItemPrefabFile : " + a_id;
-				yield break;
-			}
-
-			this.result.asset_file = new Asset.Asset(Asset.AssetType.Text,t_string);
+			this.result.asset_file = new Asset.Asset(Asset.AssetType.Prefab,t_prefab);
 		}
 	}
 }
