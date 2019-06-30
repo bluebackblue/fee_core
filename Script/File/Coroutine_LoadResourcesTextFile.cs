@@ -65,12 +65,12 @@ namespace Fee.File
 			}
 
 			//isDone
-			while(t_request.isDone == false){
+			do{
 				if(a_callback_interface != null){
 					a_callback_interface.OnFileCoroutine(t_request.progress);
 				}
 				yield return null;
-			}
+			}while(t_request.isDone == false);
 
 			//TextAsset
 			UnityEngine.TextAsset t_result_textasset = t_request.asset as UnityEngine.TextAsset;

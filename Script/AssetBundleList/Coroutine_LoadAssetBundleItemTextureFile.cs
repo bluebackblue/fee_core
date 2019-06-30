@@ -77,10 +77,28 @@ namespace Fee.AssetBundleList
 
 				if(t_assetbundleitem.assetbundle_dummy.asset_list.TryGetValue(a_assetname,out string t_path) == true){
 					Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadResourcesTextureFile,new File.Path(t_path));
-					while(t_item.IsBusy() == true){
+
+					do{
+						if(a_callback_interface != null){
+							a_callback_interface.OnAssetBundleListCoroutine(t_item.GetResultProgress());
+						}
 						yield return null;
+					}while(t_item.IsBusy() == true);
+
+					UnityEngine.Texture2D t_texture = null;
+
+					if(t_item.GetResultAssetType() == Asset.AssetType.Texture){
+						if(t_item.GetResultAssetTexture() != null){
+							t_texture = t_item.GetResultAssetTexture();
+						}
 					}
-					UnityEngine.Texture2D t_texture = t_item.GetResultAssetTexture();
+
+					if(t_texture == null){
+						//失敗。
+						this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
+						yield break;
+					}
+
 					this.result.asset_file = new Asset.Asset(Asset.AssetType.Texture,t_texture);
 				}else{
 					//失敗。
@@ -98,9 +116,12 @@ namespace Fee.AssetBundleList
 					yield break;
 				}
 
-				while(t_request.isDone == true){
+				do{
+					if(a_callback_interface != null){
+						a_callback_interface.OnAssetBundleListCoroutine(t_request.progress);
+					}
 					yield return null;
-				}
+				}while(t_request.isDone == true);
 
 				UnityEngine.Texture2D t_texture = t_request.asset as UnityEngine.Texture2D;
 

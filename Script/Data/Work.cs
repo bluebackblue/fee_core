@@ -107,7 +107,7 @@ namespace Fee.Data
 					switch(this.request_type){
 					case RequestType.Load:
 						{
-							if(Fee.Data.Data.GetInstance().GetMainFile().RequestLoad(this.request_listitem) == true){
+							if(Fee.Data.Data.GetInstance().GetMainLoad().RequestLoad(this.request_listitem) == true){
 								this.mode = Mode.Do_File;
 							}
 						}break;
@@ -118,20 +118,24 @@ namespace Fee.Data
 				}return true;
 			case Mode.Do_File:
 				{
-					Main_File t_main = Fee.Data.Data.GetInstance().GetMainFile();
+					Main_Load t_main = Fee.Data.Data.GetInstance().GetMainLoad();
 
 					this.item.SetResultProgress(t_main.GetResultProgress());
 
-					if(t_main.GetResultType() != Main_File.ResultType.None){
+					if(t_main.GetResultType() != Main_Load.ResultType.None){
 						//結果。
 						bool t_success = false;
 						switch(t_main.GetResultType()){
-						case Main_File.ResultType.Asset:
+						case Main_Load.ResultType.Asset:
 							{
 								if(t_main.GetResultAsset() != null){
 									this.item.SetResultAsset(t_main.GetResultAsset());
 									t_success = true;
 								}
+							}break;
+						default:
+							{
+								Tool.Assert(false);
 							}break;
 						}
 

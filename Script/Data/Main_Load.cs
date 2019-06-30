@@ -12,21 +12,10 @@
 */
 namespace Fee.Data
 {
-	/** Main_File
+	/** Main_Load
 	*/
-	public class Main_File : Fee.Data.OnDataCoroutine_CallBackInterface
+	public class Main_Load : Fee.Data.OnDataCoroutine_CallBackInterface
 	{
-		/**  リクエストタイプ。
-		*/
-		private enum RequestType
-		{
-			None = -1,
-
-			/** ファイル。
-			*/
-			File,
-		};
-
 		/** ResultType
 		*/
 		public enum ResultType
@@ -78,7 +67,7 @@ namespace Fee.Data
 
 		/** constructor
 		*/
-		public Main_File()
+		public Main_Load()
 		{
 			this.is_busy = false;
 			this.is_cancel = false;

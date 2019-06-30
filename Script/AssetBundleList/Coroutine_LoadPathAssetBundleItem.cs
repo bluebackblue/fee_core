@@ -56,6 +56,16 @@ namespace Fee.AssetBundleList
 		*/
 		public ResultType result;
 
+		/** Progress_MainStep
+		*/
+		private enum Progress_MainStep
+		{
+			Progress_MainStep_0_LoadBinary = 0,
+			Progress_MainStep_1_LoadFromMemoryAsync = 1,
+
+			Max,
+		}
+
 		/** CoroutineMain
 		*/
 		public System.Collections.IEnumerator CoroutineMain(Fee.AssetBundleList.OnAssetBundleListCoroutine_CallBackInterface a_callback_interface,string a_id)
@@ -77,7 +87,7 @@ namespace Fee.AssetBundleList
 
 			if(t_pathitem == null){
 				//失敗。
-				this.result.errorstring = "Coroutine_LoadAssetBundleItem : Not Found Path : " + a_id;
+				this.result.errorstring = "Coroutine_LoadPathAssetBundleItem : Not Found Path : " + a_id;
 				yield break;
 			}
 
@@ -99,20 +109,23 @@ namespace Fee.AssetBundleList
 					default:
 						{
 							//失敗。
-							this.result.errorstring = "Coroutine_LoadAssetBundleItem : PathTypeError : " + a_id;
+							this.result.errorstring = "Coroutine_LoadPathAssetBundleItem : PathTypeError : " + a_id;
 							yield break;
 						}break;
 					}
 
 					if(t_item_json == null){
 						//失敗。
-						this.result.errorstring = "Coroutine_LoadAssetBundleItem : item_json = null : " + a_id;
+						this.result.errorstring = "Coroutine_LoadPathAssetBundleItem : item_json = null : " + a_id;
 						yield break;
 					}
 
-					while(t_item_json.IsBusy() == true){
+					do{
+						if(a_callback_interface != null){
+							a_callback_interface.OnAssetBundleListCoroutine(t_item_json.GetResultProgress());
+						}
 						yield return null;
-					}
+					}while(t_item_json.IsBusy() == true);
 
 					if(t_item_json.GetResultAssetType() == Asset.AssetType.Text){
 						t_result_string = t_item_json.GetResultAssetText();
@@ -120,7 +133,7 @@ namespace Fee.AssetBundleList
 
 					if(t_result_string == null){
 						//失敗。
-						this.result.errorstring = "Coroutine_LoadAssetBundleItem : result_string == null : " + a_id;
+						this.result.errorstring = "Coroutine_LoadPathAssetBundleItem : result_string == null : " + a_id;
 						yield break;
 					}
 				}
@@ -131,7 +144,7 @@ namespace Fee.AssetBundleList
 
 					if(t_dummyassetbundle == null){
 						//失敗。
-						this.result.errorstring = "Coroutine_LoadAssetBundleItem : dummyassetbundle = null : " + a_id;
+						this.result.errorstring = "Coroutine_LoadPathAssetBundleItem : dummyassetbundle = null : " + a_id;
 						yield break;
 					}
 
@@ -150,6 +163,10 @@ namespace Fee.AssetBundleList
 			}else{
 
 				//アセットバンドル。
+				Progress t_progress = new Progress(new float[]{
+					0.5f,	
+					0.5f
+				});
 
 				//バイナリ。
 
@@ -184,9 +201,14 @@ namespace Fee.AssetBundleList
 						yield break;
 					}
 
-					while(t_item_bianry.IsBusy() == true){
+					do{
+						//■ステップ０。
+						if(a_callback_interface != null){
+							t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_0_LoadBinary,(int)Progress_MainStep.Max,0,1);
+							a_callback_interface.OnAssetBundleListCoroutine(t_progress.CalcProgress(t_item_bianry.GetResultProgress()));
+						}
 						yield return null;
-					}
+					}while(t_item_bianry.IsBusy() == true);
 
 					if(t_item_bianry.GetResultAssetType() == Asset.AssetType.Binary){
 						t_result_binary = t_item_bianry.GetResultAssetBinary();
@@ -215,9 +237,14 @@ namespace Fee.AssetBundleList
 						yield break;
 					}
 				
-					while(t_request.isDone == true){
+					do{
+						//■ステップ１。
+						if(a_callback_interface != null){
+							t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_1_LoadFromMemoryAsync,(int)Progress_MainStep.Max,0,1);
+							a_callback_interface.OnAssetBundleListCoroutine(t_progress.CalcProgress(t_request.progress));
+						}
 						yield return null;
-					}
+					}while(t_request.isDone == true);
 
 					if(t_request.assetBundle == null){
 						//失敗。

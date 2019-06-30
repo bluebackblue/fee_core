@@ -65,13 +65,14 @@ namespace Fee.File
 			}
 
 			//isDone
-			while(t_request.isDone == false){
+			do{
 				if(a_callback_interface != null){
 					a_callback_interface.OnFileCoroutine(t_request.progress);
 				}
 				yield return null;
-			}
+			}while(t_request.isDone == false);
 
+			//prefab
 			UnityEngine.GameObject t_result_prefab = t_request.asset as UnityEngine.GameObject;
 
 			if(t_result_prefab == null){

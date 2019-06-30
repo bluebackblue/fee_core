@@ -55,7 +55,7 @@ namespace Fee.AssetBundleList
 
 			if(t_assetbundle_item == null){
 				//失敗。
-				this.result.errorstring = "Coroutine_UnloadAssetBundle : Not Found ID : " + a_id;
+				this.result.errorstring = "Coroutine_UnloadPathAssetBundleItem : Not Found ID : " + a_id;
 				yield break;
 			}
 

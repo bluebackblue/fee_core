@@ -81,7 +81,7 @@ namespace Fee.File
 					yield break;
 				}
 
-				while(true){
+				do{
 					//エラーチェック。
 					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
 						//エラー終了。
@@ -101,7 +101,7 @@ namespace Fee.File
 					}
 
 					yield return null;
-				}
+				}while(true);
 
 				if(t_webrequest_async != null){
 					yield return t_webrequest_async;

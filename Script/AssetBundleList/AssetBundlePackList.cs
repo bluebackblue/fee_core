@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief アセットバンドルリスト。
+ * @brief アセットバンドルリスト。アセットバンドルパックリスト。
 */
 
 
@@ -30,9 +30,9 @@ namespace Fee.AssetBundleList
 
 		/** アセットバンドルアイテム。取得。
 		*/
-		public AssetBundlePackList_AssetBundleItem GetAssetBundleItem(string a_id)
+		public AssetBundlePackList_AssetBundleItem GetAssetBundleItem(string a_assetbundle_name)
 		{
-			if(this.list.TryGetValue(a_id,out AssetBundlePackList_AssetBundleItem t_item) == true){
+			if(this.list.TryGetValue(a_assetbundle_name,out AssetBundlePackList_AssetBundleItem t_item) == true){
 				return t_item;
 			}
 
@@ -50,21 +50,27 @@ namespace Fee.AssetBundleList
 		}
 
 		/** 登録。
+
+			a_assetbundle_name : アセットバンドル名
+
 		*/
-		public void Register(string a_id,AssetBundlePackList_AssetBundleItem a_item)
+		public void Register(string a_assetbundle_name,AssetBundlePackList_AssetBundleItem a_item)
 		{
-			if(this.list.ContainsKey(a_id) == false){
-				this.list.Add(a_id,a_item);
+			if(this.list.ContainsKey(a_assetbundle_name) == false){
+				this.list.Add(a_assetbundle_name,a_item);
 			}else{
 				Tool.Assert(false);
 			}			
 		}
 
 		/** 解除。
+
+			a_assetbundle_name : アセットバンドル名
+
 		*/
-		public void UnRegister(string a_id)
+		public void UnRegister(string a_assetbundle_name)
 		{
-			if(this.list.TryGetValue(a_id,out AssetBundlePackList_AssetBundleItem t_item) == true){
+			if(this.list.TryGetValue(a_assetbundle_name,out AssetBundlePackList_AssetBundleItem t_item) == true){
 				if(t_item != null){
 					t_item.Unload();
 				}else{

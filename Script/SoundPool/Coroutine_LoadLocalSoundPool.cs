@@ -52,12 +52,14 @@ namespace Fee.SoundPool
 			Fee.JsonItem.JsonItem t_local_soundpool_json = null;
 			{
 				Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadLocalTextFile,a_path);
-				while(t_item.IsBusy() == true){
+
+				do{
 					if(a_callback_interface != null){
 						a_callback_interface.OnSoundPoolCoroutine(t_item.GetResultProgress());
 					}
 					yield return null;
-				}
+				}while(t_item.IsBusy() == true);
+
 				if(t_item.GetResultAssetType() == Asset.AssetType.Text){
 					t_local_soundpool_json = new JsonItem.JsonItem(t_item.GetResultAssetText());
 					if(t_local_soundpool_json == null){

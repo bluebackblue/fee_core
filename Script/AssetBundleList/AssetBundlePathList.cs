@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief アセットバンドルリスト。
+ * @brief アセットバンドルリスト。アセットバンドルパスリスト。
 */
 
 
@@ -36,10 +36,10 @@ namespace Fee.AssetBundleList
 
 		/** 登録。
 		*/
-		public void Register(string a_id,AssetBundlePathList_PathType a_pathtype,Fee.File.Path a_path)
+		public void Register(string a_assetbundle_name,AssetBundlePathList_PathType a_pathtype,Fee.File.Path a_path)
 		{
-			if(this.list.ContainsKey(a_id) == false){
-				this.list.Add(a_id,new AssetBundlePathList_PathItem(a_pathtype,a_path));
+			if(this.list.ContainsKey(a_assetbundle_name) == false){
+				this.list.Add(a_assetbundle_name,new AssetBundlePathList_PathItem(a_pathtype,a_path));
 			}else{
 				Tool.Assert(false);
 			}
@@ -47,10 +47,10 @@ namespace Fee.AssetBundleList
 
 		/** 解除。
 		*/
-		public void UnRegister(string a_id)
+		public void UnRegister(string a_assetbundle_name)
 		{
-			if(this.list.ContainsKey(a_id) == true){
-				this.list.Remove(a_id);
+			if(this.list.ContainsKey(a_assetbundle_name) == true){
+				this.list.Remove(a_assetbundle_name);
 			}else{
 				Tool.Assert(false);
 			}
@@ -58,9 +58,9 @@ namespace Fee.AssetBundleList
 
 		/** パスアイテム。取得。
 		*/
-		public AssetBundlePathList_PathItem GetPathItem(string a_id)
+		public AssetBundlePathList_PathItem GetPathItem(string a_assetbundle_name)
 		{
-			if(this.list.TryGetValue(a_id,out AssetBundlePathList_PathItem t_item) == true){
+			if(this.list.TryGetValue(a_assetbundle_name,out AssetBundlePathList_PathItem t_item) == true){
 				return t_item;
 			}
 

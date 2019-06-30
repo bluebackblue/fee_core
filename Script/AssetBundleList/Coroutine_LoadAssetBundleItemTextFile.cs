@@ -77,10 +77,28 @@ namespace Fee.AssetBundleList
 
 				if(t_assetbundleitem.assetbundle_dummy.asset_list.TryGetValue(a_assetname,out string t_path) == true){
 					Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadResourcesTextFile,new File.Path(t_path));
-					while(t_item.IsBusy() == true){
+
+					do{
+						if(a_callback_interface != null){
+							a_callback_interface.OnAssetBundleListCoroutine(t_item.GetResultProgress());
+						}
 						yield return null;
+					}while(t_item.IsBusy() == true);
+
+					string t_string = null;
+
+					if(t_item.GetResultAssetType() == Asset.AssetType.Text){
+						if(t_item.GetResultAssetText() != null){
+							t_string = t_item.GetResultAssetText();
+						}
 					}
-					string t_string = t_item.GetResultAssetText();
+
+					if(t_string == null){
+						//失敗。
+						this.result.errorstring = "Coroutine_LoadAssetBundleItemTextFile : string = null : " + a_id + " : " + a_assetname;
+						yield break;
+					}
+
 					this.result.asset_file = new Asset.Asset(Asset.AssetType.Text,t_string);
 				}else{
 					//失敗。
@@ -100,9 +118,12 @@ namespace Fee.AssetBundleList
 					yield break;
 				}
 
-				while(t_request.isDone == true){
+				do{
+					if(a_callback_interface != null){
+						a_callback_interface.OnAssetBundleListCoroutine(t_request.progress);
+					}
 					yield return null;
-				}
+				}while(t_request.isDone == true);
 
 				UnityEngine.TextAsset t_text = t_request.asset as UnityEngine.TextAsset;
 

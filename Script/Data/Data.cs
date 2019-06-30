@@ -66,9 +66,9 @@ namespace Fee.Data
 		*/
 		private System.Collections.Generic.Dictionary<string,ListItem> list;
 
-		/** main_file
+		/** main_load
 		*/
-		private Main_File main_file;
+		private Main_Load main_load;
 
 		/** work_list
 		*/
@@ -85,8 +85,8 @@ namespace Fee.Data
 			//list
 			this.list = new System.Collections.Generic.Dictionary<string,ListItem>();
 
-			//main_file
-			this.main_file = new Main_File();
+			//main_load
+			this.main_load = new Main_Load();
 
 			//work_list
 			this.work_list = new System.Collections.Generic.List<Work>();
@@ -99,14 +99,14 @@ namespace Fee.Data
 		*/
 		private void Delete()
 		{
-			this.main_file.Delete();
+			this.main_load.Delete();
 		}
 
 		/** メイン。取得。
 		*/
-		public Main_File GetMainFile()
+		public Main_Load GetMainLoad()
 		{
-			return this.main_file;
+			return this.main_load;
 		}
 
 		/** データリスト。登録。

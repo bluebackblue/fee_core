@@ -111,44 +111,44 @@ namespace Fee.AssetBundleList
 
 		/** [パス]パス。登録。
 		*/
-		public void RegisterPath(string a_id,AssetBundlePathList_PathType a_pathtype,Fee.File.Path a_path)
+		public void RegisterPath(string a_assetbundle_name,AssetBundlePathList_PathType a_pathtype,Fee.File.Path a_path)
 		{
-			this.assetbundlepathlist.Register(a_id,a_pathtype,a_path);
+			this.assetbundlepathlist.Register(a_assetbundle_name,a_pathtype,a_path);
 		}
 
 		/** [パス]パス。解除。
 		*/
-		public void UnRegisterPath(string a_id)
+		public void UnRegisterPath(string a_assetbundle_name)
 		{
-			this.assetbundlepathlist.UnRegister(a_id);
+			this.assetbundlepathlist.UnRegister(a_assetbundle_name);
 		}
 
 		/** [パス]パスアイテム。取得。
 		*/
-		public AssetBundlePathList_PathItem GetPathItem(string a_id)
+		public AssetBundlePathList_PathItem GetPathItem(string a_assetbundle_name)
 		{
-			return this.assetbundlepathlist.GetPathItem(a_id);
+			return this.assetbundlepathlist.GetPathItem(a_assetbundle_name);
 		}
 
 		/** [アセットバンドル]アセットバンドルアイテム。取得。
 		*/
-		public AssetBundlePackList_AssetBundleItem GetAssetBundleItem(string a_id)
+		public AssetBundlePackList_AssetBundleItem GetAssetBundleItem(string a_assetbundle_name)
 		{
-			return this.assetbundlepacklist.GetAssetBundleItem(a_id);
+			return this.assetbundlepacklist.GetAssetBundleItem(a_assetbundle_name);
 		}
 
 		/** [アセットバンドル]アセットバンドルアイテム。登録。
 		*/
-		public void RegisterAssetBundle(string a_id,AssetBundlePackList_AssetBundleItem a_item)
+		public void RegisterAssetBundle(string a_assetbundle_name,AssetBundlePackList_AssetBundleItem a_item)
 		{
-			this.assetbundlepacklist.Register(a_id,a_item);
+			this.assetbundlepacklist.Register(a_assetbundle_name,a_item);
 		}
 
 		/** [アセットバンドル]アセットバンドルアイテム。解除。
 		*/
-		public void UnRegisterAssetBundle(string a_id)
+		public void UnRegisterAssetBundle(string a_assetbundle_name)
 		{
-			this.assetbundlepacklist.UnRegister(a_id);
+			this.assetbundlepacklist.UnRegister(a_assetbundle_name);
 		}
 
 		/** ロードパス。アセットバンドルアイテム。

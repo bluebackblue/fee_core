@@ -79,15 +79,16 @@ namespace Fee.SoundPool
 			Fee.JsonItem.JsonItem t_local_soundpool_json = null;
 			if(Config.USE_LOADURL_SOUNDPOOL_CACHE == true){
 				Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadLocalTextFile,t_local_caoundpool_path);
-				while(t_item.IsBusy() == true){
+
+				do{
 					//■ステップ０。
 					if(a_callback_interface != null){
 						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_0_LoadLocal_SoundPool,(int)Progress_MainStep.Max,0,1);
 						a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
 					}
 					yield return null;
+				}while(t_item.IsBusy() == true);
 
-				}
 				if(t_item.GetResultAssetType() == Asset.AssetType.Text){
 					t_local_soundpool_json = new JsonItem.JsonItem(t_item.GetResultAssetText());
 					if(t_local_soundpool_json == null){
@@ -147,15 +148,15 @@ namespace Fee.SoundPool
 					t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadUrlTextFile,a_path,a_post_data);
 				}
 				
-				while(t_item.IsBusy() == true){
+				do{
 					//■ステップ１。
 					if(a_callback_interface != null){
 						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_1_Load_SoundPool,(int)Progress_MainStep.Max,0,1);
 						a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
 					}
 					yield return null;
+				}while(t_item.IsBusy() == true);
 
-				}
 				this.result.responseheader = t_item.GetResultResponseHeader();
 
 				if(t_item.GetResultAssetType() == Asset.AssetType.Text){
@@ -202,15 +203,15 @@ namespace Fee.SoundPool
 							t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadUrlBinaryFile,t_sound_url);
 						}
 
-						while(t_item.IsBusy() == true){
+						do{
 							//■ステップ２。
 							if(a_callback_interface != null){
 								t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_2_Sound,(int)Progress_MainStep.Max,ii * 2 + 0,t_load_soundpool.name_list.Count * 2);
 								a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
 							}
 							yield return null;
+						}while(t_item.IsBusy() == true);
 
-						}
 						if(t_item.GetResultAssetType() == Asset.AssetType.Binary){
 							//成功。
 							t_sound_binary = t_item.GetResultAssetBinary();
@@ -226,14 +227,16 @@ namespace Fee.SoundPool
 						Fee.File.Path t_sound_url = new File.Path(t_load_soundpool.name_list[ii]);
 
 						File.Item t_item = Fee.File.File.GetInstance().RequestSaveLocalBinaryFile(t_sound_url,t_sound_binary);
-						while(t_item.IsBusy() == true){
+
+						do{
 							//■ステップ２。
 							if(a_callback_interface != null){
 								t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_2_Sound,(int)Progress_MainStep.Max,ii * 2 + 1,t_load_soundpool.name_list.Count * 2);
 								a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
 							}
 							yield return null;
-						}
+						}while(t_item.IsBusy() == true);
+
 						if(t_item.GetResultType() == File.Item.ResultType.SaveEnd){
 							//成功。
 						}else{
@@ -248,14 +251,16 @@ namespace Fee.SoundPool
 			//ローカル、サウンドプール管理ファイルのセーブ。
 			{
 				File.Item t_item = Fee.File.File.GetInstance().RequestSaveLocalTextFile(t_local_caoundpool_path,t_load_stringjson);
-				while(t_item.IsBusy() == true){
+
+				do{
 					//■ステップ３。
 					if(a_callback_interface != null){
 						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_3_SaveLocal_SoundPool,(int)Progress_MainStep.Max,0,1);
 						a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
 					}
 					yield return null;
-				}
+				}while(t_item.IsBusy() == true);
+
 				if(t_item.GetResultType()==File.Item.ResultType.SaveEnd){
 					//成功。
 				}else{

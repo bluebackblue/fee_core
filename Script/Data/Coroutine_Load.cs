@@ -192,12 +192,12 @@ namespace Fee.Data
 
 			if(t_assetbundlelist_item != null){
 				//ロード中。
-				while(t_assetbundlelist_item.IsBusy() == true){
+				do{
 					if(a_callback_interface != null){
 						a_callback_interface.OnDataCoroutine(t_assetbundlelist_item.GetResultProgress());
 					}
 					yield return null;
-				}
+				}while(t_assetbundlelist_item.IsBusy() == true);
 
 				switch(a_listitem.path_type){
 				case PathType.AssetBundle_Prefab:
@@ -241,12 +241,12 @@ namespace Fee.Data
 
 			if(t_file_item != null){
 				//ロード中。
-				while(t_file_item.IsBusy() == true){
+				do{
 					if(a_callback_interface != null){
 						a_callback_interface.OnDataCoroutine(t_file_item.GetResultProgress());
 					}
 					yield return null;
-				}
+				}while(t_file_item.IsBusy() == true);
 
 				switch(a_listitem.path_type){
 				case PathType.Resources_Prefab:
