@@ -109,10 +109,16 @@ namespace Fee.File
 			*/
 			LoadResourcesPrefabFile,
 
+			#if(UNITY_EDITOR)
+
 			/** ロードアセット。バイナリファイル。
 			*/
-			#if(UNITY_EDITOR)
 			LoadAssetsBinaryFile,
+
+			/** ロードアセット。テキストファイル。
+			*/
+			LoadAssetsTextFile,
+
 			#endif
 		};
 
@@ -303,14 +309,44 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
+		#if(UNITY_EDITOR)
+
 		/** リクエスト。ロードアセット。バイナリファイル。
 		*/
-		#if(UNITY_EDITOR)
 		public void RequestLoadAssetsBinaryFile(Path a_relative_path)
 		{
 			this.request_type = RequestType.LoadAssetsBinaryFile;
 			this.request_path = a_relative_path;
 		}
+
+		/** リクエスト。ロードアセット。バイナリファイル。
+		*/
+		public void RequestLoadAssetsTextFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadAssetsTextFile;
+			this.request_path = a_relative_path;
+		}
+
+		/** リクエスト。ロードアセット。プレハブファイル。
+		*/
+		/*
+		public void RequestLoadAssetsPrefabFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadAssetsPrefabFile;
+			this.request_path = a_relative_path;
+		}
+		*/
+
+		/** リクエスト。ロードアセット。テクスチャファイル。
+		*/
+		/*
+		public void RequestLoadAssetsTextureFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadAssetsTextureFile;
+			this.request_path = a_relative_path;
+		}
+		*/
+
 		#endif
 
 		/** アイテム。
@@ -461,7 +497,31 @@ namespace Fee.File
 								this.mode = Mode.Do_Io;
 							}
 						}break;
+					case RequestType.LoadAssetsTextFile:
+						{
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadAssetsTextFile(this.request_path) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+						/*
+					case RequestType.LoadAssetsPrefabFile:
+						{
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadAssetsPrefabFile(this.request_path) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+					case RequestType.LoadAssetsTextureFile:
+						{
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadAssetsTextureFile(this.request_path) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+						*/
 					#endif
+					default:
+						{
+							Tool.Assert(false);
+						}break;
 					}
 				}break;
 			case Mode.End:

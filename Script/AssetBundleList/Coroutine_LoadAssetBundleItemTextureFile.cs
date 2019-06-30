@@ -71,33 +71,53 @@ namespace Fee.AssetBundleList
 				yield break;
 			}
 
-			if(t_assetbundleitem.assetbundle == null){
-				//失敗。
-				this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
-				yield break;
+			if(t_assetbundleitem.assetbundle_dummy != null){
+
+				//ダミーアセットバンドル。
+
+				if(t_assetbundleitem.assetbundle_dummy.asset_list.TryGetValue(a_assetname,out string t_path) == true){
+					Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadResourcesTextureFile,new File.Path(t_path));
+					while(t_item.IsBusy() == true){
+						yield return null;
+					}
+					UnityEngine.Texture2D t_texture = t_item.GetResultAssetTexture();
+					this.result.asset_file = new Asset.Asset(Asset.AssetType.Texture,t_texture);
+				}else{
+					//失敗。
+					this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
+					yield break;
+				}
+
+			}else if(t_assetbundleitem.assetbundle != null){
+
+				UnityEngine.AssetBundleRequest t_request = t_assetbundleitem.assetbundle.LoadAssetAsync(a_assetname);
+
+				if(t_request == null){
+					//失敗。
+					this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
+					yield break;
+				}
+
+				while(t_request.isDone == true){
+					yield return null;
+				}
+
+				UnityEngine.Texture2D t_texture = t_request.asset as UnityEngine.Texture2D;
+
+				if(t_texture == null){
+					//失敗。
+					this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
+					yield break;
+				}
+
+				this.result.asset_file = new Asset.Asset(Asset.AssetType.Texture,t_texture);
+			}else{
+				Tool.Assert(false);
 			}
 
-			UnityEngine.AssetBundleRequest t_request = t_assetbundleitem.assetbundle.LoadAssetAsync(a_assetname);
-
-			if(t_request == null){
-				//失敗。
-				this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
-				yield break;
-			}
-
-			while(t_request.isDone == true){
-				yield return null;
-			}
-
-			UnityEngine.Texture2D t_texture = t_request.asset as UnityEngine.Texture2D;
-
-			if(t_texture == null){
-				//失敗。
-				this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
-				yield break;
-			}
-
-			this.result.asset_file = new Asset.Asset(Asset.AssetType.Texture,t_texture);
+			//失敗。
+			this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
+			yield break;
 		}
 	}
 }

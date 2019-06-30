@@ -158,6 +158,7 @@ namespace Fee.File
 
 			#if(UNITY_EDITOR)
 			LoadAssetsBinaryFile,
+			LoadAssetsTextFile,
 			#endif
 		};
 
@@ -274,6 +275,29 @@ namespace Fee.File
 					this.add_list.Add(t_work);
 					return t_work.GetItem();
 				}break;
+			case LoadRequestType.LoadAssetsTextFile:
+				{
+					Work t_work = new Work();
+					t_work.RequestLoadAssetsTextFile(a_path);
+					this.add_list.Add(t_work);
+					return t_work.GetItem();
+				}break;
+				/*
+			case LoadRequestType.LoadAssetsPrefabFile:
+				{
+					Work t_work = new Work();
+					t_work.RequestLoadAssetsPrefabFile(a_path);
+					this.add_list.Add(t_work);
+					return t_work.GetItem();
+				}break;
+			case LoadRequestType.LoadAssetsTextureFile:
+				{
+					Work t_work = new Work();
+					t_work.RequestLoadAssetsTextureFile(a_path);
+					this.add_list.Add(t_work);
+					return t_work.GetItem();
+				}break;
+				*/
 
 			#endif
 

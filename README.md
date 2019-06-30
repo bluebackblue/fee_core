@@ -24,13 +24,10 @@ https://discord.gg/JH3B4SR
 * license [使用ライセンス]
 * Resources [マテリアル、シェーダ、等]
 * Script
-* _ Asset [アセット]
-* _ AssetBundleList [アセットバンドル]
 * _ Audio [AudioClip再生、SoundPool再生、ＢＧＭクロスフェード]
 * _ Bloom [ブルーム]
 * _ Blur [ブラー]
 * _ Crypt [暗号]
-* _ Data [データ]
 * _ Deleter [インスタンス削除管理]
 * _ Depth [深度]
 * _ Dijkstra [ルート探査]

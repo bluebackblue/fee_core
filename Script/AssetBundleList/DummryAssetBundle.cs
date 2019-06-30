@@ -16,17 +16,12 @@ namespace Fee.AssetBundleList
 	*/
 	public class DummryAssetBundle
 	{
-		/** assetbundle_name
-		*/
-		public string assetbundle_name;
+		/** asset_list
 
-		/** assetname_list
+			＜アセット名、ダミーアセットパス＞
+		
 		*/
-		public System.Collections.Generic.List<string> assetname_list;
-
-		/** addressable_name_list
-		*/
-		public System.Collections.Generic.List<string> addressable_name_list;
+		public System.Collections.Generic.Dictionary<string,string> asset_list;
 	}
 }
 

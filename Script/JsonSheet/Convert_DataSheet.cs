@@ -350,53 +350,30 @@ namespace Fee.JsonSheet
 						{
 							//ダミー。
 
-							System.Collections.Generic.List<Fee.AssetBundleList.DummryAssetBundle> t_dummy_assetbundle_list = new System.Collections.Generic.List<AssetBundleList.DummryAssetBundle>();
-							{
-								foreach(System.Collections.Generic.KeyValuePair<string,System.Collections.Generic.Dictionary<string,ListItem>> t_pair in t_assetbundlelist){
-									Fee.AssetBundleList.DummryAssetBundle t_dummy_assetbundle = new AssetBundleList.DummryAssetBundle();
+							foreach(System.Collections.Generic.KeyValuePair<string,System.Collections.Generic.Dictionary<string,ListItem>> t_pair in t_assetbundlelist){
+								Fee.AssetBundleList.DummryAssetBundle t_dummy_assetbundle = new AssetBundleList.DummryAssetBundle();
 
-									//パック名。
-									t_dummy_assetbundle.assetbundle_name = t_pair.Key;
+								//asset_list
+								t_dummy_assetbundle.asset_list = new System.Collections.Generic.Dictionary<string,string>();
 
-									//assetname_list
-									t_dummy_assetbundle.assetname_list = new System.Collections.Generic.List<string>();
+								//key_list
+								System.Collections.Generic.List<string> t_key_list = new System.Collections.Generic.List<string>(t_pair.Value.Keys);
+								for(int ii=0;ii<t_key_list.Count;ii++){
 
-									//addressable_name_list
-									t_dummy_assetbundle.addressable_name_list = new System.Collections.Generic.List<string>();
+									//asset_name
+									string t_asset_name = t_key_list[ii];
 
-									System.Collections.Generic.List<string> t_key_list = new System.Collections.Generic.List<string>(t_pair.Value.Keys);
-									for(int ii=0;ii<t_key_list.Count;ii++){
-										if(t_pair.Value.TryGetValue(t_key_list[ii],out ListItem t_listitem) == true){
-											string t_asset_path = null;
-											{
-												try{
-													UnityEngine.Object t_object = UnityEngine.Resources.Load(t_listitem.data_path);
-													if(t_object != null){
-														t_asset_path = UnityEditor.AssetDatabase.GetAssetPath(t_object);
-													}else{
-														Tool.Assert(false);
-													}
-												}catch(System.Exception t_exception){
-													Tool.DebugReThrow(t_exception);
-												}
-											}
-
-											//assetname_list
-											t_dummy_assetbundle.assetname_list.Add(t_asset_path);
-
-											//addressable_name_list
-											t_dummy_assetbundle.addressable_name_list.Add(t_key_list[ii]);
-										}else{
-											Tool.Assert(false);
-										}
+									if(t_pair.Value.TryGetValue(t_asset_name,out ListItem t_listitem) == true){
+										t_dummy_assetbundle.asset_list.Add(t_asset_name,t_listitem.data_path);
+									}else{
+										Tool.Assert(false);
 									}
-
-									t_dummy_assetbundle_list.Add(t_dummy_assetbundle);
 								}
-							}
 
-							string t_jsonstring = Fee.JsonItem.Convert.ObjectToJsonString<System.Collections.Generic.List<Fee.AssetBundleList.DummryAssetBundle>>(t_dummy_assetbundle_list);
-							EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_assets_path),t_jsonstring);
+								Fee.File.Path t_path = new File.Path(a_assets_path.GetPath() + "/" + t_pair.Key + ".json");
+								string t_jsonstring = Fee.JsonItem.Convert.ObjectToJsonString<Fee.AssetBundleList.DummryAssetBundle>(t_dummy_assetbundle);
+								EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(t_path),t_jsonstring);
+							}
 						}break;
 					case Convert_DataSheet.DATAPARAM_STANDALONEWINDOWS:
 					case Convert_DataSheet.DATAPARAM_ANDROID:

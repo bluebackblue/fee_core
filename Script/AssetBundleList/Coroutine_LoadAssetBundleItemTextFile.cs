@@ -71,41 +71,63 @@ namespace Fee.AssetBundleList
 				yield break;
 			}
 
-			if(t_assetbundleitem.assetbundle == null){
-				//失敗。
-				this.result.errorstring = "Coroutine_LoadAssetBundleItemTextFile : " + a_id;
-				yield break;
+			if(t_assetbundleitem.assetbundle_dummy != null){
+
+				//ダミーアセットバンドル。
+
+				if(t_assetbundleitem.assetbundle_dummy.asset_list.TryGetValue(a_assetname,out string t_path) == true){
+					Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadResourcesTextFile,new File.Path(t_path));
+					while(t_item.IsBusy() == true){
+						yield return null;
+					}
+					string t_string = t_item.GetResultAssetText();
+					this.result.asset_file = new Asset.Asset(Asset.AssetType.Text,t_string);
+				}else{
+					//失敗。
+					this.result.errorstring = "Coroutine_LoadAssetBundleItemTextFile : " + a_id;
+					yield break;
+				}
+
+			}else if(t_assetbundleitem.assetbundle != null){
+
+				//アセットバンドル。
+
+				UnityEngine.AssetBundleRequest t_request = t_assetbundleitem.assetbundle.LoadAssetAsync(a_assetname);
+
+				if(t_request == null){
+					//失敗。
+					this.result.errorstring = "Coroutine_LoadAssetBundleItemTextFile : " + a_id;
+					yield break;
+				}
+
+				while(t_request.isDone == true){
+					yield return null;
+				}
+
+				UnityEngine.TextAsset t_text = t_request.asset as UnityEngine.TextAsset;
+
+				if(t_text == null){
+					//失敗。
+					this.result.errorstring = "Coroutine_LoadAssetBundleItemTextFile : " + a_id;
+					yield break;
+				}
+
+				string t_string = t_text.text;
+
+				if(t_string == null){
+					//失敗。
+					this.result.errorstring = "Coroutine_LoadAssetBundleItemTextFile : " + a_id;
+					yield break;
+				}
+
+				this.result.asset_file = new Asset.Asset(Asset.AssetType.Text,t_string);
+			}else{
+				Tool.Assert(false);
 			}
 
-			UnityEngine.AssetBundleRequest t_request = t_assetbundleitem.assetbundle.LoadAssetAsync(a_assetname);
-
-			if(t_request == null){
-				//失敗。
-				this.result.errorstring = "Coroutine_LoadAssetBundleItemTextFile : " + a_id;
-				yield break;
-			}
-
-			while(t_request.isDone == true){
-				yield return null;
-			}
-
-			UnityEngine.TextAsset t_text = t_request.asset as UnityEngine.TextAsset;
-
-			if(t_text == null){
-				//失敗。
-				this.result.errorstring = "Coroutine_LoadAssetBundleItemTextFile : " + a_id;
-				yield break;
-			}
-
-			string t_string = t_text.text;
-
-			if(t_string == null){
-				//失敗。
-				this.result.errorstring = "Coroutine_LoadAssetBundleItemTextFile : " + a_id;
-				yield break;
-			}
-
-			this.result.asset_file = new Asset.Asset(Asset.AssetType.Text,t_string);
+			//失敗。
+			this.result.errorstring = "Coroutine_LoadAssetBundleItemTextFile : " + a_id;
+			yield break;
 		}
 	}
 }

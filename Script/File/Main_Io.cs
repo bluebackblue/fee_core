@@ -631,9 +631,10 @@ namespace Fee.File
 			}
 		}
 
+		#if(UNITY_EDITOR)
+
 		/** リクエスト。ロードアセット。バイナリファイル。
 		*/
-		#if(UNITY_EDITOR)
 		public bool RequestLoadAssetsBinaryFile(Fee.File.Path a_relative_path)
 		{
 			if(this.is_busy == false){
@@ -652,7 +653,7 @@ namespace Fee.File
 				this.request_relative_path = a_relative_path;
 				this.request_binary = null;
 				this.request_text = null;
-				this.request_binary = null;
+				this.request_texture = null;
 
 				Function.Function.StartCoroutine(this.DoLoadAssetsBinaryFile());
 				return true;
@@ -660,11 +661,9 @@ namespace Fee.File
 
 			return false;
 		}
-		#endif
 
 		/** 実行。ロードアセット。バイナリファイル。
 		*/
-		#if(UNITY_EDITOR)
 		private System.Collections.IEnumerator DoLoadAssetsBinaryFile()
 		{
 			//request_relative_pathは相対パス。
@@ -685,6 +684,63 @@ namespace Fee.File
 				yield break;
 			}
 		}
+
+		#endif
+
+		#if(UNITY_EDITOR)
+
+		/** リクエスト。ロードアセット。テキストファイル。
+		*/
+		public bool RequestLoadAssetsTextFile(Fee.File.Path a_relative_path)
+		{
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//result
+				this.result_progress = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_asset = null;
+
+				//request
+				this.request_relative_path = a_relative_path;
+				this.request_binary = null;
+				this.request_text = null;
+				this.request_texture = null;
+
+				Function.Function.StartCoroutine(this.DoLoadAssetsTextFile());
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 実行。ロードアセット。テキストファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadAssetsTextFile()
+		{
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath(this.request_relative_path);
+
+			Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
+			yield return t_coroutine.CoroutineMain(this,t_path);
+
+			if(t_coroutine.result.text_file != null){
+				this.result_progress = 1.0f;
+				this.result_asset = new Asset.Asset(Asset.AssetType.Text,t_coroutine.result.text_file);
+				this.result_type = ResultType.Asset;
+				yield break;
+			}else{
+				this.result_progress = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
+		}
+
 		#endif
 
 	}

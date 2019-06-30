@@ -12,49 +12,6 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** AssetBundlePathList_PathType
-	*/
-	public enum AssetBundlePathList_PathType
-	{
-		/** アセット。アセットバンドル。
-		*/
-		#if(UNITY_EDITOR)
-		AssetsAssetBundle,
-		#endif
-
-		/** ＵＲＬ。アセットバンドル。
-		*/
-		UrlAssetBundle,
-
-		/** アセット。ダミーアセットバンドル。
-		*/
-		AssetsDummyAssetBundle,
-	}
-
-	/** AssetBundlePathList_PathItem
-	*/
-	public class AssetBundlePathList_PathItem
-	{
-		/** pathtype
-		*/
-		public AssetBundlePathList_PathType pathtype;
-
-		/** path
-		*/
-		public Fee.File.Path path;
-
-		/** constructor
-		*/
-		public AssetBundlePathList_PathItem(AssetBundlePathList_PathType a_pathtype,Fee.File.Path a_path)
-		{
-			//pathtype
-			this.pathtype = a_pathtype;
-
-			//path
-			this.path = a_path;
-		}
-	}
-
 	/** AssetBundlePathList
 	*/
 	public class AssetBundlePathList

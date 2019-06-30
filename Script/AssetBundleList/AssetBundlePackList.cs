@@ -12,32 +12,6 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** AssetBundlePackList_AssetBundleItem
-	*/
-	public class AssetBundlePackList_AssetBundleItem
-	{
-		/** assetbundle
-		*/
-		public UnityEngine.AssetBundle assetbundle;
-
-		/** constructor
-		*/
-		public AssetBundlePackList_AssetBundleItem(UnityEngine.AssetBundle a_assetbundle)
-		{
-			this.assetbundle = a_assetbundle;
-		}
-
-		/** アンロード。
-		*/
-		public void Unload()
-		{
-			if(this.assetbundle != null){
-				this.assetbundle.Unload(false);
-				this.assetbundle = null;
-			}
-		}
-	}
-
 	/** AssetBundlePackList
 	*/
 	public class AssetBundlePackList
