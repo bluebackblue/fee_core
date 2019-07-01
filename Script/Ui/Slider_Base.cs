@@ -177,21 +177,10 @@ namespace Fee.Ui
 		*/
 		private void UpdateButtonRect()
 		{
-			int t_w = this.button_rect.w;
-			int t_h = this.button_rect.h;
+			this.button_rect.x = this.rect.x + (int)(this.rect.w * (this.value / this.value_scale)) - this.button_rect.w / 2;
+			this.button_rect.y = this.rect.y + (this.rect.h - this.button_rect.h) / 2;
 
-			if(t_w <= 0){
-				t_w = this.rect.h;
-			}
-
-			if(t_h <= 0){
-				t_h = this.rect.h;
-			}
-
-			int t_x = this.rect.x + (int)(this.rect.w * (this.value / this.value_scale)) - t_w / 2;
-			int t_y = this.rect.y + (this.rect.h - t_h) / 2;
-
-			this.eventplate_button.SetRect(t_x,t_y,t_w,t_h);
+			this.eventplate_button.SetRect(ref this.button_rect);
 		}
 
 		/** ボタンサイズ。設定。

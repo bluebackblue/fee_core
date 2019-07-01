@@ -215,8 +215,8 @@ namespace Fee.Ui
 			this.value_lock_sprite.SetRect(this.rect.x,this.rect.y,t_value_w,this.rect.h);
 
 			//button
-			this.button_normal_sprite.SetRect(this.eventplate_button.GetX(),this.eventplate_button.GetY(),this.eventplate_button.GetW(),this.eventplate_button.GetH());
-			this.button_lock_sprite.SetRect(this.eventplate_button.GetX(),this.eventplate_button.GetY(),this.eventplate_button.GetW(),this.eventplate_button.GetH());
+			this.button_normal_sprite.SetRect(ref this.button_rect);
+			this.button_lock_sprite.SetRect(ref this.button_rect);
 		}
 
 		/**　ボタンテクスチャコーナーサイズ。設定。
