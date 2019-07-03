@@ -46,6 +46,13 @@ namespace Fee.EditorTool
 			s_is_focus = a_flag;
 		}
 
+		/** IsFocus
+		*/
+		public static bool IsFocus()
+		{
+			return s_is_focus;
+		}
+
 		/** s_instance
 		*/
 		private static Main s_instance;
@@ -516,6 +523,7 @@ namespace Fee.EditorTool
 
 				//オーディオ。
 				{
+					Fee.Audio.Audio.GetInstance().Main(s_is_focus);
 				}
 
 				//ブルーム。

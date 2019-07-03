@@ -55,7 +55,7 @@ namespace Fee.JsonSheet
 							"convert_sheet_3" : "",								//連結するＪＳＯＮシート名。
 						},
 						{
-							"convert_command" : <se>,							//ＳＥシートを連結出力。
+							"convert_command" : <audio>,						//オーディオシートを連結出力。
 							...略。
 						},
 						{
@@ -101,12 +101,12 @@ namespace Fee.JsonSheet
 					...略。
 				}
 
-				//ＳＥシート。
+				//オーディオシート。
 				"sssss1" : {
 					[
-						"se_command" : "<item>",				//ＳＥ要素の設定。
-						"se_file" : "xxxx.mp3",					//ＳＥファイルパス。
-						"se_volume" : 1.0,						//ＳＥボリューム。
+						"audio_command" : "<item>",		//オーディオ要素の設定。
+						"audio_file" : "xxxx.mp3",		//オーディオファイルパス。
+						"audio_volume" : 1.0,			//オーディオボリューム。
 					]
 
 					...略。
@@ -230,9 +230,9 @@ namespace Fee.JsonSheet
 				}else if(t_list_convert[ii].convert_command == Convert_EnumSheet.COMMAND){
 					//ＥＮＵＭシート。
 					Convert_EnumSheet.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
-				}else if(t_list_convert[ii].convert_command == Convert_SeSheet.COMMAND){
-					//ＳＥシート。
-					Convert_SeSheet.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
+				}else if(t_list_convert[ii].convert_command == Convert_AudioSheet.COMMAND){
+					//オーディオシート。
+					Convert_AudioSheet.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
 				}else if(t_list_convert[ii].convert_command == Convert_DataSheet.COMMAND){
 					//データシート。
 					Convert_DataSheet.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);

@@ -12,35 +12,35 @@
 */
 namespace Fee.JsonSheet
 {
-	/** Convert_SeSheet
+	/** Convert_AudioSheet
 	*/
 	#if(UNITY_EDITOR)
-	public class Convert_SeSheet
+	public class Convert_AudioSheet
 	{
 		/** COMMAND
 		*/
-		public const string COMMAND = "<se>";
+		public const string COMMAND = "<audio>";
 
 		/** リストアイテム。
 		*/
 		public class ListItem
 		{
-			/** se_command
+			/** audio_command
 			*/
-			public string se_command;
+			public string audio_command;
 
-			/** se_assetspath
+			/** audio_assetspath
 			*/
-			public string se_assetspath;
+			public string audio_assetspath;
 
-			/** se_volume
+			/** audio_volume
 			*/
-			public float se_volume;
+			public float audio_volume;
 		}
 
-		/** ＳＥコマンド。
+		/** オーディオコマンド。
 		*/
-		public const string SECOMMAND_ITEM = "<item>";
+		public const string AUDIOCOMMAND_ITEM = "<item>";
 
 		/** コンバート。
 
@@ -60,21 +60,21 @@ namespace Fee.JsonSheet
 							System.Collections.Generic.List<ListItem> t_sheet = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<ListItem>>(a_sheet[ii]);
 							if(t_sheet != null){
 								for(int jj=0;jj<t_sheet.Count;jj++){
-									if(Convert_SeSheet.SECOMMAND_ITEM == t_sheet[jj].se_command){
+									if(Convert_AudioSheet.AUDIOCOMMAND_ITEM == t_sheet[jj].audio_command){
 										//<item>
 
 										UnityEngine.AudioClip t_audio_clip = null;
 										try{
-											t_audio_clip = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.AudioClip>("Assets/" + t_sheet[jj].se_assetspath);
+											t_audio_clip = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.AudioClip>("Assets/" + t_sheet[jj].audio_assetspath);
 											if(t_audio_clip == null){
-												Tool.Log("Convert_SeSheet","Not Found : " + t_sheet[jj].se_assetspath);
+												Tool.Log("Convert_AudioSheet","Not Found : " + t_sheet[jj].audio_assetspath);
 												Tool.Assert(false);
 											}
 										}catch(System.Exception t_exception){
 											Tool.DebugReThrow(t_exception);
 										}
 
-										t_list.Add(new System.Tuple<UnityEngine.AudioClip,float>(t_audio_clip,t_sheet[jj].se_volume));
+										t_list.Add(new System.Tuple<UnityEngine.AudioClip,float>(t_audio_clip,t_sheet[jj].audio_volume));
 									}else{
 										//無関係。複合シート。
 									}

@@ -294,7 +294,7 @@ namespace Fee.Audio
 				{
 					int t_index;
 					int t_index_next;
-					if(this.mode == Mode.Play1){
+					if(this.mode == Mode.Play0){
 						t_index = 0;
 						t_index_next = 1;
 					}else{
@@ -332,7 +332,12 @@ namespace Fee.Audio
 						}
 
 						this.play_index = t_request_index;
-						this.mode = Mode.Cross0To1;
+
+						if(this.mode == Mode.Play0){
+							this.mode = Mode.Cross0To1;
+						}else{
+							this.mode = Mode.Cross1To0;
+						}
 
 						this.loopcount = 0;
 						this.playposition = 0.0f;
@@ -392,8 +397,10 @@ namespace Fee.Audio
 
 						if(this.play_index < 0){
 							this.mode = Mode.Wait;
-						}else{
+						}else if(this.mode == Mode.Cross0To1){
 							this.mode = Mode.Play1;
+						}else{
+							this.mode = Mode.Play0;
 						}
 					}
 				}break;

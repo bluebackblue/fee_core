@@ -92,6 +92,10 @@ namespace Fee.Audio
 		private UnityEngine.GameObject bgm_audiosource_gameobject;
 		private MonoBehaviour_AudioSource_Bgm bgm_audiosource_script;
 
+		/** フォーカス。
+		*/
+		private bool is_focus;
+
 		/** [シングルトン]constructor
 		*/
 		private Audio()
@@ -134,6 +138,9 @@ namespace Fee.Audio
 				this.bgm_audiosource_script = this.bgm_audiosource_gameobject.AddComponent<MonoBehaviour_AudioSource_Bgm>();
 				this.bgm_audiosource_script.Initialize(this.volume_master,this.volume_bgm);
 			}
+
+			//フォーカス。
+			this.is_focus = false;
 		}
 
 		/** [シングルトン]削除。
@@ -147,6 +154,18 @@ namespace Fee.Audio
 			this.soundpool = null;			
 
 			UnityEngine.GameObject.Destroy(this.root_gameobject);
+		}
+
+		/** 更新。
+		*/
+		public void Main(bool a_is_focus)
+		{
+			if(this.is_focus != a_is_focus){
+				this.is_focus = a_is_focus;
+
+				float t_volume = this.GetBgmVolume();
+				this.SetBgmVolume(t_volume);
+			}
 		}
 
 		/** サウンドプール。
@@ -258,11 +277,31 @@ namespace Fee.Audio
 			this.se_audiosource_script.PlayOneShot(a_se_id,a_index);
 		}
 
+		/** 再生。
+		*/
+		public void PlaySe<T>(long a_se_id,T a_index)
+			where T : struct
+		{
+			System.Object t_object = a_index;
+			int t_index = (int)t_object;
+			this.se_audiosource_script.PlayOneShot(a_se_id,t_index);
+		}
+
 		/** ＢＧＭ。再生。
 		*/
 		public void PlayBgm(int a_index)
 		{
 			this.bgm_audiosource_script.PlayBgm(a_index);
+		}
+
+		/** ＢＧＭ。再生。
+		*/
+		public void PlayBgm<T>(T a_index)
+			where T : struct
+		{
+			System.Object t_object = a_index;
+			int t_index = (int)t_object;
+			this.bgm_audiosource_script.PlayBgm(t_index);
 		}
 
 		/** ＢＧＭ。停止。

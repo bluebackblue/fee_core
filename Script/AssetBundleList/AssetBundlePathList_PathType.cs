@@ -28,7 +28,9 @@ namespace Fee.AssetBundleList
 
 		/** アセット。ダミーアセットバンドル。
 		*/
+		#if(UNITY_EDITOR)
 		AssetsDummyAssetBundle,
+		#endif
 	}
 }
 

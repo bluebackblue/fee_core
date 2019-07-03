@@ -91,6 +91,7 @@ namespace Fee.AssetBundleList
 				yield break;
 			}
 
+			#if(UNITY_EDITOR)
 			if(t_pathitem.pathtype == AssetBundlePathList_PathType.AssetsDummyAssetBundle){
 
 				//ダミーアセットバンドル。
@@ -138,29 +139,29 @@ namespace Fee.AssetBundleList
 					}
 				}
 
-				{
-					//DummryAssetBundle
-					Fee.AssetBundleList.DummryAssetBundle t_dummyassetbundle = Fee.JsonItem.Convert.JsonStringToObject<Fee.AssetBundleList.DummryAssetBundle>(t_result_string);
+				//ダミーアセットバンドル。
 
-					if(t_dummyassetbundle == null){
-						//失敗。
-						this.result.errorstring = "Coroutine_LoadPathAssetBundleItem : dummyassetbundle = null : " + a_id;
-						yield break;
-					}
+				//DummryAssetBundle
+				Fee.AssetBundleList.DummryAssetBundle t_dummyassetbundle = Fee.JsonItem.Convert.JsonStringToObject<Fee.AssetBundleList.DummryAssetBundle>(t_result_string);
 
-					{
-						AssetBundlePackList_AssetBundleItem t_assetbundleitem = new AssetBundlePackList_AssetBundleItem(t_dummyassetbundle);
-
-						//■登録。
-						Fee.AssetBundleList.AssetBundleList.GetInstance().RegisterAssetBundle(a_id,t_assetbundleitem);
-
-						//成功。
-						this.result.assetbundleitem = t_assetbundleitem;
-						yield break;
-					}
+				if(t_dummyassetbundle == null){
+					//失敗。
+					this.result.errorstring = "Coroutine_LoadPathAssetBundleItem : dummyassetbundle = null : " + a_id;
+					yield break;
 				}
 
-			}else{
+				AssetBundlePackList_AssetBundleItem t_assetbundleitem = new AssetBundlePackList_AssetBundleItem(t_dummyassetbundle);
+
+				//■登録。
+				Fee.AssetBundleList.AssetBundleList.GetInstance().RegisterAssetBundle(a_id,t_assetbundleitem);
+
+				//成功。
+				this.result.assetbundleitem = t_assetbundleitem;
+				yield break;
+			}
+			#endif
+			
+			{
 
 				//アセットバンドル。
 				Progress t_progress = new Progress(new float[]{

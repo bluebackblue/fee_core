@@ -20,9 +20,13 @@ namespace Fee.File
 		*/
 		float[] per_list;
 
+		/** main
+		*/
 		int main_max;
 		int main_index;
 
+		/** sub
+		*/
 		int sub_max;
 		int sub_index;
 
@@ -43,6 +47,9 @@ namespace Fee.File
 		*/
 		public void SetStep(int a_main_index,int a_main_max,int a_sub_index,int a_sub_max)
 		{
+			Tool.Assert((0 <= a_main_index)&&(a_main_index < a_main_max));
+			Tool.Assert((0 <= a_sub_index)&&(a_sub_index < a_sub_max));
+
 			this.main_index = a_main_index;
 			this.main_max = a_main_max;
 			this.sub_index = a_sub_index;
@@ -71,6 +78,7 @@ namespace Fee.File
 			if(t_progress > 1.0f){
 				t_progress = 1.0f;
 			}
+
 			return t_progress;
 		}
 	}
