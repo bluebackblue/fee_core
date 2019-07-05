@@ -107,12 +107,12 @@ namespace Fee.Render2D
 				UnityEngine.UI.BaseMeshEffect[] t_effect_list = this.raw_gameobject.GetComponents<UnityEngine.UI.BaseMeshEffect>();
 				for(int ii=0;ii<t_effect_list.Length;ii++){
 					if(t_effect_list[ii].GetType() == typeof(UnityEngine.UI.Shadow)){
-						this.raw_shadow = this.raw_gameobject.GetComponent<UnityEngine.UI.Shadow>();
+						this.raw_shadow = t_effect_list[ii] as UnityEngine.UI.Shadow;
 						if(this.raw_shadow != null){
 							this.raw_shadow.enabled = false;
 						}
 					}else if(t_effect_list[ii].GetType() == typeof(UnityEngine.UI.Outline)){
-						this.raw_outline = this.raw_gameobject.GetComponent<UnityEngine.UI.Outline>();
+						this.raw_outline = t_effect_list[ii] as  UnityEngine.UI.Outline;
 						if(this.raw_outline != null){
 							this.raw_outline.enabled = false;
 						}

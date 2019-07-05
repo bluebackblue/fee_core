@@ -301,6 +301,20 @@ namespace Fee.Ui
 			this.button_lock_sprite.SetColor(ref a_color);
 		}
 
+		/** ボタンノーマル色。設定。
+		*/
+		public void SetButtonNormalColor(float a_r,float a_g,float a_b,float a_a)
+		{
+			this.button_normal_sprite.SetColor(a_r,a_g,a_b,a_a);
+		}
+
+		/** ボタンロック色。設定。
+		*/
+		public void SetButtonLockColor(float a_r,float a_g,float a_b,float a_a)
+		{
+			this.button_lock_sprite.SetColor(a_r,a_g,a_b,a_a);
+		}
+
 		/** ＢＧノーマルテクスチャ。設定。
 		*/
 		public void SetBgNormalTexture(UnityEngine.Texture2D a_texture)

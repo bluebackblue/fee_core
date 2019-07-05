@@ -107,23 +107,23 @@ Shader "Fee/Render2D/UiText"
 						discard;
 					}
 
+					float t_pos_y;
 					#if(UNITY_UV_STARTS_AT_TOP)
-					if(clip_y2>a_v2f.pos.y){
-						discard;
-					}
-
-					if(a_v2f.pos.y>clip_y1){
-						discard;
+					if(_ProjectionParams.x < 0){
+						t_pos_y = _ScreenParams.y - a_v2f.pos.y;
+					}else{
+						t_pos_y = a_v2f.pos.y;
 					}
 					#else
-					if((_ScreenParams.y - clip_y1)>a_v2f.pos.y){
-						discard;
-					}
-
-					if(a_v2f.pos.y>(_ScreenParams.y - clip_y2)){
-						discard;
-					}
+					t_pos_y = _ScreenParams.y - a_v2f.pos.y;
 					#endif
+
+					if(clip_y2 > t_pos_y){
+						discard;
+					}
+					if(t_pos_y > clip_y1){
+						discard;
+					}
 				}
 
 				fixed t_alpha = saturate(a_v2f.color.a * UNITY_SAMPLE_1CHANNEL(_MainTex,a_v2f.uv) * 1.3f);
