@@ -15,7 +15,7 @@ namespace Fee.ReThrowException
 	/** ReThrowException
 	*/
 	[System.Serializable()]
-	class ReThrowException : System.Exception
+	public class ReThrowException : System.Exception
 	{
 		/** constructor
 		*/
