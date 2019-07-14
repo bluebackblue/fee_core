@@ -25,6 +25,10 @@ namespace Fee.Ui
 		*/
 		private Fee.Render2D.Sprite2D bar;
 
+		/** バー。
+		*/
+		private int bar_drawpriority_offset;
+
 		/** constructor
 		*/
 		public Scroll(Fee.Deleter.Deleter a_deleter,long a_drawpriority,ScrollType a_scroll_type,int a_item_length)
@@ -40,7 +44,10 @@ namespace Fee.Ui
 			this.bg.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
 
 			//バー。
-			this.bar = new Fee.Render2D.Sprite2D(this.deleter,a_drawpriority + 1);
+			this.bar_drawpriority_offset = 1;
+
+			//バー。
+			this.bar = new Fee.Render2D.Sprite2D(this.deleter,a_drawpriority + this.bar_drawpriority_offset);
 			this.bar.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bar.SetRect(0,0,5,5);
 			this.bar.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
@@ -73,10 +80,32 @@ namespace Fee.Ui
 
 		/** [Scroll_Base]コールバック。
 		*/
-		protected override void OnChangeDrawPriority(long a_drawpriority)
+		protected override void OnChangeDrawPriority()
 		{
-			this.bg.SetDrawPriority(a_drawpriority);
-			this.bar.SetDrawPriority(a_drawpriority);
+			this.bg.SetDrawPriority(this.drawpriority);
+			this.bar.SetDrawPriority(this.drawpriority + this.bar_drawpriority_offset);
+		}
+		
+		/** バー描画プライオリティオフセット。設定。
+		*/
+		public void SetBarDrawPriorityOffset(int a_offset)
+		{
+			this.bar_drawpriority_offset = a_offset;
+			this.bar.SetDrawPriority(this.drawpriority + this.bar_drawpriority_offset);
+		}
+
+		/** 背景色。設定。
+		*/
+		public void SetBgColor(float a_r,float a_g,float a_b,float a_a)
+		{
+			this.bg.SetColor(a_r,a_g,a_b,a_a);
+		}
+
+		/** 背景色。設定。
+		*/
+		public void SetBgColor(ref UnityEngine.Color a_color)
+		{
+			this.bg.SetColor(ref a_color);
 		}
 
 		/** 更新。表示。
@@ -97,7 +126,7 @@ namespace Fee.Ui
 					int t_bar_length = (int)(this.rect.h * t_length_per);
 					int t_bar_offset = (int)(t_offset_per * (this.scroll_value.GetViewLength() - t_bar_length));
 					this.bar.SetY(this.rect.y + t_bar_offset);
-					this.bar.SetX(this.rect.x - 10);
+					this.bar.SetX(this.rect.x + this.rect.w - 5);
 					this.bar.SetH(t_bar_length);
 				}else{
 					int t_bar_length = (int)(this.rect.w * t_length_per);

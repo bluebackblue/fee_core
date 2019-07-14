@@ -46,6 +46,8 @@ namespace Fee.Function
 		{
 			if(s_monobehaviour != null){
 				s_monobehaviour.StartCoroutine(Do_Coroutine(a_function));
+			}else{
+				Tool.Assert(false);
 			}
 		}
 
@@ -65,6 +67,8 @@ namespace Fee.Function
 		{
 			if(s_monobehaviour != null){
 				s_monobehaviour.StartCoroutine(a_coroutine);
+			}else{
+				Tool.Assert(false);
 			}
 		}
 	}

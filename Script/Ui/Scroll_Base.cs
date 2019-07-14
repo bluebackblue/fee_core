@@ -34,6 +34,10 @@ namespace Fee.Ui
 		*/
 		protected Fee.Deleter.Deleter deleter;
 
+		/** drawpriority
+		*/
+		protected long drawpriority;
+
 		/** eventplate
 		*/
 		private Fee.EventPlate.Item eventplate;
@@ -68,6 +72,9 @@ namespace Fee.Ui
 		{
 			//deleter
 			this.deleter = new Deleter.Deleter();
+
+			//drawpriority
+			this.drawpriority = a_drawpriority;
 
 			//eventplate
 			this.eventplate = new EventPlate.Item(this.deleter,EventPlate.EventType.View,a_drawpriority);
@@ -111,9 +118,9 @@ namespace Fee.Ui
 		*/
 		protected abstract void OnChangeListCount();
 
-		/** [Scroll_Base]コールバック。
+		/** [Scroll_Base]コールバック。描画プライオリティ変更。
 		*/
-		protected abstract void OnChangeDrawPriority(long a_drawpriority);
+		protected abstract void OnChangeDrawPriority();
 
 		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
@@ -140,8 +147,14 @@ namespace Fee.Ui
 		*/
 		public void SetDrawPriority(long a_drawpriority)
 		{
-			this.eventplate.SetPriority(a_drawpriority);
-			this.OnChangeDrawPriority(a_drawpriority);
+			if(this.drawpriority != a_drawpriority){
+				this.drawpriority = a_drawpriority;
+
+				this.eventplate.SetPriority(a_drawpriority);
+
+				//コールバック。描画プライオリティ変更。
+				this.OnChangeDrawPriority();
+			}
 		}
 
 		/** オンオーバー。取得。
@@ -155,7 +168,12 @@ namespace Fee.Ui
 		*/
 		public ITEM GetItem(int a_index)
 		{
-			return this.list[a_index];
+			if((0 <= a_index)&&(a_index < this.list.Count)){
+				return this.list[a_index];
+			}else{
+				Tool.Assert(false);
+				return null;
+			}
 		}
 
 		/** スクロールタイプ。取得。
