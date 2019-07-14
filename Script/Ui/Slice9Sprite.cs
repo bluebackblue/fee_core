@@ -297,7 +297,7 @@ namespace Fee.Ui
 		*/
 		public void SetXY(int a_x,int a_y)
 		{
-			this.rect.x = a_y;
+			this.rect.x = a_x;
 			this.rect.y = a_y;
 			this.UpdateRect();
 		}
@@ -306,7 +306,7 @@ namespace Fee.Ui
 		*/
 		public void SetW(int a_w)
 		{
-			this.rect.x = a_w;
+			this.rect.w = a_w;
 			this.UpdateRect();
 		}
 
@@ -322,7 +322,7 @@ namespace Fee.Ui
 		*/
 		public void SetWH(int a_w,int a_h)
 		{
-			this.rect.x = a_w;
+			this.rect.w = a_w;
 			this.rect.h = a_h;
 			this.UpdateRect();
 		}
@@ -507,6 +507,8 @@ namespace Fee.Ui
 			this.sprite_7.SetTexture(a_texture);
 			this.sprite_8.SetTexture(a_texture);
 			this.sprite_9.SetTexture(a_texture);
+
+			this.UpdateTextureRect();
 		}
 
 		/** テクスチャ。取得。
