@@ -70,7 +70,11 @@ namespace Fee.File
 			{
 				if(a_texture != null){
 					try{
+						#if(UNITY_5)
+						t_binary_png = a_texture.EncodeToPNG();
+						#else
 						t_binary_png = UnityEngine.ImageConversion.EncodeToPNG(a_texture);
+						#endif
 					}catch(System.Exception t_exception){
 						this.result.errorstring = "Coroutine_SaveLocalTextureFile : " + t_exception.Message;
 						yield break;

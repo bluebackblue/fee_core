@@ -18,7 +18,7 @@ namespace Fee.TaskW
 	{
 		/**　Delay
 		*/
-		#if(UNITY_WEBGL)
+		#if((UNITY_5)||(UNITY_WEBGL))
 		#else
 		public static System.Threading.Tasks.Task Delay(int a_milliseconds_delay)
 		{
@@ -28,10 +28,13 @@ namespace Fee.TaskW
 
 		/** Yield
 		*/
+		#if((UNITY_5)||(UNITY_WEBGL))
+		#else
 		public static System.Runtime.CompilerServices.YieldAwaitable Yield()
 		{
 			return System.Threading.Tasks.Task.Yield();
 		}
+		#endif
 	}
 
 	/** Task
@@ -40,17 +43,32 @@ namespace Fee.TaskW
 	{
 		/** task
 		*/
+		#if((UNITY_5)||(UNITY_WEBGL))
+		private TResult result;
+		#else
 		private System.Threading.Tasks.Task<TResult> task;
+		#endif
 
 		/** constructor
 		*/
+		/*
+		#if((UNITY_5)||(UNITY_WEBGL))
+		#else
 		public Task(System.Threading.Tasks.Task<TResult> a_task)
 		{
 			this.task = a_task;
 		}
+		#endif
+		*/
 
 		/** constructor
 		*/
+		#if((UNITY_5)||(UNITY_WEBGL))
+		public Task(System.Func<TResult> a_function)
+		{
+			this.result = a_function();
+		}
+		#else
 		public Task(System.Func<System.Threading.Tasks.Task<TResult>> a_function)
 		{
 			#if(UNITY_WEBGL)
@@ -59,33 +77,49 @@ namespace Fee.TaskW
 			this.task = System.Threading.Tasks.Task.Run(a_function);
 			#endif
 		}
+		#endif
 
-		/** タスク。終了。
+		/** タスク。取得。
 		*/
+		#if((UNITY_5)||(UNITY_WEBGL))
+		#else
 		public System.Threading.Tasks.Task<TResult> GetTask()
 		{
 			return this.task;
 		}
+		#endif
 
 		/** IsCompleted
 		*/
 		public bool IsCompleted()
 		{
+			#if((UNITY_5)||(UNITY_WEBGL))
+			return true;
+			#else
 			return this.task.IsCompleted;
+			#endif
 		}
 
 		/** IsCanceled
 		*/
 		public bool IsCanceled()
 		{
+			#if((UNITY_5)||(UNITY_WEBGL))
+			return false;
+			#else
 			return this.task.IsCanceled;
+			#endif
 		}
 
 		/** IsFaulted
 		*/
 		public bool IsFaulted()
 		{
-			return  this.task.IsFaulted;
+			#if((UNITY_5)||(UNITY_WEBGL))
+			return false;
+			#else
+			return this.task.IsFaulted;
+			#endif
 		}
 
 		/** IsEnd
@@ -112,15 +146,22 @@ namespace Fee.TaskW
 		*/
 		public TResult GetResult()
 		{
+			#if((UNITY_5)||(UNITY_WEBGL))
+			return this.result;
+			#else
 			return this.task.Result;
+			#endif
 		}
 
 		/** Dispose
 		*/
 		public void Dispose()
 		{
+			#if((UNITY_5)||(UNITY_WEBGL))
+			#else
 			this.task.Dispose();
 			this.task = null;
+			#endif
 		}
 	}
 }

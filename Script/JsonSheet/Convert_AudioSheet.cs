@@ -12,6 +12,14 @@
 */
 namespace Fee.JsonSheet
 {
+	/** System_Tuple
+	*/
+	#if(UNITY_5)
+	using System_Tuple = Fee.Unity5;
+	#else
+	using System_Tuple = System;
+	#endif
+
 	/** Convert_AudioSheet
 	*/
 	#if(UNITY_EDITOR)
@@ -53,7 +61,7 @@ namespace Fee.JsonSheet
 		{
 			try{
 				if(a_sheet != null){
-					System.Collections.Generic.List<System.Tuple<UnityEngine.AudioClip,float>> t_list = new System.Collections.Generic.List<System.Tuple<UnityEngine.AudioClip,float>>();
+					System.Collections.Generic.List<System_Tuple.Tuple<UnityEngine.AudioClip,float>> t_list = new System.Collections.Generic.List<System_Tuple.Tuple<UnityEngine.AudioClip,float>>();
 
 					for(int ii=0;ii<a_sheet.Length;ii++){
 						if(a_sheet[ii] != null){
@@ -74,7 +82,7 @@ namespace Fee.JsonSheet
 											Tool.DebugReThrow(t_exception);
 										}
 
-										t_list.Add(new System.Tuple<UnityEngine.AudioClip,float>(t_audio_clip,t_sheet[jj].audio_volume));
+										t_list.Add(new System_Tuple.Tuple<UnityEngine.AudioClip,float>(t_audio_clip,t_sheet[jj].audio_volume));
 									}else{
 										//無関係。複合シート。
 									}
@@ -96,7 +104,16 @@ namespace Fee.JsonSheet
 						}
 
 						try{
-							UnityEditor.PrefabUtility.SaveAsPrefabAsset(t_prefab,"Assets/" + a_assets_path.GetPath(),out bool t_ret);
+							bool t_ret = false;
+
+							#if(UNITY_5)
+							if(UnityEditor.PrefabUtility.CreatePrefab("Assets/" + a_assets_path.GetPath(),t_prefab) != null){
+								t_ret = true;
+							}
+							#else
+							UnityEditor.PrefabUtility.SaveAsPrefabAsset(t_prefab,"Assets/" + a_assets_path.GetPath(),out t_ret);
+							#endif
+
 							Tool.Assert(t_ret);
 						}catch(System.Exception t_exception){
 							Tool.DebugReThrow(t_exception);

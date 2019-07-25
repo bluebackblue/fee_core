@@ -118,8 +118,11 @@ namespace Fee.Instantiate
 				//Allow MSAA
 				t_camera.allowMSAA = false;
 
+				#if(UNITY_5)
+				#else
 				//Allow Dynamic Resolution
 				t_camera.allowDynamicResolution = false;
+				#endif
 			}
 			
 			return t_gameoobject;

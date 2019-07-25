@@ -133,7 +133,8 @@ namespace Fee.Data
 		*/
 		public Item RequestLoad(string a_id)
 		{
-			if(this.list.TryGetValue(a_id,out ListItem t_item) == true){
+			ListItem t_item;
+			if(this.list.TryGetValue(a_id,out t_item) == true){
 				Work t_work = new Work();
 				t_work.RequestLoad(t_item);
 				this.add_list.Add(t_work);

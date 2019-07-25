@@ -104,15 +104,24 @@ namespace Fee.EditorTool
 			string t_output_target = t_commandline_param.outputpath + "/WebGL";
 			t_log += t_output_target + "\n";
 
-			UnityEditor.Build.Reporting.BuildReport t_return = UnityEditor.BuildPipeline.BuildPlayer(
-				t_levels,
-				t_output_target,
-				UnityEditor.BuildTarget.WebGL,
-				UnityEditor.BuildOptions.None
-			);
+			#if(UNITY_5)
+			{
+				//未対応。
+				UnityEngine.Debug.Assert(false);
+			}
+			#else
+			{
+				UnityEditor.Build.Reporting.BuildReport t_return = UnityEditor.BuildPipeline.BuildPlayer(
+					t_levels,
+					t_output_target,
+					UnityEditor.BuildTarget.WebGL,
+					UnityEditor.BuildOptions.None
+				);
 
-			t_log += t_return.summary.totalErrors.ToString();
-			t_log += "-----------------------------------";
+				t_log += t_return.summary.totalErrors.ToString();
+				t_log += "-----------------------------------";
+			}
+			#endif
 
 			UnityEngine.Debug.Log(t_log);
 		}
@@ -133,15 +142,24 @@ namespace Fee.EditorTool
 			string t_output_target = t_commandline_param.outputpath + "/Fee.apk";
 			t_log += t_output_target + "\n";
 
-			UnityEditor.Build.Reporting.BuildReport t_return = UnityEditor.BuildPipeline.BuildPlayer(
-				t_levels,
-				t_output_target,
-				UnityEditor.BuildTarget.Android,
-				UnityEditor.BuildOptions.None
-			);
-
-			t_log += t_return.summary.totalErrors.ToString();
-			t_log += "-----------------------------------";
+			#if(UNITY_5)
+			{
+				//未対応。
+				UnityEngine.Debug.Assert(false);
+			}
+			#else
+			{
+				UnityEditor.Build.Reporting.BuildReport t_return = UnityEditor.BuildPipeline.BuildPlayer(
+					t_levels,
+					t_output_target,
+					UnityEditor.BuildTarget.Android,
+					UnityEditor.BuildOptions.None
+				);
+			
+				t_log += t_return.summary.totalErrors.ToString();
+				t_log += "-----------------------------------";
+			}
+			#endif
 
 			UnityEngine.Debug.Log(t_log);
 		}
@@ -162,15 +180,24 @@ namespace Fee.EditorTool
 			string t_output_target = t_commandline_param.outputpath + "/Exe/fee.exe";
 			t_log += t_output_target + "\n";
 
-			UnityEditor.Build.Reporting.BuildReport t_return = UnityEditor.BuildPipeline.BuildPlayer(
-				t_levels,
-				t_output_target,
-				UnityEditor.BuildTarget.StandaloneWindows,
-				UnityEditor.BuildOptions.None
-			);
+			#if(UNITY_5)
+			{
+				//未対応。
+				UnityEngine.Debug.Assert(false);
+			}
+			#else
+			{
+				UnityEditor.Build.Reporting.BuildReport t_return = UnityEditor.BuildPipeline.BuildPlayer(
+					t_levels,
+					t_output_target,
+					UnityEditor.BuildTarget.StandaloneWindows,
+					UnityEditor.BuildOptions.None
+				);
 
-			t_log += t_return.summary.totalErrors.ToString();
-			t_log += "-----------------------------------";
+				t_log += t_return.summary.totalErrors.ToString();
+				t_log += "-----------------------------------";
+			}
+			#endif
 
 			UnityEngine.Debug.Log(t_log);
 		}

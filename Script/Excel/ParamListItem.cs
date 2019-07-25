@@ -14,7 +14,11 @@ namespace Fee.Excel
 {
 	/** ParamListItem
 	*/
+	#if(UNITY_5)
+	public struct ParamListItem
+	#else
 	public readonly struct ParamListItem
+	#endif
 	{
 		/** パラメータタイプ。
 		*/

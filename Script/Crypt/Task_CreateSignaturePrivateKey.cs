@@ -35,7 +35,11 @@ namespace Fee.Crypt
 
 		/** TaskMain
 		*/
-		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,string a_key,System.Threading.CancellationToken a_cancel)
+		#if((UNITY_5)||(UNITY_WEBGL))
+		private static ResultType TaskMain(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,string a_key,Fee.TaskW.CancelToken a_cancel)
+		#else
+		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,string a_key,Fee.TaskW.CancelToken a_cancel)
+		#endif
 		{
 			ResultType t_ret;
 			{
@@ -68,7 +72,7 @@ namespace Fee.Crypt
 				t_ret.errorstring = "Task_CreateSignaturePrivateKey : " + t_exception.Message;
 			}
 
-			if(a_cancel.IsCancellationRequested == true){
+			if(a_cancel.IsCancellationRequested() == true){
 				t_ret.binary = null;
 				t_ret.errorstring = "Task_CreateSignaturePrivateKey : Cancel";
 
@@ -88,10 +92,8 @@ namespace Fee.Crypt
 		*/
 		public static Fee.TaskW.Task<ResultType> Run(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,string a_key,Fee.TaskW.CancelToken a_cancel)
 		{
-			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
-
 			return new Fee.TaskW.Task<ResultType>(() => {
-				return Task_CreateSignaturePrivateKey.TaskMain(a_callback_interface,a_binary,a_key,t_cancel_token);
+				return Task_CreateSignaturePrivateKey.TaskMain(a_callback_interface,a_binary,a_key,a_cancel);
 			});
 		}
 	}

@@ -35,7 +35,11 @@ namespace Fee.Crypt
 
 		/** TaskMain
 		*/
-		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,string a_pass,string a_salt,System.Threading.CancellationToken a_cancel)
+		#if((UNITY_5)||(UNITY_WEBGL))
+		private static ResultType TaskMain(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,string a_pass,string a_salt,Fee.TaskW.CancelToken a_cancel)
+		#else
+		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,string a_pass,string a_salt,Fee.TaskW.CancelToken a_cancel)
+		#endif
 		{
 			ResultType t_ret;
 			{
@@ -71,7 +75,7 @@ namespace Fee.Crypt
 				t_ret.errorstring = "Task_EncryptPass : " + t_exception.Message;
 			}
 
-			if(a_cancel.IsCancellationRequested == true){
+			if(a_cancel.IsCancellationRequested() == true){
 				t_ret.binary = null;
 				t_ret.errorstring = "Task_EncryptPass : Cancel";
 
@@ -91,10 +95,8 @@ namespace Fee.Crypt
 		*/
 		public static Fee.TaskW.Task<ResultType> Run(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,string a_pass,string a_salt,Fee.TaskW.CancelToken a_cancel)
 		{
-			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
-
 			return new Fee.TaskW.Task<ResultType>(() => {
-				return Task_EncryptPass.TaskMain(a_callback_interface,a_binary,a_pass,a_salt,t_cancel_token);
+				return Task_EncryptPass.TaskMain(a_callback_interface,a_binary,a_pass,a_salt,a_cancel);
 			});
 		}
 	}

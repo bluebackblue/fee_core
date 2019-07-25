@@ -30,7 +30,11 @@ namespace Fee.File
 
 		/** TaskMain
 		*/
-		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.File.OnFileTask_CallBackInterface a_callback_interface,Path a_path,System.Threading.CancellationToken a_cancel)
+		#if((UNITY_5)||(UNITY_WEBGL))
+		private static ResultType TaskMain(Fee.File.OnFileTask_CallBackInterface a_callback_interface,Path a_path,Fee.TaskW.CancelToken a_cancel)
+		#else
+		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.File.OnFileTask_CallBackInterface a_callback_interface,Path a_path,Fee.TaskW.CancelToken a_cancel)
+		#endif
 		{
 			ResultType t_ret;
 			{
@@ -55,8 +59,12 @@ namespace Fee.File
 				if(t_filestream != null){
 					t_ret.binary = new byte[t_filestream.Length];
 					if(Config.USE_ASYNC == true){
+						#if((UNITY_5)||(UNITY_WEBGL))
+						Tool.Assert(false);
+						#else
 						await t_filestream.ReadAsync(t_ret.binary,0,t_ret.binary.Length,a_cancel);
 						await t_filestream.FlushAsync(a_cancel);
+						#endif
 					}else{
 						t_filestream.Read(t_ret.binary,0,t_ret.binary.Length);
 					}
@@ -71,7 +79,7 @@ namespace Fee.File
 				t_filestream.Close();
 			}
 
-			if(a_cancel.IsCancellationRequested == true){
+			if(a_cancel.IsCancellationRequested() == true){
 				t_ret.binary = null;
 				t_ret.errorstring = "Task_LoadLocalBinaryFile : Cancel";
 
@@ -91,10 +99,8 @@ namespace Fee.File
 		*/
 		public static Fee.TaskW.Task<ResultType> Run(Fee.File.OnFileTask_CallBackInterface a_callback_interface,Path a_path,Fee.TaskW.CancelToken a_cancel)
 		{
-			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
-
 			return new Fee.TaskW.Task<ResultType>(() => {
-				return Task_LoadLocalBinaryFile.TaskMain(a_callback_interface,a_path,t_cancel_token);
+				return Task_LoadLocalBinaryFile.TaskMain(a_callback_interface,a_path,a_cancel);
 			});
 		}
 	}

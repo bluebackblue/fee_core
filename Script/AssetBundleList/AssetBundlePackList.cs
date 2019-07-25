@@ -32,7 +32,8 @@ namespace Fee.AssetBundleList
 		*/
 		public AssetBundlePackList_AssetBundleItem GetAssetBundleItem(string a_assetbundle_name)
 		{
-			if(this.list.TryGetValue(a_assetbundle_name,out AssetBundlePackList_AssetBundleItem t_item) == true){
+			AssetBundlePackList_AssetBundleItem t_item;
+			if(this.list.TryGetValue(a_assetbundle_name,out t_item) == true){
 				return t_item;
 			}
 
@@ -70,7 +71,8 @@ namespace Fee.AssetBundleList
 		*/
 		public void UnRegister(string a_assetbundle_name)
 		{
-			if(this.list.TryGetValue(a_assetbundle_name,out AssetBundlePackList_AssetBundleItem t_item) == true){
+			AssetBundlePackList_AssetBundleItem t_item;
+			if(this.list.TryGetValue(a_assetbundle_name,out t_item) == true){
 				if(t_item != null){
 					t_item.Unload();
 				}else{

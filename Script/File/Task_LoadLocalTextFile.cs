@@ -30,7 +30,11 @@ namespace Fee.File
 
 		/** TaskMain
 		*/
-		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.File.OnFileTask_CallBackInterface a_callback_interface,Path a_path,System.Threading.CancellationToken a_cancel)
+		#if((UNITY_5)||(UNITY_WEBGL))
+		private static ResultType TaskMain(Fee.File.OnFileTask_CallBackInterface a_callback_interface,Path a_path,Fee.TaskW.CancelToken a_cancel)
+		#else
+		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.File.OnFileTask_CallBackInterface a_callback_interface,Path a_path,Fee.TaskW.CancelToken a_cancel)
+		#endif
 		{
 			ResultType t_ret;
 			{
@@ -50,7 +54,11 @@ namespace Fee.File
 				//読み込み。
 				if(t_filestream != null){
 					if(Config.USE_ASYNC == true){
+						#if((UNITY_5)||(UNITY_WEBGL))
+						Tool.Assert(false);
+						#else
 						t_ret.text = await t_filestream.ReadToEndAsync();
+						#endif
 					}else{
 						t_ret.text = t_filestream.ReadToEnd();
 					}
@@ -65,7 +73,7 @@ namespace Fee.File
 				t_filestream.Close();
 			}
 
-			if(a_cancel.IsCancellationRequested == true){
+			if(a_cancel.IsCancellationRequested() == true){
 				t_ret.text = null;
 				t_ret.errorstring = "Task_LoadLocalTextFile : Cancel";
 
@@ -85,10 +93,8 @@ namespace Fee.File
 		*/
 		public static Fee.TaskW.Task<ResultType> Run(Fee.File.OnFileTask_CallBackInterface a_callback_interface,Path a_path,Fee.TaskW.CancelToken a_cancel)
 		{
-			System.Threading.CancellationToken t_cancel_token = a_cancel.GetToken();
-
 			return new Fee.TaskW.Task<ResultType>(() => {
-				return Task_LoadLocalTextFile.TaskMain(a_callback_interface,a_path,t_cancel_token);
+				return Task_LoadLocalTextFile.TaskMain(a_callback_interface,a_path,a_cancel);
 			});
 		}
 	}

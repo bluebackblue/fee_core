@@ -18,17 +18,17 @@ namespace Fee.File
 	{
 		/** per_list
 		*/
-		float[] per_list;
+		private float[] per_list;
 
 		/** main
 		*/
-		int main_max;
-		int main_index;
+		//private int main_max;
+		private int main_index;
 
 		/** sub
 		*/
-		int sub_max;
-		int sub_index;
+		private int sub_max;
+		private int sub_index;
 
 		/** constructor
 		*/
@@ -36,8 +36,8 @@ namespace Fee.File
 		{
 			this.per_list = a_list;
 
-			this.main_max = 0;
-			this.main_max = 0;
+			//this.main_max = 0;
+			this.main_index = 0;
 
 			this.sub_max = 0;
 			this.sub_index = 0;
@@ -50,10 +50,10 @@ namespace Fee.File
 			Tool.Assert((0 <= a_main_index)&&(a_main_index < a_main_max));
 			Tool.Assert((0 <= a_sub_index)&&(a_sub_index < a_sub_max));
 
+			//this.main_max = a_main_max;
 			this.main_index = a_main_index;
-			this.main_max = a_main_max;
-			this.sub_index = a_sub_index;
 			this.sub_max = a_sub_max;
+			this.sub_index = a_sub_index;
 		}
 
 		/** CalcProgress

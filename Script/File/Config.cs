@@ -37,7 +37,9 @@ namespace Fee.File
 
 		/** USE_ASYNC
 		*/
-		#if(UNITY_WEBGL)
+		#if(UNITY_5)
+		public static bool USE_ASYNC = false;
+		#elif(UNITY_WEBGL)
 		public static bool USE_ASYNC = false;
 		#else
 		public static bool USE_ASYNC = true;

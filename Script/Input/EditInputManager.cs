@@ -39,7 +39,12 @@ namespace Fee.Input
 		{
 			this.list = new System.Collections.Generic.List<EditInputManager_Item>();
 
+			#if(UNITY_5)
+			this.asset = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/InputManager.asset")[0];
+			#else
 			this.asset = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>("ProjectSettings/InputManager.asset");
+			#endif
+
 			this.serialized_root = new UnityEditor.SerializedObject(this.asset);
 			this.serialized_list = this.serialized_root.FindProperty("m_Axes");
 
@@ -303,7 +308,8 @@ namespace Fee.Input
 
 				//すでにリストに存在するものはリストから外す。
 				for(int ii=0;ii<t_list.Count;ii++){
-					if(t_flag_list.TryGetValue(t_list[ii].m_Name,out Fee.Input.EditInputManager_Item t_item) == true){
+					Fee.Input.EditInputManager_Item t_item;
+					if(t_flag_list.TryGetValue(t_list[ii].m_Name,out t_item) == true){
 						//すでに存在する。
 						t_flag_list[t_list[ii].m_Name] = null;
 					}

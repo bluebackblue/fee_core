@@ -84,7 +84,8 @@ namespace Fee.Audio
 		{
 			Bank t_bank_new = new Bank(a_pack);
 
-			if(this.bank_list.TryGetValue(a_id,out Bank t_bank_old) == true){
+			Bank t_bank_old;
+			if(this.bank_list.TryGetValue(a_id,out t_bank_old) == true){
 				//差し替え。
 
 				//アンロード。
@@ -109,7 +110,8 @@ namespace Fee.Audio
 		{
 			Bank t_bank_new = new Bank(a_pack);
 
-			if(this.bank_list.TryGetValue(a_id,out Bank t_bank_old) == true){
+			Bank t_bank_old;
+			if(this.bank_list.TryGetValue(a_id,out t_bank_old) == true){
 				//差し替え。
 
 				//アンロード。
@@ -132,7 +134,8 @@ namespace Fee.Audio
 		*/
 		public void UnSetBank(long a_id)
 		{
-			if(this.bank_list.TryGetValue(a_id,out Bank t_bank_old) == true){
+			Bank t_bank_old;
+			if(this.bank_list.TryGetValue(a_id,out t_bank_old) == true){
 				//削除。
 				this.bank_list.Remove(a_id);
 			}
@@ -154,8 +157,9 @@ namespace Fee.Audio
 		*/
 		public Bank GetBank(long a_id)
 		{
+			Bank t_bank;
 			if(this.bank_list != null){
-				if(this.bank_list.TryGetValue(a_id,out Bank t_bank) == true){
+				if(this.bank_list.TryGetValue(a_id,out t_bank) == true){
 					return t_bank;
 				}
 			}

@@ -183,9 +183,15 @@ namespace Fee.File
 					if(Png_GetSize(a_binary,out t_width,out t_height) == true){
 						UnityEngine.Texture2D t_texture = new UnityEngine.Texture2D(t_width,t_height);
 						if(t_texture != null){
+							#if(UNITY_5)
+							if(t_texture.LoadImage(a_binary) == true){
+								return t_texture;
+							}
+							#else
 							if(UnityEngine.ImageConversion.LoadImage(t_texture,a_binary) == true){
 								return t_texture;
 							}
+							#endif
 						}
 					}
 				}break;
@@ -196,9 +202,15 @@ namespace Fee.File
 					if(Jpg_GetSize(a_binary,out t_width,out t_height) == true){
 						UnityEngine.Texture2D t_texture = new UnityEngine.Texture2D(t_width,t_height);
 						if(t_texture != null){
+							#if(UNITY_5)
+							if(t_texture.LoadImage(a_binary) == true){
+								return t_texture;
+							}
+							#else
 							if(UnityEngine.ImageConversion.LoadImage(t_texture,a_binary) == true){
 								return t_texture;
 							}
+							#endif
 						}
 					}
 				}break;

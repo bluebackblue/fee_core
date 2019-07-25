@@ -38,7 +38,20 @@ namespace Fee.File
 
 				//保存。
 				{
-					UnityEditor.PrefabUtility.SaveAsPrefabAsset(t_prefab,a_output_path,out bool t_ret);
+					bool t_ret = false;
+
+					#if(UNITY_5)
+					{
+						if(UnityEditor.PrefabUtility.CreatePrefab(a_output_path,t_prefab) != null){
+							t_ret = true;
+						}
+					}
+					#else
+					{
+						UnityEditor.PrefabUtility.SaveAsPrefabAsset(t_prefab,a_output_path,out t_ret);
+					}
+					#endif
+
 					Tool.Assert(t_ret);
 				}
 			}

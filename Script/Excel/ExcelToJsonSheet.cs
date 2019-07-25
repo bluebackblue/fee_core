@@ -88,7 +88,8 @@ namespace Fee.Excel
 		private string GetTryCellString(int a_x,int a_y)
 		{
 			if(this.excel.SetActiveCell(a_x,a_y) == true){
-				if(this.excel.GetTryCellString(out string t_value) == true){
+				string t_value;
+				if(this.excel.GetTryCellString(out t_value) == true){
 					return t_value;
 				}
 			}
@@ -100,7 +101,8 @@ namespace Fee.Excel
 		private double GetTryCellNumeric(int a_x,int a_y)
 		{
 			if(this.excel.SetActiveCell(a_x,a_y) == true){
-				if(this.excel.GetTryCellNumeric(out double t_value) == true){
+				double t_value;
+				if(this.excel.GetTryCellNumeric(out t_value) == true){
 					return t_value;
 				}
 			}

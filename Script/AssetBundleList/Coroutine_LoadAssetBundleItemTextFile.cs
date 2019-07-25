@@ -75,7 +75,8 @@ namespace Fee.AssetBundleList
 
 				//ダミーアセットバンドル。
 
-				if(t_assetbundleitem.assetbundle_dummy.asset_list.TryGetValue(a_assetname,out string t_path) == true){
+				string t_path;
+				if(t_assetbundleitem.assetbundle_dummy.asset_list.TryGetValue(a_assetname,out t_path) == true){
 					Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadResourcesTextFile,new File.Path(t_path));
 
 					do{

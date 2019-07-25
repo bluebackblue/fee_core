@@ -363,7 +363,8 @@ namespace Fee.JsonSheet
 									//asset_name
 									string t_asset_name = t_key_list[ii];
 
-									if(t_pair.Value.TryGetValue(t_asset_name,out ListItem t_listitem) == true){
+									ListItem t_listitem;
+									if(t_pair.Value.TryGetValue(t_asset_name,out t_listitem) == true){
 										t_dummy_assetbundle.asset_list.Add(t_asset_name,t_listitem.data_path);
 									}else{
 										Tool.Assert(false);
@@ -397,10 +398,16 @@ namespace Fee.JsonSheet
 									//key_list
 									System.Collections.Generic.List<string> t_key_list = new System.Collections.Generic.List<string>(t_pair.Value.Keys);
 									t_assetbundle_build[t_count].assetNames = new string[t_key_list.Count];
+
+									#if(UNITY_5)
+									//未対応。
+									#else
 									t_assetbundle_build[t_count].addressableNames = new string[t_key_list.Count];
+									#endif
 
 									for(int ii=0;ii<t_key_list.Count;ii++){
-										if(t_pair.Value.TryGetValue(t_key_list[ii],out ListItem t_listitem) == true){
+										ListItem t_listitem;
+										if(t_pair.Value.TryGetValue(t_key_list[ii],out t_listitem) == true){
 
 											string t_asset_path = null;
 											{
@@ -420,7 +427,11 @@ namespace Fee.JsonSheet
 											t_assetbundle_build[t_count].assetNames[ii] = t_asset_path;
 
 											//addressableNames
+											#if(UNITY_5)
+											//未対応。
+											#else
 											t_assetbundle_build[t_count].addressableNames[ii] = t_key_list[ii];
+											#endif
 
 										}else{
 											Tool.Assert(false);

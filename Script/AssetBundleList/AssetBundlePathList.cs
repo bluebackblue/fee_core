@@ -60,7 +60,8 @@ namespace Fee.AssetBundleList
 		*/
 		public AssetBundlePathList_PathItem GetPathItem(string a_assetbundle_name)
 		{
-			if(this.list.TryGetValue(a_assetbundle_name,out AssetBundlePathList_PathItem t_item) == true){
+			AssetBundlePathList_PathItem t_item;
+			if(this.list.TryGetValue(a_assetbundle_name,out t_item) == true){
 				return t_item;
 			}
 

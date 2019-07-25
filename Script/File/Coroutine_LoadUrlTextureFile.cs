@@ -69,9 +69,21 @@ namespace Fee.File
 			this.result = new ResultType();
 
 			using(UnityEngine.Networking.UnityWebRequest t_webrequest = CreateWebRequestInstance(a_path,a_post_data)){
+
+				#if(UNITY_5)
+				UnityEngine.AsyncOperation t_webrequest_async = null;
+				#else
 				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
+				#endif
+
 				if(t_webrequest != null){
+
+					#if(UNITY_5)
+					t_webrequest_async = t_webrequest.Send();
+					#else
 					t_webrequest_async = t_webrequest.SendWebRequest();
+					#endif
+
 					if(t_webrequest_async == null){
 						this.result.errorstring = "Coroutine_LoadUrlTextureFile : webrequest_async == null";
 						yield break;
@@ -83,6 +95,15 @@ namespace Fee.File
 
 				do{
 					//エラーチェック。
+
+					#if(UNITY_5)
+					if(t_webrequest.isError == true){
+						//エラー終了。
+					}else if(t_webrequest.isDone == true){
+						//正常終了。
+						break;
+					}
+					#else
 					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
 						//エラー終了。
 						this.result.errorstring = "Coroutine_LoadUrlTextureFile : " + t_webrequest.error;
@@ -91,6 +112,7 @@ namespace Fee.File
 						//正常終了。
 						break;
 					}
+					#endif
 
 					//キャンセル。
 					if(a_callback_interface != null){

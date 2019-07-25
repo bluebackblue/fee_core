@@ -8,6 +8,12 @@
 */
 
 
+// The private field * is assigned but its value is never used
+#if(UNITY_EDITOR)
+#pragma warning disable 0414
+#endif
+
+
 /** Fee.Render2D
 */
 namespace Fee.Render2D
