@@ -72,11 +72,10 @@ namespace Fee.TaskW
 			#if((UNITY_5)||(UNITY_WEBGL))
 			{
 				Tool.Assert(false);
-				throw new System.Exception("Fee.TaskW.CancelToken.ThrowIfCancellationRequested");
 			}
 			#else
 			{
-				this.source.ThrowIfCancellationRequested();
+				this.source.Token.ThrowIfCancellationRequested();
 			}
 			#endif
 		}

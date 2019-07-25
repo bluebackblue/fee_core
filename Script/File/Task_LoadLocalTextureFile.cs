@@ -58,8 +58,8 @@ namespace Fee.File
 						#if((UNITY_5)||(UNITY_WEBGL))
 						Tool.Assert(false);
 						#else
-						await t_filestream.ReadAsync(t_ret.binary,0,t_ret.binary.Length,a_cancel);
-						await t_filestream.FlushAsync(a_cancel);
+						await t_filestream.ReadAsync(t_ret.binary,0,t_ret.binary.Length,a_cancel.GetToken());
+						await t_filestream.FlushAsync(a_cancel.GetToken());
 						#endif
 					}else{
 						t_filestream.Read(t_ret.binary,0,t_ret.binary.Length);
