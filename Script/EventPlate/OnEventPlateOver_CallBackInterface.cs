@@ -19,6 +19,7 @@ namespace Fee.EventPlate
 		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートに入場。
 		*/
 		void OnEventPlateEnter(T a_id);
+
 		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートから退場。
 		*/
 		void OnEventPlateLeave(T a_id);
@@ -32,7 +33,7 @@ namespace Fee.EventPlate
 		*/
 		void CallEnter();
 
-		/** 入場。
+		/** 退場。
 		*/
 		void CallLeave();
 	}
