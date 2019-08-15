@@ -119,14 +119,14 @@ namespace Fee.EventPlate
 
 						//オーバー終了。
 						if(this.current != null){
-							this.current.CallOnOverLeave();
+							this.current.CallLeave();
 						}
 
 						this.current = this.list[ii];
 
 						//オーバー開始。
 						{
-							this.current.CallOnOverEnter();
+							this.current.CallEnter();
 						}
 					}
 
@@ -137,7 +137,7 @@ namespace Fee.EventPlate
 			if(t_no_current == true){
 				if(this.current != null){
 					//オーバー終了。
-					this.current.CallOnOverLeave();
+					this.current.CallLeave();
 					this.current = null;
 				}
 			}

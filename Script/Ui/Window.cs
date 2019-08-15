@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Window
 	*/
-	public class Window : Window_Base , Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTarget_CallBackInterface
+	public class Window : Window_Base , Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface
 	{
 		/** bg_sprite
 		*/
@@ -82,13 +82,11 @@ namespace Fee.Ui
 
 			//bg_eventplate
 			this.bg_eventplate = new EventPlate.Item(this.deleter,EventPlate.EventType.Window,0);
-			this.bg_eventplate.SetOnOverCallBackInterface(this);
-			this.bg_eventplate.SetOnOverCallBackValue(0);
+			this.bg_eventplate.SetOnEventPlateOver(this,0);
 
 			//titlebar_eventplate
 			this.titlebar_eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,0);
-			this.titlebar_eventplate.SetOnOverCallBackInterface(this);
-			this.titlebar_eventplate.SetOnOverCallBackValue(1);
+			this.titlebar_eventplate.SetOnEventPlateOver(this,1);
 
 			//is_onover_bg
 			this.is_onover_bg = false;
@@ -131,25 +129,25 @@ namespace Fee.Ui
 			return this.titlebar_h;
 		}
 
-		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートに入場。
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートに入場。
 		*/
-		public void OnOverEnter(int a_value)
+		public void OnEventPlateEnter(int a_id)
 		{
 			//ターゲット登録。
 			Ui.GetInstance().SetTargetRequest(this);
 
-			if(a_value == 0){
+			if(a_id == 0){
 				this.is_onover_bg = true;
 			}else{
 				this.is_onover_titlebar = true;
 			}
 		}
 
-		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートから退場。
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートから退場。
 		*/
-		public void OnOverLeave(int a_value)
+		public void OnEventPlateLeave(int a_id)
 		{
-			if(a_value == 0){
+			if(a_id == 0){
 				this.is_onover_bg = false;
 			}else{
 				this.is_onover_titlebar = false;

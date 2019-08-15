@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** OnButtonChangeOverFlag_CallBackInterface
 	*/
-	public interface OnButtonChangeOverFlag_CallBackInterface< T >
+	public interface OnButtonChangeOverFlag_CallBackInterface<T>
 	{
 		/** [Fee.Ui.OnButtonChangeOverFlag_CallBackInterface]オンオーバー。
 		*/
@@ -30,11 +30,11 @@ namespace Fee.Ui
 
 	/** OnButtonChangeOverFlag_CallBackParam_Generic
 	*/
-	public class OnButtonChangeOverFlag_CallBackParam_Generic< T > : OnButtonChangeOverFlag_CallBackParam
+	public class OnButtonChangeOverFlag_CallBackParam_Generic<T> : OnButtonChangeOverFlag_CallBackParam
 	{
 		/** callback_interface
 		*/
-		public OnButtonChangeOverFlag_CallBackInterface< T > callback_interface;
+		public OnButtonChangeOverFlag_CallBackInterface<T> callback_interface;
 
 		/** id
 		*/
@@ -42,7 +42,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public OnButtonChangeOverFlag_CallBackParam_Generic(OnButtonChangeOverFlag_CallBackInterface< T > a_callback_interface,T a_id)
+		public OnButtonChangeOverFlag_CallBackParam_Generic(OnButtonChangeOverFlag_CallBackInterface<T> a_callback_interface,T a_id)
 		{
 			this.callback_interface = a_callback_interface;
 			this.id = a_id;

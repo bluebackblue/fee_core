@@ -12,7 +12,7 @@
 */
 namespace Fee.Ui
 {
-	/** Scroll_Drag_CallBack
+	/** Scroll_Drag用コールバック。
 	*/
 	public interface Scroll_Drag_CallBack
 	{

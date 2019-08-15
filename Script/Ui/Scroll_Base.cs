@@ -16,18 +16,18 @@ namespace Fee.Ui
 	*/
 	public enum ScrollType
 	{
-		/** Vertical
+		/** 縦。
 		*/
 		Vertical,
 
-		/** Horizontal
+		/** 横。
 		*/
 		Horizontal,
 	}
 
 	/** Scroll2_Base
 	*/
-	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack , Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface
+	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack , Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int>
 		where ITEM : ScrollItem_Base
 	{
 		/** deleter
@@ -78,7 +78,7 @@ namespace Fee.Ui
 
 			//eventplate
 			this.eventplate = new EventPlate.Item(this.deleter,EventPlate.EventType.View,a_drawpriority);
-			this.eventplate.SetOnOverCallBackInterface(this);
+			this.eventplate.SetOnEventPlateOver(this,-1);
 
 			//list
 			this.list = new System.Collections.Generic.List<ITEM>();
@@ -129,16 +129,16 @@ namespace Fee.Ui
 			this.deleter.DeleteAll();
 		}
 
-		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートに入場。
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートに入場。
 		*/
-		public void OnOverEnter(int a_value)
+		public void OnEventPlateEnter(int a_id)
 		{
 			this.is_onover = true;
 		}
 
-		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートから退場。
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートから退場。
 		*/
-		public void OnOverLeave(int a_value)
+		public void OnEventPlateLeave(int a_id)
 		{
 			this.is_onover = false;
 		}

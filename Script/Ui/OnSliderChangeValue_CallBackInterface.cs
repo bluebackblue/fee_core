@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** OnSliderChangeValue_CallBackInterface
 	*/
-	public interface OnSliderChangeValue_CallBackInterface< T >
+	public interface OnSliderChangeValue_CallBackInterface<T>
 	{
 		/** [Fee.Ui.OnSliderChangeValue_CallBackInterface]値変更。
 		*/
@@ -30,11 +30,11 @@ namespace Fee.Ui
 
 	/** OnSliderChangeValue_CallBackParam_Generic
 	*/
-	public class OnSliderChangeValue_CallBackParam_Generic< T > : OnSliderChangeValue_CallBackParam
+	public class OnSliderChangeValue_CallBackParam_Generic<T> : OnSliderChangeValue_CallBackParam
 	{
 		/** callback_interface
 		*/
-		public OnSliderChangeValue_CallBackInterface< T > callback_interface;
+		public OnSliderChangeValue_CallBackInterface<T> callback_interface;
 
 		/** id
 		*/
@@ -42,7 +42,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public OnSliderChangeValue_CallBackParam_Generic(OnSliderChangeValue_CallBackInterface< T > a_callback_interface,T a_id)
+		public OnSliderChangeValue_CallBackParam_Generic(OnSliderChangeValue_CallBackInterface<T> a_callback_interface,T a_id)
 		{
 			this.callback_interface = a_callback_interface;
 			this.id = a_id;

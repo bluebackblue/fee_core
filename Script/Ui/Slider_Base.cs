@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Slider_Base
 	*/
-	public abstract class Slider_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTarget_CallBackInterface
+	public abstract class Slider_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface
 	{
 		/** deleter
 		*/
@@ -98,13 +98,11 @@ namespace Fee.Ui
 
 			//eventplate
 			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority);
-			this.eventplate.SetOnOverCallBackInterface(this);
-			this.eventplate.SetOnOverCallBackValue(0);
+			this.eventplate.SetOnEventPlateOver(this,0);
 
 			//eventplate_button
 			this.eventplate_button = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority + 1);
-			this.eventplate_button.SetOnOverCallBackInterface(this);
-			this.eventplate_button.SetOnOverCallBackValue(1);
+			this.eventplate_button.SetOnEventPlateOver(this,1);
 
 			//callbackparam_changevalue
 			this.callbackparam_changevalue = null;
@@ -425,31 +423,31 @@ namespace Fee.Ui
 			}
 		}
 
-		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートに入場。
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートに入場。
 		*/
-		public void OnOverEnter(int a_value)
+		public void OnEventPlateEnter(int a_id)
 		{
-			Tool.Log("Slider_Base","OnOverEnter : " + a_value.ToString());
+			Tool.Log("Slider_Base","OnEventPlateEnter : " + a_id.ToString());
 
 			if((this.is_onover == false)&&(this.is_onover_button == false)){
 				//ターゲット登録。
 				Ui.GetInstance().SetTargetRequest(this);
 			}
 
-			if(a_value == 0){
+			if(a_id == 0){
 				this.is_onover = true;
 			}else{
 				this.is_onover_button = true;
 			}
 		}
 
-		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートから退場。
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートから退場。
 		*/
-		public void OnOverLeave(int a_value)
+		public void OnEventPlateLeave(int a_id)
 		{
-			Tool.Log("Slider_Base","OnOverLeave : " + a_value.ToString());
+			Tool.Log("Slider_Base","OnEventPlateLeave : " + a_id.ToString());
 
-			if(a_value == 0){
+			if(a_id == 0){
 				this.is_onover = false;
 			}else{
 				this.is_onover_button = false;
@@ -458,10 +456,10 @@ namespace Fee.Ui
 
 		/** コールバックインターフェイス。設定。
 		*/
-		public void SetOnSliderChangeValue<T>(Fee.Ui.OnSliderChangeValue_CallBackInterface< T > a_callback_interface,T a_id)
+		public void SetOnSliderChangeValue<T>(Fee.Ui.OnSliderChangeValue_CallBackInterface<T> a_callback_interface,T a_id)
 		{
 			if(a_callback_interface != null){
-				this.callbackparam_changevalue = new Fee.Ui.OnSliderChangeValue_CallBackParam_Generic< T >(a_callback_interface,a_id);
+				this.callbackparam_changevalue = new Fee.Ui.OnSliderChangeValue_CallBackParam_Generic<T>(a_callback_interface,a_id);
 			}else{
 				this.callbackparam_changevalue = null;
 			}

@@ -394,10 +394,10 @@ namespace Fee.Render2D
 
 		/** 中心。設定。
 		*/
-		public void SetCenter(int a_x,int a_y)
+		public void SetCenter(int a_global_x,int a_global_y)
 		{
-			this.rotate.SetCenterX(a_x);
-			this.rotate.SetCenterY(a_y);
+			this.rotate.SetCenterX(a_global_x);
+			this.rotate.SetCenterY(a_global_y);
 		}
 
 		/** 中心。取得。

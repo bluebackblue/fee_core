@@ -62,20 +62,29 @@ namespace Fee.Ui
 			}
 		}
 
-		//ウィンドウリスト。
+		/** ウィンドウリスト。
+		*/
 		private Ui_WindowList windowlist;
 
-		//ターゲットリスト。
+		/** ターゲットリスト。
+		*/
 		private System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface> target_list;
 
-		//ターゲット追加リスト。
+		/** ターゲット追加リスト。
+		*/
 		private System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface> target_add_list;
 
-		//ターゲット削除リスト。
+		/** ターゲット削除リスト。
+		*/
 		private System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface> target_remove_list;
 
-		//ウィンドウレジュームリスト。
+		/** ウィンドウレジュームリスト。
+		*/
 		private Ui_WindowResumeList windowresumelist;
+
+		/** ダウンボタンインスタンス。
+		*/
+		private Button_Base down_button_instance;
 
 		/** [シングルトン]constructor
 		*/
@@ -95,6 +104,9 @@ namespace Fee.Ui
 
 			//ウィンドウレジュームリスト。
 			this.windowresumelist = new Ui_WindowResumeList();
+
+			//ダウンボタンインスタンス。
+			this.down_button_instance = null;
 		}
 
 		/** [シングルトン]削除。
@@ -136,7 +148,16 @@ namespace Fee.Ui
 		*/
 		public void SetTargetRequest(Fee.Ui.OnTarget_CallBackInterface a_callback_interface)
 		{
-			this.target_add_list.Add(a_callback_interface);
+			if(this.target_list.Contains(a_callback_interface) == false){
+				if(this.target_add_list.Contains(a_callback_interface) == false){
+					this.target_add_list.Add(a_callback_interface);
+				}else{
+					//すでに登録リストにいる。
+				}
+			}else{
+				//すでにリストにいる。
+			}
+
 			this.target_remove_list.Remove(a_callback_interface);
 		}
 
@@ -144,7 +165,12 @@ namespace Fee.Ui
 		*/
 		public void UnSetTargetRequest(Fee.Ui.OnTarget_CallBackInterface a_callback_interface)
 		{
-			this.target_remove_list.Add(a_callback_interface);
+			if(this.target_remove_list.Contains(a_callback_interface) == false){
+				this.target_remove_list.Add(a_callback_interface);
+			}else{
+				//すでに削除リストにいる。
+			}
+
 			this.target_add_list.Remove(a_callback_interface);
 		}
 
@@ -226,6 +252,20 @@ namespace Fee.Ui
 		public WindowResumeItem GetWindowResumeItem(string a_label)
 		{
 			return this.windowresumelist.GetItem(a_label);
+		}
+
+		/** ダウンボタンインスタンス。設定。
+		*/
+		public void SetDownButtonInstance(Button_Base a_button)
+		{
+			this.down_button_instance = a_button;
+		}
+
+		/** ダウンボタンインスタンス。取得。
+		*/
+		public Button_Base GetDownButtonInstance()
+		{
+			return this.down_button_instance;
 		}
 	}
 }

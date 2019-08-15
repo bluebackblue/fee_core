@@ -310,7 +310,8 @@ namespace Fee.Data
 				
 				//失敗。
 				Tool.Assert(false);
-				this.result.errorstring = "Coroutine_Load : " + a_listitem.assetbundle_name;
+				Tool.Log("Coroutine_Load",a_listitem.path.GetPath());
+				this.result.errorstring = "Coroutine_Load : " + a_listitem.path.GetPath();
 				yield break;
 			}
 

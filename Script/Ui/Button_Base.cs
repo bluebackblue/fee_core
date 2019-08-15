@@ -14,18 +14,11 @@ namespace Fee.Ui
 {
 	/** Button_Base
 	*/
-	public abstract class Button_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTarget_CallBackInterface
+	public abstract class Button_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface
 	{
 		/** [Button_Base]コールバック。オンオーバー。
 		*/
 		public delegate void CallBack_ChangeOnOver(int a_id,bool a_is_onover);
-
-		/** s_down_instance
-
-			TODO:UIインスタンスで管理したほうが良いかも。
-
-		*/
-		protected static Button_Base s_down_instance = null;
 
 		/** deleter
 		*/
@@ -102,7 +95,7 @@ namespace Fee.Ui
 
 			//eventplate
 			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority);
-			this.eventplate.SetOnOverCallBackInterface(this);
+			this.eventplate.SetOnEventPlateOver(this,-1);
 
 			//callbackparam_click
 			this.callbackparam_click = null;
@@ -177,8 +170,8 @@ namespace Fee.Ui
 			Fee.Ui.Ui.GetInstance().UnSetTargetRequest(this);
 
 			//ダウン解除。
-			if(Button_Base.s_down_instance == this){
-				Button_Base.s_down_instance = null;
+			if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == this){
+				Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
 			}
 		}
 
@@ -403,11 +396,11 @@ namespace Fee.Ui
 			}
 		}
 
-		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートに入場。
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートに入場。
 		*/
-		public void OnOverEnter(int a_value)
+		public void OnEventPlateEnter(int a_id)
 		{
-			Tool.Log("Button_Base","OnOverEnter : " + a_value.ToString());
+			Tool.Log("Button_Base","OnEventPlateEnter : " + a_id.ToString());
 
 			if(this.is_onover == false){
 				this.is_onover = true;
@@ -420,11 +413,11 @@ namespace Fee.Ui
 			Ui.GetInstance().SetTargetRequest(this);
 		}
 
-		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートから退場。
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートから退場。
 		*/
-		public void OnOverLeave(int a_value)
+		public void OnEventPlateLeave(int a_id)
 		{
-			Tool.Log("Button_Base","OnOverLeave : " + a_value.ToString());
+			Tool.Log("Button_Base","OnEventPlateLeave : " + a_id.ToString());
 
 			if(this.is_onover == true){
 				this.is_onover = false;
@@ -436,10 +429,10 @@ namespace Fee.Ui
 
 		/** コールバックインターフェイス。設定。
 		*/
-		public void SetOnButtonClick<T>(Fee.Ui.OnButtonClick_CallBackInterface< T > a_callback_interface,T a_id)
+		public void SetOnButtonClick<T>(Fee.Ui.OnButtonClick_CallBackInterface<T> a_callback_interface,T a_id)
 		{
 			if(a_callback_interface != null){
-				this.callbackparam_click = new Fee.Ui.OnButtonClick_CallBackParam_Generic< T >(a_callback_interface,a_id);
+				this.callbackparam_click = new Fee.Ui.OnButtonClick_CallBackParam_Generic<T>(a_callback_interface,a_id);
 			}else{
 				this.callbackparam_click = null;
 			}
@@ -447,10 +440,10 @@ namespace Fee.Ui
 
 		/** コールバックインターフェイス。設定。
 		*/
-		public void SetOnButtonChangeOverFlag<T>(Fee.Ui.OnButtonChangeOverFlag_CallBackInterface< T > a_callback_interface,T a_id)
+		public void SetOnButtonChangeOverFlag<T>(Fee.Ui.OnButtonChangeOverFlag_CallBackInterface<T> a_callback_interface,T a_id)
 		{
 			if(a_callback_interface != null){
-				this.callbackparam_changeoverflag = new Fee.Ui.OnButtonChangeOverFlag_CallBackParam_Generic< T >(a_callback_interface,a_id);
+				this.callbackparam_changeoverflag = new Fee.Ui.OnButtonChangeOverFlag_CallBackParam_Generic<T>(a_callback_interface,a_id);
 			}else{
 				this.callbackparam_changeoverflag = null;
 			}
@@ -467,7 +460,7 @@ namespace Fee.Ui
 		*/
 		public void ClickEventRequest()
 		{
-			if((this.lock_flag == false)&&(this.visible_flag == true)){
+			if((this.lock_flag == false)&&(this.visible_flag == true)&&(this.event_request == 0)){
 				//イベントリクエスト。
 				this.event_request = 13;
 
@@ -476,8 +469,8 @@ namespace Fee.Ui
 
 				//ダウンキャンセル。
 				this.down_flag = false;
-				if(Button_Base.s_down_instance == this){
-					Button_Base.s_down_instance = null;
+				if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == this){
+					Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
 				}
 			}
 		}
@@ -496,8 +489,8 @@ namespace Fee.Ui
 
 				//ダウンキャンセル。
 				this.down_flag = false;
-				if(Button_Base.s_down_instance == this){
-					Button_Base.s_down_instance = null;
+				if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == this){
+					Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
 				}
 
 				//リクエストキャンセル。
@@ -514,8 +507,8 @@ namespace Fee.Ui
 
 				//ダウンキャンセル。
 				this.down_flag = false;
-				if(Button_Base.s_down_instance == this){
-					Button_Base.s_down_instance = null;
+				if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == this){
+					Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
 				}
 
 				//リクエストキャンセル。
@@ -527,8 +520,8 @@ namespace Fee.Ui
 
 				//ダウンキャンセル。
 				this.down_flag = false;
-				if(Button_Base.s_down_instance == this){
-					Button_Base.s_down_instance = null;
+				if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == this){
+					Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
 				}
 
 				this.event_request--;
@@ -556,7 +549,7 @@ namespace Fee.Ui
 
 					//ダウン開始。
 					this.down_flag = true;
-					Button_Base.s_down_instance = this;
+					Fee.Ui.Ui.GetInstance().SetDownButtonInstance(this);
 
 					this.SetMode(Button_Mode.Down);
 				}else if((this.down_flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){
@@ -564,9 +557,9 @@ namespace Fee.Ui
 
 					//ダウンキャンセル。
 					this.down_flag = false;
-					if(Button_Base.s_down_instance == this){
-						Button_Base.s_down_instance = null;
-					}
+				if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == this){
+					Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
+				}
 
 					//コールバック。
 					if(this.is_onover == true){
@@ -585,8 +578,8 @@ namespace Fee.Ui
 
 					//ダウンキャンセル。
 					this.down_flag = false;
-					if(Button_Base.s_down_instance == this){
-						Button_Base.s_down_instance = null;
+					if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == this){
+						Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
 					}
 
 					if(this.is_onover == true){
@@ -602,7 +595,7 @@ namespace Fee.Ui
 				}else if(this.is_onover == true){
 					//オーバー中。
 
-					if(Button_Base.s_down_instance == null){
+					if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == null){
 						this.SetMode(Button_Mode.On);
 					}else{
 						this.SetMode(Button_Mode.Normal);

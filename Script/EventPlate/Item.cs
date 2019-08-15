@@ -40,10 +40,9 @@ namespace Fee.EventPlate
 		*/
 		private bool clip;
 
-		/** onover
+		/** callbackparam_over
 		*/
-		private OnOver_CallBackInterface onover_callback_interface;
-		private int onover_value;
+		private Fee.EventPlate.OnEventPlateOver_CallBackParam callbackparam_over;
 
 		/** 削除済み。
 		*/
@@ -71,9 +70,8 @@ namespace Fee.EventPlate
 			//clip
 			this.clip = false;
 
-			//onover
-			this.onover_callback_interface = null;
-			this.onover_value = 0;
+			//callbackparam_over
+			this.callbackparam_over = null;
 
 			//deleted
 			this.deleted = false;
@@ -265,49 +263,32 @@ namespace Fee.EventPlate
 			return false;
 		}
 
-		/** コールバック。設定。
+		/** コールバックインターフェイス。設定。
 		*/
-		public void SetOnOverCallBackInterface(OnOver_CallBackInterface a_callbackinterface)
+		public void SetOnEventPlateOver<T>(Fee.EventPlate.OnEventPlateOver_CallBackInterface<T> a_callback_interface,T a_id)
 		{
-			this.onover_callback_interface = a_callbackinterface;
-		}
-
-		/** コールバック。取得。
-		*/
-		public OnOver_CallBackInterface GetOnOverCallBackInterface()
-		{
-			return this.onover_callback_interface;
-		}
-
-		/** コールバック。設定。
-		*/
-		public void SetOnOverCallBackValue(int a_value)
-		{
-			this.onover_value = a_value;
-		}
-
-		/** コールバック。取得。
-		*/
-		public int GetOnOverCallBackValue()
-		{	
-			return this.onover_value;
-		}
-
-		/** コールバック。呼び出し。
-		*/
-		public void CallOnOverEnter()
-		{
-			if(this.onover_callback_interface != null){
-				this.onover_callback_interface.OnOverEnter(this.onover_value);
+			if(a_callback_interface != null){
+				this.callbackparam_over = new Fee.EventPlate.OnEventPlateOver_CallBackParam_Generic<T>(a_callback_interface,a_id);
+			}else{
+				this.callbackparam_over = null;
 			}
 		}
 
 		/** コールバック。呼び出し。
 		*/
-		public void CallOnOverLeave()
+		public void CallEnter()
 		{
-			if(this.onover_callback_interface != null){
-				this.onover_callback_interface.OnOverLeave(this.onover_value);
+			if(this.callbackparam_over != null){
+				this.callbackparam_over.CallEnter();
+			}
+		}
+
+		/** コールバック。呼び出し。
+		*/
+		public void CallLeave()
+		{
+			if(this.callbackparam_over != null){
+				this.callbackparam_over.CallLeave();
 			}
 		}
 	}

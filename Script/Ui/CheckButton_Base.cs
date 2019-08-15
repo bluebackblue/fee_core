@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** CheckButton_Base
 	*/
-	public abstract class CheckButton_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnOver_CallBackInterface , Fee.Ui.OnTarget_CallBackInterface
+	public abstract class CheckButton_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface
 	{
 		/** deleter
 		*/
@@ -79,7 +79,7 @@ namespace Fee.Ui
 
 			//eventplate
 			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority);
-			this.eventplate.SetOnOverCallBackInterface(this);
+			this.eventplate.SetOnEventPlateOver(this,-1);
 
 			//callbackparam_changecheck
 			this.callbackparam_changecheck = null;
@@ -264,11 +264,11 @@ namespace Fee.Ui
 			}
 		}
 
-		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートに入場。
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートに入場。
 		*/
-		public void OnOverEnter(int a_value)
+		public void OnEventPlateEnter(int a_id)
 		{
-			Tool.Log("CheckButton_Base","OnOverEnter : " + a_value.ToString());
+			Tool.Log("CheckButton_Base","OnEventPlateEnter : " + a_id.ToString());
 
 			this.is_onover = true;
 
@@ -276,26 +276,25 @@ namespace Fee.Ui
 			Ui.GetInstance().SetTargetRequest(this);
 		}
 
-		/** [Fee.EventPlate.OnOver_CallBackInterface]イベントプレートから退場。
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートから退場。
 		*/
-		public void OnOverLeave(int a_value)
+		public void OnEventPlateLeave(int a_id)
 		{
-			Tool.Log("CheckButton_Base","OnOverLeave : " + a_value.ToString());
+			Tool.Log("CheckButton_Base","OnEventPlateLeave : " + a_id.ToString());
 
 			this.is_onover = false;
 		}
 
 		/** コールバックインターフェイス。設定。
 		*/
-		public void SetOnCheckButtonChangekCheck<T>(Fee.Ui.OnCheckButtonChangekCheck_CallBackInterface< T > a_callback_interface,T a_id)
+		public void SetOnCheckButtonChangekCheck<T>(Fee.Ui.OnCheckButtonChangekCheck_CallBackInterface<T> a_callback_interface,T a_id)
 		{
 			if(a_callback_interface != null){
-				this.callbackparam_changecheck = new Fee.Ui.OnCheckButtonChangekCheck_CallBackParam_Generic< T >(a_callback_interface,a_id);
+				this.callbackparam_changecheck = new Fee.Ui.OnCheckButtonChangekCheck_CallBackParam_Generic<T>(a_callback_interface,a_id);
 			}else{
 				this.callbackparam_changecheck = null;
 			}
 		}
-
 
 		/** オンオーバー。取得。
 		*/

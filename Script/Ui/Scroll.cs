@@ -123,16 +123,18 @@ namespace Fee.Ui
 				float t_length_per = (float)this.scroll_value.GetViewLength() / (this.scroll_value.GetItemLength() * this.scroll_value.GetListCount());
 
 				if(this.GetScrollType() == ScrollType.Vertical){
+					//縦。
 					int t_bar_length = (int)(this.rect.h * t_length_per);
 					int t_bar_offset = (int)(t_offset_per * (this.scroll_value.GetViewLength() - t_bar_length));
 					this.bar.SetY(this.rect.y + t_bar_offset);
 					this.bar.SetX(this.rect.x + this.rect.w - 5);
 					this.bar.SetH(t_bar_length);
 				}else{
+					//横。
 					int t_bar_length = (int)(this.rect.w * t_length_per);
 					int t_bar_offset = (int)(t_offset_per * (this.scroll_value.GetViewLength() - t_bar_length));
 					this.bar.SetX(this.rect.x + t_bar_offset);
-					this.bar.SetY(this.rect.y - 10);
+					this.bar.SetY(this.rect.y + this.rect.h - 5);
 					this.bar.SetW(t_bar_length);
 				}
 			}

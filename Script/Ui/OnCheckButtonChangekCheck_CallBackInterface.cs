@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** OnCheckButtonChangekCheck_CallBackInterface
 	*/
-	public interface OnCheckButtonChangekCheck_CallBackInterface< T >
+	public interface OnCheckButtonChangekCheck_CallBackInterface<T>
 	{
 		/** [Fee.Ui.OnCheckButtonChangekCheck_CallBackInterface]チェック変更。
 		*/
@@ -30,11 +30,11 @@ namespace Fee.Ui
 
 	/** OnCheckButtonChangekCheck_CallBackParam_Generic
 	*/
-	public class OnCheckButtonChangekCheck_CallBackParam_Generic< T > : OnCheckButtonChangekCheck_CallBackParam
+	public class OnCheckButtonChangekCheck_CallBackParam_Generic<T> : OnCheckButtonChangekCheck_CallBackParam
 	{
 		/** callback_interface
 		*/
-		public OnCheckButtonChangekCheck_CallBackInterface< T > callback_interface;
+		public OnCheckButtonChangekCheck_CallBackInterface<T> callback_interface;
 
 		/** id
 		*/
@@ -42,7 +42,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public OnCheckButtonChangekCheck_CallBackParam_Generic(OnCheckButtonChangekCheck_CallBackInterface< T > a_callback_interface,T a_id)
+		public OnCheckButtonChangekCheck_CallBackParam_Generic(OnCheckButtonChangekCheck_CallBackInterface<T> a_callback_interface,T a_id)
 		{
 			this.callback_interface = a_callback_interface;
 			this.id = a_id;
