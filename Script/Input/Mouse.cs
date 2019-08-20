@@ -181,7 +181,7 @@ namespace Fee.Input
 						this.pos.Set(this.pos.x_old,this.pos.y_old);
 					}
 					*/
-					this.pos.Set(t_x,t_y);
+					this.cursor.pos.Set(t_x,t_y);
 
 					return true;
 				}
@@ -230,7 +230,7 @@ namespace Fee.Input
 						this.pos.Set(this.pos.x_old,this.pos.y_old);
 					}
 					*/
-					this.pos.Set(t_x,t_y);
+					this.cursor.pos.Set(t_x,t_y);
 
 					return true;
 				}
@@ -285,32 +285,44 @@ namespace Fee.Input
 			{
 				UnityEngine_InputSystem.Pointer t_pointer_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Pointer>();
 				if(t_pointer_current != null){
-					bool t_l_on = this.left.on;
 
-					//デバイス。
-					switch(t_pointer_current.phase.ReadValue()){
-					case UnityEngine_InputSystem.PointerPhase.Began:
-						{
-							//開始。
-							t_l_on = true;
-						}break;
-					case UnityEngine_InputSystem.PointerPhase.Ended:
+					bool t_l_on;
+
 					#if((UNITY_2018_3)||(UNITY_2018_4))
-					case UnityEngine_InputSystem.PointerPhase.Cancelled:
-					#else
-					case UnityEngine_InputSystem.PointerPhase.Canceled:
-					#endif
-						{
-							//終了。
-							t_l_on = false;
-						}break;
-					case UnityEngine_InputSystem.PointerPhase.Moved:
-					case UnityEngine_InputSystem.PointerPhase.None:
-					case UnityEngine_InputSystem.PointerPhase.Stationary:
-						{
-							//保留。
-						}break;
+					{
+						t_l_on = this.left.on;
+
+						//デバイス。
+						switch(t_pointer_current.phase.ReadValue()){
+						case UnityEngine_InputSystem.PointerPhase.Began:
+							{
+								//開始。
+								t_l_on = true;
+							}break;
+						case UnityEngine_InputSystem.PointerPhase.Ended:
+						#if((UNITY_2018_3)||(UNITY_2018_4))
+						case UnityEngine_InputSystem.PointerPhase.Cancelled:
+						#else
+						case UnityEngine_InputSystem.PointerPhase.Canceled:
+						#endif
+							{
+								//終了。
+								t_l_on = false;
+							}break;
+						case UnityEngine_InputSystem.PointerPhase.Moved:
+						case UnityEngine_InputSystem.PointerPhase.None:
+						case UnityEngine_InputSystem.PointerPhase.Stationary:
+							{
+								//保留。
+							}break;
+						}
 					}
+					#else
+					{
+						//デバイス。
+						t_l_on = t_pointer_current.press.isPressed;
+					}
+					#endif
 
 					//設定。
 					this.left.Set(t_l_on & this.is_focus);

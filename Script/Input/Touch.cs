@@ -209,167 +209,335 @@ namespace Fee.Input
 			{
 				UnityEngine_InputSystem.Touchscreen t_touchscreen_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Touchscreen>();
 				if(t_touchscreen_current != null){
-					this.device_item_list_count = 0;
-
-					//インプットシステムのバグ。
+					#if((UNITY_2018_3)||(UNITY_2018_4))
 					{
-						System.Collections.Generic.Stack<int> t_bug_delete_list = null;
+						this.device_item_list_count = 0;
 
-						foreach(System.Collections.Generic.KeyValuePair<int,TouchBugCheckItem> t_pair in this.touch_bug_check_list){
-							if(t_pair.Value.existflag == true){
-								t_pair.Value.existflag = false;
-							}else{
-								if(t_bug_delete_list == null){
-									t_bug_delete_list = new System.Collections.Generic.Stack<int>();
-								}
-								t_bug_delete_list.Push(t_pair.Key);
-							}
-						}
+						//インプットシステムのバグ。
+						{
+							System.Collections.Generic.Stack<int> t_bug_delete_list = null;
 
-						if(t_bug_delete_list != null){
-							while(true){
-								int t_key = t_bug_delete_list.Pop();
-								this.touch_bug_check_list.Remove(t_key);
-								if(t_bug_delete_list.Count <= 0){
-									break;
+							foreach(System.Collections.Generic.KeyValuePair<int,TouchBugCheckItem> t_pair in this.touch_bug_check_list){
+								if(t_pair.Value.existflag == true){
+									t_pair.Value.existflag = false;
+								}else{
+									if(t_bug_delete_list == null){
+										t_bug_delete_list = new System.Collections.Generic.Stack<int>();
+									}
+									t_bug_delete_list.Push(t_pair.Key);
 								}
 							}
-						}
 
-						int t_bug_last_id = INVALID_TOUCH_RAW_ID;
-						for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
-							UnityEngine_InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.activeTouches[ii];
-							if(this.touch_bug_check_list.TryGetValue(t_touch.touchId.ReadValue(),out TouchBugCheckItem t_item) == true){
-								t_item.existflag = true;
-							}else{
-								this.touch_bug_check_list.Add(t_touch.touchId.ReadValue(),new TouchBugCheckItem());
+							if(t_bug_delete_list != null){
+								while(true){
+									int t_key = t_bug_delete_list.Pop();
+									this.touch_bug_check_list.Remove(t_key);
+									if(t_bug_delete_list.Count <= 0){
+										break;
+									}
+								}
 							}
 
-							if((t_bug_last_id == INVALID_TOUCH_RAW_ID)||(t_bug_last_id < t_touch.touchId.ReadValue())){
-								t_bug_last_id = t_touch.touchId.ReadValue();
-							}
-						}
-						for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
-							UnityEngine_InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.activeTouches[ii];
-							if(this.touch_bug_check_list.TryGetValue(t_touch.touchId.ReadValue(),out TouchBugCheckItem t_item) == true){
-
-								if(t_touch.touchId.ReadValue() < t_bug_last_id - 5){
-									t_item.errorcount = 99999;
+							int t_bug_last_id = INVALID_TOUCH_RAW_ID;
+							for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
+								UnityEngine_InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.activeTouches[ii];
+								if(this.touch_bug_check_list.TryGetValue(t_touch.touchId.ReadValue(),out TouchBugCheckItem t_item) == true){
+									t_item.existflag = true;
+								}else{
+									this.touch_bug_check_list.Add(t_touch.touchId.ReadValue(),new TouchBugCheckItem());
 								}
 
-								if(t_touch.phase.ReadValue() == UnityEngine_InputSystem.PointerPhase.Stationary){
-									t_item.errorcount++;
-									if(t_item.errorcount >= 60){
+								if((t_bug_last_id == INVALID_TOUCH_RAW_ID)||(t_bug_last_id < t_touch.touchId.ReadValue())){
+									t_bug_last_id = t_touch.touchId.ReadValue();
+								}
+							}
+							for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
+								UnityEngine_InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.activeTouches[ii];
+								if(this.touch_bug_check_list.TryGetValue(t_touch.touchId.ReadValue(),out TouchBugCheckItem t_item) == true){
+
+									if(t_touch.touchId.ReadValue() < t_bug_last_id - 5){
 										t_item.errorcount = 99999;
 									}
-								}else{
-									t_item.errorcount = 0;
+
+									if(t_touch.phase.ReadValue() == UnityEngine_InputSystem.PointerPhase.Stationary){
+										t_item.errorcount++;
+										if(t_item.errorcount >= 60){
+											t_item.errorcount = 99999;
+										}
+									}else{
+										t_item.errorcount = 0;
+									}
 								}
 							}
 						}
-					}
 
-					//インプットシステムのバグ。
-					int t_bug_max = 0;
-					foreach(System.Collections.Generic.KeyValuePair<int,TouchBugCheckItem> t_pair in this.touch_bug_check_list){
-						if(t_pair.Value.errorcount < 99999){
-							t_bug_max++;
+						//インプットシステムのバグ。
+						int t_bug_max = 0;
+						foreach(System.Collections.Generic.KeyValuePair<int,TouchBugCheckItem> t_pair in this.touch_bug_check_list){
+							if(t_pair.Value.errorcount < 99999){
+								t_bug_max++;
+							}
 						}
-					}
 
-					//リスト作成。
-					#if(false)
-					{
-						if(this.device_item_list.Length < t_touchscreen_current.activeTouches.Count){
-							this.device_item_list = new Touch_Device_Item[t_touchscreen_current.activeTouches.Count];
+						//リスト作成。
+						#if(false)
+						{
+							if(this.device_item_list.Length < t_touchscreen_current.activeTouches.Count){
+								this.device_item_list = new Touch_Device_Item[t_touchscreen_current.activeTouches.Count];
+							}
+						}
+						#else
+						{
+							//インプットシステムのバグ。
+							if(this.device_item_list.Length < t_bug_max){
+								this.device_item_list = new Touch_Device_Item[t_bug_max];
+							}
+						}
+						#endif
+
+						for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
+							//デバイス。
+							UnityEngine_InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.activeTouches[ii];
+
+							int t_x;
+							int t_y;
+							{
+								int t_pos_x = (int)t_touch.position.x.ReadValue();
+
+								#if(UNITY_ANDROID)
+								int t_pos_y = (int)(this.screen_h - t_touch.position.y.ReadValue());
+								#else
+								int t_pos_y = (int)t_touch.position.y.ReadValue();
+								#endif
+
+								/*
+								{
+									t_pos_x = (int)((float)t_pos_x * UnityEngine.Screen.width / this.screen_w);
+									t_pos_y = (int)((float)t_pos_y * UnityEngine.Screen.height / this.screen_h);
+								}
+								*/
+
+								//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+								a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
+							}
+
+							UnityEngine_InputSystem.PointerPhase t_touch_phase = t_touch.phase.ReadValue();
+							int t_touch_id = t_touch.touchId.ReadValue();
+
+							//インプットシステムのバグ。
+							{
+								if(this.touch_bug_check_list.TryGetValue(t_touch_id,out TouchBugCheckItem t_bug_item) == true){
+									if(t_bug_item.errorcount < 99999){
+									}else{
+										t_bug_item = null;
+										continue;
+									}
+								}else{
+									continue;
+								}
+							}
+
+							if(this.device_item_list_count < this.device_item_list.Length){
+
+								//位置。
+								this.device_item_list[this.device_item_list_count].x = t_x;
+								this.device_item_list[this.device_item_list_count].y = t_y;
+
+								//フェーズ。
+								switch(t_touch_phase){
+								case UnityEngine_InputSystem.PointerPhase.Began:
+									{
+										this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Began;
+									}break;
+								case UnityEngine_InputSystem.PointerPhase.Moved:
+									{
+										this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Moved;
+									}break;
+								case UnityEngine_InputSystem.PointerPhase.Stationary:
+									{
+										this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Stationary;
+									}break;
+								default:
+									{
+										this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.None;
+									}break;
+								}
+
+								//フラグ。
+								this.device_item_list[this.device_item_list_count].link = false;
+
+								//追加情報。
+								this.device_item_list[this.device_item_list_count].touch_raw_id = t_touch_id;
+
+								this.device_item_list_count++;
+							}
 						}
 					}
 					#else
 					{
+						this.device_item_list_count = 0;
+
 						//インプットシステムのバグ。
-						if(this.device_item_list.Length < t_bug_max){
-							this.device_item_list = new Touch_Device_Item[t_bug_max];
+						{
+							System.Collections.Generic.Stack<int> t_bug_delete_list = null;
+
+							foreach(System.Collections.Generic.KeyValuePair<int,TouchBugCheckItem> t_pair in this.touch_bug_check_list){
+								if(t_pair.Value.existflag == true){
+									t_pair.Value.existflag = false;
+								}else{
+									if(t_bug_delete_list == null){
+										t_bug_delete_list = new System.Collections.Generic.Stack<int>();
+									}
+									t_bug_delete_list.Push(t_pair.Key);
+								}
+							}
+
+							if(t_bug_delete_list != null){
+								while(true){
+									int t_key = t_bug_delete_list.Pop();
+									this.touch_bug_check_list.Remove(t_key);
+									if(t_bug_delete_list.Count <= 0){
+										break;
+									}
+								}
+							}
+
+							int t_bug_last_id = INVALID_TOUCH_RAW_ID;
+							for(int ii=0;ii<t_touchscreen_current.touches.Count;ii++){
+								UnityEngine_InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.touches[ii];
+								if(this.touch_bug_check_list.TryGetValue(t_touch.touchId.ReadValue(),out TouchBugCheckItem t_item) == true){
+									t_item.existflag = true;
+								}else{
+									this.touch_bug_check_list.Add(t_touch.touchId.ReadValue(),new TouchBugCheckItem());
+								}
+
+								if((t_bug_last_id == INVALID_TOUCH_RAW_ID)||(t_bug_last_id < t_touch.touchId.ReadValue())){
+									t_bug_last_id = t_touch.touchId.ReadValue();
+								}
+							}
+							for(int ii=0;ii<t_touchscreen_current.touches.Count;ii++){
+								UnityEngine_InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.touches[ii];
+								if(this.touch_bug_check_list.TryGetValue(t_touch.touchId.ReadValue(),out TouchBugCheckItem t_item) == true){
+
+									if(t_touch.touchId.ReadValue() < t_bug_last_id - 5){
+										t_item.errorcount = 99999;
+									}
+
+									if(t_touch.phase.ReadValue() == UnityEngine_InputSystem.TouchPhase.Stationary){
+										t_item.errorcount++;
+										if(t_item.errorcount >= 60){
+											t_item.errorcount = 99999;
+										}
+									}else{
+										t_item.errorcount = 0;
+									}
+								}
+							}
+						}
+
+						//インプットシステムのバグ。
+						int t_bug_max = 0;
+						foreach(System.Collections.Generic.KeyValuePair<int,TouchBugCheckItem> t_pair in this.touch_bug_check_list){
+							if(t_pair.Value.errorcount < 99999){
+								t_bug_max++;
+							}
+						}
+
+						//リスト作成。
+						#if(false)
+						{
+							if(this.device_item_list.Length < t_touchscreen_current.activeTouches.Count){
+								this.device_item_list = new Touch_Device_Item[t_touchscreen_current.activeTouches.Count];
+							}
+						}
+						#else
+						{
+							//インプットシステムのバグ。
+							if(this.device_item_list.Length < t_bug_max){
+								this.device_item_list = new Touch_Device_Item[t_bug_max];
+							}
+						}
+						#endif
+
+						for(int ii=0;ii<t_touchscreen_current.touches.Count;ii++){
+							//デバイス。
+							UnityEngine_InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.touches[ii];
+
+							int t_x;
+							int t_y;
+							{
+								int t_pos_x = (int)t_touch.position.x.ReadValue();
+
+								#if(UNITY_ANDROID)
+								int t_pos_y = (int)(this.screen_h - t_touch.position.y.ReadValue());
+								#else
+								int t_pos_y = (int)t_touch.position.y.ReadValue();
+								#endif
+
+								/*
+								{
+									t_pos_x = (int)((float)t_pos_x * UnityEngine.Screen.width / this.screen_w);
+									t_pos_y = (int)((float)t_pos_y * UnityEngine.Screen.height / this.screen_h);
+								}
+								*/
+
+								//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
+								a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
+							}
+
+							UnityEngine_InputSystem.TouchPhase t_touch_phase = t_touch.phase.ReadValue();
+							int t_touch_id = t_touch.touchId.ReadValue();
+
+							//インプットシステムのバグ。
+							{
+								if(this.touch_bug_check_list.TryGetValue(t_touch_id,out TouchBugCheckItem t_bug_item) == true){
+									if(t_bug_item.errorcount < 99999){
+									}else{
+										t_bug_item = null;
+										continue;
+									}
+								}else{
+									continue;
+								}
+							}
+
+							if(this.device_item_list_count < this.device_item_list.Length){
+
+								//位置。
+								this.device_item_list[this.device_item_list_count].x = t_x;
+								this.device_item_list[this.device_item_list_count].y = t_y;
+
+								//フェーズ。
+								switch(t_touch_phase){
+								case UnityEngine_InputSystem.TouchPhase.Began:
+									{
+										this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Began;
+									}break;
+								case UnityEngine_InputSystem.TouchPhase.Moved:
+									{
+										this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Moved;
+									}break;
+								case UnityEngine_InputSystem.TouchPhase.Stationary:
+									{
+										this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Stationary;
+									}break;
+								default:
+									{
+										this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.None;
+									}break;
+								}
+
+								//フラグ。
+								this.device_item_list[this.device_item_list_count].link = false;
+
+								//追加情報。
+								this.device_item_list[this.device_item_list_count].touch_raw_id = t_touch_id;
+
+								this.device_item_list_count++;
+							}
 						}
 					}
 					#endif
-
-					for(int ii=0;ii<t_touchscreen_current.activeTouches.Count;ii++){
-						//デバイス。
-						UnityEngine_InputSystem.Controls.TouchControl t_touch = t_touchscreen_current.activeTouches[ii];
-
-						int t_x;
-						int t_y;
-						{
-							int t_pos_x = (int)t_touch.position.x.ReadValue();
-
-							#if(UNITY_ANDROID)
-							int t_pos_y = (int)(this.screen_h - t_touch.position.y.ReadValue());
-							#else
-							int t_pos_y = (int)t_touch.position.y.ReadValue();
-							#endif
-
-							/*
-							{
-								t_pos_x = (int)((float)t_pos_x * UnityEngine.Screen.width / this.screen_w);
-								t_pos_y = (int)((float)t_pos_y * UnityEngine.Screen.height / this.screen_h);
-							}
-							*/
-
-							//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
-							a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
-						}
-
-						UnityEngine_InputSystem.PointerPhase t_touch_phase = t_touch.phase.ReadValue();
-						int t_touch_id = t_touch.touchId.ReadValue();
-
-						//インプットシステムのバグ。
-						{
-							if(this.touch_bug_check_list.TryGetValue(t_touch_id,out TouchBugCheckItem t_bug_item) == true){
-								if(t_bug_item.errorcount < 99999){
-								}else{
-									t_bug_item = null;
-									continue;
-								}
-							}else{
-								continue;
-							}
-						}
-
-						if(this.device_item_list_count < this.device_item_list.Length){
-
-							//位置。
-							this.device_item_list[this.device_item_list_count].x = t_x;
-							this.device_item_list[this.device_item_list_count].y = t_y;
-
-							//フェーズ。
-							switch(t_touch_phase){
-							case UnityEngine_InputSystem.PointerPhase.Began:
-								{
-									this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Began;
-								}break;
-							case UnityEngine_InputSystem.PointerPhase.Moved:
-								{
-									this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Moved;
-								}break;
-							case UnityEngine_InputSystem.PointerPhase.Stationary:
-								{
-									this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.Stationary;
-								}break;
-							default:
-								{
-									this.device_item_list[this.device_item_list_count].phasetype = Touch_Phase.PhaseType.None;
-								}break;
-							}
-
-							//フラグ。
-							this.device_item_list[this.device_item_list_count].link = false;
-
-							//追加情報。
-							this.device_item_list[this.device_item_list_count].touch_raw_id = t_touch_id;
-
-							this.device_item_list_count++;
-						}
-					}
 
 					return true;
 				}
