@@ -22,7 +22,7 @@ namespace Fee.Render2D
 	
 		/** 中心。
 		*/
-		Fee.Render2D.Pos2D<int> center;
+		Fee.Geometry.Pos2D<int> center;
 
 		/** 回転。
 		*/

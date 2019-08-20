@@ -140,16 +140,16 @@ namespace Fee.Ui
 		protected override void OnChangeClipRect()
 		{
 			//bg
-			this.bg_normal_sprite.SetClipRect(ref this.clip_rect);
-			this.bg_lock_sprite.SetClipRect(ref this.clip_rect);
+			this.bg_normal_sprite.SetClipRect(in this.clip_rect);
+			this.bg_lock_sprite.SetClipRect(in this.clip_rect);
 
 			//value
-			this.value_normal_sprite.SetClipRect(ref this.clip_rect);
-			this.value_lock_sprite.SetClipRect(ref this.clip_rect);
+			this.value_normal_sprite.SetClipRect(in this.clip_rect);
+			this.value_lock_sprite.SetClipRect(in this.clip_rect);
 
 			//button
-			this.button_normal_sprite.SetClipRect(ref this.clip_rect);
-			this.button_lock_sprite.SetClipRect(ref this.clip_rect);
+			this.button_normal_sprite.SetClipRect(in this.clip_rect);
+			this.button_lock_sprite.SetClipRect(in this.clip_rect);
 		}
 
 		/** [Slider_Base]コールバック。表示フラグ変更。
@@ -207,16 +207,16 @@ namespace Fee.Ui
 			int t_value_w = (int)(this.rect.w * this.value / this.value_scale);
 
 			//bg
-			this.bg_normal_sprite.SetRect(ref this.rect);
-			this.bg_lock_sprite.SetRect(ref this.rect);
+			this.bg_normal_sprite.SetRect(in this.rect);
+			this.bg_lock_sprite.SetRect(in this.rect);
 
 			//value
 			this.value_normal_sprite.SetRect(this.rect.x,this.rect.y,t_value_w,this.rect.h);
 			this.value_lock_sprite.SetRect(this.rect.x,this.rect.y,t_value_w,this.rect.h);
 
 			//button
-			this.button_normal_sprite.SetRect(ref this.button_rect);
-			this.button_lock_sprite.SetRect(ref this.button_rect);
+			this.button_normal_sprite.SetRect(in this.button_rect);
+			this.button_lock_sprite.SetRect(in this.button_rect);
 		}
 
 		/**　ボタンテクスチャコーナーサイズ。設定。
@@ -232,8 +232,6 @@ namespace Fee.Ui
 			this.value_lock_sprite.SetCornerSize(a_corner_size);
 		}
 
-
-
 		/**　ボタンテクスチャコーナーサイズ。設定。
 		*/
 		public void SetButtonTextureCornerSize(int a_corner_size)
@@ -241,23 +239,6 @@ namespace Fee.Ui
 			this.button_normal_sprite.SetCornerSize(a_corner_size);
 			this.button_lock_sprite.SetCornerSize(a_corner_size);
 		}
-
-		/** パックテクスチャ。設定。（ＢＧ。バリュー）。
-		*/
-		#if(false)
-		public void SetPacTexture_BgValue(UnityEngine.Texture2D a_texture)
-		{
-			Render2D.Rect2D_R<float> t_rect_normal = new Render2D.Rect2D_R<float>(0,0,Render2D.Config.TEXTURE_W / 2,Render2D.Config.TEXTURE_H / 2);
-			Render2D.Rect2D_R<float> t_rect_lcok = new Render2D.Rect2D_R<float>(Render2D.Config.TEXTURE_W / 2,Render2D.Config.TEXTURE_H / 2,Render2D.Config.TEXTURE_W / 2,Render2D.Config.TEXTURE_H / 2);
-			
-			this.bg_normal_sprite.SetTexture(a_texture);
-			this.bg_lock_sprite.SetTexture(a_texture);
-			this.bg_normal_sprite.SetTextureRect2(ref t_rect_normal);
-			this.bg_lock_sprite.SetTextureRect2(ref t_rect_lcok);
-			
-			this.sprite_value.SetTexture(a_texture);
-		}
-		#endif
 
 		/** ボタンノーマルテクスチャ。設定。
 		*/
@@ -275,30 +256,30 @@ namespace Fee.Ui
 
 		/** ボタンノーマルテクスチャ矩形。設定。
 		*/
-		public void SetButtonNormalTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetButtonNormalTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.button_normal_sprite.SetTextureRect(ref a_texture_rect);
+			this.button_normal_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** ボタンロックテクスチャ矩形。設定。
 		*/
-		public void SetButtonLockTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetButtonLockTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.button_lock_sprite.SetTextureRect(ref a_texture_rect);
+			this.button_lock_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** ボタンノーマル色。設定。
 		*/
-		public void SetButtonNormalColor(ref UnityEngine.Color a_color)
+		public void SetButtonNormalColor(in UnityEngine.Color a_color)
 		{
-			this.button_normal_sprite.SetColor(ref a_color);
+			this.button_normal_sprite.SetColor(in a_color);
 		}
 
 		/** ボタンロック色。設定。
 		*/
-		public void SetButtonLockColor(ref UnityEngine.Color a_color)
+		public void SetButtonLockColor(in UnityEngine.Color a_color)
 		{
-			this.button_lock_sprite.SetColor(ref a_color);
+			this.button_lock_sprite.SetColor(in a_color);
 		}
 
 		/** ボタンノーマル色。設定。
@@ -331,30 +312,30 @@ namespace Fee.Ui
 
 		/** ＢＧノーマルテクスチャ矩形。設定。
 		*/
-		public void SetBgNormalTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetBgNormalTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.bg_normal_sprite.SetTextureRect(ref a_texture_rect);
+			this.bg_normal_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** ＢＧロックテクスチャ矩形。設定。
 		*/
-		public void SetBgLockTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetBgLockTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.bg_lock_sprite.SetTextureRect(ref a_texture_rect);
+			this.bg_lock_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** ＢＧノーマル色。設定。
 		*/
-		public void SetBgNormalColor(ref UnityEngine.Color a_color)
+		public void SetBgNormalColor(in UnityEngine.Color a_color)
 		{
-			this.bg_normal_sprite.SetColor(ref a_color);
+			this.bg_normal_sprite.SetColor(in a_color);
 		}
 
 		/** ＢＧロック色。設定。
 		*/
-		public void SetBgLockColor(ref UnityEngine.Color a_color)
+		public void SetBgLockColor(in UnityEngine.Color a_color)
 		{
-			this.bg_lock_sprite.SetColor(ref a_color);
+			this.bg_lock_sprite.SetColor(in a_color);
 		}
 
 		/** ＢＧノーマル色。設定。
@@ -387,30 +368,30 @@ namespace Fee.Ui
 
 		/** バリューノーマルテクスチャ矩形。設定。
 		*/
-		public void SetValueNormalTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetValueNormalTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.value_normal_sprite.SetTextureRect(ref a_texture_rect);
+			this.value_normal_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** バリューロックテクスチャ矩形。設定。
 		*/
-		public void SetValueLockTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetValueLockTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.value_lock_sprite.SetTextureRect(ref a_texture_rect);
+			this.value_lock_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** バリューノーマル色。設定。
 		*/
-		public void SetValueNormalColor(ref UnityEngine.Color a_color)
+		public void SetValueNormalColor(in UnityEngine.Color a_color)
 		{
-			this.value_normal_sprite.SetColor(ref a_color);
+			this.value_normal_sprite.SetColor(in a_color);
 		}
 
 		/** バリューロック色。設定。
 		*/
-		public void SetValueLockColor(ref UnityEngine.Color a_color)
+		public void SetValueLockColor(in UnityEngine.Color a_color)
 		{
-			this.value_lock_sprite.SetColor(ref a_color);
+			this.value_lock_sprite.SetColor(in a_color);
 		}
 
 		/** バリューノーマル色。設定。

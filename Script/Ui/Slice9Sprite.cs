@@ -34,9 +34,9 @@ namespace Fee.Ui
 
 		/** rect
 		*/
-		private Fee.Render2D.Rect2D_R<int> rect;
-		private Fee.Render2D.Rect2D_R<float> texture_rect;
-		private Fee.Render2D.Size2D<float> texture_size;
+		private Fee.Geometry.Rect2D_R<int> rect;
+		private Fee.Geometry.Rect2D_R<float> texture_rect;
+		private Fee.Geometry.Size2D<float> texture_size;
 
 		/** corner_size
 		*/
@@ -143,18 +143,6 @@ namespace Fee.Ui
 			this.sprite_7.SetTextureRect(t_x_0,t_y_2,t_w_a,t_h_a);
 			this.sprite_8.SetTextureRect(t_x_1,t_y_2,t_w_b,t_h_a);
 			this.sprite_9.SetTextureRect(t_x_2,t_y_2,t_w_a,t_h_a);
-
-			/*
-			this.sprite_1.SetTextureRect(ref this.texture_rect);
-			this.sprite_2.SetTextureRect(ref this.texture_rect);
-			this.sprite_3.SetTextureRect(ref this.texture_rect);
-			this.sprite_4.SetTextureRect(ref this.texture_rect);
-			this.sprite_5.SetTextureRect(ref this.texture_rect);
-			this.sprite_6.SetTextureRect(ref this.texture_rect);
-			this.sprite_7.SetTextureRect(ref this.texture_rect);
-			this.sprite_8.SetTextureRect(ref this.texture_rect);
-			this.sprite_9.SetTextureRect(ref this.texture_rect);
-			*/
 		}
 
 		/** constructor
@@ -217,17 +205,17 @@ namespace Fee.Ui
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
-			this.sprite_1.SetClipRect(ref a_rect);
-			this.sprite_2.SetClipRect(ref a_rect);
-			this.sprite_3.SetClipRect(ref a_rect);
-			this.sprite_4.SetClipRect(ref a_rect);
-			this.sprite_5.SetClipRect(ref a_rect);
-			this.sprite_6.SetClipRect(ref a_rect);
-			this.sprite_7.SetClipRect(ref a_rect);
-			this.sprite_8.SetClipRect(ref a_rect);
-			this.sprite_9.SetClipRect(ref a_rect);
+			this.sprite_1.SetClipRect(in a_rect);
+			this.sprite_2.SetClipRect(in a_rect);
+			this.sprite_3.SetClipRect(in a_rect);
+			this.sprite_4.SetClipRect(in a_rect);
+			this.sprite_5.SetClipRect(in a_rect);
+			this.sprite_6.SetClipRect(in a_rect);
+			this.sprite_7.SetClipRect(in a_rect);
+			this.sprite_8.SetClipRect(in a_rect);
+			this.sprite_9.SetClipRect(in a_rect);
 		}
 
 		/** クリップ矩形。設定。
@@ -247,7 +235,7 @@ namespace Fee.Ui
 
 		/** テクスチャ矩形。設定。
 		*/
-		public void SetTextureRect(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
 			this.texture_rect = a_texture_rect;
 			this.UpdateTextureRect();
@@ -263,7 +251,7 @@ namespace Fee.Ui
 		
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.rect = a_rect;
 			this.UpdateRect();
@@ -535,17 +523,17 @@ namespace Fee.Ui
 
 		/** 色。設定。
 		*/
-		public void SetColor(ref UnityEngine.Color a_color)
+		public void SetColor(in UnityEngine.Color a_color)
 		{
-			this.sprite_1.SetColor(ref a_color);
-			this.sprite_2.SetColor(ref a_color);
-			this.sprite_3.SetColor(ref a_color);
-			this.sprite_4.SetColor(ref a_color);
-			this.sprite_5.SetColor(ref a_color);
-			this.sprite_6.SetColor(ref a_color);
-			this.sprite_7.SetColor(ref a_color);
-			this.sprite_8.SetColor(ref a_color);
-			this.sprite_9.SetColor(ref a_color);
+			this.sprite_1.SetColor(in a_color);
+			this.sprite_2.SetColor(in a_color);
+			this.sprite_3.SetColor(in a_color);
+			this.sprite_4.SetColor(in a_color);
+			this.sprite_5.SetColor(in a_color);
+			this.sprite_6.SetColor(in a_color);
+			this.sprite_7.SetColor(in a_color);
+			this.sprite_8.SetColor(in a_color);
+			this.sprite_9.SetColor(in a_color);
 		}
 
 		/** 色。取得。

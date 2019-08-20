@@ -22,7 +22,7 @@ namespace Fee.Ui
 
 		/** 矩形。
 		*/
-		protected Fee.Render2D.Rect2D_R<int> rect;
+		protected Fee.Geometry.Rect2D_R<int> rect;
 
 		/** layerindex
 		*/
@@ -149,9 +149,9 @@ namespace Fee.Ui
 
 		/** ウィンドウレジューム。登録。
 		*/
-		public void RegisterWindowResume(string a_label,ref Fee.Render2D.Rect2D_R<int> t_new_rect)
+		public void RegisterWindowResume(string a_label,in Fee.Geometry.Rect2D_R<int> t_new_rect)
 		{
-			this.windowresumeitem = Fee.Ui.Ui.GetInstance().RegisterWindowResume(a_label,ref t_new_rect);
+			this.windowresumeitem = Fee.Ui.Ui.GetInstance().RegisterWindowResume(a_label,in t_new_rect);
 		}
 
 		/** ウィンドウレジューム。解除。
@@ -186,7 +186,7 @@ namespace Fee.Ui
 
 			//[Fee.Ui.OnDelete_CallBackInterface]矩形変更。
 			if(this.callback_interface != null){
-				this.callback_interface.OnWindowChangeRect(ref this.rect);
+				this.callback_interface.OnWindowChangeRect(in this.rect);
 			}
 		}
 
@@ -207,13 +207,13 @@ namespace Fee.Ui
 
 			//[Fee.Ui.OnDelete_CallBackInterface]矩形変更。
 			if(this.callback_interface != null){
-				this.callback_interface.OnWindowChangeRect(ref this.rect);
+				this.callback_interface.OnWindowChangeRect(in this.rect);
 			}
 		}
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			//rect
 			this.rect = a_rect;
@@ -228,7 +228,7 @@ namespace Fee.Ui
 
 			//[Fee.Ui.OnDelete_CallBackInterface]矩形変更。
 			if(this.callback_interface != null){
-				this.callback_interface.OnWindowChangeRect(ref this.rect);
+				this.callback_interface.OnWindowChangeRect(in this.rect);
 			}
 		}
 

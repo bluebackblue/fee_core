@@ -30,11 +30,11 @@ namespace Fee.EventPlate
 
 		/** rect
 		*/
-		private Fee.Render2D.Rect2D_R<int> rect;
+		private Fee.Geometry.Rect2D_R<int> rect;
 
 		/** clip_rect
 		*/
-		private Fee.Render2D.Rect2D_R<int> clip_rect;
+		private Fee.Geometry.Rect2D_R<int> clip_rect;
 
 		/** clip
 		*/
@@ -103,7 +103,7 @@ namespace Fee.EventPlate
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.rect = a_rect;
 		}
@@ -117,7 +117,7 @@ namespace Fee.EventPlate
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.clip_rect = a_rect;
 		}
@@ -247,7 +247,7 @@ namespace Fee.EventPlate
 		return = true : カレント。
 
 		*/
-		public bool Main(ref Fee.Render2D.Pos2D<int> a_pos)
+		public bool Main(in Fee.Geometry.Pos2D<int> a_pos)
 		{
 			if(this.enable == true){
 				if((this.rect.x <= a_pos.x)&&(this.rect.y <= a_pos.y)&&(a_pos.x <= (this.rect.x + this.rect.w))&&(a_pos.y <= (this.rect.y + this.rect.h))){

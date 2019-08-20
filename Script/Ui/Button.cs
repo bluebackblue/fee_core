@@ -132,13 +132,13 @@ namespace Fee.Ui
 		protected override void OnChangeClipRect()
 		{
 			//sprite
-			this.normal_sprite.SetClipRect(ref this.clip_rect);
-			this.on_sprite.SetClipRect(ref this.clip_rect);
-			this.down_sprite.SetClipRect(ref this.clip_rect);
-			this.lock_sprite.SetClipRect(ref this.clip_rect);
+			this.normal_sprite.SetClipRect(in this.clip_rect);
+			this.on_sprite.SetClipRect(in this.clip_rect);
+			this.down_sprite.SetClipRect(in this.clip_rect);
+			this.lock_sprite.SetClipRect(in this.clip_rect);
 
 			//text
-			this.text.SetClipRect(ref this.clip_rect);
+			this.text.SetClipRect(in this.clip_rect);
 		}
 
 		/** [Button_Base]コールバック。表示フラグ変更。
@@ -190,19 +190,19 @@ namespace Fee.Ui
 			switch(this.mode){
 			case Button_Mode.Normal:
 				{
-					this.text.SetColor(ref this.nomal_textcolor);
+					this.text.SetColor(in this.nomal_textcolor);
 				}break;
 			case Button_Mode.On:
 				{
-					this.text.SetColor(ref this.on_textcolor);
+					this.text.SetColor(in this.on_textcolor);
 				}break;
 			case Button_Mode.Down:
 				{
-					this.text.SetColor(ref this.down_textcolor);
+					this.text.SetColor(in this.down_textcolor);
 				}break;
 			case Button_Mode.Lock:
 				{
-					this.text.SetColor(ref this.lock_textcolor);
+					this.text.SetColor(in this.lock_textcolor);
 				}break;
 			}
 		}
@@ -230,7 +230,7 @@ namespace Fee.Ui
 
 		/** ノーマルテキスト色。設定。
 		*/
-		public void SetNormalTextColor(ref UnityEngine.Color a_color)
+		public void SetNormalTextColor(in UnityEngine.Color a_color)
 		{
 			this.nomal_textcolor = a_color;
 			this.UpdateTextColor();
@@ -249,7 +249,7 @@ namespace Fee.Ui
 
 		/** オンテキスト色。設定。
 		*/
-		public void SetOnTextColor(ref UnityEngine.Color a_color)
+		public void SetOnTextColor(in UnityEngine.Color a_color)
 		{
 			this.on_textcolor = a_color;
 			this.UpdateTextColor();
@@ -268,7 +268,7 @@ namespace Fee.Ui
 
 		/** ダウンテキスト色。設定。
 		*/
-		public void SetDownTextColor(ref UnityEngine.Color a_color)
+		public void SetDownTextColor(in UnityEngine.Color a_color)
 		{
 			this.down_textcolor = a_color;
 			this.UpdateTextColor();
@@ -287,7 +287,7 @@ namespace Fee.Ui
 
 		/** ロックテキスト色。設定。
 		*/
-		public void SetLockTextColor(ref UnityEngine.Color a_color)
+		public void SetLockTextColor(in UnityEngine.Color a_color)
 		{
 			this.lock_textcolor = a_color;
 			this.UpdateTextColor();
@@ -329,10 +329,10 @@ namespace Fee.Ui
 		public void UpdateView()
 		{
 			//sprite
-			this.normal_sprite.SetRect(ref this.rect);
-			this.on_sprite.SetRect(ref this.rect);
-			this.down_sprite.SetRect(ref this.rect);
-			this.lock_sprite.SetRect(ref this.rect);
+			this.normal_sprite.SetRect(in this.rect);
+			this.on_sprite.SetRect(in this.rect);
+			this.down_sprite.SetRect(in this.rect);
+			this.lock_sprite.SetRect(in this.rect);
 
 			//text
 			this.text.SetRect(this.rect.x + this.rect.w / 2,this.rect.y + this.rect.h / 2,0,0);
@@ -404,58 +404,58 @@ namespace Fee.Ui
 
 		/** ノーマルテクスチャ矩形。設定。
 		*/
-		public void SetNormalTextureRect(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetNormalTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.normal_sprite.SetTextureRect(ref a_texture_rect);
+			this.normal_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** オンテクスチャ矩形。設定。
 		*/
-		public void SetOnTextureRect(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetOnTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.on_sprite.SetTextureRect(ref a_texture_rect);
+			this.on_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** ダウンテクスチャ矩形。設定。
 		*/
-		public void SetDownTextureRect(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetDownTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.down_sprite.SetTextureRect(ref a_texture_rect);
+			this.down_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** ロックテクスチャ矩形。設定。
 		*/
-		public void SetLockTextureRect(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetLockTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.lock_sprite.SetTextureRect(ref a_texture_rect);
+			this.lock_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** ノーマル色。設定。
 		*/
-		public void SetNormalColor(ref UnityEngine.Color a_color)
+		public void SetNormalColor(in UnityEngine.Color a_color)
 		{
-			this.normal_sprite.SetColor(ref a_color);
+			this.normal_sprite.SetColor(in a_color);
 		}
 
 		/** オン色。設定。
 		*/
-		public void SetOnColor(ref UnityEngine.Color a_color)
+		public void SetOnColor(in UnityEngine.Color a_color)
 		{
-			this.on_sprite.SetColor(ref a_color);
+			this.on_sprite.SetColor(in a_color);
 		}
 
 		/** ダウン色。設定。
 		*/
-		public void SetDownColor(ref UnityEngine.Color a_color)
+		public void SetDownColor(in UnityEngine.Color a_color)
 		{
-			this.down_sprite.SetColor(ref a_color);
+			this.down_sprite.SetColor(in a_color);
 		}
 
 		/** ロック色。設定。
 		*/
-		public void SetLockColor(ref UnityEngine.Color a_color)
+		public void SetLockColor(in UnityEngine.Color a_color)
 		{
-			this.lock_sprite.SetColor(ref a_color);
+			this.lock_sprite.SetColor(in a_color);
 		}
 
 		/** ノーマル色。設定。

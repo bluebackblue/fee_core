@@ -202,14 +202,14 @@ namespace Fee.Render2D
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref Rect2D_R<int> a_rect)
+		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			//サイズの計算が必要。設定。
 			if((this.rect.GetW() != a_rect.w)||(this.rect.GetH() != a_rect.h)){
 				this.param.Raw_SetCalcSizeFlag(true);
 			}
 
-			this.rect.SetRect(ref a_rect);
+			this.rect.SetRect(in a_rect);
 		}
 
 		/** 矩形。設定。
@@ -243,9 +243,9 @@ namespace Fee.Render2D
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
-			this.param.SetClipRect(ref a_rect);
+			this.param.SetClipRect(in a_rect);
 		}
 
 		/** クリップ矩形。設定。
@@ -360,9 +360,9 @@ namespace Fee.Render2D
 
 		/** 色。設定。
 		*/
-		public void SetColor(ref UnityEngine.Color a_color)
+		public void SetColor(in UnityEngine.Color a_color)
 		{
-			this.param.SetColor(ref a_color);
+			this.param.SetColor(in a_color);
 		}
 
 		/** 色。設定。
@@ -381,9 +381,9 @@ namespace Fee.Render2D
 
 		/** アウトライン色。設定。
 		*/
-		public void SetOutLineColor(ref UnityEngine.Color a_color)
+		public void SetOutLineColor(in UnityEngine.Color a_color)
 		{
-			this.param.SetOutLineColor(ref a_color);
+			this.param.SetOutLineColor(in a_color);
 		}
 
 		/** アウトライン色。設定。

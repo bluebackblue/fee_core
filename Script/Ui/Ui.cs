@@ -221,7 +221,7 @@ namespace Fee.Ui
 			a_new_rect : 新規作成の場合に設定する矩形。
 
 		*/
-		public WindowResumeItem RegisterWindowResume(string a_label,ref Render2D.Rect2D_R<int> a_new_rect)
+		public WindowResumeItem RegisterWindowResume(string a_label,in Fee.Geometry.Rect2D_R<int> a_new_rect)
 		{
 			//登録。
 			bool t_is_new = false;

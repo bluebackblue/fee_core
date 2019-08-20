@@ -8,7 +8,7 @@
 */
 
 
-/** NFee.Render2D
+/** Fee.Render2D
 */
 namespace Fee.Render2D
 {
@@ -144,9 +144,9 @@ namespace Fee.Render2D
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref Rect2D_R<int> a_rect)
+		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
-			this.rect.SetRect(ref a_rect);
+			this.rect.SetRect(in a_rect);
 		}
 
 		/** 矩形。設定。
@@ -175,9 +175,9 @@ namespace Fee.Render2D
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
-			this.param.SetClipRect(ref a_rect);
+			this.param.SetClipRect(in a_rect);
 		}
 
 		/** クリップ矩形。設定。
@@ -327,9 +327,9 @@ namespace Fee.Render2D
 
 		/** イメージ色。設定。
 		*/
-		public void SetImageColor(ref UnityEngine.Color a_color)
+		public void SetImageColor(in UnityEngine.Color a_color)
 		{
-			this.param.SetImageColor(ref a_color);
+			this.param.SetImageColor(in a_color);
 		}
 
 		/** イメージ色。設定。
@@ -348,9 +348,9 @@ namespace Fee.Render2D
 
 		/** テキスト色。設定。
 		*/
-		public void SetTextColor(ref UnityEngine.Color a_color)
+		public void SetTextColor(in UnityEngine.Color a_color)
 		{
-			this.param.SetTextColor(ref a_color);
+			this.param.SetTextColor(in a_color);
 		}
 
 		/** テキスト色。設定。

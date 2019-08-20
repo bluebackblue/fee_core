@@ -87,13 +87,13 @@ namespace Fee.Ui
 		protected override void OnChangeRect()
 		{
 			//bg
-			this.bg_normal_sprite.SetRect(ref this.rect);
-			this.bg_on_sprite.SetRect(ref this.rect);
-			this.bg_lock_sprite.SetRect(ref this.rect);
+			this.bg_normal_sprite.SetRect(in this.rect);
+			this.bg_on_sprite.SetRect(in this.rect);
+			this.bg_lock_sprite.SetRect(in this.rect);
 
 			//check
-			this.check_normal_sprite.SetRect(ref this.rect);
-			this.check_lock_sprite.SetRect(ref this.rect);
+			this.check_normal_sprite.SetRect(in this.rect);
+			this.check_lock_sprite.SetRect(in this.rect);
 
 			//text
 			this.text.SetRect(this.rect.x + this.rect.w + this.text_offset_x,this.rect.y + this.rect.h / 2,0,0);
@@ -121,16 +121,16 @@ namespace Fee.Ui
 		protected override void OnChangeClipRect()
 		{
 			//bg
-			this.bg_normal_sprite.SetClipRect(ref this.clip_rect);
-			this.bg_on_sprite.SetClipRect(ref this.clip_rect);
-			this.bg_lock_sprite.SetClipRect(ref this.clip_rect);
+			this.bg_normal_sprite.SetClipRect(in this.clip_rect);
+			this.bg_on_sprite.SetClipRect(in this.clip_rect);
+			this.bg_lock_sprite.SetClipRect(in this.clip_rect);
 
 			//check
-			this.check_normal_sprite.SetClipRect(ref this.clip_rect);
-			this.check_lock_sprite.SetClipRect(ref this.clip_rect);
+			this.check_normal_sprite.SetClipRect(in this.clip_rect);
+			this.check_lock_sprite.SetClipRect(in this.clip_rect);
 
 			//text
-			this.text.SetClipRect(ref this.clip_rect);
+			this.text.SetClipRect(in this.clip_rect);
 		}
 
 		/** [CheckButton_Base]コールバック。モード変更。
@@ -317,44 +317,44 @@ namespace Fee.Ui
 
 		/** ＢＧノーマルテクスチャ。設定。
 		*/
-		public void SetBgNormalTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetBgNormalTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.bg_normal_sprite.SetTextureRect(ref a_texture_rect);
+			this.bg_normal_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** ＢＧオンテクスチャ。設定。
 		*/
-		public void SetBgOnTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetBgOnTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.bg_on_sprite.SetTextureRect(ref a_texture_rect);
+			this.bg_on_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** ＢＧロックテクスチャ。設定。
 		*/
-		public void SetBgLockTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetBgLockTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.bg_lock_sprite.SetTextureRect(ref a_texture_rect);
+			this.bg_lock_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** ＢＧノーマル色。設定。
 		*/
-		public void SetBgNormalColor(ref UnityEngine.Color a_color)
+		public void SetBgNormalColor(in UnityEngine.Color a_color)
 		{
-			this.bg_normal_sprite.SetColor(ref a_color);
+			this.bg_normal_sprite.SetColor(in a_color);
 		}
 
 		/** ＢＧオン色。設定。
 		*/
-		public void SetBgOnColor(ref UnityEngine.Color a_color)
+		public void SetBgOnColor(in UnityEngine.Color a_color)
 		{
-			this.bg_on_sprite.SetColor(ref a_color);
+			this.bg_on_sprite.SetColor(in a_color);
 		}
 
 		/** ＢＧロック色。設定。
 		*/
-		public void SetBgLockColor(ref UnityEngine.Color a_color)
+		public void SetBgLockColor(in UnityEngine.Color a_color)
 		{
-			this.bg_lock_sprite.SetColor(ref a_color);
+			this.bg_lock_sprite.SetColor(in a_color);
 		}
 
 		/** ＢＧノーマル色。設定。
@@ -387,16 +387,16 @@ namespace Fee.Ui
 
 		/** チェックノーマルテクスチャ矩形。設定。
 		*/
-		public void SetCheckNormalTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetCheckNormalTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.check_normal_sprite.SetTextureRect(ref a_texture_rect);
+			this.check_normal_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** チェックノーマルテクスチャ色。設定。
 		*/
-		public void SetCheckNormalTextureColor(ref UnityEngine.Color a_color)
+		public void SetCheckNormalTextureColor(in UnityEngine.Color a_color)
 		{
-			this.check_normal_sprite.SetColor(ref a_color);
+			this.check_normal_sprite.SetColor(in a_color);
 		}
 
 		/** チェックノーマルテクスチャ色。設定。
@@ -415,16 +415,16 @@ namespace Fee.Ui
 
 		/** チェックロックテクスチャ矩形。設定。
 		*/
-		public void SetCheckLockTextureRect(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetCheckLockTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.check_lock_sprite.SetTextureRect(ref a_texture_rect);
+			this.check_lock_sprite.SetTextureRect(in a_texture_rect);
 		}
 
 		/** チェックロックテクスチャ色。設定。
 		*/
-		public void SetCheckLockTextureColor(ref UnityEngine.Color a_color)
+		public void SetCheckLockTextureColor(in UnityEngine.Color a_color)
 		{
-			this.check_lock_sprite.SetColor(ref a_color);
+			this.check_lock_sprite.SetColor(in a_color);
 		}
 
 		/** チェックロックテクスチャ色。設定。
@@ -433,9 +433,6 @@ namespace Fee.Ui
 		{
 			this.check_lock_sprite.SetColor(a_r,a_g,a_b,a_a);
 		}
-
-
-
 	}
 }
 

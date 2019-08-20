@@ -31,7 +31,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Scroll(Fee.Deleter.Deleter a_deleter,long a_drawpriority,ScrollType a_scroll_type,int a_item_length)
+		public Scroll(Fee.Deleter.Deleter a_deleter,long a_drawpriority,Scroll_Type a_scroll_type,int a_item_length)
 			:
 			base(a_deleter,a_drawpriority,a_scroll_type,a_item_length)
 		{
@@ -39,7 +39,7 @@ namespace Fee.Ui
 			this.bg = new Fee.Render2D.Sprite2D(this.deleter,a_drawpriority);
 			this.bg.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg.SetRect(0,0,0,0);
-			this.bg.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+			this.bg.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.bg.SetColor(0.0f,0.0f,0.0f,0.1f);
 			this.bg.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
 
@@ -50,7 +50,7 @@ namespace Fee.Ui
 			this.bar = new Fee.Render2D.Sprite2D(this.deleter,a_drawpriority + this.bar_drawpriority_offset);
 			this.bar.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bar.SetRect(0,0,5,5);
-			this.bar.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+			this.bar.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.bar.SetColor(1.0f,1.0f,1.0f,0.3f);
 			this.bar.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
 			this.bar.SetVisible(false);
@@ -60,7 +60,7 @@ namespace Fee.Ui
 		*/
 		protected override void OnChangeRect()
 		{
-			this.bg.SetRect(ref this.rect);
+			this.bg.SetRect(in this.rect);
 			this.UpdateView();
 		}
 
@@ -103,9 +103,9 @@ namespace Fee.Ui
 
 		/** 背景色。設定。
 		*/
-		public void SetBgColor(ref UnityEngine.Color a_color)
+		public void SetBgColor(in UnityEngine.Color a_color)
 		{
-			this.bg.SetColor(ref a_color);
+			this.bg.SetColor(in a_color);
 		}
 
 		/** 更新。表示。
@@ -122,7 +122,7 @@ namespace Fee.Ui
 				float t_offset_per = (float)this.scroll_value.GetViewPosition() / t_position_max;
 				float t_length_per = (float)this.scroll_value.GetViewLength() / (this.scroll_value.GetItemLength() * this.scroll_value.GetListCount());
 
-				if(this.GetScrollType() == ScrollType.Vertical){
+				if(this.GetScrollType() == Scroll_Type.Vertical){
 					//縦。
 					int t_bar_length = (int)(this.rect.h * t_length_per);
 					int t_bar_offset = (int)(t_offset_per * (this.scroll_value.GetViewLength() - t_bar_length));

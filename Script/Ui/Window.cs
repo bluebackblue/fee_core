@@ -54,7 +54,7 @@ namespace Fee.Ui
 
 		/** downpos
 		*/
-		private Fee.Render2D.Pos2D<int> downpos;
+		private Fee.Geometry.Pos2D<int> downpos;
 
 		/** constructor
 		*/
@@ -64,13 +64,13 @@ namespace Fee.Ui
 		{
 			//bg_sprite
 			this.bg_sprite = new Fee.Render2D.Sprite2D(this.deleter,0);
-			this.bg_sprite.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+			this.bg_sprite.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.bg_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg_sprite.SetColor(0.0f,0.0f,0.0f,1.0f);
 
 			//titlebar
 			this.titlebar = new Fee.Render2D.Sprite2D(this.deleter,0);
-			this.titlebar.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+			this.titlebar.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.titlebar.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.titlebar.SetColor(0.2f,0.2f,0.2f,1.0f);
 
@@ -103,9 +103,9 @@ namespace Fee.Ui
 
 		/** 色。設定。
 		*/
-		public void SetBgColor(ref UnityEngine.Color a_color)
+		public void SetBgColor(in UnityEngine.Color a_color)
 		{
-			this.bg_sprite.SetColor(ref a_color);
+			this.bg_sprite.SetColor(in a_color);
 		}
 
 		/** マテリアルタイプ。設定。
@@ -190,13 +190,13 @@ namespace Fee.Ui
 		protected override void OnChangeRect_FromBase()
 		{
 			//bg_sprite
-			this.bg_sprite.SetRect(ref this.rect);
+			this.bg_sprite.SetRect(in this.rect);
 
 			//blockitem
-			this.blockitem.SetRect(ref this.rect);
+			this.blockitem.SetRect(in this.rect);
 
 			//bg_eventplate
-			this.bg_eventplate.SetRect(ref this.rect);
+			this.bg_eventplate.SetRect(in this.rect);
 
 			//titlebar
 			this.titlebar.SetRect(this.rect.x,this.rect.y,this.rect.w,this.titlebar_h);
@@ -242,8 +242,8 @@ namespace Fee.Ui
 				//ウィンドウを最前面にする。
 				Fee.Ui.Ui.GetInstance().SetWindowPriorityTopMost(this);
 
-				int t_x = Fee.Input.Mouse.GetInstance().pos.x - this.rect.x;
-				int t_y = Fee.Input.Mouse.GetInstance().pos.y - this.rect.y;
+				int t_x = Fee.Input.Mouse.GetInstance().cursor.GetX() - this.rect.x;
+				int t_y = Fee.Input.Mouse.GetInstance().cursor.GetY() - this.rect.y;
 				this.downpos.Set(t_x,t_y);
 
 				this.is_drag = true;
@@ -253,8 +253,8 @@ namespace Fee.Ui
 			}else if(this.is_drag == true){
 				//ドラッグ中。
 
-				int t_x = Fee.Input.Mouse.GetInstance().pos.x - this.downpos.x;
-				int t_y = Fee.Input.Mouse.GetInstance().pos.y - this.downpos.y;
+				int t_x = Fee.Input.Mouse.GetInstance().cursor.GetX() - this.downpos.x;
+				int t_y = Fee.Input.Mouse.GetInstance().cursor.GetY() - this.downpos.y;
 				this.SetXY(t_x,t_y);
 			}else if(this.is_onover_titlebar == true){
 				//ドラッグ開始待ち。

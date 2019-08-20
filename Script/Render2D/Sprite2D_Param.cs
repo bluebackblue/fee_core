@@ -58,7 +58,7 @@ namespace Fee.Render2D
 
 		/** 色。設定。
 		*/
-		public void SetColor(ref UnityEngine.Color a_color)
+		public void SetColor(in UnityEngine.Color a_color)
 		{
 			this.color = a_color;
 		}

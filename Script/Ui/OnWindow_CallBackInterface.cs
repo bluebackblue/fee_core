@@ -22,7 +22,7 @@ namespace Fee.Ui
 
 		/** [Fee.Ui.OnWindow_CallBackInterface]矩形変更。
 		*/
-		void OnWindowChangeRect(ref Fee.Render2D.Rect2D_R<int> a_rect);
+		void OnWindowChangeRect(in Fee.Geometry.Rect2D_R<int> a_rect);
 
 		/** [Fee.Ui.OnWindow_CallBackInterface]矩形変更。
 		*/

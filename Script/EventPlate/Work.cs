@@ -81,7 +81,7 @@ namespace Fee.EventPlate
 
 		/** 更新。
 		*/
-		public void Main(ref Fee.Render2D.Pos2D<int> a_pos)
+		public void Main(in Fee.Geometry.Pos2D<int> a_pos)
 		{
 			//追加。
 			if(this.add_list.Count > 0){
@@ -110,7 +110,7 @@ namespace Fee.EventPlate
 			//更新。
 			bool t_no_current = true;
 			for(int ii=0;ii<this.list.Count;ii++){
-				if(this.list[ii].Main(ref a_pos) == true){
+				if(this.list[ii].Main(in a_pos) == true){
 					//カレントあり。
 					t_no_current = false;
 

@@ -346,9 +346,9 @@ namespace Fee.Render2D
 
 		/** テクスチャ矩形。設定。
 		*/
-		public void SetTextureRect(ref Fee.Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.rect.SetTextureRect(ref a_texture_rect);
+			this.rect.SetTextureRect(in a_texture_rect);
 		}
 
 		/** テクスチャ矩形。設定。
@@ -363,9 +363,9 @@ namespace Fee.Render2D
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
-			this.rect.SetRect(ref a_rect);
+			this.rect.SetRect(in a_rect);
 		}
 
 		/** 矩形。設定。
@@ -491,9 +491,9 @@ namespace Fee.Render2D
 
 		/** 色。設定。
 		*/
-		public void SetColor(ref UnityEngine.Color a_color)
+		public void SetColor(in UnityEngine.Color a_color)
 		{
-			this.param.SetColor(ref a_color);
+			this.param.SetColor(in a_color);
 		}
 
 		/** 色。設定。

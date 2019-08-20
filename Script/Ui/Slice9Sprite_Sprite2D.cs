@@ -26,11 +26,11 @@ namespace Fee.Ui
 
 		/** clip_rect
 		*/
-		private Fee.Render2D.Rect2D_R<int> clip_rect;
+		private Fee.Geometry.Rect2D_R<int> clip_rect;
 
 		/** texture_rect2
 		*/
-		private Render2D.Rect2D_R<float> texture_rect2;
+		private Fee.Geometry.Rect2D_R<float> texture_rect2;
 
 		/** constructor
 		*/
@@ -49,12 +49,12 @@ namespace Fee.Ui
 
 			//マテリアル設定。
 			this.SetMaterialType(Fee.Render2D.Config.MaterialType.Slice9);
-			this.SetTextureRect(ref Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+			this.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 		}
 
 		/** SetTextureRect2
 		*/
-		public void SetTextureRect2(ref Render2D.Rect2D_R<float> a_texture_rect)
+		public void SetTextureRect2(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
 			this.texture_rect2 = a_texture_rect;
 		}
@@ -92,7 +92,7 @@ namespace Fee.Ui
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.clip_rect = a_rect;
 		}

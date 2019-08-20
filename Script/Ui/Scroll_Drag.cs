@@ -12,27 +12,6 @@
 */
 namespace Fee.Ui
 {
-	/** Scroll_Drag用コールバック。
-	*/
-	public interface Scroll_Drag_CallBack
-	{
-		/** [Scroll_Drag_CallBack]コールバック。表示位置。取得。
-		*/
-		int GetViewPosition();
-
-		/** [Scroll_Drag_CallBack]コールバック。表示位置。設定。
-		*/
-		void SetViewPosition(int a_view_position);
-
-		/** [Scroll_Drag_CallBack]コールバック。範囲チェック。
-		*/
-		bool IsRectIn(int a_x,int a_y);
-
-		/** [Scroll_Drag_CallBack]コールバック。スクロール方向の値。取得。
-		*/
-		int GetScrollDirectionValue(int a_vertical_value,int a_horizontal_value);
-	}
-
 	/** Scroll_Drag
 	*/
 	public struct Scroll_Drag
@@ -99,14 +78,12 @@ namespace Fee.Ui
 		public void Main(bool a_is_onover)
 		{
 			if((this.flag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)&&(a_is_onover == true)){
-				int t_x = Fee.Input.Mouse.GetInstance().pos.x;
-				int t_y = Fee.Input.Mouse.GetInstance().pos.y;
-
-				if(this.callback.IsRectIn(t_x,t_y) == true){
+				Fee.Geometry.Pos2D<int> t_position = Fee.Input.Mouse.GetInstance().cursor.pos;
+				if(this.callback.IsRectIn(in t_position) == true){
 					//ドラッグ開始。
 					this.flag = true;
 					this.start_viewposition = this.callback.GetViewPosition();
-					this.start_pos = this.callback.GetScrollDirectionValue(t_x,t_y);
+					this.start_pos = this.callback.GetScrollDirectionValue(in t_position);
 					this.old_pos = this.start_pos;
 
 					this.speed = 0.0f;
@@ -114,13 +91,11 @@ namespace Fee.Ui
 			}else if((this.flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == true)){
 				//ドラッグ中。
 
-				int t_x = Fee.Input.Mouse.GetInstance().pos.x;
-				int t_y = Fee.Input.Mouse.GetInstance().pos.y;
-
-				this.callback.SetViewPosition(this.start_viewposition + this.start_pos - this.callback.GetScrollDirectionValue(t_x,t_y));
+				Fee.Geometry.Pos2D<int> t_position = Fee.Input.Mouse.GetInstance().cursor.pos;
+				this.callback.SetViewPosition(this.start_viewposition + this.start_pos - this.callback.GetScrollDirectionValue(in t_position));
 
 				//慣性。
-				int t_drag_new_pos =this.callback.GetScrollDirectionValue(t_x,t_y);
+				int t_drag_new_pos =this.callback.GetScrollDirectionValue(in t_position);
 				this.speed = this.speed * 0.3f + (this.old_pos - t_drag_new_pos) * 0.7f;
 				this.old_pos = t_drag_new_pos;
 			}else if((this.flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){

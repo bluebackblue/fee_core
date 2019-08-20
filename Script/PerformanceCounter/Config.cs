@@ -32,8 +32,13 @@ namespace Fee.PerformanceCounter
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
+		/** COLOR_NORMAL
+		*/
+		public static UnityEngine.Color COLOR_NORMAL = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);
+		
+		/** COLOR_OVER
+		*/
+		public static UnityEngine.Color COLOR_OVER = new UnityEngine.Color(1.0f,0.0f,0.0f,1.0f);
 
 		/** ログプレフィックス。
 		*/

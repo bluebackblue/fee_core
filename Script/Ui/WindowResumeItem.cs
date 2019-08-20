@@ -22,7 +22,7 @@ namespace Fee.Ui
 
 		/** 矩形。
 		*/
-		public Render2D.Rect2D_R<int> rect;
+		public Fee.Geometry.Rect2D_R<int> rect;
 
 		/** constructor
 		*/

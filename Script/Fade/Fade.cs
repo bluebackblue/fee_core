@@ -64,7 +64,7 @@ namespace Fee.Fade
 
 		/** ＧＵＩ。
 		*/
-		private Fee.Render2D.Size2D<int> gui_size;
+		private Fee.Geometry.Size2D<int> gui_size;
 
 		/** deleter
 		*/
@@ -212,7 +212,7 @@ namespace Fee.Fade
 						this.sprite.SetVisible(true);
 					}
 
-					this.sprite.SetColor(ref this.flag.anime_color);
+					this.sprite.SetColor(in this.flag.anime_color);
 
 					if(t_fix == true){
 						this.flag.anime_now = false;
@@ -232,7 +232,7 @@ namespace Fee.Fade
 
 		/** 色。設定。
 		*/
-		public void SetColor(ref UnityEngine.Color a_color)
+		public void SetColor(in UnityEngine.Color a_color)
 		{
 			this.flag.anime_color = a_color;
 		}

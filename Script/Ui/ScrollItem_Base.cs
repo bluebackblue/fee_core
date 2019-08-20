@@ -73,7 +73,7 @@ namespace Fee.Ui
 
 		/** [Fee.Ui.ScrollItem_Base]クリップ矩形。設定。
 		*/
-		public abstract void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect);
+		public abstract void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect);
 
 		/** [Fee.Ui.ScrollItem_Base]表示内。
 		*/

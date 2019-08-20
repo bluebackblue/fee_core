@@ -131,19 +131,19 @@ namespace Fee.EventPlate
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			if(this.eventplate_window != null){
-				this.eventplate_window.SetRect(ref a_rect);
+				this.eventplate_window.SetRect(in a_rect);
 			}
 			if(this.eventplate_view != null){
-				this.eventplate_view.SetRect(ref a_rect);
+				this.eventplate_view.SetRect(in a_rect);
 			}
 			if(this.eventplate_viewitem != null){
-				this.eventplate_viewitem.SetRect(ref a_rect);
+				this.eventplate_viewitem.SetRect(in a_rect);
 			}
 			if(this.eventplate_button != null){
-				this.eventplate_button.SetRect(ref a_rect);
+				this.eventplate_button.SetRect(in a_rect);
 			}
 		}
 

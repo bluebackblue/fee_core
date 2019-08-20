@@ -493,7 +493,7 @@ namespace Fee.EditorTool
 					//イベントプレート。
 					#if(false)
 					{
-						Fee.EventPlate.EventPlate.GetInstance().Main(Fee.Input.Mouse.GetInstance().pos.x,Fee.Input.Mouse.GetInstance().pos.y);
+						Fee.EventPlate.EventPlate.GetInstance().Main(in Fee.Input.Mouse.GetInstance().cursor.pos);
 					}
 					#endif
 

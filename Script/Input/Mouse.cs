@@ -81,9 +81,9 @@ namespace Fee.Input
 		*/
 		public bool is_focus;
 
-		/** 位置。
+		/** カーソル。
 		*/
-		public Mouse_Pos pos;
+		public Mouse_Cursor cursor;
 
 		/** ボタン。
 		*/
@@ -93,7 +93,7 @@ namespace Fee.Input
 
 		/** マウスホイール。
 		*/
-		public Mouse_Pos mouse_wheel;
+		public Mouse_Wheel mouse_wheel;
 
 		/** [シングルトン]constructor
 		*/
@@ -106,8 +106,8 @@ namespace Fee.Input
 			//is_focus
 			this.is_focus = false;
 
-			//位置。
-			this.pos.Reset();
+			//カーソル。
+			this.cursor.Reset();
 
 			//ボタン。
 			this.left.Reset();
@@ -271,7 +271,7 @@ namespace Fee.Input
 				this.pos.Set(this.pos.x_old,this.pos.y_old);
 			}
 			*/
-			this.pos.Set(t_x,t_y);
+			this.cursor.Set(t_x,t_y);
 
 			return true;
 		}
@@ -518,37 +518,13 @@ namespace Fee.Input
 				this.Main_Wheel();
 
 				//更新。
-				this.left.Main(ref this.pos);
-				this.right.Main(ref this.pos);
-				this.middle.Main(ref this.pos);
+				this.left.Main(ref this.cursor);
+				this.right.Main(ref this.cursor);
+				this.middle.Main(ref this.cursor);
 				this.mouse_wheel.Main();
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 			}
-		}
-
-		/** 範囲チェック。
-		*/
-		public bool InRectCheck(int a_x,int a_y,int a_w,int a_h)
-		{
-			if((a_x <= this.pos.x) && (a_y <= this.pos.y)){
-				if(((a_x + a_w) >= this.pos.x) && ((a_y + a_h) >= this.pos.y)){
-					return true;
-				}
-			}
-			return false;
-		}
-
-		/** 範囲チェック。
-		*/
-		public bool InRectCheck(ref Fee.Render2D.Rect2D_R<int> a_rect)
-		{
-			if((a_rect.x <= this.pos.x) && (a_rect.y <= this.pos.y)){
-				if(((a_rect.x + a_rect.w) >= this.pos.x) && ((a_rect.y + a_rect.h) >= this.pos.y)){
-					return true;
-				}
-			}
-			return false;
 		}
 
 		/** 移動チェック。左ボタンドラッグアップ時。

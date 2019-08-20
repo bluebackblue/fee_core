@@ -64,7 +64,7 @@ namespace Fee.EventPlate
 
 		/** 位置。
 		*/
-		private Fee.Render2D.Pos2D<int> pos;
+		private Fee.Geometry.Pos2D<int> pos;
 
 		/** worklist
 		*/
@@ -128,15 +128,15 @@ namespace Fee.EventPlate
 
 		/** [外部からの呼び出し]更新。
 		*/
-		public void Main(int a_x,int a_y)
+		public void Main(in Fee.Geometry.Pos2D<int> a_pos)
 		{
 			try{
 				//位置。
-				this.pos.Set(a_x,a_y);
+				this.pos = a_pos;
 
 				//更新。
 				for(int ii=0;ii<this.worklist.Length;ii++){
-					this.worklist[ii].Main(ref this.pos);
+					this.worklist[ii].Main(in this.pos);
 				}
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);

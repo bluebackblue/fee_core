@@ -18,7 +18,7 @@ namespace Fee.Render2D
 	{
 		/** ＧＵＩスクリーン。
 		*/
-		private Size2D<int> gui_size;
+		private Fee.Geometry.Size2D<int> gui_size;
 		private bool gui_change = false;
 
 		/** 事前計算。スプライト。

@@ -12,19 +12,6 @@
 */
 namespace Fee.Ui
 {
-	/** Scroll_Type
-	*/
-	public enum ScrollType
-	{
-		/** 縦。
-		*/
-		Vertical,
-
-		/** 横。
-		*/
-		Horizontal,
-	}
-
 	/** Scroll2_Base
 	*/
 	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack , Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int>
@@ -56,11 +43,11 @@ namespace Fee.Ui
 
 		/** 矩形。
 		*/
-		protected Render2D.Rect2D_R<int> rect;
+		protected Fee.Geometry.Rect2D_R<int> rect;
 
 		/** scroll_type
 		*/
-		private ScrollType scroll_type;
+		private Scroll_Type scroll_type;
 
 		/** is_onover
 		*/
@@ -68,7 +55,7 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Scroll_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,ScrollType a_scroll_type,int a_item_length)
+		public Scroll_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,Scroll_Type a_scroll_type,int a_item_length)
 		{
 			//deleter
 			this.deleter = new Deleter.Deleter();
@@ -178,7 +165,7 @@ namespace Fee.Ui
 
 		/** スクロールタイプ。取得。
 		*/
-		public ScrollType GetScrollType()
+		public Scroll_Type GetScrollType()
 		{
 			return this.scroll_type;
 		}
@@ -249,10 +236,10 @@ namespace Fee.Ui
 			this.rect.Set(a_x,a_y,a_w,a_h);
 
 			//eventplate
-			this.eventplate.SetRect(ref this.rect);
+			this.eventplate.SetRect(in this.rect);
 
 			//SetViewLength
-			if(this.scroll_type == ScrollType.Vertical){
+			if(this.scroll_type == Scroll_Type.Vertical){
 				this.scroll_value.SetViewLength(a_h);
 			}else{
 				this.scroll_value.SetViewLength(a_w);
@@ -261,7 +248,7 @@ namespace Fee.Ui
 			//位置更新。
 			if(this.scroll_value.GetViewStartIndex() >= 0){
 				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].SetClipRect(ref this.rect);
+					this.list[ii].SetClipRect(in this.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 
@@ -275,16 +262,16 @@ namespace Fee.Ui
 
  		/** 矩形。設定。
 		*/
-		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			//rect
 			this.rect = a_rect;
 
 			//eventplate
-			this.eventplate.SetRect(ref this.rect);
+			this.eventplate.SetRect(in this.rect);
 
 			//SetViewLength
-			if(this.scroll_type == ScrollType.Vertical){
+			if(this.scroll_type == Scroll_Type.Vertical){
 				this.scroll_value.SetViewLength(a_rect.h);
 			}else{
 				this.scroll_value.SetViewLength(a_rect.w);
@@ -293,7 +280,7 @@ namespace Fee.Ui
 			//位置更新。
 			if(this.scroll_value.GetViewStartIndex() >= 0){
 				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].SetClipRect(ref this.rect);
+					this.list[ii].SetClipRect(in this.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 
@@ -318,7 +305,7 @@ namespace Fee.Ui
 			//位置更新。
 			if(this.scroll_value.GetViewStartIndex() >= 0){
 				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].SetClipRect(ref this.rect);
+					this.list[ii].SetClipRect(in this.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 				}
@@ -341,7 +328,7 @@ namespace Fee.Ui
 			//位置更新。
 			if(this.scroll_value.GetViewStartIndex() >= 0){
 				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].SetClipRect(ref this.rect);
+					this.list[ii].SetClipRect(in this.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 				}
@@ -365,7 +352,7 @@ namespace Fee.Ui
 			//位置更新。
 			if(this.scroll_value.GetViewStartIndex() >= 0){
 				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].SetClipRect(ref this.rect);
+					this.list[ii].SetClipRect(in this.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 				}
@@ -380,19 +367,19 @@ namespace Fee.Ui
 		[Scroll_Drag_CallBack]コールバック。範囲チェック。
 
 		*/
-		public bool IsRectIn(int a_x,int a_y)
+		public bool IsRectIn(in Fee.Geometry.Pos2D<int> a_position)
 		{
-			return Render2D.RectTool.IsRectIn(ref this.rect,a_x,a_y);
+			return Fee.Geometry.Range.IsRectIn(in this.rect,in a_position);
 		}
 
 		/** [Scroll_Drag_CallBack]コールバック。スクロール方向の値。取得。
 		*/
-		public int GetScrollDirectionValue(int a_vertical_value,int a_horizontal_value)
+		public int GetScrollDirectionValue(in Fee.Geometry.Pos2D<int> a_position)
 		{
-			if(this.scroll_type == ScrollType.Vertical){
-				return a_horizontal_value;
+			if(this.scroll_type == Scroll_Type.Vertical){
+				return a_position.y;
 			}else{
-				return a_vertical_value;
+				return a_position.x;
 			}
 		}
 
@@ -402,7 +389,7 @@ namespace Fee.Ui
 		{
 			int t_pos = a_index * this.scroll_value.GetItemLength() - this.scroll_value.GetViewPosition();
 
-			if(this.scroll_type == ScrollType.Vertical){
+			if(this.scroll_type == Scroll_Type.Vertical){
 				this.list[a_index].SetY(t_pos + this.rect.y);
 			}else{
 				this.list[a_index].SetX(t_pos + this.rect.x);
@@ -413,7 +400,7 @@ namespace Fee.Ui
 		*/
 		public void OnItemOtherPositionChange(int a_index)
 		{
-			if(this.scroll_type == ScrollType.Vertical){
+			if(this.scroll_type == Scroll_Type.Vertical){
 				this.list[a_index].SetX(this.rect.x);
 			}else{
 				this.list[a_index].SetY(this.rect.y);
@@ -431,7 +418,7 @@ namespace Fee.Ui
 		*/
 		private void SetItemWH(ITEM a_item)
 		{
-			if(this.scroll_type == ScrollType.Vertical){
+			if(this.scroll_type == Scroll_Type.Vertical){
 				a_item.SetWH(this.rect.w,this.GetItemLength());
 			}else{
 				a_item.SetWH(this.GetItemLength(),this.rect.h);
@@ -447,7 +434,7 @@ namespace Fee.Ui
 				//スクロール処理は表示中のみなので表示開始時に復元。
 				{
 					//スクロール方向とは違う方向の位置変更。
-					if(this.scroll_type == ScrollType.Vertical){
+					if(this.scroll_type == Scroll_Type.Vertical){
 						this.list[a_index].SetX(this.rect.x);
 					}else{
 						this.list[a_index].SetY(this.rect.y);
@@ -456,7 +443,7 @@ namespace Fee.Ui
 					this.OnItemWHChange(a_index);
 
 					//クリップ矩形。設定。
-					this.list[a_index].SetClipRect(ref this.rect);
+					this.list[a_index].SetClipRect(in this.rect);
 				}
 
 				this.list[a_index].OnViewIn();
@@ -471,10 +458,10 @@ namespace Fee.Ui
 		{
 			int t_index = this.list.Count;
 		
-			a_new_item.SetClipRect(ref this.rect);
+			a_new_item.SetClipRect(in this.rect);
 
 			//other direction
-			if(this.scroll_type == ScrollType.Vertical){
+			if(this.scroll_type == Scroll_Type.Vertical){
 				a_new_item.SetX(this.rect.x);
 			}else{
 				a_new_item.SetY(this.rect.y);
@@ -519,10 +506,10 @@ namespace Fee.Ui
 			if((0<=a_index)&&(a_index<=this.list.Count)){
 				//追加。
 
-				a_new_item.SetClipRect(ref this.rect);
+				a_new_item.SetClipRect(in this.rect);
 
 				//other direction
-				if(this.scroll_type == ScrollType.Vertical){
+				if(this.scroll_type == Scroll_Type.Vertical){
 					a_new_item.SetX(this.rect.x);
 				}else{
 					a_new_item.SetY(this.rect.y);

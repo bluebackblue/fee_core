@@ -28,7 +28,7 @@ namespace Fee.Render2D
 		/** クリップ。
 		*/
 		private bool clip;
-		private Fee.Render2D.Rect2D_R<int> clip_rect;
+		private Fee.Geometry.Rect2D_R<int> clip_rect;
 
 		/** シェーダの変更が必要。
 		*/
@@ -142,7 +142,7 @@ namespace Fee.Render2D
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			if((this.clip_rect.x != a_rect.x)||(this.clip_rect.y != a_rect.y)||(this.clip_rect.w != a_rect.w)||(this.clip_rect.h != a_rect.h)){
 				this.clip_rect = a_rect;
@@ -248,7 +248,7 @@ namespace Fee.Render2D
 
 		/** 色。設定。
 		*/
-		public void SetColor(ref UnityEngine.Color a_color)
+		public void SetColor(in UnityEngine.Color a_color)
 		{
 			if(this.raw_text.color != a_color){
 				this.raw_text.color = a_color;
@@ -273,7 +273,7 @@ namespace Fee.Render2D
 
 		/** アウトライン色。設定。
 		*/
-		public void SetOutLineColor(ref UnityEngine.Color a_color)
+		public void SetOutLineColor(in UnityEngine.Color a_color)
 		{
 			if(this.raw_outline.effectColor != a_color){
 				this.raw_outline.effectColor = a_color;

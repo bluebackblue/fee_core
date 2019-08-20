@@ -18,11 +18,11 @@ namespace Fee.Render2D
 	{
 		/** 矩形。
 		*/
-		private Rect2D_R<int> rect;
+		private Fee.Geometry.Rect2D_R<int> rect;
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.rect = a_rect;
 		}

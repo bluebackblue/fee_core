@@ -22,7 +22,7 @@ namespace Fee.Ui
 
 		/** clip_rect
 		*/
-		private Fee.Render2D.Rect2D_R<int> clip_rect;
+		private Fee.Geometry.Rect2D_R<int> clip_rect;
 
 		/** constructor。
 		*/
@@ -56,7 +56,7 @@ namespace Fee.Ui
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.clip_rect = a_rect;
 		}

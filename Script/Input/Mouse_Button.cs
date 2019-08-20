@@ -25,11 +25,11 @@ namespace Fee.Input
 
 		/** ダウン位置。
 		*/
-		public Fee.Render2D.Pos2D<int> last_down_pos;
+		public Fee.Geometry.Pos2D<int> last_down_pos;
 
 		/** アップ位置。
 		*/
-		public Fee.Render2D.Pos2D<int> last_up_pos;
+		public Fee.Geometry.Pos2D<int> last_up_pos;
 
 		/** ドラッグ時間。
 		*/
@@ -83,7 +83,7 @@ namespace Fee.Input
 
 		/** 更新。
 		*/
-		public void Main(ref Mouse_Pos a_pos)
+		public void Main(ref Mouse_Cursor a_cursor)
 		{
 			if((this.on == true)&&(this.on_old == false)){
 				//ダウン。
@@ -91,7 +91,7 @@ namespace Fee.Input
 				this.up = false;
 
 				//ダウン位置。
-				this.last_down_pos.Set(a_pos.x,a_pos.y);
+				this.last_down_pos = a_cursor.pos;
 
 				//ドラッグ情報初期化。
 				this.drag_time = 0;
@@ -105,7 +105,7 @@ namespace Fee.Input
 				this.up = true;
 
 				//アップ位置。
-				this.last_up_pos.Set(a_pos.x,a_pos.y);
+				this.last_up_pos = a_cursor.pos;
 			}else{
 				this.down = false;
 				this.up = false;
@@ -115,12 +115,12 @@ namespace Fee.Input
 					if(this.drag_time < Config.MOUSE_DRAGTIME_MAX){
 						this.drag_time++;
 					}
-					this.drag_dir = new UnityEngine.Vector2(a_pos.x - this.last_down_pos.x,a_pos.y - this.last_down_pos.y);
+					this.drag_dir = new UnityEngine.Vector2(a_cursor.GetX() - this.last_down_pos.x,a_cursor.GetY() - this.last_down_pos.y);
 					this.drag_dir_magnitude = this.drag_dir.magnitude;
 					this.drag_dir_normalized = this.drag_dir.normalized;
 
 					//ドラッグ総移動距離。
-					this.drag_totallength += UnityEngine.Mathf.Abs(a_pos.x_old - a_pos.x);
+					this.drag_totallength += UnityEngine.Mathf.Abs(a_cursor.GetOldX() - a_cursor.GetX());
 				}
 			}
 		}

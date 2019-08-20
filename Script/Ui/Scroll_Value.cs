@@ -12,19 +12,6 @@
 */
 namespace Fee.Ui
 {
-	/** Scroll_Value_CallBack
-	*/
-	public interface Scroll_Value_CallBack
-	{
-		/** [Scroll_Value_CallBack]コールバック。位置変更。
-		*/
-		void OnItemPositionChange(int a_index);
-
-		/** [Scroll_Value_CallBack]コールバック。表示変更。
-		*/
-		void OnItemVisibleChange(int a_index,bool a_flag);
-	}
-
 	/** Scroll_Value
 	*/
 	public struct Scroll_Value

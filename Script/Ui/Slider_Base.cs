@@ -22,11 +22,11 @@ namespace Fee.Ui
 
 		/** rect
 		*/
-		protected Fee.Render2D.Rect2D_R<int> rect;
+		protected Fee.Geometry.Rect2D_R<int> rect;
 
 		/** button_rect
 		*/
-		protected Fee.Render2D.Rect2D_R<int> button_rect;
+		protected Fee.Geometry.Rect2D_R<int> button_rect;
 
 		/** drawpriority
 		*/
@@ -66,7 +66,7 @@ namespace Fee.Ui
 
 		/** clip_rect
 		*/
-		protected Fee.Render2D.Rect2D_R<int> clip_rect;
+		protected Fee.Geometry.Rect2D_R<int> clip_rect;
 
 		/** visible_flag
 		*/
@@ -178,7 +178,7 @@ namespace Fee.Ui
 			this.button_rect.x = this.rect.x + (int)(this.rect.w * (this.value / this.value_scale)) - this.button_rect.w / 2;
 			this.button_rect.y = this.rect.y + (this.rect.h - this.button_rect.h) / 2;
 
-			this.eventplate_button.SetRect(ref this.button_rect);
+			this.eventplate_button.SetRect(in this.button_rect);
 		}
 
 		/** ボタンサイズ。設定。
@@ -245,11 +245,11 @@ namespace Fee.Ui
 
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.clip_rect = a_rect;
-			this.eventplate.SetClipRect(ref a_rect);
-			this.eventplate_button.SetClipRect(ref a_rect);
+			this.eventplate.SetClipRect(in a_rect);
+			this.eventplate_button.SetClipRect(in a_rect);
 
 			//コールバック。クリップ矩形変更。
 			this.OnChangeClipRect();
@@ -269,10 +269,10 @@ namespace Fee.Ui
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.rect = a_rect;
-			this.eventplate.SetRect(ref a_rect);
+			this.eventplate.SetRect(in a_rect);
 
 			//ボタン矩形。更新。
 			this.UpdateButtonRect();
@@ -549,7 +549,7 @@ namespace Fee.Ui
 				this.down_flag = true;
 
 				{
-					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
+					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().cursor.GetX() - this.rect.x)) / this.rect.w;
 					if(t_value_per < 0.0f){
 						t_value_per = 0.0f;
 					}else if(t_value_per > 1.0f){
@@ -566,7 +566,7 @@ namespace Fee.Ui
 				//ダウン中オーバー中。
 
 				{
-					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
+					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().cursor.GetX() - this.rect.x)) / this.rect.w;
 					if(t_value_per < 0.0f){
 						t_value_per = 0.0f;
 					}else if(t_value_per > 1.0f){
@@ -580,7 +580,7 @@ namespace Fee.Ui
 				//範囲外ダウン中。
 
 				{
-					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().pos.x - this.rect.x)) / this.rect.w;
+					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().cursor.GetX() - this.rect.x)) / this.rect.w;
 					if(t_value_per < 0.0f){
 						t_value_per = 0.0f;
 					}else if(t_value_per > 1.0f){

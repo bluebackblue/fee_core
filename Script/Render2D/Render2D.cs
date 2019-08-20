@@ -612,7 +612,7 @@ namespace Fee.Render2D
 			//最初のカメラでレンダーテクスチャをクリアする。
 			if(Config.FIRSTGLCAMERA_CLEAR_RENDERTEXTURE == true){
 				if(a_layerindex == 0){
-					UnityEngine.GL.Clear(true,true,new UnityEngine.Color(0.0f,0.0f,0.0f,1.0f));
+					UnityEngine.GL.Clear(true,true,Config.FIRSTGLCAMERA_CLEAR_RENDERTEXTURE_COLOR);
 				}
 			}
 

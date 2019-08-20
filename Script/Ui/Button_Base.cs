@@ -26,7 +26,7 @@ namespace Fee.Ui
 
 		/** 矩形。
 		*/
-		protected Fee.Render2D.Rect2D_R<int> rect;
+		protected Fee.Geometry.Rect2D_R<int> rect;
 
 		/** drawpriority
 		*/
@@ -62,7 +62,7 @@ namespace Fee.Ui
 
 		/** clip_rect
 		*/
-		protected Fee.Render2D.Rect2D_R<int> clip_rect;
+		protected Fee.Geometry.Rect2D_R<int> clip_rect;
 
 		/** visible_flag
 		*/
@@ -245,10 +245,10 @@ namespace Fee.Ui
 		
 		/** クリップ矩形。設定。
 		*/
-		public void SetClipRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.clip_rect = a_rect;
-			this.eventplate.SetClipRect(ref a_rect);
+			this.eventplate.SetClipRect(in a_rect);
 
 			//コールバック。クリップ矩形変更。
 			this.OnChangeClipRect();
@@ -267,10 +267,10 @@ namespace Fee.Ui
 
 		/** 矩形。設定。
 		*/
-		public void SetRect(ref Fee.Render2D.Rect2D_R<int> a_rect)
+		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.rect = a_rect;
-			this.eventplate.SetRect(ref a_rect);
+			this.eventplate.SetRect(in a_rect);
 
 			//コールバック。矩形変更。
 			this.OnChangeRect();
