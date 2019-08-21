@@ -79,9 +79,9 @@ namespace Fee.PerformanceCounter
 
 					if(t_per >= 2.0f){
 						Tool.Log(Config.LOG_TAGNAME_STRING,t_per.ToString());
-						UnityEngine.GL.Color(Config.COLOR_NORMAL);
-					}else{
 						UnityEngine.GL.Color(Config.COLOR_OVER);
+					}else{
+						UnityEngine.GL.Color(Config.COLOR_NORMAL);
 					}
 
 					{

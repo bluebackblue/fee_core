@@ -47,48 +47,32 @@ namespace Fee.Ui
 		private void UpdateRect()
 		{
 			int t_w_a = this.corner_size;
-			int t_w_c = this.corner_size;
 			int t_w_b = this.rect.w - this.corner_size * 2;
+			int t_w_c = this.corner_size;
 			if(t_w_b < 0){
-				if(this.rect.w < this.corner_size){
-					t_w_a = this.rect.w;
-					t_w_b = 0;
-					t_w_c = 0;
-				}else{
-					t_w_a = this.corner_size;
-					t_w_b = 0;
-					t_w_c = this.rect.w - this.corner_size;
-				}
+				//指定サイズが小さい。
+				t_w_a = this.rect.w / 2;
+				t_w_b = 0;
+				t_w_c = this.rect.w / 2;
 			}
 
 			int t_h_a = this.corner_size;
-			int t_h_c = this.corner_size;
 			int t_h_b = this.rect.h - this.corner_size * 2;
+			int t_h_c = this.corner_size;
 			if(t_h_b < 0){
-				if(this.rect.w < this.corner_size){
-					t_h_a = this.rect.h;
-					t_h_b = 0;
-					t_h_c = 0;
-				}else{
-					t_h_a = this.corner_size;
-					t_h_b = 0;
-					t_h_c = this.rect.h - this.corner_size;
-				}
+				//指定サイズが小さい。
+				t_h_a = this.rect.h / 2;
+				t_h_b = 0;
+				t_h_c = this.rect.h / 2;
 			}
 
 			int t_x_0 = this.rect.x;
-			int t_x_1 = this.rect.x + this.corner_size;
-			int t_x_2 = this.rect.x + this.rect.w - this.corner_size;
-			if(t_x_2 < 0){
-				t_x_2 = 0;
-			}
+			int t_x_1 = this.rect.x + t_w_a;
+			int t_x_2 = this.rect.x + t_w_a + t_w_b;
 
 			int t_y_0 = this.rect.y;
-			int t_y_1 = this.rect.y + this.corner_size;
-			int t_y_2 = this.rect.y + this.rect.h - this.corner_size;
-			if(t_y_2 < 0){
-				t_y_2 = 0;
-			}
+			int t_y_1 = this.rect.y + t_h_a;
+			int t_y_2 = this.rect.y + t_h_a + t_h_b;
 
 			this.sprite_1.SetRect(t_x_0,t_y_0,t_w_a,t_h_a);
 			this.sprite_2.SetRect(t_x_1,t_y_0,t_w_b,t_h_a);
