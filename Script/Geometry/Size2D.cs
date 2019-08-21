@@ -14,7 +14,7 @@ namespace Fee.Geometry
 {
 	/** Size2D
 	*/
-	public struct Size2D<Type> // : IEquatable<>
+	public struct Size2D<Type>
 	{
 		/** wh
 		*/

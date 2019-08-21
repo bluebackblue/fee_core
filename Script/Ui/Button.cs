@@ -59,7 +59,7 @@ namespace Fee.Ui
 
 			//text
 			this.text = new Fee.Render2D.Text2D(this.deleter,a_drawpriority);
-			this.text.SetCenter(true,true);
+			this.text.SetAlignmentType(Render2D.Text2D_HorizontalAlignmentType.Center,Render2D.Text2D_VerticalAlignmentType.Middle);
 
 			//lock_textcolor
 			this.nomal_textcolor = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);

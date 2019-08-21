@@ -77,7 +77,7 @@ namespace Fee.Ui
 
 			//text
 			this.text = new Fee.Render2D.Text2D(this.deleter,a_drawpriority);
-			this.text.SetCenter(false,true);
+			this.text.SetAlignmentType(Render2D.Text2D_HorizontalAlignmentType.Left,Render2D.Text2D_VerticalAlignmentType.Middle);
 
 			this.text_offset_x = 5;
 		}

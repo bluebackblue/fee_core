@@ -20,10 +20,10 @@ namespace Fee.Render2D
 		*/
 		private int fontsize;
 
-		/** センター。
+		/** アライメントタイプ。
 		*/
-		private bool is_center_w;
-		private bool is_center_h;
+		private Text2D_HorizontalAlignmentType alignment_type_x;
+		private Text2D_VerticalAlignmentType alignment_type_y;
 
 		/** クリップ。
 		*/
@@ -59,9 +59,11 @@ namespace Fee.Render2D
 			//フォントサイズ。
 			this.fontsize = Config.DEFAULT_TEXT_FONTSIZE;
 
-			//センター。
-			this.is_center_w = false;
-			this.is_center_h = false;
+			//アライメントタイプ。左揃え。
+			this.alignment_type_x = Text2D_HorizontalAlignmentType.Left;
+
+			//アライメントタイプ。上揃え。
+			this.alignment_type_y = Text2D_VerticalAlignmentType.Top;
 
 			//クリップ。
 			this.clip = false;
@@ -296,16 +298,16 @@ namespace Fee.Render2D
 			return this.raw_outline.effectColor;
 		}
 
-		/** センター。設定。
+		/** アライメントタイプ。設定。
 		*/
-		public void SetCenter(bool a_flag_w,bool a_flag_h)
+		public void SetAlignmentType(Text2D_HorizontalAlignmentType a_alignment_type_x,Text2D_VerticalAlignmentType a_alignment_type_y)
 		{
-			if(this.is_center_w != a_flag_w){
-				this.is_center_w = a_flag_w;
+			if(this.alignment_type_x != a_alignment_type_x){
+				this.alignment_type_x = a_alignment_type_x;
 			}
 
-			if(this.is_center_h != a_flag_h){
-				this.is_center_h = a_flag_h;
+			if(this.alignment_type_y != a_alignment_type_y){
+				this.alignment_type_y = a_alignment_type_y;
 			}
 		}
 
@@ -347,18 +349,18 @@ namespace Fee.Render2D
 			return false;
 		}
 
-		/** センター。取得。
+		/** アライメントタイプ。取得。
 		*/
-		public bool IsCenterW()
+		public Text2D_HorizontalAlignmentType GetAlignmentTypeX()
 		{
-			return this.is_center_w;
+			return this.alignment_type_x;
 		}
 
-		/** センター。取得。
+		/** アライメントタイプ。取得。
 		*/
-		public bool IsCenterH()
+		public Text2D_VerticalAlignmentType GetAlignmentTypeY()
 		{
-			return this.is_center_h;
+			return this.alignment_type_y;
 		}
 
 		/** フォント。設定。

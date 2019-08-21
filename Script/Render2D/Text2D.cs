@@ -400,25 +400,25 @@ namespace Fee.Render2D
 			return this.param.GetOutLineColor();
 		}
 
-		/** センター。設定。
+		/** アライメントタイプ。設定。
 		*/
-		public void SetCenter(bool a_flag_w,bool a_flag_h)
+		public void SetAlignmentType(Text2D_HorizontalAlignmentType a_alignment_type_x,Text2D_VerticalAlignmentType a_alignment_type_y)
 		{
-			this.param.SetCenter(a_flag_w,a_flag_h);
+			this.param.SetAlignmentType(a_alignment_type_x,a_alignment_type_y);
 		}
 
-		/** センター。設定。
+		/** アライメントタイプ。取得。
 		*/
-		public bool IsCenterW()
+		public Text2D_HorizontalAlignmentType GetAlignmentTypeX()
 		{
-			return this.param.IsCenterW();
+			return this.param.GetAlignmentTypeX();
 		}
 
-		/** センター。設定。
+		/** アライメントタイプ。取得。
 		*/
-		public bool IsCenterH()
+		public Text2D_VerticalAlignmentType GetAlignmentTypeY()
 		{
-			return this.param.IsCenterH();
+			return this.param.GetAlignmentTypeY();
 		}
 
 		/** フォント。設定。

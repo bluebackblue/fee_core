@@ -14,7 +14,7 @@ namespace Fee.Geometry
 {
 	/** Rect2D_R
 	*/
-	public struct Rect2D_R<Type> // : IEquatable<>
+	public struct Rect2D_R<Type>
 	{
 		/** xywh
 		*/

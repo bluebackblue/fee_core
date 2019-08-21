@@ -310,17 +310,31 @@ namespace Fee.Render2D
 
 			//位置計算。
 			UnityEngine.Vector3 t_localposition = new UnityEngine.Vector3(this.calc_ui_x + a_text.GetX() * this.calc_ui_scale,this.calc_ui_y - a_text.GetY() * this.calc_ui_scale,0.0f);
-			if((a_text.IsCenterW() == false)||(a_text.IsCenterH() == false)){
+			if((a_text.GetAlignmentTypeX() != Text2D_HorizontalAlignmentType.Center)||(a_text.GetAlignmentTypeY() != Text2D_VerticalAlignmentType.Middle)){
 				//計算済みサイズ取得。
 				UnityEngine.Vector2 t_sizedelta;
 				a_text.Raw_GetRectTransformSizeDelta(out t_sizedelta);
 
-				if(a_text.IsCenterW() == false){
-					t_localposition.x += t_sizedelta.x / 2;
+				switch(a_text.GetAlignmentTypeX()){
+				case Text2D_HorizontalAlignmentType.Right:
+					{
+						t_localposition.x -= t_sizedelta.x / 2;
+					}break;
+				case Text2D_HorizontalAlignmentType.Left:
+					{
+						t_localposition.x += t_sizedelta.x / 2;
+					}break;
 				}
 
-				if(a_text.IsCenterH() == false){
-					t_localposition.y -= t_sizedelta.y / 2;
+				switch(a_text.GetAlignmentTypeY()){
+				case Text2D_VerticalAlignmentType.Bottom:
+					{
+						t_localposition.y += t_sizedelta.y / 2;
+					}break;
+				case Text2D_VerticalAlignmentType.Top:
+					{
+						t_localposition.y -= t_sizedelta.y / 2;
+					}break;
 				}
 			}
 			a_text.Raw_SetRectTransformLocalPosition(ref t_localposition);
