@@ -166,6 +166,10 @@ namespace Fee.Ui
 		{
 			this.deleter.DeleteAll();
 
+			//コールバック解除。
+			this.callbackparam_click = null;
+			this.callbackparam_changeoverflag = null;
+
 			//ターゲット解除。
 			Fee.Ui.Ui.GetInstance().UnSetTargetRequest(this);
 
@@ -228,6 +232,13 @@ namespace Fee.Ui
 					}
 				}
 			}
+		}
+
+		/** ロック。チェック。
+		*/
+		public bool IsLock()
+		{
+			return this.lock_flag;
 		}
 
 		/** クリップ。設定。

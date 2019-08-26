@@ -145,6 +145,9 @@ namespace Fee.Ui
 		{
 			this.deleter.DeleteAll();
 
+			//コールバック解除。
+			this.callbackparam_changecheck = null;
+
 			//ターゲット解除。
 			Fee.Ui.Ui.GetInstance().UnSetTargetRequest(this);
 		}

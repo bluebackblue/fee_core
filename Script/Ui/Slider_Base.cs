@@ -168,6 +168,9 @@ namespace Fee.Ui
 		*/
 		public void OnDelete()
 		{
+			//コールバック解除。
+			this.callbackparam_changevalue = null;
+
 			this.deleter.DeleteAll();
 		}
 

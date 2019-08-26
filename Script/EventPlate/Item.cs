@@ -91,6 +91,9 @@ namespace Fee.EventPlate
 			Tool.Assert(this.deleted == false);
 			this.deleted = true;
 
+			//コールバック解除。
+			this.callbackparam_over = null;
+
 			EventPlate.GetInstance().Remove(this,this.eventtype);
 		}
 
