@@ -53,7 +53,7 @@ namespace Fee.Ui
 		public void Call(bool a_is_onover)
 		{
 			if(this.callback_interface != null){
-				this.callback_interface.OnButtonChangeOverFlag(this.id,true);
+				this.callback_interface.OnButtonChangeOverFlag(this.id,a_is_onover);
 			}
 		}
 	}
