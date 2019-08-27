@@ -32,9 +32,6 @@ namespace Fee.JsonItem
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
-
 		/** Double To String
 		*/
 		public string DOUBLE_TO_STRING_FORMAT = "{0:0.0#########}";

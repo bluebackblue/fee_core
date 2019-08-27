@@ -31,7 +31,6 @@ namespace Fee.AssetBundleList
 		/** リスロー。
 		*/
 		public static bool RETHROW_ENABLE = false;
-
 	}
 }
 

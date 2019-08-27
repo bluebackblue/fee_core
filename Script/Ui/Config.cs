@@ -32,9 +32,6 @@ namespace Fee.Ui
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
-
 		/** デフォルト。コーナーサイズ。
 		*/
 		public static int DEFAULT_BUTTON_CORNER_SIZE = 10;
@@ -62,7 +59,6 @@ namespace Fee.Ui
 		/** ドラッグキャンセル。ドラッグ距離閾値。
 		*/
 		public static float DRAGCANCEL_THRESHOLD = 2.0f;
-
 	}
 }
 

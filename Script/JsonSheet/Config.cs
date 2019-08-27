@@ -35,7 +35,6 @@ namespace Fee.JsonSheet
 		/** シート名。コンバート。
 		*/
 		public static string SHEETNAME_CONVERT = "convert";
-
 	}
 }
 

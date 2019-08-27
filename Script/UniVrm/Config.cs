@@ -31,9 +31,6 @@ namespace Fee.UniVrm
 		/** リスロー。
 		*/
 		public static bool RETHROW_ENABLE = false;
-
-
-
 	}
 }
 

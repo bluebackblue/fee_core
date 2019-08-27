@@ -43,7 +43,6 @@ namespace Fee.PerformanceCounter
 		/** ログプレフィックス。
 		*/
 		public static string LOG_TAGNAME_STRING = "-------- PerformanceCounter --------";
-		
 	}
 }
 

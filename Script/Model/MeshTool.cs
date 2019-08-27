@@ -16,7 +16,7 @@ namespace Fee.Model
 	*/
 	public class MeshTool
 	{
-		/**constructor
+		/** constructor
 		*/
 		public MeshTool()
 		{

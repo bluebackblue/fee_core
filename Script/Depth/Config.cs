@@ -32,9 +32,6 @@ namespace Fee.Depth
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
-
 		/** マテリアル名。
 		*/
 		public const string MATERIAL_NAME_DEPTHVIEW = "Material/Depth/DepthView";

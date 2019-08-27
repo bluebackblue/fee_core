@@ -31,9 +31,6 @@ namespace Fee.EventPlate
 		/** リスロー。
 		*/
 		public static bool RETHROW_ENABLE = false;
-
-
-
 	}
 }
 

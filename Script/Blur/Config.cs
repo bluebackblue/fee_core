@@ -32,8 +32,6 @@ namespace Fee.Blur
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
 		/** マテリアル名。
 		*/
 		public static string MATERIAL_NAME_BLURX = "Material/Blur/BlurX";

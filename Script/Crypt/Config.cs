@@ -31,9 +31,6 @@ namespace Fee.Crypt
 		/** リスロー。
 		*/
 		public static bool RETHROW_ENABLE = false;
-
-
-
 	}
 }
 

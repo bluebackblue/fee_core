@@ -236,8 +236,8 @@ namespace Fee.JsonItem
 						int t_index = 1;
 						int t_max = t_jsonstring_temp.Length - 1;
 
+						//TODO:System.Text.StringBuilder
 						this.value.string_data = "";
-						//this.value.string_data->reserve(16 + t_max);
 				
 						while(t_index < t_max){
 							int t_add = Impl.GetMojiSize(t_jsonstring_temp,t_index,true);
@@ -1018,7 +1018,6 @@ namespace Fee.JsonItem
 			case ValueType.StringData:
 				{
 					a_stringbuilder.Append("\"");
-					//string t_jsonstring = "\"";
 
 					{
 						int t_index = 0;
@@ -1035,7 +1034,6 @@ namespace Fee.JsonItem
 									//特殊文字。
 
 									a_stringbuilder.Append(t_add_string);
-									//t_jsonstring += t_add_string;
 
 									t_index++;
 									continue;
@@ -1045,20 +1043,18 @@ namespace Fee.JsonItem
 								Tool.Assert(false);
 
 								//TODO:ロールバック。
-								//return "";
+								//a_stringbuilder.Clear();
 
 								return;
 							}
 
 							a_stringbuilder.Append(this.value.string_data.Substring(t_index,t_moji_size));
-							//t_jsonstring += this.value.string_data.Substring(t_index,t_add);
 
 							t_index += t_moji_size;
 						}
 					}
 
 					a_stringbuilder.Append( "\"");
-					//t_jsonstring += "\"";
 
 				}return;
 			case ValueType.SignedNumber:
@@ -1076,7 +1072,6 @@ namespace Fee.JsonItem
 			case ValueType.IndexArray:
 				{
 					a_stringbuilder.Append("[");
-					//string t_jsonstring = "[";
 
 					{
 						int t_count = this.value.index_array.Count;
@@ -1086,29 +1081,24 @@ namespace Fee.JsonItem
 						if(t_count > 0){
 
 							this.value.index_array[0].ConvertJsonString(a_stringbuilder);
-							//t_jsonstring += this.value.index_array[0].ConvertJsonString();
 							t_index++;
 
 							//二つ目以降。
 							for(;t_index<t_count;t_index++){
 
 								a_stringbuilder.Append(",");
-								//t_jsonstring += ",";
 
 								this.value.index_array[t_index].ConvertJsonString(a_stringbuilder);
-								//t_jsonstring += this.value.index_array[t_index].ConvertJsonString();
 							}
 						}
 					}
 
 					a_stringbuilder.Append("]");
-					//t_jsonstring += "]";
 
 				}return;
 			case ValueType.AssociativeArray:
 				{
 					a_stringbuilder.Append("{");
-					//string t_jsonstring = "{";
 
 					{
 						bool t_first = true;
@@ -1119,36 +1109,27 @@ namespace Fee.JsonItem
 								//一つ目。
 
 								a_stringbuilder.Append("\"");
-								//t_jsonstring += "\"";
 
 								a_stringbuilder.Append(t_pair.Key);
-								//t_jsonstring += t_pair.Key;
 
 								a_stringbuilder.Append("\":");
-								//t_jsonstring += "\":";
 
 								t_pair.Value.ConvertJsonString(a_stringbuilder);
-								//t_jsonstring += t_pair.Value.ConvertJsonString();
 							}else{
 								//二つ目以降。
 
 								a_stringbuilder.Append(",\"");
-								//t_jsonstring += ",\"";
 
 								a_stringbuilder.Append(t_pair.Key);
-								//t_jsonstring += t_pair.Key;
 
 								a_stringbuilder.Append("\":");
-								//t_jsonstring += "\":";
 
 								t_pair.Value.ConvertJsonString(a_stringbuilder);
-								//t_jsonstring += t_pair.Value.ConvertJsonString();
 							}
 						}
 					}
 
 					a_stringbuilder.Append("}");
-					//t_jsonstring += "}";
 				}return;
 			case ValueType.BoolData:
 				{
@@ -1161,7 +1142,6 @@ namespace Fee.JsonItem
 			case ValueType.BinaryData:
 				{
 					a_stringbuilder.Append("<");
-					//string t_jsonstring = "<";
 
 					{
 						int t_count = this.value.binary_data.Count;
@@ -1170,20 +1150,17 @@ namespace Fee.JsonItem
 						//一つ目。
 						if(t_count > 0){
 							a_stringbuilder.Append(string.Format("{0:X}",this.value.binary_data[t_index]));
-							//t_jsonstring += string.Format("{0:X}",this.value.binary_data[t_index]);
 
 							t_index++;
 
 							//二つ目以降。
 							for(;t_index<t_count;t_index++){
 								a_stringbuilder.Append(string.Format("{0:X}",this.value.binary_data[t_index]));
-								//t_jsonstring += string.Format("{0:X}",this.value.binary_data[t_index]);
 							}
 						}
 					}
 
 					a_stringbuilder.Append(">");
-					//t_jsonstring += ">";
 
 				}return;
 			case ValueType.None:

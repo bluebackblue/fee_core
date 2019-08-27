@@ -18,23 +18,63 @@ namespace Fee.JsonItem
 	{
 		None = 0,
 		
-		StringData,				//文字データ。
-		AssociativeArray,		//連想配列。
-		IndexArray,				//インデックス配列。
-		SignedNumber,			//整数。
-		UnsignedNumber,			//整数。
-		FloatingNumber,			//少数。
-		BoolData,				//真偽データ。3
-		BinaryData,				//バイナリデータ。
-		
-		//中間計算用。
-		Calc_UnknownNumber,		//数値（少数/整数）。
-		Calc_BoolDataTrue,		//真。
-		Calc_BoolDataFalse,		//偽。
+		/** 文字データ。
+		*/
+		StringData,
 
-		//Mask
-		Mask_Integer_Number,	//SignedNumber & UnsignedNumber
-		Mask_All_Number,		//SignedNumber & UnsignedNumber & FloatingNumber
+		/** 連想配列。
+		*/
+		AssociativeArray,
+
+		/** インデックス配列。
+		*/
+		IndexArray,
+
+		/** 整数。
+		*/
+		SignedNumber,
+
+		/** 整数。
+		*/
+		UnsignedNumber,
+
+		/** 少数。
+		*/
+		FloatingNumber,
+
+		/** 真偽データ。
+		*/
+		BoolData,
+
+		/** バイナリデータ。
+		*/
+		BinaryData,
+
+
+		
+
+		/** 中間計算用。数値（少数/整数）。
+		*/
+		Calc_UnknownNumber,
+
+		/** 中間計算用。真。
+		*/
+		Calc_BoolDataTrue,
+
+		/** 中間計算用。偽。
+		*/
+		Calc_BoolDataFalse,
+
+
+
+
+		/** Mask : SignedNumber & UnsignedNumber として扱う。
+		*/
+		Mask_Integer_Number,
+
+		/** Mask : SignedNumber & UnsignedNumber & FloatingNumber として扱う。
+		*/
+		Mask_All_Number,
 	}
 }
 

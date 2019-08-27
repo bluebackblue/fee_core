@@ -31,9 +31,6 @@ namespace Fee.Scene
 		/** リスロー。
 		*/
 		public static bool RETHROW_ENABLE = false;
-
-
-
 	}
 }
 

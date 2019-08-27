@@ -322,8 +322,6 @@ namespace Fee.Ui
 			this.lock_sprite.SetCornerSize(a_corner_size);
 		}
 
-
-
 		/** 更新。表示。
 		*/
 		public void UpdateView()

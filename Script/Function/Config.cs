@@ -31,11 +31,6 @@ namespace Fee.Function
 		/** リスロー。
 		*/
 		public static bool RETHROW_ENABLE = false;
-
-
-
-
-
 	}
 }
 

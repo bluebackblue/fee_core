@@ -32,9 +32,6 @@ namespace Fee.Fade
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
-
 		/** デフォルト。アニメ。スピード。
 		*/
 		public static float DEFAULT_ANIME_SPEED = 0.01f;

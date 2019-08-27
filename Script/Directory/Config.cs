@@ -31,9 +31,6 @@ namespace Fee.Directory
 		/** リスロー。
 		*/
 		public static bool RETHROW_ENABLE = false;
-
-
-
 	}
 }
 

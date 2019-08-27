@@ -32,9 +32,6 @@ namespace Fee.Bloom
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
-
 		/** マテリアル名。
 		*/
 		public const string MATERIAL_NAME_FIRSTDOWNSAMPLING = "Material/Bloom/BloomFirstDownSampling";

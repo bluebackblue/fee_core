@@ -32,9 +32,6 @@ namespace Fee.File
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
-
 		/** USE_ASYNC
 		*/
 		#if(UNITY_5)

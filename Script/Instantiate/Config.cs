@@ -31,9 +31,6 @@ namespace Fee.Instantiate
 		/** リスロー。
 		*/
 		public static bool RETHROW_ENABLE = false;
-
-
-
 	}
 }
 

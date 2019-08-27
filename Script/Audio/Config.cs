@@ -32,9 +32,6 @@ namespace Fee.Audio
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
-
 		/** デフォルトボリューム。マスター。
 		*/
 		public static float DEFAULT_VOLUME_MASTER = 0.7f;

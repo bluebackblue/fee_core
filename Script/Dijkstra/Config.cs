@@ -31,9 +31,6 @@ namespace Fee.Dijkstra
 		/** リスロー。
 		*/
 		public static bool RETHROW_ENABLE = false;
-
-
-
 	}
 }
 

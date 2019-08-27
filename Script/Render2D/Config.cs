@@ -32,9 +32,6 @@ namespace Fee.Render2D
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
-
 		/** 仮想スクリーンサイズ。
 		*/
 		public static int VIRTUAL_W = 960;
@@ -121,7 +118,7 @@ namespace Fee.Render2D
 		{
 			None = -1,
 
-			/** 
+			/**  Preset
 			*/
 			Simple = 0,
 			Alpha,

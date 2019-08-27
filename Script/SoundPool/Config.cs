@@ -32,9 +32,6 @@ namespace Fee.SoundPool
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
-
 		/** ロードＵＲＬサウンドプール。キャッシュ。
 		*/
 		public static bool USE_LOADURL_SOUNDPOOL_CACHE = true;

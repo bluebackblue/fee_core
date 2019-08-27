@@ -31,7 +31,6 @@ namespace Fee.Data
 		/** リスロー。
 		*/
 		public static bool RETHROW_ENABLE = false;
-
 	}
 }
 

@@ -38,9 +38,13 @@ namespace Fee.JsonItem
 		*/
 		public class ObjectOption
 		{
+			/** Enumを文字列に変換する。
+			*/
 			public bool attribute_enumstring = false;
 		}
 
+		/** object_option
+		*/
 		private ObjectOption object_option;
 
 		/** constructor

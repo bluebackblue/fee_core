@@ -45,6 +45,8 @@ namespace Fee.Excel
 		public static string COMMAND_PARAM_END = "[end]";
 		public static string COMMAND_ON = "*";
 		
+		/** PARAMTYPE
+		*/
 		public const string PARAMTYPE_STRING = "string";
 		public const string PARAMTYPE_INT = "int";
 		public const string PARAMTYPE_FLOAT = "float";

@@ -42,9 +42,6 @@ namespace Fee.Input
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
-
 		/** インプットシステム。マウス。マウス位置。
 		*/
 		#if(UNITY_EDITOR)
@@ -72,9 +69,6 @@ namespace Fee.Input
 		#else
 		public static bool USE_INPUTMANAGER_INPUTMOUSE_MOUSEPOSITION = true;
 		#endif
-
-
-
 
 		/** インプットシステム。マウス。マウスボタン。
 		*/
@@ -104,9 +98,6 @@ namespace Fee.Input
 		public static bool USE_INPUTMANAGER_INPUTMOUSE_MOUSEBUTTON = true;
 		#endif
 
-
-
-
 		/** インプットシステム。マウス。マウスホイール。
 		*/
 		#if(UNITY_EDITOR)
@@ -124,9 +115,6 @@ namespace Fee.Input
 		#else
 		public static bool USE_INPUTMANAGER_INPUTNAME_MOUSEWHEEL = true;
 		#endif
-
-
-
 
 		/** インプットシステム。ゲームパッド。パッドデジタルボタン。
 		*/
@@ -148,10 +136,6 @@ namespace Fee.Input
 		public static bool USE_INPUTMANAGER_INPUTNAME_PADDIGITALBUTTON = true;
 		#endif
 
-
-
-
-
 		/** インプットシステム。ゲームパッド。パッドスティック。
 		*/
 		#if(UNITY_EDITOR)
@@ -171,10 +155,6 @@ namespace Fee.Input
 		#else
 		public static bool USE_INPUTMANAGER_INPUTNAME_PADSTICK = true;
 		#endif
-
-
-
-
 
 		/** インプットシステム。ゲームパッド。パッドトリガー。
 		*/
@@ -196,10 +176,6 @@ namespace Fee.Input
 		public static bool USE_INPUTMANAGER_INPUTNAME_PADTRIGGER = true;
 		#endif
 
-
-
-
-
 		/** インプットシステム。ゲームパッド。パッドモーター。
 		*/
 		#if(UNITY_EDITOR)
@@ -209,9 +185,6 @@ namespace Fee.Input
 		#else
 		public static bool USE_INPUTSYSTEM_GAMEPAD_PADMOTOR = true;
 		#endif
-
-
-
 
 		/** インプットシステム。キーボード。キー。
 		*/
@@ -228,10 +201,6 @@ namespace Fee.Input
 		#else
 		public static bool USE_INPUTMANAGER_GETKEY_KEY = true;
 		#endif
-
-
-
-
 
 		/** インプットシステム。マウス。タッチ。
 		*/
@@ -273,18 +242,6 @@ namespace Fee.Input
 		public static bool USE_INPUTMANAGER_INPUTTOUCH_TOUCH = false;
 		#endif
 
-
-
-
-
-
-
-
-
-
-
-
-
 		/** ドラッグ判定閾値。4方向。
 		*/
 		public static float DRAG_DIR4_DOT = 0.5f;
@@ -322,8 +279,6 @@ namespace Fee.Input
 		public static int MOUSE_EDITOR_OFFSET_Y = 0;
 		#endif
 
-		
-		
 		/** インプットシステム。左。（デジタル）。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
@@ -352,8 +307,6 @@ namespace Fee.Input
 		#endif
 		public static UnityEngine.KeyCode INPUTMANAGER_B_DOWN = UnityEngine.KeyCode.DownArrow;
 
-		
-		
 		/** インプットシステム。左。（左アナログ）。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
@@ -381,8 +334,6 @@ namespace Fee.Input
 		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_L_DOWN = UnityEngine_InputSystem.Key.S;
 		#endif
 		public static UnityEngine.KeyCode INPUTMANAGER_B_L_DOWN = UnityEngine.KeyCode.S;
-
-
 
 		/** インプットシステム。左。（右アナログ）。
 		*/
@@ -412,8 +363,6 @@ namespace Fee.Input
 		#endif
 		public static UnityEngine.KeyCode INPUTMANAGER_B_R_DOWN = UnityEngine.KeyCode.K;
 
-
-
 		/** インプットシステム。エンター。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
@@ -442,8 +391,6 @@ namespace Fee.Input
 		#endif
 		public static UnityEngine.KeyCode INPUTMANAGER_B_SUB2 = UnityEngine.KeyCode.LeftControl;
 
-
-
 		/** インプットシステム。左メニュー。
 		*/
 		#if(USE_DEF_FEE_INPUTSYSTEM)
@@ -457,8 +404,6 @@ namespace Fee.Input
 		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_RIGHT_MENU = UnityEngine_InputSystem.Key.Backspace;
 		#endif
 		public static UnityEngine.KeyCode INPUTMANAGER_B_RIGHT_MENU = UnityEngine.KeyCode.Backspace;
-
-
 
 		/** インプットシステム。左トリガー１。
 		*/
@@ -487,8 +432,6 @@ namespace Fee.Input
 		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_R_TRIGGER_2 = UnityEngine_InputSystem.Key.V;
 		#endif
 		public static UnityEngine.KeyCode INPUTMANAGER_B_R_TRIGGER_2 = UnityEngine.KeyCode.V;
-
-
 
 		/** インプットマネージャ。マウスホイール。
 		*/
