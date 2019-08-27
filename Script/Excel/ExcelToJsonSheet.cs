@@ -47,7 +47,7 @@ namespace Fee.Excel
 					int t_sheet_count = this.excel.GetSheetCount();
 					for(int ii=0;ii<t_sheet_count;ii++){
 						if(this.excel.SetActiveSheet(ii) == true){
-							this.Convert_Sheet(ii);
+							this.Convert_Sheet();
 						}
 					}
 					this.excel.Close();
@@ -163,12 +163,20 @@ namespace Fee.Excel
 			int t_block_size = 16;
 			for(int yy=0;yy<10;yy++){
 				for(int xx=0;xx<10;xx++){
+
+					//ルート発見。
 					if(this.FindCellBox(xx * t_block_size,yy * t_block_size,t_block_size,Config.COMMAND_PARAM_ROOT,ref a_result_pos) == true){
 						return true;
+					}
+
+					//ルートより先に終端発見。
+					if(this.FindCellBox(xx * t_block_size,yy * t_block_size,t_block_size,Config.COMMAND_PARAM_END,ref a_result_pos) == true){
+						return false;
 					}
 				}
 			}
 
+			Tool.Assert(false);
 			return false;
 		}
 
@@ -212,7 +220,7 @@ namespace Fee.Excel
 
 		/** コンバート。シート。
 		*/
-		private void Convert_Sheet(int a_index)
+		private void Convert_Sheet()
 		{
 			/** pos
 			*/
@@ -222,8 +230,8 @@ namespace Fee.Excel
 			CellPosition t_pos_end_y = new CellPosition(0,0);
 			CellPosition t_pos_end_x = new CellPosition(0,0);
 
+			//ルート。検索。
 			if(this.FindCell_Root(ref t_pos_root) == false){
-				Tool.Assert(false);
 				return;
 			}
 

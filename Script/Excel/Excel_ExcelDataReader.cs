@@ -101,10 +101,12 @@ namespace Fee.Excel
 
 			if(a_sheet != null){
 				if(0 <= a_y){
-					try{
-						t_line = a_sheet.Rows[a_y];
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
+					if(a_y < a_sheet.Rows.Count){
+						try{
+							t_line = a_sheet.Rows[a_y];
+						}catch(System.Exception t_exception){
+							Tool.DebugReThrow(t_exception);
+						}
 					}
 				}else{
 					Tool.Assert(false);

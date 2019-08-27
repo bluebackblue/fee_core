@@ -32,9 +32,6 @@ namespace Fee.Excel
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
-
-
 		/** 終端検索範囲。
 		*/
 		public static int END_SEARCH_WIDTH = 100;

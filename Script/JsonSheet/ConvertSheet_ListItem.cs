@@ -17,22 +17,10 @@ namespace Fee.JsonSheet
 	public class ConvertSheet_ListItem
 	{
 		/** convert_command
-
-			<enum>			: ＥＮＵＭ出力。
-			<json>			: ＪＳＯＮ出力。
-			<se>			: ＳＥプレハブ出力。
-			<data>			: データＪＳＯＮ出力。
-			<assetbundle>	: アセットバンドル出力。
-
 		*/
 		public string convert_command;
 
 		/** convert_param
-
-			<data>
-				<editor>	: エディタ。
-				<release>	: リリース。
-
 		*/
 		public string convert_param;
 

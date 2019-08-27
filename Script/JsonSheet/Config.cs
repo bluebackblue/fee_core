@@ -32,7 +32,6 @@ namespace Fee.JsonSheet
 		*/
 		public static bool RETHROW_ENABLE = false;
 
-
 		/** シート名。コンバート。
 		*/
 		public static string SHEETNAME_CONVERT = "convert";
