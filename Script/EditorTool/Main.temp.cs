@@ -517,14 +517,18 @@ namespace Fee.EditorTool
 				}
 
 				//アセットバンドル。
+				#if(false)
 				{
 					Fee.AssetBundleList.AssetBundleList.GetInstance().Main();
 				}
+				#endif
 
 				//オーディオ。
+				#if(false)
 				{
 					Fee.Audio.Audio.GetInstance().Main(s_is_focus);
 				}
+				#endif
 
 				//ブルーム。
 				{
@@ -683,7 +687,11 @@ namespace Fee.EditorTool
 		private void Update()
 		{
 			//シーン。
-			Fee.Scene.Scene.GetInstance().Unity_Update(UnityEngine.Time.deltaTime);
+			#if(false)
+			{
+				Fee.Scene.Scene.GetInstance().Unity_Update(UnityEngine.Time.deltaTime);
+			}
+			#endif
 		}
 
 		/** LateUpdate
@@ -696,7 +704,11 @@ namespace Fee.EditorTool
 		private void LateUpdate()
 		{
 			//シーン。
-			Fee.Scene.Scene.GetInstance().Unity_LateUpdate(UnityEngine.Time.deltaTime);
+			#if(false)
+			{
+				Fee.Scene.Scene.GetInstance().Unity_LateUpdate(UnityEngine.Time.deltaTime);
+			}
+			#endif
 		}
 
 		/** シーン遷移。
