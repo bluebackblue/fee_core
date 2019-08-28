@@ -101,6 +101,10 @@ namespace Fee.Render2D
 		*/
 		private LayerList layerlist;
 
+		/** temp_vertex_buffer_8
+		*/
+		private float[] temp_vertex_buffer_8;
+
 		/** [シングルトン]constructor。
 		*/
 		private Render2D()
@@ -136,6 +140,9 @@ namespace Fee.Render2D
 
 			//レイヤーリスト。
 			this.layerlist = new LayerList(this.root_gameobject.GetComponent<UnityEngine.Transform>());
+
+			//temp_vertex_buffer_8
+			this.temp_vertex_buffer_8 = new float[8];
 		}
 
 		/** [シングルトン]削除。
@@ -620,7 +627,7 @@ namespace Fee.Render2D
 
 				UnityEngine.GL.PushMatrix();
 
-				float[] t_to_8 = new float[8];
+				float[] t_to_8 = this.temp_vertex_buffer_8;
 
 				try
 				{
