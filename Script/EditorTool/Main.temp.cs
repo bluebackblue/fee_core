@@ -399,7 +399,7 @@ namespace Fee.EditorTool
 
 			//入力。
 			{
-				//マスウ。
+				//マウス。
 				Fee.Input.Mouse.DeleteInstance();
 	
 				//キー。

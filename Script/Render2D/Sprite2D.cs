@@ -62,6 +62,11 @@ namespace Fee.Render2D
 		#endif
 
 		/** constructor。
+
+			「DRAWPRIORITY_STEP」ごとに描画カメラが切り替わる。
+			同一カメラ内では必ずテキストが上に表示される。
+			テキストの上にスプライトを表示する場合は、描画カメラが切り替わるようにプライオリィを設定する必要がある。
+
 		*/
 		public Sprite2D(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
