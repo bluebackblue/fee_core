@@ -64,6 +64,12 @@ namespace Fee.EditorTool
 			return s_instance;
 		}
 
+		/** scene_update_wait
+		*/
+		#if(false)
+		private int scene_update_wait;
+		#endif
+
 		/** Start
 		*/
 		void Start()
@@ -76,6 +82,13 @@ namespace Fee.EditorTool
 
 			//初期化。
 			{
+				//scene_update_wait
+				#if(false)
+				{
+					this.scene_update_wait = 3;
+				}
+				#endif
+
 				{
 					//２Ｄ描画。
 					#if(false)
@@ -249,6 +262,10 @@ namespace Fee.EditorTool
 				#endif
 
 				//プラットフォーム。
+				{
+				}
+
+				//プレイヤーループシステム。
 				{
 				}
 
@@ -426,6 +443,10 @@ namespace Fee.EditorTool
 			{
 			}
 
+			//プレイヤーループシステム。
+			{
+			}
+
 			//２Ｄ描画。
 			{
 				Fee.Render2D.Render2D.DeleteInstance();
@@ -507,7 +528,9 @@ namespace Fee.EditorTool
 					//シーン。
 					#if(false)
 					{
-						Fee.Scene.Scene.GetInstance().Main();
+						if(this.scene_update_wait <= 0){
+							Fee.Scene.Scene.GetInstance().Main();
+						}
 					}
 					#endif
 				}
@@ -638,6 +661,10 @@ namespace Fee.EditorTool
 				{
 				}
 
+				//プレイヤーループシステム。
+				{
+				}
+
 				//２Ｄ描画。
 				{
 				}
@@ -689,7 +716,11 @@ namespace Fee.EditorTool
 			//シーン。
 			#if(false)
 			{
-				Fee.Scene.Scene.GetInstance().Unity_Update(UnityEngine.Time.deltaTime);
+				if(this.scene_update_wait <= 0){
+					Fee.Scene.Scene.GetInstance().Unity_Update(UnityEngine.Time.deltaTime);
+				}else{
+					this.scene_update_wait--;
+				}
 			}
 			#endif
 		}
@@ -706,7 +737,9 @@ namespace Fee.EditorTool
 			//シーン。
 			#if(false)
 			{
-				Fee.Scene.Scene.GetInstance().Unity_LateUpdate(UnityEngine.Time.deltaTime);
+				if(this.scene_update_wait <= 0){
+					Fee.Scene.Scene.GetInstance().Unity_LateUpdate(UnityEngine.Time.deltaTime);
+				}
 			}
 			#endif
 		}

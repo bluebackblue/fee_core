@@ -46,24 +46,18 @@ namespace Fee.PlayerLoopSystem
 
 					t_new_list.RemoveAll(
 						(UnityEngine.Experimental.LowLevel.PlayerLoopSystem a_item) => {
-							return a_ignore_list.Contains(a_item.type);
+							if(a_ignore_list.Contains(a_item.type) == true){
+								Tool.Log("PlayerLoopSystemRemove.",a_item.type.Name);
+								return true;
+							}
+							return false;
 						}
 					);
 
 					this.raw.subSystemList[ii].subSystemList = t_new_list.ToArray();
-
-
-					//ログ。
-					{
-						UnityEngine.Debug.Log("---------" + this.raw.subSystemList[ii].type.Name + "---------");
-						foreach(var t_item in t_new_list){
-							UnityEngine.Debug.Log(t_item.type.Name);
-						}
-					}
 				}
 			}
 		}
 	}
 }
-
 
