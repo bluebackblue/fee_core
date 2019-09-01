@@ -18,62 +18,98 @@ namespace Fee.Render2D
 	{
 		/** index
 		*/
-		public int index;
+		private int index;
+
+		/** my_camera
+		*/
+		private UnityEngine.Camera my_camera;
+
+		/** draw
+		*/
+		public bool draw;
 
 		/** log
 		*/
+		#if(USE_DEF_FEE_DEBUGTOOL)
 		public int log_start_index;
 		public int log_end_index;
+		#endif
 
-		/** mycamera
-		*/
-		public UnityEngine.Camera mycamera;
+		/** Awake
 
-		/** cameradepth
-		*/
-		public float cameradepth;
+			AddComponent内から呼び出される。
 
-		/** constructor
 		*/
-		public MonoBehaviour_Camera_GL()
+		public void Awake()
 		{
 			//index
 			this.index = -1;
 
+			//my_camera
+			this.my_camera = null;
+
+			//draw
+			this.draw = false;
+
 			//log
+			#if(USE_DEF_FEE_DEBUGTOOL)
 			this.log_start_index = -1;
 			this.log_end_index = -1;
+			#endif
+		}
 
-			//camera
-			this.mycamera = null;
+		/** 初期化。
+		*/
+		public void Initialize(int a_index,UnityEngine.Camera a_my_camera,float a_camera_depth)
+		{
+			//index
+			this.index = a_index;
 
-			//cameradepth
-			this.cameradepth = 0.0f;
+			//my_camera
+			this.my_camera = a_my_camera;
+			this.my_camera.depth = a_camera_depth;
+
+			//draw
+			this.draw = true;
 		}
 
 		/** SetActive
 		*/
 		public void SetActive(bool a_flag)
 		{
-			this.mycamera.enabled = a_flag;
+			this.my_camera.enabled = a_flag;
 		}
 
 		/** カメラデプス。設定。
 		*/
-		public void SetDepth(float a_depth)
+		public void SetCameraDepth(float a_depth)
 		{
-			this.mycamera.depth = a_depth;
+			this.my_camera.depth = a_depth;
 		}
 
-		/**  デプスクリアーの設定。
+		/** カメラデプス。取得。
 		*/
-		public void SetDepthClear(bool a_flag)
+		public float GetCameraDepth()
+		{
+			return this.my_camera.depth;
+		}
+
+		/**  デプスクリアフラグ。設定。
+		*/
+		public void SetDepthFlagClear(bool a_flag)
 		{
 			if(a_flag == true){
-				this.mycamera.clearFlags = UnityEngine.CameraClearFlags.Depth;
+				this.my_camera.clearFlags = UnityEngine.CameraClearFlags.Depth;
 			}else{
-				this.mycamera.clearFlags = UnityEngine.CameraClearFlags.Nothing;
+				this.my_camera.clearFlags = UnityEngine.CameraClearFlags.Nothing;
 			}
+		}
+
+		/** インデックス。取得。
+		*/
+		public int GetIndex()
+		{
+			return this.index;
 		}
 
 		/** ＧＬ描画。カメラがシーンのレンダリングを完了した後に呼び出されます。
@@ -82,7 +118,9 @@ namespace Fee.Render2D
 		{
 			try{
 				if(Render2D.GetInstance() != null){
-					Render2D.GetInstance().Draw_GL(this.index);
+					if(this.draw == true){
+						Render2D.GetInstance().Draw_GL(this.index);
+					}
 				}
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);

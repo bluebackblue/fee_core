@@ -25,10 +25,10 @@ namespace Fee.Render2D
 		public MonoBehaviour_Camera_GL camera_gl;
 		public MonoBehaviour_Camera_UI camera_ui;
 
-		/**
+		/** camera_depth
 		*/
-		public float camera_gl_depth;
-		public float camera_ui_depth;
+		public float camera_depth_gl;
+		public float camera_depth_ui;
 
 		/** スプライト開始インデックス。
 		*/
@@ -109,6 +109,7 @@ namespace Fee.Render2D
 
 		/** ログ。
 		*/
+		#if(USE_DEF_FEE_DEBUGTOOL)
 		public void Log()
 		{
 			//スプライト。
@@ -123,6 +124,7 @@ namespace Fee.Render2D
 			this.camera_ui.log_inputfield_start_index = this.inputfield_index_start;
 			this.camera_ui.log_inputfield_end_index = this.inputfield_index_last;
 		}
+		#endif
 	}
 }
 

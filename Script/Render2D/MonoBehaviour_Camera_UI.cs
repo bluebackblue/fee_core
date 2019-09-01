@@ -18,59 +18,92 @@ namespace Fee.Render2D
 	{
 		/** index
 		*/
-		public int index;
+		private int index;
+
+		/** my_camera
+		*/
+		private UnityEngine.Camera my_camera;
 
 		/** log
 		*/
+		#if(USE_DEF_FEE_DEBUGTOOL)
 		public int log_text_start_index;
 		public int log_text_end_index;
 		public int log_inputfield_start_index;
 		public int log_inputfield_end_index;
+		#endif
+		
+		/** Awake
 
-		/** mycamera
-		*/
-		public UnityEngine.Camera mycamera;
+			AddComponent内から呼び出される。
 
-		/** cameradepth
 		*/
-		public float cameradepth;
-
-		/** constructor
-		*/
-		public MonoBehaviour_Camera_UI()
+		public void Awake()
 		{
 			//index
 			this.index = -1;
 
+			//my_camera
+			this.my_camera = null;
+
 			//log
+			#if(USE_DEF_FEE_DEBUGTOOL)
 			this.log_text_start_index = -1;
 			this.log_text_end_index = -1;
 			this.log_inputfield_start_index = -1;
 			this.log_inputfield_end_index = -1;
+			#endif
+		}
 
-			//mycamera
-			this.mycamera = null;
+		/** 初期化。
+		*/
+		public void Initialize(int a_index,UnityEngine.Camera a_my_camera,float a_camera_depth)
+		{
+			//index
+			this.index = a_index;
 
-			//cameradepth
-			this.cameradepth = 0.0f;
+			//my_camera
+			this.my_camera = a_my_camera;
+			this.my_camera.depth = a_camera_depth;
 		}
 
 		/** SetActive
 		*/
 		public void SetActive(bool a_flag)
 		{
-			this.mycamera.enabled = a_flag;
+			this.my_camera.enabled = a_flag;
 		}
 
-		/**  デプスクリアーの設定。
+		/** カメラデプス。設定。
 		*/
-		public void SetDepthClear(bool a_flag)
+		public void SetCameraDepth(float a_depth)
+		{
+			this.my_camera.depth = a_depth;
+		}
+
+		/** カメラデプス。取得。
+		*/
+		public float GetCameraDepth()
+		{
+			return this.my_camera.depth;
+		}
+
+		/** デプスクリアフラグ。設定。
+		*/
+		public void SetDepthFlagClear(bool a_flag)
 		{
 			if(a_flag == true){
-				this.mycamera.clearFlags = UnityEngine.CameraClearFlags.Depth;
+				this.my_camera.clearFlags = UnityEngine.CameraClearFlags.Depth;
 			}else{
-				this.mycamera.clearFlags = UnityEngine.CameraClearFlags.Nothing;
+				this.my_camera.clearFlags = UnityEngine.CameraClearFlags.Nothing;
 			}
+		}
+
+		/** インデックス。取得。
+		*/
+		public int GetIndex()
+		{
+			return this.index;
 		}
 	}
 }

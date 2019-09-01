@@ -295,18 +295,18 @@ namespace Fee.Render2D
 			this.update_request_inputfield = true;
 		}
 
-		/** デプスクリアーの設定。
+		/** デプスクリアフラグ。設定。
 		*/
 		public void SetDepthClearGL(int a_layerindex,bool a_flag)
 		{
-			this.layerlist.SetDepthClearGL(a_layerindex,a_flag);
+			this.layerlist.SetDepthClearFlagGL(a_layerindex,a_flag);
 		}
 
-		/** デプスクリアーの設定。
+		/** デプスクリアフラグ。設定。
 		*/
 		public void SetDepthClearUI(int a_layerindex,bool a_flag)
 		{
-			this.layerlist.SetDepthClearUI(a_layerindex,a_flag);
+			this.layerlist.SetDepthClearFlagUI(a_layerindex,a_flag);
 		}
 
 		/** 事前計算。取得。

@@ -73,15 +73,11 @@ namespace Fee.Render2D
 
 				//ＧＬ描画設定。
 				this.list[ii].camera_gl = t_gameobject_camera_gl.AddComponent<MonoBehaviour_Camera_GL>();
-				this.list[ii].camera_gl.index = ii;
-				this.list[ii].camera_gl.mycamera = t_camera_gl;
-				this.list[ii].camera_gl.cameradepth = t_gl_depth;
+				this.list[ii].camera_gl.Initialize(ii,t_camera_gl,t_gl_depth);
 				
 				//ＵＩカメラ。
 				this.list[ii].camera_ui = t_gameobject_camera_ui.AddComponent<MonoBehaviour_Camera_UI>();
-				this.list[ii].camera_ui.index = ii;
-				this.list[ii].camera_ui.mycamera = t_camera_ui;
-				this.list[ii].camera_ui.cameradepth = t_ui_depth;
+				this.list[ii].camera_ui.Initialize(ii,t_camera_ui,t_ui_depth);
 
 				//キャンバス設定。
 				this.list[ii].canvas_transform = t_gameobject_canvas.GetComponent<UnityEngine.Transform>();
@@ -163,32 +159,32 @@ namespace Fee.Render2D
 			return this.list[a_layerindex].inputfield_index_last;
 		}
 
-		/** デプスクリアーの設定。
+		/** デプスクリアフラグ。設定。
 		*/
-		public void SetDepthClearGL(int a_layerindex,bool a_flag)
+		public void SetDepthClearFlagGL(int a_layerindex,bool a_flag)
 		{
-			this.list[a_layerindex].camera_gl.SetDepthClear(a_flag);
+			this.list[a_layerindex].camera_gl.SetDepthFlagClear(a_flag);
 		}
 
-		/** デプスクリアーの設定。
+		/** デプスクリアフラグ。設定。
 		*/
-		public void SetDepthClearUI(int a_layerindex,bool a_flag)
+		public void SetDepthClearFlagUI(int a_layerindex,bool a_flag)
 		{
-			this.list[a_layerindex].camera_ui.SetDepthClear(a_flag);
+			this.list[a_layerindex].camera_ui.SetDepthFlagClear(a_flag);
 		}
 
 		/** コールバック。設定。
 		*/
 		public float GetGLCameraDepth(int a_layerindex)
 		{
-			return this.list[a_layerindex].camera_gl.cameradepth;
+			return this.list[a_layerindex].camera_gl.GetCameraDepth();
 		}
 
 		/** コールバック。設定。
 		*/
 		public float GetUICameraDepth(int a_layerindex)
 		{
-			return this.list[a_layerindex].camera_ui.cameradepth;
+			return this.list[a_layerindex].camera_ui.GetCameraDepth();
 		}
 
 		/** インデックス計算。
@@ -376,9 +372,11 @@ namespace Fee.Render2D
 			}
 
 			//ログ。
+			#if(USE_DEF_FEE_DEBUGTOOL)
 			for(int ii=0;ii<this.list.Length;ii++){
 				this.list[ii].Log();
 			}
+			#endif
 		}
 	}
 }
