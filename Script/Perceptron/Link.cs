@@ -20,6 +20,10 @@ namespace Fee.Perceptron
 		*/
 		public float weight;
 
+		/** weight_change_rate
+		*/
+		public float weight_change_rate;
+
 		/** node_from
 		*/
 		public Node node_from;
@@ -34,6 +38,9 @@ namespace Fee.Perceptron
 		{
 			//weight
 			this.weight = 0.5f;
+
+			//weight_change_rate
+			this.weight_change_rate = 0.02f;
 
 			//node_from
 			this.node_from = a_node_from;

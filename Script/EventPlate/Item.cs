@@ -28,6 +28,10 @@ namespace Fee.EventPlate
 		*/
 		private bool enable;
 
+		/** is_onover
+		*/
+		private bool is_onover;
+
 		/** rect
 		*/
 		private Fee.Geometry.Rect2D_R<int> rect;
@@ -60,6 +64,9 @@ namespace Fee.EventPlate
 
 			//enable
 			this.enable = true;
+
+			//is_onover
+			this.is_onover = false;
 
 			//rect
 			//this.rect.Set(0,0,0,0);
@@ -245,6 +252,13 @@ namespace Fee.EventPlate
 			return this.enable;
 		}
 
+		/** オンオーバー。チェック。
+		*/
+		public bool IsOnOver()
+		{
+			return this.is_onover;
+		}
+
 		/** 更新。
 
 		return = true : カレント。
@@ -281,6 +295,8 @@ namespace Fee.EventPlate
 		*/
 		public void CallEnter()
 		{
+			this.is_onover = true;
+
 			if(this.callbackparam_over != null){
 				this.callbackparam_over.CallEnter();
 			}
@@ -290,6 +306,8 @@ namespace Fee.EventPlate
 		*/
 		public void CallLeave()
 		{
+			this.is_onover = false;
+
 			if(this.callbackparam_over != null){
 				this.callbackparam_over.CallLeave();
 			}

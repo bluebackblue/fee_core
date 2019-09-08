@@ -41,6 +41,12 @@ namespace Fee.Perceptron
 				this.node_list[t_node_index].ForwardCalculation();
 			}
 		}
+
+		/** 誤差逆伝播。
+		*/
+		public void BackPropagate()
+		{
+		}
 	}
 }
 

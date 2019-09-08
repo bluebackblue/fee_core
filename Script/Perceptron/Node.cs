@@ -20,6 +20,14 @@ namespace Fee.Perceptron
 		*/
 		public float value;
 
+		/** バイアスノード。
+		*/
+		public bool is_bias;
+
+		/** 誤差値。
+		*/
+		public float eee_value;
+
 		/** 自分が接続元のリスト。
 		*/
 		public System.Collections.Generic.List<Link> link_list_from;
@@ -35,6 +43,12 @@ namespace Fee.Perceptron
 			//value
 			this.value = 0.0f;
 
+			//is_bias
+			this.is_bias = false;
+
+			//eee_value
+			this.eee_value = 0.0f;
+
 			//link_list_from
 			this.link_list_from = new System.Collections.Generic.List<Link>();
 
@@ -46,28 +60,30 @@ namespace Fee.Perceptron
 		*/
 		public void ForwardCalculation()
 		{
-			//自分が接続先のリスト。
-			System.Collections.Generic.List<Link> t_link_list_to = this.link_list_to;
+			if(this.is_bias == false){
+				//自分が接続先のリスト。
+				System.Collections.Generic.List<Link> t_link_list_to = this.link_list_to;
 
-			//値。
-			float t_value_to = 0.0f;
+				//値。
+				float t_value_to = 0.0f;
 
-			for(int t_link_index=0;t_link_index<t_link_list_to.Count;t_link_index++){
-				//リンクのループ。
+				for(int t_link_index=0;t_link_index<t_link_list_to.Count;t_link_index++){
+					//リンクのループ。
 
-				//リンク。
-				Link t_link = t_link_list_to[t_link_index];
-				Tool.Assert(this == t_link.node_to);//TODO:
+					//リンク。
+					Link t_link = t_link_list_to[t_link_index];
+					Tool.Assert(this == t_link.node_to);//TODO:
 
-				//加算。
-				t_value_to += t_link.node_from.value * t_link.weight;
+					//加算。
+					t_value_to += t_link.node_from.value * t_link.weight;
+				}
+
+				//シグモイド関数。（0.0f -- 1.0f）
+				t_value_to = 1.0f / (1.0f + UnityEngine.Mathf.Exp(-t_value_to));
+
+				//設定。
+				this.value = t_value_to;
 			}
-
-			//シグモイド関数。（0.0f -- 1.0f）
-			t_value_to = 1.0f / (1.0f + UnityEngine.Mathf.Exp(-t_value_to));
-
-			//設定。
-			this.value = t_value_to;
 		}
 	}
 }
