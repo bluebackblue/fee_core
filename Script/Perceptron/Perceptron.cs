@@ -55,8 +55,6 @@ namespace Fee.Perceptron
 							Node t_node_to = t_layer_to.node_list[t_node_index_to];
 							if(t_node_to.is_bias == false){
 								Link t_link = new Link(t_node_from,t_node_to);
-								t_link.weight = UnityEngine.Random.value * 2 - 1;
-
 								t_node_from.link_list.Add(t_link);
 								t_node_to.link_list_prev.Add(t_link);
 							}
@@ -70,8 +68,8 @@ namespace Fee.Perceptron
 			this.layer_list[0].node_list[this.layer_list[0].node_list.Count - 1].value = 1.0f;
 
 			//バイアス。
-			this.layer_list[1].node_list[this.layer_list[0].node_list.Count - 1].is_bias = true;
-			this.layer_list[1].node_list[this.layer_list[0].node_list.Count - 1].value = 1.0f;
+			this.layer_list[1].node_list[this.layer_list[1].node_list.Count - 1].is_bias = true;
+			this.layer_list[1].node_list[this.layer_list[1].node_list.Count - 1].value = 1.0f;
 		}
 	
 		/** ForwardCalculation
