@@ -50,9 +50,9 @@ namespace Fee.Render2D
 
 		/** マテリアル。取得。
 		*/
-		public UnityEngine.Material GetMaterial(Sprite2D a_sprite)
+		public UnityEngine.Material GetMaterial(Render2D.MaterialType a_material_type)
 		{
-			return this.list[(int)a_sprite.GetMaterialType()];
+			return this.list[(int)a_material_type];
 		}
 
 		/** ＵＩテキストマテリアル。取得。

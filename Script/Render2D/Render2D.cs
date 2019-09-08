@@ -641,7 +641,7 @@ namespace Fee.Render2D
 
 							if((t_sprite.IsVisible() == true)&&(t_sprite.GetDrawPriority() >= 0)){
 
-								UnityEngine.Material t_material = this.materiallist.GetMaterial(t_sprite);
+								UnityEngine.Material t_material = this.materiallist.GetMaterial(t_sprite.GetMaterialType());
 
 								//マテリアル変更。
 								if(t_current_material != t_sprite.GetMaterialType()){
