@@ -18,7 +18,7 @@ namespace Fee.Perceptron
 	{
 		/** layer_list
 		*/
-		System.Collections.Generic.List<Layer> layer_list;
+		public System.Collections.Generic.List<Layer> layer_list;
 
 		/** constructor
 		*/
