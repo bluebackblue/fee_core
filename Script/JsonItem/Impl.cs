@@ -77,10 +77,18 @@ namespace Fee.JsonItem
 		}
 
 		/** 整数チェック。
+
+			System.Text.RegularExpressions.Regex.IsMatch(a_string,"^[\\+\\-]?[0-9]+\\.[0-9]+$");
+
 		*/
 		public static bool IsFloat(string a_string)
 		{
-			return System.Text.RegularExpressions.Regex.IsMatch(a_string,"^[0-9]+\\.[0-9]+$");
+			for(int ii=0;ii<a_string.Length;ii++){
+				if(a_string[ii] == '.'){
+					return true;
+				}
+			}
+			return false;
 		}
 
 		/** エスケープシーケンス文字を「￥＋文字」に変換。

@@ -295,7 +295,7 @@ namespace Fee.JsonItem
 					}//break;
 				case ValueType.FloatingNumber:
 					{
-						this.value.floating_number = double.Parse(t_jsonstring_temp);
+						this.value.floating_number = double.Parse(t_jsonstring_temp,Config.STRING_TO_DOBULE_NUMBERSTYLE,Config.CULTURE);
 						return;
 					}//break;
 				case ValueType.IndexArray:
@@ -1059,15 +1059,18 @@ namespace Fee.JsonItem
 				}return;
 			case ValueType.SignedNumber:
 				{
-					a_stringbuilder.Append(this.value.signed_number.ToString());
+					string t_string = this.value.signed_number.ToString();
+					a_stringbuilder.Append(t_string);
 				}return;
 			case ValueType.UnsignedNumber:
 				{
-					a_stringbuilder.Append(this.value.unsigned_number.ToString());
+					string t_string = this.value.unsigned_number.ToString();
+					a_stringbuilder.Append(t_string);
 				}return;
 			case ValueType.FloatingNumber:
 				{
-					a_stringbuilder.Append(string.Format(DOUBLE_TO_STRING_FORMAT,this.value.floating_number));
+					string t_string = string.Format(Config.CULTURE,DOUBLE_TO_STRING_FORMAT,this.value.floating_number);
+					a_stringbuilder.Append(t_string);
 				}return;
 			case ValueType.IndexArray:
 				{
