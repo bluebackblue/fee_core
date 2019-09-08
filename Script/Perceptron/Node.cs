@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief パーセプトロン。
+ * @brief パーセプトロン。ノード。
 */
 
 
@@ -16,25 +16,25 @@ namespace Fee.Perceptron
 	*/
 	public class Node
 	{
-		/** 値。
+		/** value
 		*/
 		public float value;
 
-		/** バイアスノード。
+		/** error
+		*/
+		public float error;
+
+		/** is_bias
 		*/
 		public bool is_bias;
 
-		/** 誤差値。
+		/** 接続先リスト。
 		*/
-		public float eee_value;
+		public System.Collections.Generic.List<Link> link_list;
 
-		/** 自分が接続元のリスト。
+		/** 接続元リスト。
 		*/
-		public System.Collections.Generic.List<Link> link_list_from;
-
-		/** 自分が接続先のリスト。
-		*/
-		public System.Collections.Generic.List<Link> link_list_to;
+		public System.Collections.Generic.List<Link> link_list_prev;
 
 		/** constructor
 		*/
@@ -43,47 +43,17 @@ namespace Fee.Perceptron
 			//value
 			this.value = 0.0f;
 
+			//error
+			this.error = 0.0f;
+
 			//is_bias
 			this.is_bias = false;
 
-			//eee_value
-			this.eee_value = 0.0f;
+			//link_list
+			this.link_list = new System.Collections.Generic.List<Link>();
 
-			//link_list_from
-			this.link_list_from = new System.Collections.Generic.List<Link>();
-
-			//link_list_to
-			this.link_list_to = new System.Collections.Generic.List<Link>();
-		}
-
-		/** 順方向計算。
-		*/
-		public void ForwardCalculation()
-		{
-			if(this.is_bias == false){
-				//自分が接続先のリスト。
-				System.Collections.Generic.List<Link> t_link_list_to = this.link_list_to;
-
-				//値。
-				float t_value_to = 0.0f;
-
-				for(int t_link_index=0;t_link_index<t_link_list_to.Count;t_link_index++){
-					//リンクのループ。
-
-					//リンク。
-					Link t_link = t_link_list_to[t_link_index];
-					Tool.Assert(this == t_link.node_to);//TODO:
-
-					//加算。
-					t_value_to += t_link.node_from.value * t_link.weight;
-				}
-
-				//シグモイド関数。（0.0f -- 1.0f）
-				t_value_to = 1.0f / (1.0f + UnityEngine.Mathf.Exp(-t_value_to));
-
-				//設定。
-				this.value = t_value_to;
-			}
+			//link_list_prev
+			this.link_list_prev = new System.Collections.Generic.List<Link>();
 		}
 	}
 }
