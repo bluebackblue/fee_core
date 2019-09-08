@@ -84,7 +84,7 @@ namespace Fee.JsonItem
 		public static bool IsFloat(string a_string)
 		{
 			for(int ii=0;ii<a_string.Length;ii++){
-				if(a_string[ii] == '.'){
+				if(a_string[ii] == Config.DOUBLE_SEPARATOR){
 					return true;
 				}
 			}

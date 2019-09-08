@@ -38,7 +38,11 @@ namespace Fee.JsonItem
 
 		/** Double To String
 		*/
-		public string DOUBLE_TO_STRING_FORMAT = "{0:0.0#########}";
+		public static string DOUBLE_TO_STRING_FORMAT = "{0:0.0#########}";
+
+		/** DOUBLE_SEPARATOR
+		*/
+		public static char DOUBLE_SEPARATOR = '.';
 
 		/** String To Double
 
