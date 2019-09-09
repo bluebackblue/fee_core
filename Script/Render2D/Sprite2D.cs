@@ -142,17 +142,17 @@ namespace Fee.Render2D
 			return this.deletereq;
 		}
 
-		/** [デフォルト処理]マテリアルを更新する。
+		/** [デフォルト処理]マテリアルアイテムを更新する。
 
 			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
-		public virtual bool UpdateMaterial(ref UnityEngine.Material a_material)
+		public virtual bool UpdateMaterialItem(MaterialItem a_material_item)
 		{
-			if(a_material.mainTexture != this.GetTexture()){
+			if(a_material_item.CompareTextureInstance(this.GetTexture()) == false){
 
 				//テクスチャ設定。
-				a_material.mainTexture = this.GetTexture();
+				a_material_item.SetTexture(this.GetTexture());
 
 				//SetPass要求。
 				return true;

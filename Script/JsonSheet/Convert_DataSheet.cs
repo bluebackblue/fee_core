@@ -263,7 +263,7 @@ namespace Fee.JsonSheet
 					//ＪＳＯＮ。出力。
 					Fee.JsonItem.JsonItem t_jsonitem = Fee.JsonItem.Convert.ObjectToJsonItem(t_list);
 					string t_jsonstring = t_jsonitem.ConvertJsonString();
-					Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_assets_path),t_jsonstring);
+					Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_assets_path),t_jsonstring,true);
 				}else{
 					Tool.Assert(false);
 				}
@@ -373,7 +373,7 @@ namespace Fee.JsonSheet
 
 								Fee.File.Path t_path = new File.Path(a_assets_path.GetPath() + "/" + t_pair.Key + ".json");
 								string t_jsonstring = Fee.JsonItem.Convert.ObjectToJsonString<Fee.AssetBundleList.DummryAssetBundle>(t_dummy_assetbundle);
-								EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(t_path),t_jsonstring);
+								EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(t_path),t_jsonstring,true);
 							}
 						}break;
 					case Convert_DataSheet.DATAPARAM_STANDALONEWINDOWS:

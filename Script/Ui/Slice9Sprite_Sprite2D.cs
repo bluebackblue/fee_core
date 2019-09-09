@@ -135,19 +135,19 @@ namespace Fee.Ui
 			return this.clip_rect.h;
 		}
 
-		/** マテリアルを更新する。
+		/** マテリアルアイテムを更新する。
 
 			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
-		public override bool UpdateMaterial(ref UnityEngine.Material a_material)
+		public override bool UpdateMaterialItem(Fee.Render2D.MaterialItem a_material_item)
 		{
 			bool t_setpass = false;
 
 			//テクスチャ設定。
 			UnityEngine.Texture2D t_texture = this.GetTexture();
-			if(a_material.mainTexture != t_texture){
-				a_material.mainTexture = this.GetTexture();
+			if(a_material_item.CompareTextureInstance(t_texture) == false){
+				a_material_item.SetTexture(this.GetTexture());
 				t_setpass = true;
 			}
 
@@ -169,37 +169,22 @@ namespace Fee.Ui
 					t_clip_flag = 1;
 				}
 
-				if(a_material.GetInt("clip_flag") != t_clip_flag){
-					a_material.SetFloat("clip_flag",t_clip_flag);
+				//clip_flag
+				if(a_material_item.SetProperty_ClipFlag(t_clip_flag) == true){
 					t_setpass = true;
 				}
 
 				if(t_clip_flag > 0){
-					if(a_material.GetFloat("clip_x1") != t_clip_x1){
-						a_material.SetFloat("clip_x1",t_clip_x1);
-						t_setpass = true;
-					}
-
-					if(a_material.GetFloat("clip_y1") != t_clip_y1){
-						a_material.SetFloat("clip_y1",t_clip_y1);
-						t_setpass = true;
-					}
-
-					if(a_material.GetFloat("clip_x2") != t_clip_x2){
-						a_material.SetFloat("clip_x2",t_clip_x2);
-						t_setpass = true;
-					}
-
-					if(a_material.GetFloat("clip_y2") != t_clip_y2){
-						a_material.SetFloat("clip_y2",t_clip_y2);
+					//clip_rect
+					if(a_material_item.SetProperty_ClipRect(t_clip_x1,t_clip_y1,t_clip_x2,t_clip_y2) == true){
 						t_setpass = true;
 					}
 				}
 			}
 
-			if(a_material.GetInt("corner_size") != this.corner_size){
-				a_material.SetInt("corner_size",this.corner_size);
-				t_setpass = true;						
+			//corner_size
+			if(a_material_item.SetProperty_CornerSize(this.corner_size) == false){
+				t_setpass = true;
 			}
 
 			{
@@ -208,20 +193,7 @@ namespace Fee.Ui
 				float t_texture_w = this.texture_rect2.w / Render2D.Config.TEXTURE_W;
 				float t_texture_h = this.texture_rect2.h / Render2D.Config.TEXTURE_H;
 
-				if(a_material.GetFloat("texture_x") != t_texture_x){
-					a_material.SetFloat("texture_x",t_texture_x);
-					t_setpass = true;
-				}
-				if(a_material.GetFloat("texture_y") != t_texture_y){
-					a_material.SetFloat("texture_y",t_texture_y);
-					t_setpass = true;
-				}
-				if(a_material.GetFloat("texture_w") != t_texture_w){
-					a_material.SetFloat("texture_w",t_texture_w);
-					t_setpass = true;
-				}
-				if(a_material.GetFloat("texture_h") != t_texture_h){
-					a_material.SetFloat("texture_h",t_texture_h);
+				if(a_material_item.SetProperty_TextureRerct(t_texture_x,t_texture_y,t_texture_w,t_texture_h) == true){
 					t_setpass = true;
 				}
 			}
@@ -234,16 +206,10 @@ namespace Fee.Ui
 				int t_rect_y2;
 				Fee.Render2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.GetX(),this.GetY(),out t_rect_x1,out t_rect_y1);
 				Fee.Render2D.Render2D.GetInstance().VirtualScreenToGuiScreen(this.GetX() + this.GetW(),this.GetY() + this.GetH(),out t_rect_x2,out t_rect_y2);
-				float t_clip_w = t_rect_x2 - t_rect_x1;
-				float t_clip_h = t_rect_y2 - t_rect_y1;
+				float t_rect_w = t_rect_x2 - t_rect_x1;
+				float t_rect_h = t_rect_y2 - t_rect_y1;
 
-				if(a_material.GetFloat("rect_w") != t_clip_w){
-					a_material.SetFloat("rect_w",t_clip_w);
-					t_setpass = true;
-				}
-
-				if(a_material.GetFloat("rect_h") != t_clip_h){
-					a_material.SetFloat("rect_h",t_clip_h);
+				if(a_material_item.SetProperty_RerctWH(t_rect_w,t_rect_h) == true){
 					t_setpass = true;
 				}
 			}

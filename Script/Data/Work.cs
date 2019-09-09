@@ -133,10 +133,6 @@ namespace Fee.Data
 									t_success = true;
 								}
 							}break;
-						default:
-							{
-								Tool.Assert(false);
-							}break;
 						}
 
 						if(t_success == false){

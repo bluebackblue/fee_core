@@ -172,7 +172,7 @@ namespace <<namespace>>
 						t_text = t_text.Replace(Convert_EnumSheet.KEYWORD_ENUMCOMMENT,"NoComment");
 					}
 
-					Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_assets_path),t_text);
+					Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_assets_path),t_text,true);
 				}else{
 					Tool.Assert(false);
 				}

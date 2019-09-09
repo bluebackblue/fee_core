@@ -16,55 +16,56 @@ namespace Fee.Render2D
 	*/
 	public class MaterialList
 	{
-		/** list
+		/** material_list
 		*/
-		private UnityEngine.Material[] list;
+		private MaterialItem[] material_list;
 
 		/** material_ui_text
 		*/
-		private UnityEngine.Material material_ui_text;
+		private MaterialItem material_ui_text;
 
 		/** material_ui_image
 		*/
-		private UnityEngine.Material material_ui_image;
+		private MaterialItem material_ui_image;
 
 		/** constructor
 		*/
 		public MaterialList()
 		{
-			//list
-			this.list = new UnityEngine.Material[Config.MATERIAL_NAME.Length];
-			for(int ii=0;ii<this.list.Length;ii++){
+			//material_list
+			this.material_list = new MaterialItem[Config.MATERIAL_NAME.Length];
+			for(int ii=0;ii<this.material_list.Length;ii++){
 				UnityEngine.Material t_material = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME[ii]);
 				if(t_material != null){
-					this.list[ii] = new UnityEngine.Material(t_material);
+					//複製。
+					this.material_list[ii] = new MaterialItem(t_material,true);
 				}
 			}
 
-			//material_ui_text
-			this.material_ui_text = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_UITEXT);
+			//参照。
+			this.material_ui_text = new MaterialItem(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_UITEXT),false);
 
-			//material_ui_image
-			this.material_ui_image = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_UIIMAGE);
+			//参照。
+			this.material_ui_image = new MaterialItem(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_UIIMAGE),false);
 		}
 
-		/** マテリアル。取得。
+		/** マテリアルアイテム。取得。
 		*/
-		public UnityEngine.Material GetMaterial(Render2D.MaterialType a_material_type)
+		public MaterialItem GetMaterialItem(Render2D.MaterialType a_material_type)
 		{
-			return this.list[(int)a_material_type];
+			return this.material_list[(int)a_material_type];
 		}
 
-		/** ＵＩテキストマテリアル。取得。
+		/** ＵＩテキストマテリアルアイテム。取得。
 		*/
-		public UnityEngine.Material GetUiTextMaterial()
+		public MaterialItem GetUiTextMaterialItem()
 		{
 			return this.material_ui_text;
 		}
 
-		/** ＵＩイメージマテリアル。取得。
+		/** ＵＩイメージマテリアルアイテム。取得。
 		*/
-		public UnityEngine.Material GetUiImageMaterial()
+		public MaterialItem GetUiImageMaterialItem()
 		{
 			return this.material_ui_image;
 		}
@@ -73,14 +74,14 @@ namespace Fee.Render2D
 		*/
 		public void Delete()
 		{
-			if(this.list != null){
-				for(int ii=0;ii<this.list.Length;ii++){
-					if(this.list[ii] != null){
-						UnityEngine.GameObject.DestroyImmediate(this.list[ii]);
-						this.list[ii] = null;
+			if(this.material_list != null){
+				for(int ii=0;ii<this.material_list.Length;ii++){
+					if(this.material_list[ii] != null){
+						this.material_list[ii].DestroyImmediate();
+						this.material_list[ii] = null;
 					}
 				}
-				this.list = null;
+				this.material_list = null;
 			}
 		}
 	}

@@ -288,11 +288,11 @@ namespace Fee.Render2D
 			return this.param.GetClipH();
 		}
 
-		/** カスタムテキストマテリアル。取得。
+		/** カスタムテキストマテリアルアイテム。取得。
 		*/
-		public UnityEngine.Material GetCustomTextMaterial()
+		public MaterialItem GetCustomTextMaterialItem()
 		{
-			return this.param.GetCustomTextMaterial();
+			return this.param.GetCustomTextMaterialItem();
 		}
 
 		/** 表示。設定。
@@ -510,11 +510,11 @@ namespace Fee.Render2D
 			this.param.Raw_SetFontSize(a_raw_fontsize);
 		}
 
-		/** [内部からの呼び出し]テキストマテリアル。設定。
+		/** [内部からの呼び出し]テキストマテリアルアイテム。設定。
 		*/
-		public void Raw_SetTextMaterial(UnityEngine.Material a_material)
+		public void Raw_SetTextMaterialItem(MaterialItem a_material_item)
 		{
-			this.param.Raw_SetTextMaterial(a_material);
+			this.param.Raw_SetTextMaterialItem(a_material_item);
 		}
 
 		/** [内部からの呼び出し]レイヤー。設定。

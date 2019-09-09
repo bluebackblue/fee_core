@@ -78,7 +78,14 @@ namespace Fee.PerformanceCounter
 					float t_y_4 = 1.0f - t_h;
 
 					if(t_per >= 2.0f){
-						Tool.Log(Config.LOG_TAGNAME_STRING,t_per.ToString());
+
+						//ログ表示。
+						#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)||(USE_DEF_FEE_DEBUGTOOL)
+						if(Config.LOG_ENABLE == true){
+							Tool.Log(Config.LOG_TAGNAME_STRING,t_per.ToString());
+						}
+						#endif
+
 						UnityEngine.GL.Color(Config.COLOR_OVER);
 					}else{
 						UnityEngine.GL.Color(Config.COLOR_NORMAL);

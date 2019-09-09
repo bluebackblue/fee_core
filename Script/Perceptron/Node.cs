@@ -16,6 +16,14 @@ namespace Fee.Perceptron
 	*/
 	public class Node
 	{
+		/** layer_parent
+		*/
+		public Layer layer_parent;
+
+		/** node_index
+		*/
+		public int node_index;
+
 		/** value
 		*/
 		public float value;
@@ -38,8 +46,14 @@ namespace Fee.Perceptron
 
 		/** constructor
 		*/
-		public Node()
+		public Node(Layer a_layer_parent,int a_node_index)
 		{
+			//layer_parent
+			this.layer_parent = a_layer_parent;
+
+			//node_index
+			this.node_index = a_node_index;
+
 			//value
 			this.value = 0.0f;
 

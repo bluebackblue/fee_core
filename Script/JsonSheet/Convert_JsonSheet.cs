@@ -52,7 +52,7 @@ namespace Fee.JsonSheet
 					Tool.Assert(false);
 				}
 
-				Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_assets_path),t_jsonitem.ConvertJsonString());
+				Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_assets_path),t_jsonitem.ConvertJsonString(),true);
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 			}

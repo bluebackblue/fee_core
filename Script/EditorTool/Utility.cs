@@ -105,12 +105,34 @@ namespace Fee.EditorTool
 			return t_string;
 		}
 
+		/** バイナリファイル書き込み。
+
+			a_path : フルパス。
+
+		*/
+		public static void WriteBinaryFile(Fee.File.Path a_path,byte[] a_binary,bool a_refresh)
+		{
+			try{
+				using(System.IO.BinaryWriter t_stream = new System.IO.BinaryWriter(System.IO.File.Open(a_path.GetPath(),System.IO.FileMode.Create))){
+					t_stream.Write(a_binary);
+					t_stream.Flush();
+					t_stream.Close();
+				}
+
+				if(a_refresh == true){
+					UnityEditor.AssetDatabase.Refresh();
+				}
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+			}
+		}
+
 		/** テキストファイル書き込み。
 
 			a_path : フルパス。
 
 		*/
-		public static void WriteTextFile(Fee.File.Path a_path,string a_text)
+		public static void WriteTextFile(Fee.File.Path a_path,string a_text,bool a_refresh)
 		{
 			try{
 				using(System.IO.StreamWriter t_stream = new System.IO.StreamWriter(a_path.GetPath(),false,System.Text.Encoding.UTF8)){
@@ -119,7 +141,9 @@ namespace Fee.EditorTool
 					t_stream.Close();
 				}
 
-				UnityEditor.AssetDatabase.Refresh();
+				if(a_refresh == true){
+					UnityEditor.AssetDatabase.Refresh();
+				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
@@ -130,7 +154,7 @@ namespace Fee.EditorTool
 			a_path : フルパス。
 
 		*/
-		public static void WriteJsonFile(Fee.File.Path a_path,Fee.JsonItem.JsonItem a_jsonitem)
+		public static void WriteJsonFile(Fee.File.Path a_path,Fee.JsonItem.JsonItem a_jsonitem,bool a_refresh)
 		{
 			string t_json_string = a_jsonitem.ConvertJsonString();
 
@@ -139,6 +163,10 @@ namespace Fee.EditorTool
 					t_steram.Write(t_json_string);
 					t_steram.Flush();
 					t_steram.Close();
+				}
+
+				if(a_refresh == true){
+					UnityEditor.AssetDatabase.Refresh();
 				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
@@ -156,6 +184,19 @@ namespace Fee.EditorTool
 				}
 			}
 			return null;
+		}
+
+		/** テクスチャーからテクスチャー作成。
+		*/
+		public static UnityEngine.Texture2D CreateTextureFromTexture(UnityEngine.Texture2D a_texture,int a_offset_x,int a_offset_y,int a_size_w,int a_size_h)
+		{
+			UnityEngine.Color[] t_color_list = a_texture.GetPixels(a_offset_x,a_texture.height - a_offset_y - a_size_h,a_size_w,a_size_h);
+
+			UnityEngine.Texture2D t_new_texture = new UnityEngine.Texture2D(32,32,UnityEngine.TextureFormat.RGBA32,false);
+			t_new_texture.SetPixels(t_color_list);
+			t_new_texture.Apply();
+
+			return t_new_texture;
 		}
 	}
 	#endif

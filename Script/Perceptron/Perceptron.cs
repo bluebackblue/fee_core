@@ -26,22 +26,34 @@ namespace Fee.Perceptron
 
 		/** constructor
 		*/
-		public Perceptron(int a_in_count,int a_middle_count,int a_out_count)
+		public Perceptron(int a_in_count,int a_middle_count_1,int a_middle_count_2,int a_out_count)
 		{
 			//layer_list
 			this.layer_list = new System.Collections.Generic.List<Layer>();
 
 			//教師レイヤー。
-			this.layer_teacher = new Layer(a_out_count);
+			this.layer_teacher = new Layer(a_out_count,-1);
 
-			//入力レイヤー。
-			this.layer_list.Add(new Layer(a_in_count + 1));
+			//レイヤー作成。
+			{
+				int t_layer_index = 0;
 
-			//中間レイヤー。
-			this.layer_list.Add(new Layer(a_middle_count + 1));
+				//入力レイヤー。
+				this.layer_list.Add(new Layer(a_in_count + 1,t_layer_index));
+				t_layer_index++;
 
-			//出力レイヤー。
-			this.layer_list.Add(new Layer(a_out_count));
+				//中間レイヤー。
+				this.layer_list.Add(new Layer(a_middle_count_1 + 1,t_layer_index));
+				t_layer_index++;
+
+				//中間レイヤー。
+				this.layer_list.Add(new Layer(a_middle_count_2 + 1,t_layer_index));
+				t_layer_index++;
+
+				//出力レイヤー。
+				this.layer_list.Add(new Layer(a_out_count,t_layer_index));
+				t_layer_index++;
+			}
 
 			//接続。
 			{
@@ -98,7 +110,7 @@ namespace Fee.Perceptron
 		*/
 		public void BackPropagation()
 		{
-			//出力レイヤー。誤差。
+			//出力レイヤーの教師レイヤーとの誤差。
 			{
 				Layer t_layer_out = this.layer_list[this.layer_list.Count - 1];
 				Layer t_layer_teacher = this.layer_teacher;
@@ -109,9 +121,9 @@ namespace Fee.Perceptron
 				}
 			}
 
-			//中間レイヤー。誤差。
+			//中間レイヤーの誤差伝播。
 			{
-				for(int t_layer_index = this.layer_list.Count - 1;t_layer_index >= 1;t_layer_index--){
+				for(int t_layer_index = this.layer_list.Count - 2;t_layer_index >= 1;t_layer_index--){
 					//中間レイヤー(出力レイヤー側) => 中間レイヤー（入力レイヤー側）。
 
 					foreach(Node t_node in this.layer_list[t_layer_index].node_list){

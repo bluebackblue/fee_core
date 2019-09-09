@@ -45,7 +45,7 @@ namespace Fee.EditorTool
 			}
 
 			//スクリプトの書き込み。
-			Utility.WriteTextFile(t_path,t_template_string);
+			Utility.WriteTextFile(t_path,t_template_string,true);
 
 			//更新。
 			UnityEditor.AssetDatabase.Refresh();

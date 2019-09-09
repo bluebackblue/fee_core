@@ -46,9 +46,8 @@ namespace Fee.Render2D
 		private UnityEngine.UI.Text raw_text;
 		private UnityEngine.UI.Image raw_image;
 		private UnityEngine.UI.Text raw_placeholder_text;
-
-		private UnityEngine.Material raw_custom_textmaterial;
-		private UnityEngine.Material raw_custom_imagematerial;
+		private MaterialItem raw_custom_text_material_item;
+		private MaterialItem raw_custom_image_material_item;
 
 		/** 初期化。
 		*/
@@ -79,14 +78,14 @@ namespace Fee.Render2D
 			this.raw_image = this.raw_inputfield.image;
 			this.raw_placeholder_text = this.raw_inputfield.placeholder.GetComponent<UnityEngine.UI.Text>();
 
-			//共通マテリアルから複製。
-			this.raw_custom_textmaterial = new UnityEngine.Material(Render2D.GetInstance().GetUiTextMaterial());
-			this.raw_custom_imagematerial = new UnityEngine.Material(Render2D.GetInstance().GetUiImageMaterial());
+			//共通マテリアルアイテム複製。
+			this.raw_custom_text_material_item = Render2D.GetInstance().GetUiTextMaterialItem().DuplicateMaterialItem();
+			this.raw_custom_image_material_item = Render2D.GetInstance().GetUiImageMaterialItem().DuplicateMaterialItem();
 
-			//material
-			this.raw_text.material = this.raw_custom_textmaterial;
-			this.raw_image.material = this.raw_custom_imagematerial;
-			this.raw_placeholder_text.material = this.raw_custom_textmaterial;
+			//カスタムマテリアルアイテム設定。
+			this.raw_custom_text_material_item.SetMaterialToInstance(this.raw_text);
+			this.raw_custom_image_material_item.SetMaterialToInstance(this.raw_image);
+			this.raw_custom_text_material_item.SetMaterialToInstance(this.raw_placeholder_text);
 
 			//font
 			this.raw_text.font = Render2D.GetInstance().GetDefaultFont();
@@ -176,18 +175,18 @@ namespace Fee.Render2D
 			return this.clip_rect.h;
 		}
 
-		/** カスタムテキストマテリアル。取得。
+		/** カスタムテキストマテリアルアイテム。取得。
 		*/
-		public UnityEngine.Material GetCustomTextMaterial()
+		public MaterialItem GetCustomTextMaterialItem()
 		{
-			return this.raw_custom_textmaterial;
+			return this.raw_custom_text_material_item;
 		}
 
-		/** カスタムイメージマテリアル。取得。
+		/** カスタムイメージマテリアルアイテム。取得。
 		*/
-		public UnityEngine.Material GetCustomImageMaterial()
+		public MaterialItem GetCustomImageMaterialItem()
 		{
-			return this.raw_custom_imagematerial;
+			return this.raw_custom_image_material_item;
 		}
 
 		/** フォーカス。取得。
@@ -316,19 +315,19 @@ namespace Fee.Render2D
 			this.raw_text.fontSize = a_raw_fontsize;
 		}
 
-		/** [内部からの呼び出し]テキストマテリアル。設定。
+		/** [内部からの呼び出し]テキストマテリアルアイテム。設定。
 		*/
-		public void Raw_SetTextMaterial(UnityEngine.Material a_material)
+		public void Raw_SetTextMaterialItem(MaterialItem a_material_item)
 		{
-			this.raw_text.material = a_material;
-			this.raw_placeholder_text.material = a_material;
+			a_material_item.SetMaterialToInstance(this.raw_text);
+			a_material_item.SetMaterialToInstance(this.raw_placeholder_text);
 		}
 
-		/** [内部からの呼び出し]イメージマテリアル。設定。
+		/** [内部からの呼び出し]イメージマテリアルアイテム。設定。
 		*/
-		public void Raw_SetImageMaterial(UnityEngine.Material a_material)
+		public void Raw_SetImageMaterialItem(MaterialItem a_material_item)
 		{
-			this.raw_image.material = a_material;
+			a_material_item.SetMaterialToInstance(this.raw_image);
 		}
 
 		/** センター。設定。
@@ -372,11 +371,11 @@ namespace Fee.Render2D
 			Render2D.GetInstance().RawInputField_Delete(this.raw_gameobject);
 			this.raw_gameobject = null;
 
-			UnityEngine.GameObject.DestroyImmediate(this.raw_custom_textmaterial);
-			this.raw_custom_textmaterial = null;
+			this.raw_custom_text_material_item.DestroyImmediate();
+			this.raw_custom_text_material_item = null;
 
-			UnityEngine.GameObject.DestroyImmediate(this.raw_custom_imagematerial);
-			this.raw_custom_imagematerial = null;
+			this.raw_custom_image_material_item.DestroyImmediate();
+			this.raw_custom_image_material_item = null;
 		}
 
 		/** [内部からの呼び出し]サイズ。設定。

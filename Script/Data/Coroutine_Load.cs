@@ -309,8 +309,6 @@ namespace Fee.Data
 				}
 				
 				//失敗。
-				Tool.Assert(false);
-				Tool.Log("Coroutine_Load",a_listitem.path.GetPath());
 				this.result.errorstring = "Coroutine_Load : " + a_listitem.path.GetPath();
 				yield break;
 			}

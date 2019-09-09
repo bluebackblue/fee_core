@@ -208,18 +208,18 @@ namespace Fee.Render2D
 			return this.default_font;
 		}
 
-		/** ＵＩテキストマテリアル。取得。
+		/** ＵＩテキストマテリアルアイテム。取得。
 		*/
-		public UnityEngine.Material GetUiTextMaterial()
+		public MaterialItem GetUiTextMaterialItem()
 		{
-			return this.materiallist.GetUiTextMaterial();
+			return this.materiallist.GetUiTextMaterialItem();
 		}
 
-		/** ＵＩイメージマテリアル。取得。
+		/** ＵＩイメージマテリアルアイテム。取得。
 		*/
-		public UnityEngine.Material GetUiImageMaterial()
+		public MaterialItem GetUiImageMaterialItem()
 		{
-			return this.materiallist.GetUiImageMaterial();
+			return this.materiallist.GetUiImageMaterialItem();
 		}
 
 		/** [RawText]作成。
@@ -486,24 +486,26 @@ namespace Fee.Render2D
 							t_text.Raw_SetChangeShaderFlag(false);
 
 							if(t_text.IsClip() == false){
-								//共通テキストマテリアル使用。
-								t_text.Raw_SetTextMaterial(this.materiallist.GetUiTextMaterial());
+								//共通テキストマテリアルアイテム使用。
+								t_text.Raw_SetTextMaterialItem(this.materiallist.GetUiTextMaterialItem());
 							}else{
-								//カスタムテキストマテリアル使用。
+								//カスタムテキストマテリアルアイテム使用。
 								{
-									UnityEngine.Material t_material = t_text.GetCustomTextMaterial();
+									MaterialItem t_material_item = t_text.GetCustomTextMaterialItem();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
 									int t_gui_y2;
 									this.VirtualScreenToGuiScreen(t_text.GetClipX(),t_text.GetClipY() + t_text.GetClipH(),out t_gui_x1,out t_gui_y1);
 									this.VirtualScreenToGuiScreen(t_text.GetClipX() + t_text.GetClipW(),t_text.GetClipY(),out t_gui_x2,out t_gui_y2);
-									t_material.SetInt("clip_flag",1);
-									t_material.SetFloat("clip_x1",t_gui_x1);
-									t_material.SetFloat("clip_y1",t_gui_y1);
-									t_material.SetFloat("clip_x2",t_gui_x2);
-									t_material.SetFloat("clip_y2",t_gui_y2);
-									t_text.Raw_SetTextMaterial(t_material);
+
+									//clip_flag
+									t_material_item.SetProperty_ClipFlag(1);
+
+									//clip_rect
+									t_material_item.SetProperty_ClipRect(t_gui_x1,t_gui_y1,t_gui_x2,t_gui_y2);
+
+									t_text.Raw_SetTextMaterialItem(t_material_item);
 								}
 							}
 						}
@@ -549,42 +551,48 @@ namespace Fee.Render2D
 							t_inputfield.Raw_SetChangeShaderFlag(false);
 
 							if(t_inputfield.IsClip() == false){
-								//共通テキストマテリアル使用。
-								t_inputfield.Raw_SetTextMaterial(this.materiallist.GetUiTextMaterial());
-								t_inputfield.Raw_SetImageMaterial(this.materiallist.GetUiImageMaterial());
+								//共通テキストマテリアルアイテム使用。
+								t_inputfield.Raw_SetTextMaterialItem(this.materiallist.GetUiTextMaterialItem());
+								t_inputfield.Raw_SetImageMaterialItem(this.materiallist.GetUiImageMaterialItem());
 							}else{
-								//カスタムテキストマテリアル使用。
+								//カスタムテキストマテリアルアイテム使用。
 								{
-									UnityEngine.Material t_text_material = t_inputfield.GetCustomTextMaterial();
+									MaterialItem t_text_material_item = t_inputfield.GetCustomTextMaterialItem();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
 									int t_gui_y2;
 									this.VirtualScreenToGuiScreen(t_inputfield.GetClipX(),t_inputfield.GetClipY() + t_inputfield.GetClipH(),out t_gui_x1,out t_gui_y1);
 									this.VirtualScreenToGuiScreen(t_inputfield.GetClipX() + t_inputfield.GetClipW(),t_inputfield.GetClipY(),out t_gui_x2,out t_gui_y2);
-									t_text_material.SetInt("clip_flag",1);
-									t_text_material.SetFloat("clip_x1",t_gui_x1);
-									t_text_material.SetFloat("clip_y1",t_gui_y1);
-									t_text_material.SetFloat("clip_x2",t_gui_x2);
-									t_text_material.SetFloat("clip_y2",t_gui_y2);
-									t_inputfield.Raw_SetTextMaterial(t_text_material);
+
+									//clip_flag
+									t_text_material_item.SetProperty_ClipFlag(1);
+
+									//clip_rect
+									t_text_material_item.SetProperty_ClipRect(t_gui_x1,t_gui_y1,t_gui_x2,t_gui_y2);
+
+									//Raw_SetTextMaterialItem
+									t_inputfield.Raw_SetTextMaterialItem(t_text_material_item);
 								}
 
-								//カスタムイメージマテリアル使用。
+								//カスタムイメージマテリアルアイテム使用。
 								{
-									UnityEngine.Material t_image_material = t_inputfield.GetCustomImageMaterial();
+									MaterialItem t_image_material_item = t_inputfield.GetCustomImageMaterialItem();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
 									int t_gui_y2;
 									this.VirtualScreenToGuiScreen(t_inputfield.GetClipX(),t_inputfield.GetClipY() + t_inputfield.GetClipH(),out t_gui_x1,out t_gui_y1);
 									this.VirtualScreenToGuiScreen(t_inputfield.GetClipX() + t_inputfield.GetClipW(),t_inputfield.GetClipY(),out t_gui_x2,out t_gui_y2);
-									t_image_material.SetInt("clip_flag",1);
-									t_image_material.SetFloat("clip_x1",t_gui_x1);
-									t_image_material.SetFloat("clip_y1",t_gui_y1);
-									t_image_material.SetFloat("clip_x2",t_gui_x2);
-									t_image_material.SetFloat("clip_y2",t_gui_y2);
-									t_inputfield.Raw_SetImageMaterial(t_image_material);
+
+									//clip_flag
+									t_image_material_item.SetProperty_ClipFlag(1);
+
+									//clip_rect
+									t_image_material_item.SetProperty_ClipRect(t_gui_x1,t_gui_y1,t_gui_x2,t_gui_y2);
+
+									//Raw_SetImageMaterialItem
+									t_inputfield.Raw_SetImageMaterialItem(t_image_material_item);
 								}
 							}
 						}
@@ -611,7 +619,7 @@ namespace Fee.Render2D
 		*/
 		public void Draw_GL(int a_layerindex)
 		{
-			MaterialType t_current_material = MaterialType.None;
+			MaterialType t_current_material_type = MaterialType.None;
 
 			int t_start_index = this.layerlist.GetStartIndex_Sprite(a_layerindex);
 			int t_last_index = this.layerlist.GetLastIndex_Sprite(a_layerindex);
@@ -641,19 +649,19 @@ namespace Fee.Render2D
 
 							if((t_sprite.IsVisible() == true)&&(t_sprite.GetDrawPriority() >= 0)){
 
-								UnityEngine.Material t_material = this.materiallist.GetMaterial(t_sprite.GetMaterialType());
+								MaterialItem t_material_item = this.materiallist.GetMaterialItem(t_sprite.GetMaterialType());
 
 								//マテリアル変更。
-								if(t_current_material != t_sprite.GetMaterialType()){
+								if(t_current_material_type != t_sprite.GetMaterialType()){
 									if(t_is_begin == true){
 										t_is_begin = false;
 										UnityEngine.GL.End();
 									}
-									t_current_material = t_sprite.GetMaterialType();
+									t_current_material_type = t_sprite.GetMaterialType();
 								}
 
 								//マテリアルの更新。
-								bool t_change = t_sprite.UpdateMaterial(ref t_material);
+								bool t_change = t_sprite.UpdateMaterialItem(t_material_item);
 								if(t_change == true){
 									if(t_is_begin == true){
 										t_is_begin = false;
@@ -665,7 +673,7 @@ namespace Fee.Render2D
 								if(t_is_begin == false){
 									t_is_begin = true;
 
-									t_material.SetPass(0);
+									t_material_item.SetPass(0);
 
 									UnityEngine.GL.Begin(UnityEngine.GL.TRIANGLES);
 								}

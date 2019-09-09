@@ -24,15 +24,15 @@ namespace Fee.Fade
 		{
 		}
 
-		/** マテリアルを更新する。
+		/** マテリアルアイテムを更新する。
 
 		return = true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
-		public override bool UpdateMaterial(ref UnityEngine.Material a_material)
+		public override bool UpdateMaterialItem(Fee.Render2D.MaterialItem a_material_item)
 		{
 			//テクスチャ設定。
-			a_material.mainTexture = UnityEngine.Texture2D.whiteTexture;
+			a_material_item.SetTexture(UnityEngine.Texture2D.whiteTexture);
 
 			//SetPass要求。
 			return true;
