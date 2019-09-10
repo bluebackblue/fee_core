@@ -104,14 +104,12 @@ namespace Fee.Ui
 			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
-		public override bool UpdateMaterialItem(Fee.Render2D.MaterialItem a_material_item)
+		public override bool UpdateMaterialItem(Fee.Render2D.Material_Item a_material_item)
 		{
 			bool t_setpass = false;
 
-			//テクスチャ設定。
-			UnityEngine.Texture2D t_texture = this.GetTexture();
-			if(a_material_item.CompareTextureInstance(t_texture) == false){
-				a_material_item.SetTexture(this.GetTexture());
+			//メインテクスチャー設定。
+			if(a_material_item.SetProperty_MainTexture(this.GetTexture()) == true){
 				t_setpass = true;
 			}
 
@@ -139,7 +137,7 @@ namespace Fee.Ui
 				}
 
 				if(t_clip_flag > 0){
-					if(a_material_item.SetProperty_ClipRect(t_clip_x1,t_clip_y1,t_clip_x2,t_clip_y2) == true){
+					if(a_material_item.SetProperty_ClipRectA(t_clip_x1,t_clip_y1,t_clip_x2,t_clip_y2) == true){
 						t_setpass = true;
 					}
 				}

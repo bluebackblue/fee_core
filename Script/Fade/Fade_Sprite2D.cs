@@ -29,13 +29,15 @@ namespace Fee.Fade
 		return = true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
-		public override bool UpdateMaterialItem(Fee.Render2D.MaterialItem a_material_item)
+		public override bool UpdateMaterialItem(Fee.Render2D.Material_Item a_material_item)
 		{
-			//テクスチャ設定。
-			a_material_item.SetTexture(UnityEngine.Texture2D.whiteTexture);
+			bool t_setpass = true;
+
+			//メインテクスチャー設定。
+			a_material_item.SetProperty_MainTexture(UnityEngine.Texture2D.whiteTexture);
 
 			//SetPass要求。
-			return true;
+			return t_setpass;
 		}
 	}
 }

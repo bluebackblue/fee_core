@@ -147,18 +147,16 @@ namespace Fee.Render2D
 			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
-		public virtual bool UpdateMaterialItem(MaterialItem a_material_item)
+		public virtual bool UpdateMaterialItem(Material_Item a_material_item)
 		{
-			if(a_material_item.CompareTextureInstance(this.GetTexture()) == false){
+			bool t_setpass = false;
 
-				//テクスチャ設定。
-				a_material_item.SetTexture(this.GetTexture());
-
-				//SetPass要求。
-				return true;
+			//メインテクスチャー設定。
+			if(a_material_item.SetProperty_MainTexture(this.GetTexture()) == true){
+				t_setpass = true;
 			}
 
-			return false;
+			return t_setpass;
 		}
 
 		/** 計算。スプライト。リセット。

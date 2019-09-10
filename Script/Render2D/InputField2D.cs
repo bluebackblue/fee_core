@@ -217,14 +217,14 @@ namespace Fee.Render2D
 
 		/** カスタムテキストマテリアルアイテム。取得。
 		*/
-		public MaterialItem GetCustomTextMaterialItem()
+		public Material_Item GetCustomTextMaterialItem()
 		{
 			return this.param.GetCustomTextMaterialItem();
 		}
 
 		/** カスタムイメージマテリアルアイテム。取得。
 		*/
-		public MaterialItem GetCustomImageMaterialItem()
+		public Material_Item GetCustomImageMaterialItem()
 		{
 			return this.param.GetCustomImageMaterialItem();
 		}
@@ -425,14 +425,14 @@ namespace Fee.Render2D
 
 		/** [内部からの呼び出し]テキストマテリアルアイテム。設定。
 		*/
-		public void Raw_SetTextMaterialItem(MaterialItem a_material_item)
+		public void Raw_SetTextMaterialItem(Material_Item a_material_item)
 		{
 			this.param.Raw_SetTextMaterialItem(a_material_item);
 		}
 
 		/** [内部からの呼び出し]イメージマテリアルアイテム。設定。
 		*/
-		public void Raw_SetImageMaterialItem(MaterialItem a_material_item)
+		public void Raw_SetImageMaterialItem(Material_Item a_material_item)
 		{
 			this.param.Raw_SetImageMaterialItem(a_material_item);
 		}

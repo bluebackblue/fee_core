@@ -46,8 +46,8 @@ namespace Fee.Render2D
 		private UnityEngine.UI.Text raw_text;
 		private UnityEngine.UI.Image raw_image;
 		private UnityEngine.UI.Text raw_placeholder_text;
-		private MaterialItem raw_custom_text_material_item;
-		private MaterialItem raw_custom_image_material_item;
+		private Material_Item raw_custom_text_material_item;
+		private Material_Item raw_custom_image_material_item;
 
 		/** 初期化。
 		*/
@@ -177,14 +177,14 @@ namespace Fee.Render2D
 
 		/** カスタムテキストマテリアルアイテム。取得。
 		*/
-		public MaterialItem GetCustomTextMaterialItem()
+		public Material_Item GetCustomTextMaterialItem()
 		{
 			return this.raw_custom_text_material_item;
 		}
 
 		/** カスタムイメージマテリアルアイテム。取得。
 		*/
-		public MaterialItem GetCustomImageMaterialItem()
+		public Material_Item GetCustomImageMaterialItem()
 		{
 			return this.raw_custom_image_material_item;
 		}
@@ -317,7 +317,7 @@ namespace Fee.Render2D
 
 		/** [内部からの呼び出し]テキストマテリアルアイテム。設定。
 		*/
-		public void Raw_SetTextMaterialItem(MaterialItem a_material_item)
+		public void Raw_SetTextMaterialItem(Material_Item a_material_item)
 		{
 			a_material_item.SetMaterialToInstance(this.raw_text);
 			a_material_item.SetMaterialToInstance(this.raw_placeholder_text);
@@ -325,7 +325,7 @@ namespace Fee.Render2D
 
 		/** [内部からの呼び出し]イメージマテリアルアイテム。設定。
 		*/
-		public void Raw_SetImageMaterialItem(MaterialItem a_material_item)
+		public void Raw_SetImageMaterialItem(Material_Item a_material_item)
 		{
 			a_material_item.SetMaterialToInstance(this.raw_image);
 		}

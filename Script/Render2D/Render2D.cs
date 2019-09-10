@@ -73,7 +73,7 @@ namespace Fee.Render2D
 
 		/** マテリアルリスト。
 		*/
-		private MaterialList materiallist;
+		private Material_List materiallist;
 
 		/** スプライト。
 		*/
@@ -119,7 +119,7 @@ namespace Fee.Render2D
 			this.screen = new Screen();
 
 			//マテリアルリスト。
-			this.materiallist = new MaterialList();
+			this.materiallist = new Material_List();
 
 			//スプライト。
 			this.sprite_list = new System.Collections.Generic.List<Sprite2D>();
@@ -210,14 +210,14 @@ namespace Fee.Render2D
 
 		/** ＵＩテキストマテリアルアイテム。取得。
 		*/
-		public MaterialItem GetUiTextMaterialItem()
+		public Material_Item GetUiTextMaterialItem()
 		{
 			return this.materiallist.GetUiTextMaterialItem();
 		}
 
 		/** ＵＩイメージマテリアルアイテム。取得。
 		*/
-		public MaterialItem GetUiImageMaterialItem()
+		public Material_Item GetUiImageMaterialItem()
 		{
 			return this.materiallist.GetUiImageMaterialItem();
 		}
@@ -491,7 +491,7 @@ namespace Fee.Render2D
 							}else{
 								//カスタムテキストマテリアルアイテム使用。
 								{
-									MaterialItem t_material_item = t_text.GetCustomTextMaterialItem();
+									Material_Item t_material_item = t_text.GetCustomTextMaterialItem();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
@@ -503,7 +503,7 @@ namespace Fee.Render2D
 									t_material_item.SetProperty_ClipFlag(1);
 
 									//clip_rect
-									t_material_item.SetProperty_ClipRect(t_gui_x1,t_gui_y1,t_gui_x2,t_gui_y2);
+									t_material_item.SetProperty_ClipRectA(t_gui_x1,t_gui_y1,t_gui_x2,t_gui_y2);
 
 									t_text.Raw_SetTextMaterialItem(t_material_item);
 								}
@@ -557,7 +557,7 @@ namespace Fee.Render2D
 							}else{
 								//カスタムテキストマテリアルアイテム使用。
 								{
-									MaterialItem t_text_material_item = t_inputfield.GetCustomTextMaterialItem();
+									Material_Item t_text_material_item = t_inputfield.GetCustomTextMaterialItem();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
@@ -569,7 +569,7 @@ namespace Fee.Render2D
 									t_text_material_item.SetProperty_ClipFlag(1);
 
 									//clip_rect
-									t_text_material_item.SetProperty_ClipRect(t_gui_x1,t_gui_y1,t_gui_x2,t_gui_y2);
+									t_text_material_item.SetProperty_ClipRectA(t_gui_x1,t_gui_y1,t_gui_x2,t_gui_y2);
 
 									//Raw_SetTextMaterialItem
 									t_inputfield.Raw_SetTextMaterialItem(t_text_material_item);
@@ -577,7 +577,7 @@ namespace Fee.Render2D
 
 								//カスタムイメージマテリアルアイテム使用。
 								{
-									MaterialItem t_image_material_item = t_inputfield.GetCustomImageMaterialItem();
+									Material_Item t_image_material_item = t_inputfield.GetCustomImageMaterialItem();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
@@ -589,7 +589,7 @@ namespace Fee.Render2D
 									t_image_material_item.SetProperty_ClipFlag(1);
 
 									//clip_rect
-									t_image_material_item.SetProperty_ClipRect(t_gui_x1,t_gui_y1,t_gui_x2,t_gui_y2);
+									t_image_material_item.SetProperty_ClipRectA(t_gui_x1,t_gui_y1,t_gui_x2,t_gui_y2);
 
 									//Raw_SetImageMaterialItem
 									t_inputfield.Raw_SetImageMaterialItem(t_image_material_item);
@@ -649,7 +649,7 @@ namespace Fee.Render2D
 
 							if((t_sprite.IsVisible() == true)&&(t_sprite.GetDrawPriority() >= 0)){
 
-								MaterialItem t_material_item = this.materiallist.GetMaterialItem(t_sprite.GetMaterialType());
+								Material_Item t_material_item = this.materiallist.GetMaterialItem(t_sprite.GetMaterialType());
 
 								//マテリアル変更。
 								if(t_current_material_type != t_sprite.GetMaterialType()){
