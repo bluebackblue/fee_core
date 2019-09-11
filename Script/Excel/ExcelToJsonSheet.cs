@@ -69,7 +69,7 @@ namespace Fee.Excel
 
 		/** セルの文字列をチェック。
 		*/
-		private bool CellStringCheck(int a_x,int a_y,string a_text,ref CellPosition a_result_pos)
+		private bool CellStringCheck(int a_x,int a_y,string a_text,out CellPosition a_result_pos)
 		{
 			if(this.excel.SetActiveCell(a_x,a_y) == true){
 				string t_value;
@@ -80,6 +80,7 @@ namespace Fee.Excel
 				}
 			}
 
+			a_result_pos = new CellPosition(0,0);
 			return false;
 		}
 
@@ -111,72 +112,76 @@ namespace Fee.Excel
 
 		/** ボックス内を検索。
 		*/
-		private bool FindCellBox(int a_x,int a_y,int a_size,string a_text,ref CellPosition a_result_pos)
+		private bool FindCellBox(int a_x,int a_y,int a_size,string a_text,out CellPosition a_result_pos)
 		{
 			for(int yy=0;yy<a_size;yy++){
 				for(int xx=0;xx<a_size;xx++){
 					int t_x = a_x + xx;
 					int t_y = a_y + yy;
-					if(this.CellStringCheck(t_x,t_y,a_text,ref a_result_pos) == true){
+					if(this.CellStringCheck(t_x,t_y,a_text,out a_result_pos) == true){
 						return true;
 					}
 				}
 			}
 
+			a_result_pos = new CellPosition(0,0);
 			return false;
 		}
 
 		/** Ｘ軸方向に検索。
 		*/
-		private bool FindCellXLine(int a_x,int a_y,int a_size,string a_text,ref CellPosition a_result_pos)
+		private bool FindCellXLine(int a_x,int a_y,int a_size,string a_text,out CellPosition a_result_pos)
 		{
 			for(int xx=0;xx<a_size;xx++){
 				int t_x = a_x + xx;
 				int t_y = a_y;
-				if(this.CellStringCheck(t_x,t_y,a_text,ref a_result_pos) == true){
+				if(this.CellStringCheck(t_x,t_y,a_text,out a_result_pos) == true){
 					return true;
 				}
 			}
 
+			a_result_pos = new CellPosition(0,0);
 			return false;
 		}
 
 		/** Ｙ軸方向に検索。
 		*/
-		private bool FindCellYLine(int a_x,int a_y,int a_size,string a_text,ref CellPosition a_result_pos)
+		private bool FindCellYLine(int a_x,int a_y,int a_size,string a_text,out CellPosition a_result_pos)
 		{
 			for(int yy=0;yy<a_size;yy++){
 				int t_x = a_x;
 				int t_y = a_y + yy;
-				if(this.CellStringCheck(t_x,t_y,a_text,ref a_result_pos) == true){
+				if(this.CellStringCheck(t_x,t_y,a_text,out a_result_pos) == true){
 					return true;
 				}
 			}
 
+			a_result_pos = new CellPosition(0,0);
 			return false;
 		}
 
 		/** ルートを検索。
 		*/
-		private bool FindCell_Root(ref CellPosition a_result_pos)
+		private bool FindCell_Root(out CellPosition a_result_pos)
 		{
 			int t_block_size = 16;
 			for(int yy=0;yy<10;yy++){
 				for(int xx=0;xx<10;xx++){
 
 					//ルート発見。
-					if(this.FindCellBox(xx * t_block_size,yy * t_block_size,t_block_size,Config.COMMAND_PARAM_ROOT,ref a_result_pos) == true){
+					if(this.FindCellBox(xx * t_block_size,yy * t_block_size,t_block_size,Config.COMMAND_PARAM_ROOT,out a_result_pos) == true){
 						return true;
 					}
 
 					//ルートより先に終端発見。
-					if(this.FindCellBox(xx * t_block_size,yy * t_block_size,t_block_size,Config.COMMAND_PARAM_END,ref a_result_pos) == true){
+					if(this.FindCellBox(xx * t_block_size,yy * t_block_size,t_block_size,Config.COMMAND_PARAM_END,out a_result_pos) == true){
 						return false;
 					}
 				}
 			}
 
 			Tool.Assert(false);
+			a_result_pos = new CellPosition(0,0);
 			return false;
 		}
 
@@ -231,30 +236,30 @@ namespace Fee.Excel
 			CellPosition t_pos_end_x = new CellPosition(0,0);
 
 			//ルート。検索。
-			if(this.FindCell_Root(ref t_pos_root) == false){
+			if(this.FindCell_Root(out t_pos_root) == false){
 				return;
 			}
 
 			//パラメータタイプ。検索。
-			if(this.CellStringCheck(t_pos_root.x,t_pos_root.y + 1,Config.COMMAND_PARAM_TYPE,ref t_pos_param_type) == false){
+			if(this.CellStringCheck(t_pos_root.x,t_pos_root.y + 1,Config.COMMAND_PARAM_TYPE,out t_pos_param_type) == false){
 				Tool.Assert(false);
 				return;
 			}
 
 			//パラメータ名。検索。
-			if(this.CellStringCheck(t_pos_root.x,t_pos_root.y + 2,Config.COMMAND_PARAM_NAME,ref t_pos_param_name) == false){
+			if(this.CellStringCheck(t_pos_root.x,t_pos_root.y + 2,Config.COMMAND_PARAM_NAME,out t_pos_param_name) == false){
 				Tool.Assert(false);
 				return;
 			}
 
 			//Ｘ軸方向。終端検索。
-			if(this.FindCellXLine(t_pos_param_type.x + 1,t_pos_param_type.y,Config.END_SEARCH_WIDTH,Config.COMMAND_PARAM_END,ref t_pos_end_x) == false){
+			if(this.FindCellXLine(t_pos_param_type.x + 1,t_pos_param_type.y,Config.END_SEARCH_WIDTH,Config.COMMAND_PARAM_END,out t_pos_end_x) == false){
 				Tool.Assert(false);
 				return;
 			}
 
 			//Ｙ軸方向。終端検索。
-			if(this.FindCellYLine(t_pos_param_type.x,t_pos_param_type.y + 1,Config.END_SEARCH_HEIGHT,Config.COMMAND_PARAM_END,ref t_pos_end_y) == false){
+			if(this.FindCellYLine(t_pos_param_type.x,t_pos_param_type.y + 1,Config.END_SEARCH_HEIGHT,Config.COMMAND_PARAM_END,out t_pos_end_y) == false){
 				Tool.Assert(false);
 				return;
 			}

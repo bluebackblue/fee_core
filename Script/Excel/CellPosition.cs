@@ -14,11 +14,7 @@ namespace Fee.Excel
 {
 	/** セルの位置。
 	*/
-	#if(UNITY_5)
 	public struct CellPosition
-	#else
-	public readonly struct CellPosition
-	#endif
 	{
 		/** xy
 		*/

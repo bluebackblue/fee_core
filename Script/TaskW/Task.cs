@@ -260,18 +260,14 @@ namespace Fee.TaskW
 
 		/** Wait
 		*/
-		public void Wait(CancelToken a_cancel_token)
+		public void Wait()
 		{
 			#if((UNITY_5)||(UNITY_WEBGL))
 			#else
 			{
 				if(this.IsEnd() == false){
 					try{
-						if(a_cancel_token == null){
-							this.task.Wait();
-						}else{
-							this.task.Wait(a_cancel_token.GetToken());
-						}
+						this.task.Wait();
 					}catch(System.OperationCanceledException t_exception_cancel){
 						Tool.Log("Wait : Cancel",t_exception_cancel.Message);
 					}catch(System.Exception t_exception){

@@ -485,9 +485,9 @@ namespace Fee.Render2D
 
 		/** クォータニオン。設定。
 		*/
-		public void SetQuaternion(ref UnityEngine.Quaternion a_quaternion)
+		public void SetQuaternion(in UnityEngine.Quaternion a_quaternion)
 		{
-			this.vertex_recalc |= this.rotate.SetQuaternion(ref a_quaternion);
+			this.vertex_recalc |= this.rotate.SetQuaternion(in a_quaternion);
 		}
 
 		/** クォータニオン。取得。

@@ -130,7 +130,7 @@ namespace Fee.Network
 
 		/** 回転。設定。
 		*/
-		public void SetQuaternion(ref UnityEngine.Quaternion a_quaternion)
+		public void SetQuaternion(in UnityEngine.Quaternion a_quaternion)
 		{
 			this.mytransform.transform.rotation = a_quaternion;
 		}

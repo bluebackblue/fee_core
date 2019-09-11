@@ -218,9 +218,9 @@ namespace Fee.Ui
 
 		/** クォータニオン。設定。
 		*/
-		public void SetQuaternion(ref UnityEngine.Quaternion a_quaternion)
+		public void SetQuaternion(in UnityEngine.Quaternion a_quaternion)
 		{
-			this.sprite.SetQuaternion(ref a_quaternion);
+			this.sprite.SetQuaternion(in a_quaternion);
 		}
 
 		/** クォータニオン。取得。

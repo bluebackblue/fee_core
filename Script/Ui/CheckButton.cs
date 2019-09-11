@@ -275,25 +275,6 @@ namespace Fee.Ui
 			this.bg_lock_sprite.SetCornerSize(a_corner_size);
 		}
 
-		/** テクスチャ。設定。
-		*/
-		#if(false)
-		public void SetPackTexture(UnityEngine.Texture2D a_texture)
-		{
-			//bg
-			this.bg_normal_sprite.SetTexture(a_texture);
-			this.bg_on_sprite.SetTexture(a_texture);
-			this.bg_lock_sprite.SetTexture(a_texture);
-			this.bg_normal_sprite.SetTextureRect(ref Fee.Render2D.Config.TEXTURE_RECT_LU);
-			this.bg_on_sprite.SetTextureRect(ref Fee.Render2D.Config.TEXTURE_RECT_RU);
-			this.bg_lock_sprite.SetTextureRect(ref Fee.Render2D.Config.TEXTURE_RECT_RD);
-
-			//check
-			this.sprite_check.SetTexture(a_texture);
-			this.sprite_check.SetTextureRect(ref Fee.Render2D.Config.TEXTURE_RECT_LD);
-		}
-		#endif
-
 		/** ＢＧノーマルテクスチャ。設定。
 		*/
 		public void SetBgNormalTexture(UnityEngine.Texture2D a_texture)

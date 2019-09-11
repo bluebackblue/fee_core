@@ -384,29 +384,29 @@ namespace Fee.Ui
 		{
 			this.sprite_1.SetQuaternion(a_euler_x,a_euler_y,a_euler_z);
 			UnityEngine.Quaternion t_quaternion = this.sprite_1.GetQuaternion();
-			this.sprite_2.SetQuaternion(ref t_quaternion);
-			this.sprite_3.SetQuaternion(ref t_quaternion);
-			this.sprite_4.SetQuaternion(ref t_quaternion);
-			this.sprite_5.SetQuaternion(ref t_quaternion);
-			this.sprite_6.SetQuaternion(ref t_quaternion);
-			this.sprite_7.SetQuaternion(ref t_quaternion);
-			this.sprite_8.SetQuaternion(ref t_quaternion);
-			this.sprite_9.SetQuaternion(ref t_quaternion);
+			this.sprite_2.SetQuaternion(in t_quaternion);
+			this.sprite_3.SetQuaternion(in t_quaternion);
+			this.sprite_4.SetQuaternion(in t_quaternion);
+			this.sprite_5.SetQuaternion(in t_quaternion);
+			this.sprite_6.SetQuaternion(in t_quaternion);
+			this.sprite_7.SetQuaternion(in t_quaternion);
+			this.sprite_8.SetQuaternion(in t_quaternion);
+			this.sprite_9.SetQuaternion(in t_quaternion);
 		}
 
 		/** クォータニオン。設定。
 		*/
-		public void SetQuaternion(ref UnityEngine.Quaternion a_quaternion)
+		public void SetQuaternion(in UnityEngine.Quaternion a_quaternion)
 		{
-			this.sprite_1.SetQuaternion(ref a_quaternion);
-			this.sprite_2.SetQuaternion(ref a_quaternion);
-			this.sprite_3.SetQuaternion(ref a_quaternion);
-			this.sprite_4.SetQuaternion(ref a_quaternion);
-			this.sprite_5.SetQuaternion(ref a_quaternion);
-			this.sprite_6.SetQuaternion(ref a_quaternion);
-			this.sprite_7.SetQuaternion(ref a_quaternion);
-			this.sprite_8.SetQuaternion(ref a_quaternion);
-			this.sprite_9.SetQuaternion(ref a_quaternion);
+			this.sprite_1.SetQuaternion(in a_quaternion);
+			this.sprite_2.SetQuaternion(in a_quaternion);
+			this.sprite_3.SetQuaternion(in a_quaternion);
+			this.sprite_4.SetQuaternion(in a_quaternion);
+			this.sprite_5.SetQuaternion(in a_quaternion);
+			this.sprite_6.SetQuaternion(in a_quaternion);
+			this.sprite_7.SetQuaternion(in a_quaternion);
+			this.sprite_8.SetQuaternion(in a_quaternion);
+			this.sprite_9.SetQuaternion(in a_quaternion);
 		}
 
 		/** クォータニオン。取得。

@@ -530,9 +530,9 @@ namespace Fee.Input
 				this.Main_Wheel();
 
 				//更新。
-				this.left.Main(ref this.cursor);
-				this.right.Main(ref this.cursor);
-				this.middle.Main(ref this.cursor);
+				this.left.Main(in this.cursor);
+				this.right.Main(in this.cursor);
+				this.middle.Main(in this.cursor);
 				this.mouse_wheel.Main();
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);

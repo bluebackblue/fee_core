@@ -83,7 +83,7 @@ namespace Fee.Input
 
 		/** 更新。
 		*/
-		public void Main(ref Mouse_Cursor a_cursor)
+		public void Main(in Mouse_Cursor a_cursor)
 		{
 			if((this.on == true)&&(this.on_old == false)){
 				//ダウン。

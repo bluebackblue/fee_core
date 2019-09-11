@@ -128,7 +128,7 @@ namespace Fee.Render2D
 			return == true : 変更あり。
 
 		*/
-		public bool SetQuaternion(ref UnityEngine.Quaternion a_quaternion)
+		public bool SetQuaternion(in UnityEngine.Quaternion a_quaternion)
 		{
 			bool t_change = false;
 

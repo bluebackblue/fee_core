@@ -63,7 +63,7 @@ namespace Fee.JsonItem
 
 		/** Convert
 		*/
-		public static void Convert(ref System.Object a_to_object,System.Type a_type,JsonItem a_jsonitem,System.Collections.Generic.List<JsonToObject_Work> a_workpool = null)
+		public static void Convert(ref System.Object a_to_object_ref,System.Type a_type,JsonItem a_jsonitem,System.Collections.Generic.List<JsonToObject_Work> a_workpool = null)
 		{
 			System.Collections.Generic.List<JsonToObject_Work> t_workpool = a_workpool;
 
@@ -77,49 +77,49 @@ namespace Fee.JsonItem
 				if(a_jsonitem.IsStringData() == true){
 					if(t_type == typeof(string)){
 						//string
-						a_to_object = a_jsonitem.GetStringData();
+						a_to_object_ref = a_jsonitem.GetStringData();
 					}else if(t_type.IsEnum == true){
 						//enum
-						a_to_object = (System.Enum)(System.Enum.Parse(t_type,a_jsonitem.GetStringData()));
+						a_to_object_ref = (System.Enum)(System.Enum.Parse(t_type,a_jsonitem.GetStringData()));
 					}
 				}else if(a_jsonitem.IsBoolData() == true){
 					if(t_type == typeof(bool)){
 						//bool
-						a_to_object = a_jsonitem.GetBoolData();
+						a_to_object_ref = a_jsonitem.GetBoolData();
 					}
 				}else if(a_jsonitem.IsSignedNumber() == true){
 					if(t_type == typeof(int)){
 						//int
-						a_to_object = (int)a_jsonitem.GetInt();
+						a_to_object_ref = (int)a_jsonitem.GetInt();
 					}else if(t_type == typeof(long)){
 						//long
-						a_to_object = (long)a_jsonitem.GetLong();
+						a_to_object_ref = (long)a_jsonitem.GetLong();
 					}else if(t_type.IsEnum == true){
 						//enum
-						a_to_object = (System.Enum)(System.Enum.ToObject(t_type,a_jsonitem.GetInt()));
+						a_to_object_ref = (System.Enum)(System.Enum.ToObject(t_type,a_jsonitem.GetInt()));
 					}
 				}else if(a_jsonitem.IsUnSignedNumber() == true){
 					if(t_type == typeof(uint)){
 						//uint
-						a_to_object = (uint)a_jsonitem.GetUint();
+						a_to_object_ref = (uint)a_jsonitem.GetUint();
 					}else if(t_type == typeof(ulong)){
 						//ulong
-						a_to_object = (ulong)a_jsonitem.GetUlong();
+						a_to_object_ref = (ulong)a_jsonitem.GetUlong();
 					}
 				}else if(a_jsonitem.IsFloatNumber() == true){
 					if(t_type == typeof(float)){
 						//float
-						a_to_object = (float)a_jsonitem.GetFloat();
+						a_to_object_ref = (float)a_jsonitem.GetFloat();
 					}else if(t_type == typeof(double)){
 						//double
-						a_to_object = (double)a_jsonitem.GetDouble();
+						a_to_object_ref = (double)a_jsonitem.GetDouble();
 					} 
 				}else if(a_jsonitem.IsIndexArray() == true){
 					if(t_type.IsGenericType == true){
 						if(t_type.GetGenericTypeDefinition() == typeof(System.Collections.Generic.List<>)){
 							//List
 
-							System.Collections.IList t_list = a_to_object as System.Collections.IList;
+							System.Collections.IList t_list = a_to_object_ref as System.Collections.IList;
 							System.Type t_type_member = t_type.GetGenericArguments()[0];
 
 							for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
@@ -139,7 +139,7 @@ namespace Fee.JsonItem
 					}else if(a_type.IsArray == true){
 						//x[]
 
-						System.Array t_list = a_to_object as System.Array;
+						System.Array t_list = a_to_object_ref as System.Array;
 
 						System.Type t_type_member = t_type.GetElementType();
 
@@ -166,7 +166,7 @@ namespace Fee.JsonItem
 						if(t_type.GetGenericTypeDefinition() == typeof(System.Collections.Generic.Dictionary<,>)){
 							//Dictionary
 
-							System.Collections.IDictionary t_list = a_to_object as System.Collections.IDictionary;
+							System.Collections.IDictionary t_list = a_to_object_ref as System.Collections.IDictionary;
 							System.Type t_type_member = t_type.GetGenericArguments()[1];
 
 							System.Collections.Generic.List<string> t_key_list = a_jsonitem.CreateAssociativeKeyList();
@@ -222,7 +222,7 @@ namespace Fee.JsonItem
 													}
 
 													try{
-														t_fieldinfo.SetValue(a_to_object,t_object_member);
+														t_fieldinfo.SetValue(a_to_object_ref,t_object_member);
 													}catch(System.Exception t_exception){
 														Tool.DebugReThrow(t_exception);
 													}
