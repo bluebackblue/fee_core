@@ -493,6 +493,13 @@ namespace Fee.EditorTool
 		{
 			try{
 				{
+					//２Ｄ描画。
+					#if(false)
+					{
+						Fee.Render2D.Render2D.GetInstance().Main_Before();
+					}
+					#endif
+
 					//入力。
 					{
 						//マウス。
@@ -665,7 +672,7 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//２Ｄ描画。
+				//２Ｄ描画。順序変更。
 				{
 				}
 
@@ -698,6 +705,15 @@ namespace Fee.EditorTool
 					Fee.UniVrm.UniVrm.GetInstance().Main();
 				}
 				#endif
+
+				{
+					//２Ｄ描画。
+					#if(false)
+					{
+						Fee.Render2D.Render2D.GetInstance().Main_After();
+					}
+					#endif
+				}
 
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.StackTrace + "\n\n" + t_exception.Message);

@@ -435,9 +435,7 @@ namespace Fee.Render2D
 				this.task_calc_sprite_vertex_cancel_token.Cancel();
 
 				//タスク終了待ち。
-				while(this.task_calc_sprite_vertex.IsEnd() == false){
-					System.Threading.Thread.Sleep(0);
-				}
+				this.task_calc_sprite_vertex.Wait(this.task_calc_sprite_vertex_cancel_token);
 
 				//タスク関数。終了。
 				this.task_calc_sprite_vertex.EndFunction();
@@ -486,9 +484,7 @@ namespace Fee.Render2D
 					this.task_calc_sprite_vertex_cancel_token.Cancel();
 
 					//タスク終了待ち。
-					while(this.task_calc_sprite_vertex.IsEnd() == false){
-						System.Threading.Thread.Sleep(0);
-					}
+					this.task_calc_sprite_vertex.Wait(this.task_calc_sprite_vertex_cancel_token);
 
 					//タスク関数。終了。
 					this.task_calc_sprite_vertex.EndFunction();
@@ -504,12 +500,9 @@ namespace Fee.Render2D
 			}
 			#endif
 
-			//タスク終了待ち。
 			if(this.task_calc_sprite_vertex.IsEndFunction() == false){
 				//タスク終了待ち。
-				while(this.task_calc_sprite_vertex.IsEnd() == false){
-					System.Threading.Thread.Sleep(0);
-				}
+				this.task_calc_sprite_vertex.Wait(this.task_calc_sprite_vertex_cancel_token);
 
 				//タスク関数。終了。
 				this.task_calc_sprite_vertex.EndFunction();
@@ -778,14 +771,12 @@ namespace Fee.Render2D
 			int t_start_index = this.layerlist.GetStartIndex_Sprite(a_layerindex);
 			int t_last_index = this.layerlist.GetLastIndex_Sprite(a_layerindex);
 
-			//タスクの終了待ち。
-			{
-				if(this.task_calc_sprite_vertex.IsEndFunction() == false){
-					while(this.task_calc_sprite_vertex.IsEnd() == false){
-						System.Threading.Thread.Sleep(0);
-					}
-					this.task_calc_sprite_vertex.EndFunction();
-				}
+			if(this.task_calc_sprite_vertex.IsEndFunction() == false){
+				//タスクの終了待ち。
+				this.task_calc_sprite_vertex.Wait(this.task_calc_sprite_vertex_cancel_token);
+
+				//タスク関数終了。
+				this.task_calc_sprite_vertex.EndFunction();
 			}
 
 			if(a_layerindex == 0){
