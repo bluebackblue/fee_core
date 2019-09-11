@@ -119,7 +119,7 @@ namespace Fee.Render2D
 					}break;
 				default:
 					{
-						UnityEngine.Debug.Log("Material_Item : " + this.material.name + " : " + t_property_list[ii]);
+						Tool.Log("Material_Item",this.material.name + " : " + t_property_list[ii]);
 					}break;
 				}
 			}

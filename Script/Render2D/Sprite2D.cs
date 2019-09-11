@@ -46,14 +46,15 @@ namespace Fee.Render2D
 		*/
 		private Sprite2D_Param param;
 
-		/** calccache
+		/** vertex
 		*/
-		private bool calccache_changeflag;
-		private int calccache_x;
-		private int calccache_y;
-		private int calccache_w;
-		private int calccache_h;
-		private float[] calccache_to_8;
+		private float[] vertex;
+		private bool vertex_recalc;
+		
+		/** texcood
+		*/
+		private float[] texcood;
+		private bool texcood_recalc;
 
 		/** debug
 		*/
@@ -105,13 +106,13 @@ namespace Fee.Render2D
 			//パラメータ。
 			this.param.Initialize();
 
-			//calccache
-			this.calccache_changeflag = true;
-			this.calccache_x = 0;
-			this.calccache_y = 0;
-			this.calccache_w = 0;
-			this.calccache_h = 0;
-			this.calccache_to_8 = new float[8];
+			//vertex
+			this.vertex = new float[8];
+			this.vertex_recalc = true;
+
+			//texcood
+			this.texcood = new float[4];
+			this.texcood_recalc = true;
 
 			//削除管理。
 			if(a_deleter != null){
@@ -159,92 +160,150 @@ namespace Fee.Render2D
 			return t_setpass;
 		}
 
-		/** 計算。スプライト。リセット。
+		/** 再計算。リクエスト。
 		*/
-		public void ResetSpritePositionCache()
+		public void RequestReCalcVertex()
 		{
-			this.calccache_changeflag = true;
+			this.vertex_recalc = true;
 		}
 
-		/** 計算。スプライト。
+		/** 計算。
 		*/
-		public void CalcSpritePosition(float[] a_to_8)
+		public void Calc()
 		{
-			if((this.calccache_changeflag == false)&&(this.calccache_x == this.rect.GetX())&&(this.calccache_y == this.rect.GetY())&&(this.calccache_w == this.rect.GetW())&&(this.calccache_h == this.rect.GetH())){
-				a_to_8[0] = this.calccache_to_8[0];
-				a_to_8[1] = this.calccache_to_8[1];
-				a_to_8[2] = this.calccache_to_8[2];
-				a_to_8[3] = this.calccache_to_8[3];
-				a_to_8[4] = this.calccache_to_8[4];
-				a_to_8[5] = this.calccache_to_8[5];
-				a_to_8[6] = this.calccache_to_8[6];
-				a_to_8[7] = this.calccache_to_8[7];
-			}else{
-				this.calccache_changeflag = false;
+			//texcood
+			if(this.texcood_recalc == true){
+				this.texcood_recalc = false;
 
-				float t_calccache_sprite_x = Render2D.GetInstance().GetScreenCalcSpriteX();
-				float t_calccache_sprite_y = Render2D.GetInstance().GetScreenCalcSpriteY();
-				float t_calccache_sprite_w = Render2D.GetInstance().GetScreenCalcSpriteW();
-				float t_calccache_sprite_h = Render2D.GetInstance().GetScreenCalcSpriteH();
+				//左上。Ｘ。
+				this.texcood[0] = this.GetTextureX() / Config.TEXTURE_W;
 
-				this.calccache_x = this.rect.GetX();
-				this.calccache_y = this.rect.GetY();
-				this.calccache_w = this.rect.GetW();
-				this.calccache_h = this.rect.GetH();
+				//左上。Ｙ。
+				this.texcood[1] = 1.0f - this.GetTextureY() / Config.TEXTURE_H;
 
-				//左上。
-				a_to_8[0] = (float)this.rect.GetX() / t_calccache_sprite_w + t_calccache_sprite_x;
-				a_to_8[1] = 1.0f - ((float)this.rect.GetY() / t_calccache_sprite_h + t_calccache_sprite_y);
+				//右下。Ｘ。
+				this.texcood[2] = (this.GetTextureX() + this.GetTextureW()) / Config.TEXTURE_W;
 
-				//右下。
-				a_to_8[6] = (float)(this.rect.GetX() + this.rect.GetW()) / t_calccache_sprite_w + t_calccache_sprite_x;
-				a_to_8[7] = 1.0f - ((float)(this.rect.GetY() + this.rect.GetH()) / t_calccache_sprite_h + t_calccache_sprite_y);
-
-				//右上。
-				a_to_8[2] = a_to_8[6];
-				a_to_8[3] = a_to_8[1];
-
-				//左下。
-				a_to_8[4] = a_to_8[0];
-				a_to_8[5] = a_to_8[7];
-
-				this.calccache_to_8[0] = a_to_8[0];
-				this.calccache_to_8[1] = a_to_8[1];
-				this.calccache_to_8[2] = a_to_8[2];
-				this.calccache_to_8[3] = a_to_8[3];
-				this.calccache_to_8[4] = a_to_8[4];
-				this.calccache_to_8[5] = a_to_8[5];
-				this.calccache_to_8[6] = a_to_8[6];
-				this.calccache_to_8[7] = a_to_8[7];
+				//右下。Ｙ。
+				this.texcood[3] = 1.0f - (this.GetTextureY() + this.GetTextureH()) / Config.TEXTURE_H;
 			}
+
+			//vertex
+			if(this.vertex_recalc == true){
+				this.vertex_recalc = false;
+
+				float t_screen_calc_x = Render2D.GetInstance().GetScreenCalcSpriteX();
+				float t_screen_calc_y = Render2D.GetInstance().GetScreenCalcSpriteY();
+				float t_screen_calc_w = Render2D.GetInstance().GetScreenCalcSpriteW();
+				float t_screen_calc_h = Render2D.GetInstance().GetScreenCalcSpriteH();
+
+				if(this.IsRotate() == true){
+					//回転あり。
+
+					UnityEngine.Vector2 t_center = new UnityEngine.Vector2(this.GetCenterX(),this.GetCenterY());
+
+					//左上。
+					UnityEngine.Vector2 t_1 = new UnityEngine.Vector2(this.GetX(),this.GetY()) - t_center;
+
+					//右上。
+					UnityEngine.Vector2 t_2 = new UnityEngine.Vector2(this.GetX() + this.GetW(),this.GetY()) - t_center;
+
+					//左下。
+					UnityEngine.Vector2 t_3 = new UnityEngine.Vector2(this.GetX(),this.GetY() + this.GetH()) - t_center;
+
+					//右下。
+					UnityEngine.Vector2 t_4 = new UnityEngine.Vector2(this.GetX() + this.GetW(),this.GetY() + this.GetH()) - t_center;
+
+					//回転。
+					UnityEngine.Quaternion t_quaternion = this.GetQuaternion();
+
+					t_1 = t_quaternion * t_1;
+					t_2 = t_quaternion * t_2;
+					t_3 = t_quaternion * t_3;
+					t_4 = t_quaternion * t_4;
+
+					t_1 += t_center;
+					t_2 += t_center;
+					t_3 += t_center;
+					t_4 += t_center;
+
+					//左上。
+					this.vertex[0] = t_1.x / t_screen_calc_w + t_screen_calc_x;
+					this.vertex[1] = 1.0f - (t_1.y / t_screen_calc_h + t_screen_calc_y);
+
+					//右上。
+					this.vertex[2] = t_2.x / t_screen_calc_w + t_screen_calc_x;
+					this.vertex[3] = 1.0f - (t_2.y / t_screen_calc_h + t_screen_calc_y);
+
+					//左下。
+					this.vertex[4] = t_3.x / t_screen_calc_w + t_screen_calc_x;
+					this.vertex[5] = 1.0f - (t_3.y / t_screen_calc_h + t_screen_calc_y);
+
+					//右下。
+					this.vertex[6] = t_4.x / t_screen_calc_w + t_screen_calc_x;
+					this.vertex[7] = 1.0f - (t_4.y / t_screen_calc_h + t_screen_calc_y);
+				}else{
+					//回転なし。
+
+					//左上。
+					this.vertex[0] = (float)this.rect.GetX() / t_screen_calc_w + t_screen_calc_x;
+					this.vertex[1] = 1.0f - ((float)this.rect.GetY() / t_screen_calc_h + t_screen_calc_y);
+
+					//右下。
+					this.vertex[6] = (float)(this.rect.GetX() + this.rect.GetW()) / t_screen_calc_w + t_screen_calc_x;
+					this.vertex[7] = 1.0f - ((float)(this.rect.GetY() + this.rect.GetH()) / t_screen_calc_h + t_screen_calc_y);
+
+					//右上。
+					this.vertex[2] = this.vertex[6];
+					this.vertex[3] = this.vertex[1];
+
+					//左下。
+					this.vertex[4] = this.vertex[0];
+					this.vertex[5] = this.vertex[7];
+				}
+			}
+		}
+
+		/** 頂点情報。
+		*/
+		public float[] GetTexCoord()
+		{
+			return this.texcood;
+		}
+
+		/** 頂点情報。
+		*/
+		public float[] GetVertex()
+		{
+			return this.vertex;
 		}
 
 		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureX(float a_texture_x)
 		{
-			this.rect.SetTextureX(a_texture_x);
+			this.texcood_recalc |= this.rect.SetTextureX(a_texture_x);
 		}
 
 		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureY(float a_texture_y)
 		{
-			this.rect.SetTextureY(a_texture_y);
+			this.texcood_recalc |= this.rect.SetTextureY(a_texture_y);
 		}
 
 		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureW(float a_texture_w)
 		{
-			this.rect.SetTextureW(a_texture_w);
+			this.texcood_recalc |= this.rect.SetTextureW(a_texture_w);
 		}
 
 		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureH(float a_texture_h)
 		{
-			this.rect.SetTextureH(a_texture_h);
+			this.texcood_recalc |= this.rect.SetTextureH(a_texture_h);
 		}
 
 		/** テクスチャ矩形。設定。
@@ -279,36 +338,36 @@ namespace Fee.Render2D
 		*/
 		public void SetX(int a_x)
 		{
-			this.rect.SetX(a_x);
+			this.vertex_recalc |= this.rect.SetX(a_x);
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetY(int a_y)
 		{
-			this.rect.SetY(a_y);
+			this.vertex_recalc |= this.rect.SetY(a_y);
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetXY(int a_x,int a_y)
 		{
-			this.rect.SetX(a_x);
-			this.rect.SetY(a_y);
+			this.vertex_recalc |= this.rect.SetX(a_x);
+			this.vertex_recalc |= this.rect.SetY(a_y);
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetW(int a_w)
 		{
-			this.rect.SetW(a_w);
+			this.vertex_recalc |= this.rect.SetW(a_w);
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetH(int a_h)
 		{
-			this.rect.SetH(a_h);
+			this.vertex_recalc |= this.rect.SetH(a_h);
 		}
 
 		/** 矩形。取得。
@@ -343,49 +402,49 @@ namespace Fee.Render2D
 		*/
 		public void SetWH(int a_w,int a_h)
 		{
-			this.rect.SetW(a_w);
-			this.rect.SetH(a_h);
+			this.vertex_recalc |= this.rect.SetW(a_w);
+			this.vertex_recalc |= this.rect.SetH(a_h);
 		}
 
 		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.rect.SetTextureRect(in a_texture_rect);
+			this.texcood_recalc |= this.rect.SetTextureRect(in a_texture_rect);
 		}
 
 		/** テクスチャ矩形。設定。
 		*/
 		public void SetTextureRect(float a_texture_x,float a_texture_y,float a_texture_w,float a_texture_h)
 		{
-			this.rect.SetTextureX(a_texture_x);
-			this.rect.SetTextureY(a_texture_y);
-			this.rect.SetTextureW(a_texture_w);
-			this.rect.SetTextureH(a_texture_h);
+			this.texcood_recalc |= this.rect.SetTextureX(a_texture_x);
+			this.texcood_recalc |= this.rect.SetTextureY(a_texture_y);
+			this.texcood_recalc |= this.rect.SetTextureW(a_texture_w);
+			this.texcood_recalc |= this.rect.SetTextureH(a_texture_h);
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
-			this.rect.SetRect(in a_rect);
+			this.vertex_recalc |= this.rect.SetRect(in a_rect);
 		}
 
 		/** 矩形。設定。
 		*/
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
 		{
-			this.rect.SetX(a_x);
-			this.rect.SetY(a_y);
-			this.rect.SetW(a_w);
-			this.rect.SetH(a_h);
+			this.vertex_recalc |= this.rect.SetX(a_x);
+			this.vertex_recalc |= this.rect.SetY(a_y);
+			this.vertex_recalc |= this.rect.SetW(a_w);
+			this.vertex_recalc |= this.rect.SetH(a_h);
 		}
 
 		/** 回転。設定。
 		*/
 		public void SetRotate(bool a_flag)
 		{
-			this.rotate.SetRotate(a_flag);
+			this.vertex_recalc |= this.rotate.SetRotate(a_flag);
 		}
 
 		/** 回転。取得。
@@ -421,14 +480,14 @@ namespace Fee.Render2D
 		*/
 		public void SetQuaternion(float a_euler_x,float a_euler_y,float a_euler_z)
 		{
-			this.rotate.SetQuaternion(a_euler_x,a_euler_y,a_euler_z);
+			this.vertex_recalc |= this.rotate.SetQuaternion(a_euler_x,a_euler_y,a_euler_z);
 		}
 
 		/** クォータニオン。設定。
 		*/
 		public void SetQuaternion(ref UnityEngine.Quaternion a_quaternion)
 		{
-			this.rotate.SetQuaternion(ref a_quaternion);
+			this.vertex_recalc |= this.rotate.SetQuaternion(ref a_quaternion);
 		}
 
 		/** クォータニオン。取得。

@@ -1,10 +1,10 @@
 
 
 /**
- * Copyright (c) blueback
- * Released under the MIT License
- * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ２Ｄ描画。
+* Copyright (c) blueback
+* Released under the MIT License
+* https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
+* @brief ２Ｄ描画。
 */
 
 
@@ -101,9 +101,10 @@ namespace Fee.Render2D
 		*/
 		private LayerList layerlist;
 
-		/** temp_vertex_buffer_8
+		/** タスク。スプライトのバーテックス計算。
 		*/
-		private float[] temp_vertex_buffer_8;
+		private Fee.TaskW.Task<int> task_calc_sprite_vertex;
+		private Fee.TaskW.CancelToken task_calc_sprite_vertex_cancel_token;
 
 		/** [シングルトン]constructor。
 		*/
@@ -141,8 +142,12 @@ namespace Fee.Render2D
 			//レイヤーリスト。
 			this.layerlist = new LayerList(this.root_gameobject.GetComponent<UnityEngine.Transform>());
 
-			//temp_vertex_buffer_8
-			this.temp_vertex_buffer_8 = new float[8];
+			//タスク。キャンセルトークン作成。
+			this.task_calc_sprite_vertex_cancel_token = new Fee.TaskW.CancelToken();
+
+			//タスク。タスク関数。登録。
+			this.task_calc_sprite_vertex = new Fee.TaskW.Task<int>(TaskW.Mode.InstanceMode_Function);
+			this.task_calc_sprite_vertex.SetFunction(()=>{return Task_CalcSpriteVertex(this.task_calc_sprite_vertex_cancel_token);});
 		}
 
 		/** [シングルトン]削除。
@@ -337,6 +342,13 @@ namespace Fee.Render2D
 			return this.screen.GetScreenCalcSpriteH();
 		}
 
+		/** 事前計算。主ｔ九。
+		*/
+		public bool GetChangeScreenFlag()
+		{
+			return this.screen.GetChangeScreenFlag();
+		}
+
 		/** カメラデプス。取得。
 		*/
 		public float GetGLCameraDepth(int a_layerindex)
@@ -365,83 +377,229 @@ namespace Fee.Render2D
 			return Config.CAMERADEPTH_START + a_layerindex * Config.CAMERADEPTH_STEP + Config.CAMERADEPTH_OFFSET_AFTER;
 		}
 
+		/** Task_CalcSpriteVertex
+
+			Thread Pool Worker
+
+		*/
+		#if((UNITY_5)||(UNITY_WEBGL))
+		private static int Task_CalcSpriteVertex(System.Collections.Generic.List<Fee.Render2D.Sprite2D> a_sprite_list)
+		#else
+		private static int Task_CalcSpriteVertex(Fee.TaskW.CancelToken a_cancel_token)
+		#endif
+		{
+			//リスト。
+			System.Collections.Generic.List<Fee.Render2D.Sprite2D> t_sprite_list = Fee.Render2D.Render2D.GetInstance().sprite_list;
+
+			{
+				//事前計算。
+				Fee.Render2D.Render2D.GetInstance().screen.CalcScreen();
+
+				//スクリーンサイズ変更あり。
+				if(Fee.Render2D.Render2D.GetInstance().screen.GetChangeScreenFlag() == true){
+					for(int ii=0;ii<t_sprite_list.Count;ii++){
+						t_sprite_list[ii].RequestReCalcVertex();
+					}
+				}
+			}
+
+			//頂点計算。
+			int t_count = 0;
+			{
+				Screen t_screen = Fee.Render2D.Render2D.GetInstance().screen;
+				for(int ii=0;ii<t_sprite_list.Count;ii++){
+					Sprite2D t_sprite = t_sprite_list[ii];
+					if((t_sprite.IsVisible() == true)&&(t_sprite.GetDrawPriority() >= 0)){
+						//計算。
+						t_screen.CalcSprite(t_sprite);
+						t_count++;
+
+						//キャンセル処理。
+						if((t_count & 0x20) == 0){
+							if(a_cancel_token.IsCancellationRequested() == true){
+								a_cancel_token.ThrowIfCancellationRequested();
+								return t_count;
+							}
+						}
+					}
+				}
+			}
+
+			return t_count;
+		}
+
+		/** ゲーム処理前。
+		*/
+		public void Main_Before()
+		{
+			if(this.task_calc_sprite_vertex.IsEndFunction() == false){
+				//タスク関数。実行中。
+
+				//キャンセル。
+				this.task_calc_sprite_vertex_cancel_token.Cancel();
+
+				//タスク終了待ち。
+				while(this.task_calc_sprite_vertex.IsEnd() == false){
+					System.Threading.Thread.Sleep(0);
+				}
+
+				//タスク関数。終了。
+				this.task_calc_sprite_vertex.EndFunction();
+			}
+
+			//ここから。スプライト操作が可能。
+		}
+
+		/** ゲーム処理後。
+		*/
+		public void Main_After()
+		{
+			//ここまで。スプライト操作が可能。
+
+			//タスク実行。
+			{
+				#if((UNITY_5)||(UNITY_WEBGL))
+				{
+					//PreDrawから呼び出す。
+				}
+				#else
+				{
+					//キャンセルトークンリセット。
+					if(this.task_calc_sprite_vertex_cancel_token.IsCancellationRequested() == true){
+						this.task_calc_sprite_vertex_cancel_token.Reset();
+					}
+
+					//タスク関数。開始。
+					this.task_calc_sprite_vertex.StartFunction();
+				}
+				#endif
+			}
+		}
+
 		/** 描画前処理。
 		*/
 		public void PreDraw()
 		{
-			//事前計算。
-			this.screen.CalcScreen(this.sprite_list);
+			//タスク実行。
+			#if((UNITY_5)||(UNITY_WEBGL))
+			{
+				if(this.task_calc_sprite_vertex.IsEndFunction() == false){
+					//タスク関数。実行中。
 
-			//スプライト。
-			if(this.update_request_sprite == true){
+					//キャンセル。
+					this.task_calc_sprite_vertex_cancel_token.Cancel();
 
-				//削除。
-				{
-					int ii = 0;
-					while(ii < this.sprite_list.Count){
-						if(this.sprite_list[ii].IsDelete() == true){
-							this.sprite_list.RemoveAt(ii);
-						}else{
-							ii++;
-						}
+					//タスク終了待ち。
+					while(this.task_calc_sprite_vertex.IsEnd() == false){
+						System.Threading.Thread.Sleep(0);
 					}
+
+					//タスク関数。終了。
+					this.task_calc_sprite_vertex.EndFunction();
 				}
 
-				//ソート。
-				this.sprite_list.Sort(Sprite2D.Sort_DrawPriority);
-			}
-
-			//テキスト。
-			if(this.update_request_text == true){
-
-				//削除。
-				{
-					int ii = 0;
-					while(ii < this.text_list.Count){
-						if(this.text_list[ii].IsDelete() == true){
-							this.text_list.RemoveAt(ii);
-						}else{
-							ii++;
-						}
-					}
+				//キャンセルトークンリセット。
+				if(this.task_calc_sprite_vertex_cancel_token.IsCancellationRequested() == true){
+					this.task_calc_sprite_vertex_cancel_token.Reset();
 				}
 
-				//ソート。
-				this.text_list.Sort(Text2D.Sort_DrawPriority);
+				//タスク関数。開始。
+				this.task_calc_sprite_vertex.StartFunction();
 			}
+			#endif
 
-			//入力フィールド。
-			if(this.update_request_inputfield == true){
-
-				//削除。
-				{
-					int ii = 0;
-					while(ii < this.inputfield_list.Count){
-						if(this.inputfield_list[ii].IsDelete() == true){
-							this.inputfield_list.RemoveAt(ii);
-						}else{
-							ii++;
-						}
-					}
+			//タスク終了待ち。
+			if(this.task_calc_sprite_vertex.IsEndFunction() == false){
+				//タスク終了待ち。
+				while(this.task_calc_sprite_vertex.IsEnd() == false){
+					System.Threading.Thread.Sleep(0);
 				}
 
-				//ソート。
-				this.inputfield_list.Sort(InputField2D.Sort_DrawPriority);
+				//タスク関数。終了。
+				this.task_calc_sprite_vertex.EndFunction();
 			}
 
-			//インデックス計算。
-			if((this.update_request_sprite == true)||(this.update_request_text == true)||(this.update_request_inputfield == true)){
-				this.layerlist.CalcIndex(this.sprite_list,this.text_list,this.inputfield_list);
+			{
+				//リスト。
+				System.Collections.Generic.List<Fee.Render2D.Sprite2D> t_sprite_list = Fee.Render2D.Render2D.GetInstance().sprite_list;
+				System.Collections.Generic.List<Fee.Render2D.Text2D> t_text_list = Fee.Render2D.Render2D.GetInstance().text_list;
+				System.Collections.Generic.List<Fee.Render2D.InputField2D> t_inputfield_list = Fee.Render2D.Render2D.GetInstance().inputfield_list;
+
+				//スプライト。
+				if(Fee.Render2D.Render2D.GetInstance().update_request_sprite == true){
+
+					//削除。
+					{
+						int ii = 0;
+						while(ii < t_sprite_list.Count){
+							if(t_sprite_list[ii].IsDelete() == true){
+								t_sprite_list.RemoveAt(ii);
+							}else{
+								ii++;
+							}
+						}
+					}
+
+					//ソート。
+					t_sprite_list.Sort(Sprite2D.Sort_DrawPriority);
+
+					Fee.Render2D.Render2D.GetInstance().layerlist.CalcSpriteIndex(t_sprite_list);
+				}
+
+				//テキスト。
+				if(Fee.Render2D.Render2D.GetInstance().update_request_text == true){
+
+					//削除。
+					{
+						int ii = 0;
+						while(ii < t_text_list.Count){
+							if(t_text_list[ii].IsDelete() == true){
+								t_text_list.RemoveAt(ii);
+							}else{
+								ii++;
+							}
+						}
+					}
+
+					//ソート。
+					t_text_list.Sort(Text2D.Sort_DrawPriority);
+
+					Fee.Render2D.Render2D.GetInstance().layerlist.CalcTextIndex(t_text_list);
+				}
+
+				//入力フィールド。
+				if(Fee.Render2D.Render2D.GetInstance().update_request_inputfield == true){
+
+					//削除。
+					{
+						int ii = 0;
+						while(ii < t_inputfield_list.Count){
+							if(t_inputfield_list[ii].IsDelete() == true){
+								t_inputfield_list.RemoveAt(ii);
+							}else{
+								ii++;
+							}
+						}
+					}
+
+					//ソート。
+					t_inputfield_list.Sort(InputField2D.Sort_DrawPriority);
+
+					Fee.Render2D.Render2D.GetInstance().layerlist.CalcInputFieldIndex(t_inputfield_list);
+				}
 			}
 
-			//テキスト。描画プライオリティ再設定。
+			//表示物のないカメラを非アクティブにする。
+			this.layerlist.SetActiveCamera();
+
+			//テキスト。描画プライオリティに対応したカメラに関連付ける。
 			if(this.update_request_text == true){
 				for(int ii=0;ii<this.text_list.Count;ii++){
 					this.text_list[ii].Raw_SetLayer(this.layerlist.GetLayerTransformFromDrawPriority(this.text_list[ii].GetDrawPriority()));
 				}
 			}
 
-			//入力フィールド。描画プライオリティ再設定。
+			//入力フィールド。描画プライオリティに対応したカメラに関連付ける。
 			if(this.update_request_inputfield == true){
 				for(int ii=0;ii<this.inputfield_list.Count;ii++){
 					this.inputfield_list[ii].Raw_SetLayer(this.layerlist.GetLayerTransformFromDrawPriority(this.inputfield_list[ii].GetDrawPriority()));
@@ -624,9 +782,19 @@ namespace Fee.Render2D
 			int t_start_index = this.layerlist.GetStartIndex_Sprite(a_layerindex);
 			int t_last_index = this.layerlist.GetLastIndex_Sprite(a_layerindex);
 
-			//最初のカメラでレンダーテクスチャをクリアする。
-			if(Config.FIRSTGLCAMERA_CLEAR_RENDERTEXTURE == true){
-				if(a_layerindex == 0){
+			//タスクの終了待ち。
+			{
+				if(this.task_calc_sprite_vertex.IsEndFunction() == false){
+					while(this.task_calc_sprite_vertex.IsEnd() == false){
+						System.Threading.Thread.Sleep(0);
+					}
+					this.task_calc_sprite_vertex.EndFunction();
+				}
+			}
+
+			if(a_layerindex == 0){
+				//最初のカメラでレンダーテクスチャをクリアする。
+				if(Config.FIRSTGLCAMERA_CLEAR_RENDERTEXTURE == true){
 					UnityEngine.GL.Clear(true,true,Config.FIRSTGLCAMERA_CLEAR_RENDERTEXTURE_COLOR);
 				}
 			}
@@ -634,8 +802,6 @@ namespace Fee.Render2D
 			if((t_start_index >= 0)&&(t_last_index >= 0)){
 
 				UnityEngine.GL.PushMatrix();
-
-				float[] t_to_8 = this.temp_vertex_buffer_8;
 
 				try
 				{
@@ -678,43 +844,40 @@ namespace Fee.Render2D
 									UnityEngine.GL.Begin(UnityEngine.GL.TRIANGLES);
 								}
 
-								float t_from_x1 = t_sprite.GetTextureX() / Config.TEXTURE_W;
-								float t_from_y1 = 1.0f - t_sprite.GetTextureY() / Config.TEXTURE_H;
-								float t_from_x2 = (t_sprite.GetTextureX() + t_sprite.GetTextureW()) / Config.TEXTURE_W;
-								float t_from_y2 = 1.0f - (t_sprite.GetTextureY() + t_sprite.GetTextureH()) / Config.TEXTURE_H;
-
-								this.screen.CalcSpritePosition(t_sprite,t_to_8);
-
+								//色。
 								UnityEngine.Color t_color = t_sprite.GetColor();
-
 								UnityEngine.GL.Color(t_color);
+
+								//頂点情報。
+								float[] t_texcord = t_sprite.GetTexCoord();
+								float[] t_vertex = t_sprite.GetVertex();
 
 								{
 									//左上。
-									UnityEngine.GL.TexCoord2(t_from_x1,t_from_y1);
-									UnityEngine.GL.Vertex3(t_to_8[0],t_to_8[1],0.0f);
+									UnityEngine.GL.TexCoord2(t_texcord[0],t_texcord[1]);
+									UnityEngine.GL.Vertex3(t_vertex[0],t_vertex[1],0.0f);
 
 									//右上。
-									UnityEngine.GL.TexCoord2(t_from_x2,t_from_y1);
-									UnityEngine.GL.Vertex3(t_to_8[2],t_to_8[3],0.0f);
+									UnityEngine.GL.TexCoord2(t_texcord[2],t_texcord[1]);
+									UnityEngine.GL.Vertex3(t_vertex[2],t_vertex[3],0.0f);
 
 									//左下。
-									UnityEngine.GL.TexCoord2(t_from_x1,t_from_y2);
-									UnityEngine.GL.Vertex3(t_to_8[4],t_to_8[5],0.0f);
+									UnityEngine.GL.TexCoord2(t_texcord[0],t_texcord[3]);
+									UnityEngine.GL.Vertex3(t_vertex[4],t_vertex[5],0.0f);
 								}
 
 								{
 									//左下。
-									UnityEngine.GL.TexCoord2(t_from_x1,t_from_y2);
-									UnityEngine.GL.Vertex3(t_to_8[4],t_to_8[5],0.0f);
+									UnityEngine.GL.TexCoord2(t_texcord[0],t_texcord[3]);
+									UnityEngine.GL.Vertex3(t_vertex[4],t_vertex[5],0.0f);
 
 									//右上。
-									UnityEngine.GL.TexCoord2(t_from_x2,t_from_y1);
-									UnityEngine.GL.Vertex3(t_to_8[2],t_to_8[3],0.0f);
+									UnityEngine.GL.TexCoord2(t_texcord[2],t_texcord[1]);
+									UnityEngine.GL.Vertex3(t_vertex[2],t_vertex[3],0.0f);
 
 									//右下。
-									UnityEngine.GL.TexCoord2(t_from_x2,t_from_y2);
-									UnityEngine.GL.Vertex3(t_to_8[6],t_to_8[7],0.0f);	
+									UnityEngine.GL.TexCoord2(t_texcord[2],t_texcord[3]);
+									UnityEngine.GL.Vertex3(t_vertex[6],t_vertex[7],0.0f);	
 								}
 							}
 						}

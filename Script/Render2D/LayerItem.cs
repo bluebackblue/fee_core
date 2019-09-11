@@ -84,22 +84,32 @@ namespace Fee.Render2D
 			this.inputfield_index_last = -1;
 		}
 
-		/** リセット。
+		/** スプライトインデックス。リセット。
 		*/
-		public void ResetIndex()
+		public void ResetSpriteIndex()
 		{
 			//スプライト開始インデックス。
 			this.sprite_index_start = -1;
 
 			//スプライト終了インデックス。
 			this.sprite_index_last = -1;
+		}
 
+		/** テキストインデックス。リセット。
+		*/
+		public void ResetTextIndex()
+		{
 			//テキスト開始インデックス。
 			this.text_index_start = -1;
 
 			//テキスト終了インデックス。
 			this.text_index_last = -1;
+		}
 
+		/** インプットフィールド。リセット。
+		*/
+		public void ResetInputFieldIndex()
+		{
 			//入力フィールド開始インデックス。
 			this.inputfield_index_start = -1;
 

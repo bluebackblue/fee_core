@@ -19,7 +19,10 @@ namespace Fee.Render2D
 		/** ＧＵＩスクリーン。
 		*/
 		private Fee.Geometry.Size2D<int> gui_size;
-		private bool gui_change = false;
+
+		/** change_screen_flag
+		*/
+		private bool change_screen_flag;
 
 		/** 事前計算。スプライト。
 		*/
@@ -44,7 +47,9 @@ namespace Fee.Render2D
 		{
 			//ＧＵＩスクリーン。
 			this.gui_size.Set(1,1);
-			this.gui_change = false;
+
+			//change_screen_flag
+			this.change_screen_flag = true;
 
 			//事前計算。スプライト。
 			this.calc_sprite_x = 0.0f;
@@ -59,6 +64,13 @@ namespace Fee.Render2D
 
 			//ＵＩ再計算フラグ。
 			this.calc_ui_recalcflag = false;
+		}
+
+		/** サイズ変更フラグ。取得。
+		*/
+		public bool GetChangeScreenFlag()
+		{
+			return this.change_screen_flag;
 		}
 
 		/** ＧＵＩスクリーン座標　＝＞　仮想スクリーン座標。
@@ -123,18 +135,18 @@ namespace Fee.Render2D
 
 		/** 事前計算。
 		*/
-		public void CalcScreen(System.Collections.Generic.List<Sprite2D> a_sprite_list)
+		public void CalcScreen()
 		{
 			//ＧＵＩスクリーン座標変更チェック。
 			if((this.gui_size.w != Screen.GetScreenWidth())||(this.gui_size.h != Screen.GetScreenHeight())){
-				this.gui_size.Set(Screen.GetScreenWidth(),Screen.GetScreenHeight());
-				this.gui_change = true;
-			}else{
-				this.gui_change = false;
-			}
 
-			//事前計算。
-			if(this.gui_change == true){
+				//change_screen_flag
+				this.change_screen_flag = true;
+
+				//gui_size
+				this.gui_size.Set(Screen.GetScreenWidth(),Screen.GetScreenHeight());
+
+				//事前計算。
 				if(((float)Config.VIRTUAL_W / Config.VIRTUAL_H) < ((float)this.gui_size.w / this.gui_size.h)){
 					//左右に余白。
 
@@ -166,10 +178,9 @@ namespace Fee.Render2D
 
 					this.calc_ui_recalcflag = true;
 				}
-
-				for(int ii=0;ii<a_sprite_list.Count;ii++){
-					a_sprite_list[ii].ResetSpritePositionCache();
-				}
+			}else{
+				//change_screen_flag
+				this.change_screen_flag = false;
 			}
 		}
 
@@ -217,54 +228,9 @@ namespace Fee.Render2D
 
 		/** 計算。スプライト。
 		*/
-		public void CalcSpritePosition(Sprite2D a_sprite,float[] a_to_8)
+		public void CalcSprite(Sprite2D a_sprite)
 		{
-			if(a_sprite.IsRotate() == false){
-				a_sprite.CalcSpritePosition(a_to_8);
-			}else{
-				UnityEngine.Vector2 t_center = new UnityEngine.Vector2(a_sprite.GetCenterX(),a_sprite.GetCenterY());
-
-				//左上。
-				UnityEngine.Vector2 t_1 = new UnityEngine.Vector2(a_sprite.GetX(),a_sprite.GetY()) - t_center;
-
-				//右上。
-				UnityEngine.Vector2 t_2 = new UnityEngine.Vector2(a_sprite.GetX() + a_sprite.GetW(),a_sprite.GetY()) - t_center;
-
-				//左下。
-				UnityEngine.Vector2 t_3 = new UnityEngine.Vector2(a_sprite.GetX(),a_sprite.GetY() + a_sprite.GetH()) - t_center;
-
-				//右下。
-				UnityEngine.Vector2 t_4 = new UnityEngine.Vector2(a_sprite.GetX() + a_sprite.GetW(),a_sprite.GetY() + a_sprite.GetH()) - t_center;
-
-				//回転。
-				UnityEngine.Quaternion t_quaternion = a_sprite.GetQuaternion();
-
-				t_1 = t_quaternion * t_1;
-				t_2 = t_quaternion * t_2;
-				t_3 = t_quaternion * t_3;
-				t_4 = t_quaternion * t_4;
-
-				t_1 += t_center;
-				t_2 += t_center;
-				t_3 += t_center;
-				t_4 += t_center;
-
-				//左上。
-				a_to_8[0] = t_1.x / this.calc_sprite_w + this.calc_sprite_x;
-				a_to_8[1] = 1.0f - (t_1.y / this.calc_sprite_h + this.calc_sprite_y);
-
-				//右上。
-				a_to_8[2] = t_2.x / this.calc_sprite_w + this.calc_sprite_x;
-				a_to_8[3] = 1.0f - (t_2.y / this.calc_sprite_h + this.calc_sprite_y);
-
-				//左下。
-				a_to_8[4] = t_3.x / this.calc_sprite_w + this.calc_sprite_x;
-				a_to_8[5] = 1.0f - (t_3.y / this.calc_sprite_h + this.calc_sprite_y);
-
-				//右下。
-				a_to_8[6] = t_4.x / this.calc_sprite_w + this.calc_sprite_x;
-				a_to_8[7] = 1.0f - (t_4.y / this.calc_sprite_h + this.calc_sprite_y);
-			}
+			a_sprite.Calc();
 		}
 
 		/** 計算。テキスト。

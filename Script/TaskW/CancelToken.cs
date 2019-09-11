@@ -33,6 +33,21 @@ namespace Fee.TaskW
 			#endif
 		}
 
+		/** リセット。
+		*/
+		public void Reset()
+		{
+			#if((UNITY_5)||(UNITY_WEBGL))
+			{
+				this.cancel_flag = false;
+			}
+			#else
+			{
+				this.source = new System.Threading.CancellationTokenSource();
+			}
+			#endif
+		}
+
 		/** トークン取得。
 		*/
 		#if((UNITY_5)||(UNITY_WEBGL))

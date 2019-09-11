@@ -25,45 +25,105 @@ namespace Fee.Render2D
 		private Fee.Geometry.Rect2D_R<int> rect;
 
 		/** 矩形。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
+		public bool SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
-			this.rect = a_rect;
+			bool t_change = false;
+
+			if((this.rect.x != a_rect.x)||(this.rect.y != a_rect.y)||(this.rect.w != a_rect.w)||(this.rect.h != a_rect.h)){
+				this.rect = a_rect;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** テクスチャ矩形。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
+		public bool SetTextureRect(in Fee.Geometry.Rect2D_R<float> a_texture_rect)
 		{
-			this.texture_rect = a_texture_rect;
+			bool t_change = false;
+
+			if((this.texture_rect.x != a_texture_rect.x)||(this.texture_rect.y != a_texture_rect.y)||(this.texture_rect.w != a_texture_rect.w)||(this.texture_rect.h != a_texture_rect.h)){
+				this.texture_rect = a_texture_rect;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** テクスチャ矩形。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetTextureX(float a_texture_x)
+		public bool SetTextureX(float a_texture_x)
 		{
-			this.texture_rect.x = a_texture_x;
+			bool t_change = false;
+
+			if(this.texture_rect.x != a_texture_x){
+				this.texture_rect.x = a_texture_x;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** テクスチャ矩形。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetTextureY(float a_texture_y)
+		public bool SetTextureY(float a_texture_y)
 		{
-			this.texture_rect.y = a_texture_y;
+			bool t_change = false;
+
+			if(this.texture_rect.y != a_texture_y){
+				this.texture_rect.y = a_texture_y;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** テクスチャ矩形。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetTextureW(float a_texture_w)
+		public bool SetTextureW(float a_texture_w)
 		{
-			this.texture_rect.w = a_texture_w;
+			bool t_change = false;
+
+			if(this.texture_rect.w != a_texture_w){
+				this.texture_rect.w = a_texture_w;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** テクスチャ矩形。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetTextureH(float a_texture_h)
+		public bool SetTextureH(float a_texture_h)
 		{
-			this.texture_rect.h = a_texture_h;
+			bool t_change = false;
+
+			if(this.texture_rect.h != a_texture_h){
+				this.texture_rect.h = a_texture_h;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** テクスチャ矩形。設定。
@@ -95,31 +155,71 @@ namespace Fee.Render2D
 		}
 
 		/** 矩形。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetX(int a_x)
+		public bool SetX(int a_x)
 		{
-			this.rect.x = a_x;
+			bool t_change = false;
+
+			if(this.rect.x != a_x){
+				this.rect.x = a_x;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** 矩形。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetY(int a_y)
+		public bool SetY(int a_y)
 		{
-			this.rect.y = a_y;
+			bool t_change = false;
+
+			if(this.rect.y != a_y){
+				this.rect.y = a_y;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** 矩形。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetW(int a_w)
+		public bool SetW(int a_w)
 		{
-			this.rect.w = a_w;
+			bool t_change = false;
+
+			if(this.rect.w != a_w){
+				this.rect.w = a_w;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** 矩形。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetH(int a_h)
+		public bool SetH(int a_h)
 		{
-			this.rect.h = a_h;
+			bool t_change = false;
+
+			if(this.rect.h != a_h){
+				this.rect.h = a_h;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** 矩形。取得。

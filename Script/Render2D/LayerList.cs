@@ -187,13 +187,37 @@ namespace Fee.Render2D
 			return this.list[a_layerindex].camera_ui.GetCameraDepth();
 		}
 
-		/** インデックス計算。
+		/** アクティブ。設定。
+
+			表示物のないカメラを非アクティブにする。
+
 		*/
-		public void CalcIndex(System.Collections.Generic.List<Sprite2D> a_sprite_list,System.Collections.Generic.List<Text2D> a_text_list,System.Collections.Generic.List<InputField2D> a_inputfield_list)
+		public void SetActiveCamera()
+		{
+			for(int ii=1;ii<this.list.Length;ii++){
+				if(this.list[ii].sprite_index_start >= 0){
+					this.list[ii].camera_gl.SetActive(true);
+				}else{
+					this.list[ii].camera_gl.SetActive(false);
+				}
+			}
+
+			for(int ii=1;ii<this.list.Length;ii++){
+				if((this.list[ii].inputfield_index_last >= 0)||(this.list[ii].text_index_start >= 0)){
+					this.list[ii].camera_ui.SetActive(true);
+				}else{
+					this.list[ii].camera_ui.SetActive(false);
+				}
+			}
+		}
+
+		/** スプライトインデックス。計算。
+		*/
+		public void CalcSpriteIndex(System.Collections.Generic.List<Sprite2D> a_sprite_list)
 		{
 			//リセット。
 			for(int ii=0;ii<this.list.Length;ii++){
-				this.list[ii].ResetIndex();
+				this.list[ii].ResetSpriteIndex();
 			}
 
 			//スプライト。
@@ -248,6 +272,16 @@ namespace Fee.Render2D
 					}
 				}
 			}
+		}
+
+		/** スプライトインデックス。計算。
+		*/
+		public void CalcTextIndex(System.Collections.Generic.List<Text2D> a_text_list)
+		{
+			//リセット。
+			for(int ii=0;ii<this.list.Length;ii++){
+				this.list[ii].ResetTextIndex();
+			}
 
 			//テキスト。
 			{
@@ -300,6 +334,16 @@ namespace Fee.Render2D
 						}
 					}
 				}
+			}
+		}
+
+		/** スプライトインデックス。計算。
+		*/
+		public void CalcInputFieldIndex(System.Collections.Generic.List<InputField2D> a_inputfield_list)
+		{
+			//リセット。
+			for(int ii=0;ii<this.list.Length;ii++){
+				this.list[ii].ResetInputFieldIndex();
 			}
 
 			//入力フィールド。
@@ -354,30 +398,18 @@ namespace Fee.Render2D
 					}
 				}
 			}
+		}
 
-			for(int ii=1;ii<this.list.Length;ii++){
-				if(this.list[ii].sprite_index_start >= 0){
-					this.list[ii].camera_gl.SetActive(true);
-				}else{
-					this.list[ii].camera_gl.SetActive(false);
-				}
-			}
-
-			for(int ii=1;ii<this.list.Length;ii++){
-				if((this.list[ii].inputfield_index_last >= 0)||(this.list[ii].text_index_start >= 0)){
-					this.list[ii].camera_ui.SetActive(true);
-				}else{
-					this.list[ii].camera_ui.SetActive(false);
-				}
-			}
-
-			//ログ。
-			#if(USE_DEF_FEE_DEBUGTOOL)
+		/** ログ。
+		*/
+		#if(USE_DEF_FEE_DEBUGTOOL)
+		public void Log()
+		{
 			for(int ii=0;ii<this.list.Length;ii++){
 				this.list[ii].Log();
 			}
-			#endif
 		}
+		#endif
 	}
 }
 

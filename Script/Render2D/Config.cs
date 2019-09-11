@@ -57,6 +57,16 @@ namespace Fee.Render2D
 		public static Fee.Geometry.Rect2D_R<float> TEXTURE_RECT_LD = new Fee.Geometry.Rect2D_R<float>(0.0f,									Fee.Render2D.Render2D.TEXTURE_H / 2,	Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
 		public static Fee.Geometry.Rect2D_R<float> TEXTURE_RECT_RD = new Fee.Geometry.Rect2D_R<float>(Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2,	Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
 
+		/** USE_ASYNC
+		*/
+		#if(UNITY_5)
+		public static bool USE_ASYNC = false;
+		#elif(UNITY_WEBGL)
+		public static bool USE_ASYNC = false;
+		#else
+		public static bool USE_ASYNC = true;
+		#endif
+
 		/** 描画プライオリティ分割単位。
 		*/
 		public static long DRAWPRIORITY_STEP = 1000;

@@ -41,6 +41,14 @@ namespace Fee.TaskW
 	*/
 	public class Task<TResult> : Task
 	{
+		/** mode
+		*/
+		private Mode mode;
+
+		/** instancemode_function
+		*/
+		private System.Func<TResult> instancemode_function;
+
 		/** task
 		*/
 		#if((UNITY_5)||(UNITY_WEBGL))
@@ -49,39 +57,189 @@ namespace Fee.TaskW
 		private System.Threading.Tasks.Task<TResult> task;
 		#endif
 
-		/** constructor
-		*/
-		/*
 		#if((UNITY_5)||(UNITY_WEBGL))
-		#else
-		public Task(System.Threading.Tasks.Task<TResult> a_task)
-		{
-			this.task = a_task;
-		}
-		#endif
+
+		/** constructor
+
+			実行する関数を取得する。
+
 		*/
+		public Task(System.Func<TResult> a_function)
+		{
+			//mode
+			this.mode = Mode.OneShot;
+
+			//result
+			this.result = a_function();
+
+			//instancemode_function
+			this.instancemode_function = null;
+		}
+
+		/** constructor
+
+			実行した結果を取得する。
+
+		*/
+		public Task(TResult a_result,Mode a_mode)
+		{
+			//同期実行を許容。
+			Tool.Assert(a_mode == Mode.Allow_Synchronization);
+
+			//mode
+			this.mode = Mode.OneShot;
+
+			//result
+			this.result = a_result;
+
+			//instancemode_function
+			this.instancemode_function = null;
+		}
+
+		#else
+
+		/** constructor
+
+			タスク生成する関数を取得する。
+
+		*/
+		public Task(System.Func<System.Threading.Tasks.Task<TResult>> a_function)
+		{
+			//OneShot
+			this.mode = Mode.OneShot;
+
+			//task
+			this.task = System.Threading.Tasks.Task.Run(a_function);
+
+			//instancemode_function
+			this.instancemode_function = null;
+		}
+
+		/** constructor
+
+			タスク実行する関数を取得する。
+
+		*/
+		public Task(System.Func<TResult> a_function)
+		{
+			//OneShot
+			this.mode = Mode.OneShot;
+
+			//task
+			this.task = System.Threading.Tasks.Task.Run(a_function);
+
+			//instancemode_function
+			this.instancemode_function = null;
+		}
+
+		/** constructor
+
+			実行中のタスクを取得する。
+
+			※「await」のないタスクの場合、同期実行後に呼び出され、タスク化されない。
+
+		*/
+		public Task(System.Threading.Tasks.Task<TResult> a_task,Mode a_mode)
+		{
+			//同期実行を許容。
+			Tool.Assert(a_mode == Mode.OneShot_AllowSynchronization);
+
+			//mode
+			this.mode = Mode.OneShot;
+
+			//task
+			this.task = a_task;
+
+			//instancemode_function
+			this.instancemode_function = null;
+		}
+
+		#endif
 
 		/** constructor
 		*/
-		#if((UNITY_5)||(UNITY_WEBGL))
-		public Task(System.Func<TResult> a_function)
+		public Task(Mode a_mode)
 		{
-			this.result = a_function();
-		}
-		#else
-		public Task(System.Func<System.Threading.Tasks.Task<TResult>> a_function)
-		{
-			#if(UNITY_WEBGL)
-			this.task = a_function();
+			//インスタンスモード。
+			Tool.Assert(a_mode == Mode.InstanceMode_Function);
+
+			//mode
+			this.mode = Mode.InstanceMode_Function;
+
+			//task
+			#if((UNITY_5)||(UNITY_WEBGL))
 			#else
-			this.task = System.Threading.Tasks.Task.Run(a_function);
+			this.task = null;
+			#endif
+
+			//instancemode_function
+			this.instancemode_function = null;
+		}
+
+		/** 関数。設定。
+		*/
+		public void SetFunction(System.Func<TResult> a_function)
+		{
+			//インスタンスモード。
+			Tool.Assert(this.mode == Mode.InstanceMode_Function);
+
+			this.instancemode_function = a_function;
+		}
+
+		/** 関数。開始。
+		*/
+		public void StartFunction()
+		{
+			//インスタンスモード。
+			Tool.Assert(this.mode == Mode.InstanceMode_Function);
+
+			#if((UNITY_5)||(UNITY_WEBGL))
+			{
+				//実行。
+				this.result = a_function();
+			}
+			#else
+			{
+				//前回のタスクが終了していない。
+				Tool.Assert(this.task == null);
+
+				//実行。
+				this.task = System.Threading.Tasks.Task.Run(this.instancemode_function);
+			}
 			#endif
 		}
-		#endif
+
+		/** 関数。終了。
+		*/
+		public void EndFunction()
+		{
+			#if((UNITY_5)||(UNITY_WEBGL))
+			#else
+			this.task = null;
+			#endif
+		}
+
+		/** 関数。終了チェック。
+		*/
+		public bool IsEndFunction()
+		{
+			#if((UNITY_5)||(UNITY_WEBGL))
+			{
+				return true;
+			}
+			#else
+			{
+				if(this.task == null){
+					return true;
+				}
+				return false;
+			}
+			#endif
+		}
 
 		/** タスク。取得。
 		*/
-		#if((UNITY_5)||(UNITY_WEBGL))
+		#if ((UNITY_5) || (UNITY_WEBGL))
 		#else
 		public System.Threading.Tasks.Task<TResult> GetTask()
 		{

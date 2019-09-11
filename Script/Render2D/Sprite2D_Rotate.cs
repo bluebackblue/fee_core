@@ -43,10 +43,20 @@ namespace Fee.Render2D
 		}
 
 		/** 回転。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetRotate(bool a_flag)
+		public bool SetRotate(bool a_flag)
 		{
-			this.flag = a_flag;
+			bool t_change = false;
+
+			if(this.flag != a_flag){
+				this.flag = a_flag;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** 回転。取得。
@@ -85,27 +95,49 @@ namespace Fee.Render2D
 		}
 
 		/** クォータニオン。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetQuaternion(float a_euler_x,float a_euler_y,float a_euler_z)
+		public bool SetQuaternion(float a_euler_x,float a_euler_y,float a_euler_z)
 		{
-			this.quaternion = UnityEngine.Quaternion.identity;
+			bool t_change = false;
+
+			UnityEngine.Quaternion t_quaternion = UnityEngine.Quaternion.identity;
 
 			if(a_euler_x != 0.0f){
-				this.quaternion = UnityEngine.Quaternion.AngleAxis(a_euler_x,new UnityEngine.Vector3(1.0f,0.0f,0.0f)) * this.quaternion;
+				t_quaternion = UnityEngine.Quaternion.AngleAxis(a_euler_x,new UnityEngine.Vector3(1.0f,0.0f,0.0f)) * t_quaternion;
 			}
 			if(a_euler_y != 0.0f){
-				this.quaternion = UnityEngine.Quaternion.AngleAxis(a_euler_y,new UnityEngine.Vector3(0.0f,1.0f,0.0f)) * this.quaternion;
+				t_quaternion = UnityEngine.Quaternion.AngleAxis(a_euler_y,new UnityEngine.Vector3(0.0f,1.0f,0.0f)) * t_quaternion;
 			}
 			if(a_euler_z != 0.0f){
-				this.quaternion = UnityEngine.Quaternion.AngleAxis(a_euler_z,new UnityEngine.Vector3(0.0f,0.0f,1.0f)) * this.quaternion;
+				t_quaternion = UnityEngine.Quaternion.AngleAxis(a_euler_z,new UnityEngine.Vector3(0.0f,0.0f,1.0f)) * t_quaternion;
 			}
+
+			if(this.quaternion != t_quaternion){
+				this.quaternion = t_quaternion;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** クォータニオン。設定。
+
+			return == true : 変更あり。
+
 		*/
-		public void SetQuaternion(ref UnityEngine.Quaternion a_quaternion)
+		public bool SetQuaternion(ref UnityEngine.Quaternion a_quaternion)
 		{
-			this.quaternion = a_quaternion;
+			bool t_change = false;
+
+			if(this.quaternion != a_quaternion){
+				this.quaternion = a_quaternion;
+				t_change = true;
+			}
+
+			return t_change;
 		}
 
 		/** クォータニオン。取得。

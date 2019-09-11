@@ -112,6 +112,13 @@ namespace Fee.Render2D
 			return this.index;
 		}
 
+		/** 更新。
+		*/
+		private void Update()
+		{
+			
+		}
+
 		/** ＧＬ描画。カメラがシーンのレンダリングを完了した後に呼び出されます。
 		*/
 		private void OnPostRender()
