@@ -76,26 +76,6 @@ namespace Fee.TaskW
 			this.instancemode_function = null;
 		}
 
-		/** constructor
-
-			実行した結果を取得する。
-
-		*/
-		public Task(TResult a_result,Mode a_mode)
-		{
-			//同期実行を許容。
-			Tool.Assert(a_mode == Mode.Allow_Synchronization);
-
-			//mode
-			this.mode = Mode.OneShot;
-
-			//result
-			this.result = a_result;
-
-			//instancemode_function
-			this.instancemode_function = null;
-		}
-
 		#else
 
 		/** constructor
@@ -127,28 +107,6 @@ namespace Fee.TaskW
 
 			//task
 			this.task = System.Threading.Tasks.Task.Run(a_function);
-
-			//instancemode_function
-			this.instancemode_function = null;
-		}
-
-		/** constructor
-
-			実行中のタスクを取得する。
-
-			※「await」のないタスクの場合、同期実行後に呼び出され、タスク化されない。
-
-		*/
-		public Task(System.Threading.Tasks.Task<TResult> a_task,Mode a_mode)
-		{
-			//同期実行を許容。
-			Tool.Assert(a_mode == Mode.OneShot_AllowSynchronization);
-
-			//mode
-			this.mode = Mode.OneShot;
-
-			//task
-			this.task = a_task;
 
 			//instancemode_function
 			this.instancemode_function = null;
@@ -196,7 +154,7 @@ namespace Fee.TaskW
 			#if((UNITY_5)||(UNITY_WEBGL))
 			{
 				//実行。
-				this.result = a_function();
+				this.result = this.instancemode_function();
 			}
 			#else
 			{
@@ -298,6 +256,16 @@ namespace Fee.TaskW
 				return true;
 			}
 			return false;
+		}
+
+		/** Wait
+		*/
+		public void Wait()
+		{
+			#if((UNITY_5)||(UNITY_WEBGL))
+			#else
+			this.task.Wait();
+			#endif
 		}
 
 		/** GetResult

@@ -382,11 +382,7 @@ namespace Fee.Render2D
 			Thread Pool Worker
 
 		*/
-		#if((UNITY_5)||(UNITY_WEBGL))
-		private static int Task_CalcSpriteVertex(System.Collections.Generic.List<Fee.Render2D.Sprite2D> a_sprite_list)
-		#else
 		private static int Task_CalcSpriteVertex(Fee.TaskW.CancelToken a_cancel_token)
-		#endif
 		{
 			//リスト。
 			System.Collections.Generic.List<Fee.Render2D.Sprite2D> t_sprite_list = Fee.Render2D.Render2D.GetInstance().sprite_list;
