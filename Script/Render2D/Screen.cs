@@ -37,10 +37,6 @@ namespace Fee.Render2D
 		private float calc_ui_x;
 		private float calc_ui_y;
 
-		/** ＵＩ再計算フラグ。
-		*/
-		private bool calc_ui_recalcflag = false;
-
 		/** constructor
 		*/
 		public Screen()
@@ -61,9 +57,6 @@ namespace Fee.Render2D
 			this.calc_ui_scale = 0.0f;
 			this.calc_ui_x = 0.0f;
 			this.calc_ui_y = 0.0f;
-
-			//ＵＩ再計算フラグ。
-			this.calc_ui_recalcflag = false;
 		}
 
 		/** サイズ変更フラグ。取得。
@@ -160,8 +153,6 @@ namespace Fee.Render2D
 
 					this.calc_ui_x = (this.calc_sprite_x - 0.5f) * (float)this.gui_size.w;
 					this.calc_ui_y = (0.5f - this.calc_sprite_y) * (float)this.gui_size.h;
-
-					this.calc_ui_recalcflag = true;
 				}else{
 					//上下に余白。
 
@@ -175,27 +166,11 @@ namespace Fee.Render2D
 
 					this.calc_ui_x = (this.calc_sprite_x - 0.5f) * (float)this.gui_size.w;
 					this.calc_ui_y = (0.5f - this.calc_sprite_y) * (float)this.gui_size.h;
-
-					this.calc_ui_recalcflag = true;
 				}
 			}else{
 				//change_screen_flag
 				this.change_screen_flag = false;
 			}
-		}
-
-		/** ＵＩ再計算フラグ。取得。
-		*/
-		public bool IsUiReCalcFlag()
-		{
-			return this.calc_ui_recalcflag;
-		}
-
-		/** ＵＩ再計算フラグ。リセット。
-		*/
-		public void ResetUiReCalcFlag()
-		{
-			this.calc_ui_recalcflag = false;
 		}
 
 		/** GetGuiW
@@ -235,10 +210,12 @@ namespace Fee.Render2D
 
 		/** 計算。テキスト。
 		*/
-		public void CalcTextRect(Text2D a_text,bool a_is_calcsize)
-		{		
+		public void CalcTextRect(Text2D a_text)
+		{
 			//サイズ計算。
-			if(a_is_calcsize == true){
+			if(a_text.Raw_IsCalcSize() == true){
+				a_text.Raw_SetCalcSizeFlag(false);
+
 				int t_w = a_text.GetW();
 				int t_h = a_text.GetH();
 
@@ -257,7 +234,7 @@ namespace Fee.Render2D
 				}
 
 				//自動部分を最大設定。
-				a_text.Raw_SetRectTransformSizeDelta(ref t_sizedelta);
+				a_text.Raw_SetRectTransformSizeDelta(in t_sizedelta);
 
 				if((t_w <= 0)||(t_h <= 0)){
 
@@ -270,7 +247,7 @@ namespace Fee.Render2D
 					}
 
 					//自動部分再設定。
-					a_text.Raw_SetRectTransformSizeDelta(ref t_sizedelta);
+					a_text.Raw_SetRectTransformSizeDelta(in t_sizedelta);
 				}
 			}
 
@@ -303,17 +280,17 @@ namespace Fee.Render2D
 					}break;
 				}
 			}
-			a_text.Raw_SetRectTransformLocalPosition(ref t_localposition);
+			a_text.Raw_SetRectTransformLocalPosition(in t_localposition);
 		}
 
 		/** 計算。入力フィールド。
 		*/
-		public void CalcInputFieldRect(InputField2D a_inputfield,bool a_is_calcsize)
+		public void CalcInputFieldRect(InputField2D a_inputfield)
 		{
 			//サイズ計算。
-			if(a_is_calcsize == true){
+			{
 				UnityEngine.Vector2 t_sizedelta = new UnityEngine.Vector2(a_inputfield.GetW() * this.calc_ui_scale,a_inputfield.GetH() * this.calc_ui_scale);
-				a_inputfield.Raw_SetRectTransformSizeDelta(ref t_sizedelta);
+				a_inputfield.Raw_SetRectTransformSizeDelta(in t_sizedelta);
 			}
 
 			//位置計算。
@@ -326,7 +303,7 @@ namespace Fee.Render2D
 				t_localposition.x += t_sizedelta.x / 2;
 				t_localposition.y -= t_sizedelta.y / 2;
 			}
-			a_inputfield.Raw_SetRectTransformLocalPosition(ref t_localposition);
+			a_inputfield.Raw_SetRectTransformLocalPosition(in t_localposition);
 		}
 	}
 }

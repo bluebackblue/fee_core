@@ -106,7 +106,7 @@ namespace Fee.Render2D
 			this.text_index_last = -1;
 		}
 
-		/** インプットフィールド。リセット。
+		/** 入力フィールドインデックス。リセット。
 		*/
 		public void ResetInputFieldIndex()
 		{

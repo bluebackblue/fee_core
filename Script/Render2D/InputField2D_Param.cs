@@ -380,7 +380,7 @@ namespace Fee.Render2D
 
 		/** [内部からの呼び出し]サイズ。設定。
 		*/
-		public void Raw_SetRectTransformSizeDelta(ref UnityEngine.Vector2 a_size)
+		public void Raw_SetRectTransformSizeDelta(in UnityEngine.Vector2 a_size)
 		{
 			this.raw_recttransform.sizeDelta = a_size;
 		}
@@ -394,7 +394,7 @@ namespace Fee.Render2D
 
 		/** [内部からの呼び出し]位置。設定。
 		*/
-		public void Raw_SetRectTransformLocalPosition(ref UnityEngine.Vector3 a_position)
+		public void Raw_SetRectTransformLocalPosition(in UnityEngine.Vector3 a_position)
 		{
 			this.raw_recttransform.localPosition = a_position;
 		}

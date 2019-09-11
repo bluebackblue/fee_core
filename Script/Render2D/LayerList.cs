@@ -28,7 +28,7 @@ namespace Fee.Render2D
 			UnityEngine.GameObject t_prefab_canvas = UnityEngine.Resources.Load<UnityEngine.GameObject>(Config.PREFAB_NAME_CANVAS);
 			UnityEngine.GameObject t_prefab_eventsystem = UnityEngine.Resources.Load<UnityEngine.GameObject>(Config.PREFAB_NAME_EVENTSYSTEM);
 
-			//イベントシステム。インプットフィールド用。
+			//イベントシステム。入力フィールド用。
 			{
 				UnityEngine.GameObject t_gameobject_eventsystem = UnityEngine.GameObject.Instantiate(t_prefab_eventsystem,UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity);
 				t_gameobject_eventsystem.name = "EventSystem";

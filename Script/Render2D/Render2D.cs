@@ -87,11 +87,17 @@ namespace Fee.Render2D
 		*/
 		private System.Collections.Generic.List<InputField2D> inputfield_list;
 
-		/** 更新リクエスト。
+		/** ソートリクエスト。
 		*/
-		private bool update_request_sprite;
-		private bool update_request_text;
-		private bool update_request_inputfield;
+		private bool spritelist_sort_request;
+		private bool textlist_sort_request;
+		private bool inputfieldlist_sort_request;
+
+		/** 削除リクエスト。
+		*/
+		private bool spritelist_delete_request;
+		private bool textlist_delete_request;
+		private bool inputfieldlist_delete_request;
 
 		/** デフォルト。フォント。
 		*/
@@ -131,10 +137,15 @@ namespace Fee.Render2D
 			//入力フィールド。
 			this.inputfield_list = new System.Collections.Generic.List<InputField2D>();
 
-			//更新リクエスト。
-			this.update_request_sprite = true;
-			this.update_request_text = true;
-			this.update_request_inputfield = true;
+			//ソートリクエスト。
+			this.spritelist_sort_request = true;
+			this.textlist_sort_request = true;
+			this.inputfieldlist_sort_request = true;
+
+			//削除リクエスト。
+			this.spritelist_delete_request = true;
+			this.textlist_delete_request = true;
+			this.inputfieldlist_delete_request = true;
 
 			//デフォルト。フォント。
 			this.default_font = UnityEngine.Resources.GetBuiltinResource<UnityEngine.Font>(Config.DEFAULT_FONT_NAME);
@@ -260,7 +271,7 @@ namespace Fee.Render2D
 		public void AddSprite2D(Sprite2D a_sprite)
 		{
 			this.sprite_list.Add(a_sprite);
-			this.update_request_sprite = true;
+			this.spritelist_sort_request = true;
 		}
 
 		/** テキスト作成。
@@ -268,7 +279,7 @@ namespace Fee.Render2D
 		public void AddText2D(Text2D a_text)
 		{
 			this.text_list.Add(a_text);
-			this.update_request_text = true;
+			this.textlist_sort_request = true;
 		}
 
 		/** 入力フィールド作成。
@@ -276,28 +287,49 @@ namespace Fee.Render2D
 		public void AddInputField2D(InputField2D a_inputfield)
 		{
 			this.inputfield_list.Add(a_inputfield);
-			this.update_request_inputfield = true;
+			this.inputfieldlist_sort_request = true;
 		}
 
-		/** 更新リクエスト。
+		/** スプライトリスト。ソートリクエスト。
 		*/
-		public void UpdateSpriteListRequest()
+		public void SpriteListSortRequest()
 		{
-			this.update_request_sprite = true;
+			this.spritelist_sort_request = true;
 		}
 
-		/** 更新リクエスト。
+		/** スプライトリスト。削除リクエスト。
 		*/
-		public void UpdateTextListRequest()
+		public void SpriteListDeleteRequest()
 		{
-			this.update_request_text = true;
+			this.spritelist_delete_request = true;
 		}
 
-		/** 更新リクエスト。
+		/** テキストリスト。ソートリクエスト。
 		*/
-		public void UpdateInputFieldListRequest()
+		public void TextListSortRequest()
 		{
-			this.update_request_inputfield = true;
+			this.textlist_sort_request = true;
+		}
+
+		/** テキストリスト。削除リクエスト。
+		*/
+		public void TextListDeleteRequest()
+		{
+			this.textlist_delete_request = true;
+		}
+
+		/** 入力フィールドリスト。ソートリクエスト。
+		*/
+		public void InputFieldListSortRequest()
+		{
+			this.inputfieldlist_sort_request = true;
+		}
+
+		/** 入力フィールドリスト。削除リクエスト。
+		*/
+		public void InputFieldDeleteRequest()
+		{
+			this.inputfieldlist_delete_request = true;
 		}
 
 		/** デプスクリアフラグ。設定。
@@ -342,7 +374,7 @@ namespace Fee.Render2D
 			return this.screen.GetScreenCalcSpriteH();
 		}
 
-		/** 事前計算。主ｔ九。
+		/** 事前計算。取得。
 		*/
 		public bool GetChangeScreenFlag()
 		{
@@ -386,6 +418,8 @@ namespace Fee.Render2D
 		{
 			//リスト。
 			System.Collections.Generic.List<Fee.Render2D.Sprite2D> t_sprite_list = Fee.Render2D.Render2D.GetInstance().sprite_list;
+			System.Collections.Generic.List<Fee.Render2D.Text2D> t_text_list = Fee.Render2D.Render2D.GetInstance().text_list;
+			System.Collections.Generic.List<Fee.Render2D.InputField2D> t_inputfield_list = Fee.Render2D.Render2D.GetInstance().inputfield_list;
 
 			{
 				//事前計算。
@@ -393,8 +427,18 @@ namespace Fee.Render2D
 
 				//スクリーンサイズ変更あり。
 				if(Fee.Render2D.Render2D.GetInstance().screen.GetChangeScreenFlag() == true){
+
 					for(int ii=0;ii<t_sprite_list.Count;ii++){
 						t_sprite_list[ii].RequestReCalcVertex();
+					}
+
+					for(int ii=0;ii<t_text_list.Count;ii++){
+						t_text_list[ii].Raw_SetCalcFontSizeFlag(true);
+						t_text_list[ii].Raw_SetCalcSizeFlag(true);
+					}
+					
+					for(int ii=0;ii<t_inputfield_list.Count;ii++){
+						t_inputfield_list[ii].Raw_SetCalcFontSizeFlag(true);
 					}
 				}
 			}
@@ -509,104 +553,108 @@ namespace Fee.Render2D
 			}
 
 			{
-				//リスト。
-				System.Collections.Generic.List<Fee.Render2D.Sprite2D> t_sprite_list = Fee.Render2D.Render2D.GetInstance().sprite_list;
-				System.Collections.Generic.List<Fee.Render2D.Text2D> t_text_list = Fee.Render2D.Render2D.GetInstance().text_list;
-				System.Collections.Generic.List<Fee.Render2D.InputField2D> t_inputfield_list = Fee.Render2D.Render2D.GetInstance().inputfield_list;
+				bool t_change_spritelist = false;
+				bool t_change_textlist = false;
+				bool t_change_inputfieldlist = false;;
 
-				//スプライト。
-				if(Fee.Render2D.Render2D.GetInstance().update_request_sprite == true){
+				//スプライト。削除。
+				if(Fee.Render2D.Render2D.GetInstance().spritelist_delete_request == true){
+					Fee.Render2D.Render2D.GetInstance().spritelist_delete_request = false;
+					t_change_spritelist = true;
 
 					//削除。
-					{
-						int ii = 0;
-						while(ii < t_sprite_list.Count){
-							if(t_sprite_list[ii].IsDelete() == true){
-								t_sprite_list.RemoveAt(ii);
-							}else{
-								ii++;
-							}
-						}
-					}
-
-					//ソート。
-					t_sprite_list.Sort(Sprite2D.Sort_DrawPriority);
-
-					Fee.Render2D.Render2D.GetInstance().layerlist.CalcSpriteIndex(t_sprite_list);
+					Fee.Render2D.Render2D.GetInstance().sprite_list.RemoveAll((Fee.Render2D.Sprite2D a_sprite) => {
+						return a_sprite.IsDelete();
+					}); 
 				}
 
 				//テキスト。
-				if(Fee.Render2D.Render2D.GetInstance().update_request_text == true){
+				if(Fee.Render2D.Render2D.GetInstance().textlist_delete_request == true){
+					Fee.Render2D.Render2D.GetInstance().textlist_delete_request = false;
+					t_change_textlist = true;
 
 					//削除。
-					{
-						int ii = 0;
-						while(ii < t_text_list.Count){
-							if(t_text_list[ii].IsDelete() == true){
-								t_text_list.RemoveAt(ii);
-							}else{
-								ii++;
-							}
-						}
-					}
-
-					//ソート。
-					t_text_list.Sort(Text2D.Sort_DrawPriority);
-
-					Fee.Render2D.Render2D.GetInstance().layerlist.CalcTextIndex(t_text_list);
+					Fee.Render2D.Render2D.GetInstance().text_list.RemoveAll((Fee.Render2D.Text2D a_text) => {
+						return a_text.IsDelete();
+					}); 
 				}
 
 				//入力フィールド。
-				if(Fee.Render2D.Render2D.GetInstance().update_request_inputfield == true){
+				if(Fee.Render2D.Render2D.GetInstance().inputfieldlist_delete_request == true){
+					Fee.Render2D.Render2D.GetInstance().inputfieldlist_delete_request= false;
+					t_change_inputfieldlist = true;
 
 					//削除。
-					{
-						int ii = 0;
-						while(ii < t_inputfield_list.Count){
-							if(t_inputfield_list[ii].IsDelete() == true){
-								t_inputfield_list.RemoveAt(ii);
-							}else{
-								ii++;
-							}
-						}
+					Fee.Render2D.Render2D.GetInstance().inputfield_list.RemoveAll((Fee.Render2D.InputField2D a_inputfield) => {
+						return a_inputfield.IsDelete();
+					}); 
+				}
+
+				//スプライト。ソート。
+				if(Fee.Render2D.Render2D.GetInstance().spritelist_sort_request == true){
+					Fee.Render2D.Render2D.GetInstance().spritelist_sort_request = true;
+					t_change_spritelist = true;
+
+					Fee.Render2D.Render2D.GetInstance().sprite_list.Sort(Sprite2D.Sort_DrawPriority);
+				}
+
+				//テキスト。
+				if(Fee.Render2D.Render2D.GetInstance().textlist_sort_request == true){
+					Fee.Render2D.Render2D.GetInstance().textlist_sort_request = false;
+					t_change_textlist = true;
+
+					Fee.Render2D.Render2D.GetInstance().text_list.Sort(Text2D.Sort_DrawPriority);
+				}
+
+				//入力フィールド。
+				if(Fee.Render2D.Render2D.GetInstance().inputfieldlist_sort_request == true){
+					Fee.Render2D.Render2D.GetInstance().inputfieldlist_sort_request = false;
+					t_change_inputfieldlist = true;
+
+					Fee.Render2D.Render2D.GetInstance().inputfield_list.Sort(InputField2D.Sort_DrawPriority);
+				}
+
+				//インデックス計算。
+				if(t_change_spritelist == true){
+					Fee.Render2D.Render2D.GetInstance().layerlist.CalcSpriteIndex(Fee.Render2D.Render2D.GetInstance().sprite_list);
+				}
+
+				//インデックス計算。
+				if(t_change_textlist == true){
+					Fee.Render2D.Render2D.GetInstance().layerlist.CalcTextIndex(Fee.Render2D.Render2D.GetInstance().text_list);
+				}
+
+				//インデックス計算。
+				if(t_change_inputfieldlist == true){
+					Fee.Render2D.Render2D.GetInstance().layerlist.CalcInputFieldIndex(Fee.Render2D.Render2D.GetInstance().inputfield_list);
+				}
+
+				//表示物のないカメラを非アクティブにする。
+				if((t_change_spritelist == true)||(t_change_textlist == true)||(t_change_inputfieldlist == true)){
+					this.layerlist.SetActiveCamera();
+				}
+
+				//テキスト。描画プライオリティに対応したカメラに関連付ける。
+				if(t_change_textlist == true){
+					for(int ii=0;ii<this.text_list.Count;ii++){
+						this.text_list[ii].Raw_SetLayer(this.layerlist.GetLayerTransformFromDrawPriority(this.text_list[ii].GetDrawPriority()));
 					}
+				}
 
-					//ソート。
-					t_inputfield_list.Sort(InputField2D.Sort_DrawPriority);
-
-					Fee.Render2D.Render2D.GetInstance().layerlist.CalcInputFieldIndex(t_inputfield_list);
+				//入力フィールド。描画プライオリティに対応したカメラに関連付ける。
+				if(t_change_inputfieldlist == true){
+					for(int ii=0;ii<this.inputfield_list.Count;ii++){
+						this.inputfield_list[ii].Raw_SetLayer(this.layerlist.GetLayerTransformFromDrawPriority(this.inputfield_list[ii].GetDrawPriority()));
+					}
 				}
 			}
 
-			//表示物のないカメラを非アクティブにする。
-			this.layerlist.SetActiveCamera();
-
-			//テキスト。描画プライオリティに対応したカメラに関連付ける。
-			if(this.update_request_text == true){
-				for(int ii=0;ii<this.text_list.Count;ii++){
-					this.text_list[ii].Raw_SetLayer(this.layerlist.GetLayerTransformFromDrawPriority(this.text_list[ii].GetDrawPriority()));
+			//ＵＩ描画。
+			{
+				for(int ii=0;ii<this.layerlist.GetListMax();ii++){
+					this.PreDraw_UI(ii);
 				}
 			}
-
-			//入力フィールド。描画プライオリティに対応したカメラに関連付ける。
-			if(this.update_request_inputfield == true){
-				for(int ii=0;ii<this.inputfield_list.Count;ii++){
-					this.inputfield_list[ii].Raw_SetLayer(this.layerlist.GetLayerTransformFromDrawPriority(this.inputfield_list[ii].GetDrawPriority()));
-				}
-			}
-
-			//ＵＩテキスト描画
-			for(int ii=0;ii<this.layerlist.GetListMax();ii++){
-				this.PreDraw_UI(ii);
-			}
-
-			//リセット。
-			this.update_request_sprite = false;
-			this.update_request_text = false;
-			this.update_request_inputfield = false;
-
-			//テキスト再計算フラグのリセット。
-			this.screen.ResetUiReCalcFlag();
 		}
 
 		/** 描画前処理。ＵＩ。
@@ -623,13 +671,13 @@ namespace Fee.Render2D
 						Text2D t_text = this.text_list[ii];
 
 						//フォントサイズの計算が必要。
-						if((t_text.Raw_IsCalcFontSize() == true)||(this.screen.IsUiReCalcFlag() == true)){
+						if(t_text.Raw_IsCalcFontSize() == true){
 							t_text.Raw_SetCalcFontSizeFlag(false);
 							t_text.Raw_SetFontSize(this.screen.CalcFontSize(t_text));
 						}
 
 						//シェーダの変更が必要。
-						if((t_text.Raw_IsChangeShader() == true)||(this.screen.IsUiReCalcFlag() == true)){
+						if(t_text.Raw_IsChangeShader() == true){
 							t_text.Raw_SetChangeShaderFlag(false);
 
 							if(t_text.IsClip() == false){
@@ -658,15 +706,8 @@ namespace Fee.Render2D
 						}
 
 						if((t_text.GetText().Length > 0)&&(t_text.IsVisible() == true)&&(t_text.GetDrawPriority() >= 0)){
-							//サイズの計算が必要
-							bool t_is_calcsize = false;
-							if((t_text.Raw_IsCalcSize() == true)||(this.screen.IsUiReCalcFlag() == true)){
-								t_text.Raw_SetCalcSizeFlag(false);
-								t_is_calcsize = true;
-							}
-
 							//矩形計算。
-							this.screen.CalcTextRect(t_text,t_is_calcsize);
+							this.screen.CalcTextRect(t_text);
 
 							//表示。
 							t_text.Raw_SetEnable(true);
@@ -688,13 +729,13 @@ namespace Fee.Render2D
 						InputField2D t_inputfield = this.inputfield_list[ii];
 
 						//フォントサイズの計算が必要。
-						if((t_inputfield.Raw_IsCalcFontSize() == true)||(this.screen.IsUiReCalcFlag() == true)){
+						if(t_inputfield.Raw_IsCalcFontSize() == true){
 							t_inputfield.Raw_SetCalcFontSizeFlag(false);
 							t_inputfield.Raw_SetFontSize(this.screen.CalcFontSize(t_inputfield));
 						}
 
 						//シェーダの変更が必要。
-						if((t_inputfield.Raw_IsChangeShader() == true)||(this.screen.IsUiReCalcFlag() == true)){
+						if(t_inputfield.Raw_IsChangeShader() == true){
 							t_inputfield.Raw_SetChangeShaderFlag(false);
 
 							if(t_inputfield.IsClip() == false){
@@ -745,11 +786,8 @@ namespace Fee.Render2D
 						}
 
 						if((t_inputfield.IsVisible() == true)&&(t_inputfield.GetDrawPriority() >= 0)){
-							//サイズの計算が必要
-							bool t_is_calcsize = true;
-
 							//矩形計算。
-							this.screen.CalcInputFieldRect(t_inputfield,t_is_calcsize);
+							this.screen.CalcInputFieldRect(t_inputfield);
 
 							//表示。
 							t_inputfield.Raw_SetEnable(true);

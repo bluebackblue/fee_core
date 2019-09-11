@@ -75,8 +75,8 @@ namespace Fee.Render2D
 			//rawの削除。
 			this.param.Delete();
 
-			//更新リクエスト。
-			Render2D.GetInstance().UpdateInputFieldListRequest();
+			//入力フィールド。削除リクエスト。。
+			Render2D.GetInstance().InputFieldDeleteRequest();
 		}
 
 		/** 削除チェック。
@@ -250,8 +250,8 @@ namespace Fee.Render2D
 			if(this.drawpriority != a_drawpriority){
 				this.drawpriority = a_drawpriority;
 		
-				//更新リクエスト。
-				Render2D.GetInstance().UpdateInputFieldListRequest();
+				//ソートリクエスト。
+				Render2D.GetInstance().InputFieldListSortRequest();
 			}
 		}
 
@@ -397,9 +397,9 @@ namespace Fee.Render2D
 
 		/** [内部からの呼び出し]サイズ。設定。
 		*/
-		public void Raw_SetRectTransformSizeDelta(ref UnityEngine.Vector2 a_size)
+		public void Raw_SetRectTransformSizeDelta(in UnityEngine.Vector2 a_size)
 		{
-			this.param.Raw_SetRectTransformSizeDelta(ref a_size);
+			this.param.Raw_SetRectTransformSizeDelta(in a_size);
 		}
 
 		/** [内部からの呼び出し]サイズ。取得。
@@ -411,9 +411,9 @@ namespace Fee.Render2D
 
 		/** [内部からの呼び出し]位置。設定。
 		*/
-		public void Raw_SetRectTransformLocalPosition(ref UnityEngine.Vector3 a_position)
+		public void Raw_SetRectTransformLocalPosition(in UnityEngine.Vector3 a_position)
 		{
-			this.param.Raw_SetRectTransformLocalPosition(ref a_position);
+			this.param.Raw_SetRectTransformLocalPosition(in a_position);
 		}
 
 		/** [内部からの呼び出し]フォントサイズ。設定。

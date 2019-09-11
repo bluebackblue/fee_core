@@ -132,8 +132,8 @@ namespace Fee.Render2D
 			//rawの削除。
 			this.param.Delete();
 
-			//更新リクエスト。
-			Render2D.GetInstance().UpdateSpriteListRequest();
+			//削除リクエスト。
+			Render2D.GetInstance().SpriteListDeleteRequest();
 		}
 
 		/** 削除チェック。
@@ -518,8 +518,8 @@ namespace Fee.Render2D
 			if(this.drawpriority != a_drawpriority){
 				this.drawpriority = a_drawpriority;
 
-				//更新リクエスト。
-				Render2D.GetInstance().UpdateSpriteListRequest();
+				//ソートリクエスト。
+				Render2D.GetInstance().SpriteListSortRequest();
 			}
 		}
 
