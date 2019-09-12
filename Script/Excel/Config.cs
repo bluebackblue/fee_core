@@ -34,7 +34,7 @@ namespace Fee.Excel
 
 		/** 終端検索範囲。
 		*/
-		public static int END_SEARCH_WIDTH = 100;
+		public static int END_SEARCH_WIDTH = 1000;
 		public static int END_SEARCH_HEIGHT = 1000;
 
 		/** COMMAND

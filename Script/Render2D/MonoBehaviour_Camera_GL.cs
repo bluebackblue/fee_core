@@ -28,13 +28,6 @@ namespace Fee.Render2D
 		*/
 		public bool draw;
 
-		/** log
-		*/
-		#if(USE_DEF_FEE_DEBUGTOOL)
-		public int log_start_index;
-		public int log_end_index;
-		#endif
-
 		/** Awake
 
 			AddComponent内から呼び出される。
@@ -50,12 +43,6 @@ namespace Fee.Render2D
 
 			//draw
 			this.draw = false;
-
-			//log
-			#if(USE_DEF_FEE_DEBUGTOOL)
-			this.log_start_index = -1;
-			this.log_end_index = -1;
-			#endif
 		}
 
 		/** 初期化。
@@ -112,21 +99,14 @@ namespace Fee.Render2D
 			return this.index;
 		}
 
-		/** 更新。
-		*/
-		private void Update()
-		{
-			
-		}
-
 		/** ＧＬ描画。カメラがシーンのレンダリングを完了した後に呼び出されます。
 		*/
 		private void OnPostRender()
 		{
 			try{
-				if(Render2D.GetInstance() != null){
-					if(this.draw == true){
-						Render2D.GetInstance().Draw_GL(this.index);
+				if(this.draw == true){
+					if(Render2D.GetInstance() != null){
+						Render2D.GetInstance().OnPostRender_DrawGL(this.index);
 					}
 				}
 			}catch(System.Exception t_exception){

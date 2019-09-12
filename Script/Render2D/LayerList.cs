@@ -35,14 +35,6 @@ namespace Fee.Render2D
 				t_gameobject_eventsystem.transform.parent = a_transform_root;
 			}
 
-			//描画前処理。
-			{
-				UnityEngine.GameObject t_gameobject_main = new UnityEngine.GameObject();
-				t_gameobject_main.name = "PreDraw";
-				t_gameobject_main.AddComponent<MonoBehaviour_PreDraw>();
-				t_gameobject_main.transform.SetParent(a_transform_root);
-			}
-
 			//レイヤーリスト。
 			this.list = new LayerItem[Config.MAX_LAYER];
 			for(int ii=0;ii<this.list.Length;ii++){
@@ -187,12 +179,12 @@ namespace Fee.Render2D
 			return this.list[a_layerindex].camera_ui.GetCameraDepth();
 		}
 
-		/** アクティブ。設定。
+		/** アクティブ。変更。
 
 			表示物のないカメラを非アクティブにする。
 
 		*/
-		public void SetActiveCamera()
+		public void ChangeActiveCamera()
 		{
 			for(int ii=1;ii<this.list.Length;ii++){
 				if(this.list[ii].sprite_index_start >= 0){
@@ -213,7 +205,7 @@ namespace Fee.Render2D
 
 		/** スプライトインデックス。計算。
 		*/
-		public void CalcSpriteIndex(System.Collections.Generic.List<Sprite2D> a_sprite_list)
+		public void CalcSpriteIndex(SpriteList a_spritelist)
 		{
 			//リセット。
 			for(int ii=0;ii<this.list.Length;ii++){
@@ -227,8 +219,9 @@ namespace Fee.Render2D
 				int t_calc_index = 0;
 				LayerItem t_calc_layeritem = this.list[t_calc_layer];
 
-				while(t_calc_index < a_sprite_list.Count){
-					int t_layerindex = this.CalcLayerIndexFromDrawPriority(a_sprite_list[t_calc_index].GetDrawPriority());
+				while(t_calc_index < a_spritelist.GetListMax()){
+					Fee.Render2D.Sprite2D t_sprite = a_spritelist.GetItem(t_calc_index);
+					int t_layerindex = this.CalcLayerIndexFromDrawPriority(t_sprite.GetDrawPriority());
 	
 					if(t_calc_layer < this.list.Length){
 						if(t_calc_mode == 0){
@@ -276,7 +269,7 @@ namespace Fee.Render2D
 
 		/** スプライトインデックス。計算。
 		*/
-		public void CalcTextIndex(System.Collections.Generic.List<Text2D> a_text_list)
+		public void CalcTextIndex(TextList a_textlist)
 		{
 			//リセット。
 			for(int ii=0;ii<this.list.Length;ii++){
@@ -290,8 +283,9 @@ namespace Fee.Render2D
 				int t_calc_index = 0;
 				LayerItem t_calc_layeritem = this.list[t_calc_layer];
 
-				while(t_calc_index < a_text_list.Count){
-					int t_layerindex = this.CalcLayerIndexFromDrawPriority(a_text_list[t_calc_index].GetDrawPriority());
+				while(t_calc_index < a_textlist.GetListMax()){
+					Fee.Render2D.Text2D t_text = a_textlist.GetItem(t_calc_index);
+					int t_layerindex = this.CalcLayerIndexFromDrawPriority(t_text.GetDrawPriority());
 	
 					if(t_calc_layer < this.list.Length){
 						if(t_calc_mode == 0){
@@ -339,7 +333,7 @@ namespace Fee.Render2D
 
 		/** スプライトインデックス。計算。
 		*/
-		public void CalcInputFieldIndex(System.Collections.Generic.List<InputField2D> a_inputfield_list)
+		public void CalcInputFieldIndex(InputFieldList a_inputfieldlist)
 		{
 			//リセット。
 			for(int ii=0;ii<this.list.Length;ii++){
@@ -353,8 +347,9 @@ namespace Fee.Render2D
 				int t_calc_index = 0;
 				LayerItem t_calc_layeritem = this.list[t_calc_layer];
 
-				while(t_calc_index < a_inputfield_list.Count){
-					int t_layerindex = this.CalcLayerIndexFromDrawPriority(a_inputfield_list[t_calc_index].GetDrawPriority());
+				while(t_calc_index < a_inputfieldlist.GetListMax()){
+					Fee.Render2D.InputField2D t_inputfield = a_inputfieldlist.GetItem(t_calc_index);
+					int t_layerindex = this.CalcLayerIndexFromDrawPriority(t_inputfield.GetDrawPriority());
 	
 					if(t_calc_layer < this.list.Length){
 						if(t_calc_mode == 0){

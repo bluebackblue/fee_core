@@ -75,8 +75,8 @@ namespace Fee.Render2D
 			//rawの削除。
 			this.param.Delete();
 
-			//入力フィールド。削除リクエスト。。
-			Render2D.GetInstance().InputFieldDeleteRequest();
+			//削除リクエスト。。
+			Render2D.GetInstance().GetInputFieldList().delete_request_flag = true;
 		}
 
 		/** 削除チェック。
@@ -251,7 +251,7 @@ namespace Fee.Render2D
 				this.drawpriority = a_drawpriority;
 		
 				//ソートリクエスト。
-				Render2D.GetInstance().InputFieldListSortRequest();
+				Render2D.GetInstance().GetInputFieldList().sort_request_flag = true;
 			}
 		}
 
@@ -260,13 +260,6 @@ namespace Fee.Render2D
 		public long GetDrawPriority()
 		{
 			return this.drawpriority;
-		}
-
-		/** 描画プライオリティ。ソート関数。
-		*/
-		public static int Sort_DrawPriority(InputField2D a_test,InputField2D a_target)
-		{
-			return (int)(a_test.drawpriority - a_target.drawpriority);
 		}
 
 		/** テキスト。設定。

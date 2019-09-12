@@ -20,9 +20,9 @@ namespace Fee.Render2D
 		*/
 		private Fee.Geometry.Size2D<int> gui_size;
 
-		/** change_screen_flag
+		/** change_screensize_flag
 		*/
-		private bool change_screen_flag;
+		private bool change_screensize_flag;
 
 		/** 事前計算。スプライト。
 		*/
@@ -44,8 +44,8 @@ namespace Fee.Render2D
 			//ＧＵＩスクリーン。
 			this.gui_size.Set(1,1);
 
-			//change_screen_flag
-			this.change_screen_flag = true;
+			//change_screensize_flag
+			this.change_screensize_flag = true;
 
 			//事前計算。スプライト。
 			this.calc_sprite_x = 0.0f;
@@ -59,11 +59,18 @@ namespace Fee.Render2D
 			this.calc_ui_y = 0.0f;
 		}
 
-		/** サイズ変更フラグ。取得。
+		/** スクリーンサイズ変更フラグ。取得。
 		*/
-		public bool GetChangeScreenFlag()
+		public bool GetChangeScreenSizeFlag()
 		{
-			return this.change_screen_flag;
+			return this.change_screensize_flag;
+		}
+
+		/** スクリーンサイズ変更フラグ。設定。
+		*/
+		public void SetChangeScreenSizeFlag(bool a_flag)
+		{
+			this.change_screensize_flag = a_flag;
 		}
 
 		/** ＧＵＩスクリーン座標　＝＞　仮想スクリーン座標。
@@ -133,8 +140,8 @@ namespace Fee.Render2D
 			//ＧＵＩスクリーン座標変更チェック。
 			if((this.gui_size.w != Screen.GetScreenWidth())||(this.gui_size.h != Screen.GetScreenHeight())){
 
-				//change_screen_flag
-				this.change_screen_flag = true;
+				//change_screensize_flag
+				this.change_screensize_flag = true;
 
 				//gui_size
 				this.gui_size.Set(Screen.GetScreenWidth(),Screen.GetScreenHeight());
@@ -167,9 +174,6 @@ namespace Fee.Render2D
 					this.calc_ui_x = (this.calc_sprite_x - 0.5f) * (float)this.gui_size.w;
 					this.calc_ui_y = (0.5f - this.calc_sprite_y) * (float)this.gui_size.h;
 				}
-			}else{
-				//change_screen_flag
-				this.change_screen_flag = false;
 			}
 		}
 
@@ -205,7 +209,7 @@ namespace Fee.Render2D
 		*/
 		public void CalcSprite(Sprite2D a_sprite)
 		{
-			a_sprite.Calc();
+			a_sprite.CalcVertex(this.calc_sprite_x,this.calc_sprite_y,this.calc_sprite_w,this.calc_sprite_h);
 		}
 
 		/** 計算。テキスト。

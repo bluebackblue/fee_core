@@ -68,43 +68,47 @@ namespace Fee.File
 			//キャンセルトークン。
 			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
+			//result
+			Task_LoadLocalTextureFile.ResultType t_result;
+
 			//タスク起動。
-			Fee.TaskW.Task<Task_LoadLocalTextureFile.ResultType> t_task = Task_LoadLocalTextureFile.Run(this,a_path,t_cancel_token);
+			using(Fee.TaskW.Task<Task_LoadLocalTextureFile.ResultType> t_task = Task_LoadLocalTextureFile.Run(this,a_path,t_cancel_token)){
 
-			//終了待ち。
-			do{
-				//キャンセル。
-				if(a_callback_interface != null){
-					if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
-						t_cancel_token.Cancel();
+				//終了待ち。
+				do{
+					//キャンセル。
+					if(a_callback_interface != null){
+						if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
+							t_cancel_token.Cancel();
+						}
 					}
-				}
-				yield return null;
-			}while(t_task.IsEnd() == false);
+					yield return null;
+				}while(t_task.IsEnd() == false);
 
-			//結果。
-			Task_LoadLocalTextureFile.ResultType t_result = t_task.GetResult();
+				//結果。
+				t_result = t_task.GetResult();
 
-			//成功。
-			if(t_task.IsSuccess() == true){
-				if(t_result.binary != null){
+				//成功。
+				if(t_task.IsSuccess() == true){
+					if(t_result.binary != null){
 
-					//コンバート。
-					UnityEngine.Texture2D t_result_texture = null;
+						//コンバート。
+						UnityEngine.Texture2D t_result_texture = null;
 
-					try{
-						t_result_texture = BinaryToTexture2D.Convert(t_result.binary);
-					}catch(System.Exception t_exception){
-						this.result.errorstring = "Coroutine_LoadLocalTextureFile : " + t_exception.Message;
-						yield break;
-					}
+						try{
+							t_result_texture = BinaryToTexture2D.Convert(t_result.binary);
+						}catch(System.Exception t_exception){
+							this.result.errorstring = "Coroutine_LoadLocalTextureFile : " + t_exception.Message;
+							yield break;
+						}
 
-					if(t_result_texture != null){
-						this.result.texture_file = t_result_texture;
-						yield break;
-					}else{
-						this.result.errorstring = "Coroutine_LoadLocalTextureFile : result_texture == null";
-						yield break;
+						if(t_result_texture != null){
+							this.result.texture_file = t_result_texture;
+							yield break;
+						}else{
+							this.result.errorstring = "Coroutine_LoadLocalTextureFile : result_texture == null";
+							yield break;
+						}
 					}
 				}
 			}

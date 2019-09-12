@@ -70,7 +70,7 @@ namespace Fee.Render2D
 			this.raw_is_calcfontsize = true;
 
 			//raw
-			this.raw_gameobject = Render2D.GetInstance().RawInputField_Create();
+			this.raw_gameobject = Fee.Instantiate.Instantiate.CreateUiInputField("InputField",Fee.Render2D.Render2D.GetInstance().GetRootTransform());
 			this.raw_transform = this.raw_gameobject.GetComponent<UnityEngine.Transform>();
 			this.raw_inputfield = this.raw_gameobject.GetComponent<UnityEngine.UI.InputField>();
 			this.raw_recttransform = this.raw_gameobject.GetComponent<UnityEngine.RectTransform>();
@@ -368,7 +368,7 @@ namespace Fee.Render2D
 		*/
 		public void Delete()
 		{
-			Render2D.GetInstance().RawInputField_Delete(this.raw_gameobject);
+			UnityEngine.GameObject.Destroy(this.raw_gameobject);
 			this.raw_gameobject = null;
 
 			this.raw_custom_text_material_item.DestroyImmediate();

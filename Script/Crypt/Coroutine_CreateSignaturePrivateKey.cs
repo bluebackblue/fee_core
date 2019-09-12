@@ -68,28 +68,32 @@ namespace Fee.Crypt
 			//キャンセルトークン。
 			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
+			//result
+			Task_CreateSignaturePrivateKey.ResultType t_result;
+
 			//タスク起動。
-			Fee.TaskW.Task<Task_CreateSignaturePrivateKey.ResultType> t_task = Task_CreateSignaturePrivateKey.Run(this,a_binary,a_key,t_cancel_token);
+			using(Fee.TaskW.Task<Task_CreateSignaturePrivateKey.ResultType> t_task = Task_CreateSignaturePrivateKey.Run(this,a_binary,a_key,t_cancel_token)){
 
-			//終了待ち。
-			do{
-				//キャンセル。
-				if(a_callback_interface != null){
-					if(a_callback_interface.OnCryptCoroutine(this.taskprogress) == false){
-						t_cancel_token.Cancel();
+				//終了待ち。
+				do{
+					//キャンセル。
+					if(a_callback_interface != null){
+						if(a_callback_interface.OnCryptCoroutine(this.taskprogress) == false){
+							t_cancel_token.Cancel();
+						}
 					}
-				}
-				yield return null;
-			}while(t_task.IsEnd() == false);
+					yield return null;
+				}while(t_task.IsEnd() == false);
 
-			//結果。
-			Task_CreateSignaturePrivateKey.ResultType t_result = t_task.GetResult();
+				//結果。
+				t_result = t_task.GetResult();
 
-			//成功。
-			if(t_task.IsSuccess() == true){
-				if(t_result.binary != null){
-					this.result.binary = t_result.binary;
-					yield break;
+				//成功。
+				if(t_task.IsSuccess() == true){
+					if(t_result.binary != null){
+						this.result.binary = t_result.binary;
+						yield break;
+					}
 				}
 			}
 

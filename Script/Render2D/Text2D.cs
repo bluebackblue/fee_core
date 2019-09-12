@@ -108,7 +108,7 @@ namespace Fee.Render2D
 			this.param.Delete();
 
 			//削除リクエスト。
-			Render2D.GetInstance().TextListDeleteRequest();
+			Render2D.GetInstance().GetTextList().delete_request_flag = true;
 		}
 
 		/** 削除チェック。
@@ -317,7 +317,7 @@ namespace Fee.Render2D
 				this.drawpriority = a_drawpriority;
 		
 				//ソートリクエスト。
-				Render2D.GetInstance().TextListSortRequest();
+				Render2D.GetInstance().GetTextList().sort_request_flag = true;
 			}
 		}
 
@@ -326,13 +326,6 @@ namespace Fee.Render2D
 		public long GetDrawPriority()
 		{
 			return this.drawpriority;
-		}
-
-		/** 描画プライオリティ。ソート関数。
-		*/
-		public static int Sort_DrawPriority(Text2D a_test,Text2D a_target)
-		{
-			return (int)(a_test.drawpriority - a_target.drawpriority);
 		}
 
 		/** テキスト。設定。

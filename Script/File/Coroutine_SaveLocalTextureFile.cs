@@ -89,28 +89,32 @@ namespace Fee.File
 			//キャンセルトークン。
 			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
+			//result
+			Task_SaveLocalTextureFile.ResultType t_result;
+
 			//タスク起動。
-			Fee.TaskW.Task<Task_SaveLocalTextureFile.ResultType> t_task = Task_SaveLocalTextureFile.Run(this,a_path,t_binary_png,t_cancel_token);
+			using(Fee.TaskW.Task<Task_SaveLocalTextureFile.ResultType> t_task = Task_SaveLocalTextureFile.Run(this,a_path,t_binary_png,t_cancel_token)){
 
-			//終了待ち。
-			do{
-				//キャンセル。
-				if(a_callback_interface != null){
-					if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
-						t_cancel_token.Cancel();
+				//終了待ち。
+				do{
+					//キャンセル。
+					if(a_callback_interface != null){
+						if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
+							t_cancel_token.Cancel();
+						}
 					}
-				}
-				yield return null;
-			}while(t_task.IsEnd() == false);
+					yield return null;
+				}while(t_task.IsEnd() == false);
 
-			//結果。
-			Task_SaveLocalTextureFile.ResultType t_result = t_task.GetResult();
+				//結果。
+				t_result = t_task.GetResult();
 
-			//成功。
-			if(t_task.IsSuccess() == true){
-				if(t_result.saveend == true){
-					this.result.saveend = true;
-					yield break;
+				//成功。
+				if(t_task.IsSuccess() == true){
+					if(t_result.saveend == true){
+						this.result.saveend = true;
+						yield break;
+					}
 				}
 			}
 

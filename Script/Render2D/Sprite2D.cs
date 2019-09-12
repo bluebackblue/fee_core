@@ -133,7 +133,7 @@ namespace Fee.Render2D
 			this.param.Delete();
 
 			//削除リクエスト。
-			Render2D.GetInstance().SpriteListDeleteRequest();
+			Render2D.GetInstance().GetSpriteList().delete_request_flag = true;
 		}
 
 		/** 削除チェック。
@@ -167,9 +167,9 @@ namespace Fee.Render2D
 			this.vertex_recalc = true;
 		}
 
-		/** 計算。
+		/** 頂点計算。
 		*/
-		public void Calc()
+		public void CalcVertex(float a_screen_calc_x,float a_screen_calc_y,float a_screen_calc_w,float a_screen_calc_h)
 		{
 			//texcood
 			if(this.texcood_recalc == true){
@@ -191,11 +191,6 @@ namespace Fee.Render2D
 			//vertex
 			if(this.vertex_recalc == true){
 				this.vertex_recalc = false;
-
-				float t_screen_calc_x = Render2D.GetInstance().GetScreenCalcSpriteX();
-				float t_screen_calc_y = Render2D.GetInstance().GetScreenCalcSpriteY();
-				float t_screen_calc_w = Render2D.GetInstance().GetScreenCalcSpriteW();
-				float t_screen_calc_h = Render2D.GetInstance().GetScreenCalcSpriteH();
 
 				if(this.IsRotate() == true){
 					//回転あり。
@@ -228,30 +223,30 @@ namespace Fee.Render2D
 					t_4 += t_center;
 
 					//左上。
-					this.vertex[0] = t_1.x / t_screen_calc_w + t_screen_calc_x;
-					this.vertex[1] = 1.0f - (t_1.y / t_screen_calc_h + t_screen_calc_y);
+					this.vertex[0] = t_1.x / a_screen_calc_w + a_screen_calc_x;
+					this.vertex[1] = 1.0f - (t_1.y / a_screen_calc_h + a_screen_calc_y);
 
 					//右上。
-					this.vertex[2] = t_2.x / t_screen_calc_w + t_screen_calc_x;
-					this.vertex[3] = 1.0f - (t_2.y / t_screen_calc_h + t_screen_calc_y);
+					this.vertex[2] = t_2.x / a_screen_calc_w + a_screen_calc_x;
+					this.vertex[3] = 1.0f - (t_2.y / a_screen_calc_h + a_screen_calc_y);
 
 					//左下。
-					this.vertex[4] = t_3.x / t_screen_calc_w + t_screen_calc_x;
-					this.vertex[5] = 1.0f - (t_3.y / t_screen_calc_h + t_screen_calc_y);
+					this.vertex[4] = t_3.x / a_screen_calc_w + a_screen_calc_x;
+					this.vertex[5] = 1.0f - (t_3.y / a_screen_calc_h + a_screen_calc_y);
 
 					//右下。
-					this.vertex[6] = t_4.x / t_screen_calc_w + t_screen_calc_x;
-					this.vertex[7] = 1.0f - (t_4.y / t_screen_calc_h + t_screen_calc_y);
+					this.vertex[6] = t_4.x / a_screen_calc_w + a_screen_calc_x;
+					this.vertex[7] = 1.0f - (t_4.y / a_screen_calc_h + a_screen_calc_y);
 				}else{
 					//回転なし。
 
 					//左上。
-					this.vertex[0] = (float)this.rect.GetX() / t_screen_calc_w + t_screen_calc_x;
-					this.vertex[1] = 1.0f - ((float)this.rect.GetY() / t_screen_calc_h + t_screen_calc_y);
+					this.vertex[0] = (float)this.rect.GetX() / a_screen_calc_w + a_screen_calc_x;
+					this.vertex[1] = 1.0f - ((float)this.rect.GetY() / a_screen_calc_h + a_screen_calc_y);
 
 					//右下。
-					this.vertex[6] = (float)(this.rect.GetX() + this.rect.GetW()) / t_screen_calc_w + t_screen_calc_x;
-					this.vertex[7] = 1.0f - ((float)(this.rect.GetY() + this.rect.GetH()) / t_screen_calc_h + t_screen_calc_y);
+					this.vertex[6] = (float)(this.rect.GetX() + this.rect.GetW()) / a_screen_calc_w + a_screen_calc_x;
+					this.vertex[7] = 1.0f - ((float)(this.rect.GetY() + this.rect.GetH()) / a_screen_calc_h + a_screen_calc_y);
 
 					//右上。
 					this.vertex[2] = this.vertex[6];
@@ -519,7 +514,7 @@ namespace Fee.Render2D
 				this.drawpriority = a_drawpriority;
 
 				//ソートリクエスト。
-				Render2D.GetInstance().SpriteListSortRequest();
+				Render2D.GetInstance().GetSpriteList().sort_request_flag = true;
 			}
 		}
 
@@ -528,13 +523,6 @@ namespace Fee.Render2D
 		public long GetDrawPriority()
 		{
 			return this.drawpriority;
-		}
-
-		/** 描画プライオリティ。ソート関数。
-		*/
-		public static int Sort_DrawPriority(Sprite2D a_test,Sprite2D a_target)
-		{
-			return (int)(a_test.drawpriority - a_target.drawpriority);
 		}
 
 		/** テクスチャ。設定。

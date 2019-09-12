@@ -116,25 +116,6 @@ namespace Fee.Render2D
 			//入力フィールド終了インデックス。
 			this.inputfield_index_last = -1;
 		}
-
-		/** ログ。
-		*/
-		#if(USE_DEF_FEE_DEBUGTOOL)
-		public void Log()
-		{
-			//スプライト。
-			this.camera_gl.log_start_index = this.sprite_index_start;
-			this.camera_gl.log_end_index = this.sprite_index_last;
-
-			//テキスト。
-			this.camera_ui.log_text_start_index = this.text_index_start;
-			this.camera_ui.log_text_end_index = this.text_index_last;
-
-			//入力フィールド。
-			this.camera_ui.log_inputfield_start_index = this.inputfield_index_start;
-			this.camera_ui.log_inputfield_end_index = this.inputfield_index_last;
-		}
-		#endif
 	}
 }
 

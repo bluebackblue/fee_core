@@ -39,7 +39,7 @@ namespace Fee.TaskW
 
 	/** Task
 	*/
-	public class Task<TResult> : Task
+	public class Task<TResult> : Task , System.IDisposable
 	{
 		/** mode
 		*/
@@ -173,7 +173,7 @@ namespace Fee.TaskW
 		{
 			#if((UNITY_5)||(UNITY_WEBGL))
 			#else
-			this.task = null;
+			this.Dispose();
 			#endif
 		}
 
@@ -295,8 +295,10 @@ namespace Fee.TaskW
 		{
 			#if((UNITY_5)||(UNITY_WEBGL))
 			#else
-			this.task.Dispose();
-			this.task = null;
+			if(this.task != null){
+				this.task.Dispose();
+				this.task = null;
+			}
 			#endif
 		}
 	}
