@@ -14,6 +14,7 @@ namespace Fee.Ui
 {
 	/** Slice9Sprite_Sprite2D
 	*/
+	#if(false)
 	public class Slice9Sprite_Sprite2D : Fee.Render2D.Sprite2D
 	{
 		/** is_clip
@@ -216,5 +217,6 @@ namespace Fee.Ui
 			return t_setpass;
 		}
 	}
+	#endif
 }
 

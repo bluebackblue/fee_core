@@ -568,9 +568,9 @@ namespace Fee.Ui
 
 					//ダウンキャンセル。
 					this.down_flag = false;
-				if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == this){
-					Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
-				}
+					if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == this){
+						Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
+					}
 
 					//コールバック。
 					if(this.is_onover == true){

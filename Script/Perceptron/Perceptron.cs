@@ -47,8 +47,10 @@ namespace Fee.Perceptron
 				t_layer_index++;
 
 				//中間レイヤー。
-				this.layer_list.Add(new Layer(a_middle_count_2 + 1,t_layer_index));
-				t_layer_index++;
+				if(a_middle_count_2 > 0){
+					this.layer_list.Add(new Layer(a_middle_count_2 + 1,t_layer_index));
+					t_layer_index++;
+				}
 
 				//出力レイヤー。
 				this.layer_list.Add(new Layer(a_out_count,t_layer_index));
@@ -75,13 +77,12 @@ namespace Fee.Perceptron
 				}
 			}
 
-			//バイアス。
-			this.layer_list[0].node_list[this.layer_list[0].node_list.Count - 1].is_bias = true;
-			this.layer_list[0].node_list[this.layer_list[0].node_list.Count - 1].value = 1.0f;
+			for(int t_layer_index=0;t_layer_index<(this.layer_list.Count - 1);t_layer_index++){
+				//入力レイヤー => 中間レイヤー。
 
-			//バイアス。
-			this.layer_list[1].node_list[this.layer_list[1].node_list.Count - 1].is_bias = true;
-			this.layer_list[1].node_list[this.layer_list[1].node_list.Count - 1].value = 1.0f;
+				this.layer_list[t_layer_index].node_list[this.layer_list[t_layer_index].node_list.Count - 1].is_bias = true;
+				this.layer_list[t_layer_index].node_list[this.layer_list[t_layer_index].node_list.Count - 1].value = 1.0f;
+			}
 		}
 	
 		/** ForwardCalculation

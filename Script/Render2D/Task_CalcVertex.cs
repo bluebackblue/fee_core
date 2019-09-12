@@ -135,7 +135,10 @@ namespace Fee.Render2D
 		public void Delete()
 		{
 			for(int ii=0;ii<this.task_list.Length;ii++){
-				this.task_list[ii].Dispose();
+				if(this.task_list[ii].IsEndFunction() == false){
+					this.task_list[ii].Wait();
+					this.task_list[ii].EndFunction();
+				}
 			}
 			this.task_list = null;
 		}

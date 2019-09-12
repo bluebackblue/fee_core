@@ -33,20 +33,20 @@ namespace Fee.Render2D
 		public Material_List()
 		{
 			//material_list
-			this.material_list = new Material_Item[Config.MATERIAL_NAME.Length];
+			this.material_list = new Material_Item[Config.MATERIAL_DATA.Length];
 			for(int ii=0;ii<this.material_list.Length;ii++){
-				UnityEngine.Material t_material = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME[ii]);
+				UnityEngine.Material t_material = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_DATA[ii].resource_path);
 				if(t_material != null){
 					//複製。
-					this.material_list[ii] = new Material_Item(t_material,true);
+					this.material_list[ii] = new Material_Item(t_material,in Config.MATERIAL_DATA[ii],true);
 				}
 			}
 
 			//参照。
-			this.material_ui_text = new Material_Item(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_UITEXT),false);
+			this.material_ui_text = new Material_Item(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_DATA_UITEXT.resource_path),Config.MATERIAL_DATA_UITEXT,false);
 
 			//参照。
-			this.material_ui_image = new Material_Item(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_UIIMAGE),false);
+			this.material_ui_image = new Material_Item(UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_DATA_UIIMAGE.resource_path),Config.MATERIAL_DATA_UITEXT,false);
 		}
 
 		/** マテリアルアイテム。取得。

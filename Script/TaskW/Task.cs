@@ -296,6 +296,9 @@ namespace Fee.TaskW
 			#if((UNITY_5)||(UNITY_WEBGL))
 			#else
 			if(this.task != null){
+				if(this.IsEnd() == false){
+					this.task.Wait();
+				}
 				this.task.Dispose();
 				this.task = null;
 			}

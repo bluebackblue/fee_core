@@ -312,6 +312,13 @@ namespace Fee.EditorTool
 				}
 				#endif
 			}
+
+			//■シーン開始。
+			#if(false)
+			{
+				Fee.Scene.Scene.GetInstance().SetNextScene(new Game.Scene.InitScene());
+			}
+			#endif
 		}
 
 		/** ライブラリ停止。
@@ -737,6 +744,13 @@ namespace Fee.EditorTool
 				}else{
 					this.scene_update_wait--;
 				}
+			}
+			#endif
+
+			//２Ｄ描画。
+			#if(false)
+			{
+				Fee.Render2D.Render2D.GetInstance().Main_PreDraw();
 			}
 			#endif
 		}

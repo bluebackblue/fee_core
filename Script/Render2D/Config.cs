@@ -112,16 +112,6 @@ namespace Fee.Render2D
 		public static string PREFAB_NAME_CANVAS = "Prefab/Render2D/Canvas";
 		public static string PREFAB_NAME_EVENTSYSTEM = "Prefab/Render2D/EventSystem";
 
-		/** マテリアル名。
-		*/
-		public static string[] MATERIAL_NAME = {
-			"Material/Render2D/Simple",
-			"Material/Render2D/Alpha",
-			"Material/Render2D/AlphaClip",
-			"Material/Render2D/Add",
-			"Material/Render2D/Slice9",
-		};
-
 		/** マテリアルタイプ。
 		*/
 		public enum MaterialType
@@ -134,7 +124,6 @@ namespace Fee.Render2D
 			Alpha,
 			AlphaClip,
 			Add,
-			Slice9,
 
 			/** User
 			*/
@@ -149,13 +138,93 @@ namespace Fee.Render2D
 			User9,
 		}
 
+		/** MATERIAL_DATA
+		*/
+		public static Material_Data[] MATERIAL_DATA = {
+			new Material_Data(
+
+				//resource_path
+				"Material/Render2D/Simple",
+
+				//property
+				new string[]{
+					"_MainTex",
+				}
+			),
+
+			new Material_Data(
+
+				//resource_path
+				"Material/Render2D/Alpha",
+
+				//property
+				new string[]{
+					"_MainTex",
+				}
+			),
+
+			new Material_Data(
+
+				//resource_path
+				"Material/Render2D/AlphaClip",
+
+				//property
+				new string[]{
+					"_MainTex",
+					"clip_flag",
+					"clip_x1",
+					"clip_y1",
+					"clip_x2",
+					"clip_y2",
+				}
+			),
+
+			new Material_Data(
+
+				//resource_path
+				"Material/Render2D/Add",
+
+				//property
+				new string[]{
+					"_MainTex",
+				}
+			),
+		};
+
+
 		/** マテリアル名。ＵＩテキスト。
 		*/
-		public static string MATERIAL_NAME_UITEXT = "Material/Render2D/UiText";
+		public static Material_Data MATERIAL_DATA_UITEXT = new Material_Data(
+			//resource_path
+			"Material/Render2D/UiText",
+
+			//property
+			new string[]{
+				"_MainTex",
+				"clip_flag",
+				"clip_x1",
+				"clip_y1",
+				"clip_x2",
+				"clip_y2",
+			}
+		);
 
 		/** マテリアル名。ＵＩイメージ。
 		*/
-		public static string MATERIAL_NAME_UIIMAGE = "Material/Render2D/UiImage";
+		public static Material_Data MATERIAL_DATA_UIIMAGE = new Material_Data(
+			//resource_path
+			"Material/Render2D/UiImage",
+
+			//property
+			new string[]{
+				"_MainTex",
+				"clip_flag",
+				"clip_x1",
+				"clip_y1",
+				"clip_x2",
+				"clip_y2",
+			}
+		);
 
 		/** デフォルト。テキスト。フォントサイズ。
 		*/

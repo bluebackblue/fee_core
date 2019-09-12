@@ -20,6 +20,10 @@ namespace Fee.Render2D
 		*/
 		private UnityEngine.Material material;
 
+		/** material_data
+		*/
+		private Material_Data material_data;
+
 		/** main_texture
 		*/
 		private Material_Property_Texture main_texture;
@@ -50,8 +54,11 @@ namespace Fee.Render2D
 
 		/** constructor
 		*/
-		public Material_Item(UnityEngine.Material a_material_raw,bool a_duplicate)
+		public Material_Item(UnityEngine.Material a_material_raw,in Material_Data a_material_data,bool a_duplicate)
 		{
+			//material_data
+			this.material_data = a_material_data;
+
 			//material
 			if(a_duplicate == true){
 				//複製。
@@ -62,7 +69,7 @@ namespace Fee.Render2D
 			}
 
 			//プロパティ初期化。
-			string[] t_property_list = this.material.GetTexturePropertyNames();
+			string[] t_property_list = this.material_data.property;
 			for(int ii=0;ii<t_property_list.Length;ii++){
 				switch(t_property_list[ii]){
 				case "clip_flag":
@@ -137,7 +144,7 @@ namespace Fee.Render2D
 		*/
 		public Material_Item DuplicateMaterialItem()
 		{
-			Material_Item t_material_item = new Material_Item(this.material,true);
+			Material_Item t_material_item = new Material_Item(this.material,this.material_data,true);
 			return t_material_item;
 		}
 

@@ -32,6 +32,8 @@ namespace Fee.Render2D
 		*/
 		public void Initialize(UnityEngine.Material a_material_raw,string a_property_name)
 		{
+			Tool.Assert(a_material_raw != null);
+
 			//material_raw
 			this.material_raw = a_material_raw;
 
