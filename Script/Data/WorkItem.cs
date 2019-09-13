@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief データ。ワーク。
+ * @brief データ。ワークアイテム。
 */
 
 
@@ -12,9 +12,9 @@
 */
 namespace Fee.Data
 {
-	/** Work
+	/** WorkItem
 	*/
-	public class Work
+	public class WorkItem
 	{
 		/** Mode
 		*/
@@ -64,7 +64,7 @@ namespace Fee.Data
 
 		/** constructor
 		*/
-		public Work()
+		public WorkItem()
 		{
 			//mode
 			this.mode = Mode.Start;

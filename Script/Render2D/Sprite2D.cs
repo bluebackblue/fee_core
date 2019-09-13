@@ -20,7 +20,7 @@ namespace Fee.Render2D
 {
 	/** Sprite2D
 	*/
-	public class Sprite2D : Fee.Deleter.OnDelete_CallBackInterface
+	public class Sprite2D : Fee.Deleter.OnDelete_CallBackInterface , Fee.Pool.PoolItem_Base , OnSprite2DMaterialUpdate_CallBackInterface
 	{
 		/** 表示フラグ。
 		*/
@@ -62,14 +62,37 @@ namespace Fee.Render2D
 		private string debug;
 		#endif
 
-		/** constructor。
+		/** callback_materialupdate
+		*/
+		private OnSprite2DMaterialUpdate_CallBackInterface callback_materialupdate;
+
+		/** constructor
+
+			プール用に作成。
+
+		*/
+		public Sprite2D()
+		{
+			//param
+			this.param.Initialize();
+
+			//vertex
+			this.vertex = new float[8];
+
+			//texcood
+			this.texcood = new float[4];
+		}
+
+		/** constructor
+
+			プールから作成。
 
 			「DRAWPRIORITY_STEP」ごとに描画カメラが切り替わる。
 			同一カメラ内では必ずテキストが上に表示される。
 			テキストの上にスプライトを表示する場合は、描画カメラが切り替わるようにプライオリィを設定する必要がある。
 
 		*/
-		public Sprite2D(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public void PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			#if(UNITY_EDITOR)
 			{
@@ -86,13 +109,12 @@ namespace Fee.Render2D
 			}
 			#endif
 
-			Render2D.GetInstance().AddSprite2D(this);
-
 			//表示フラグ。
 			this.visible = true;
 
 			//削除フラグ。
 			this.deletereq = false;
+			Render2D.GetInstance().Sprite2D_Regist(this);
 
 			//描画プライオリティ。
 			this.drawpriority = a_drawpriority;
@@ -101,18 +123,19 @@ namespace Fee.Render2D
 			//this.pos;
 
 			//回転。
-			this.rotate.Initialize();
+			this.rotate.PoolNew();
 
-			//パラメータ。
-			this.param.Initialize();
+			//param
+			this.param.PoolNew();
 
 			//vertex
-			this.vertex = new float[8];
 			this.vertex_recalc = true;
 
 			//texcood
-			this.texcood = new float[4];
 			this.texcood_recalc = true;
+
+			//callback_materialupdate
+			this.callback_materialupdate = this;
 
 			//削除管理。
 			if(a_deleter != null){
@@ -121,19 +144,34 @@ namespace Fee.Render2D
 		}
 
 		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
+
+			スプライトリストからの解除リクエスト。
+
 		*/
 		public void OnDelete()
 		{
-			this.deletereq = true;
-
 			//非表示。
 			this.visible = false;
 
-			//rawの削除。
-			this.param.Delete();
-
 			//削除リクエスト。
+			this.deletereq = true;
 			Render2D.GetInstance().GetSpriteList().delete_request_flag = true;
+		}
+
+		/** [Fee.Pool.PoolItem_Base]プールへ削除。
+		*/
+		public void PoolDelete()
+		{
+			//rawの削除。
+			this.param.PoolDelete();
+		}
+
+		/** [Fee.Pool.PoolItem_Base]メモリから削除。
+		*/
+		public void MemoryDelete()
+		{
+			//rawの削除。
+			this.param.MemoryDelete();
 		}
 
 		/** 削除チェック。
@@ -143,21 +181,38 @@ namespace Fee.Render2D
 			return this.deletereq;
 		}
 
-		/** [デフォルト処理]マテリアルアイテムを更新する。
+		/** [Fee.Render2D.OnSprite2DMaterialUpdate_CallBackInterface]マテリアル更新。
 
-			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
+			デフォルト。
 
 		*/
-		public virtual bool UpdateMaterialItem(Material_Item a_material_item)
+		public bool OnSprite2DMaterialUpdate(Sprite2D a_sprite2d,Material_Item a_material_item)
 		{
 			bool t_setpass = false;
 
 			//メインテクスチャー設定。
-			if(a_material_item.SetProperty_MainTexture(this.GetTexture()) == true){
+			if(a_material_item.SetProperty_MainTexture(a_sprite2d.GetTexture()) == true){
 				t_setpass = true;
 			}
 
 			return t_setpass;
+		}
+
+		/** コールバック。
+		*/
+		public void SetOnSprite2DMaterialUpdate(OnSprite2DMaterialUpdate_CallBackInterface a_callback_interface)
+		{
+			this.callback_materialupdate = a_callback_interface;
+		}
+
+		/** マテリアルアイテムを更新する。
+
+			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
+
+		*/
+		public bool UpdateMaterialItem(Material_Item a_material_item)
+		{
+			return this.callback_materialupdate.OnSprite2DMaterialUpdate(this,a_material_item);
 		}
 
 		/** 再計算。リクエスト。

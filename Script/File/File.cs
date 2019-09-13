@@ -81,11 +81,11 @@ namespace Fee.File
 
 		/** work_list
 		*/
-		private System.Collections.Generic.List<Work> work_list;
+		private System.Collections.Generic.List<WorkItem> work_list;
 
 		/** add_list
 		*/
-		private System.Collections.Generic.List<Work> add_list;
+		private System.Collections.Generic.List<WorkItem> add_list;
 
 		/** [シングルトン]constructor
 		*/
@@ -101,10 +101,10 @@ namespace Fee.File
 			this.main_resources = new Main_Resources();
 
 			//work_list
-			this.work_list = new System.Collections.Generic.List<Work>();
+			this.work_list = new System.Collections.Generic.List<WorkItem>();
 
 			//add_list
-			this.add_list = new System.Collections.Generic.List<Work>();
+			this.add_list = new System.Collections.Generic.List<WorkItem>();
 		}
 
 		/** [シングルトン]削除。
@@ -172,96 +172,96 @@ namespace Fee.File
 
 			case LoadRequestType.LoadLocalBinaryFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadLocalBinaryFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadLocalBinaryFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 			case LoadRequestType.LoadLocalTextFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadLocalTextFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadLocalTextFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 			case LoadRequestType.LoadLocalTextureFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadLocalTextureFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadLocalTextureFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 
 			//ロードストリーミングアセット。
 
 			case LoadRequestType.LoadStreamingAssetsBinaryFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadStreamingAssetsBinaryFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadStreamingAssetsBinaryFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 			case LoadRequestType.LoadStreamingAssetsTextFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadStreamingAssetsTextFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadStreamingAssetsTextFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 			case LoadRequestType.LoadStreamingAssetsTextureFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadStreamingAssetsTextureFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadStreamingAssetsTextureFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 
 			//ロードリソース。
 
 			case LoadRequestType.LoadResourcesTextFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadResourcesTextFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadResourcesTextFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 			case LoadRequestType.LoadResourcesTextureFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadResourcesTextureFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadResourcesTextureFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 			case LoadRequestType.LoadResourcesPrefabFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadResourcesPrefabFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadResourcesPrefabFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 
 			//ロードＵＲＬ。
 
 			case LoadRequestType.LoadUrlBinaryFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadUrlBinaryFile(a_path,a_post_data);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadUrlBinaryFile(a_path,a_post_data);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 			case LoadRequestType.LoadUrlTextFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadUrlTextFile(a_path,a_post_data);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadUrlTextFile(a_path,a_post_data);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 			case LoadRequestType.LoadUrlTextureFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadUrlTextureFile(a_path,a_post_data);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadUrlTextureFile(a_path,a_post_data);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 
 			#if(UNITY_EDITOR)
@@ -270,35 +270,18 @@ namespace Fee.File
 
 			case LoadRequestType.LoadAssetsBinaryFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadAssetsBinaryFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadAssetsBinaryFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
 			case LoadRequestType.LoadAssetsTextFile:
 				{
-					Work t_work = new Work();
-					t_work.RequestLoadAssetsTextFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadAssetsTextFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
 				}break;
-				/*
-			case LoadRequestType.LoadAssetsPrefabFile:
-				{
-					Work t_work = new Work();
-					t_work.RequestLoadAssetsPrefabFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
-				}break;
-			case LoadRequestType.LoadAssetsTextureFile:
-				{
-					Work t_work = new Work();
-					t_work.RequestLoadAssetsTextureFile(a_path);
-					this.add_list.Add(t_work);
-					return t_work.GetItem();
-				}break;
-				*/
-
 			#endif
 
 			}
@@ -311,30 +294,30 @@ namespace Fee.File
 		*/
 		public Item RequestSaveLocalBinaryFile(Path a_relative_path,byte[] a_binary)
 		{
-			Work t_work = new Work();
-			t_work.RequestSaveLocalBinaryFile(a_relative_path,a_binary);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			WorkItem t_work_item = new WorkItem();
+			t_work_item.RequestSaveLocalBinaryFile(a_relative_path,a_binary);
+			this.add_list.Add(t_work_item);
+			return t_work_item.GetItem();
 		}
 
 		/** リクエスト。セーブローカル。テキストファイル。
 		*/
 		public Item RequestSaveLocalTextFile(Path a_relative_path,string a_text)
 		{
-			Work t_work = new Work();
-			t_work.RequestSaveLocalTextFile(a_relative_path,a_text);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			WorkItem t_work_item = new WorkItem();
+			t_work_item.RequestSaveLocalTextFile(a_relative_path,a_text);
+			this.add_list.Add(t_work_item);
+			return t_work_item.GetItem();
 		}
 
 		/** リクエスト。セーブローカル。テクスチャファイル。
 		*/
 		public Item RequestSaveLocalTextureFile(Path a_relative_path,UnityEngine.Texture2D a_texture)
 		{
-			Work t_work = new Work();
-			t_work.RequestSaveLocalTextureFile(a_relative_path,a_texture);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			WorkItem t_work_item = new WorkItem();
+			t_work_item.RequestSaveLocalTextureFile(a_relative_path,a_texture);
+			this.add_list.Add(t_work_item);
+			return t_work_item.GetItem();
 		}
 
 		/** 処理中。チェック。

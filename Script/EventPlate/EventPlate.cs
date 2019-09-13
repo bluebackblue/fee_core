@@ -68,7 +68,7 @@ namespace Fee.EventPlate
 
 		/** worklist
 		*/
-		private Work[] worklist;
+		private WorkItem[] worklist;
 
 		/** [シングルトン]constructor
 		*/
@@ -79,9 +79,9 @@ namespace Fee.EventPlate
 			this.pos.y = 0;
 
 			//worklist
-			this.worklist = new Work[(int)EventType.Max];
+			this.worklist = new WorkItem[(int)EventType.Max];
 			for(int ii=0;ii<this.worklist.Length;ii++){
-				this.worklist[ii] = new Work();
+				this.worklist[ii] = new WorkItem();
 			}
 		}
 

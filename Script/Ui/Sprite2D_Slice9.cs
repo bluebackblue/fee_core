@@ -12,9 +12,9 @@
 */
 namespace Fee.Ui
 {
-	/** Slice9Sprite
+	/** Sprite2D_Slice9
 	*/
-	public class Slice9Sprite : Fee.Deleter.OnDelete_CallBackInterface
+	public class Sprite2D_Slice9 : Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** deleter
 		*/
@@ -22,15 +22,15 @@ namespace Fee.Ui
 
 		/** sprite
 		*/
-		private Fee.Ui.ClipSprite sprite_1;
-		private Fee.Ui.ClipSprite sprite_2;
-		private Fee.Ui.ClipSprite sprite_3;
-		private Fee.Ui.ClipSprite sprite_4;
-		private Fee.Ui.ClipSprite sprite_5;
-		private Fee.Ui.ClipSprite sprite_6;
-		private Fee.Ui.ClipSprite sprite_7;
-		private Fee.Ui.ClipSprite sprite_8;
-		private Fee.Ui.ClipSprite sprite_9;
+		private Fee.Ui.Sprite2D_Clip sprite_1;
+		private Fee.Ui.Sprite2D_Clip sprite_2;
+		private Fee.Ui.Sprite2D_Clip sprite_3;
+		private Fee.Ui.Sprite2D_Clip sprite_4;
+		private Fee.Ui.Sprite2D_Clip sprite_5;
+		private Fee.Ui.Sprite2D_Clip sprite_6;
+		private Fee.Ui.Sprite2D_Clip sprite_7;
+		private Fee.Ui.Sprite2D_Clip sprite_8;
+		private Fee.Ui.Sprite2D_Clip sprite_9;
 
 		/** rect
 		*/
@@ -131,21 +131,21 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Slice9Sprite(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public Sprite2D_Slice9(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();
 
 			//sprite
-			this.sprite_1 = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority);
-			this.sprite_2 = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority);
-			this.sprite_3 = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority);
-			this.sprite_4 = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority);
-			this.sprite_5 = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority);
-			this.sprite_6 = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority);
-			this.sprite_7 = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority);
-			this.sprite_8 = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority);
-			this.sprite_9 = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority);
+			this.sprite_1 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
+			this.sprite_2 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
+			this.sprite_3 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
+			this.sprite_4 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
+			this.sprite_5 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
+			this.sprite_6 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
+			this.sprite_7 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
+			this.sprite_8 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
+			this.sprite_9 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
 
 			//corner_size
 			this.corner_size = 0;

@@ -72,7 +72,7 @@ namespace Fee.Fade
 
 		/** sprite
 		*/
-		private Fade_Sprite2D sprite;
+		private Sprite2D_Fade sprite;
 
 		/** [シングルトン]constructor
 		*/
@@ -85,7 +85,7 @@ namespace Fee.Fade
 			this.flag.Initialize();
 		
 			//sprite
-			this.sprite = new Fade_Sprite2D(this.deleter,(Fee.Render2D.Render2D.MAX_LAYER - 1) * Fee.Render2D.Render2D.DRAWPRIORITY_STEP);
+			this.sprite = new Sprite2D_Fade(this.deleter,(Fee.Render2D.Render2D.MAX_LAYER - 1) * Fee.Render2D.Render2D.DRAWPRIORITY_STEP);
 			this.sprite.SetTextureRect(0.0f,0.0f,Fee.Render2D.Render2D.TEXTURE_W,Fee.Render2D.Render2D.TEXTURE_H);
 			this.sprite.SetColor(0.0f,0.0f,0.0f,0.0f);
 			this.sprite.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);

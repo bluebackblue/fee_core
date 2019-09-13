@@ -36,7 +36,7 @@ namespace Fee.Ui
 			base(a_deleter,a_drawpriority,a_scroll_type,a_item_length)
 		{
 			//背景。
-			this.bg = new Fee.Render2D.Sprite2D(this.deleter,a_drawpriority);
+			this.bg = Fee.Render2D.Render2D.GetInstance().Sprite2D_PoolNew(this.deleter,a_drawpriority);
 			this.bg.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg.SetRect(0,0,0,0);
 			this.bg.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
@@ -47,7 +47,7 @@ namespace Fee.Ui
 			this.bar_drawpriority_offset = 1;
 
 			//バー。
-			this.bar = new Fee.Render2D.Sprite2D(this.deleter,a_drawpriority + this.bar_drawpriority_offset);
+			this.bar = Fee.Render2D.Render2D.GetInstance().Sprite2D_PoolNew(this.deleter,a_drawpriority + this.bar_drawpriority_offset);
 			this.bar.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bar.SetRect(0,0,5,5);
 			this.bar.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);

@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief アセットバンドルリスト。ワーク。
+ * @brief アセットバンドルリスト。ワークアイテム。
 */
 
 
@@ -12,9 +12,9 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** Work
+	/** WorkItem
 	*/
-	public class Work
+	public class WorkItem
 	{
 		/** Mode
 		*/
@@ -91,7 +91,7 @@ namespace Fee.AssetBundleList
 
 		/** constructor
 		*/
-		public Work()
+		public WorkItem()
 		{
 			//mode
 			this.mode = Mode.Start;

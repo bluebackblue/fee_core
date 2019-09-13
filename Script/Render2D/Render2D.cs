@@ -110,7 +110,7 @@ namespace Fee.Render2D
 		public delegate void OnChangeScreenSize();
 		OnChangeScreenSize callback_on_change_screen_size;
 
-		/** [シングルトン]constructor。
+		/** [シングルトン]constructor
 		*/
 		private Render2D()
 		{
@@ -158,6 +158,10 @@ namespace Fee.Render2D
 			//タスク終了。
 			this.task_calcvertex.Delete();
 			this.task_sortlist.Delete();
+
+			this.spritelist.Delete();
+			//TODO:this.textlist.Delete();
+			//TODO:this.inputfieldlist.Delete();
 
 			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
@@ -290,15 +294,23 @@ namespace Fee.Render2D
 
 		/** スプライト作成。
 		*/
-		public void AddSprite2D(Sprite2D a_sprite)
+		public Sprite2D Sprite2D_PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
-			this.spritelist.Add(a_sprite);
+			return this.spritelist.PoolNew(a_deleter,a_drawpriority);
+		}
+
+		/** スプライト作成。
+		*/
+		public void Sprite2D_Regist(Sprite2D a_sprite)
+		{
+			this.spritelist.Regist(a_sprite);
 		}
 
 		/** テキスト作成。
 		*/
 		public void AddText2D(Text2D a_text)
 		{
+
 			this.textlist.Add(a_text);
 		}
 

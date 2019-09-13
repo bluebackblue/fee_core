@@ -18,27 +18,27 @@ namespace Fee.Ui
 	{
 		/** bg_normal_sprite
 		*/
-		private Fee.Ui.Slice9Sprite bg_normal_sprite;
+		private Fee.Ui.Sprite2D_Slice9 bg_normal_sprite;
 
 		/** bg_lock_sprite
 		*/
-		private Fee.Ui.Slice9Sprite bg_lock_sprite;
+		private Fee.Ui.Sprite2D_Slice9 bg_lock_sprite;
 
 		/** value_normal_sprite
 		*/
-		private Fee.Ui.Slice9Sprite value_normal_sprite;
+		private Fee.Ui.Sprite2D_Slice9 value_normal_sprite;
 
 		/** value_lock_sprite
 		*/
-		private Fee.Ui.Slice9Sprite value_lock_sprite;
+		private Fee.Ui.Sprite2D_Slice9 value_lock_sprite;
 
 		/** button_normal_sprite
 		*/
-		private Fee.Ui.Slice9Sprite button_normal_sprite;
+		private Fee.Ui.Sprite2D_Slice9 button_normal_sprite;
 
 		/** button_lock_sprite
 		*/
-		private Fee.Ui.Slice9Sprite button_lock_sprite;
+		private Fee.Ui.Sprite2D_Slice9 button_lock_sprite;
 
 		/** constructor
 		*/
@@ -47,32 +47,32 @@ namespace Fee.Ui
 			base(a_deleter,a_drawpriority)
 		{
 			//bg_normal_sprite
-			this.bg_normal_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority + 0);
+			this.bg_normal_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 0);
 			this.bg_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg_normal_sprite.SetVisible(true);
 
 			//bg_lock_sprite
-			this.bg_lock_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority + 0);
+			this.bg_lock_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 0);
 			this.bg_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg_lock_sprite.SetVisible(false);
 
 			//value_normal_sprite
-			this.value_normal_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority + 1);
+			this.value_normal_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 1);
 			this.value_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.value_normal_sprite.SetVisible(true);
 
 			//value_lock_sprite
-			this.value_lock_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority + 1);
+			this.value_lock_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 1);
 			this.value_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.value_lock_sprite.SetVisible(false);
 
 			//button_normal_sprite
-			this.button_normal_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority + 2);
+			this.button_normal_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 2);
 			this.button_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.button_normal_sprite.SetVisible(true);
 
 			//button_lock_sprite
-			this.button_lock_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority + 2);
+			this.button_lock_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 2);
 			this.button_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.button_lock_sprite.SetVisible(false);
 		}

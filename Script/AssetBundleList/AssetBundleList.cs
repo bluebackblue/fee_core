@@ -64,11 +64,11 @@ namespace Fee.AssetBundleList
 
 		/** work_list
 		*/
-		private System.Collections.Generic.List<Work> work_list;
+		private System.Collections.Generic.List<WorkItem> work_list;
 
 		/** add_list
 		*/
-		private System.Collections.Generic.List<Work> add_list;
+		private System.Collections.Generic.List<WorkItem> add_list;
 
 		/** main_pack
 		*/
@@ -91,10 +91,10 @@ namespace Fee.AssetBundleList
 		private AssetBundleList()
 		{
 			//work_list
-			this.work_list = new System.Collections.Generic.List<Work>();
+			this.work_list = new System.Collections.Generic.List<WorkItem>();
 
 			//add_list
-			this.add_list = new System.Collections.Generic.List<Work>();
+			this.add_list = new System.Collections.Generic.List<WorkItem>();
 
 			//main_pack
 			this.main_pack = new Main_Pack();
@@ -158,10 +158,10 @@ namespace Fee.AssetBundleList
 		*/
 		public Item RequestLoadPathItemPackItem(string a_id)
 		{
-			Work t_work = new Work();
-			t_work.RequestLoadPathItemPackItem(a_id);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			WorkItem t_work_item = new WorkItem();
+			t_work_item.RequestLoadPathItemPackItem(a_id);
+			this.add_list.Add(t_work_item);
+			return t_work_item.GetItem();
 		}
 
 		/** アンロード。パックアイテム。
@@ -171,10 +171,10 @@ namespace Fee.AssetBundleList
 		*/
 		public Item RequestUnLoadPackItem(string a_id)
 		{
-			Work t_work = new Work();
-			t_work.RequestUnLoadPackItem(a_id);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			WorkItem t_work_item = new WorkItem();
+			t_work_item.RequestUnLoadPackItem(a_id);
+			this.add_list.Add(t_work_item);
+			return t_work_item.GetItem();
 		}
 
 		/** ロードパックアイテム。テキストファイル。
@@ -184,10 +184,10 @@ namespace Fee.AssetBundleList
 		*/
 		public Item RequestLoadPackItemTextFile(string a_id,string a_asset_name)
 		{
-			Work t_work = new Work();
-			t_work.RequestLoadPackItemTextFile(a_id,a_asset_name);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			WorkItem t_work_item = new WorkItem();
+			t_work_item.RequestLoadPackItemTextFile(a_id,a_asset_name);
+			this.add_list.Add(t_work_item);
+			return t_work_item.GetItem();
 		}
 
 		/** ロードパックアイテム。テクスチャファイル。
@@ -197,10 +197,10 @@ namespace Fee.AssetBundleList
 		*/
 		public Item RequestLoadPackItemTextureFile(string a_id,string a_asset_name)
 		{
-			Work t_work = new Work();
-			t_work.RequestLoadPackItemTextureFile(a_id,a_asset_name);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			WorkItem t_work_item = new WorkItem();
+			t_work_item.RequestLoadPackItemTextureFile(a_id,a_asset_name);
+			this.add_list.Add(t_work_item);
+			return t_work_item.GetItem();
 		}
 
 		/** ロードパックアイテム。プレハブファイル。
@@ -210,10 +210,10 @@ namespace Fee.AssetBundleList
 		*/
 		public Item RequestLoadPackItemPrefabFile(string a_id,string a_asset_name)
 		{
-			Work t_work = new Work();
-			t_work.RequestLoadPackItemPrefabFile(a_id,a_asset_name);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			WorkItem t_work_item = new WorkItem();
+			t_work_item.RequestLoadPackItemPrefabFile(a_id,a_asset_name);
+			this.add_list.Add(t_work_item);
+			return t_work_item.GetItem();
 		}
 
 		/** [シングルトン]削除。

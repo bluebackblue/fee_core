@@ -18,10 +18,10 @@ namespace Fee.Ui
 	{
 		/** sprite
 		*/
-		private Fee.Ui.Slice9Sprite normal_sprite;
-		private Fee.Ui.Slice9Sprite on_sprite;
-		private Fee.Ui.Slice9Sprite down_sprite;
-		private Fee.Ui.Slice9Sprite lock_sprite;
+		private Fee.Ui.Sprite2D_Slice9 normal_sprite;
+		private Fee.Ui.Sprite2D_Slice9 on_sprite;
+		private Fee.Ui.Sprite2D_Slice9 down_sprite;
+		private Fee.Ui.Sprite2D_Slice9 lock_sprite;
 
 		/** text
 		*/
@@ -41,19 +41,19 @@ namespace Fee.Ui
 			base(a_deleter,a_drawpriority)
 		{
 			//sprite
-			this.normal_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority);
+			this.normal_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority);
 			this.normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.normal_sprite.SetVisible(true);
 
-			this.on_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority);
+			this.on_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority);
 			this.on_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.on_sprite.SetVisible(false);
 
-			this.down_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority);
+			this.down_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority);
 			this.down_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.down_sprite.SetVisible(false);
 
-			this.lock_sprite = new Fee.Ui.Slice9Sprite(this.deleter,a_drawpriority);
+			this.lock_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority);
 			this.lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.lock_sprite.SetVisible(false);
 

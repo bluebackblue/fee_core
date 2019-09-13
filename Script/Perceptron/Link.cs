@@ -32,7 +32,7 @@ namespace Fee.Perceptron
 		*/
 		public float weight_change_rate;
 
-		/** constructor。
+		/** constructor
 		*/
 		public Link(Node a_node_from,Node a_node_to)
 		{

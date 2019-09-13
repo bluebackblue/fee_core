@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief サウンドプール。ワーク。
+ * @brief サウンドプール。ワークアイテム。
 */
 
 
@@ -12,9 +12,9 @@
 */
 namespace Fee.SoundPool
 {
-	/** Work
+	/** WorkItem
 	*/
-	public class Work
+	public class WorkItem
 	{
 		/** Mode
 		*/
@@ -80,7 +80,7 @@ namespace Fee.SoundPool
 
 		/** constructor
 		*/
-		public Work()
+		public WorkItem()
 		{
 			//mode
 			this.mode = Mode.Start;

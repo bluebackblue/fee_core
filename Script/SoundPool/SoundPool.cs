@@ -68,11 +68,11 @@ namespace Fee.SoundPool
 
 		/** work_list
 		*/
-		private System.Collections.Generic.List<Work> work_list;
+		private System.Collections.Generic.List<WorkItem> work_list;
 
 		/** add_list
 		*/
-		private System.Collections.Generic.List<Work> add_list;
+		private System.Collections.Generic.List<WorkItem> add_list;
 
 		/** [シングルトン]constructor
 		*/
@@ -82,10 +82,10 @@ namespace Fee.SoundPool
 			this.main_file = new Main_File();
 
 			//work_list
-			this.work_list = new System.Collections.Generic.List<Work>();
+			this.work_list = new System.Collections.Generic.List<WorkItem>();
 
 			//add_list
-			this.add_list = new System.Collections.Generic.List<Work>();
+			this.add_list = new System.Collections.Generic.List<WorkItem>();
 		}
 
 		/** [シングルトン]削除。
@@ -108,10 +108,10 @@ namespace Fee.SoundPool
 		*/
 		public Item RequestLoadLocalSoundPool(Fee.File.Path a_relative_path)
 		{
-			Work t_work = new Work();
-			t_work.RequestLoadLocalSoundPool(a_relative_path);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			WorkItem t_work_item = new WorkItem();
+			t_work_item.RequestLoadLocalSoundPool(a_relative_path);
+			this.add_list.Add(t_work_item);
+			return t_work_item.GetItem();
 		}
 
 		/** リクエスト。ロードストリーミングアセット。サウンドプール。
@@ -121,10 +121,10 @@ namespace Fee.SoundPool
 		*/
 		public Item RequestLoadStreamingAssetsSoundPool(Fee.File.Path a_relative_path,uint a_data_version)
 		{
-			Work t_work = new Work();
-			t_work.RequestLoadStreamingAssetsSoundPool(a_relative_path,a_data_version);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			WorkItem t_work_item = new WorkItem();
+			t_work_item.RequestLoadStreamingAssetsSoundPool(a_relative_path,a_data_version);
+			this.add_list.Add(t_work_item);
+			return t_work_item.GetItem();
 		}
 
 		/** リクエスト。ロードＵＲＬ。サウンドプール。
@@ -134,10 +134,10 @@ namespace Fee.SoundPool
 		*/
 		public Item RequestLoadUrlSoundPool(File.Path a_path,UnityEngine.WWWForm a_post_data,uint a_data_version)
 		{
-			Work t_work = new Work();
-			t_work.RequestLoadUrlBinaryFile(a_path,a_post_data,a_data_version);
-			this.add_list.Add(t_work);
-			return t_work.GetItem();
+			WorkItem t_work_item = new WorkItem();
+			t_work_item.RequestLoadUrlBinaryFile(a_path,a_post_data,a_data_version);
+			this.add_list.Add(t_work_item);
+			return t_work_item.GetItem();
 		}
 
 		/** 処理中。チェック。

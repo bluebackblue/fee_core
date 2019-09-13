@@ -147,7 +147,7 @@ namespace Fee.AssetBundleList
 			//アセットバンドルの読み込み。
 			{
 				//アセットバンドル。
-				Progress t_progress = new Progress(new float[]{
+				Fee.Pattern.Progress t_progress = new Fee.Pattern.Progress(new float[]{
 					0.5f,	
 					0.5f
 				});
@@ -187,7 +187,7 @@ namespace Fee.AssetBundleList
 					do{
 						//■ステップ０。
 						if(a_callback_interface != null){
-							t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_0_LoadBinary,(int)Progress_MainStep.Max,0,1);
+							t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_0_LoadBinary,0,1);
 							a_callback_interface.OnAssetBundleListCoroutine(t_progress.CalcProgress(t_item_bianry.GetResultProgress()));
 						}
 						yield return null;
@@ -222,7 +222,7 @@ namespace Fee.AssetBundleList
 					do{
 						//■ステップ１。
 						if(a_callback_interface != null){
-							t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_1_LoadFromMemoryAsync,(int)Progress_MainStep.Max,0,1);
+							t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_1_LoadFromMemoryAsync,0,1);
 							a_callback_interface.OnAssetBundleListCoroutine(t_progress.CalcProgress(t_request.progress));
 						}
 						yield return null;

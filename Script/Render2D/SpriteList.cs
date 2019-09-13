@@ -20,6 +20,10 @@ namespace Fee.Render2D
 		*/
 		private System.Collections.Generic.List<Sprite2D> list;
 
+		/** pool_list
+		*/
+		private Fee.Pool.PoolList<Sprite2D> pool_list;
+
 		/** sortend_flag
 		*/
 		public bool sortend_flag;
@@ -43,6 +47,9 @@ namespace Fee.Render2D
 			//list
 			this.list = new System.Collections.Generic.List<Sprite2D>();
 
+			//pool_list
+			this.pool_list = new Fee.Pool.PoolList<Sprite2D>(100);
+
 			//sortend_flag
 			this.sortend_flag = true;
 
@@ -56,9 +63,18 @@ namespace Fee.Render2D
 			this.delete_request_flag = true;
 		}
 
-		/** 追加。
+		/** プールから作成。
 		*/
-		public void Add(Sprite2D a_item)
+		public Sprite2D PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		{
+			Sprite2D t_sprite = this.pool_list.PoolNew();
+			t_sprite.PoolNew(a_deleter,a_drawpriority);
+			return t_sprite;
+		}
+
+		/** 登録。
+		*/
+		public void Regist(Sprite2D a_item)
 		{
 			this.list.Add(a_item);
 			this.sort_request_flag = true;
@@ -69,7 +85,11 @@ namespace Fee.Render2D
 		public void RemoveDeletedItem()
 		{
 			this.list.RemoveAll((Fee.Render2D.Sprite2D a_item) => {
-				return a_item.IsDelete();
+				if(a_item.IsDelete() == true){
+					this.pool_list.PoolDelete(a_item);
+					return true;
+				}
+				return false;
 			});
 		}
 
@@ -78,7 +98,7 @@ namespace Fee.Render2D
 		public void Sort()
 		{
 			this.list.Sort((Sprite2D a_test,Sprite2D a_target) => {
-					return (int)(a_test.GetDrawPriority() - a_target.GetDrawPriority());
+				return (int)(a_test.GetDrawPriority() - a_target.GetDrawPriority());
 			});
 		}
 
@@ -102,6 +122,17 @@ namespace Fee.Render2D
 		{
 			for(int ii=0;ii<this.list.Count;ii++){
 				this.list[ii].RequestReCalcVertex();
+			}
+		}
+
+		/** 削除。
+		*/
+		public void Delete()
+		{
+			this.pool_list.MemoryDelete();
+			for(int ii=0;ii<this.list.Count;ii++){
+				//this.list[ii].PoolDelete();
+				this.list[ii].MemoryDelete();
 			}
 		}
 	}

@@ -65,7 +65,7 @@ namespace Fee.SoundPool
 			//result
 			this.result = new ResultType();
 
-			Progress t_progress = new Progress(new float[]{
+			Fee.Pattern.Progress t_progress = new Fee.Pattern.Progress(new float[]{
 				0.05f,
 				0.1f,
 				0.8f,
@@ -83,7 +83,7 @@ namespace Fee.SoundPool
 				do{
 					//■ステップ０。
 					if(a_callback_interface != null){
-						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_0_LoadLocal_SoundPool,(int)Progress_MainStep.Max,0,1);
+						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_0_LoadLocal_SoundPool,0,1);
 						a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
 					}
 					yield return null;
@@ -151,7 +151,7 @@ namespace Fee.SoundPool
 				do{
 					//■ステップ１。
 					if(a_callback_interface != null){
-						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_1_Load_SoundPool,(int)Progress_MainStep.Max,0,1);
+						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_1_Load_SoundPool,0,1);
 						a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
 					}
 					yield return null;
@@ -206,7 +206,7 @@ namespace Fee.SoundPool
 						do{
 							//■ステップ２。
 							if(a_callback_interface != null){
-								t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_2_Sound,(int)Progress_MainStep.Max,ii * 2 + 0,t_load_soundpool.name_list.Count * 2);
+								t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_2_Sound,ii * 2 + 0,t_load_soundpool.name_list.Count * 2);
 								a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
 							}
 							yield return null;
@@ -231,7 +231,7 @@ namespace Fee.SoundPool
 						do{
 							//■ステップ２。
 							if(a_callback_interface != null){
-								t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_2_Sound,(int)Progress_MainStep.Max,ii * 2 + 1,t_load_soundpool.name_list.Count * 2);
+								t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_2_Sound,ii * 2 + 1,t_load_soundpool.name_list.Count * 2);
 								a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
 							}
 							yield return null;
@@ -255,7 +255,7 @@ namespace Fee.SoundPool
 				do{
 					//■ステップ３。
 					if(a_callback_interface != null){
-						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_3_SaveLocal_SoundPool,(int)Progress_MainStep.Max,0,1);
+						t_progress.SetStep((int)Progress_MainStep.Progress_MainStep_3_SaveLocal_SoundPool,0,1);
 						a_callback_interface.OnSoundPoolCoroutine(t_progress.CalcProgress(t_item.GetResultProgress()));
 					}
 					yield return null;

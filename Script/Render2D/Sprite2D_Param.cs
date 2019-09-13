@@ -32,6 +32,12 @@ namespace Fee.Render2D
 		*/
 		public void Initialize()
 		{
+		}
+
+		/** プールから作成。
+		*/
+		public void PoolNew()
+		{
 			//テクスチャ。
 			this.texture = null;
 
@@ -40,6 +46,22 @@ namespace Fee.Render2D
 
 			//マテリアルタイプ。
 			this.materialtype = Config.DEFALUT_SPRITE_MATERIALTYPE;
+		}
+
+		/** プールへ削除。
+		*/
+		public void PoolDelete()
+		{
+			//テキスチャ。
+			this.texture = null;
+		}
+
+		/** メモリから削除。
+		*/
+		public void MemoryDelete()
+		{
+			//テキスチャ。
+			this.texture = null;
 		}
 
 		/** テクスチャ。設定。
@@ -92,14 +114,6 @@ namespace Fee.Render2D
 		public Render2D.MaterialType GetMaterialType()
 		{
 			return this.materialtype;
-		}
-
-		/** 削除。
-		*/
-		public void Delete()
-		{
-			//テキスチャ。
-			this.texture = null;
 		}
 	}
 }

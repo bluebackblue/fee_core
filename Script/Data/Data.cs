@@ -72,11 +72,11 @@ namespace Fee.Data
 
 		/** work_list
 		*/
-		private System.Collections.Generic.List<Work> work_list;
+		private System.Collections.Generic.List<WorkItem> work_list;
 
 		/** add_list
 		*/
-		private System.Collections.Generic.List<Work> add_list;
+		private System.Collections.Generic.List<WorkItem> add_list;
 
 		/** [シングルトン]constructor
 		*/
@@ -89,10 +89,10 @@ namespace Fee.Data
 			this.main_load = new Main_Load();
 
 			//work_list
-			this.work_list = new System.Collections.Generic.List<Work>();
+			this.work_list = new System.Collections.Generic.List<WorkItem>();
 
 			//add_list
-			this.add_list = new System.Collections.Generic.List<Work>();
+			this.add_list = new System.Collections.Generic.List<WorkItem>();
 		}
 
 		/** [シングルトン]削除。
@@ -135,7 +135,7 @@ namespace Fee.Data
 		{
 			ListItem t_item;
 			if(this.list.TryGetValue(a_id,out t_item) == true){
-				Work t_work = new Work();
+				WorkItem t_work = new WorkItem();
 				t_work.RequestLoad(t_item);
 				this.add_list.Add(t_work);
 				return t_work.GetItem();

@@ -68,11 +68,11 @@ namespace Fee.UniVrm
 
 		/** work_list
 		*/
-		private System.Collections.Generic.List<Work> work_list;
+		private System.Collections.Generic.List<WorkItem> work_list;
 
 		/** add_list
 		*/
-		private System.Collections.Generic.List<Work> add_list;
+		private System.Collections.Generic.List<WorkItem> add_list;
 
 		/** [シングルトン]constructor
 		*/
@@ -82,10 +82,10 @@ namespace Fee.UniVrm
 			this.main_vrm = new Main_Vrm();
 
 			//work_list
-			this.work_list = new System.Collections.Generic.List<Work>();
+			this.work_list = new System.Collections.Generic.List<WorkItem>();
 
 			//add_list
-			this.add_list = new System.Collections.Generic.List<Work>();
+			this.add_list = new System.Collections.Generic.List<WorkItem>();
 		}
 
 		/** [シングルトン]削除。
@@ -105,7 +105,7 @@ namespace Fee.UniVrm
 		*/
 		public Item RequestLoadVrm(byte[] a_binary)
 		{
-			Work t_work = new Work();
+			WorkItem t_work = new WorkItem();
 			t_work.RequestLoadVrm(a_binary);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();

@@ -28,9 +28,9 @@ namespace Fee.Render2D
 		*/
 		UnityEngine.Quaternion quaternion;
 
-		/** 初期化。
+		/** プールから作成。
 		*/
-		public void Initialize()
+		public void PoolNew()
 		{
 			//フラグ。
 			this.flag = false;

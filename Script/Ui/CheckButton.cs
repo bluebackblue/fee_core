@@ -18,23 +18,23 @@ namespace Fee.Ui
 	{
 		/** bg_normal_sprite
 		*/
-		private Fee.Ui.Slice9Sprite bg_normal_sprite;
+		private Fee.Ui.Sprite2D_Slice9 bg_normal_sprite;
 
 		/** bg_on_sprite
 		*/
-		private Fee.Ui.Slice9Sprite bg_on_sprite;
+		private Fee.Ui.Sprite2D_Slice9 bg_on_sprite;
 
 		/** bg_lock_sprite
 		*/
-		private Fee.Ui.Slice9Sprite bg_lock_sprite;
+		private Fee.Ui.Sprite2D_Slice9 bg_lock_sprite;
 
 		/** check_normal_sprite
 		*/
-		private Fee.Ui.ClipSprite check_normal_sprite;
+		private Fee.Ui.Sprite2D_Clip check_normal_sprite;
 
 		/** check_lock_sprite
 		*/
-		private Fee.Ui.ClipSprite check_lock_sprite;
+		private Fee.Ui.Sprite2D_Clip check_lock_sprite;
 
 		/** text
 		*/
@@ -51,27 +51,27 @@ namespace Fee.Ui
 			base(a_deleter,a_drawpriority)
 		{
 			//bg_normal_sprite
-			this.bg_normal_sprite = new Slice9Sprite(this.deleter,a_drawpriority + 0);
+			this.bg_normal_sprite = new Sprite2D_Slice9(this.deleter,a_drawpriority + 0);
 			this.bg_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg_normal_sprite.SetVisible(true);
 
 			//bg_on_sprite
-			this.bg_on_sprite = new Slice9Sprite(this.deleter,a_drawpriority + 0);
+			this.bg_on_sprite = new Sprite2D_Slice9(this.deleter,a_drawpriority + 0);
 			this.bg_on_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg_on_sprite.SetVisible(false);
 
 			//bg_lock_sprite
-			this.bg_lock_sprite = new Slice9Sprite(this.deleter,a_drawpriority + 0);
+			this.bg_lock_sprite = new Sprite2D_Slice9(this.deleter,a_drawpriority + 0);
 			this.bg_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg_lock_sprite.SetVisible(false);
 
 			//check_normal_sprite
-			this.check_normal_sprite = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority + 1);
+			this.check_normal_sprite = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority + 1);
 			this.check_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.check_normal_sprite.SetVisible(false);
 
 			//check_lock_sprite
-			this.check_lock_sprite = new Fee.Ui.ClipSprite(this.deleter,a_drawpriority + 1);
+			this.check_lock_sprite = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority + 1);
 			this.check_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.check_lock_sprite.SetVisible(false);
 
