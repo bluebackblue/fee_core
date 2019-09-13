@@ -70,21 +70,21 @@ namespace Fee.AssetBundleList
 		*/
 		private System.Collections.Generic.List<Work> add_list;
 
-		/** main_assetbundle
+		/** main_pack
 		*/
-		private Main_AssetBundle main_assetbundle;
+		private Main_Pack main_pack;
 
 		/** main_asset
 		*/
 		private Main_Asset main_asset;
 
-		/** assetbundlepathlist
+		/** pathlist
 		*/
-		private AssetBundlePathList assetbundlepathlist;
+		private PathList pathlist;
 
-		/** assetbundlepacklist
+		/** packlist
 		*/
-		private AssetBundlePackList assetbundlepacklist;
+		private PackList packlist;
 
 		/** [シングルトン]constructor
 		*/
@@ -96,107 +96,122 @@ namespace Fee.AssetBundleList
 			//add_list
 			this.add_list = new System.Collections.Generic.List<Work>();
 
-			//main_assetbundle
-			this.main_assetbundle = new Main_AssetBundle();
+			//main_pack
+			this.main_pack = new Main_Pack();
 
 			//main_asset
 			this.main_asset = new Main_Asset();
 
-			//assetbundlepathlist
-			this.assetbundlepathlist = new AssetBundlePathList();
+			//pathlist
+			this.pathlist = new PathList();
 
-			//assetbundlepacklist
-			this.assetbundlepacklist = new AssetBundlePackList();
+			//packlist
+			this.packlist = new PackList();
 		}
 
-		/** [パス]パス。登録。
+		/** パスアイテム。登録。
 		*/
-		public void RegisterPath(string a_assetbundle_name,AssetBundlePathList_PathType a_pathtype,Fee.File.Path a_path)
+		public void RegistPathItem(string a_assetbundle_name,AssetBundlePathType a_assetbundle_pathtype,Fee.File.Path a_path)
 		{
-			this.assetbundlepathlist.Register(a_assetbundle_name,a_pathtype,a_path);
+			this.pathlist.Regist(a_assetbundle_name,a_assetbundle_pathtype,a_path);
 		}
 
-		/** [パス]パス。解除。
+		/** パスアイテム。解除。
 		*/
-		public void UnRegisterPath(string a_assetbundle_name)
+		public void UnRegistPathItem(string a_assetbundle_name)
 		{
-			this.assetbundlepathlist.UnRegister(a_assetbundle_name);
+			this.pathlist.UnRegist(a_assetbundle_name);
 		}
 
-		/** [パス]パスアイテム。取得。
+		/** パスアイテム。取得。
 		*/
-		public AssetBundlePathList_PathItem GetPathItem(string a_assetbundle_name)
+		public PathItem GetPathItem(string a_assetbundle_name)
 		{
-			return this.assetbundlepathlist.GetPathItem(a_assetbundle_name);
+			return this.pathlist.GetItem(a_assetbundle_name);
 		}
 
-		/** [アセットバンドル]アセットバンドルアイテム。取得。
+		/** パックアイテム。取得。
 		*/
-		public AssetBundlePackList_AssetBundleItem GetAssetBundleItem(string a_assetbundle_name)
+		public PackItem GetPackItem(string a_assetbundle_name)
 		{
-			return this.assetbundlepacklist.GetAssetBundleItem(a_assetbundle_name);
+			return this.packlist.GetItem(a_assetbundle_name);
 		}
 
-		/** [アセットバンドル]アセットバンドルアイテム。登録。
+		/** パックアイテム。登録。
 		*/
-		public void RegisterAssetBundle(string a_assetbundle_name,AssetBundlePackList_AssetBundleItem a_item)
+		public void RegistPackItem(string a_assetbundle_name,PackItem a_item)
 		{
-			this.assetbundlepacklist.Register(a_assetbundle_name,a_item);
+			this.packlist.Regist(a_assetbundle_name,a_item);
 		}
 
-		/** [アセットバンドル]アセットバンドルアイテム。解除。
+		/** パックアイテム。解除。
 		*/
-		public void UnRegisterAssetBundle(string a_assetbundle_name)
+		public void UnRegistPackItem(string a_assetbundle_name)
 		{
-			this.assetbundlepacklist.UnRegister(a_assetbundle_name);
+			this.packlist.UnRegist(a_assetbundle_name);
 		}
 
-		/** ロードパス。アセットバンドルアイテム。
+		/** ロードパス。パックアイテム。
+
+			パスアイテムからパックアイテムをロード。
+
 		*/
-		public Item RequestLoadPathAssetBundleItem(string a_id)
+		public Item RequestLoadPathItemPackItem(string a_id)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadPathAssetBundleItem(a_id);
+			t_work.RequestLoadPathItemPackItem(a_id);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
-		/** アンロードパス。アセットバンドルアイテム。
+		/** アンロード。パックアイテム。
+
+			パックアイテムをアンロード。
+
 		*/
-		public Item RequestUnLoadPathAssetBundleItem(string a_id)
+		public Item RequestUnLoadPackItem(string a_id)
 		{
 			Work t_work = new Work();
-			t_work.RequestUnLoadPathAssetBundleItem(a_id);
+			t_work.RequestUnLoadPackItem(a_id);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
-		/** ロードアセットバンドルアイテム。テキストファイル。
+		/** ロードパックアイテム。テキストファイル。
+
+			ロード済みのパックアイテムからテキストファイルをロード。
+
 		*/
-		public Item RequestLoadAssetBundleItemTextFile(string a_id,string a_assetname)
+		public Item RequestLoadPackItemTextFile(string a_id,string a_asset_name)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadAssetBundleItemTextFile(a_id,a_assetname);
+			t_work.RequestLoadPackItemTextFile(a_id,a_asset_name);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
-		/** ロードアセットバンドルアイテム。テクスチャファイル。
+		/** ロードパックアイテム。テクスチャファイル。
+
+			ロード済みのパックアイテムからテクスチャーファイルをロード。
+
 		*/
-		public Item RequestLoadAssetBundleItemTextureFile(string a_id,string a_assetname)
+		public Item RequestLoadPackItemTextureFile(string a_id,string a_asset_name)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadAssetBundleItemTextureFile(a_id,a_assetname);
+			t_work.RequestLoadPackItemTextureFile(a_id,a_asset_name);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
 
-		/** ロードアセットバンドルアイテム。プレハブファイル。
+		/** ロードパックアイテム。プレハブファイル。
+
+			ロード済みのパックアイテムからプレハブファイルをロード。
+
 		*/
-		public Item RequestLoadAssetBundleItemPrefabFile(string a_id,string a_assetname)
+		public Item RequestLoadPackItemPrefabFile(string a_id,string a_asset_name)
 		{
 			Work t_work = new Work();
-			t_work.RequestLoadAssetBundleItemPrefabFile(a_id,a_assetname);
+			t_work.RequestLoadPackItemPrefabFile(a_id,a_asset_name);
 			this.add_list.Add(t_work);
 			return t_work.GetItem();
 		}
@@ -205,17 +220,17 @@ namespace Fee.AssetBundleList
 		*/
 		private void Delete()
 		{
-			this.assetbundlepathlist.Delete();
-			this.assetbundlepacklist.Delete();
+			this.pathlist.Delete();
+			this.packlist.Delete();
 
-			this.main_assetbundle.Delete();
+			this.main_pack.Delete();
 		}
 
 		/** メイン。取得。
 		*/
-		public Main_AssetBundle GetMainAssetBundle()
+		public Main_Pack GetMainPack()
 		{
-			return this.main_assetbundle;
+			return this.main_pack;
 		}
 
 		/** メイン。取得。

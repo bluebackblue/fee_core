@@ -32,7 +32,7 @@ namespace Fee.Ui
 			return == true : 新規。
 
 		*/
-		public bool Register(string a_label)
+		public bool Regist(string a_label)
 		{
 			if(this.list.ContainsKey(a_label) == false){
 				this.list.Add(a_label,new WindowResumeItem(a_label));
@@ -43,7 +43,7 @@ namespace Fee.Ui
 
 		/** 解除。
 		*/
-		public void UnRegister(string a_label)
+		public void UnRegist(string a_label)
 		{
 			this.list.Remove(a_label);
 		}

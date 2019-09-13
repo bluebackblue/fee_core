@@ -17,9 +17,12 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** ロードアセットバンドルアイテム。テクスチャファイル。
+	/** ロードアパックアイテム。テクスチャファイル。
+
+		パックアイテムからテクスチャファイルを読み込む。
+
 	*/
-	public class Coroutine_LoadAssetBundleItemTextureFile
+	public class Coroutine_LoadPackItemTextureFile
 	{
 		/** ResultType
 		*/
@@ -58,25 +61,25 @@ namespace Fee.AssetBundleList
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.AssetBundleList.OnAssetBundleListCoroutine_CallBackInterface a_callback_interface,string a_id,string a_assetname)
+		public System.Collections.IEnumerator CoroutineMain(Fee.AssetBundleList.OnAssetBundleListCoroutine_CallBackInterface a_callback_interface,string a_assetbundle_name,string a_asset_name)
 		{
 			//result
 			this.result = new ResultType();
 
-			AssetBundlePackList_AssetBundleItem t_assetbundleitem = Fee.AssetBundleList.AssetBundleList.GetInstance().GetAssetBundleItem(a_id);
+			PackItem t_pack_item = Fee.AssetBundleList.AssetBundleList.GetInstance().GetPackItem(a_assetbundle_name);
 
-			if(t_assetbundleitem == null){
+			if(t_pack_item == null){
 				//失敗。
-				this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
+				this.result.errorstring = "Coroutine_LoadPackItemTextureFile : " + a_assetbundle_name;
 				yield break;
 			}
 
-			if(t_assetbundleitem.assetbundle_dummy != null){
+			if(t_pack_item.assetbundle_dummy != null){
 
-				//ダミーアセットバンドル。
+				//ダミーアセットバンドルが設定されている。
 
 				string t_path;
-				if(t_assetbundleitem.assetbundle_dummy.asset_list.TryGetValue(a_assetname,out t_path) == true){
+				if(t_pack_item.assetbundle_dummy.asset_list.TryGetValue(a_asset_name,out t_path) == true){
 					Fee.File.Item t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadResourcesTextureFile,new File.Path(t_path));
 
 					do{
@@ -96,24 +99,24 @@ namespace Fee.AssetBundleList
 
 					if(t_texture == null){
 						//失敗。
-						this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
+						this.result.errorstring = "Coroutine_LoadPackItemTextureFile : " + a_assetbundle_name;
 						yield break;
 					}
 
 					this.result.asset_file = new Asset.Asset(Asset.AssetType.Texture,t_texture);
 				}else{
 					//失敗。
-					this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
+					this.result.errorstring = "Coroutine_LoadPackItemTextureFile : " + a_assetbundle_name;
 					yield break;
 				}
 
-			}else if(t_assetbundleitem.assetbundle != null){
+			}else if(t_pack_item.assetbundle_raw != null){
 
-				UnityEngine.AssetBundleRequest t_request = t_assetbundleitem.assetbundle.LoadAssetAsync(a_assetname);
+				UnityEngine.AssetBundleRequest t_request = t_pack_item.assetbundle_raw.LoadAssetAsync(a_asset_name);
 
 				if(t_request == null){
 					//失敗。
-					this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
+					this.result.errorstring = "Coroutine_LoadPackItemTextureFile : " + a_assetbundle_name;
 					yield break;
 				}
 
@@ -128,7 +131,7 @@ namespace Fee.AssetBundleList
 
 				if(t_texture == null){
 					//失敗。
-					this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
+					this.result.errorstring = "Coroutine_LoadPackItemTextureFile : " + a_assetbundle_name;
 					yield break;
 				}
 
@@ -138,7 +141,7 @@ namespace Fee.AssetBundleList
 			}
 
 			//失敗。
-			this.result.errorstring = "Coroutine_LoadAssetBundleItemTextureFile : " + a_id;
+			this.result.errorstring = "Coroutine_LoadPackItemTextureFile : " + a_assetbundle_name;
 			yield break;
 		}
 	}

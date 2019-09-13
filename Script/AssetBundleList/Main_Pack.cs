@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief アセットバンドルリスト。アセットバンドル。
+ * @brief アセットバンドルリスト。パック。
 */
 
 
@@ -12,9 +12,9 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** Main_AssetBundle
+	/** Main_Pack
 	*/
-	public class Main_AssetBundle : Fee.AssetBundleList.OnAssetBundleListCoroutine_CallBackInterface
+	public class Main_Pack : Fee.AssetBundleList.OnAssetBundleListCoroutine_CallBackInterface
 	{
 		/** ResultType
 		*/
@@ -28,14 +28,16 @@ namespace Fee.AssetBundleList
 			*/
 			Error,
 
-			/** ロードパス。アセットバンドルアイテム。
-			*/
-			LoadPathAssetBundleItem,
+			/** ロードパスアイテム。パックアイテム。
 
-			/** アンロードパス。アセットバンドルアイテム。
-			*/
-			UnLoadPathAssetBundleItem,
+				パスアイテムからパックアイテムをロード。
 
+			*/
+			LoadPathItemPackItem,
+
+			/** アンロード。パックアイテム。
+			*/
+			UnLoadPackItem,
 		};
 
 		/** is_busy
@@ -66,13 +68,13 @@ namespace Fee.AssetBundleList
 		*/
 		private ResultType result_type;
 
-		/** result_assetbundleitem
+		/** result_pack_item
 		*/
-		private AssetBundlePackList_AssetBundleItem result_assetbundleitem;
+		private PackItem result_pack_item;
 
 		/** constructor
 		*/
-		public Main_AssetBundle()
+		public Main_Pack()
 		{
 			this.is_busy = false;
 			this.is_cancel = false;
@@ -85,7 +87,7 @@ namespace Fee.AssetBundleList
 			this.result_progress = 0.0f;
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
-			this.result_assetbundleitem = null;
+			this.result_pack_item = null;
 		}
 
 		/** 削除。
@@ -130,11 +132,11 @@ namespace Fee.AssetBundleList
 			return this.result_type;
 		}
 
-		/** GetResultAssetBundleItem
+		/** GetResultPackItem
 		*/
-		public AssetBundlePackList_AssetBundleItem GetResultAssetBundleItem()
+		public PackItem GetResultPackItem()
 		{
-			return this.result_assetbundleitem;
+			return this.result_pack_item;
 		}
 
 		/** [Fee.AssetBundleList.OnAssetBundleListCoroutine_CallBackInterface]コルーチン実行中。
@@ -152,9 +154,12 @@ namespace Fee.AssetBundleList
 			return true;
 		}
 
-		/** リクエスト。ロードパス。アセットバンドルアイテム。
+		/** リクエスト。ロードパスアイテム。パックアイテム。
+
+			パスアイテムからパックアイテムをロード。
+
 		*/
-		public bool RequestLoadPathAssetBundleItem(string a_id)
+		public bool RequestLoadPathItemPackItem(string a_id)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -166,29 +171,32 @@ namespace Fee.AssetBundleList
 				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
-				this.result_assetbundleitem = null;
+				this.result_pack_item = null;
 
 				//request
 				this.request_id = a_id;
 
-				Function.Function.StartCoroutine(this.DoLoadPathAssetBundleItem());
+				Function.Function.StartCoroutine(this.DoLoadPathItemPackItem());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ロードパス。アセットバンドルアイテム。
+		/** 実行。ロードパスアイテム。パックアイテム。
+
+			パスアイテムからパックアイテムをロード。
+
 		*/
-		private System.Collections.IEnumerator DoLoadPathAssetBundleItem()
+		private System.Collections.IEnumerator DoLoadPathItemPackItem()
 		{
-			Coroutine_LoadPathAssetBundleItem t_coroutine = new Coroutine_LoadPathAssetBundleItem();
+			Coroutine_LoadPathItemPackItem t_coroutine = new Coroutine_LoadPathItemPackItem();
 			yield return t_coroutine.CoroutineMain(this,this.request_id);
 
-			if(t_coroutine.result.assetbundleitem != null){
+			if(t_coroutine.result.pack_item != null){
 				this.result_progress = 1.0f;
-				this.result_assetbundleitem = t_coroutine.result.assetbundleitem;
-				this.result_type = ResultType.LoadPathAssetBundleItem;
+				this.result_pack_item = t_coroutine.result.pack_item;
+				this.result_type = ResultType.LoadPathItemPackItem;
 				yield break;
 			}else{
 				this.result_progress = 1.0f;
@@ -198,9 +206,9 @@ namespace Fee.AssetBundleList
 			}
 		}
 
-		/** リクエスト。アンロードパス。アセットバンドルアイテム。
+		/** リクエスト。アンロード。パックアイテム。
 		*/
-		public bool RequestUnLoadPathAssetBundleItem(string a_id)
+		public bool RequestUnLoadPackItem(string a_id)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -212,28 +220,28 @@ namespace Fee.AssetBundleList
 				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
-				this.result_assetbundleitem = null;
+				this.result_pack_item = null;
 
 				//request
 				this.request_id = a_id;
 
-				Function.Function.StartCoroutine(this.DoUnLoadPathAssetBundleItem());
+				Function.Function.StartCoroutine(this.DoUnLoadPackItem());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。アンロードパス。アセットバンドルアイテム。
+		/** 実行。アンロード。パックアイテム。
 		*/
-		private System.Collections.IEnumerator DoUnLoadPathAssetBundleItem()
+		private System.Collections.IEnumerator DoUnLoadPackItem()
 		{
-			Coroutine_UnloadPathAssetBundleItem t_coroutine = new Coroutine_UnloadPathAssetBundleItem();
+			Coroutine_UnLoadPackItem t_coroutine = new Coroutine_UnLoadPackItem();
 			yield return t_coroutine.CoroutineMain(this,this.request_id);
 
 			if(t_coroutine.result.unload == true){
 				this.result_progress = 1.0f;
-				this.result_type = ResultType.UnLoadPathAssetBundleItem;
+				this.result_type = ResultType.UnLoadPackItem;
 				yield break;
 			}else{
 				this.result_progress = 1.0f;

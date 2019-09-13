@@ -89,7 +89,7 @@ namespace Fee.Ui
 			this.is_onover = false;
 
 			if(a_deleter != null){
-				a_deleter.Register(this);
+				a_deleter.Regist(this);
 			}
 		}
 

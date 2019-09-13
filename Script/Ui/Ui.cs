@@ -176,16 +176,16 @@ namespace Fee.Ui
 
 		/** ウィンドウ登録。
 		*/
-		public void RegisterWindow(Window_Base a_window)
+		public void RegistWindow(Window_Base a_window)
 		{
-			this.windowlist.Register(a_window);
+			this.windowlist.Regist(a_window);
 		}
 
 		/** ウィンドウ解除。
 		*/
-		public void UnRegisterWindow(Window_Base a_window)
+		public void UnRegistWindow(Window_Base a_window)
 		{
-			this.windowlist.UnRegister(a_window);
+			this.windowlist.UnRegist(a_window);
 		}
 
 		/** ウィンドウを最前面にする。
@@ -221,11 +221,11 @@ namespace Fee.Ui
 			a_new_rect : 新規作成の場合に設定する矩形。
 
 		*/
-		public WindowResumeItem RegisterWindowResume(string a_label,in Fee.Geometry.Rect2D_R<int> a_new_rect)
+		public WindowResumeItem RegistWindowResume(string a_label,in Fee.Geometry.Rect2D_R<int> a_new_rect)
 		{
 			//登録。
 			bool t_is_new = false;
-			if(this.windowresumelist.Register(a_label) == true){
+			if(this.windowresumelist.Regist(a_label) == true){
 				t_is_new = true;
 			}
 
@@ -242,9 +242,9 @@ namespace Fee.Ui
 
 		/** ウィンドウレジューム。解除。
 		*/
-		public void UnRegisterWindowResume(string a_label)
+		public void UnRegistWindowResume(string a_label)
 		{
-			this.windowresumelist.UnRegister(a_label);
+			this.windowresumelist.UnRegist(a_label);
 		}
 
 		/** ウィンドウレジューム。取得。

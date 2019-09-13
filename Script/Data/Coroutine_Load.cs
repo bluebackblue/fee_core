@@ -69,7 +69,7 @@ namespace Fee.Data
 			switch(a_listitem.path_type){
 			case PathType.AssetBundle_Prefab:
 				{
-					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadAssetBundleItemPrefabFile(a_listitem.assetbundle_name,a_listitem.id);
+					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadPackItemPrefabFile(a_listitem.assetbundle_name,a_listitem.id);
 					if(t_assetbundlelist_item == null){
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.assetbundle_name + " : " + a_listitem.id;
@@ -78,7 +78,7 @@ namespace Fee.Data
 				}break;
 			case PathType.AssetBundle_Texture:
 				{
-					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadAssetBundleItemTextureFile(a_listitem.assetbundle_name,a_listitem.id);
+					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadPackItemTextureFile(a_listitem.assetbundle_name,a_listitem.id);
 					if(t_assetbundlelist_item == null){
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.assetbundle_name + " : " + a_listitem.id;
@@ -87,7 +87,7 @@ namespace Fee.Data
 				}break;
 			case PathType.AssetBundle_Text:
 				{
-					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadAssetBundleItemTextFile(a_listitem.assetbundle_name,a_listitem.id);
+					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadPackItemTextFile(a_listitem.assetbundle_name,a_listitem.id);
 					if(t_assetbundlelist_item == null){
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.assetbundle_name + " : " + a_listitem.id;
@@ -234,8 +234,7 @@ namespace Fee.Data
 				}
 
 				//失敗。
-				Tool.Assert(false);
-				this.result.errorstring = "Coroutine_Load : " + a_listitem.assetbundle_name;
+				this.result.errorstring = "Coroutine_Load : " + t_assetbundlelist_item.GetResultErrorString();
 				yield break;
 			}
 
@@ -309,7 +308,7 @@ namespace Fee.Data
 				}
 				
 				//失敗。
-				this.result.errorstring = "Coroutine_Load : " + a_listitem.path.GetPath();
+				this.result.errorstring = "Coroutine_Load : " + t_file_item.GetResultErrorString();
 				yield break;
 			}
 

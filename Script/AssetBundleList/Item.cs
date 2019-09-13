@@ -28,13 +28,13 @@ namespace Fee.AssetBundleList
 			*/
 			Error,
 
-			/** アセットバンドルアイテム。ロード。
+			/** パックアイテム。ロード。
 			*/
-			LoadAssetBundleItem,
+			LoadPackItem,
 
-			/** アセットバンドルアイテム。アンロード。
+			/** パックアイテム。アンロード。
 			*/
-			UnLoadAssetBundleItem,
+			UnLoadPackItem,
 
 			/** アセット。
 			*/
@@ -61,9 +61,9 @@ namespace Fee.AssetBundleList
 		*/
 		private System.Collections.Generic.Dictionary<string,string> result_responseheader;
 
-		/** result_assetbundleitem
+		/** result_packitem
 		*/
-		private AssetBundlePackList_AssetBundleItem result_assetbundleitem;
+		private PackItem result_pack_item;
 
 		/** result_asset
 		*/
@@ -88,8 +88,8 @@ namespace Fee.AssetBundleList
 			//result_responseheader
 			this.result_responseheader = null;
 
-			//result_assetbundleitem
-			this.result_assetbundleitem = null;
+			//result_pack_item
+			this.result_pack_item = null;
 
 			//result_asset
 			this.result_asset = null;
@@ -180,27 +180,26 @@ namespace Fee.AssetBundleList
 			return this.result_responseheader;
 		}
 
-		/** 結果。アセットバンドルアイテム。アンロード。
+		/** 結果。パックアイテム。アンロード。
 		*/
-		public void SetResultUnLoadAssetBundleItem()
+		public void SetResultUnLoadPackItem()
 		{
-			this.result_type = ResultType.UnLoadAssetBundleItem;
+			this.result_type = ResultType.UnLoadPackItem;
 		}
 
-		/** 結果。アセットバンドルアイテム。設定。
+		/** 結果。パックアイテムアイテム。設定。
 		*/
-		public void SetResultAssetBundleItem(AssetBundlePackList_AssetBundleItem a_assetbundleitem)
+		public void SetResultPackItem(PackItem a_pack_item)
 		{
-			this.result_type = ResultType.LoadAssetBundleItem;
-
-			this.result_assetbundleitem = a_assetbundleitem;
+			this.result_type = ResultType.LoadPackItem;
+			this.result_pack_item = a_pack_item;
 		}
 
-		/** 結果。アセットバンドルアイテム。取得。
+		/** 結果。パックアイテムアイテム。取得。
 		*/
-		public AssetBundlePackList_AssetBundleItem GetResultAssetBundleItem()
+		public PackItem GetResultPackItem()
 		{
-			return this.result_assetbundleitem;
+			return this.result_pack_item;
 		}
 
 		/** 結果。アセット。設定。

@@ -45,25 +45,28 @@ namespace Fee.AssetBundleList
 			*/
 			None,
 
-			/** ロードパス。アセットバンドルアイテム。
-			*/
-			LoadPathAssetBundleItem,
+			/** ロードパス。パックアイテム。
 
-			/** アンロードパス。アセットバンドルアイテム。
-			*/
-			UnLoadPathAssetBundleItem,
+				パスアイテムからパックアイテムをロード。
 
-			/** ロードアセットバンドルアイテム。テキストファイル。
 			*/
-			LoadAssetBundleItemTextFile,
+			LoadPathItemPackItem,
 
-			/** ロードアセットバンドルアイテム。テクスチャファイル。
+			/** アンロード。パックアイテム。
 			*/
-			LoadAssetBundleItemTextureFile,
+			UnLoadPackItem,
 
-			/** ロードアセットバンドルアイテム。プレハブファイル。
+			/** パックアイテム。テキストファイル。
 			*/
-			LoadAssetBundleItemPrefabFile,
+			LoadPackItemTextFile,
+
+			/** パックアイテム。テクスチャファイル。
+			*/
+			LoadPackItemTextureFile,
+
+			/** パックアイテム。プレハブファイル。
+			*/
+			LoadPackItemPrefabFile,
 		};
 
 		/** mode
@@ -103,45 +106,48 @@ namespace Fee.AssetBundleList
 			this.item = new Item();
 		}
 
-		/** リクエスト。ロードパス。アセットバンドルアイテム。
+		/** リクエスト。ロードパスアイテム。パックアイテム。
+
+			パスアイテムからパックアイテムをロード。
+
 		*/
-		public void RequestLoadPathAssetBundleItem(string a_id)
+		public void RequestLoadPathItemPackItem(string a_id)
 		{
-			this.request_type = RequestType.LoadPathAssetBundleItem;
+			this.request_type = RequestType.LoadPathItemPackItem;
 			this.request_id = a_id;
 		}
 
-		/** リクエスト。アンロードパス。アセットバンドルアイテム。
+		/** リクエスト。アンロード。パックアイテム。
 		*/
-		public void RequestUnLoadPathAssetBundleItem(string a_id)
+		public void RequestUnLoadPackItem(string a_id)
 		{
-			this.request_type = RequestType.UnLoadPathAssetBundleItem;
+			this.request_type = RequestType.UnLoadPackItem;
 			this.request_id = a_id;
 		}
 
-		/** リクエスト。ロードアセットバンドルアイテム。テキストファイル。
+		/** リクエスト。ロードパックアイテム。テキストファイル。
 		*/
-		public void RequestLoadAssetBundleItemTextFile(string a_id,string a_assetname)
+		public void RequestLoadPackItemTextFile(string a_id,string a_assetname)
 		{
-			this.request_type = RequestType.LoadAssetBundleItemTextFile;
-			this.request_id = a_id;
-			this.request_assetname = a_assetname; 
-		}
-
-		/** リクエスト。ロードアセットバンドルアイテム。テクスチャファイル。
-		*/
-		public void RequestLoadAssetBundleItemTextureFile(string a_id,string a_assetname)
-		{
-			this.request_type = RequestType.LoadAssetBundleItemTextureFile;
+			this.request_type = RequestType.LoadPackItemTextFile;
 			this.request_id = a_id;
 			this.request_assetname = a_assetname; 
 		}
 
-		/** リクエスト。ロードアセットバンドルアイテム。プレハブファイル。
+		/** リクエスト。ロードパックアイテム。テクスチャファイル。
 		*/
-		public void RequestLoadAssetBundleItemPrefabFile(string a_id,string a_assetname)
+		public void RequestLoadPackItemTextureFile(string a_id,string a_assetname)
 		{
-			this.request_type = RequestType.LoadAssetBundleItemPrefabFile;
+			this.request_type = RequestType.LoadPackItemTextureFile;
+			this.request_id = a_id;
+			this.request_assetname = a_assetname; 
+		}
+
+		/** リクエスト。ロードパックアイテム。プレハブファイル。
+		*/
+		public void RequestLoadPackItemPrefabFile(string a_id,string a_assetname)
+		{
+			this.request_type = RequestType.LoadPackItemPrefabFile;
 			this.request_id = a_id;
 			this.request_assetname = a_assetname; 
 		}
@@ -164,33 +170,33 @@ namespace Fee.AssetBundleList
 			case Mode.Start:
 				{
 					switch(this.request_type){
-					case RequestType.LoadPathAssetBundleItem:
+					case RequestType.LoadPathItemPackItem:
 						{
-							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAssetBundle().RequestLoadPathAssetBundleItem(this.request_id) == true){
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainPack().RequestLoadPathItemPackItem(this.request_id) == true){
 								this.mode = Mode.Do_AssetBundle;
 							}
 						}break;
-					case RequestType.UnLoadPathAssetBundleItem:
+					case RequestType.UnLoadPackItem:
 						{
-							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAssetBundle().RequestUnLoadPathAssetBundleItem(this.request_id) == true){
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainPack().RequestUnLoadPackItem(this.request_id) == true){
 								this.mode = Mode.Do_AssetBundle;
 							}
 						}break;
-					case RequestType.LoadAssetBundleItemTextFile:
+					case RequestType.LoadPackItemTextFile:
 						{
-							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemTextFile(this.request_id,this.request_assetname) == true){
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadPackItemTextFile(this.request_id,this.request_assetname) == true){
 								this.mode = Mode.Do_Asset;
 							}
 						}break;
-					case RequestType.LoadAssetBundleItemTextureFile:
+					case RequestType.LoadPackItemTextureFile:
 						{
-							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemTextureFile(this.request_id,this.request_assetname) == true){
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadPackItemTextureFile(this.request_id,this.request_assetname) == true){
 								this.mode = Mode.Do_Asset;
 							}
 						}break;
-					case RequestType.LoadAssetBundleItemPrefabFile:
+					case RequestType.LoadPackItemPrefabFile:
 						{
-							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemPrefabFile(this.request_id,this.request_assetname) == true){
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadPackItemPrefabFile(this.request_id,this.request_assetname) == true){
 								this.mode = Mode.Do_Asset;
 							}
 						}break;
@@ -205,33 +211,29 @@ namespace Fee.AssetBundleList
 				}return true;
 			case Mode.Do_AssetBundle:
 				{
-					Main_AssetBundle t_main = Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAssetBundle();
+					Main_Pack t_main = Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainPack();
 
 					this.item.SetResultProgress(t_main.GetResultProgress());
 
-					if(t_main.GetResultType() != Main_AssetBundle.ResultType.None){
+					if(t_main.GetResultType() != Main_Pack.ResultType.None){
 						//結果。
 						bool t_success = false;
 						switch(t_main.GetResultType()){
-						case Main_AssetBundle.ResultType.LoadPathAssetBundleItem:
+						case Main_Pack.ResultType.LoadPathItemPackItem:
 							{
-								//ロードパス。アセットバンドルアイテム。
+								//ロードパスアイテム。パックアイテム。
 
-								if(t_main.GetResultAssetBundleItem() != null){
-									this.item.SetResultAssetBundleItem(t_main.GetResultAssetBundleItem());
+								if(t_main.GetResultPackItem() != null){
+									this.item.SetResultPackItem(t_main.GetResultPackItem());
 									t_success = true;
 								}
 							}break;
-						case Main_AssetBundle.ResultType.UnLoadPathAssetBundleItem:
+						case Main_Pack.ResultType.UnLoadPackItem:
 							{
-								//アンロードパス。アセットバンドルアイテム。
+								//アンロード。パックアイテム。
 
-								this.item.SetResultUnLoadAssetBundleItem();
+								this.item.SetResultUnLoadPackItem();
 								t_success = true;
-							}break;
-						default:
-							{
-								Tool.Assert(false);
 							}break;
 						}
 
@@ -264,10 +266,6 @@ namespace Fee.AssetBundleList
 									this.item.SetResultAsset(t_main.GetResultAsset());
 									t_success = true;
 								}
-							}break;
-						default:
-							{
-								Tool.Assert(false);
 							}break;
 						}
 

@@ -12,21 +12,21 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** AssetBundlePathList_PathType
+	/** アセットバンドルパスタイプ。
 	*/
-	public enum AssetBundlePathList_PathType
+	public enum AssetBundlePathType
 	{
-		/** アセット。アセットバンドル。
+		/** アセットバンドルのＵＲＬ。
+		*/
+		UrlAssetBundle,
+
+		/** アセットフォルダにあるアセットバンドルの相対パス。
 		*/
 		#if(UNITY_EDITOR)
 		AssetsAssetBundle,
 		#endif
 
-		/** ＵＲＬ。アセットバンドル。
-		*/
-		UrlAssetBundle,
-
-		/** アセット。ダミーアセットバンドル。
+		/** アセットフォルダにあるダミーアセットバンドルの相対パス。
 		*/
 		#if(UNITY_EDITOR)
 		AssetsDummyAssetBundle,

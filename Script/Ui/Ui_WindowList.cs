@@ -78,7 +78,7 @@ namespace Fee.Ui
 
 		/** 登録。
 		*/
-		public void Register(Window_Base a_window)
+		public void Regist(Window_Base a_window)
 		{
 			this.change_layerindex = true;
 			this.list.Add(a_window);
@@ -86,7 +86,7 @@ namespace Fee.Ui
 
 		/** 解除。
 		*/
-		public void UnRegister(Window_Base a_window)
+		public void UnRegist(Window_Base a_window)
 		{
 			this.change_layerindex = true;
 			this.list.Remove(a_window);

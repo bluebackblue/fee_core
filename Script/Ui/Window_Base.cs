@@ -73,11 +73,11 @@ namespace Fee.Ui
 
 			//削除管理。
 			if(a_deleter != null){
-				a_deleter.Register(this);
+				a_deleter.Regist(this);
 			}
 
 			//ウィンドウ登録。
-			Fee.Ui.Ui.GetInstance().RegisterWindow(this);
+			Fee.Ui.Ui.GetInstance().RegistWindow(this);
 
 			//ウィンドウを最前面にする。
 			Fee.Ui.Ui.GetInstance().SetWindowPriorityTopMost(this);
@@ -88,7 +88,7 @@ namespace Fee.Ui
 		public void OnDelete()
 		{
 			//ウィンドウ解除。
-			Fee.Ui.Ui.GetInstance().UnRegisterWindow(this);
+			Fee.Ui.Ui.GetInstance().UnRegistWindow(this);
 
 			//[Window_Base]コールバック。削除。
 			this.OnDelete_FromBase();
@@ -149,16 +149,16 @@ namespace Fee.Ui
 
 		/** ウィンドウレジューム。登録。
 		*/
-		public void RegisterWindowResume(string a_label,in Fee.Geometry.Rect2D_R<int> t_new_rect)
+		public void RegistWindowResume(string a_label,in Fee.Geometry.Rect2D_R<int> t_new_rect)
 		{
-			this.windowresumeitem = Fee.Ui.Ui.GetInstance().RegisterWindowResume(a_label,in t_new_rect);
+			this.windowresumeitem = Fee.Ui.Ui.GetInstance().RegistWindowResume(a_label,in t_new_rect);
 		}
 
 		/** ウィンドウレジューム。解除。
 		*/
-		public void UnRegisterWindowResume(string a_label)
+		public void UnRegistWindowResume(string a_label)
 		{
-			Fee.Ui.Ui.GetInstance().UnRegisterWindowResume(a_label);
+			Fee.Ui.Ui.GetInstance().UnRegistWindowResume(a_label);
 			this.windowresumeitem = null;
 		}
 

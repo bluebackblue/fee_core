@@ -85,7 +85,7 @@ namespace Fee.EventPlate
 
 			//削除管理。
 			if(a_deleter != null){
-				a_deleter.Register(this);
+				a_deleter.Regist(this);
 			}
 
 			EventPlate.GetInstance().Add(this,this.eventtype);

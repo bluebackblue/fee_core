@@ -12,9 +12,9 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** アンロードパス。アセットバンドルアイテム。
+	/** アンロード。パックアイテム。
 	*/
-	public class Coroutine_UnloadPathAssetBundleItem
+	public class Coroutine_UnLoadPackItem
 	{
 		/** ResultType
 		*/
@@ -46,23 +46,24 @@ namespace Fee.AssetBundleList
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.AssetBundleList.OnAssetBundleListCoroutine_CallBackInterface a_callback_interface,string a_id)
+		public System.Collections.IEnumerator CoroutineMain(Fee.AssetBundleList.OnAssetBundleListCoroutine_CallBackInterface a_callback_interface,string a_assetbundle_name)
 		{
 			//result
 			this.result = new ResultType();
 
-			AssetBundlePackList_AssetBundleItem t_assetbundle_item = Fee.AssetBundleList.AssetBundleList.GetInstance().GetAssetBundleItem(a_id);
+			PackItem t_pack_item = Fee.AssetBundleList.AssetBundleList.GetInstance().GetPackItem(a_assetbundle_name);
 
-			if(t_assetbundle_item == null){
+			if(t_pack_item == null){
 				//失敗。
-				this.result.errorstring = "Coroutine_UnloadPathAssetBundleItem : Not Found ID : " + a_id;
+				this.result.errorstring = "Coroutine_UnLoadPackItem : Not Found ID : " + a_assetbundle_name;
 				yield break;
 			}
 
 			//Unload
-			if(t_assetbundle_item.assetbundle != null){
-				t_assetbundle_item.Unload();
-			}
+			t_pack_item.Unload();
+
+			//解除。
+			Fee.AssetBundleList.AssetBundleList.GetInstance().UnRegistPackItem(a_assetbundle_name);
 
 			//成功。
 			this.result.unload = true;
