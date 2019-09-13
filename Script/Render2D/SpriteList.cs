@@ -63,6 +63,13 @@ namespace Fee.Render2D
 			this.delete_request_flag = true;
 		}
 
+		/** プールリストキャパシティ。設定。
+		*/
+		public void SetPoolListCapacity(int a_capacity)
+		{
+			this.pool_list.SetCapacity(a_capacity);
+		}
+
 		/** プールから作成。
 		*/
 		public Sprite2D PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)

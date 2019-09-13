@@ -325,7 +325,6 @@ namespace Fee.Render2D
 		*/
 		public void Text2D_Regist(Text2D a_text)
 		{
-
 			this.textlist.Regist(a_text);
 		}
 
@@ -334,6 +333,27 @@ namespace Fee.Render2D
 		public void InputField2D_Regist(InputField2D a_inputfield)
 		{
 			this.inputfieldlist.Regist(a_inputfield);
+		}
+
+		/** スプライトプールリストキャパシティー。設定。
+		*/
+		public void SetSpritePoolListCapacity(int a_capacity)
+		{
+			this.spritelist.SetPoolListCapacity(a_capacity);
+		}
+
+		/** テキストプールリストキャパシティー。設定。
+		*/
+		public void SetTextPoolListCapacity(int a_capacity)
+		{
+			this.textlist.SetPoolListCapacity(a_capacity);
+		}
+
+		/** 入力フィールドプールリストキャパシティー。設定。
+		*/
+		public void SetInputFieldPoolListCapacity(int a_capacity)
+		{
+			this.inputfieldlist.SetPoolListCapacity(a_capacity);
 		}
 
 		/** カメラデプス。取得。

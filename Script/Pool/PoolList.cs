@@ -64,6 +64,19 @@ namespace Fee.Pool
 				t_pool_item.MemoryDelete();
 			}
 		}
+
+		/** キャパシティー。設定。
+		*/
+		public void SetCapacity(int a_capacity)
+		{
+			while(this.pool_list.Count > a_capacity){
+				T t_pool_item = this.pool_list.Pop();
+				t_pool_item.MemoryDelete();
+			}
+			while(this.pool_list.Count < a_capacity){
+				this.pool_list.Push(new T());
+			}
+		}
 	}
 }
 
