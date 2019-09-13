@@ -57,6 +57,9 @@ namespace Fee.Render2D
 			this.calc_ui_scale = 0.0f;
 			this.calc_ui_x = 0.0f;
 			this.calc_ui_y = 0.0f;
+
+			//事前計算。
+			this.CalcScreen();
 		}
 
 		/** スクリーンサイズ変更フラグ。取得。

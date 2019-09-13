@@ -620,7 +620,6 @@ namespace Fee.EditorTool
 				//フェード。
 				#if(false)
 				{
-					Fee.Fade.Fade.GetInstance().Main_PreDraw();
 					Fee.Fade.Fade.GetInstance().Main();
 				}
 				#endif

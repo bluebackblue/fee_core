@@ -1,14 +1,16 @@
 
 
+
+
+
+
+using UnityEditor.IMGUI.Controls;
 /**
 * Copyright (c) blueback
 * Released under the MIT License
 * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
 * @brief ２Ｄ描画。
-*/
-
-
-/** Fee.Render2D
+*//** Fee.Render2D
 */
 namespace Fee.Render2D
 {
@@ -103,6 +105,11 @@ namespace Fee.Render2D
 		*/
 		private Task_SortList task_sortlist;
 
+		/** OnChangeScreenSize
+		*/
+		public delegate void OnChangeScreenSize();
+		OnChangeScreenSize callback_on_change_screen_size;
+
 		/** [シングルトン]constructor。
 		*/
 		private Render2D()
@@ -139,17 +146,20 @@ namespace Fee.Render2D
 
 			//ソートリストタスク。
 			this.task_sortlist = new Task_SortList(this);
+
+			//callback_on_change_screen_size
+			this.callback_on_change_screen_size = null;
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
-			UnityEngine.GameObject.Destroy(this.root_gameobject);
-
 			//タスク終了。
 			this.task_calcvertex.Delete();
 			this.task_sortlist.Delete();
+
+			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
 		/** ＧＵＩスクリーン座標　＝＞　仮想スクリーン座標。
@@ -172,6 +182,20 @@ namespace Fee.Render2D
 		{
 			UnityEngine.Vector2 t_gui_pos = UnityEngine.RectTransformUtility.WorldToScreenPoint(a_camera,a_position);
 			Fee.Render2D.Render2D.GetInstance().GuiScreenToVirtualScreen((int)t_gui_pos.x,(int)(this.screen.GetGuiH() - t_gui_pos.y),out a_virtual_x,out a_virtual_y);
+		}
+
+		/** スクリーンサイズ変更通知。登録。
+		*/
+		public void RegistOnChangeScreenSize(OnChangeScreenSize a_callback)
+		{
+			this.callback_on_change_screen_size += a_callback;
+		}
+
+		/** スクリーンサイズ変更通知。解除。
+		*/
+		public void UnRegistOnChangeScreenSize(OnChangeScreenSize a_callback)
+		{
+			this.callback_on_change_screen_size -= a_callback;
 		}
 
 		/** ルート。取得。
@@ -389,6 +413,13 @@ namespace Fee.Render2D
 
 				//スクリーンサイズ変更あり。
 				if(Fee.Render2D.Render2D.GetInstance().screen.GetChangeScreenSizeFlag() == true){
+					
+					//スクリーンサイズ変更通知。
+					//ソートリストタスク終了後、バーテックス計算タスク開始前。
+					if(this.callback_on_change_screen_size != null){
+						this.callback_on_change_screen_size();
+					}
+
 					this.spritelist.ChangeScreenSize();
 					this.textlist.ChangeScreenSize();
 					this.inputfieldlist.ChangeScreenSize();
@@ -587,7 +618,7 @@ namespace Fee.Render2D
 					{
 						for(int ii=t_start_index;ii<=t_last_index;ii++){
 							Sprite2D t_sprite = this.spritelist.GetItem(ii);
-							if((t_sprite.IsVisible() == true)&&(t_sprite.GetDrawPriority() >= 0)&&(t_sprite.IsDelete() == false)){
+							if((t_sprite.IsVisible() == true)&&(t_sprite.GetDrawPriority() >= 0)&&(t_sprite.IsDelete() == false)&&(t_sprite.GetW() != 0)&&(t_sprite.GetH() != 0)){
 
 								//マテリアル変更。
 								Material_Item t_material_item = this.materiallist.GetMaterialItem(t_sprite.GetMaterialType());

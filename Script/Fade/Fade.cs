@@ -62,18 +62,13 @@ namespace Fee.Fade
 			}
 		}
 
-		/** ＧＵＩ。
-		*/
-		private Fee.Geometry.Size2D<int> gui_size;
-
 		/** deleter
 		*/
 		private Fee.Deleter.Deleter deleter;
 
 		/** flag
 		*/
-		private MonoBehaviour_Flag flag;
-		private UnityEngine.GameObject flag_gameobject;
+		private Flag flag;
 
 		/** sprite
 		*/
@@ -83,61 +78,54 @@ namespace Fee.Fade
 		*/
 		private Fade()
 		{
-			//ＧＵＩ。
-			this.gui_size.Set(0,0);
-
 			//deleter
 			this.deleter = new Fee.Deleter.Deleter();
 
 			//flag
-			{
-				this.flag_gameobject = new UnityEngine.GameObject();
-				this.flag_gameobject.name = "Fade";
-				this.flag = this.flag_gameobject.AddComponent<MonoBehaviour_Flag>();
-				this.flag .Initialize();
-
-				UnityEngine.GameObject.DontDestroyOnLoad(this.flag_gameobject);
-			}
-			
+			this.flag.Initialize();
+		
 			//sprite
 			this.sprite = new Fade_Sprite2D(this.deleter,(Fee.Render2D.Render2D.MAX_LAYER - 1) * Fee.Render2D.Render2D.DRAWPRIORITY_STEP);
 			this.sprite.SetTextureRect(0.0f,0.0f,Fee.Render2D.Render2D.TEXTURE_W,Fee.Render2D.Render2D.TEXTURE_H);
-			this.sprite.SetRect(0,0,0,0);
 			this.sprite.SetColor(0.0f,0.0f,0.0f,0.0f);
 			this.sprite.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
+
+			//SetRectFromScreenSize
+			this.SetRectFromScreenSize();
+
+			//スクリーンサイズ変更通知。登録。
+			//ソートリストタスク終了後、バーテックス計算タスク開始前。
+			Fee.Render2D.Render2D.GetInstance().RegistOnChangeScreenSize(this.OnChangeScreenSize);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
-			this.deleter.DeleteAll();
+			//スクリーンサイズ変更通知。解除。
+			Fee.Render2D.Render2D.GetInstance().UnRegistOnChangeScreenSize(this.OnChangeScreenSize);
 
-			UnityEngine.GameObject.Destroy(this.flag_gameobject);
+			this.deleter.DeleteAll();
 		}
 
-		/** 描画前処理。
+		/** SetRectFromScreenSize
 		*/
-		public void Main_PreDraw()
+		private void SetRectFromScreenSize()
 		{
-			try{
-				//画面サイズ変更チェック。
-				if((this.gui_size.w != Fee.Render2D.Render2D.GetInstance().GetGuiW())||(this.gui_size.h != Fee.Render2D.Render2D.GetInstance().GetGuiH())){
-					this.gui_size.Set(Fee.Render2D.Render2D.GetInstance().GetGuiW(), Fee.Render2D.Render2D.GetInstance().GetGuiH());
+			int t_x1;
+			int t_y1;
+			int t_x2;
+			int t_y2;
+			Fee.Render2D.Render2D.GetInstance().GuiScreenToVirtualScreen(-2,-2,out t_x1,out t_y1);
+			Fee.Render2D.Render2D.GetInstance().GuiScreenToVirtualScreen(Fee.Render2D.Render2D.GetInstance().GetGuiW() + 2,Fee.Render2D.Render2D.GetInstance().GetGuiH() + 2,out t_x2,out t_y2);
+			this.sprite.SetRect(t_x1,t_y1,(t_x2 - t_x1),(t_y2 - t_y1));
+		}
 
-					int t_x1;
-					int t_y1;
-					int t_x2;
-					int t_y2;
-
-					Fee.Render2D.Render2D.GetInstance().GuiScreenToVirtualScreen(-2,-2,out t_x1,out t_y1);
-					Fee.Render2D.Render2D.GetInstance().GuiScreenToVirtualScreen(this.gui_size.w + 2,this.gui_size.h + 2,out t_x2,out t_y2);
-
-					this.sprite.SetRect(t_x1,t_y1,(t_x2 - t_x1),(t_y2 - t_y1));
-				}
-			}catch(System.Exception t_exception){
-				Tool.DebugReThrow(t_exception);
-			}
+		/** スクリーンサイズ変更通知
+		*/
+		private void OnChangeScreenSize()
+		{
+			this.SetRectFromScreenSize();
 		}
 
 		/** 更新。

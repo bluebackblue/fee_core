@@ -77,6 +77,7 @@ namespace Fee.Render2D
 			this.raw_text = this.raw_inputfield.textComponent;
 			this.raw_image = this.raw_inputfield.image;
 			this.raw_placeholder_text = this.raw_inputfield.placeholder.GetComponent<UnityEngine.UI.Text>();
+			this.raw_gameobject.SetActive(false);
 
 			//共通マテリアルアイテム複製。
 			this.raw_custom_text_material_item = Render2D.GetInstance().GetUiTextMaterialItem().DuplicateMaterialItem();
@@ -368,7 +369,7 @@ namespace Fee.Render2D
 		*/
 		public void Delete()
 		{
-			UnityEngine.GameObject.Destroy(this.raw_gameobject);
+			UnityEngine.GameObject.DestroyImmediate(this.raw_gameobject);
 			this.raw_gameobject = null;
 
 			this.raw_custom_text_material_item.DestroyImmediate();
