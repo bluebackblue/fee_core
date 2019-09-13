@@ -34,8 +34,9 @@ namespace Fee.Instantiate
 			}
 
 			UnityEngine.GameObject t_gameobject = UnityEngine.UI.DefaultControls.CreateInputField(t_resources);
-
 			if(t_gameobject != null){
+				t_gameobject.GetComponent<UnityEngine.Transform>().SetParent(a_parent_transform);
+
 				UnityEngine.UI.Image t_image = t_gameobject.GetComponent<UnityEngine.UI.Image>();
 				if(t_image != null){
 					t_image.type = UnityEngine.UI.Image.Type.Simple;
@@ -52,8 +53,11 @@ namespace Fee.Instantiate
 			UnityEngine.UI.DefaultControls.Resources t_resources = new UnityEngine.UI.DefaultControls.Resources();
 			{
 			}
+
 			UnityEngine.GameObject t_gameobject = UnityEngine.UI.DefaultControls.CreateText(t_resources);
-			{
+			if(t_gameobject != null){
+				t_gameobject.GetComponent<UnityEngine.Transform>().SetParent(a_parent_transform);
+
 				UnityEngine.UI.Outline t_outline = t_gameobject.AddComponent<UnityEngine.UI.Outline>();
 				{
 					t_outline.useGraphicAlpha = true;
@@ -76,10 +80,10 @@ namespace Fee.Instantiate
 		*/
 		public static UnityEngine.GameObject CreateOrthographicCameraObject(string a_name,UnityEngine.Transform a_parent_transform,float a_depth)
 		{
-			UnityEngine.GameObject t_gameoobject = new UnityEngine.GameObject(a_name);
-			t_gameoobject.GetComponent<UnityEngine.Transform>().SetParent(a_parent_transform);
+			UnityEngine.GameObject t_gameobject = new UnityEngine.GameObject(a_name);
+			t_gameobject.GetComponent<UnityEngine.Transform>().SetParent(a_parent_transform);
 
-			UnityEngine.Camera t_camera = t_gameoobject.AddComponent<UnityEngine.Camera>();
+			UnityEngine.Camera t_camera = t_gameobject.AddComponent<UnityEngine.Camera>();
 			{
 				//Clear Flags
 				t_camera.clearFlags = UnityEngine.CameraClearFlags.Nothing;
@@ -125,7 +129,7 @@ namespace Fee.Instantiate
 				#endif
 			}
 			
-			return t_gameoobject;
+			return t_gameobject;
 		}
 	}
 }
