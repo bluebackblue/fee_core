@@ -4,6 +4,7 @@
 
 
 
+using System.Net.Mime;
 using UnityEditor.IMGUI.Controls;
 /**
 * Copyright (c) blueback
@@ -292,33 +293,47 @@ namespace Fee.Render2D
 			return this.materiallist.GetUiImageMaterialItem();
 		}
 
-		/** スプライト作成。
+		/** スプライト。作成。
 		*/
 		public Sprite2D Sprite2D_PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			return this.spritelist.PoolNew(a_deleter,a_drawpriority);
 		}
 
-		/** スプライト作成。
+		/** テキスト。作成。
+		*/
+		public Text2D Text2D_PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		{
+			return this.textlist.PoolNew(a_deleter,a_drawpriority);
+		}
+
+		/** 入力フィールド。作成。
+		*/
+		public InputField2D InputField2D_PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		{
+			return this.inputfieldlist.PoolNew(a_deleter,a_drawpriority);
+		}
+
+		/** スプライト。登録。
 		*/
 		public void Sprite2D_Regist(Sprite2D a_sprite)
 		{
 			this.spritelist.Regist(a_sprite);
 		}
 
-		/** テキスト作成。
+		/** テキスト。登録。
 		*/
-		public void AddText2D(Text2D a_text)
+		public void Text2D_Regist(Text2D a_text)
 		{
 
-			this.textlist.Add(a_text);
+			this.textlist.Regist(a_text);
 		}
 
-		/** 入力フィールド作成。
+		/** 入力フィールド。登録。
 		*/
-		public void AddInputField2D(InputField2D a_inputfield)
+		public void InputField2D_Regist(InputField2D a_inputfield)
 		{
-			this.inputfieldlist.Add(a_inputfield);
+			this.inputfieldlist.Regist(a_inputfield);
 		}
 
 		/** カメラデプス。取得。

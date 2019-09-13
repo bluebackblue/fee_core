@@ -16,7 +16,7 @@ namespace Fee.Render2D
 	*/
 	public class SpriteList
 	{
-		/** sprite_list
+		/** list
 		*/
 		private System.Collections.Generic.List<Sprite2D> list;
 
@@ -48,7 +48,7 @@ namespace Fee.Render2D
 			this.list = new System.Collections.Generic.List<Sprite2D>();
 
 			//pool_list
-			this.pool_list = new Fee.Pool.PoolList<Sprite2D>(100);
+			this.pool_list = new Fee.Pool.PoolList<Sprite2D>(0);
 
 			//sortend_flag
 			this.sortend_flag = true;
@@ -67,16 +67,19 @@ namespace Fee.Render2D
 		*/
 		public Sprite2D PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
-			Sprite2D t_sprite = this.pool_list.PoolNew();
-			t_sprite.PoolNew(a_deleter,a_drawpriority);
-			return t_sprite;
+			Sprite2D t_item = this.pool_list.PoolNew();
+			t_item.PoolNew(a_deleter,a_drawpriority);
+			return t_item;
 		}
 
 		/** 登録。
 		*/
 		public void Regist(Sprite2D a_item)
 		{
+			//list
 			this.list.Add(a_item);
+
+			//sort_request_flag
 			this.sort_request_flag = true;
 		}
 

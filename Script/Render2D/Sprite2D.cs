@@ -56,15 +56,15 @@ namespace Fee.Render2D
 		private float[] texcood;
 		private bool texcood_recalc;
 
+		/** callback_materialupdate
+		*/
+		private OnSprite2DMaterialUpdate_CallBackInterface callback_materialupdate;
+
 		/** debug
 		*/
 		#if(UNITY_EDITOR)
 		private string debug;
 		#endif
-
-		/** callback_materialupdate
-		*/
-		private OnSprite2DMaterialUpdate_CallBackInterface callback_materialupdate;
 
 		/** constructor
 
@@ -152,6 +152,9 @@ namespace Fee.Render2D
 		{
 			//非表示。
 			this.visible = false;
+
+			//PrePoolDelete
+			this.param.PrePoolDelete();
 
 			//削除リクエスト。
 			this.deletereq = true;

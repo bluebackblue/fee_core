@@ -16,9 +16,13 @@ namespace Fee.Render2D
 	*/
 	public class TextList
 	{
-		/** text_list
+		/** list
 		*/
 		private System.Collections.Generic.List<Text2D> list;
+
+		/** pool_list
+		*/
+		private Fee.Pool.PoolList<Text2D> pool_list;
 
 		/** sortend_flag
 		*/
@@ -43,6 +47,9 @@ namespace Fee.Render2D
 			//list
 			this.list = new System.Collections.Generic.List<Text2D>();
 
+			//pool_list
+			this.pool_list = new Fee.Pool.PoolList<Text2D>(0);
+
 			//sortend_flag
 			this.sortend_flag = true;
 
@@ -56,11 +63,23 @@ namespace Fee.Render2D
 			this.delete_request_flag = true;
 		}
 
-		/** 追加。
+		/** プールから作成。
 		*/
-		public void Add(Text2D a_item)
+		public Text2D PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
+			Text2D t_item = this.pool_list.PoolNew();
+			t_item.PoolNew(a_deleter,a_drawpriority);
+			return t_item;
+		}
+
+		/** 登録。
+		*/
+		public void Regist(Text2D a_item)
+		{
+			//list
 			this.list.Add(a_item);
+
+			//sort_request_flag
 			this.sort_request_flag = true;
 		}
 
@@ -69,7 +88,11 @@ namespace Fee.Render2D
 		public void RemoveDeletedItem()
 		{
 			this.list.RemoveAll((Fee.Render2D.Text2D a_item) => {
-				return a_item.IsDelete();
+				if(a_item.IsDelete() == true){
+					this.pool_list.PoolDelete(a_item);
+					return true;
+				}
+				return false;
 			});
 		}
 
@@ -117,6 +140,17 @@ namespace Fee.Render2D
 				if(this.list[ii].IsDelete() == false){
 					this.list[ii].Raw_SetLayer(a_layerlist.GetLayerTransformFromDrawPriority(this.list[ii].GetDrawPriority()));
 				}
+			}
+		}
+
+		/** 削除。
+		*/
+		public void Delete()
+		{
+			this.pool_list.MemoryDelete();
+			for(int ii=0;ii<this.list.Count;ii++){
+				//this.list[ii].PoolDelete();
+				this.list[ii].MemoryDelete();
 			}
 		}
 	}

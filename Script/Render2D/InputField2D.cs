@@ -14,7 +14,7 @@ namespace Fee.Render2D
 {
 	/** InputField2D
 	*/
-	public class InputField2D : Fee.Deleter.OnDelete_CallBackInterface
+	public class InputField2D : Fee.Deleter.OnDelete_CallBackInterface , Fee.Pool.PoolItem_Base
 	{
 		/** 表示フラグ。
 		*/
@@ -36,17 +36,55 @@ namespace Fee.Render2D
 		*/
 		private InputField2D_Param param;
 
-		/** constructor
+		/** debug
 		*/
-		public InputField2D(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		#if(UNITY_EDITOR)
+		private string debug;
+		#endif
+
+		/** constructor
+
+			プール用に作成。
+
+		*/
+		public InputField2D()
 		{
-			Render2D.GetInstance().AddInputField2D(this);
+			//param
+			this.param.Initialize();
+		}
+
+		/** constructor
+
+			プールから作成。
+
+			「DRAWPRIORITY_STEP」ごとに描画カメラが切り替わる。
+			同一カメラ内では必ずテキストが上に表示される。
+			テキストの上にスプライトを表示する場合は、描画カメラが切り替わるようにプライオリィを設定する必要がある。
+
+		*/
+		public void PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		{
+			#if(UNITY_EDITOR)
+			{
+				try{
+					System.Diagnostics.StackFrame t_stackframe = new System.Diagnostics.StackFrame(1);
+					if(t_stackframe != null){
+						if(t_stackframe.GetMethod() != null){
+							this.debug = t_stackframe.GetMethod().ReflectedType.FullName + " : " + t_stackframe.GetMethod().Name;
+						}
+					}
+				}catch(System.Exception t_exception){
+					Tool.DebugReThrow(t_exception);
+				}
+			}
+			#endif
 
 			//表示フラグ。
 			this.visible = true;
 
 			//削除フラグ。
 			this.deletereq = false;
+			Render2D.GetInstance().InputField2D_Regist(this);
 
 			//描画プライオリティ。
 			this.drawpriority = a_drawpriority;
@@ -55,7 +93,7 @@ namespace Fee.Render2D
 			//this.pos;
 
 			//パラメータ。
-			this.param.Initialze();
+			this.param.PoolNew();
 
 			//削除管理。
 			if(a_deleter != null){
@@ -67,16 +105,31 @@ namespace Fee.Render2D
 		*/
 		public void OnDelete()
 		{
-			this.deletereq = true;
-
 			//非表示。
 			this.visible = false;
 
-			//rawの削除。
-			this.param.Delete();
+			//PrePoolDelete
+			this.param.PrePoolDelete();
 
 			//削除リクエスト。。
+			this.deletereq = true;
 			Render2D.GetInstance().GetInputFieldList().delete_request_flag = true;
+		}
+
+		/** [Fee.Pool.PoolItem_Base]プールへ削除。
+		*/
+		public void PoolDelete()
+		{
+			//rawの削除。
+			this.param.PoolDelete();
+		}
+
+		/** [Fee.Pool.PoolItem_Base]メモリから削除。
+		*/
+		public void MemoryDelete()
+		{
+			//rawの削除。
+			this.param.MemoryDelete();
 		}
 
 		/** 削除チェック。

@@ -48,12 +48,17 @@ namespace Fee.Render2D
 			this.materialtype = Config.DEFALUT_SPRITE_MATERIALTYPE;
 		}
 
+		/** プールへ削除。前。
+		*/
+		public void PrePoolDelete()
+		{
+			this.texture = null;
+		}
+
 		/** プールへ削除。
 		*/
 		public void PoolDelete()
 		{
-			//テキスチャ。
-			this.texture = null;
 		}
 
 		/** メモリから削除。

@@ -20,7 +20,7 @@ namespace Fee.Render2D
 {
 	/** Text2D
 	*/
-	public class Text2D : Fee.Deleter.OnDelete_CallBackInterface
+	public class Text2D : Fee.Deleter.OnDelete_CallBackInterface , Fee.Pool.PoolItem_Base
 	{
 		/** 表示フラグ。
 		*/
@@ -50,12 +50,26 @@ namespace Fee.Render2D
 
 		/** constructor
 
+			プール用に作成。
+
+		*/
+
+		public Text2D()
+		{
+			//param
+			this.param.Initialize();
+		}
+
+		/** constructor
+
+			プールから作成。
+
 			「DRAWPRIORITY_STEP」ごとに描画カメラが切り替わる。
 			同一カメラ内では必ずテキストが上に表示される。
 			テキストの上にスプライトを表示する場合は、描画カメラが切り替わるようにプライオリィを設定する必要がある。
 
 		*/
-		public Text2D(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public void PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			#if(UNITY_EDITOR)
 			{
@@ -72,13 +86,12 @@ namespace Fee.Render2D
 			}
 			#endif
 
-			Render2D.GetInstance().AddText2D(this);
-
 			//表示フラグ。
 			this.visible = true;
 
 			//削除フラグ。
 			this.deletereq = false;
+			Render2D.GetInstance().Text2D_Regist(this);
 
 			//描画プライオリティ。
 			this.drawpriority = a_drawpriority;
@@ -87,7 +100,7 @@ namespace Fee.Render2D
 			//this.pos;
 
 			//パラメータ。
-			this.param.Initialze();
+			this.param.PoolNew();
 
 			//削除管理。
 			if(a_deleter != null){
@@ -99,16 +112,31 @@ namespace Fee.Render2D
 		*/
 		public void OnDelete()
 		{
-			this.deletereq = true;
-
 			//非表示。
 			this.visible = false;
-
-			//rawの削除。
-			this.param.Delete();
+			
+			//PrePoolDelete
+			this.param.PrePoolDelete();
 
 			//削除リクエスト。
+			this.deletereq = true;
 			Render2D.GetInstance().GetTextList().delete_request_flag = true;
+		}
+
+		/** [Fee.Pool.PoolItem_Base]プールへ削除。
+		*/
+		public void PoolDelete()
+		{
+			//rawの削除。
+			this.param.PoolDelete();
+		}
+
+		/** [Fee.Pool.PoolItem_Base]メモリから削除。
+		*/
+		public void MemoryDelete()
+		{
+			//rawの削除。
+			this.param.MemoryDelete();
 		}
 
 		/** 削除チェック。

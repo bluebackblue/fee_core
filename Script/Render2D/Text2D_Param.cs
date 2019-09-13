@@ -54,7 +54,22 @@ namespace Fee.Render2D
 
 		/** 初期化。
 		*/
-		public void Initialze()
+		public void Initialize()
+		{
+			//raw
+			this.raw_gameobject = Fee.Instantiate.Instantiate.CreateUiText("Text",Fee.Render2D.Render2D.GetInstance().GetRootTransform());
+			this.raw_transform = this.raw_gameobject.GetComponent<UnityEngine.Transform>();
+			this.raw_text = this.raw_gameobject.GetComponent<UnityEngine.UI.Text>();
+			this.raw_recttransform = this.raw_gameobject.GetComponent<UnityEngine.RectTransform>();
+			this.raw_gameobject.SetActive(false);
+
+			//共通マテリアルアイテム複製。
+			this.raw_custom_text_material_item = Render2D.GetInstance().GetUiTextMaterialItem().DuplicateMaterialItem();
+		}
+
+		/** プールから作成。
+		*/
+		public void PoolNew()
 		{
 			//フォントサイズ。
 			this.fontsize = Config.DEFAULT_TEXT_FONTSIZE;
@@ -79,14 +94,7 @@ namespace Fee.Render2D
 			this.raw_is_calcsize = true;
 
 			//raw
-			this.raw_gameobject = Fee.Instantiate.Instantiate.CreateUiText("Text",Fee.Render2D.Render2D.GetInstance().GetRootTransform());
-			this.raw_transform = this.raw_gameobject.GetComponent<UnityEngine.Transform>();
-			this.raw_text = this.raw_gameobject.GetComponent<UnityEngine.UI.Text>();
-			this.raw_recttransform = this.raw_gameobject.GetComponent<UnityEngine.RectTransform>();
 			this.raw_gameobject.SetActive(false);
-
-			//共通マテリアルアイテム複製。
-			this.raw_custom_text_material_item = Render2D.GetInstance().GetUiTextMaterialItem().DuplicateMaterialItem();
 
 			//カスタムマテリアルアイテム設定。
 			this.raw_custom_text_material_item.SetMaterialToInstance(this.raw_text);
@@ -122,6 +130,31 @@ namespace Fee.Render2D
 					}
 				}
 			}
+		}
+
+		/** プールへ削除。前。
+		*/
+		public void PrePoolDelete()
+		{
+			this.raw_gameobject.SetActive(false);
+			this.raw_text.text = "";
+		}
+
+		/** プールへ削除。
+		*/
+		public void PoolDelete()
+		{
+		}
+
+		/** メモリから削除。
+		*/
+		public void MemoryDelete()
+		{
+			UnityEngine.GameObject.DestroyImmediate(this.raw_gameobject);
+			this.raw_gameobject = null;
+
+			this.raw_custom_text_material_item.DestroyImmediate();
+			this.raw_custom_text_material_item = null;
 		}
 
 		/** クリップ。設定。
@@ -384,17 +417,6 @@ namespace Fee.Render2D
 		public UnityEngine.Font GetFont()
 		{
 			return this.raw_text.font;
-		}
-
-		/** 削除。
-		*/
-		public void Delete()
-		{
-			UnityEngine.GameObject.DestroyImmediate(this.raw_gameobject);
-			this.raw_gameobject = null;
-
-			this.raw_custom_text_material_item.DestroyImmediate();
-			this.raw_custom_text_material_item = null;
 		}
 
 		/** [内部からの呼び出し]最適横幅。取得。
