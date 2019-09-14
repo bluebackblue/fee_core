@@ -191,7 +191,6 @@ namespace Fee.Render2D
 			),
 		};
 
-
 		/** マテリアル名。ＵＩテキスト。
 		*/
 		public static Material_Data MATERIAL_DATA_UITEXT = new Material_Data(

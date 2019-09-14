@@ -1195,6 +1195,20 @@ namespace Fee.JsonItem
 
 			return t_stringbuilder.ToString();
 		}
+
+		/** JsonStringへコンバート。
+		*/
+		public string ConvertJsonString(int a_capacity)
+		{
+			if(this.jsonstring != null){
+				return this.jsonstring;
+			}
+
+			System.Text.StringBuilder t_stringbuilder = new System.Text.StringBuilder(a_capacity);
+			this.ConvertJsonString(t_stringbuilder);
+
+			return t_stringbuilder.ToString();
+		}
 	}
 }
 
