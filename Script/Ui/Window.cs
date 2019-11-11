@@ -63,13 +63,13 @@ namespace Fee.Ui
 			base(a_deleter,a_callback_interface)
 		{
 			//bg_sprite
-			this.bg_sprite = Fee.Render2D.Render2D.GetInstance().Sprite2D_PoolNew(this.deleter,0);
+			this.bg_sprite = Fee.Render2D.Sprite2D.Create(this.deleter,0);
 			this.bg_sprite.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.bg_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.bg_sprite.SetColor(0.0f,0.0f,0.0f,1.0f);
 
 			//titlebar
-			this.titlebar = Fee.Render2D.Render2D.GetInstance().Sprite2D_PoolNew(this.deleter,0);
+			this.titlebar = Fee.Render2D.Sprite2D.Create(this.deleter,0);
 			this.titlebar.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.titlebar.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.titlebar.SetColor(0.2f,0.2f,0.2f,1.0f);

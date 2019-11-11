@@ -53,52 +53,54 @@ namespace Fee.Render2D
 			this.param.Initialize();
 		}
 
-		/** constructor
-
-			プールから作成。
+		/** 作成。
 
 			「DRAWPRIORITY_STEP」ごとに描画カメラが切り替わる。
 			同一カメラ内では必ずテキストが上に表示される。
 			テキストの上にスプライトを表示する場合は、描画カメラが切り替わるようにプライオリィを設定する必要がある。
 
 		*/
-		public void PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public static InputField2D Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
-			#if(UNITY_EDITOR)
+			InputField2D t_this = Fee.Render2D.Render2D.GetInstance().PoolNew_InputField2D();
 			{
-				try{
-					System.Diagnostics.StackFrame t_stackframe = new System.Diagnostics.StackFrame(1);
-					if(t_stackframe != null){
-						if(t_stackframe.GetMethod() != null){
-							this.debug = t_stackframe.GetMethod().ReflectedType.FullName + " : " + t_stackframe.GetMethod().Name;
+				#if(UNITY_EDITOR)
+				{
+					try{
+						System.Diagnostics.StackFrame t_stackframe = new System.Diagnostics.StackFrame(1);
+						if(t_stackframe != null){
+							if(t_stackframe.GetMethod() != null){
+								t_this.debug = t_stackframe.GetMethod().ReflectedType.FullName + " : " + t_stackframe.GetMethod().Name;
+							}
 						}
+					}catch(System.Exception t_exception){
+						Tool.DebugReThrow(t_exception);
 					}
-				}catch(System.Exception t_exception){
-					Tool.DebugReThrow(t_exception);
+				}
+				#endif
+
+				//表示フラグ。
+				t_this.visible = true;
+
+				//削除フラグ。
+				t_this.deletereq = false;
+				Render2D.GetInstance().InputField2D_Regist(t_this);
+
+				//描画プライオリティ。
+				t_this.drawpriority = a_drawpriority;
+
+				//位置。
+				//t_this.pos;
+
+				//パラメータ。
+				t_this.param.InitializeFromPoolNew();
+
+				//削除管理。
+				if(a_deleter != null){
+					a_deleter.Regist(t_this);
 				}
 			}
-			#endif
-
-			//表示フラグ。
-			this.visible = true;
-
-			//削除フラグ。
-			this.deletereq = false;
-			Render2D.GetInstance().InputField2D_Regist(this);
-
-			//描画プライオリティ。
-			this.drawpriority = a_drawpriority;
-
-			//位置。
-			//this.pos;
-
-			//パラメータ。
-			this.param.PoolNew();
-
-			//削除管理。
-			if(a_deleter != null){
-				a_deleter.Regist(this);
-			}
+			return t_this;
 		}
 
 		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
@@ -117,19 +119,22 @@ namespace Fee.Render2D
 		}
 
 		/** [Fee.Pool.PoolItem_Base]プールへ削除。
+
+			タスクから呼び出される。
+
 		*/
-		public void PoolDelete()
+		public void OnPoolDelete()
 		{
 			//rawの削除。
-			this.param.PoolDelete();
+			this.param.DeleteFromPoolDelete();
 		}
 
 		/** [Fee.Pool.PoolItem_Base]メモリから削除。
 		*/
-		public void MemoryDelete()
+		public void OnMemoryDelete()
 		{
 			//rawの削除。
-			this.param.MemoryDelete();
+			this.param.DeleteFromMemoryDelete();
 		}
 
 		/** 削除チェック。

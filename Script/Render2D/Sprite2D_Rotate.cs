@@ -30,7 +30,7 @@ namespace Fee.Render2D
 
 		/** プールから作成。
 		*/
-		public void PoolNew()
+		public void InitializeFromPoolNew()
 		{
 			//フラグ。
 			this.flag = false;

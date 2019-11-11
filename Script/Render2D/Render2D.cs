@@ -1,17 +1,14 @@
 
 
-
-
-
-
-using System.Net.Mime;
-using UnityEditor.IMGUI.Controls;
 /**
 * Copyright (c) blueback
 * Released under the MIT License
 * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
 * @brief ２Ｄ描画。
-*//** Fee.Render2D
+*/
+
+
+/** Fee.Render2D
 */
 namespace Fee.Render2D
 {
@@ -295,23 +292,23 @@ namespace Fee.Render2D
 
 		/** スプライト。作成。
 		*/
-		public Sprite2D Sprite2D_PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public Sprite2D PoolNew_Sprite2D()
 		{
-			return this.spritelist.PoolNew(a_deleter,a_drawpriority);
+			return this.spritelist.PoolNew();
 		}
 
 		/** テキスト。作成。
 		*/
-		public Text2D Text2D_PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public Text2D PoolNew_Text2D()
 		{
-			return this.textlist.PoolNew(a_deleter,a_drawpriority);
+			return this.textlist.PoolNew();
 		}
 
 		/** 入力フィールド。作成。
 		*/
-		public InputField2D InputField2D_PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public InputField2D PoolNew_InputField2D()
 		{
-			return this.inputfieldlist.PoolNew(a_deleter,a_drawpriority);
+			return this.inputfieldlist.PoolNew();
 		}
 
 		/** スプライト。登録。

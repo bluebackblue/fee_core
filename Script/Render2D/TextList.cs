@@ -72,11 +72,9 @@ namespace Fee.Render2D
 
 		/** プールから作成。
 		*/
-		public Text2D PoolNew(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public Text2D PoolNew()
 		{
-			Text2D t_item = this.pool_list.PoolNew();
-			t_item.PoolNew(a_deleter,a_drawpriority);
-			return t_item;
+			return this.pool_list.PoolNew();
 		}
 
 		/** 登録。
@@ -154,11 +152,11 @@ namespace Fee.Render2D
 		*/
 		public void Delete()
 		{
-			this.pool_list.MemoryDelete();
 			for(int ii=0;ii<this.list.Count;ii++){
-				//this.list[ii].PoolDelete();
-				this.list[ii].MemoryDelete();
+				this.pool_list.PoolDelete(this.list[ii]);
 			}
+			this.list.Clear();
+			this.pool_list.MemoryDelete();
 		}
 	}
 }

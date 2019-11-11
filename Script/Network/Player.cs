@@ -48,7 +48,7 @@ namespace Fee.Network
 		*/
 		void Start()
 		{
-			Tool.Log("Player", "Start");
+			Tool.Log("Player","Start");
 
 			//トランスフォーム。
 			this.mytransform = this.GetComponent<UnityEngine.Transform>();

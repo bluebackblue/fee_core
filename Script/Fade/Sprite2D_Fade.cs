@@ -20,7 +20,7 @@ namespace Fee.Fade
 		*/
 		public Sprite2D_Fade(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 			:
-			base(Fee.Render2D.Render2D.GetInstance().Sprite2D_PoolNew(a_deleter,a_drawpriority))
+			base(Fee.Render2D.Sprite2D.Create(a_deleter,a_drawpriority))
 		{
 			this.sprite.SetMaterialType(Fee.Render2D.Config.MaterialType.Simple);
 			this.sprite.SetOnSprite2DMaterialUpdate(this);

@@ -20,44 +20,44 @@ namespace Fee.Render2D
 		*/
 		private UnityEngine.Material material;
 
-		/** material_data
+		/** status
 		*/
-		private Material_Data material_data;
+		private Fee.Material.Status material_status;
 
 		/** main_texture
 		*/
-		private Material_Property_Texture main_texture;
+		private Fee.Material.Property_Texture main_texture;
 
 		/** clip
 		*/
-		private Material_Property_Int clip_flag;
-		private Material_Property_Float clip_x1;
-		private Material_Property_Float clip_y1;
-		private Material_Property_Float clip_x2;
-		private Material_Property_Float clip_y2;
+		private Fee.Material.Property_Int clip_flag;
+		private Fee.Material.Property_Float clip_x1;
+		private Fee.Material.Property_Float clip_y1;
+		private Fee.Material.Property_Float clip_x2;
+		private Fee.Material.Property_Float clip_y2;
 
 		/** corner
 		*/
-		private Material_Property_Int corner_size;
+		private Fee.Material.Property_Int corner_size;
 
 		/** texture
 		*/
-		private Material_Property_Float texture_x;
-		private Material_Property_Float texture_y;
-		private Material_Property_Float texture_w;
-		private Material_Property_Float texture_h;
+		private Fee.Material.Property_Float texture_x;
+		private Fee.Material.Property_Float texture_y;
+		private Fee.Material.Property_Float texture_w;
+		private Fee.Material.Property_Float texture_h;
 
 		/** rect
 		*/
-		private Material_Property_Float rect_w;
-		private Material_Property_Float rect_h;
+		private Fee.Material.Property_Float rect_w;
+		private Fee.Material.Property_Float rect_h;
 
 		/** constructor
 		*/
-		public Material_Item(UnityEngine.Material a_material_raw,in Material_Data a_material_data,bool a_duplicate)
+		public Material_Item(UnityEngine.Material a_material_raw,Fee.Material.Status a_material_status,bool a_duplicate)
 		{
-			//material_data
-			this.material_data = a_material_data;
+			//material_status
+			this.material_status = a_material_status;
 
 			//material
 			if(a_duplicate == true){
@@ -69,7 +69,7 @@ namespace Fee.Render2D
 			}
 
 			//プロパティ初期化。
-			string[] t_property_list = this.material_data.property;
+			string[] t_property_list = this.material_status.property_list;
 			for(int ii=0;ii<t_property_list.Length;ii++){
 				switch(t_property_list[ii]){
 				case "clip_flag":
@@ -144,7 +144,7 @@ namespace Fee.Render2D
 		*/
 		public Material_Item DuplicateMaterialItem()
 		{
-			Material_Item t_material_item = new Material_Item(this.material,this.material_data,true);
+			Material_Item t_material_item = new Material_Item(this.material,this.material_status,true);
 			return t_material_item;
 		}
 

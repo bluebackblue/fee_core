@@ -76,7 +76,7 @@ namespace Fee.Ui
 			this.check_lock_sprite.SetVisible(false);
 
 			//text
-			this.text = Fee.Render2D.Render2D.GetInstance().Text2D_PoolNew(this.deleter,a_drawpriority);
+			this.text = Fee.Render2D.Text2D.Create(this.deleter,a_drawpriority);
 			this.text.SetAlignmentType(Render2D.Text2D_HorizontalAlignmentType.Left,Render2D.Text2D_VerticalAlignmentType.Middle);
 
 			this.text_offset_x = 5;

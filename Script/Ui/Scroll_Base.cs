@@ -53,6 +53,10 @@ namespace Fee.Ui
 		*/
 		private bool is_onover;
 
+		/** visible_flag
+		*/
+		protected bool visible_flag;
+
 		/** constructor
 		*/
 		public Scroll_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,Scroll_Type a_scroll_type,int a_item_length)
@@ -88,6 +92,9 @@ namespace Fee.Ui
 			//is_onover
 			this.is_onover = false;
 
+			//visible_flag
+			this.visible_flag = true;
+
 			if(a_deleter != null){
 				a_deleter.Regist(this);
 			}
@@ -108,6 +115,10 @@ namespace Fee.Ui
 		/** [Scroll_Base]コールバック。描画プライオリティ変更。
 		*/
 		protected abstract void OnChangeDrawPriority();
+
+		/** [Scroll_Base]コールバック。表示フラグ変更。
+		*/
+		protected abstract void OnChangeVisibleFlag();
 
 		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
@@ -139,8 +150,41 @@ namespace Fee.Ui
 
 				this.eventplate.SetPriority(a_drawpriority);
 
+				if(this.scroll_value.GetViewStartIndex() >= 0){
+					for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+						this.list[ii].SetDrawPriority(this.drawpriority);
+					}
+				}
+
 				//コールバック。描画プライオリティ変更。
 				this.OnChangeDrawPriority();
+			}
+		}
+
+		/** 表示。設定。
+		*/
+		public void SetVisible(bool a_flag)
+		{
+			if(this.visible_flag != a_flag){
+				this.visible_flag = a_flag;
+				this.eventplate.SetEnable(a_flag);
+
+				if(this.visible_flag == true){
+					if(this.scroll_value.GetViewStartIndex() >= 0){
+						for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+							this.list[ii].OnViewIn();
+						}
+					}
+				}else{
+					if(this.scroll_value.GetViewStartIndex() >= 0){
+						for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+							this.list[ii].OnViewOut();
+						}
+					}
+				}
+
+				//コールバック。表示フラグ変更。
+				this.OnChangeVisibleFlag();
 			}
 		}
 
@@ -446,9 +490,13 @@ namespace Fee.Ui
 					this.list[a_index].SetClipRect(in this.rect);
 				}
 
-				this.list[a_index].OnViewIn();
+				if(this.visible_flag == true){
+					this.list[a_index].OnViewIn();
+				}
 			}else{
-				this.list[a_index].OnViewOut();
+				if(this.visible_flag == true){
+					this.list[a_index].OnViewOut();
+				}
 			}
 		}
 
@@ -458,7 +506,11 @@ namespace Fee.Ui
 		{
 			int t_index = this.list.Count;
 		
+			//rect
 			a_new_item.SetClipRect(in this.rect);
+
+			//drawpriority
+			a_new_item.SetDrawPriority(this.drawpriority);
 
 			//other direction
 			if(this.scroll_type == Scroll_Type.Vertical){
@@ -506,7 +558,11 @@ namespace Fee.Ui
 			if((0<=a_index)&&(a_index<=this.list.Count)){
 				//追加。
 
+				//rect
 				a_new_item.SetClipRect(in this.rect);
+
+				//drawpriority
+				a_new_item.SetDrawPriority(this.drawpriority);
 
 				//other direction
 				if(this.scroll_type == Scroll_Type.Vertical){

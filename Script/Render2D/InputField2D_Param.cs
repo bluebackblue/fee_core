@@ -70,7 +70,7 @@ namespace Fee.Render2D
 
 		/** プールから作成。
 		*/
-		public void PoolNew()
+		public void InitializeFromPoolNew()
 		{
 			//フォントサイズ。
 			this.fontsize = Config.DEFAULT_TEXT_FONTSIZE;
@@ -123,13 +123,13 @@ namespace Fee.Render2D
 
 		/** プールへ削除。
 		*/
-		public void PoolDelete()
+		public void DeleteFromPoolDelete()
 		{
 		}
 
 		/** メモリから削除。
 		*/
-		public void MemoryDelete()
+		public void DeleteFromMemoryDelete()
 		{
 			UnityEngine.GameObject.DestroyImmediate(this.raw_gameobject);
 			this.raw_gameobject = null;

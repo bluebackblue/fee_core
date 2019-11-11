@@ -61,7 +61,7 @@ namespace Fee.File
 			if(a_directorypath != null){
 				this.directorypath = a_directorypath;
 
-				Tool.Assert(System.IO.Path.GetFileName(a_directorypath) == "");
+				Tool.Assert(System.IO.Path.GetFileName(this.directorypath + this.filename) == this.filename);
 			}else{
 				this.directorypath = "";
 			}
@@ -90,7 +90,7 @@ namespace Fee.File
 		*/
 		public string GetPath()
 		{
-			return this.directorypath + this.filename;;
+			return this.directorypath + this.filename;
 		}
 
 		/** ファイル名。取得。

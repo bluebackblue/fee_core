@@ -38,7 +38,7 @@ namespace Fee.Render2D
 				UnityEngine.Material t_material = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_DATA[ii].resource_path);
 				if(t_material != null){
 					//複製。
-					this.material_list[ii] = new Material_Item(t_material,in Config.MATERIAL_DATA[ii],true);
+					this.material_list[ii] = new Material_Item(t_material,Config.MATERIAL_DATA[ii],true);
 				}
 			}
 

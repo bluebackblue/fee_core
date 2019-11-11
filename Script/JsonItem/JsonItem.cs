@@ -852,7 +852,7 @@ namespace Fee.JsonItem
 			this.value.Reset();
 		
 			this.valuetype = ValueType.AssociativeArray;
-			this.value.associative_array = new System.Collections.Generic.Dictionary<string, JsonItem>();
+			this.value.associative_array = new System.Collections.Generic.Dictionary<string,JsonItem>();
 		}
 
 		/** [設定]空インデックスリスト。

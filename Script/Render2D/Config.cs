@@ -140,8 +140,8 @@ namespace Fee.Render2D
 
 		/** MATERIAL_DATA
 		*/
-		public static Material_Data[] MATERIAL_DATA = {
-			new Material_Data(
+		public static Fee.Material.Status[] MATERIAL_DATA = {
+			new Fee.Material.Status(
 
 				//resource_path
 				"Material/Render2D/Simple",
@@ -152,7 +152,7 @@ namespace Fee.Render2D
 				}
 			),
 
-			new Material_Data(
+			new Fee.Material.Status(
 
 				//resource_path
 				"Material/Render2D/Alpha",
@@ -163,7 +163,7 @@ namespace Fee.Render2D
 				}
 			),
 
-			new Material_Data(
+			new Fee.Material.Status(
 
 				//resource_path
 				"Material/Render2D/AlphaClip",
@@ -179,7 +179,7 @@ namespace Fee.Render2D
 				}
 			),
 
-			new Material_Data(
+			new Fee.Material.Status(
 
 				//resource_path
 				"Material/Render2D/Add",
@@ -193,7 +193,7 @@ namespace Fee.Render2D
 
 		/** マテリアル名。ＵＩテキスト。
 		*/
-		public static Material_Data MATERIAL_DATA_UITEXT = new Material_Data(
+		public static Fee.Material.Status MATERIAL_DATA_UITEXT = new Fee.Material.Status(
 			//resource_path
 			"Material/Render2D/UiText",
 
@@ -210,7 +210,7 @@ namespace Fee.Render2D
 
 		/** マテリアル名。ＵＩイメージ。
 		*/
-		public static Material_Data MATERIAL_DATA_UIIMAGE = new Material_Data(
+		public static Fee.Material.Status MATERIAL_DATA_UIIMAGE = new Fee.Material.Status(
 			//resource_path
 			"Material/Render2D/UiImage",
 

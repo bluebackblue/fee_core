@@ -17,10 +17,16 @@ namespace Fee.Ui
 	public enum Scroll_Type
 	{
 		/** 縦。
+
+			<summary>縦</summary>
+
 		*/
 		Vertical,
 
 		/** 横。
+
+			<summary>横</summary>
+
 		*/
 		Horizontal,
 	}

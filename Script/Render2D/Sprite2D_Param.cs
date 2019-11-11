@@ -36,7 +36,7 @@ namespace Fee.Render2D
 
 		/** プールから作成。
 		*/
-		public void PoolNew()
+		public void InitializeFromPoolNew()
 		{
 			//テクスチャ。
 			this.texture = null;
@@ -57,13 +57,13 @@ namespace Fee.Render2D
 
 		/** プールへ削除。
 		*/
-		public void PoolDelete()
+		public void DeleteFromPoolDelete()
 		{
 		}
 
 		/** メモリから削除。
 		*/
-		public void MemoryDelete()
+		public void DeleteFromMemoryDelete()
 		{
 			//テキスチャ。
 			this.texture = null;

@@ -28,7 +28,7 @@ namespace Fee.Ui
 		*/
 		public Sprite2D_Clip(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 			:
-			base(Fee.Render2D.Render2D.GetInstance().Sprite2D_PoolNew(a_deleter,a_drawpriority))
+			base(Fee.Render2D.Sprite2D.Create(a_deleter,a_drawpriority))
 		{
 			//is_clip
 			this.is_clip = false;

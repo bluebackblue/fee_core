@@ -56,7 +56,7 @@ namespace Fee.Ui
 			this.length = 0;
 
 			//sprite
-			this.sprite = Fee.Render2D.Render2D.GetInstance().Sprite2D_PoolNew(a_deleter,a_drawpriority + 1);
+			this.sprite = Fee.Render2D.Sprite2D.Create(a_deleter,a_drawpriority + 1);
 			this.sprite.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 			this.sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.sprite.SetRotate(true);

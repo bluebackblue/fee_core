@@ -75,6 +75,10 @@ namespace Fee.Ui
 		*/
 		public abstract void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect);
 
+		/** [Fee.Ui.ScrollItem_Base]描画プライオリティ。設定。
+		*/
+		public abstract void SetDrawPriority(long a_drawpriority);
+
 		/** [Fee.Ui.ScrollItem_Base]表示内。
 		*/
 		public abstract void OnViewIn();

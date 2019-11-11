@@ -12,24 +12,20 @@
 */
 namespace Fee.Pool
 {
-	/** PoolMode
-	*/
-	public enum PoolMode
-	{
-		PoolItem
-	}
-
 	/** PoolItem_Base
 	*/
 	public interface PoolItem_Base
 	{
 		/** [Fee.Pool.PoolItem_Base]プールへ削除。
+
+			タスクから呼び出される。
+
 		*/
-		void PoolDelete();
+		void OnPoolDelete();
 
 		/** [Fee.Pool.PoolItem_Base]メモリから削除。
 		*/
-		void MemoryDelete();
+		void OnMemoryDelete();
 	}
 }
 
