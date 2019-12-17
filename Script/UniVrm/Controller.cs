@@ -49,13 +49,9 @@ namespace Fee.UniVrm
 		*/
 		private UnityEngine.Transform root_transform;
 
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
-
-		/** simpleanimationtion
+		/** controller_simpleanimationtion
 		*/
-		private SimpleAnimation simpleanimationtion;
-
-		#endif
+		private Controller_SimpleAnimation controller_simpleanimationtion;
 
 		/** constructor
 		*/
@@ -79,8 +75,12 @@ namespace Fee.UniVrm
 			//simpleanimationtion
 			if(a_controllertype == ControllerType.SimpleAnimation){
 				#if(USE_DEF_FEE_SIMPLEANIMATION)
-				this.simpleanimationtion = this.root_gameobject.AddComponent<SimpleAnimation>();
+				this.controller_simpleanimationtion = new Controller_SimpleAnimation(this.root_gameobject.AddComponent<SimpleAnimation>());
+				#else
+				this.controller_simpleanimationtion = null;
 				#endif
+			}else{
+				this.controller_simpleanimationtion = null;
 			}
 		}
 
@@ -154,113 +154,6 @@ namespace Fee.UniVrm
 			this.raw_animator.runtimeAnimatorController = a_animator_controller;
 		}
 
-		/** [SimpleAnimation]モーション。追加。
-		*/
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
-		public void AddMotion_SimpleAnimation(string a_state_name,UnityEngine.AnimationClip a_animetion_clip)
-		{
-			if(this.simpleanimationtion != null){
-				this.simpleanimationtion.AddClip(a_animetion_clip,a_state_name);
-			}else{
-				Tool.Assert(false);
-			}
-		}
-		#endif
-		
-		/** [SimpleAnimation]モーション。停止。
-		*/
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
-		public void StopMotion_SimpleAnimation()
-		{
-			this.simpleanimationtion.Stop();
-		}
-		#endif
-
-		/** [SimpleAnimation]モーション。停止。
-		*/
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
-		public void StopMotion_SimpleAnimation(string a_state_name)
-		{
-			this.simpleanimationtion.Stop(a_state_name);
-		}
-		#endif
-
-		/** [SimpleAnimation]モーション。再生。
-		*/
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
-		public void PlayMotion_SimpleAnimation()
-		{
-			this.simpleanimationtion.Play();
-		}
-		#endif
-
-		/** [SimpleAnimation]モーション。再生。
-		*/
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
-		public void PlayMotion_SimpleAnimation(string a_state_name,float a_cross_time,bool a_cross)
-		{
-			if(this.simpleanimationtion != null){
-				if(a_cross == true){
-					this.simpleanimationtion.CrossFade(a_state_name,a_cross_time);
-				}else{
-					this.simpleanimationtion.Stop();
-					this.simpleanimationtion.Play(a_state_name);
-				}
-			}else{
-				Tool.Assert(false);
-			}
-		}
-		#endif
-
-		/** [SimpleAnimation]ステータスリスト。取得。
-		*/
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
-		public SimpleAnimation.State GetState_SimpleAnimation(string a_state_name)
-		{
-			return this.simpleanimationtion.GetState(a_state_name);
-		}
-		#endif
-
-		/** [SimpleAnimation]正規化時間。取得。
-		*/
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
-		public float GetNormalizedTime_SimpleAnimation(string a_state_name)
-		{
-			SimpleAnimation.State t_state = this.GetState_SimpleAnimation(a_state_name);
-			return t_state.normalizedTime;
-		}
-		#endif
-
-		/** [SimpleAnimation]時間。取得。
-		*/
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
-		public float GetTime_SimpleAnimation(string a_state_name)
-		{
-			SimpleAnimation.State t_state = this.GetState_SimpleAnimation(a_state_name);
-			return t_state.time;
-		}
-		#endif
-
-		/** [SimpleAnimation]ブレンド率。取得。
-		*/
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
-		public float GetBlendWeight_SimpleAnimation(string a_state_name)
-		{
-			SimpleAnimation.State t_state = this.GetState_SimpleAnimation(a_state_name);
-			return t_state.weight;
-		}
-		#endif
-
-		/** [SimpleAnimation]アニメ再生中かどうか。取得。
-		*/
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
-		public bool IsAnime_SimpleAnimation(string a_state_name)
-		{
-			SimpleAnimation.State t_state = this.GetState_SimpleAnimation(a_state_name);
-			return t_state.enabled;
-		}
-		#endif
-
 		/** [RuntimeAnimatorController]モーション。再生。
 		*/
 		public void PlayMotion_RuntimeAnimatorController(string a_state)
@@ -280,6 +173,69 @@ namespace Fee.UniVrm
 		public UnityEngine.AnimatorClipInfo[] GetCurrentAnimatorClipInfo_RuntimeAnimatorController(int a_layer_index)
 		{
 			return this.raw_animator.GetCurrentAnimatorClipInfo(a_layer_index);
+		}
+
+		/** [SimpleAnimation]モーション。追加。
+		*/
+		public void AddMotion_SimpleAnimation(string a_state_name,UnityEngine.AnimationClip a_animetion_clip)
+		{
+			this.controller_simpleanimationtion.AddMotion(a_state_name,a_animetion_clip);
+		}
+		
+		/** [SimpleAnimation]モーション。停止。
+		*/
+		public void StopMotion_SimpleAnimation()
+		{
+			this.controller_simpleanimationtion.StopMotion();
+		}
+
+		/** [SimpleAnimation]モーション。停止。
+		*/
+		public void StopMotion_SimpleAnimation(string a_state_name)
+		{
+			this.controller_simpleanimationtion.StopMotion(a_state_name);
+		}
+
+		/** [SimpleAnimation]モーション。再生。
+		*/
+		public void PlayMotion_SimpleAnimation()
+		{
+			this.controller_simpleanimationtion.PlayMotion();
+		}
+
+		/** [SimpleAnimation]モーション。再生。
+		*/
+		public void PlayMotion_SimpleAnimation(string a_state_name,float a_cross_time,bool a_cross)
+		{
+			this.controller_simpleanimationtion.PlayMotion(a_state_name,a_cross_time,a_cross);
+		}
+
+		/** [SimpleAnimation]正規化時間。取得。
+		*/
+		public float GetNormalizedTime_SimpleAnimation(string a_state_name)
+		{
+			return this.controller_simpleanimationtion.GetNormalizedTime(a_state_name);
+		}
+
+		/** [SimpleAnimation]時間。取得。
+		*/
+		public float GetTime_SimpleAnimation(string a_state_name)
+		{
+			return this.controller_simpleanimationtion.GetTime(a_state_name);
+		}
+
+		/** [SimpleAnimation]ブレンド率。取得。
+		*/
+		public float GetBlendWeight_SimpleAnimation(string a_state_name)
+		{
+			return this.controller_simpleanimationtion.GetBlendWeight(a_state_name);
+		}
+
+		/** [SimpleAnimation]再生中かどうか。取得。
+		*/
+		public bool IsPlay_SimpleAnimation(string a_state_name)
+		{
+			return this.controller_simpleanimationtion.IsPlay(a_state_name);
 		}
 	}
 }
