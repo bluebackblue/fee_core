@@ -49,10 +49,12 @@ namespace Fee.UniVrm
 		*/
 		private UnityEngine.Transform root_transform;
 
+		#if(USE_DEF_FEE_SIMPLEANIMATION)
+
 		/** simpleanimationtion
 		*/
-		#if(USE_DEF_FEE_SIMPLEANIMATION)
 		private SimpleAnimation simpleanimationtion;
+
 		#endif
 
 		/** constructor
@@ -186,6 +188,15 @@ namespace Fee.UniVrm
 		/** [SimpleAnimation]モーション。再生。
 		*/
 		#if(USE_DEF_FEE_SIMPLEANIMATION)
+		public void PlayMotion_SimpleAnimation()
+		{
+			this.simpleanimationtion.Play();
+		}
+		#endif
+
+		/** [SimpleAnimation]モーション。再生。
+		*/
+		#if(USE_DEF_FEE_SIMPLEANIMATION)
 		public void PlayMotion_SimpleAnimation(string a_state_name,float a_cross_time,bool a_cross)
 		{
 			if(this.simpleanimationtion != null){
@@ -201,11 +212,74 @@ namespace Fee.UniVrm
 		}
 		#endif
 
+		/** [SimpleAnimation]ステータスリスト。取得。
+		*/
+		#if(USE_DEF_FEE_SIMPLEANIMATION)
+		public SimpleAnimation.State GetState_SimpleAnimation(string a_state_name)
+		{
+			return this.simpleanimationtion.GetState(a_state_name);
+		}
+		#endif
+
+		/** [SimpleAnimation]正規化時間。取得。
+		*/
+		#if(USE_DEF_FEE_SIMPLEANIMATION)
+		public float GetNormalizedTime_SimpleAnimation(string a_state_name)
+		{
+			SimpleAnimation.State t_state = this.GetState_SimpleAnimation(a_state_name);
+			return t_state.normalizedTime;
+		}
+		#endif
+
+		/** [SimpleAnimation]時間。取得。
+		*/
+		#if(USE_DEF_FEE_SIMPLEANIMATION)
+		public float GetTime_SimpleAnimation(string a_state_name)
+		{
+			SimpleAnimation.State t_state = this.GetState_SimpleAnimation(a_state_name);
+			return t_state.time;
+		}
+		#endif
+
+		/** [SimpleAnimation]ブレンド率。取得。
+		*/
+		#if(USE_DEF_FEE_SIMPLEANIMATION)
+		public float GetBlendWeight_SimpleAnimation(string a_state_name)
+		{
+			SimpleAnimation.State t_state = this.GetState_SimpleAnimation(a_state_name);
+			return t_state.weight;
+		}
+		#endif
+
+		/** [SimpleAnimation]アニメ再生中かどうか。取得。
+		*/
+		#if(USE_DEF_FEE_SIMPLEANIMATION)
+		public bool IsAnime_SimpleAnimation(string a_state_name)
+		{
+			SimpleAnimation.State t_state = this.GetState_SimpleAnimation(a_state_name);
+			return t_state.enabled;
+		}
+		#endif
+
 		/** [RuntimeAnimatorController]モーション。再生。
 		*/
 		public void PlayMotion_RuntimeAnimatorController(string a_state)
 		{
 			this.raw_animator.Play(a_state);
+		}
+
+		/** [RuntimeAnimatorController]GetCurrentAnimatorStateInfo
+		*/
+		public UnityEngine.AnimatorStateInfo GetCurrentAnimatorStateInfo_RuntimeAnimatorController(int a_layer_index)
+		{
+			return this.raw_animator.GetCurrentAnimatorStateInfo(a_layer_index);
+		}
+
+		/** [RuntimeAnimatorController]GetCurrentAnimatorStateInfo
+		*/
+		public UnityEngine.AnimatorClipInfo[] GetCurrentAnimatorClipInfo_RuntimeAnimatorController(int a_layer_index)
+		{
+			return this.raw_animator.GetCurrentAnimatorClipInfo(a_layer_index);
 		}
 	}
 }

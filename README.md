@@ -41,24 +41,31 @@ https://discord.gg/JH3B4SR
 * _ Fade [フェード]
 * _ File [セーブ、ロード、ダウンロード、アップロード]
 * _ Function [関数呼び出し]
+* _ Geometry [ジオメトリ]
 * _ Input [InputManager、InputSystem]
 * _ Instantiate [インスタンス作成]
 * _ JsonItem [Json]
 * _ JsonSheet [Jsonシート]
 * _ Key [キー]
-* _ MakeAssetBundle [アセットバンドル作成]
+* _ MapTip [マップチップ]
+* _ Material [マテリアル]
+* _ MD5 [ハッシュ]
 * _ Model [モデル用ツール]
 * _ Network [通信]
+* _ Pattern [プログレス]
+* _ Perceptron [パーセプトロン]
 * _ PerformanceCounter [パフォーマンスカウンター]
 * _ Platform [プラットフォーム]
+* _ PlayerLoopSystem [ユニティーメインループ操作]
+* _ Pool [プール]
 * _ Render2D [GLスプライト描画、テキスト、入力フィールド]
 * _ ReThrowException [例外]
 * _ Scene [シーン管理]
 * _ SoundPool [サウンドプール]
 * _ TaskW [タスク]
 * _ Ui [ボタン、クリップスプライト、ウィンドウ、スライダー、縦スクロール、横スクロール、チェックボタン]
-* _ UniVrm [UniVrmの操作]
 * _ Unity5 [Unity5サポート]
+* _ UniVrm [UniVrmの操作]
 
 ## デファイン
 
@@ -82,7 +89,7 @@ https://discord.gg/JH3B4SR
 ### UniVrmを使用する。
 * 「USE_DEF_FEE_UNIVRM」
 
-### 「Fee.UniVrm」でSimpleAnimationを使用する。
+### SimpleAnimationを使用する。
 * 「USE_DEF_FEE_SIMPLEANIMATION」
 
 ### USE_DEF_FEE_TEMP

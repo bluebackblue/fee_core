@@ -59,7 +59,10 @@ namespace Fee.UniVrm
 
 			/** Load
 			*/
-			public void Load(){}
+			public void Load(){
+				//USE_DEF_FEE_UNIVRM
+				Tool.Assert(false);
+			}
 		}
 	}
 }

@@ -52,7 +52,14 @@ namespace Fee.Material
 
 			if(this.cache_value != a_value){
 				this.cache_value = a_value;
-				this.material_raw.SetFloat(this.property_id,this.cache_value);
+
+				if(this.material_raw != null){
+					this.material_raw.SetFloat(this.property_id,this.cache_value);
+				}else{
+					//未初期化。
+					Tool.Assert(false);
+				}
+
 				t_change = true;
 			}
 
