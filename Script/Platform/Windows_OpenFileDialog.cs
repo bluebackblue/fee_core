@@ -14,7 +14,7 @@ namespace Fee.Platform
 {
 	/** Windows_OpenFileDialog
 	*/
-	#if((!UNITY_EDITOR)&&(UNITY_STANDALONE_WIN))
+	#if((!UNITY_EDITOR)&&(UNITY_STANDALONE_WIN))||true
 	class Windows_OpenFileDialog
 	{
 		/** OpenFileDialog
@@ -24,7 +24,7 @@ namespace Fee.Platform
 			a_root_instance.openfiledialog_result = null;
 
 			try{
-				a_root_instance.openfiledialog_result = FeeCsDll.OpenFileDialog.Open();
+				a_root_instance.openfiledialog_result = FeeCsDll.OpenFileDialog_Comdlg32.Open();
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 				a_root_instance.openfiledialog_result = "";
