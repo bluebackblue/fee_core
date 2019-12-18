@@ -62,15 +62,32 @@ namespace Fee.EditorTool
 			return == フルパス。
 
 		*/
-		public static Fee.File.Path FindFile(string a_dir_name,string a_file_name)
+		public static Fee.File.Path FindFile(string a_dir_name,string a_find_name)
 		{
 			string[] t_dir_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),a_dir_name,System.IO.SearchOption.AllDirectories);
 			for(int ii=0;ii<t_dir_list.Length;ii++){
-				string[] t_file_list = System.IO.Directory.GetFiles(t_dir_list[ii],a_file_name,System.IO.SearchOption.TopDirectoryOnly);
+				string[] t_file_list = System.IO.Directory.GetFiles(t_dir_list[ii],a_find_name,System.IO.SearchOption.TopDirectoryOnly);
 				if(t_file_list != null){
 					if(t_file_list.Length > 0){
 						return new Fee.File.Path(t_file_list[0]);
 					}
+				}
+			}
+			return null;
+		}
+
+		/** ディレクトリ検索。
+
+			return == フルパス。
+
+		*/
+		public static Fee.File.Path FindDirectory(string a_dir_name,string a_find_name)
+		{
+			string[] t_dir_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),a_dir_name,System.IO.SearchOption.AllDirectories);
+			for(int ii=0;ii<t_dir_list.Length;ii++){
+				string t_directory_name = System.IO.Path.GetFileName(t_dir_list[ii]);
+				if(t_directory_name == a_find_name){
+					return new Fee.File.Path(t_dir_list[ii]);
 				}
 			}
 			return null;

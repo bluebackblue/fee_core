@@ -43,8 +43,14 @@ namespace Fee.EditorTool
 			//ファイル名。
 			string t_filename = "fee_" + System.DateTime.Now.ToString("yyyyMMdd_HH") + ".unitypackage";
 
+			//ディレクトリ名。
+			Fee.File.Path t_directory = Fee.EditorTool.Utility.FindDirectory("./","Fee");
+			string t_directory_name = System.IO.Path.GetFullPath(t_directory.GetPath());
+			string t_root_directory_name = System.IO.Path.GetFullPath(Fee.File.Path.CreateAssetsPath().GetPath());
+			t_directory_name = t_directory_name.Substring(t_root_directory_name.Length - 6);
+
 			//出力。
-			UnityEditor.AssetDatabase.ExportPackage("Assets/Fee",t_filename,t_options);
+			UnityEditor.AssetDatabase.ExportPackage(t_directory_name,t_filename,t_options);
 		}
 
 		/** CommandLineParam
