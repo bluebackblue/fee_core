@@ -262,8 +262,11 @@ namespace Fee.EditorTool
 				#endif
 
 				//プラットフォーム。
+				#if(false)
 				{
+					Fee.Platform.Platform.CreateInstance();
 				}
+				#endif
 
 				//プレイヤーループシステム。
 				{
@@ -448,6 +451,7 @@ namespace Fee.EditorTool
 
 			//プラットフォーム。
 			{
+				Fee.Platform.Platform.DeleteInstance();
 			}
 
 			//プレイヤーループシステム。
