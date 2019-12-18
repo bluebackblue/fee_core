@@ -33,22 +33,10 @@ namespace Fee.Platform
 		[System.Runtime.InteropServices.DllImport("__Internal")]
 		private static extern void Fee_Platform_WebGLPlugin_OpenFileDialog_Open();
 
-		/**  OpenFileDialog
-		*/
-		public static void  OpenFileDialog(MonoBehaviour_Root a_root_instance)
-		{
-			a_root_instance.openfiledialog_result = null;
+		/** 登録。
 
-			try{
-				WebGL_OpenFileDialog.Fee_Platform_WebGLPlugin_OpenFileDialog_Register();
-				WebGL_OpenFileDialog.Fee_Platform_WebGLPlugin_OpenFileDialog_Open();
-			}catch(System.Exception t_exception){
-				Tool.DebugReThrow(t_exception);
-				a_root_instance.openfiledialog_result = "";
-			}
-		}
+			インプットフィールド追加のために、一度呼び出す必要がある。
 
-		/** Register
 		*/
 		public static void Register()
 		{
@@ -56,6 +44,20 @@ namespace Fee.Platform
 				WebGL_OpenFileDialog.Fee_Platform_WebGLPlugin_OpenFileDialog_Register();
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
+			}
+		}
+
+		/** OpenFileDialog
+		*/
+		public static void OpenFileDialog(MonoBehaviour_Root a_root_instance)
+		{
+			a_root_instance.openfiledialog_result = null;
+
+			try{
+				WebGL_OpenFileDialog.Fee_Platform_WebGLPlugin_OpenFileDialog_Open();
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
+				a_root_instance.openfiledialog_result = "";
 			}
 		}
 	}

@@ -14,7 +14,7 @@ namespace Fee.Platform
 {
 	/** Windows_OpenFileDialog
 	*/
-	#if((!UNITY_EDITOR)&&(UNITY_STANDALONE_WIN))||true
+	#if((!UNITY_EDITOR)&&(UNITY_STANDALONE_WIN))
 	class Windows_OpenFileDialog
 	{
 		/** OpenFileDialog

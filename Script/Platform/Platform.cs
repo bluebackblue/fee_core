@@ -177,6 +177,11 @@ namespace Fee.Platform
 		}
 
 		/** オープンファイルダイアログ。結果。
+
+			return == null : ダイアログ表示中。
+			return == "" : キャンセル。
+			return : ファイルパス。
+
 		*/
 		public string GetOpenFileDialogResult()
 		{

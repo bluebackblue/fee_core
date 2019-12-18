@@ -17,7 +17,7 @@ namespace Fee.Platform
 	#if(UNITY_EDITOR)
 	class Editor_OpenFileDialog
 	{
-		/** OpenFileDialogRequest
+		/** OpenFileDialog
 		*/
 		public static void OpenFileDialog(MonoBehaviour_Root a_root_instance)
 		{
