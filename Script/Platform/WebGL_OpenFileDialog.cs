@@ -1,0 +1,64 @@
+
+
+/**
+ * Copyright (c) blueback
+ * Released under the MIT License
+ * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
+ * @brief プラットフォーム。オープンファイルダイアログ。
+*/
+
+
+/** Fee.Platform
+*/
+namespace Fee.Platform
+{
+	/** WebGL_OpenFileDialog
+	*/
+	#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+	class WebGL_OpenFileDialog
+	{
+		/** Fee_Platform_WebGLPlugin_OpenFileDialog_Register
+
+		Plugins/Platform/openfiledialog:Fee_Platform_WebGLPlugin_OpenFileDialog_Register
+
+		*/
+		[System.Runtime.InteropServices.DllImport("__Internal")]
+		private static extern void Fee_Platform_WebGLPlugin_OpenFileDialog_Register();
+
+		/** Fee_Platform_WebGLPlugin_OpenFileDialog_Open
+
+		Plugins/Platform/openfiledialog:Fee_Platform_WebGLPlugin_OpenFileDialog_Open
+
+		*/
+		[System.Runtime.InteropServices.DllImport("__Internal")]
+		private static extern void Fee_Platform_WebGLPlugin_OpenFileDialog_Open();
+
+		/**  OpenFileDialog
+		*/
+		public static void  OpenFileDialog(MonoBehaviour_Root a_root_instance)
+		{
+			a_root_instance.openfiledialog_result = null;
+
+			try{
+				WebGL_OpenFileDialog.Fee_Platform_WebGLPlugin_OpenFileDialog_Register();
+				WebGL_OpenFileDialog.Fee_Platform_WebGLPlugin_OpenFileDialog_Open();
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
+				a_root_instance.openfiledialog_result = "";
+			}
+		}
+
+		/** Register
+		*/
+		public static void Register()
+		{
+			try{
+				WebGL_OpenFileDialog.Fee_Platform_WebGLPlugin_OpenFileDialog_Register();
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
+			}
+		}
+	}
+	#endif
+}
+

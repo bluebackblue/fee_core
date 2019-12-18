@@ -84,7 +84,7 @@ namespace Fee.File
 				t_filestream.Close();
 			}
 
-			Platform.Platform.SyncFs();
+			Platform.Platform.GetInstance().SyncFs();
 
 			if(a_cancel.IsCancellationRequested() == true){
 				t_ret.saveend = false;
