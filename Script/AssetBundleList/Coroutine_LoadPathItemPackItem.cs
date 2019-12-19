@@ -96,10 +96,11 @@ namespace Fee.AssetBundleList
 
 			//ダミーアセットバンドルの読み込み。
 			#if(UNITY_EDITOR)
-			if(t_pathitem.assetbundle_pathtype == AssetBundlePathType.AssetsDummyAssetBundle){
+
+			if(t_pathitem.assetbundle_pathtype == AssetBundlePathType.AssetsPathDummyAssetBundle){
 				string t_result_string = null;
 				{
-					Fee.File.Item t_item_dummy_assetbundle_json = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadAssetsTextFile,t_pathitem.assetbundle_path);
+					Fee.File.Item t_item_dummy_assetbundle_json = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadAssetsPathTextFile,t_pathitem.assetbundle_path);
 					if(t_item_dummy_assetbundle_json == null){
 						//失敗。
 						this.result.errorstring = "Coroutine_LoadPathItemPackItem : item_json = null : " + a_assetbundle_name;
@@ -142,6 +143,7 @@ namespace Fee.AssetBundleList
 				this.result.pack_item = t_pack_item;
 				yield break;
 			}
+
 			#endif
 			
 			//アセットバンドルの読み込み。
@@ -158,13 +160,17 @@ namespace Fee.AssetBundleList
 					Fee.File.Item t_item_bianry = null;
 
 					switch(t_pathitem.assetbundle_pathtype){
+
 					#if(UNITY_EDITOR)
-					case AssetBundlePathType.AssetsAssetBundle:
+
+					case AssetBundlePathType.AssetsPathAssetBundle:
 						{
 							//アセットフォルダにあるアセットバンドルの相対パス。
-							t_item_bianry = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadAssetsBinaryFile,t_pathitem.assetbundle_path);
+							t_item_bianry = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadAssetsPathBinaryFile,t_pathitem.assetbundle_path);
 						}break;
+
 					#endif
+
 					case  AssetBundlePathType.UrlAssetBundle:
 						{
 							//アセットバンドルのＵＲＬ。

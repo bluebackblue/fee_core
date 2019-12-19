@@ -157,9 +157,19 @@ namespace Fee.File
 			LoadUrlTextureFile,
 
 			#if(UNITY_EDITOR)
-			LoadAssetsBinaryFile,
-			LoadAssetsTextFile,
+
+			LoadAssetsPathBinaryFile,
+			LoadAssetsPathTextFile,
+
 			#endif
+
+			#if((UNITY_EDITOR)||(UNITY_STANDALONE))
+
+			LoadFullPathBinaryFile,
+			LoadFullPathTextFile,
+
+			#endif
+
 		};
 
 		/** RequestLoad
@@ -266,22 +276,44 @@ namespace Fee.File
 
 			#if(UNITY_EDITOR)
 
-			//アセット。
+			//アセットパス。
 
-			case LoadRequestType.LoadAssetsBinaryFile:
+			case LoadRequestType.LoadAssetsPathBinaryFile:
 				{
 					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadAssetsBinaryFile(a_path);
+					t_work_item.RequestLoadAssetsPathBinaryFile(a_path);
 					this.add_list.Add(t_work_item);
 					return t_work_item.GetItem();
 				}break;
-			case LoadRequestType.LoadAssetsTextFile:
+			case LoadRequestType.LoadAssetsPathTextFile:
 				{
 					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadAssetsTextFile(a_path);
+					t_work_item.RequestLoadAssetsPathTextFile(a_path);
 					this.add_list.Add(t_work_item);
 					return t_work_item.GetItem();
 				}break;
+
+			#endif
+
+			#if((UNITY_EDITOR)||(UNITY_STANDALONE))
+
+			//フルパス。
+
+			case LoadRequestType.LoadFullPathBinaryFile:
+				{
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadFullPathBinaryFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
+				}break;
+			case LoadRequestType.LoadFullPathTextFile:
+				{
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadFullPathTextFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
+				}break;
+
 			#endif
 
 			}

@@ -111,13 +111,25 @@ namespace Fee.File
 
 			#if(UNITY_EDITOR)
 
-			/** ロードアセット。バイナリファイル。
+			/** ロードアセットパス。バイナリファイル。
 			*/
-			LoadAssetsBinaryFile,
+			LoadAssetsPathBinaryFile,
 
-			/** ロードアセット。テキストファイル。
+			/** ロードアセットパス。テキストファイル。
 			*/
-			LoadAssetsTextFile,
+			LoadAssetsPathTextFile,
+
+			#endif
+
+			#if((UNITY_EDITOR)||(UNITY_STANDALONE))
+
+			/** ロードフルパス。バイナリファイル。
+			*/
+			LoadFullPathBinaryFile,
+
+			/** ロードフルパス。テキストファイル。
+			*/
+			LoadFullPathTextFile,
 
 			#endif
 		};
@@ -311,19 +323,39 @@ namespace Fee.File
 
 		#if(UNITY_EDITOR)
 
-		/** リクエスト。ロードアセット。バイナリファイル。
+		/** リクエスト。ロードアセットパス。バイナリファイル。
 		*/
-		public void RequestLoadAssetsBinaryFile(Path a_relative_path)
+		public void RequestLoadAssetsPathBinaryFile(Path a_relative_path)
 		{
-			this.request_type = RequestType.LoadAssetsBinaryFile;
+			this.request_type = RequestType.LoadAssetsPathBinaryFile;
 			this.request_path = a_relative_path;
 		}
 
-		/** リクエスト。ロードアセット。バイナリファイル。
+		/** リクエスト。ロードアセットパス。バイナリファイル。
 		*/
-		public void RequestLoadAssetsTextFile(Path a_relative_path)
+		public void RequestLoadAssetsPathTextFile(Path a_relative_path)
 		{
-			this.request_type = RequestType.LoadAssetsTextFile;
+			this.request_type = RequestType.LoadAssetsPathTextFile;
+			this.request_path = a_relative_path;
+		}
+
+		#endif
+
+		#if((UNITY_EDITOR)||(UNITY_STANDALONE))
+
+		/** リクエスト。ロードフルパス。バイナリファイル。
+		*/
+		public void RequestLoadFullPathBinaryFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadFullPathBinaryFile;
+			this.request_path = a_relative_path;
+		}
+
+		/** リクエスト。ロードフルパス。バイナリファイル。
+		*/
+		public void RequestLoadFullPathTextFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadFullPathTextFile;
 			this.request_path = a_relative_path;
 		}
 
@@ -470,20 +502,41 @@ namespace Fee.File
 								this.mode = Mode.Do_Resources;
 							}
 						}break;
+
 					#if(UNITY_EDITOR)
-					case RequestType.LoadAssetsBinaryFile:
+
+					case RequestType.LoadAssetsPathBinaryFile:
 						{
-							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadAssetsBinaryFile(this.request_path) == true){
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadAssetsPathBinaryFile(this.request_path) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
-					case RequestType.LoadAssetsTextFile:
+					case RequestType.LoadAssetsPathTextFile:
 						{
-							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadAssetsTextFile(this.request_path) == true){
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadAssetsPathTextFile(this.request_path) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;
+
 					#endif
+
+					#if((UNITY_EDITOR)||(UNITY_STANDALONE))
+
+					case RequestType.LoadFullPathBinaryFile:
+						{
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadFullPathBinaryFile(this.request_path) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+					case RequestType.LoadFullPathTextFile:
+						{
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadFullPathTextFile(this.request_path) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+
+					#endif
+
 					default:
 						{
 							Tool.Assert(false);

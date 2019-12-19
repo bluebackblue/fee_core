@@ -24,7 +24,18 @@ namespace Fee.Platform
 		*/
 		public void OpenFileDialog_CallBack(string a_result)
 		{
-			this.openfiledialog_result = a_result;
+			if(a_result == null){
+				this.openfiledialog_result = "";
+			}else{
+				this.openfiledialog_result = a_result;
+			}
+		}
+
+		/** OpenFileDialog_Log
+		*/
+		public void OpenFileDialog_Log(string a_text)
+		{
+			Tool.Log("OpenFileDialog_Log",a_text);
 		}
 	}
 }

@@ -23,13 +23,13 @@ namespace Fee.AssetBundleList
 		/** アセットフォルダにあるアセットバンドルの相対パス。
 		*/
 		#if(UNITY_EDITOR)
-		AssetsAssetBundle,
+		AssetsPathAssetBundle,
 		#endif
 
 		/** アセットフォルダにあるダミーアセットバンドルの相対パス。
 		*/
 		#if(UNITY_EDITOR)
-		AssetsDummyAssetBundle,
+		AssetsPathDummyAssetBundle,
 		#endif
 	}
 }
