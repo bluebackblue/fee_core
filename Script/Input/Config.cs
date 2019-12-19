@@ -48,6 +48,8 @@ namespace Fee.Input
 		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEPOSITION = true;
 		#elif(UNITY_ANDROID)
 		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEPOSITION = false;
+		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEPOSITION = false;
 		#else
 		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEPOSITION = true;
 		#endif
@@ -57,6 +59,8 @@ namespace Fee.Input
 		#if(UNITY_EDITOR)
 		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = false;
 		#elif(UNITY_ANDROID)
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = false;
+		#elif(UNITY_WEBGL)
 		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = false;
 		#else
 		public static bool USE_INPUTSYSTEM_POINTER_MOUSEPOSITION = false;
@@ -76,6 +80,8 @@ namespace Fee.Input
 		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEBUTTON = true;
 		#elif(UNITY_ANDROID)
 		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEBUTTON = false;
+		#elif(UNITY_WEBGL)
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEBUTTON = false;
 		#else
 		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEBUTTON = true;
 		#endif
@@ -85,6 +91,8 @@ namespace Fee.Input
 		#if(UNITY_EDITOR)
 		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = false;
 		#elif(UNITY_ANDROID)
+		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = false;
+		#elif(UNITY_WEBGL)
 		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = false;
 		#else
 		public static bool USE_INPUTSYSTEM_POINTER_MOUSEBUTTON = false;
@@ -103,6 +111,8 @@ namespace Fee.Input
 		#if(UNITY_EDITOR)
 		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEWHEEL= true;
 		#elif(UNITY_ANDROID)
+		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEWHEEL = false;
+		#elif(UNITY_WEBGL)
 		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEWHEEL = false;
 		#else
 		public static bool USE_INPUTSYSTEM_MOUSE_MOUSEWHEEL = true;
