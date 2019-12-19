@@ -24,14 +24,12 @@ namespace Fee.UniVrm
 
 		/** constructor
 		*/
+		#if(USE_DEF_FEE_SIMPLEANIMATION)
 		public Controller_SimpleAnimation(SimpleAnimation a_simpleanimationtion)
 		{
-			#if(USE_DEF_FEE_SIMPLEANIMATION)
 			this.raw = a_simpleanimationtion;
-			#else
-			Tool.Assert(false);
-			#endif
 		}
+		#endif
 
 		/** 削除。
 		*/
