@@ -172,9 +172,45 @@ namespace Fee.File
 
 		};
 
+		/** RequestLoadUrl
+		*/
+		public Item RequestLoadUrl(LoadRequestType a_request_type,Path a_path,UnityEngine.WWWForm a_post_data = null,UnityEngine.Networking.CertificateHandler a_certificate_handler = null)
+		{
+			switch(a_request_type){
+
+			//ロードＵＲＬ。
+
+			case LoadRequestType.LoadUrlBinaryFile:
+				{
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadUrlBinaryFile(a_path,a_post_data,a_certificate_handler);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
+				}break;
+			case LoadRequestType.LoadUrlTextFile:
+				{
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadUrlTextFile(a_path,a_post_data,a_certificate_handler);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
+				}break;
+			case LoadRequestType.LoadUrlTextureFile:
+				{
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadUrlTextureFile(a_path,a_post_data,a_certificate_handler);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
+				}break;
+
+			}
+
+			Tool.Assert(false);
+			return null;
+		}
+
 		/** RequestLoad
 		*/
-		public Item RequestLoad(LoadRequestType a_request_type,Path a_path,UnityEngine.WWWForm a_post_data = null)
+		public Item RequestLoad(LoadRequestType a_request_type,Path a_path)
 		{
 			switch(a_request_type){
 
@@ -255,21 +291,21 @@ namespace Fee.File
 			case LoadRequestType.LoadUrlBinaryFile:
 				{
 					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadUrlBinaryFile(a_path,a_post_data);
+					t_work_item.RequestLoadUrlBinaryFile(a_path,null,null);
 					this.add_list.Add(t_work_item);
 					return t_work_item.GetItem();
 				}break;
 			case LoadRequestType.LoadUrlTextFile:
 				{
 					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadUrlTextFile(a_path,a_post_data);
+					t_work_item.RequestLoadUrlTextFile(a_path,null,null);
 					this.add_list.Add(t_work_item);
 					return t_work_item.GetItem();
 				}break;
 			case LoadRequestType.LoadUrlTextureFile:
 				{
 					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadUrlTextureFile(a_path,a_post_data);
+					t_work_item.RequestLoadUrlTextureFile(a_path,null,null);
 					this.add_list.Add(t_work_item);
 					return t_work_item.GetItem();
 				}break;

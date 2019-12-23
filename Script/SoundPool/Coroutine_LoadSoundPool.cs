@@ -60,7 +60,7 @@ namespace Fee.SoundPool
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(OnSoundPoolCoroutine_CallBackInterface a_callback_interface,File.Path a_path,UnityEngine.WWWForm a_post_data,bool a_is_streamingassets,uint a_data_version)
+		public System.Collections.IEnumerator CoroutineMain(OnSoundPoolCoroutine_CallBackInterface a_callback_interface,File.Path a_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler,bool a_is_streamingassets,uint a_data_version)
 		{
 			//result
 			this.result = new ResultType();
@@ -145,7 +145,7 @@ namespace Fee.SoundPool
 				if(a_is_streamingassets == true){
 					t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadStreamingAssetsTextFile,a_path);
 				}else{
-					t_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadUrlTextFile,a_path,a_post_data);
+					t_item = Fee.File.File.GetInstance().RequestLoadUrl(File.File.LoadRequestType.LoadUrlTextFile,a_path,a_post_data,a_certificate_handler);
 				}
 				
 				do{

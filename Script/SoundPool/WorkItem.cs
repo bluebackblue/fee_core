@@ -70,6 +70,10 @@ namespace Fee.SoundPool
 		*/
 		private UnityEngine.WWWForm request_post_data;
 
+		/** request_certificate_handler
+		*/
+		private UnityEngine.Networking.CertificateHandler request_certificate_handler;
+
 		/** request_data_version
 		*/
 		private uint request_data_version;
@@ -93,6 +97,9 @@ namespace Fee.SoundPool
 
 			//request_post_data
 			this.request_post_data = null;
+
+			//request_certificate_handler
+			this.request_certificate_handler = null;
 
 			//request_data_version
 			this.request_data_version = 0;
@@ -120,11 +127,12 @@ namespace Fee.SoundPool
 
 		/** リクエスト。ロードＵＲＬ。サウンドプール。
 		*/
-		public void RequestLoadUrlBinaryFile(File.Path a_url_path,UnityEngine.WWWForm a_post_data,uint a_data_version)
+		public void RequestLoadUrlBinaryFile(File.Path a_url_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler,uint a_data_version)
 		{
 			this.request_type = RequestType.LoadUrlSoundPool;
 			this.request_path = a_url_path;
 			this.request_post_data = a_post_data;
+			this.request_certificate_handler = a_certificate_handler;
 			this.request_data_version = a_data_version;
 		}
 
@@ -160,7 +168,7 @@ namespace Fee.SoundPool
 						}break;
 					case RequestType.LoadUrlSoundPool:
 						{
-							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestLoadUrlSoundPool(this.request_path,this.request_post_data,this.request_data_version) == true){
+							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestLoadUrlSoundPool(this.request_path,this.request_post_data,this.request_certificate_handler,this.request_data_version) == true){
 								this.mode = Mode.Do_File;
 							}
 						}break;

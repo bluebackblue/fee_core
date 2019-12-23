@@ -53,22 +53,31 @@ namespace Fee.File
 
 		/** CreateWebRequestInstance
 		*/
-		private static UnityEngine.Networking.UnityWebRequest CreateWebRequestInstance(Fee.File.Path a_path,UnityEngine.WWWForm a_post_data)
+		private static UnityEngine.Networking.UnityWebRequest CreateWebRequestInstance(Fee.File.Path a_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler)
 		{
+			UnityEngine.Networking.UnityWebRequest t_webrequest = null;
+
 			if(a_post_data != null){
-				return UnityEngine.Networking.UnityWebRequest.Post(a_path.GetPath(),a_post_data);
+				t_webrequest = UnityEngine.Networking.UnityWebRequest.Post(a_path.GetPath(),a_post_data);
+			}else{
+				t_webrequest = UnityEngine.Networking.UnityWebRequest.Get(a_path.GetPath());
 			}
-			return UnityEngine.Networking.UnityWebRequest.Get(a_path.GetPath());
+
+			if(a_certificate_handler != null){
+				t_webrequest.certificateHandler = a_certificate_handler;
+			}
+
+			return t_webrequest;
 		}
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnFileCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path,UnityEngine.WWWForm a_post_data)
+		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnFileCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler)
 		{
 			//result
 			this.result = new ResultType();
 
-			using(UnityEngine.Networking.UnityWebRequest t_webrequest = CreateWebRequestInstance(a_path,a_post_data)){
+			using(UnityEngine.Networking.UnityWebRequest t_webrequest = CreateWebRequestInstance(a_path,a_post_data,a_certificate_handler)){
 
 				#if(UNITY_5)
 				UnityEngine.AsyncOperation t_webrequest_async = null;

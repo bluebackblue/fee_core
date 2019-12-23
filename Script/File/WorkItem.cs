@@ -150,6 +150,10 @@ namespace Fee.File
 		*/
 		private UnityEngine.WWWForm request_post_data;
 
+		/** request_certificate_handler
+		*/
+		private UnityEngine.Networking.CertificateHandler request_certificate_handler;
+
 		/** request_binary
 		*/
 		private byte[] request_binary;
@@ -181,6 +185,9 @@ namespace Fee.File
 
 			//request_post_data
 			this.request_post_data = null;
+
+			//request_certificate_handler
+			this.request_certificate_handler = null;
 
 			//request_binary
 			this.request_binary = null;
@@ -248,29 +255,32 @@ namespace Fee.File
 
 		/** リクエスト。ロードＵＲＬ。バイナリファイル。
 		*/
-		public void RequestLoadUrlBinaryFile(Path a_relative_path,UnityEngine.WWWForm a_post_data)
+		public void RequestLoadUrlBinaryFile(Path a_relative_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler)
 		{
 			this.request_type = RequestType.LoadUrlBinaryFile;
 			this.request_path = a_relative_path;
 			this.request_post_data = a_post_data;
+			this.request_certificate_handler = a_certificate_handler;
 		}
 
 		/** リクエスト。ロードＵＲＬ。テキストファイル。
 		*/
-		public void RequestLoadUrlTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
+		public void RequestLoadUrlTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler)
 		{
 			this.request_type = RequestType.LoadUrlTextFile;
 			this.request_path = a_url_path;
 			this.request_post_data = a_post_data;
+			this.request_certificate_handler = a_certificate_handler;
 		}
 
 		/** リクエスト。ロードＵＲＬ。テクスチャファイル。
 		*/
-		public void RequestLoadUrlTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
+		public void RequestLoadUrlTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler)
 		{
 			this.request_type = RequestType.LoadUrlTextureFile;
 			this.request_path = a_url_path;
 			this.request_post_data = a_post_data;
+			this.request_certificate_handler = a_certificate_handler;
 		}
 
 		/** リクエスト。ロードストリーミングアセット。バイナリファイル。
@@ -417,19 +427,19 @@ namespace Fee.File
 						}break;
 					case RequestType.LoadUrlBinaryFile:
 						{
-							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlBinaryFile(this.request_path,this.request_post_data) == true){
+							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlBinaryFile(this.request_path,this.request_post_data,this.request_certificate_handler) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
 					case RequestType.LoadUrlTextFile:
 						{
-							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlTextFile(this.request_path,this.request_post_data) == true){
+							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlTextFile(this.request_path,this.request_post_data,this.request_certificate_handler) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
 					case RequestType.LoadUrlTextureFile:
 						{
-							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlTextureFile(this.request_path,this.request_post_data) == true){
+							if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlTextureFile(this.request_path,this.request_post_data,this.request_certificate_handler) == true){
 								this.mode = Mode.Do_WebRequest;
 							}
 						}break;
@@ -600,10 +610,6 @@ namespace Fee.File
 									this.item.SetResultAsset(t_main.GetResultAsset());
 									t_success = true;
 								}
-							}break;
-						default:
-							{
-								Tool.Assert(false);
 							}break;
 						}
 

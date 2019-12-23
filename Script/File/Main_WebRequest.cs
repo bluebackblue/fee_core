@@ -49,6 +49,10 @@ namespace Fee.File
 		*/
 		private UnityEngine.WWWForm request_post_data;
 
+		/** request_certificate_handler
+		*/
+		private UnityEngine.Networking.CertificateHandler request_certificate_handler;
+
 		/** request_path
 		*/
 		private Path request_path;
@@ -83,6 +87,7 @@ namespace Fee.File
 
 			//request
 			this.request_post_data = null;
+			this.request_certificate_handler = null;
 			this.request_path = null;
 
 			//result
@@ -166,7 +171,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードＵＲＬ。バイナリファイル。
 		*/
-		public bool RequestLoadUrlBinaryFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
+		public bool RequestLoadUrlBinaryFile(Path a_url_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -176,6 +181,7 @@ namespace Fee.File
 
 				//request
 				this.request_post_data = a_post_data;
+				this.request_certificate_handler = a_certificate_handler;
 				this.request_path = a_url_path;
 
 				//result
@@ -197,7 +203,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadUrlBinaryFile()
 		{
 			Coroutine_LoadUrlBinaryFile t_coroutine = new Coroutine_LoadUrlBinaryFile();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
+			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,this.request_certificate_handler);
 
 			if(t_coroutine.result.binary_file != null){
 				this.result_progress = 1.0f;
@@ -215,7 +221,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードＵＲＬ。テキストファイル。
 		*/
-		public bool RequestLoadUrlTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
+		public bool RequestLoadUrlTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -225,6 +231,7 @@ namespace Fee.File
 
 				//request
 				this.request_post_data = a_post_data;
+				this.request_certificate_handler = a_certificate_handler;
 				this.request_path = a_url_path;
 
 				//result
@@ -246,7 +253,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadUrlTextFile()
 		{
 			Coroutine_LoadUrlTextFile t_coroutine = new Coroutine_LoadUrlTextFile();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
+			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,this.request_certificate_handler);
 
 			if(t_coroutine.result.text_file != null){
 				this.result_progress = 1.0f;
@@ -264,7 +271,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードＵＲＬ。テクスチャファイル。
 		*/
-		public bool RequestLoadUrlTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data)
+		public bool RequestLoadUrlTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -274,6 +281,7 @@ namespace Fee.File
 
 				//request
 				this.request_post_data = a_post_data;
+				this.request_certificate_handler = a_certificate_handler;
 				this.request_path = a_url_path;
 
 				//result
@@ -295,7 +303,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadUrlTextureFile()
 		{
 			Coroutine_LoadUrlTextureFile t_coroutine = new Coroutine_LoadUrlTextureFile();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data);
+			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,this.request_certificate_handler);
 
 			if(t_coroutine.result.texture_file != null){
 				this.result_progress = 1.0f;
@@ -323,6 +331,7 @@ namespace Fee.File
 
 				//request
 				this.request_post_data = null;
+				this.request_certificate_handler = null;
 				this.request_path = a_relative_path;
 
 				//result
@@ -347,7 +356,7 @@ namespace Fee.File
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
 			Coroutine_LoadUrlBinaryFile t_coroutine = new Coroutine_LoadUrlBinaryFile();
-			yield return t_coroutine.CoroutineMain(this,t_path,null);
+			yield return t_coroutine.CoroutineMain(this,t_path,null,null);
 
 			if(t_coroutine.result.binary_file != null){
 				this.result_progress = 1.0f;
@@ -375,6 +384,7 @@ namespace Fee.File
 
 				//request
 				this.request_post_data = null;
+				this.request_certificate_handler = null;
 				this.request_path = a_relative_path;
 
 				//result
@@ -399,7 +409,7 @@ namespace Fee.File
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
 			Coroutine_LoadUrlTextFile t_coroutine = new Coroutine_LoadUrlTextFile();
-			yield return t_coroutine.CoroutineMain(this,t_path,null);
+			yield return t_coroutine.CoroutineMain(this,t_path,null,null);
 
 			if(t_coroutine.result.text_file != null){
 				this.result_progress = 1.0f;
@@ -427,6 +437,7 @@ namespace Fee.File
 
 				//request
 				this.request_post_data = null;
+				this.request_certificate_handler = null;
 				this.request_path = a_relative_path;
 
 				//result
@@ -451,7 +462,7 @@ namespace Fee.File
 			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
 
 			Coroutine_LoadUrlTextureFile t_coroutine = new Coroutine_LoadUrlTextureFile();
-			yield return t_coroutine.CoroutineMain(this,t_path,null);
+			yield return t_coroutine.CoroutineMain(this,t_path,null,null);
 
 			if(t_coroutine.result.texture_file != null){
 				this.result_progress = 1.0f;

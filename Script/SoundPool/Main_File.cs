@@ -53,6 +53,10 @@ namespace Fee.SoundPool
 		*/
 		private UnityEngine.WWWForm request_post_data;
 
+		/** request_certificate_handler
+		*/
+		private UnityEngine.Networking.CertificateHandler request_certificate_handler;
+
 		/** request_data_version
 		*/
 		private uint request_data_version;
@@ -88,6 +92,7 @@ namespace Fee.SoundPool
 			//request
 			this.request_path = null;
 			this.request_post_data = null;
+			this.request_certificate_handler = null;
 			this.request_data_version = 0;
 
 			//result
@@ -182,6 +187,7 @@ namespace Fee.SoundPool
 				//request
 				this.request_path = a_path;
 				this.request_post_data = null;
+				this.request_certificate_handler = null;
 				this.request_data_version = 0;
 
 				//result
@@ -231,6 +237,7 @@ namespace Fee.SoundPool
 				//request
 				this.request_path = a_path;
 				this.request_post_data = null;
+				this.request_certificate_handler = null;
 				this.request_data_version = a_data_version;
 
 				//result
@@ -252,7 +259,7 @@ namespace Fee.SoundPool
 		private System.Collections.IEnumerator DoLoadStreamingAssetsSoundPool()
 		{
 			Coroutine_LoadSoundPool t_coroutine = new Coroutine_LoadSoundPool();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,null,true,this.request_data_version);
+			yield return t_coroutine.CoroutineMain(this,this.request_path,null,null,true,this.request_data_version);
 
 			if(t_coroutine.result.soundpool != null){
 				this.result_progress = 1.0f;
@@ -269,7 +276,7 @@ namespace Fee.SoundPool
 
 		/** リクエスト。ロードＵＲＬ。サウンドプール。
 		*/
-		public bool RequestLoadUrlSoundPool(File.Path a_path,UnityEngine.WWWForm a_post_data,uint a_data_version)
+		public bool RequestLoadUrlSoundPool(File.Path a_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler,uint a_data_version)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -280,6 +287,7 @@ namespace Fee.SoundPool
 				//request
 				this.request_path = a_path;
 				this.request_post_data = a_post_data;
+				this.request_certificate_handler = a_certificate_handler;
 				this.request_data_version = a_data_version;
 
 				//result
@@ -301,7 +309,7 @@ namespace Fee.SoundPool
 		private System.Collections.IEnumerator DoLoadUrlSoundPool()
 		{
 			Coroutine_LoadSoundPool t_coroutine = new Coroutine_LoadSoundPool();
-			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,false,this.request_data_version);
+			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,this.request_certificate_handler,false,this.request_data_version);
 
 			if(t_coroutine.result.soundpool != null){
 				this.result_progress = 1.0f;
