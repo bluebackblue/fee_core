@@ -18,7 +18,7 @@ namespace Fee.Render2D
 	{
 		/** テクスチャ。
 		*/
-		private UnityEngine.Texture2D texture;
+		private UnityEngine.Texture texture;
 
 		/** 色。
 		*/
@@ -71,14 +71,14 @@ namespace Fee.Render2D
 
 		/** テクスチャ。設定。
 		*/
-		public void SetTexture(UnityEngine.Texture2D a_texture)
+		public void SetTexture(UnityEngine.Texture a_texture)
 		{
 			this.texture = a_texture;
 		}
 
 		/** テクスチャ。取得。
 		*/
-		public UnityEngine.Texture2D GetTexture()
+		public UnityEngine.Texture GetTexture()
 		{
 			return this.texture;
 		}

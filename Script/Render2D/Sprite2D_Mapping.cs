@@ -274,7 +274,7 @@ namespace Fee.Render2D
 
 		/** テクスチャ。取得。
 		*/
-		public UnityEngine.Texture2D GetTexture()
+		public UnityEngine.Texture GetTexture()
 		{
 			return this.sprite.GetTexture();
 		}

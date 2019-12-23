@@ -485,7 +485,7 @@ namespace Fee.Ui
 
 		/** テクスチャ。取得。
 		*/
-		public UnityEngine.Texture2D GetTexture()
+		public UnityEngine.Texture GetTexture()
 		{
 			return this.sprite_1.GetTexture();
 		}

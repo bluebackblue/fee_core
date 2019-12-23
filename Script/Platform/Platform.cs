@@ -176,7 +176,7 @@ namespace Fee.Platform
 			#endif
 		}
 
-		/** オープンファイルダイアログ。結果。
+		/** オープンファイルダイアログ。結果。取得。
 
 			return == null : ダイアログ表示中。
 			return == "" : キャンセル。
@@ -186,6 +186,13 @@ namespace Fee.Platform
 		public string GetOpenFileDialogResult()
 		{
 			return this.root_instance.openfiledialog_result;
+		}
+
+		/** オープンファイルダイアログ。結果。設定。
+		*/
+		public void SetOpenfileDialogResult(string a_result)
+		{
+			this.root_instance.openfiledialog_result = a_result;
 		}
 	}
 }
