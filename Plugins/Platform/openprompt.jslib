@@ -6,12 +6,14 @@ mergeInto(LibraryManager.library,{
 
 		var t_result = window.prompt(t_title,t_text);
 
-		if(!t_result){
-			return a_text;
+		if(t_result == null){
+			t_result = t_text;
 		}
 
-		var t_buffer = _malloc(lengthBytesUTF8(t_result)+1);
-		writeStringToMemory(t_result,t_buffer);
+		var t_buffer_size = lengthBytesUTF8(t_result)+1;
+		var t_buffer = _malloc(t_buffer_size);
+		stringToUTF8(t_result,t_buffer,t_buffer_size);
+
 		return t_buffer;
 	}
 });
