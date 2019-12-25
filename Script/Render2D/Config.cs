@@ -106,11 +106,14 @@ namespace Fee.Render2D
 		/** 最初のカメラでレンダーテクスチャをクリアする。色。
 		*/
 		public static UnityEngine.Color FIRSTGLCAMERA_CLEAR_RENDERTEXTURE_COLOR = new UnityEngine.Color(0.0f,0.0f,0.0f,1.0f);
-
-		/** プレハブ名。
+		
+		/** 初期化時にイベントシステムを作成するかどうか。
 		*/
-		public static string PREFAB_NAME_CANVAS = "Prefab/Render2D/Canvas";
-		public static string PREFAB_NAME_EVENTSYSTEM = "Prefab/Render2D/EventSystem";
+		public static bool CREATE_EVENTYSYSTEM = true;
+
+		/** 削除時にイベントシステムを削除するかどうか。
+		*/
+		public static bool DELETE_EVENTSYSTEM = true;
 
 		/** マテリアルタイプ。
 		*/

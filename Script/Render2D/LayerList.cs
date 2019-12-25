@@ -24,17 +24,6 @@ namespace Fee.Render2D
 		*/
 		public LayerList(UnityEngine.Transform a_transform_root)
 		{
-			//プレハブ読み込み。
-			UnityEngine.GameObject t_prefab_canvas = UnityEngine.Resources.Load<UnityEngine.GameObject>(Config.PREFAB_NAME_CANVAS);
-			UnityEngine.GameObject t_prefab_eventsystem = UnityEngine.Resources.Load<UnityEngine.GameObject>(Config.PREFAB_NAME_EVENTSYSTEM);
-
-			//イベントシステム。入力フィールド用。
-			{
-				UnityEngine.GameObject t_gameobject_eventsystem = UnityEngine.GameObject.Instantiate(t_prefab_eventsystem,UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity);
-				t_gameobject_eventsystem.name = "EventSystem";
-				t_gameobject_eventsystem.transform.parent = a_transform_root;
-			}
-
 			//レイヤーリスト。
 			this.list = new LayerItem[Config.MAX_LAYER];
 			for(int ii=0;ii<this.list.Length;ii++){
@@ -53,15 +42,8 @@ namespace Fee.Render2D
 				UnityEngine.Camera t_camera_ui = t_gameobject_camera_ui.GetComponent<UnityEngine.Camera>();
 				t_camera_ui.cullingMask = (1 << UnityEngine.LayerMask.NameToLayer("UI"));
 				
-				//キャンバス。
-				UnityEngine.GameObject t_gameobject_canvas = UnityEngine.GameObject.Instantiate(t_prefab_canvas,UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity);
-				t_gameobject_canvas.name = "Canvas_" + ii.ToString();
-				t_gameobject_canvas.transform.SetParent(a_transform_root);
-				UnityEngine.Canvas t_canvas = t_gameobject_canvas.GetComponent<UnityEngine.Canvas>();
-
-				//キャンバス設定。
-				t_canvas.renderMode = UnityEngine.RenderMode.ScreenSpaceCamera;
-				t_canvas.worldCamera = t_camera_ui;
+				//キャンバス作成。
+				UnityEngine.GameObject t_gameobject_canvas = Fee.Instantiate.Instantiate.CreateCameraCanvas("Canvas_" + ii.ToString(),a_transform_root,t_camera_ui);
 
 				//ＧＬ描画設定。
 				this.list[ii].camera_gl = t_gameobject_camera_gl.AddComponent<MonoBehaviour_Camera_GL>();

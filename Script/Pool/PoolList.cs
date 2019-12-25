@@ -57,6 +57,7 @@ namespace Fee.Pool
 		/** プールへ削除。
 
 			タスクから呼び出される。
+			Render2D.Deleteから呼び出される。
 
 		*/
 		public void PoolDelete(T a_pool_item)

@@ -67,6 +67,10 @@ namespace Fee.Render2D
 		private UnityEngine.GameObject root_gameobject;
 		private UnityEngine.Transform root_transform;
 
+		/** eventsystem
+		*/
+		private UnityEngine.GameObject eventsystem;
+
 		/** スクリーン。
 		*/
 		private Screen screen;
@@ -113,10 +117,20 @@ namespace Fee.Render2D
 		private Render2D()
 		{
 			//ルート。
-			this.root_gameobject = new UnityEngine.GameObject();
-			this.root_gameobject.name = "Render2D";
-			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
-			this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
+			{
+				this.root_gameobject = new UnityEngine.GameObject();
+				this.root_gameobject.name = "Render2D";
+				UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
+				this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
+			}
+
+			//イベントシステム作成。入力フィールド用。
+			{
+				if(Fee.Render2D.Config.CREATE_EVENTYSYSTEM == true){
+					this.eventsystem = Fee.Instantiate.Instantiate.CreateEventSystem("EventSystem",null/*this.root_transform*/);
+					UnityEngine.GameObject.DontDestroyOnLoad(this.eventsystem);
+				}
+			}
 
 			//スクリーン。
 			this.screen = new Screen();
@@ -158,10 +172,18 @@ namespace Fee.Render2D
 			this.task_sortlist.Delete();
 
 			this.spritelist.Delete();
-			//TODO:this.textlist.Delete();
-			//TODO:this.inputfieldlist.Delete();
+			this.textlist.Delete();
+			this.inputfieldlist.Delete();
 
 			UnityEngine.GameObject.Destroy(this.root_gameobject);
+
+			//イベントシステムの削除。
+			if(Config.DELETE_EVENTSYSTEM == true){
+				if(this.eventsystem != null){
+					UnityEngine.GameObject.DestroyImmediate(this.eventsystem);
+					this.eventsystem = null;
+				}
+			}
 		}
 
 		/** ＧＵＩスクリーン座標　＝＞　仮想スクリーン座標。
