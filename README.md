@@ -10,10 +10,8 @@ MIT License
 * https://github.com/bluebackblue/fee_core/releases/
 
 ## sample project
-* Unity 2018.3.12f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2018_3 ]
-* Unity 2018.4.0f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2018_4 ]
-* Unity 2019.1.0f2 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_1 ]
-* Unity 2019.2.0a11 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_2 ]
+* Unity 2019.2.17f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_2 ]
+* Unity 2020.1.0a17 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2020_1 ]
 
 ## contact
 https://discord.gg/JH3B4SR
