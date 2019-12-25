@@ -12,17 +12,25 @@
 */
 namespace Fee.PlayerLoopSystem
 {
+	/** UnityEngine_PlayerLoopSystem
+	*/
+	#if((UNITY_2018)||(UNITY_2019))
+		using UnityEngine_PlayerLoopSystem = UnityEngine.Experimental.LowLevel;
+	#else
+		using UnityEngine_PlayerLoopSystem = UnityEngine.LowLevel;
+	#endif
+
 	/** Item
 	*/
 	public class Item
 	{
 		/** raw
 		*/
-		public UnityEngine.Experimental.LowLevel.PlayerLoopSystem raw;
+		public UnityEngine_PlayerLoopSystem.PlayerLoopSystem raw;
 
 		/** constructor
 		*/
-		public Item(in UnityEngine.Experimental.LowLevel.PlayerLoopSystem a_raw)
+		public Item(in UnityEngine_PlayerLoopSystem.PlayerLoopSystem a_raw)
 		{
 			this.raw = a_raw;
 		}
@@ -42,10 +50,10 @@ namespace Fee.PlayerLoopSystem
 				}
 
 				if(t_change == true){
-					System.Collections.Generic.List<UnityEngine.Experimental.LowLevel.PlayerLoopSystem> t_new_list = new System.Collections.Generic.List<UnityEngine.Experimental.LowLevel.PlayerLoopSystem>(this.raw.subSystemList[ii].subSystemList);
+					System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem> t_new_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[ii].subSystemList);
 
 					t_new_list.RemoveAll(
-						(UnityEngine.Experimental.LowLevel.PlayerLoopSystem a_item) => {
+						(UnityEngine_PlayerLoopSystem.PlayerLoopSystem a_item) => {
 							if(a_ignore_list.Contains(a_item.type) == true){
 								Tool.Log("PlayerLoopSystemRemove.",a_item.type.Name);
 								return true;
