@@ -24,6 +24,10 @@ namespace Fee.File
 		*/
 		private byte[] publickey_binary;
 
+		/** errorstring
+		*/
+		private string errorstring;
+
 		/** constructor
 		*/
 		public CustomCertificateHandler(string a_publickey_string)
@@ -33,6 +37,9 @@ namespace Fee.File
 
 			//publickey_binary
 			this.publickey_binary = null;
+
+			//errorstring
+			this.errorstring = "Initialize";
 		}
 
 		/** constructor
@@ -44,33 +51,64 @@ namespace Fee.File
 
 			//publickey_binary
 			this.publickey_binary = a_publickey_binary;
+
+			//errorstring
+			this.errorstring = "Initialize";
+		}
+
+		/** GetErrorString
+		*/
+		public string GetErrorString()
+		{
+			return this.errorstring;
 		}
 
 		/** ValidateCertificate
 		*/
 		protected override bool ValidateCertificate(byte[] a_certificate_data)
 		{
-			using(System.Security.Cryptography.X509Certificates.X509Certificate2 t_certificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(a_certificate_data)){
-				if(this.publickey_string != null){
-					if(t_certificate.GetPublicKeyString() == this.publickey_string){
-						return true;
-					}
-				}else if(this.publickey_binary != null){
+			this.errorstring = "Call ValidateCertificate";
 
-					byte[] t_binary = t_certificate.GetPublicKey();
-					if(t_binary.Length == this.publickey_binary.Length){
-						bool t_check = true;
-						for(int ii=0;ii<t_binary.Length;ii++){
-							if(t_binary[ii] != this.publickey_binary[ii]){
-								t_check = false;
-								break;
-							}
-						}
-						if(t_check == true){
+			try{
+				using(System.Security.Cryptography.X509Certificates.X509Certificate2 t_certificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(a_certificate_data)){
+					if(this.publickey_string != null){
+						//文字列。
+
+						if(t_certificate.GetPublicKeyString() == this.publickey_string){
+							this.errorstring = "Success(String Public Key)";
 							return true;
+						}else{
+							this.errorstring = "Mismatch String Error(String Public Key)";
 						}
+					}else if(this.publickey_binary != null){
+						//バイナリ。
+
+						byte[] t_binary = t_certificate.GetPublicKey();
+						if(t_binary.Length == this.publickey_binary.Length){
+							bool t_check = true;
+							for(int ii=0;ii<t_binary.Length;ii++){
+								if(t_binary[ii] != this.publickey_binary[ii]){
+									t_check = false;
+									break;
+								}
+							}
+							if(t_check == true){
+								this.errorstring = "Success(Binary Public Key)";
+								return true;
+							}else{
+								this.errorstring = "Mismatch Binary Error(Binary Public Key)";
+							}
+						}else{
+							this.errorstring = "Mismatch Binary Length Error(Binary Public Key)";
+						}
+					}else{
+						//不明。
+
+						this.errorstring = "Unknown Type Error";
 					}
 				}
+			}catch(System.Exception t_exception){
+				this.errorstring = "Exception : " + t_exception.Message;
 			}
 
 			return false;

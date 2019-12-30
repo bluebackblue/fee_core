@@ -8,6 +8,33 @@
 */
 
 
+/** define
+*/
+//#define DEF_RENDER2D
+//#define DEF_INPUT_MOUSE
+//#define DEF_INPUT_KEY
+//#define DEF_INPUT_PAD
+//#define DEF_UI
+//#define DEF_SCENE
+//#define DEF_FILE
+//#define DEF_FADE
+//#define DEF_DATA
+//#define DEF_AUDIO
+//#define DEF_ASSETBUNDLE
+//#define DEF_PLATFORM
+//#define DEF_NETWORK
+//#define DEF_BLOOM
+//#define DEF_EVENTPLATE
+//#define DEF_CRYPT
+//#define DEF_SOUND
+//#define DEF_TASK
+//#define DEF_UNIVRM
+//#define DEF_BLUR
+//#define DEF_DEPTH
+//#define DEF_FUNCTION
+//#define DEF_PERFORMANCECOUNTER
+
+
 /** Fee.EditorTool
 */
 #if(USE_DEF_FEE_TEMP)
@@ -66,7 +93,7 @@ namespace Fee.EditorTool
 
 		/** scene_update_wait
 		*/
-		#if(false)
+		#if(DEF_SCENE)
 		private int scene_update_wait;
 		#endif
 
@@ -83,15 +110,16 @@ namespace Fee.EditorTool
 			//初期化。
 			{
 				//scene_update_wait
-				#if(false)
+				#if(DEF_SCENE)
 				{
 					this.scene_update_wait = 3;
 				}
 				#endif
 
+				//順序変更。
 				{
 					//２Ｄ描画。
-					#if(false)
+					#if(DEF_RENDER2D)
 					{
 						Fee.Render2D.Config.ReCalcWH();
 						Fee.Render2D.Render2D.CreateInstance();
@@ -103,43 +131,43 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//アセットバンドル。
-				#if(false)
+				//アセットバンドルリスト。
+				#if(DEF_ASSETBUNDLE)
 				{
 					Fee.AssetBundleList.AssetBundleList.CreateInstance();
 				}
 				#endif
 
 				//オーディオ。
-				#if(false)
+				#if(DEF_AUDIO)
 				{
 					Fee.Audio.Audio.CreateInstance();
 				}
 				#endif
 
 				//ブルーム。
-				#if(false)
+				#if(DEF_BLOOM)
 				{
 					Fee.Bloom.Bloom.CreateInstance();
 				}
 				#endif
 
 				//ブラー。
-				#if(false)
+				#if(DEF_BLUR)
 				{
 					Fee.Blur.Blur.CreateInstance();
 				}
 				#endif
 
 				//暗号。
-				#if(false)
+				#if(DEF_CRYPT)
 				{
 					Fee.Crypt.Crypt.CreateInstance();
 				}
 				#endif
 
 				//データ。
-				#if(false)
+				#if(DEF_DATA)
 				{
 					Fee.Data.Data.CreateInstance();
 				}
@@ -150,7 +178,7 @@ namespace Fee.EditorTool
 				}
 
 				//深度。
-				#if(false)
+				#if(DEF_DEPTH)
 				{
 					Fee.Depth.Depth.CreateInstance();
 				}
@@ -169,7 +197,7 @@ namespace Fee.EditorTool
 				}
 
 				//イベントプレート。
-				#if(false)
+				#if(DEF_EVENTPLATE)
 				{
 					Fee.EventPlate.EventPlate.CreateInstance();
 				}
@@ -180,7 +208,7 @@ namespace Fee.EditorTool
 				}
 
 				//フェード。
-				#if(false)
+				#if(DEF_FADE)
 				{
 					Fee.Fade.Fade.CreateInstance();
 					Fee.Fade.Fade.GetInstance().SetSpeed(0.05f);
@@ -191,36 +219,41 @@ namespace Fee.EditorTool
 				#endif
 
 				//ファイル。
-				#if(false)
+				#if(DEF_FILE)
 				{
 					Fee.File.File.CreateInstance();
 				}
 				#endif
 
 				//関数呼び出し。
-				#if(false)
+				#if(DEF_FUNCTION)
 				{
 					Fee.Function.Function.SetMonoBehaviour(this);
 				}
 				#endif
 
+				//ジオメトリ。
+				{
+				}
+
 				//入力。
 				{
-					#if(false)
+					//マウス。
+					#if(DEF_INPUT_MOUSE)
 					{
 						Fee.Input.Mouse.CreateInstance();
 					}
 					#endif
 
 					//キー。
-					#if(false)
+					#if(DEF_INPUT_KEY)
 					{
 						Fee.Input.Key.CreateInstance();
 					}
 					#endif
 
 					//パッド。
-					#if(false)
+					#if(DEF_INPUT_PAD)
 					{
 						Fee.Input.Pad.CreateInstance();
 					}
@@ -239,7 +272,19 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//アセットバンドル作成。
+				//キー。
+				{
+				}
+
+				//マップチップ。
+				{
+				}
+
+				//マテリアル。
+				{
+				}
+
+				//ＭＤ５。
 				{
 				}
 
@@ -248,27 +293,39 @@ namespace Fee.EditorTool
 				}
 
 				//ネットワーク。
-				#if(false)
+				#if(DEF_NETWORK)
 				{
 					Fee.Network.Network.CreateInstance();
 				}
 				#endif
 
+				//パターン。
+				{
+				}
+
+				//パーセプトロン。
+				{
+				}
+
 				//パフォーマンスカウンター。
-				#if(false)
+				#if(DEF_PERFORMANCECOUNTER)
 				{
 					Fee.PerformanceCounter.PerformanceCounter.CreateInstance();
 				}
 				#endif
 
 				//プラットフォーム。
-				#if(false)
+				#if(DEF_PLATFORM)
 				{
 					Fee.Platform.Platform.CreateInstance();
 				}
 				#endif
 
 				//プレイヤーループシステム。
+				{
+				}
+
+				//プール。
 				{
 				}
 
@@ -281,35 +338,39 @@ namespace Fee.EditorTool
 				}
 
 				//シーン。
-				#if(false)
+				#if(DEF_SCENE)
 				{
 					Fee.Scene.Scene.CreateInstance();
 				}
 				#endif
 
 				//サウンドプール。
-				#if(false)
+				#if(DEF_SOUND)
 				{
 					Fee.SoundPool.SoundPool.CreateInstance();
 				}
 				#endif
 
 				//タスク。
-				#if(false)
+				#if(DEF_TASK)
 				{
 					Fee.TaskW.TaskW.CreateInstance();
 				}
 				#endif
 
 				//ＵＩ。
-				#if(false)
+				#if(DEF_UI)
 				{
 					Fee.Ui.Ui.CreateInstance();
 				}
 				#endif
 
+				//ＵＮＩＴＹ５。
+				{
+				}
+
 				//ＵＮＩＶＲＭ。
-				#if(false)
+				#if(DEF_UNIVRM)
 				{
 					Fee.UniVrm.UniVrm.CreateInstance();
 				}
@@ -332,7 +393,7 @@ namespace Fee.EditorTool
 			{
 			}
 
-			//アセットバンドル。
+			//アセットバンドルリスト。
 			{
 				Fee.AssetBundleList.AssetBundleList.DeleteInstance();
 			}
@@ -407,6 +468,10 @@ namespace Fee.EditorTool
 				Fee.Function.Function.SetMonoBehaviour(null);
 			}
 
+			//ジオメトリ。
+			{
+			}
+
 			//入力。
 			{
 				//マウス。
@@ -431,7 +496,19 @@ namespace Fee.EditorTool
 			{
 			}
 
-			//アセットバンドル作成。
+			//キー。
+			{
+			}
+
+			//マップチップ。
+			{
+			}
+
+			//マテリアル。
+			{
+			}
+
+			//ＭＤ５。
 			{
 			}
 
@@ -442,6 +519,14 @@ namespace Fee.EditorTool
 			//ネットワーク。
 			{
 				Fee.Network.Network.DeleteInstance();
+			}
+
+			//パターン。
+			{
+			}
+
+			//パーセプトロン。
+			{
 			}
 
 			//パフォーマンスカウンター。
@@ -455,6 +540,10 @@ namespace Fee.EditorTool
 			}
 
 			//プレイヤーループシステム。
+			{
+			}
+
+			//プール。
 			{
 			}
 
@@ -487,6 +576,10 @@ namespace Fee.EditorTool
 				Fee.Ui.Ui.DeleteInstance();
 			}
 
+			//ＵＮＩＴＹ５。
+			{
+			}
+
 			//ＵＮＩＶＲＭ。
 			{
 				Fee.UniVrm.UniVrm.DeleteInstance();
@@ -503,9 +596,11 @@ namespace Fee.EditorTool
 		private void FixedUpdate()
 		{
 			try{
+
+				//順序変更。
 				{
 					//２Ｄ描画。
-					#if(false)
+					#if(DEF_RENDER2D)
 					{
 						Fee.Render2D.Render2D.GetInstance().Main_Before();
 					}
@@ -514,37 +609,37 @@ namespace Fee.EditorTool
 					//入力。
 					{
 						//マウス。
-						#if(false)
+						#if(DEF_INPUT_MOUSE)
 						Fee.Input.Mouse.GetInstance().Main(s_is_focus,Fee.Render2D.Render2D.GetInstance());
 						#endif
 
 						//キー。
-						#if(false)
+						#if(DEF_INPUT_KEY)
 						Fee.Input.Key.GetInstance().Main(s_is_focus);
 						#endif
 
 						//パッド。
-						#if(false)
+						#if(DEF_INPUT_PAD)
 						Fee.Input.Pad.GetInstance().Main(s_is_focus);
 						#endif
 					}
 
 					//イベントプレート。
-					#if(false)
+					#if(DEF_EVENTPLATE)
 					{
 						Fee.EventPlate.EventPlate.GetInstance().Main(in Fee.Input.Mouse.GetInstance().cursor.pos);
 					}
 					#endif
 
 					//ＵＩ。
-					#if(false)
+					#if(DEF_UI)
 					{
 						Fee.Ui.Ui.GetInstance().Main();
 					}
 					#endif
 
 					//シーン。
-					#if(false)
+					#if(DEF_SCENE)
 					{
 						if(this.scene_update_wait <= 0){
 							Fee.Scene.Scene.GetInstance().Main();
@@ -557,15 +652,15 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//アセットバンドル。
-				#if(false)
+				//アセットバンドルリスト。
+				#if(DEF_ASSETBUNDLE)
 				{
 					Fee.AssetBundleList.AssetBundleList.GetInstance().Main();
 				}
 				#endif
 
 				//オーディオ。
-				#if(false)
+				#if(DEF_AUDIO)
 				{
 					Fee.Audio.Audio.GetInstance().Main(s_is_focus);
 				}
@@ -580,14 +675,14 @@ namespace Fee.EditorTool
 				}
 
 				//暗号。
-				#if(false)
+				#if(DEF_CRYPT)
 				{
 					Fee.Crypt.Crypt.GetInstance().Main();
 				}
 				#endif
 
 				//データ。
-				#if(false)
+				#if(DEF_DATA)
 				{
 					Fee.Data.Data.GetInstance().Main();
 				}
@@ -622,20 +717,24 @@ namespace Fee.EditorTool
 				}
 
 				//フェード。
-				#if(false)
+				#if(DEF_FADE)
 				{
 					Fee.Fade.Fade.GetInstance().Main();
 				}
 				#endif
 
 				//ファイル。
-				#if(false)
+				#if(DEF_FILE)
 				{
 					Fee.File.File.GetInstance().Main();
 				}
 				#endif
 
 				//関数呼び出し。
+				{
+				}
+
+				//ジオメトリ。
 				{
 				}
 
@@ -655,7 +754,19 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//アセットバンドル作成。
+				//キー。
+				{
+				}
+
+				//マップチップ。
+				{
+				}
+
+				//マテリアル。
+				{
+				}
+
+				//ＭＤ５。
 				{
 				}
 
@@ -664,11 +775,19 @@ namespace Fee.EditorTool
 				}
 
 				//ネットワーク。
-				#if(false)
+				#if(DEF_NETWORK)
 				{
 					Fee.Network.Network.GetInstance().Main();
 				}
 				#endif
+
+				//パターン。
+				{
+				}
+
+				//パーセプトロン。
+				{
+				}
 
 				//パフォーマンスカウンター。
 				{
@@ -679,6 +798,10 @@ namespace Fee.EditorTool
 				}
 
 				//プレイヤーループシステム。
+				{
+				}
+
+				//プール。
 				{
 				}
 
@@ -695,7 +818,7 @@ namespace Fee.EditorTool
 				}
 
 				//サウンドプール。
-				#if(false)
+				#if(DEF_SOUND)
 				{
 					Fee.SoundPool.SoundPool.GetInstance().Main();
 				}
@@ -709,16 +832,21 @@ namespace Fee.EditorTool
 				{
 				}
 
+				//ＵＮＩＴＹ５。
+				{
+				}
+
 				//ＵＮＩＶＲＭ。
-				#if(false)
+				#if(DEF_UNIVRM)
 				{
 					Fee.UniVrm.UniVrm.GetInstance().Main();
 				}
 				#endif
 
+				//順序変更。
 				{
 					//２Ｄ描画。
-					#if(false)
+					#if(DEF_RENDER2D)
 					{
 						Fee.Render2D.Render2D.GetInstance().Main_After();
 					}
@@ -740,7 +868,7 @@ namespace Fee.EditorTool
 		private void Update()
 		{
 			//シーン。
-			#if(false)
+			#if(DEF_SCENE)
 			{
 				if(this.scene_update_wait <= 0){
 					Fee.Scene.Scene.GetInstance().Unity_Update(UnityEngine.Time.deltaTime);
@@ -751,7 +879,7 @@ namespace Fee.EditorTool
 			#endif
 
 			//２Ｄ描画。
-			#if(false)
+			#if(DEF_RENDER2D)
 			{
 				Fee.Render2D.Render2D.GetInstance().Main_PreDraw();
 			}
@@ -768,7 +896,7 @@ namespace Fee.EditorTool
 		private void LateUpdate()
 		{
 			//シーン。
-			#if(false)
+			#if(DEF_SCENE)
 			{
 				if(this.scene_update_wait <= 0){
 					Fee.Scene.Scene.GetInstance().Unity_LateUpdate(UnityEngine.Time.deltaTime);

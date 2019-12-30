@@ -12,14 +12,14 @@
 */
 namespace Fee.EditorTool
 {
-	/** MakeMainScript
+	/** CreateMainScript
 	*/
 	#if(UNITY_EDITOR)
-	public class MakeMainScript
+	public class CreateMainScript
 	{
 		/** メインスクリプト作成。
 		*/
-		#if(USE_DEF_FEE_EDITORMENU)
+		#if(!NOUSE_DEF_FEE_EDITORMENU)
 		[UnityEditor.MenuItem("Fee/Initialize/CreateMainScript")]
 		private static void MenuItem_CreateMainScript()
 		{

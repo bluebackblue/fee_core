@@ -76,7 +76,12 @@ namespace Fee.Input
 		*/
 		public enum PadType
 		{
+			/** xbox
+			*/
 			Type0 = 0,
+
+			/** ps
+			*/
 			Type1,
 
 			Max,

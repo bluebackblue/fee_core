@@ -22,8 +22,8 @@ namespace Fee.EditorTool
 	{
 		/** パッケージ。作成。
 		*/
-		#if(USE_DEF_FEE_EDITORMENU)
-		[UnityEditor.MenuItem("Fee/EditorTool/BuildFeePackage")]
+		#if(!NOUSE_DEF_FEE_EDITORMENU)
+		[UnityEditor.MenuItem("Fee/Build/BuildFeePackage")]
 		private static void MenuItem_BuildFeePackage()
 		{
 			Build.BuildFeePackage();
