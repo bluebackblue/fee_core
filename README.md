@@ -82,12 +82,6 @@ https://discord.gg/JH3B4SR
 ### Utf8Jsonを使用する。
 * 「USE_DEF_FEE_UTF8JSON」
 
-### NPOIを使用する。
-* 「USE_DEF_FEE_NPOI」
-
-### NPOIを使用する(エディター時のみ)。
-* 「USE_DEF_EDITOR_FEE_NPOI」
-
 ### ExcelDataReaderを使用する。
 * 「USE_DEF_FEE_EXCELDATAREADER」
 

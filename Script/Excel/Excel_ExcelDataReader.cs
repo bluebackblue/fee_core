@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief エクセル。エクセルデータリーダー。
+ * @brief エクセル。
 */
 
 
@@ -17,187 +17,118 @@
 
 /** Fee.Excel
 */
-#if(USE_DEF_FEE_EXCELDATAREADER)
 namespace Fee.Excel
 {
 	/** Excel_ExcelDataReader
 	*/
-	public class Excel_ExcelDataReader
+	#if(USE_DEF_FEE_EXCELDATAREADER)
+	public class Excel_ExcelDataReader : Excel_Base
 	{
+		/** raw_excel
+		*/
+		private System.Data.DataSet raw_excel;
+
+		/** raw_sheet
+		*/
+		private System.Data.DataTable raw_sheet;
+
+		/** raw_line
+		*/
+		private System.Data.DataRow raw_line;
+
+		/** raw_cell
+		*/
+		private System.Object raw_cell;
+
+		/** constructor
+		*/
+		public Excel_ExcelDataReader()
+		{
+			//raw_excel
+			this.raw_excel = null;
+
+			//raw_sheet
+			this.raw_sheet = null;
+
+			//raw_line
+			this.raw_line = null;
+
+			//raw_cell
+			this.raw_cell = null;
+		}
+
 		/** 開く。
 		*/
-		public static System.Data.DataSet Open(Fee.File.Path a_path)
+		public bool ReadOpen(Fee.File.Path a_path)
 		{
-			System.Data.DataSet t_workbook = null;
-
-			try{
-				using(System.IO.FileStream t_stream = System.IO.File.Open(a_path.GetPath(),System.IO.FileMode.Open,System.IO.FileAccess.Read,System.IO.FileShare.ReadWrite)){
-					if(t_stream != null){
-						using(ExcelDataReader.IExcelDataReader t_reader = ExcelDataReader.ExcelReaderFactory.CreateOpenXmlReader(t_stream)){
-							if(t_reader != null){
-								t_workbook = ExcelDataReader.ExcelDataReaderExtensions.AsDataSet(t_reader);
-							}
-						}
-					}
-				}
-			}catch(System.Exception t_exception){
-				Tool.DebugReThrow(t_exception);
+			this.raw_excel = Excel_Tool_ExcelDataReader.Open(a_path);
+			if(this.raw_excel == null){
+				return false;
 			}
 
-			return t_workbook;
+			return true;
+		}
+
+		/** 閉じる。
+		*/
+		public void Close()
+		{
+			this.raw_excel = null;
+			this.raw_sheet = null;
+			this.raw_line = null;
+			this.raw_cell = null;
 		}
 
 		/** シート数。取得。
 		*/
-		public static int GetSheetCount(System.Data.DataSet a_workbook)
+		public int GetSheetCount()
 		{
-			int t_count = 0;
-
-			if(a_workbook != null){
-				try{
-					t_count = a_workbook.Tables.Count;
-				}catch(System.Exception t_exception){
-					Tool.DebugReThrow(t_exception);
-				}
-			}else{
-				Tool.Assert(false);
-			}
-
-			return t_count;
+			return Excel_Tool_ExcelDataReader.GetSheetCount(this.raw_excel);
 		}
 
-		/** セル。取得。
+		/** アクティブシート。設定。
 		*/
-		public static System.Object GetCell(System.Data.DataRow a_line,int a_x)
+		public bool SetActiveSheet(int a_sheet_index)
 		{
-			System.Object t_cell = null;
+			this.raw_sheet = Excel_Tool_ExcelDataReader.GetSheet(this.raw_excel,a_sheet_index);
+			if(this.raw_sheet == null){
+				Tool.Assert(false);
+				return false;
+			}
 
-			if(a_line != null){
-				if(0 <= a_x){
-					try{
-						if(a_x < a_line.ItemArray.Length){
-							t_cell = a_line.ItemArray[a_x];	
-						}else{
-							//データのないセル。
-						}
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
-					}
-				}else{
-					Tool.Assert(false);
-				}
-			}else{
+			return true;
+		}
+
+		/** アクティブセル。設定。
+		*/
+		public bool SetActiveCell(int a_x,int a_y)
+		{
+			this.raw_line = Excel_Tool_ExcelDataReader.GetLine(this.raw_sheet,a_y);
+
+			if(this.raw_line == null){
 				//データのないライン。
-			}
-
-			return t_cell;
-		}
-
-		/** ライン。取得。
-		*/
-		public static System.Data.DataRow GetLine(System.Data.DataTable a_sheet,int a_y)
-		{
-			System.Data.DataRow t_line = null;
-
-			if(a_sheet != null){
-				if(0 <= a_y){
-					if(a_y < a_sheet.Rows.Count){
-						try{
-							t_line = a_sheet.Rows[a_y];
-						}catch(System.Exception t_exception){
-							Tool.DebugReThrow(t_exception);
-						}
-					}
-				}else{
-					Tool.Assert(false);
-				}
+				this.raw_cell = null;
 			}else{
-				Tool.Assert(false);
+				this.raw_cell = Excel_Tool_ExcelDataReader.GetCell(this.raw_line,a_x);
 			}
 
-			return t_line;
-		}
-
-		/** シート。取得。
-		*/
-		public static System.Data.DataTable GetSheet(System.Data.DataSet a_workbook,int a_index)
-		{
-			System.Data.DataTable t_sheet = null;
-
-			if(a_workbook != null){
-				try{
-					t_sheet = a_workbook.Tables[a_index];
-				}catch(System.Exception t_exception){
-					Tool.DebugReThrow(t_exception);
-				}
-			}else{
-				Tool.Assert(false);
-			}
-
-			return t_sheet;
+			return true;
 		}
 
 		/** 文字列。取得。
 		*/
-		public static bool GetTryCellString(System.Object a_cell,out string a_result_value)
+		public bool GetTryCellString(out string a_result_value)
 		{
-			try{
-				if(a_cell != null){
-					string t_value_string = a_cell.ToString();
-					if(t_value_string != null){
-						a_result_value = t_value_string;
-						return true;
-					}
-				}else{
-					//データのないセル。
-				}
-			}catch(System.Exception t_exception){
-				Tool.DebugReThrow(t_exception);
-			}
-
-			//失敗。
-			a_result_value = null;
-			return false;
+			return Excel_Tool_ExcelDataReader.GetTryCellString(this.raw_cell,out a_result_value);
 		}
 
-		/** 数値。取得。
+		/** 文字列。取得。
 		*/
-		public static bool GetTryCellNumeric(System.Object a_cell,out double a_result_value)
+		public bool GetTryCellNumeric(out double a_result_value)
 		{
-			try{
-				if(a_cell != null){
-					System.Type t_type = a_cell.GetType();
-					if(t_type.IsValueType == true){
-						//数値へのキャスト。
-						a_result_value = (double)a_cell;
-						return true;
-					}else if(t_type == typeof(string)){
-						string t_value_string = a_cell as string;
-						if(t_value_string != null){
-							if(double.TryParse(t_value_string,out double t_value_double) == true){
-								//数値へのパース。
-								a_result_value = t_value_double;
-								return true;
-							}
-						}
-					}else if(t_type == typeof(System.DBNull)){
-						//データのないセル。
-					}else{
-						//不明。
-						Tool.Assert(false);
-					}
-				}else{
-					//データのないセル。
-				}
-			}catch(System.Exception t_exception){
-				Tool.DebugReThrow(t_exception);
-			}
-
-			//失敗。
-			a_result_value = 0.0;
-			return false;
+			return Excel_Tool_ExcelDataReader.GetTryCellNumeric(this.raw_cell,out a_result_value);
 		}
 	}
+	#endif
 }
-#endif
 

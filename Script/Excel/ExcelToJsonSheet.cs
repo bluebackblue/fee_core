@@ -8,6 +8,13 @@
 */
 
 
+/** USE_DEF_FEE_EDITOR_EXCELDATAREADER
+*/
+#if((UNITY_EDITOR)&&(USE_DEF_FEE_EDITOR_EXCELDATAREADER))
+	#define USE_DEF_FEE_EXCELDATAREADER
+#endif
+
+
 /** Fee.Excel
 */
 namespace Fee.Excel
@@ -18,7 +25,7 @@ namespace Fee.Excel
 	{
 		/** excel
 		*/
-		private Excel excel;
+		private Excel_Base excel;
 
 		/** jsonitem_jsonsheet
 		*/
@@ -42,7 +49,16 @@ namespace Fee.Excel
 			this.jsonitem_jsonsheet = new JsonItem.JsonItem(new Fee.JsonItem.Value_AssociativeArray());
 
 			{
-				this.excel = new Excel();
+				#if(USE_DEF_FEE_EXCELDATAREADER)
+				{
+					this.excel = new Excel_ExcelDataReader();
+				}
+				#else
+				{
+					this.excel = new Excel_Dummy();
+				}
+				#endif
+
 				if(this.excel.ReadOpen(a_path) == true){
 					int t_sheet_count = this.excel.GetSheetCount();
 					for(int ii=0;ii<t_sheet_count;ii++){
