@@ -2,21 +2,21 @@
 Unity library
 * [ https://github.com/bluebackblue/fee_project ]のサブモジュール
 
-## license
+## License
 MIT License
 * https://github.com/bluebackblue/fee_core/blob/master/LICENSE.txt
 
-## パッケージ
+## Package
 * https://github.com/bluebackblue/fee_core/releases/
 
-## sample project
+## Sample project
 * Unity 2019.2.17f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_2 ]
 * Unity 2020.1.0a17 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2020_1 ]
 
-## contact
+## Contact
 https://discord.gg/JH3B4SR
 
-## folder structure
+## Folder Structure
 フォルダ構造
 * Font [フォント]
 * license [使用ライセンス]
@@ -65,7 +65,7 @@ https://discord.gg/JH3B4SR
 * _ Unity5 [Unity5サポート]
 * _ UniVrm [UniVrmの操作]
 
-## デファイン
+## Define
 
 ### メニュー追加を無効にする。
 * 「NOUSE_DEF_FEE_EDITORMENU」
@@ -107,7 +107,7 @@ https://discord.gg/JH3B4SR
 
 
 
-## ライセンス
+## 使用ライセンス
 
 ### M+ FONTS
 このリポジトリにフォントは含まれていません。以下から取得してください。
