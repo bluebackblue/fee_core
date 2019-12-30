@@ -14,7 +14,7 @@ MIT License
 * Unity 2020.1.0a17 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2020_1 ]
 
 ## Contact
-https://discord.gg/JH3B4SR
+* https://discord.gg/JH3B4SR
 
 ## Folder Structure
 フォルダ構造
