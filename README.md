@@ -97,53 +97,6 @@ https://discord.gg/JH3B4SR
 ### SimpleAnimationを使用する。
 * 「USE_DEF_FEE_SIMPLEANIMATION」
 
-
-
-
-
 ## 使用ライセンス
-
-### M+ FONTS
-このリポジトリにフォントは含まれていません。以下から取得してください。
-* https://github.com/bluebackblue/fee_core/tree/master/license/mplus
-* http://mplus-fonts.osdn.jp/
-* Copyright (C) 2002-2017 M+ FONTS PROJECT
-
-### PUN 2 - FREE
-このリポジトリにアセットは含まれていません。以下から取得してください。
-* https://github.com/bluebackblue/fee_core/tree/master/license/pun2free
-* https://assetstore.unity.com/packages/tools/network/pun-2-free-119922
-* https://dashboard.photonengine.com/ja-jp/Account/Terms
-* アセットを容易に取り出せる状態での配布は禁止。
-
-### UniVRM
-このリポジトリにUniVRMは含まれていません。以下から取得してください。
-* https://github.com/bluebackblue/fee/tree/master/license/univrm
-* https://github.com/dwango/UniVRM
-
-### Utf8Json
-このリポジトリにUtf8Jsonは含まれていません。以下から取得してください。
-* https://github.com/bluebackblue/fee/tree/master/license/utf8json
-* https://github.com/neuecc/Utf8Json
-
-### SimpleAnimation
-このリポジトリにSimpleMotionは含まれていません。以下から取得してください。
-* https://github.com/bluebackblue/fee/tree/master/license/simpleanimation
-* https://github.com/Unity-Technologies/SimpleAnimation
-
-### StandardAssets
-このリポジトリにStandardAssetsは含まれていません。以下から取得してください。
-* https://github.com/bluebackblue/fee/tree/master/license/standardassets
-* https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-32351
-* アセットを容易に取り出せる状態での配布は禁止。
-
-### NPOI
-このリポジトリにNPOIは含まれていません。以下から取得してください。
-* https://github.com/bluebackblue/fee_core/tree/master/license/npoi
-* https://github.com/tonyqus/npoi/
-
-### ExcelDataReader
-このリポジトリにExcelDataReaderは含まれていません。以下から取得してください。
-* https://github.com/bluebackblue/fee_core/tree/master/license/exceldatareader
-* https://github.com/ExcelDataReader/ExcelDataReader/
+* https://github.com/bluebackblue/fee_core/tree/master/License
 
