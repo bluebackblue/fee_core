@@ -174,7 +174,7 @@ namespace Fee.File
 
 		/** RequestLoadUrl
 		*/
-		public Item RequestLoadUrl(LoadRequestType a_request_type,Path a_path,UnityEngine.WWWForm a_post_data = null,UnityEngine.Networking.CertificateHandler a_certificate_handler = null)
+		public Item RequestLoadUrl(LoadRequestType a_request_type,Path a_path,UnityEngine.WWWForm a_post_data = null,Fee.File.CustomCertificateHandler a_certificate_handler = null)
 		{
 			switch(a_request_type){
 

@@ -39,7 +39,7 @@ namespace Fee.File
 			this.publickey_binary = null;
 
 			//errorstring
-			this.errorstring = "Initialize";
+			this.errorstring = null;
 		}
 
 		/** constructor
@@ -53,7 +53,7 @@ namespace Fee.File
 			this.publickey_binary = a_publickey_binary;
 
 			//errorstring
-			this.errorstring = "Initialize";
+			this.errorstring = null;
 		}
 
 		/** GetErrorString
@@ -61,6 +61,14 @@ namespace Fee.File
 		public string GetErrorString()
 		{
 			return this.errorstring;
+		}
+
+		/** 初期化チェック。
+		*/
+		public void InitializeCheck()
+		{
+			Tool.Assert(this.errorstring == null);
+			this.errorstring = "Initialize";
 		}
 
 		/** ValidateCertificate

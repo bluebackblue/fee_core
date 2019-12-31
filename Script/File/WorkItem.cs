@@ -152,7 +152,7 @@ namespace Fee.File
 
 		/** request_certificate_handler
 		*/
-		private UnityEngine.Networking.CertificateHandler request_certificate_handler;
+		private Fee.File.CustomCertificateHandler request_certificate_handler;
 
 		/** request_binary
 		*/
@@ -255,7 +255,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードＵＲＬ。バイナリファイル。
 		*/
-		public void RequestLoadUrlBinaryFile(Path a_relative_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler)
+		public void RequestLoadUrlBinaryFile(Path a_relative_path,UnityEngine.WWWForm a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler)
 		{
 			this.request_type = RequestType.LoadUrlBinaryFile;
 			this.request_path = a_relative_path;
@@ -265,7 +265,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードＵＲＬ。テキストファイル。
 		*/
-		public void RequestLoadUrlTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler)
+		public void RequestLoadUrlTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler)
 		{
 			this.request_type = RequestType.LoadUrlTextFile;
 			this.request_path = a_url_path;
@@ -275,7 +275,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードＵＲＬ。テクスチャファイル。
 		*/
-		public void RequestLoadUrlTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data,UnityEngine.Networking.CertificateHandler a_certificate_handler)
+		public void RequestLoadUrlTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler)
 		{
 			this.request_type = RequestType.LoadUrlTextureFile;
 			this.request_path = a_url_path;
