@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ファイル。コルーチン。
+ * @brief ファイル。自己証明書。
 */
 
 
@@ -12,7 +12,7 @@
 */
 namespace Fee.File
 {
-	/** 証明書。
+	/** CustomCertificateHandler
 	*/
 	public class CustomCertificateHandler : UnityEngine.Networking.CertificateHandler
 	{
