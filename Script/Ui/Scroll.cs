@@ -31,6 +31,7 @@ namespace Fee.Ui
 		*/
 		private int bar_drawpriority_offset;
 		private int bar_size;
+		private int bar_offset;
 
 		/** constructor
 		*/
@@ -52,6 +53,7 @@ namespace Fee.Ui
 			//バー。
 			this.bar_drawpriority_offset = 1;
 			this.bar_size = 5;
+			this.bar_offset = 1;
 
 			//バー。
 			this.bar = Fee.Render2D.Sprite2D.Create(this.deleter,a_drawpriority + this.bar_drawpriority_offset);
@@ -119,6 +121,27 @@ namespace Fee.Ui
 				this.bar_size = a_size;
 				this.UpdateView();
 			}
+		}
+
+		/** バーサイズ。取得。
+		*/
+		public int GetBarSize()
+		{
+			return this.bar_size;
+		}
+
+		/** SetBarOffset
+		*/
+		public void SetBarOffset(int a_offset)
+		{
+			this.bar_offset = a_offset;
+		}
+
+		/** GetBarOffset
+		*/
+		public int GetBarOffset()
+		{
+			return this.bar_offset;
 		}
 
 		/** 背景。有効。設定。
@@ -204,7 +227,7 @@ namespace Fee.Ui
 						int t_bar_length = (int)(this.rect.h * t_length_per);
 						int t_bar_offset = (int)(t_offset_per * (this.scroll_value.GetViewLength() - t_bar_length));
 						this.bar.SetY(this.rect.y + t_bar_offset);
-						this.bar.SetX(this.rect.x + this.rect.w - this.bar_size);
+						this.bar.SetX(this.rect.x + this.rect.w - this.bar_size - this.bar_offset);
 						this.bar.SetH(t_bar_length);
 						this.bar.SetW(this.bar_size);
 					}else{
@@ -212,7 +235,7 @@ namespace Fee.Ui
 						int t_bar_length = (int)(this.rect.w * t_length_per);
 						int t_bar_offset = (int)(t_offset_per * (this.scroll_value.GetViewLength() - t_bar_length));
 						this.bar.SetX(this.rect.x + t_bar_offset);
-						this.bar.SetY(this.rect.y + this.rect.h - this.bar_size);
+						this.bar.SetY(this.rect.y + this.rect.h - this.bar_size - this.bar_offset);
 						this.bar.SetW(t_bar_length);
 						this.bar.SetH(this.bar_size);
 					}

@@ -152,7 +152,7 @@ namespace Fee.Ui
 
 				if(this.scroll_value.GetViewStartIndex() >= 0){
 					for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-						this.list[ii].SetDrawPriority(this.drawpriority);
+						this.list[ii].SetDrawPriority(a_drawpriority);
 					}
 				}
 
@@ -169,7 +169,7 @@ namespace Fee.Ui
 				this.visible_flag = a_flag;
 				this.eventplate.SetEnable(a_flag);
 
-				if(this.visible_flag == true){
+				if(a_flag == true){
 					if(this.scroll_value.GetViewStartIndex() >= 0){
 						for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
 							this.list[ii].OnViewIn();
