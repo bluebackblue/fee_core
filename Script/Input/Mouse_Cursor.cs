@@ -28,6 +28,10 @@ namespace Fee.Input
 		*/
 		public bool action;
 
+		/** devicename
+		*/
+		public string devicename;
+
 		/** リセット。
 		*/
 		public void Reset()
@@ -40,6 +44,9 @@ namespace Fee.Input
 
 			//action
 			this.action = false;
+
+			//devicename;
+			this.devicename = "";
 		}
 
 		/** 設定。

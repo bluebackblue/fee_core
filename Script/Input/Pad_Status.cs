@@ -20,6 +20,10 @@ namespace Fee.Input
 		*/
 		public bool enable;
 
+		/** devicename
+		*/
+		public string devicename;
+
 		/** パッドインデックス。
 		*/
 		public int pad_index;

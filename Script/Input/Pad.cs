@@ -94,7 +94,7 @@ namespace Fee.Input
 			this.is_focus = false;
 
 			//paddevice_list
-			#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+			#if(USE_DEF_FEE_INPUTSYSTEM)
 			this.paddevice_list = new System.Collections.Generic.List<UnityEngine_InputSystem.Gamepad>();
 			#endif
 
@@ -104,6 +104,9 @@ namespace Fee.Input
 			for(int ii=0;ii<this.pad_status.Length;ii++){
 				//リセット。
 				this.pad_status[ii].Reset();
+
+				//devicename
+				this.pad_status[ii].devicename = "";
 
 				//有効。
 				this.pad_status[ii].enable = true;
@@ -166,7 +169,7 @@ namespace Fee.Input
 
 		/** 取得。インプットシステム。パッドデバイス。
 		*/
-		#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+		#if(USE_DEF_FEE_INPUTSYSTEM)
 		private UnityEngine_InputSystem.Gamepad GetPadDevice(int a_index)
 		{
 			if(a_index < this.paddevice_list.Count){
@@ -275,6 +278,10 @@ namespace Fee.Input
 					}
 					a_pad_status.l_stick_button.Set(t_l_on & this.is_focus);
 					a_pad_status.r_stick_button.Set(t_r_on & this.is_focus);
+
+					//devicename
+					a_pad_status.devicename = t_gamepad.displayName;
+
 					return true;
 				}
 			}
@@ -305,6 +312,10 @@ namespace Fee.Input
 			}
 			a_pad_status.l_stick_button.Set(t_l_on & this.is_focus);
 			a_pad_status.r_stick_button.Set(t_r_on & this.is_focus);
+
+			//devicename
+			a_pad_status.devicename = "inputname";
+
 			return true;
 		}
 

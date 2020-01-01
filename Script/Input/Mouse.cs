@@ -174,14 +174,10 @@ namespace Fee.Input
 					}
 
 					//設定。
-					/*
-					if(this.is_focus == true){
-						this.pos.Set(t_x,t_y);
-					}else{
-						this.pos.Set(this.pos.x_old,this.pos.y_old);
-					}
-					*/
-					this.cursor.pos.Set(t_x,t_y);
+					this.cursor.Set(t_x,t_y);
+
+					//devicename
+					this.cursor.devicename = t_pointer_current.name;
 
 					return true;
 				}
@@ -205,7 +201,7 @@ namespace Fee.Input
 					{
 						int t_pos_x = (int)t_mouse_current.position.x.ReadValue();
 
-						#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
+						#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN)||(UNITY_ANDROID))
 						int t_pos_y = (int)(this.screen_h - t_mouse_current.position.y.ReadValue());
 						#else
 						int t_pos_y = (int)(t_mouse_current.position.y.ReadValue());
@@ -223,14 +219,10 @@ namespace Fee.Input
 					}
 
 					//設定。
-					/*
-					if(this.is_focus == true){
-						this.pos.Set(t_x,t_y);
-					}else{
-						this.pos.Set(this.pos.x_old,this.pos.y_old);
-					}
-					*/
-					this.cursor.pos.Set(t_x,t_y);
+					this.cursor.Set(t_x,t_y);
+
+					//devicename
+					this.cursor.devicename = t_mouse_current.displayName;
 
 					return true;
 				}
@@ -264,14 +256,10 @@ namespace Fee.Input
 			}
 
 			//設定。
-			/*
-			if(this.is_focus == true){
-				this.pos.Set(t_x,t_y);
-			}else{
-				this.pos.Set(this.pos.x_old,this.pos.y_old);
-			}
-			*/
 			this.cursor.Set(t_x,t_y);
+
+			//devicename
+			this.cursor.devicename = "inputmouse";
 
 			return true;
 		}
@@ -537,154 +525,6 @@ namespace Fee.Input
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 			}
-		}
-
-		/** 移動チェック。左ボタンドラッグアップ時。
-		*/
-		public Dir4Type LeftDragUpMoveCheck()
-		{
-			if((this.left.up == true)&&(this.left.drag_dir_magnitude >= Config.DRAGUP_LENGTH_MIN)&&(this.left.drag_totallength <= (this.left.drag_dir_magnitude * Config.DRAGUP_LENGTH_SCALE))){
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.down);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Up;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.up);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Down;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.left);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Left;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.right);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Right;
-					}
-				}
-			}
-
-			return Dir4Type.None;
-		}
-
-		/** 移動チェック。左ボタンドラッグオン時。
-		*/
-		public Dir4Type LeftDragOnMoveCheck()
-		{
-			if((this.left.on == true)&&(this.left.drag_dir_magnitude >= Config.DRAGON_LENGTH_MIN)){
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.down);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Up;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.up);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Down;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.left);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Left;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.left.drag_dir_normalized,UnityEngine.Vector2.right);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Right;
-					}
-				}
-			}
-
-			return Dir4Type.None;
-		}
-
-		/** 移動チェック。左ボタンドラッグアップ時。
-		*/
-		public Dir4Type RightDragUpMoveCheck()
-		{
-			if((this.right.up == true)&&(this.right.drag_dir_magnitude >= Config.DRAGUP_LENGTH_MIN)&&(this.right.drag_totallength <= (this.right.drag_dir_magnitude * Config.DRAGUP_LENGTH_SCALE))){
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.down);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Up;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.up);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Down;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.left);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Left;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.right);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Right;
-					}
-				}
-			}
-
-			return Dir4Type.None;
-		}
-
-		/** 移動チェック。左ボタンドラッグオン時。
-		*/
-		public Dir4Type RightDragOnMoveCheck()
-		{
-			if((this.right.on == true)&&(this.right.drag_dir_magnitude >= Config.DRAGON_LENGTH_MIN)){
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.down);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Up;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.up);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Down;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.left);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Left;
-					}
-				}
-
-				{
-					float t_dot = UnityEngine.Vector2.Dot(this.right.drag_dir_normalized,UnityEngine.Vector2.right);
-					if(t_dot >= Config.DRAG_DIR4_DOT){
-						return Dir4Type.Right;
-					}
-				}
-			}
-
-			return Dir4Type.None;
 		}
 	}
 }
