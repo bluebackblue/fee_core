@@ -634,7 +634,7 @@ namespace Fee.EditorTool
 					this.descriptiveName = "";
 					this.descriptiveNegativeName = "";
 					this.negativeButton = "";
-					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 10";
+					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 11";
 					this.altNegativeButton = "";
 					this.altPositiveButton = "";
 					this.gravity = 0.0f;
@@ -695,7 +695,7 @@ namespace Fee.EditorTool
 					this.descriptiveName = "";
 					this.descriptiveNegativeName = "";
 					this.negativeButton = "";
-					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 11";
+					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 10";
 					this.altNegativeButton = "";
 					this.altPositiveButton = "";
 					this.gravity = 0.0f;
