@@ -447,94 +447,138 @@ namespace Fee.Input
 		*/
 		public static string INPUTMANAGER_MOUSEWHEEL = "Mouse ScrollWheel";
 
+		/** PAD_MAX
+		*/
+		public static int PAD_MAX = 2;
+		
 		/** インプットマネージャ。トリガー。
 		*/
-		public static string[] INPUTMANAGER_LT1 = new string[]{
-			"type0_left_trigger1_button",
-			"type1_left_trigger1_button"
-		};
-		public static string[] INPUTMANAGER_RT1 = new string[]{
-			"type0_right_trigger1_button",
-			"type1_right_trigger1_button"
-		};
-		public static string[] INPUTMANAGER_LT2 = new string[]{
-			"type0_left_trigger2_axis",
-			"type1_left_trigger2_axis"
-		};
-		public static string[] INPUTMANAGER_RT2 = new string[]{
-			"type0_right_trigger2_axis",
-			"type1_right_trigger2_axis"
-		};
+		public static Pad_InputManagerItemName INPUTMANAGER_LT1 = new Pad_InputManagerItemName(
+			"pad_0_type_p_left_trigger1_button",
+			"pad_0_type_x_left_trigger1_button",
+			"pad_1_type_p_left_trigger1_button",
+			"pad_1_type_x_left_trigger1_button"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_RT1 = new Pad_InputManagerItemName(
+			"pad_0_type_p_right_trigger1_button",
+			"pad_0_type_x_right_trigger1_button",
+			"pad_1_type_p_right_trigger1_button",
+			"pad_1_type_x_right_trigger1_button"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_LT2 = new Pad_InputManagerItemName(
+			"pad_0_type_p_left_trigger2_axis",
+			"pad_0_type_x_left_trigger2_axis",
+			"pad_1_type_p_left_trigger2_axis",
+			"pad_1_type_x_left_trigger2_axis"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_RT2 = new Pad_InputManagerItemName(
+			"pad_0_type_p_right_trigger2_axis",
+			"pad_0_type_x_right_trigger2_axis",
+			"pad_1_type_p_right_trigger2_axis",
+			"pad_1_type_x_right_trigger2_axis"
+		);
 
 		/** インプットマネージャ。ボタン。
 		*/
-		public static string[] INPUTMANAGER_LEFT = new string[]{
-			"type0_left",
-			"type1_left"
-		};
-		public static string[] INPUTMANAGER_RIGHT = new string[]{
-			"type0_right",
-			"type1_right"
-		};
-		public static string[] INPUTMANAGER_UP = new string[]{
-			"type0_up",
-			"type1_up"
-		};
-		public static string[] INPUTMANAGER_DOWN = new string[]{
-			"type0_down",
-			"type1_down"
-		};
-		public static string[] INPUTMANAGER_ENTER = new string[]{
-			"type0_enter",
-			"type1_enter"
-		};
-		public static string[] INPUTMANAGER_ESCAPE = new string[]{
-			"type0_escape",
-			"type1_escape"
-		};
-		public static string[] INPUTMANAGER_SUB1 = new string[]{
-			"type0_sub1",
-			"type1_sub1"
-		};
-		public static string[] INPUTMANAGER_SUB2 = new string[]{
-			"type0_sub2",
-			"type1_sub2"
-		};
-		public static string[] INPUTMANAGER_LMENU = new string[]{
-			"type0_left_menu",
-			"type1_left_menu"
-		};
-		public static string[] INPUTMANAGER_RMENU = new string[]{
-			"type0_right_menu",
-			"type1_right_menu"
-		};
+		public static Pad_InputManagerItemName INPUTMANAGER_LEFT = new Pad_InputManagerItemName(
+			"pad_0_type_p_left",
+			"pad_0_type_x_left",
+			"pad_1_type_p_left",
+			"pad_1_type_x_left"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_RIGHT = new Pad_InputManagerItemName(
+			"pad_0_type_p_right",
+			"pad_0_type_x_right",
+			"pad_1_type_p_right",
+			"pad_1_type_x_right"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_UP = new Pad_InputManagerItemName(
+			"pad_0_type_p_up",
+			"pad_0_type_x_up",
+			"pad_1_type_p_up",
+			"pad_1_type_x_up"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_DOWN = new Pad_InputManagerItemName(
+			"pad_0_type_p_down",
+			"pad_0_type_x_down",
+			"pad_1_type_p_down",
+			"pad_1_type_x_down"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_ENTER = new Pad_InputManagerItemName(
+			"pad_0_type_p_enter",
+			"pad_0_type_x_enter",
+			"pad_1_type_p_enter",
+			"pad_1_type_x_enter"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_ESCAPE = new Pad_InputManagerItemName(
+			"pad_0_type_p_escape",
+			"pad_0_type_x_escape",
+			"pad_1_type_p_escape",
+			"pad_1_type_x_escape"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_SUB1 = new Pad_InputManagerItemName(
+			"pad_0_type_p_sub1",
+			"pad_0_type_x_sub1",
+			"pad_1_type_p_sub1",
+			"pad_1_type_x_sub1"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_SUB2 = new Pad_InputManagerItemName(
+			"pad_0_type_p_sub2",
+			"pad_0_type_x_sub2",
+			"pad_1_type_p_sub2",
+			"pad_1_type_x_sub2"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_LMENU = new Pad_InputManagerItemName(
+			"pad_0_type_p_left_menu",
+			"pad_0_type_x_left_menu",
+			"pad_1_type_p_left_menu",
+			"pad_1_type_x_left_menu"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_RMENU = new Pad_InputManagerItemName(
+			"pad_0_type_p_right_menu",
+			"pad_0_type_x_right_menu",
+			"pad_1_type_p_right_menu",
+			"pad_1_type_x_right_menu"
+		);
 
 		/** インプットマネージャ。ティック。
 		*/
-		public static string[] INPUTMANAGER_LSX = new string[]{
-			"type0_left_stick_axis_x",
-			"type1_left_stick_axis_x"
-		};
-		public static string[] INPUTMANAGER_LSY = new string[]{
-			"type0_left_stick_axis_y",
-			"type1_left_stick_axis_y"
-		};
-		public static string[] INPUTMANAGER_RSX = new string[]{
-			"type0_right_stick_axis_x",
-			"type1_right_stick_axis_x"
-		};
-		public static string[] INPUTMANAGER_RSY = new string[]{
-			"type0_right_stick_axis_y",
-			"type1_right_stick_axis_y"
-		};
-		public static string[] INPUTMANAGER_LSB = new string[]{
-			"type0_left_stick_button",
-			"type1_left_stick_button"
-		};
-		public static string[] INPUTMANAGER_RSB = new string[]{
-			"type0_right_stick_button",
-			"type1_right_stick_button"
-		};
+		public static Pad_InputManagerItemName INPUTMANAGER_LSX = new Pad_InputManagerItemName(
+			"pad_0_type_p_left_stick_axis_x",
+			"pad_0_type_x_left_stick_axis_x",
+			"pad_1_type_p_left_stick_axis_x",
+			"pad_1_type_x_left_stick_axis_x"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_LSY = new Pad_InputManagerItemName(
+			"pad_0_type_p_left_stick_axis_y",
+			"pad_0_type_x_left_stick_axis_y",
+			"pad_1_type_p_left_stick_axis_y",
+			"pad_1_type_x_left_stick_axis_y"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_RSX = new Pad_InputManagerItemName(
+			"pad_0_type_p_right_stick_axis_x",
+			"pad_0_type_x_right_stick_axis_x",
+			"pad_1_type_p_right_stick_axis_x",
+			"pad_1_type_x_right_stick_axis_x"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_RSY = new Pad_InputManagerItemName(
+			"pad_0_type_p_right_stick_axis_y",
+			"pad_0_type_x_right_stick_axis_y",
+			"pad_1_type_p_right_stick_axis_y",
+			"pad_1_type_x_right_stick_axis_y"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_LSB = new Pad_InputManagerItemName(
+			"pad_0_type_p_left_stick_button",
+			"pad_0_type_x_left_stick_button",
+			"pad_1_type_p_left_stick_button",
+			"pad_1_type_x_left_stick_button"
+		);
+		public static Pad_InputManagerItemName INPUTMANAGER_RSB = new Pad_InputManagerItemName(
+			"pad_0_type_p_right_stick_button",
+			"pad_0_type_x_right_stick_button",
+			"pad_1_type_p_right_stick_button",
+			"pad_1_type_x_right_stick_button"
+		);
 	}
 }
 

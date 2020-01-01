@@ -196,112 +196,114 @@ namespace Fee.EditorTool
 
 				System.Collections.Generic.Dictionary<string,InputManagerTool_Item> t_flag_list = new System.Collections.Generic.Dictionary<string,InputManagerTool_Item>();
 				{
-					for(Fee.Input.Pad.PadType ii=0;ii<Fee.Input.Pad.PadType.Max;ii++){
+					for(int t_pad_index=0;t_pad_index<Fee.Input.Config.PAD_MAX;t_pad_index++){
+						for(Fee.Input.Pad_InputManagerItemName.PadType t_pad_type=0;t_pad_type<Fee.Input.Pad_InputManagerItemName.PadType.Max;t_pad_type++){
 
-						//トリガー。
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateLeftTrigger1Button(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LT1[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateRightTrigger1Button(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RT1[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateLeftTrigger2Button(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LT2[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateRightTrigger2Button(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RT2[(int)ii],t_item);
-						}
+							//トリガー。
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateLeftTrigger1Button(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LT1.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateRightTrigger1Button(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RT1.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateLeftTrigger2Button(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LT2.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateRightTrigger2Button(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RT2.GetItem(t_pad_index,t_pad_type),t_item);
+							}
 
-						//ボタン。
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateDigitalButtonLeft(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LEFT[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateDigitalButtonRight(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RIGHT[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateDigitalButtonUp(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_UP[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateDigitalButtonDown(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_DOWN[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateDigitalButtonEnter(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_ENTER[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateDigitalButtonEscape(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_ESCAPE[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateDigitalButtonSub1(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_SUB1[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateDigitalButtonSub2(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_SUB2[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateDigitalButtonLeftMenu(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LMENU[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateDigitalButtonRightMenu(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RMENU[(int)ii],t_item);
-						}
+							//ボタン。
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateDigitalButtonLeft(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LEFT.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateDigitalButtonRight(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RIGHT.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateDigitalButtonUp(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_UP.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateDigitalButtonDown(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_DOWN.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateDigitalButtonEnter(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_ENTER.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateDigitalButtonEscape(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_ESCAPE.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateDigitalButtonSub1(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_SUB1.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateDigitalButtonSub2(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_SUB2.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateDigitalButtonLeftMenu(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LMENU.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateDigitalButtonRightMenu(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RMENU.GetItem(t_pad_index,t_pad_type),t_item);
+							}
 
-						//スティック。
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateLeftStickAxisX(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LSX[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateLeftStickAxisY(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LSY[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateRightStickAxisX(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RSX[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateRightStickAxisY(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RSY[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateLeftStickButton(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LSB[(int)ii],t_item);
-						}
-						{
-							InputManagerTool_Item t_item = new InputManagerTool_Item();
-							t_item.CreateRightStickButton(ii);
-							t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RSB[(int)ii],t_item);
+							//スティック。
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateLeftStickAxisX(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LSX.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateLeftStickAxisY(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LSY.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateRightStickAxisX(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RSX.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateRightStickAxisY(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RSY.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateLeftStickButton(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_LSB.GetItem(t_pad_index,t_pad_type),t_item);
+							}
+							{
+								InputManagerTool_Item t_item = new InputManagerTool_Item();
+								t_item.CreateRightStickButton(t_pad_index,t_pad_type);
+								t_flag_list.Add(Fee.Input.Config.INPUTMANAGER_RSB.GetItem(t_pad_index,t_pad_type),t_item);
+							}
 						}
 					}
 				}

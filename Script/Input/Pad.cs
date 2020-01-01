@@ -72,99 +72,50 @@ namespace Fee.Input
 			}
 		}
 
-		/** パッドタイプ。
-		*/
-		public enum PadType
-		{
-			/** xbox
-			*/
-			Type0 = 0,
-
-			/** ps
-			*/
-			Type1,
-
-			Max,
-		}
-		private PadType padtype;
-
 		/** is_focus
 		*/
 		public bool is_focus;
 
-		/** デジタルボタン。
+		/** paddevice_list
 		*/
-		public Digital_Button left;
-		public Digital_Button right;
-		public Digital_Button up;
-		public Digital_Button down;
-		public Digital_Button enter;
-		public Digital_Button escape;
-		public Digital_Button sub1;
-		public Digital_Button sub2;
-		public Digital_Button left_menu;
-		public Digital_Button right_menu;
+		#if(USE_DEF_FEE_INPUTSYSTEM)
+		private System.Collections.Generic.List<UnityEngine_InputSystem.Gamepad> paddevice_list;
+		#endif
 
-		/** アナログスティック。
+		/** pad_status
 		*/
-		public Analog_Stick l_stick;
-		public Analog_Stick r_stick;	
-		public Digital_Button l_stick_button;
-		public Digital_Button r_stick_button;
-
-		/** トリガーボタン。
-		*/
-		public Digital_Button l_trigger_1;
-		public Digital_Button r_trigger_1;
-		public Analog_Button l_trigger_2;
-		public Analog_Button r_trigger_2;
-
-		/** モーター。
-		*/
-		public Moter_Speed moter_low;
-		public Moter_Speed moter_high;
+		public Pad_Status[] pad_status;
 
 		/** [シングルトン]constructor
 		*/
 		private Pad()
 		{
-			//パッドタイプ。
-			#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
-			this.padtype = PadType.Type1;
-			#else
-			this.padtype = PadType.Type0;
-			#endif
-
 			//is_focus
 			this.is_focus = false;
 
-			//デジタルボタン。
-			this.left.Reset();
-			this.right.Reset();
-			this.up.Reset();
-			this.down.Reset();
-			this.enter.Reset();
-			this.escape.Reset();
-			this.sub1.Reset();
-			this.sub2.Reset();
-			this.left_menu.Reset();
-			this.right_menu.Reset();
+			//paddevice_list
+			this.paddevice_list = new System.Collections.Generic.List<UnityEngine_InputSystem.Gamepad>();
 
-			//アナログスティック。
-			this.l_stick.Reset();
-			this.r_stick.Reset();
-			this.l_stick_button.Reset();
-			this.r_stick_button.Reset();
+			//pad_status
+			this.pad_status = new Pad_Status[Config.PAD_MAX];
 
-			//トリガーボタン。
-			this.l_trigger_1.Reset();
-			this.r_trigger_1.Reset();
-			this.l_trigger_2.Reset();
-			this.r_trigger_2.Reset();
+			for(int ii=0;ii<this.pad_status.Length;ii++){
+				//リセット。
+				this.pad_status[ii].Reset();
 
-			//モーター。
-			this.moter_low.Reset();
-			this.moter_high.Reset();
+				//有効。
+				this.pad_status[ii].enable = true;
+
+				//パッドインデックス。
+				this.pad_status[ii].pad_index = ii;
+
+				//パッドタイプ。
+				#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+				this.pad_status[ii].pad_type = Pad_InputManagerItemName.PadType.Type_X;
+				#else
+				this.pad_status[ii].pad_type = Pad_InputManagerItemName.PadType.Type_P;
+				#endif
+			}
 		}
 
 		/** [シングルトン]削除。
@@ -173,59 +124,83 @@ namespace Fee.Input
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine_InputSystem.Gamepad t_gamepad_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Gamepad>();
-				if(t_gamepad_current != null){
-					t_gamepad_current.SetMotorSpeeds(0.0f,0.0f);
+				foreach(UnityEngine_InputSystem.InputDevice t_device in UnityEngine_InputSystem.InputSystem.devices){
+					UnityEngine_InputSystem.Gamepad t_gamepad = t_device as UnityEngine_InputSystem.Gamepad;
+					if(t_gamepad != null){
+						t_gamepad.SetMotorSpeeds(0.0f,0.0f);
+					}
 				}
 			}
 			#endif
 		}
 
-		/** パッドタイプ。設定。
+		/** 更新。インプットシステム。デバイスリスト。
 		*/
-		public void SetPadType(PadType a_padtype)
+		private void Main_InputSystem_UpdateDeviceList()
 		{
-			this.padtype = a_padtype;
+			#if(USE_DEF_FEE_INPUTSYSTEM)
+			{
+				this.paddevice_list.Clear();
+
+				foreach(UnityEngine_InputSystem.InputDevice t_device in UnityEngine_InputSystem.InputSystem.devices){
+					UnityEngine_InputSystem.Gamepad t_gamepad = t_device as UnityEngine_InputSystem.Gamepad;
+					if(t_gamepad != null){
+						this.paddevice_list.Add(t_gamepad);
+					}
+				}
+
+				this.paddevice_list.Sort((UnityEngine_InputSystem.Gamepad a_test,UnityEngine_InputSystem.Gamepad a_target) => {
+					int t_ret = a_test.deviceId - a_target.deviceId;
+					if(t_ret == 0){
+						t_ret = a_test.GetHashCode() - a_target.GetHashCode();
+					}
+					return t_ret;
+				});
+			}
+			#endif
 		}
 
-		/** パッドタイプ。取得。
+		/** 取得。インプットシステム。パッドデバイス。
 		*/
-		public PadType GetPadType()
+		private UnityEngine_InputSystem.Gamepad GetPadDevice(int a_index)
 		{
-			return this.padtype;
+			if(a_index < this.paddevice_list.Count){
+				return this.paddevice_list[a_index];
+			}
+			return null;
 		}
 
 		/** 更新。インプットシステム。ゲームパッド。パッドデジタルボタン。
 		*/
-		private bool Main_InputSystem_GamePad_PadDigitalButton()
+		private bool Main_InputSystem_GamePad_PadDigitalButton(ref Pad_Status a_pad_status)
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine_InputSystem.Gamepad t_gamepad_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Gamepad>();
-				if(t_gamepad_current != null){
+				UnityEngine_InputSystem.Gamepad t_gamepad = this.GetPadDevice(a_pad_status.pad_index);
+				if(t_gamepad != null){
 					//デバイス。
-					bool t_left_on = t_gamepad_current.dpad.left.isPressed;
-					bool t_right_on = t_gamepad_current.dpad.right.isPressed;
-					bool t_up_on = t_gamepad_current.dpad.up.isPressed;
-					bool t_down_on = t_gamepad_current.dpad.down.isPressed;
-					bool t_enter_on = t_gamepad_current.buttonEast.isPressed;
-					bool t_escape_on = t_gamepad_current.buttonSouth.isPressed;
-					bool t_sub1_on = t_gamepad_current.buttonNorth.isPressed;
-					bool t_sub2_on = t_gamepad_current.buttonWest.isPressed;
-					bool t_left_menu_on = t_gamepad_current.selectButton.isPressed;
-					bool t_right_menu_on = t_gamepad_current.startButton.isPressed;
+					bool t_left_on = t_gamepad.dpad.left.isPressed;
+					bool t_right_on = t_gamepad.dpad.right.isPressed;
+					bool t_up_on = t_gamepad.dpad.up.isPressed;
+					bool t_down_on = t_gamepad.dpad.down.isPressed;
+					bool t_enter_on = t_gamepad.buttonEast.isPressed;
+					bool t_escape_on = t_gamepad.buttonSouth.isPressed;
+					bool t_sub1_on = t_gamepad.buttonNorth.isPressed;
+					bool t_sub2_on = t_gamepad.buttonWest.isPressed;
+					bool t_left_menu_on = t_gamepad.selectButton.isPressed;
+					bool t_right_menu_on = t_gamepad.startButton.isPressed;
 
 					//設定。
-					this.left.Set(t_left_on & this.is_focus);
-					this.right.Set(t_right_on & this.is_focus);
-					this.up.Set(t_up_on & this.is_focus);
-					this.down.Set(t_down_on & this.is_focus);
-					this.enter.Set(t_enter_on & this.is_focus);
-					this.escape.Set(t_escape_on & this.is_focus);
-					this.sub1.Set(t_sub1_on & this.is_focus);
-					this.sub2.Set(t_sub2_on & this.is_focus);
-					this.left_menu.Set(t_left_menu_on & this.is_focus);
-					this.right_menu.Set(t_right_menu_on & this.is_focus);
+					a_pad_status.left.Set(t_left_on & this.is_focus);
+					a_pad_status.right.Set(t_right_on & this.is_focus);
+					a_pad_status.up.Set(t_up_on & this.is_focus);
+					a_pad_status.down.Set(t_down_on & this.is_focus);
+					a_pad_status.enter.Set(t_enter_on & this.is_focus);
+					a_pad_status.escape.Set(t_escape_on & this.is_focus);
+					a_pad_status.sub1.Set(t_sub1_on & this.is_focus);
+					a_pad_status.sub2.Set(t_sub2_on & this.is_focus);
+					a_pad_status.left_menu.Set(t_left_menu_on & this.is_focus);
+					a_pad_status.right_menu.Set(t_right_menu_on & this.is_focus);
 
 					return true;
 				}
@@ -238,31 +213,31 @@ namespace Fee.Input
 		/** 更新。インプットマネージャ。インプットネーム。パッドデジタルボタン。
 		*/
 		#if(true)
-		private bool Main_InputManager_InputName_PadDigitalButton()
+		private bool Main_InputManager_InputName_PadDigitalButton(ref Pad_Status a_pad_status)
 		{
-			bool t_left_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LEFT[(int)this.padtype]) < -0.5f) ? true : false;
-			bool t_right_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RIGHT[(int)this.padtype]) > 0.5f) ? true : false;
-			bool t_up_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_UP[(int)this.padtype]) > 0.5f) ? true : false;
-			bool t_down_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_DOWN[(int)this.padtype]) < -0.5f) ? true : false;
+			bool t_left_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LEFT.GetItem(a_pad_status.pad_index,a_pad_status.pad_type)) < -0.5f) ? true : false;
+			bool t_right_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RIGHT.GetItem(a_pad_status.pad_index,a_pad_status.pad_type)) > 0.5f) ? true : false;
+			bool t_up_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_UP.GetItem(a_pad_status.pad_index,a_pad_status.pad_type)) > 0.5f) ? true : false;
+			bool t_down_on = (UnityEngine.Input.GetAxis(Config.INPUTMANAGER_DOWN.GetItem(a_pad_status.pad_index,a_pad_status.pad_type)) < -0.5f) ? true : false;
 
-			bool t_enter_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_ENTER[(int)this.padtype]);
-			bool t_escape_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_ESCAPE[(int)this.padtype]);
-			bool t_sub1_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_SUB1[(int)this.padtype]);
-			bool t_sub2_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_SUB2[(int)this.padtype]);
-			bool t_left_menu_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_LMENU[(int)this.padtype]);
-			bool t_right_menu_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_RMENU[(int)this.padtype]);
+			bool t_enter_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_ENTER.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			bool t_escape_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_ESCAPE.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			bool t_sub1_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_SUB1.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			bool t_sub2_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_SUB2.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			bool t_left_menu_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_LMENU.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			bool t_right_menu_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_RMENU.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
 
 			//設定。
-			this.left.Set(t_left_on & this.is_focus);
-			this.right.Set(t_right_on & this.is_focus);
-			this.up.Set(t_up_on & this.is_focus);
-			this.down.Set(t_down_on & this.is_focus);
-			this.enter.Set(t_enter_on & this.is_focus);
-			this.escape.Set(t_escape_on & this.is_focus);
-			this.sub1.Set(t_sub1_on & this.is_focus);
-			this.sub2.Set(t_sub2_on & this.is_focus);
-			this.left_menu.Set(t_left_menu_on & this.is_focus);
-			this.right_menu.Set(t_right_menu_on & this.is_focus);
+			a_pad_status.left.Set(t_left_on & this.is_focus);
+			a_pad_status.right.Set(t_right_on & this.is_focus);
+			a_pad_status.up.Set(t_up_on & this.is_focus);
+			a_pad_status.down.Set(t_down_on & this.is_focus);
+			a_pad_status.enter.Set(t_enter_on & this.is_focus);
+			a_pad_status.escape.Set(t_escape_on & this.is_focus);
+			a_pad_status.sub1.Set(t_sub1_on & this.is_focus);
+			a_pad_status.sub2.Set(t_sub2_on & this.is_focus);
+			a_pad_status.left_menu.Set(t_left_menu_on & this.is_focus);
+			a_pad_status.right_menu.Set(t_right_menu_on & this.is_focus);
 
 			return true;
 		}
@@ -270,30 +245,30 @@ namespace Fee.Input
 
 		/** 更新。インプットシステム。ゲームパッド。パッドスティック。
 		*/
-		private bool Main_InputSystem_GamePad_PadStick()
+		private bool Main_InputSystem_GamePad_PadStick(ref Pad_Status a_pad_status)
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine_InputSystem.Gamepad t_gamepad_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Gamepad>();
-				if(t_gamepad_current != null){
+				UnityEngine_InputSystem.Gamepad t_gamepad = this.GetPadDevice(a_pad_status.pad_index);
+				if(t_gamepad != null){
 					//デバイス。
-					float t_l_x = t_gamepad_current.leftStick.x.ReadValue();
-					float t_l_y = t_gamepad_current.leftStick.y.ReadValue();
-					float t_r_x = t_gamepad_current.rightStick.x.ReadValue();
-					float t_r_y = t_gamepad_current.rightStick.y.ReadValue();
-					bool t_l_on = t_gamepad_current.leftStickButton.isPressed;
-					bool t_r_on = t_gamepad_current.rightStickButton.isPressed;
+					float t_l_x = t_gamepad.leftStick.x.ReadValue();
+					float t_l_y = t_gamepad.leftStick.y.ReadValue();
+					float t_r_x = t_gamepad.rightStick.x.ReadValue();
+					float t_r_y = t_gamepad.rightStick.y.ReadValue();
+					bool t_l_on = t_gamepad.leftStickButton.isPressed;
+					bool t_r_on = t_gamepad.rightStickButton.isPressed;
 
 					//設定。
 					if(this.is_focus == true){
-						this.l_stick.Set(t_l_x,t_l_y);
-						this.r_stick.Set(t_r_x,t_r_y);
+						a_pad_status.l_stick.Set(t_l_x,t_l_y);
+						a_pad_status.r_stick.Set(t_r_x,t_r_y);
 					}else{
-						this.l_stick.Set(0.0f,0.0f);
-						this.r_stick.Set(0.0f,0.0f);
+						a_pad_status.l_stick.Set(0.0f,0.0f);
+						a_pad_status.r_stick.Set(0.0f,0.0f);
 					}
-					this.l_stick_button.Set(t_l_on & this.is_focus);
-					this.r_stick_button.Set(t_r_on & this.is_focus);
+					a_pad_status.l_stick_button.Set(t_l_on & this.is_focus);
+					a_pad_status.r_stick_button.Set(t_r_on & this.is_focus);
 					return true;
 				}
 			}
@@ -304,52 +279,52 @@ namespace Fee.Input
 
 		/** 更新。インプットマネージャ。インプットネーム。パッドスティック。
 		*/
-		private bool Main_InputManager_InputName_PadStick()
+		private bool Main_InputManager_InputName_PadStick(ref Pad_Status a_pad_status)
 		{
 			//デバイス。
-			float t_l_x = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LSX[(int)this.padtype]);
-			float t_l_y = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LSY[(int)this.padtype]);
-			float t_r_x = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RSX[(int)this.padtype]);
-			float t_r_y = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RSY[(int)this.padtype]);
-			bool t_l_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_LSB[(int)this.padtype]);
-			bool t_r_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_RSB[(int)this.padtype]);
+			float t_l_x = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LSX.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			float t_l_y = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LSY.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			float t_r_x = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RSX.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			float t_r_y = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RSY.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			bool t_l_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_LSB.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			bool t_r_on = UnityEngine.Input.GetButton(Config.INPUTMANAGER_RSB.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
 
 			//設定。
 			if(this.is_focus == true){
-				this.l_stick.Set(t_l_x,t_l_y);
-				this.r_stick.Set(t_r_x,t_r_y);
+				a_pad_status.l_stick.Set(t_l_x,t_l_y);
+				a_pad_status.r_stick.Set(t_r_x,t_r_y);
 			}else{
-				this.l_stick.Set(0.0f,0.0f);
-				this.r_stick.Set(0.0f,0.0f);
+				a_pad_status.l_stick.Set(0.0f,0.0f);
+				a_pad_status.r_stick.Set(0.0f,0.0f);
 			}
-			this.l_stick_button.Set(t_l_on & this.is_focus);
-			this.r_stick_button.Set(t_r_on & this.is_focus);
+			a_pad_status.l_stick_button.Set(t_l_on & this.is_focus);
+			a_pad_status.r_stick_button.Set(t_r_on & this.is_focus);
 			return true;
 		}
 
 		/** 更新。インプットシステム。ゲームパッド。パッドトリガー。
 		*/
-		private bool Main_InputSystem_GamePad_PadTrigger()
+		private bool Main_InputSystem_GamePad_PadTrigger(ref Pad_Status a_pad_status)
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine_InputSystem.Gamepad t_gamepad_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Gamepad>();
-				if(t_gamepad_current != null){
+				UnityEngine_InputSystem.Gamepad t_gamepad = this.GetPadDevice(a_pad_status.pad_index);
+				if(t_gamepad != null){
 					//デバイス。
-					bool t_l_1 = t_gamepad_current.leftShoulder.isPressed;
-					bool t_r_1 = t_gamepad_current.rightShoulder.isPressed;
-					float t_l_2 = t_gamepad_current.leftTrigger.ReadValue();
-					float t_r_2 = t_gamepad_current.rightTrigger.ReadValue();
+					bool t_l_1 = t_gamepad.leftShoulder.isPressed;
+					bool t_r_1 = t_gamepad.rightShoulder.isPressed;
+					float t_l_2 = t_gamepad.leftTrigger.ReadValue();
+					float t_r_2 = t_gamepad.rightTrigger.ReadValue();
 
 					//設定。
-					this.l_trigger_1.Set(t_l_1 & this.is_focus);
-					this.r_trigger_1.Set(t_r_1 & this.is_focus);
+					a_pad_status.l_trigger_1.Set(t_l_1 & this.is_focus);
+					a_pad_status.r_trigger_1.Set(t_r_1 & this.is_focus);
 					if(this.is_focus == true){
-						this.l_trigger_2.Set(t_l_2);
-						this.r_trigger_2.Set(t_r_2);
+						a_pad_status.l_trigger_2.Set(t_l_2);
+						a_pad_status.r_trigger_2.Set(t_r_2);
 					}else{
-						this.l_trigger_2.Set(0.0f);
-						this.r_trigger_2.Set(0.0f);
+						a_pad_status.l_trigger_2.Set(0.0f);
+						a_pad_status.r_trigger_2.Set(0.0f);
 					}
 
 					return true;
@@ -362,13 +337,13 @@ namespace Fee.Input
 
 		/** 更新。インプットマネージャ。インプットネーム。パッドトリガー。
 		*/
-		private bool Main_InputManager_InputName_PadTrigger()
+		private bool Main_InputManager_InputName_PadTrigger(ref Pad_Status a_pad_status)
 		{
 			//デバイス。
-			bool t_l_1 = UnityEngine.Input.GetButton(Config.INPUTMANAGER_LT1[(int)this.padtype]);
-			bool t_r_1 = UnityEngine.Input.GetButton(Config.INPUTMANAGER_RT1[(int)this.padtype]);
-			float t_l_2 = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LT2[(int)this.padtype]);
-			float t_r_2 = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RT2[(int)this.padtype]);
+			bool t_l_1 = UnityEngine.Input.GetButton(Config.INPUTMANAGER_LT1.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			bool t_r_1 = UnityEngine.Input.GetButton(Config.INPUTMANAGER_RT1.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			float t_l_2 = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_LT2.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
+			float t_r_2 = UnityEngine.Input.GetAxis(Config.INPUTMANAGER_RT2.GetItem(a_pad_status.pad_index,a_pad_status.pad_type));
 
 			if(t_l_2 < 0.0f){
 				t_l_2 = 0.0f;
@@ -379,14 +354,14 @@ namespace Fee.Input
 			}
 
 			//設定。
-			this.l_trigger_1.Set(t_l_1 & this.is_focus);
-			this.r_trigger_1.Set(t_r_1 & this.is_focus);
+			a_pad_status.l_trigger_1.Set(t_l_1 & this.is_focus);
+			a_pad_status.r_trigger_1.Set(t_r_1 & this.is_focus);
 			if(this.is_focus == true){
-				this.l_trigger_2.Set(t_l_2);
-				this.r_trigger_2.Set(t_r_2);
+				a_pad_status.l_trigger_2.Set(t_l_2);
+				a_pad_status.r_trigger_2.Set(t_r_2);
 			}else{
-				this.l_trigger_2.Set(0.0f);
-				this.r_trigger_2.Set(0.0f);
+				a_pad_status.l_trigger_2.Set(0.0f);
+				a_pad_status.r_trigger_2.Set(0.0f);
 			}
 
 			return true;
@@ -394,21 +369,21 @@ namespace Fee.Input
 
 		/** 更新。インプットシステム。ゲームパッド。パッドモーター。
 		*/
-		private bool Main_InputSystem_GamePad_PadMotor()
+		private bool Main_InputSystem_GamePad_PadMotor(ref Pad_Status a_pad_status)
 		{
 			#if(USE_DEF_FEE_INPUTSYSTEM)
 			{
-				UnityEngine_InputSystem.Gamepad t_gamepad_current = UnityEngine_InputSystem.InputSystem.GetDevice<UnityEngine_InputSystem.Gamepad>();
-				if(t_gamepad_current != null){
-					float t_value_low = this.moter_low.GetValue();
-					float t_value_high = this.moter_high.GetValue();			
-					float t_raw_value_low = this.moter_low.GetRawValue();
-					float t_raw_value_high = this.moter_high.GetRawValue();
+				UnityEngine_InputSystem.Gamepad t_gamepad = this.GetPadDevice(a_pad_status.pad_index);
+				if(t_gamepad != null){
+					float t_value_low = a_pad_status.moter_low.GetValue();
+					float t_value_high = a_pad_status.moter_high.GetValue();			
+					float t_raw_value_low = a_pad_status.moter_low.GetRawValue();
+					float t_raw_value_high = a_pad_status.moter_high.GetRawValue();
 
 					{
-						this.moter_low.SetRawValue(t_value_low);
-						this.moter_high.SetRawValue(t_value_high);
-						t_gamepad_current.SetMotorSpeeds(t_value_low,t_value_high);
+						a_pad_status.moter_low.SetRawValue(t_value_low);
+						a_pad_status.moter_high.SetRawValue(t_value_high);
+						t_gamepad.SetMotorSpeeds(t_value_low,t_value_high);
 					}
 
 					return true;
@@ -421,18 +396,18 @@ namespace Fee.Input
 
 		/** 更新。デジタルボタン。
 		*/
-		private void Main_DigitalButton()
+		private void Main_DigitalButton(ref Pad_Status a_pad_status)
 		{
 			//インプットシステム。ゲームパッド。パッドデジタルボタン。
 			if(Config.USE_INPUTSYSTEM_GAMEPAD_PADDIGITALBUTTON == true){
-				if(this.Main_InputSystem_GamePad_PadDigitalButton() == true){
+				if(this.Main_InputSystem_GamePad_PadDigitalButton(ref a_pad_status) == true){
 					return;
 				}
 			}
 
 			//インプットマネージャ。インプットネーム。パッドデジタルボタン。
 			if(Config.USE_INPUTMANAGER_INPUTNAME_PADDIGITALBUTTON == true){
-				if(this.Main_InputManager_InputName_PadDigitalButton() == true){
+				if(this.Main_InputManager_InputName_PadDigitalButton(ref a_pad_status) == true){
 					return;
 				}
 			}
@@ -440,18 +415,18 @@ namespace Fee.Input
 
 		/** 更新。スティック。
 		*/
-		private void Main_Stick()
+		private void Main_Stick(ref Pad_Status a_pad_status)
 		{
 			//インプットシステム。ゲームパッド。パッドスティック。
 			if(Config.USE_INPUTSYSTEM_GAMEPAD_PADSTICK == true){
-				if(this.Main_InputSystem_GamePad_PadStick() == true){
+				if(this.Main_InputSystem_GamePad_PadStick(ref a_pad_status) == true){
 					return;
 				}
 			}
 
 			//インプットマネージャ。インプットネーム。パッドスティック。
 			if(Config.USE_INPUTMANAGER_INPUTNAME_PADSTICK == true){
-				if(this.Main_InputManager_InputName_PadStick() == true){
+				if(this.Main_InputManager_InputName_PadStick(ref a_pad_status) == true){
 					return;
 				}
 			}
@@ -459,18 +434,18 @@ namespace Fee.Input
 
 		/** 更新。トリガー。
 		*/
-		private void Main_Trigger()
+		private void Main_Trigger(ref Pad_Status a_pad_status)
 		{
 			//インプットシステム。ゲームパッド。パッドトリガー。
 			if(Config.USE_INPUTSYSTEM_GAMEPAD_PADTRIGGER == true){
-				if(this.Main_InputSystem_GamePad_PadTrigger() == true){
+				if(this.Main_InputSystem_GamePad_PadTrigger(ref a_pad_status) == true){
 					return;
 				}
 			}
 
 			//インプットマネージャ。インプットネーム。パッドトリガー。
 			if(Config.USE_INPUTMANAGER_INPUTNAME_PADTRIGGER == true){
-				if(this.Main_InputManager_InputName_PadTrigger() == true){
+				if(this.Main_InputManager_InputName_PadTrigger(ref a_pad_status) == true){
 					return;
 				}
 			}
@@ -478,11 +453,11 @@ namespace Fee.Input
 
 		/** 更新。モータ。
 		*/
-		private void Main_Moter()
+		private void Main_Moter(ref Pad_Status a_pad_status)
 		{
 			//インプットシステム。ゲームパッド。パッドモーター。
 			if(Config.USE_INPUTSYSTEM_GAMEPAD_PADMOTOR == true){
-				if(this.Main_InputSystem_GamePad_PadMotor() == true){
+				if(this.Main_InputSystem_GamePad_PadMotor(ref a_pad_status) == true){
 					return;
 				}
 			}
@@ -496,85 +471,69 @@ namespace Fee.Input
 			this.is_focus = a_is_focus;
 
 			try{
-				//デジタルボタン。更新。
-				this.Main_DigitalButton();
 
-				//トリガー。更新。
-				this.Main_Trigger();
+				/** 更新。インプットシステム。デバイスリスト。
+				*/
+				this.Main_InputSystem_UpdateDeviceList();
 
-				//スティック。更新。
-				this.Main_Stick();
+				for(int ii=0;ii<this.pad_status.Length;ii++){
+					if(this.pad_status[ii].enable == true){
 
-				//更新。
-				{
-					//デジタルボタン。
-					this.left.Main();
-					this.right.Main();
-					this.up.Main();
-					this.down.Main();
-					this.enter.Main();
-					this.escape.Main();
-					this.sub1.Main();
-					this.sub2.Main();
-					this.left_menu.Main();
-					this.right_menu.Main();
+						//デジタルボタン。更新。
+						this.Main_DigitalButton(ref this.pad_status[ii]);
 
-					//アナログスティック。
-					this.l_stick.Main();
-					this.r_stick.Main();
-					this.l_stick_button.Main();
-					this.r_stick_button.Main();
+						//トリガー。更新。
+						this.Main_Trigger(ref this.pad_status[ii]);
 
-					//トリガーボタン。
-					this.l_trigger_1.Main();
-					this.r_trigger_1.Main();
-					this.l_trigger_2.Main();
-					this.r_trigger_2.Main();
-
-					//モータ。
-					this.moter_low.Main(1);
-					this.moter_high.Main(1);
+						//スティック。更新。
+						this.Main_Stick(ref this.pad_status[ii]);
+					}
 				}
 
-				//モーター。更新。
-				this.Main_Moter();
+				//更新。
+				for(int ii=0;ii<this.pad_status.Length;ii++){
+					if(this.pad_status[ii].enable == true){
+
+						//デジタルボタン。
+						this.pad_status[ii].left.Main();
+						this.pad_status[ii].right.Main();
+						this.pad_status[ii].up.Main();
+						this.pad_status[ii].down.Main();
+						this.pad_status[ii].enter.Main();
+						this.pad_status[ii].escape.Main();
+						this.pad_status[ii].sub1.Main();
+						this.pad_status[ii].sub2.Main();
+						this.pad_status[ii].left_menu.Main();
+						this.pad_status[ii].right_menu.Main();
+
+						//アナログスティック。
+						this.pad_status[ii].l_stick.Main();
+						this.pad_status[ii].r_stick.Main();
+						this.pad_status[ii].l_stick_button.Main();
+						this.pad_status[ii].r_stick_button.Main();
+
+						//トリガーボタン。
+						this.pad_status[ii].l_trigger_1.Main();
+						this.pad_status[ii].r_trigger_1.Main();
+						this.pad_status[ii].l_trigger_2.Main();
+						this.pad_status[ii].r_trigger_2.Main();
+
+						//モータ。
+						this.pad_status[ii].moter_low.Main(1);
+						this.pad_status[ii].moter_high.Main(1);
+					}
+				}
+
+				for(int ii=0;ii<this.pad_status.Length;ii++){
+					if(this.pad_status[ii].enable == true){
+
+						//モーター。更新。
+						this.Main_Moter(ref this.pad_status[ii]);
+					}
+				}
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 			}
-		}
-
-		/** 移動チェック。ダウン時。
-		*/
-		public Dir4Type DownMoveCheck()
-		{
-			if(this.up.down == true){
-				return Dir4Type.Up;
-			}else if(this.down.down == true){
-				return Dir4Type.Down;
-			}else if(this.left.down == true){
-				return Dir4Type.Left;
-			}else if(this.right.down == true){
-				return Dir4Type.Right;
-			}
-
-			return Dir4Type.None;
-		}
-
-		/** 移動チェック。オン時。
-		*/
-		public Dir4Type OnMoveCheck()
-		{
-			if(this.up.on == true){
-				return Dir4Type.Up;
-			}else if(this.down.on == true){
-				return Dir4Type.Down;
-			}else if(this.left.on == true){
-				return Dir4Type.Left;
-			}else if(this.right.on == true){
-				return Dir4Type.Right;
-			}
-
-			return Dir4Type.None;
 		}
 	}
 }
