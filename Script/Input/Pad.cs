@@ -94,7 +94,9 @@ namespace Fee.Input
 			this.is_focus = false;
 
 			//paddevice_list
+			#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
 			this.paddevice_list = new System.Collections.Generic.List<UnityEngine_InputSystem.Gamepad>();
+			#endif
 
 			//pad_status
 			this.pad_status = new Pad_Status[Config.PAD_MAX];
@@ -162,6 +164,7 @@ namespace Fee.Input
 
 		/** 取得。インプットシステム。パッドデバイス。
 		*/
+		#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
 		private UnityEngine_InputSystem.Gamepad GetPadDevice(int a_index)
 		{
 			if(a_index < this.paddevice_list.Count){
@@ -169,6 +172,7 @@ namespace Fee.Input
 			}
 			return null;
 		}
+		#endif
 
 		/** 更新。インプットシステム。ゲームパッド。パッドデジタルボタン。
 		*/

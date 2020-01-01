@@ -28,6 +28,10 @@ namespace Fee.Input
 			*/
 			Type_X,
 
+			/** Type_A
+			*/
+			Type_A,
+
 			/** Max
 			*/
 			Max,
@@ -72,19 +76,21 @@ namespace Fee.Input
 
 		/** constructor
 		*/
-		public Pad_InputManagerItemName(string a_pad_0_type_p,string a_pad_0_type_x,string a_pad_1_type_p,string a_pad_1_type_x)
+		public Pad_InputManagerItemName(string a_pad_0_type_p,string a_pad_0_type_x,string a_pad_0_type_a,string a_pad_1_type_p,string a_pad_1_type_x,string a_pad_1_type_a)
 		{
 			this.pad_list = new PadItem[2]{
 				new PadItem(
-					new TypeItem[2]{
+					new TypeItem[3]{
 						new TypeItem(a_pad_0_type_p),
-						new TypeItem(a_pad_0_type_x)
+						new TypeItem(a_pad_0_type_x),
+						new TypeItem(a_pad_0_type_a)
 					}
 				),
 				new PadItem(
-					new TypeItem[2]{
+					new TypeItem[3]{
 						new TypeItem(a_pad_1_type_p),
-						new TypeItem(a_pad_1_type_x)
+						new TypeItem(a_pad_1_type_x),
+						new TypeItem(a_pad_1_type_a)
 					}						
 				)
 			};
