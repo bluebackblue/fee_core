@@ -114,6 +114,8 @@ namespace Fee.Input
 				//パッドタイプ。
 				#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
 				this.pad_status[ii].pad_type = Pad_InputManagerItemName.PadType.Type_X;
+				#elif((!UNITY_EDITOR)&&(UNITY_WEBGL))
+				this.pad_status[ii].pad_type = Pad_InputManagerItemName.PadType.Type_A;
 				#else
 				this.pad_status[ii].pad_type = Pad_InputManagerItemName.PadType.Type_P;
 				#endif

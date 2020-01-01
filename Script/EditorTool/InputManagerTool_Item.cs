@@ -275,7 +275,7 @@ namespace Fee.EditorTool
 					this.dead = 0.001f;
 					this.sensitivity = 1.0f;
 					this.snap = true;
-					this.invert = false;
+					this.invert = true;
 					this.type = Type.JoyStickAxis;
 					this.axis = Axis.Axis6;
 					this.joyNum = a_pad_index + 1;
@@ -336,7 +336,7 @@ namespace Fee.EditorTool
 					this.dead = 0.001f;
 					this.sensitivity = 1.0f;
 					this.snap = true;
-					this.invert = false;
+					this.invert = true;
 					this.type = Type.JoyStickAxis;
 					this.axis = Axis.Axis6;
 					this.joyNum = a_pad_index + 1;
@@ -478,6 +478,67 @@ namespace Fee.EditorTool
 					this.descriptiveName = "";
 					this.descriptiveNegativeName = "";
 					this.negativeButton = "";
+					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 3";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Type.KeyOrMouseButton;
+					this.axis = Axis.None;
+					this.joyNum = a_pad_index + 1;
+				}break;
+			case Fee.Input.Pad_InputManagerItemName.PadType.Type_X:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 3";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Type.KeyOrMouseButton;
+					this.axis = Axis.None;
+					this.joyNum = a_pad_index + 1;
+				}break;
+			case Fee.Input.Pad_InputManagerItemName.PadType.Type_A:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
+					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 3";
+					this.altNegativeButton = "";
+					this.altPositiveButton = "";
+					this.gravity = 0.0f;
+					this.dead = 0.001f;
+					this.sensitivity = 1.0f;
+					this.snap = false;
+					this.invert = false;
+					this.type = Type.KeyOrMouseButton;
+					this.axis = Axis.None;
+					this.joyNum = a_pad_index + 1;
+				}break;
+			}
+		}
+
+		/** デジタルボタン。Sub2。
+		*/
+		public void CreateDigitalButtonSub2(int a_pad_index,Fee.Input.Pad_InputManagerItemName.PadType a_pad_type)
+		{
+			this.m_Name = Fee.Input.Config.INPUTMANAGER_SUB2.GetItem(a_pad_index,a_pad_type);
+
+			switch(a_pad_type){
+			case Fee.Input.Pad_InputManagerItemName.PadType.Type_P:
+				{
+					this.descriptiveName = "";
+					this.descriptiveNegativeName = "";
+					this.negativeButton = "";
 					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 0";
 					this.altNegativeButton = "";
 					this.altPositiveButton = "";
@@ -513,67 +574,6 @@ namespace Fee.EditorTool
 					this.descriptiveNegativeName = "";
 					this.negativeButton = "";
 					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 2";
-					this.altNegativeButton = "";
-					this.altPositiveButton = "";
-					this.gravity = 0.0f;
-					this.dead = 0.001f;
-					this.sensitivity = 1.0f;
-					this.snap = false;
-					this.invert = false;
-					this.type = Type.KeyOrMouseButton;
-					this.axis = Axis.None;
-					this.joyNum = a_pad_index + 1;
-				}break;
-			}
-		}
-
-		/** デジタルボタン。Sub2。
-		*/
-		public void CreateDigitalButtonSub2(int a_pad_index,Fee.Input.Pad_InputManagerItemName.PadType a_pad_type)
-		{
-			this.m_Name = Fee.Input.Config.INPUTMANAGER_SUB2.GetItem(a_pad_index,a_pad_type);
-
-			switch(a_pad_type){
-			case Fee.Input.Pad_InputManagerItemName.PadType.Type_P:
-				{
-					this.descriptiveName = "";
-					this.descriptiveNegativeName = "";
-					this.negativeButton = "";
-					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 3";
-					this.altNegativeButton = "";
-					this.altPositiveButton = "";
-					this.gravity = 0.0f;
-					this.dead = 0.001f;
-					this.sensitivity = 1.0f;
-					this.snap = false;
-					this.invert = false;
-					this.type = Type.KeyOrMouseButton;
-					this.axis = Axis.None;
-					this.joyNum = a_pad_index + 1;
-				}break;
-			case Fee.Input.Pad_InputManagerItemName.PadType.Type_X:
-				{
-					this.descriptiveName = "";
-					this.descriptiveNegativeName = "";
-					this.negativeButton = "";
-					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 3";
-					this.altNegativeButton = "";
-					this.altPositiveButton = "";
-					this.gravity = 0.0f;
-					this.dead = 0.001f;
-					this.sensitivity = 1.0f;
-					this.snap = false;
-					this.invert = false;
-					this.type = Type.KeyOrMouseButton;
-					this.axis = Axis.None;
-					this.joyNum = a_pad_index + 1;
-				}break;
-			case Fee.Input.Pad_InputManagerItemName.PadType.Type_A:
-				{
-					this.descriptiveName = "";
-					this.descriptiveNegativeName = "";
-					this.negativeButton = "";
-					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 3";
 					this.altNegativeButton = "";
 					this.altPositiveButton = "";
 					this.gravity = 0.0f;
@@ -634,7 +634,7 @@ namespace Fee.EditorTool
 					this.descriptiveName = "";
 					this.descriptiveNegativeName = "";
 					this.negativeButton = "";
-					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 6";
+					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 10";
 					this.altNegativeButton = "";
 					this.altPositiveButton = "";
 					this.gravity = 0.0f;
@@ -695,7 +695,7 @@ namespace Fee.EditorTool
 					this.descriptiveName = "";
 					this.descriptiveNegativeName = "";
 					this.negativeButton = "";
-					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 7";
+					this.positiveButton = "joystick " + (a_pad_index + 1).ToString() + " button 11";
 					this.altNegativeButton = "";
 					this.altPositiveButton = "";
 					this.gravity = 0.0f;
@@ -809,7 +809,7 @@ namespace Fee.EditorTool
 					this.snap = false;
 					this.invert = false;
 					this.type = Type.JoyStickAxis;
-					this.axis = Axis.Axis4;
+					this.axis = Axis.Axis3;
 					this.joyNum = a_pad_index + 1;
 				}break;
 			}
@@ -870,7 +870,7 @@ namespace Fee.EditorTool
 					this.snap = false;
 					this.invert = true;
 					this.type = Type.JoyStickAxis;
-					this.axis = Axis.Axis5;
+					this.axis = Axis.Axis4;
 					this.joyNum = a_pad_index + 1;
 				}break;
 			}
@@ -1097,7 +1097,7 @@ namespace Fee.EditorTool
 					this.snap = false;
 					this.invert = false;
 					this.type = Type.JoyStickAxis;
-					this.axis = Axis.Axis9;
+					this.axis = Axis.Axis14;
 					this.joyNum = a_pad_index + 1;
 				}break;
 			}
@@ -1158,7 +1158,7 @@ namespace Fee.EditorTool
 					this.snap = false;
 					this.invert = false;
 					this.type = Type.JoyStickAxis;
-					this.axis = Axis.Axis10;
+					this.axis = Axis.Axis15;
 					this.joyNum = a_pad_index + 1;
 				}break;
 			}
