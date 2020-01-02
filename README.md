@@ -9,7 +9,7 @@ MIT License
 ## Package
 * https://github.com/bluebackblue/fee_core/releases/
 
-## Sample project
+## Sample Project
 * Unity 2019.2.17f1 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2019_2 ]
 * Unity 2020.1.0a17 [ https://github.com/bluebackblue/fee_project/tree/master/unity_2020_1 ]
 
@@ -18,9 +18,9 @@ MIT License
 
 ## Folder Structure
 フォルダ構造
-* Font [フォント]
-* license [使用ライセンス]
-* Resources [マテリアル、シェーダ、等]
+* License [使用ライセンス]
+* Plugins [Android / Standalone / WebGL]
+* Resources [マテリアル、プレハブ、シェーダ、テクスチャー、等]
 * Script
 * _ Asset [アセット汎用表現]
 * _ AssetBundleList [アセットバンドル管理]
@@ -78,9 +78,6 @@ MIT License
 
 ### インプトシステムを使用する。
 * 「USE_DEF_FEE_INPUTSYSTEM」
-
-### Utf8Jsonを使用する。
-* 「USE_DEF_FEE_UTF8JSON」
 
 ### ExcelDataReaderを使用する。
 * 「USE_DEF_FEE_EXCELDATAREADER」
