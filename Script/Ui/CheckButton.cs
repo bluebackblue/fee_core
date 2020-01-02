@@ -66,12 +66,12 @@ namespace Fee.Ui
 			this.bg_lock_sprite.SetVisible(false);
 
 			//check_normal_sprite
-			this.check_normal_sprite = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority + 1);
+			this.check_normal_sprite = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority + 1);
 			this.check_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.check_normal_sprite.SetVisible(false);
 
 			//check_lock_sprite
-			this.check_lock_sprite = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority + 1);
+			this.check_lock_sprite = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority + 1);
 			this.check_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 			this.check_lock_sprite.SetVisible(false);
 

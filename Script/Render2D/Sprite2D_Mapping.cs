@@ -22,6 +22,13 @@ namespace Fee.Render2D
 
 		/** constructor
 		*/
+		public Sprite2D_Mapping()
+		{
+			this.sprite = null;
+		}
+
+		/** constructor
+		*/
 		public Sprite2D_Mapping(Fee.Render2D.Sprite2D a_sprite)
 		{
 			this.sprite = a_sprite;

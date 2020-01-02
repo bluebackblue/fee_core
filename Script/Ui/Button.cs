@@ -68,6 +68,13 @@ namespace Fee.Ui
 			this.lock_textcolor = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);
 		}
 
+		/** 作成。
+		*/
+		public static Button Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		{
+			return new Button(a_deleter,a_drawpriority);
+		}
+
 		/** [Button_Base]コールバック。矩形。設定。
 		*/
 		protected override void OnChangeRect()

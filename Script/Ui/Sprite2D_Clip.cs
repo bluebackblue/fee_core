@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Sprite2D_Clip
 	*/
-	public class Sprite2D_Clip : Fee.Render2D.Sprite2D_Mapping , Fee.Render2D.OnSprite2DMaterialUpdate_CallBackInterface
+	public class Sprite2D_Clip : Fee.Render2D.Sprite2D_Mapping , Fee.Deleter.OnDelete_CallBackInterface , Fee.Render2D.OnSprite2DMaterialUpdate_CallBackInterface , Fee.Pool.PoolItem_Base
 	{
 		/** is_clip
 		*/
@@ -25,20 +25,59 @@ namespace Fee.Ui
 		private Fee.Geometry.Rect2D_R<int> clip_rect;
 
 		/** constructor
+
+			プール用に作成。
+
 		*/
-		public Sprite2D_Clip(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public Sprite2D_Clip()
 			:
-			base(Fee.Render2D.Sprite2D.Create(a_deleter,a_drawpriority))
+			base()
 		{
-			//is_clip
-			this.is_clip = false;
+		}
 
-			//clip_rect
-			this.clip_rect.Set(0,0,0,0);
+		/** Create
+		*/
+		public static Sprite2D_Clip Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		{
+			Sprite2D_Clip t_this = Fee.Ui.Ui.GetInstance().GetPoolList_Sprite2D_Clip().PoolNew();
+			{
+				t_this.sprite = Fee.Render2D.Sprite2D.Create(null,a_drawpriority);
 
-			//マテリアル設定。
-			this.sprite.SetMaterialType(Fee.Render2D.Config.MaterialType.AlphaClip);
-			this.sprite.SetOnSprite2DMaterialUpdate(this);
+				//is_clip
+				t_this.is_clip = false;
+
+				//clip_rect
+				t_this.clip_rect.Set(0,0,0,0);
+
+				//マテリアル設定。
+				t_this.sprite.SetMaterialType(Fee.Render2D.Config.MaterialType.AlphaClip);
+				t_this.sprite.SetOnSprite2DMaterialUpdate(t_this);
+
+				if(a_deleter != null){
+					a_deleter.Regist(t_this);
+				}
+			}
+			return t_this;
+		}
+
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
+		*/
+		public void OnDelete()
+		{
+			this.sprite.OnDelete();
+			Fee.Ui.Ui.GetInstance().GetPoolList_Sprite2D_Clip().PoolDelete(this);
+		}
+
+		/** [Fee.Pool.PoolItem_Base]プールへ削除。
+		*/
+		public void OnPoolDelete()
+		{
+		}
+
+		/** [Fee.Pool.PoolItem_Base]メモリから削除。
+		*/
+		public void OnMemoryDelete()
+		{
 		}
 
 		/** クリップ。設定。

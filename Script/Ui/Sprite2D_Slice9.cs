@@ -137,15 +137,15 @@ namespace Fee.Ui
 			this.deleter = new Fee.Deleter.Deleter();
 
 			//sprite
-			this.sprite_1 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
-			this.sprite_2 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
-			this.sprite_3 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
-			this.sprite_4 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
-			this.sprite_5 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
-			this.sprite_6 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
-			this.sprite_7 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
-			this.sprite_8 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
-			this.sprite_9 = new Fee.Ui.Sprite2D_Clip(this.deleter,a_drawpriority);
+			this.sprite_1 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
+			this.sprite_2 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
+			this.sprite_3 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
+			this.sprite_4 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
+			this.sprite_5 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
+			this.sprite_6 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
+			this.sprite_7 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
+			this.sprite_8 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
+			this.sprite_9 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
 
 			//corner_size
 			this.corner_size = 0;

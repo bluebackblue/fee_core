@@ -69,7 +69,7 @@ namespace Fee.Render2D
 		*/
 		public static Text2D Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
-			Text2D t_this = Fee.Render2D.Render2D.GetInstance().PoolNew_Text2D();
+			Text2D t_this = Fee.Render2D.Render2D.GetInstance().GetTextList().PoolNew();
 			{
 				#if(UNITY_EDITOR)
 				{

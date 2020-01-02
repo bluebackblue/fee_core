@@ -86,6 +86,10 @@ namespace Fee.Ui
 		*/
 		private Button_Base down_button_instance;
 
+		/** pool_list_sprite_clip
+		*/
+		private Fee.Pool.PoolList<Sprite2D_Clip> pool_list_sprite_clip;
+
 		/** [シングルトン]constructor
 		*/
 		private Ui()
@@ -107,12 +111,23 @@ namespace Fee.Ui
 
 			//ダウンボタンインスタンス。
 			this.down_button_instance = null;
+
+			//プールリスト。
+			this.pool_list_sprite_clip = new Pool.PoolList<Sprite2D_Clip>(0);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			this.pool_list_sprite_clip.MemoryDelete();
+		}
+
+		/** プールリスト。取得。
+		*/
+		public Fee.Pool.PoolList<Sprite2D_Clip> GetPoolList_Sprite2D_Clip()
+		{
+			return this.pool_list_sprite_clip;
 		}
 
 		/** 更新。

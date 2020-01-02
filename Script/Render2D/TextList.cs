@@ -70,7 +70,7 @@ namespace Fee.Render2D
 			this.pool_list.SetCapacity(a_capacity);
 		}
 
-		/** プールから作成。
+		/** プールから領域確保。
 		*/
 		public Text2D PoolNew()
 		{

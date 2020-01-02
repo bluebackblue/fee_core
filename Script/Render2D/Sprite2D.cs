@@ -92,8 +92,9 @@ namespace Fee.Render2D
 		*/
 		public static Sprite2D Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
-			Sprite2D t_this = Fee.Render2D.Render2D.GetInstance().PoolNew_Sprite2D();
+			Sprite2D t_this = Fee.Render2D.Render2D.GetInstance().GetSpriteList().PoolNew();
 			{
+				//どこから確保されたのか。
 				#if(UNITY_EDITOR)
 				{
 					try{

@@ -62,7 +62,7 @@ namespace Fee.Render2D
 		*/
 		public static InputField2D Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
-			InputField2D t_this = Fee.Render2D.Render2D.GetInstance().PoolNew_InputField2D();
+			InputField2D t_this = Fee.Render2D.Render2D.GetInstance().GetInputFieldList().PoolNew();
 			{
 				#if(UNITY_EDITOR)
 				{

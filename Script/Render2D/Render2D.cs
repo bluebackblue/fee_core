@@ -312,27 +312,6 @@ namespace Fee.Render2D
 			return this.materiallist.GetUiImageMaterialItem();
 		}
 
-		/** スプライト。作成。
-		*/
-		public Sprite2D PoolNew_Sprite2D()
-		{
-			return this.spritelist.PoolNew();
-		}
-
-		/** テキスト。作成。
-		*/
-		public Text2D PoolNew_Text2D()
-		{
-			return this.textlist.PoolNew();
-		}
-
-		/** 入力フィールド。作成。
-		*/
-		public InputField2D PoolNew_InputField2D()
-		{
-			return this.inputfieldlist.PoolNew();
-		}
-
 		/** スプライト。登録。
 		*/
 		public void Sprite2D_Regist(Sprite2D a_sprite)
