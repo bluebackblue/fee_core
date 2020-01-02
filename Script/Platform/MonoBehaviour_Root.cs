@@ -20,6 +20,13 @@ namespace Fee.Platform
 		*/
 		public string openfiledialog_result;
 
+		/** Awake
+		*/
+		public void Awake()
+		{
+			this.openfiledialog_result = "";
+		}
+
 		/** オープンファイルダイログ。コールバック。
 		*/
 		public void OpenFileDialog_CallBack(string a_result)

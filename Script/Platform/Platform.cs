@@ -173,6 +173,10 @@ namespace Fee.Platform
 			{
 				WebGL_OpenFileDialog.OpenFileDialog(this.root_instance);
 			}
+			#elif(UNITY_ANDROID)
+			{
+				Android_OpenFileDialog.OpenFileDialog(this.root_instance);
+			}
 			#endif
 		}
 
