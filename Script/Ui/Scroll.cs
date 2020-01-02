@@ -72,7 +72,7 @@ namespace Fee.Ui
 		*/
 		protected override void OnChangeRect()
 		{
-			this.bg.SetRect(in this.rect);
+			this.bg.SetRect(in this.param.rect);
 			this.UpdateView();
 		}
 
@@ -94,8 +94,8 @@ namespace Fee.Ui
 		*/
 		protected override void OnChangeDrawPriority()
 		{
-			this.bg.SetDrawPriority(this.drawpriority);
-			this.bar.SetDrawPriority(this.drawpriority + this.bar_drawpriority_offset);
+			this.bg.SetDrawPriority(this.param.drawpriority);
+			this.bar.SetDrawPriority(this.param.drawpriority + this.bar_drawpriority_offset);
 		}
 		
 		/** [Scroll_Base]コールバック。表示フラグ変更。
@@ -110,7 +110,7 @@ namespace Fee.Ui
 		public void SetBarDrawPriorityOffset(int a_offset)
 		{
 			this.bar_drawpriority_offset = a_offset;
-			this.bar.SetDrawPriority(this.drawpriority + this.bar_drawpriority_offset);
+			this.bar.SetDrawPriority(this.param.drawpriority + this.bar_drawpriority_offset);
 		}
 
 		/** バーサイズ。設定。
@@ -206,36 +206,36 @@ namespace Fee.Ui
 		{
 			//bg
 			if(this.bg_enable == true){
-				this.bg.SetVisible(this.visible_flag);
+				this.bg.SetVisible(this.param.visible_flag);
 			}
 
 			//bar
 			if(this.bar_enable == true){
 				//position_max
-				int t_position_max = this.scroll_value.GetItemLength() * this.scroll_value.GetListCount() - this.scroll_value.GetViewLength();
+				int t_position_max = this.param.scroll_value.GetItemLength() * this.param.scroll_value.GetListCount() - this.param.scroll_value.GetViewLength();
 
 				if(t_position_max <= 0){
 					this.bar.SetVisible(false);
 				}else{
-					this.bar.SetVisible(this.visible_flag);
+					this.bar.SetVisible(this.param.visible_flag);
 
-					float t_offset_per = (float)this.scroll_value.GetViewPosition() / t_position_max;
-					float t_length_per = (float)this.scroll_value.GetViewLength() / (this.scroll_value.GetItemLength() * this.scroll_value.GetListCount());
+					float t_offset_per = (float)this.param.scroll_value.GetViewPosition() / t_position_max;
+					float t_length_per = (float)this.param.scroll_value.GetViewLength() / (this.param.scroll_value.GetItemLength() * this.param.scroll_value.GetListCount());
 
 					if(this.GetScrollType() == Scroll_Type.Vertical){
 						//縦。
-						int t_bar_length = (int)(this.rect.h * t_length_per);
-						int t_bar_offset = (int)(t_offset_per * (this.scroll_value.GetViewLength() - t_bar_length));
-						this.bar.SetY(this.rect.y + t_bar_offset);
-						this.bar.SetX(this.rect.x + this.rect.w - this.bar_size - this.bar_offset);
+						int t_bar_length = (int)(this.param.rect.h * t_length_per);
+						int t_bar_offset = (int)(t_offset_per * (this.param.scroll_value.GetViewLength() - t_bar_length));
+						this.bar.SetY(this.param.rect.y + t_bar_offset);
+						this.bar.SetX(this.param.rect.x + this.param.rect.w - this.bar_size - this.bar_offset);
 						this.bar.SetH(t_bar_length);
 						this.bar.SetW(this.bar_size);
 					}else{
 						//横。
-						int t_bar_length = (int)(this.rect.w * t_length_per);
-						int t_bar_offset = (int)(t_offset_per * (this.scroll_value.GetViewLength() - t_bar_length));
-						this.bar.SetX(this.rect.x + t_bar_offset);
-						this.bar.SetY(this.rect.y + this.rect.h - this.bar_size - this.bar_offset);
+						int t_bar_length = (int)(this.param.rect.w * t_length_per);
+						int t_bar_offset = (int)(t_offset_per * (this.param.scroll_value.GetViewLength() - t_bar_length));
+						this.bar.SetX(this.param.rect.x + t_bar_offset);
+						this.bar.SetY(this.param.rect.y + this.param.rect.h - this.bar_size - this.bar_offset);
 						this.bar.SetW(t_bar_length);
 						this.bar.SetH(this.bar_size);
 					}

@@ -59,25 +59,25 @@ namespace Fee.Ui
 			return this.capture_viewout;
 		}
 
-		/** [Fee.Ui.ScrollItem_Base]矩形。設定。
+		/** [Fee.Ui.ScrollItem_Base]矩形変更。
 		*/
-		public abstract void SetY(int a_y);
+		public abstract void OnChangeParentRectX(int a_parent_x);
 
-		/** [Fee.Ui.ScrollItem_Base]矩形。設定。
+		/** [Fee.Ui.ScrollItem_Base]矩形変更。
 		*/
-		public abstract void SetX(int a_x);
+		public abstract void OnChangeParentRectY(int a_parent_y);
 
-		/** [Fee.Ui.ScrollItem_Base]矩形。設定。
+		/** [Fee.Ui.ScrollItem_Base]矩形変更。
 		*/
-		public abstract void SetWH(int a_w,int a_h);
+		public abstract void OnChangeParentRectWH(int a_parent_w,int a_parent_h);
 
-		/** [Fee.Ui.ScrollItem_Base]クリップ矩形。設定。
+		/** [Fee.Ui.ScrollItem_Base]クリップ矩形変更。
 		*/
-		public abstract void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect);
+		public abstract void OnChangeParentClipRect(in Fee.Geometry.Rect2D_R<int> a_parent_rect);
 
-		/** [Fee.Ui.ScrollItem_Base]描画プライオリティ。設定。
+		/** [Fee.Ui.ScrollItem_Base]描画プライオリティ変更。
 		*/
-		public abstract void SetDrawPriority(long a_drawpriority);
+		public abstract void OnChangeParentDrawPriority(long a_parent_drawpriority);
 
 		/** [Fee.Ui.ScrollItem_Base]表示内。
 		*/

@@ -12,50 +12,59 @@
 */
 namespace Fee.Ui
 {
-	/** Scroll2_Base
+	/** Scroll_Param
+	*/
+	public struct Scroll_Param
+	{
+		/** drawpriority
+		*/
+		public long drawpriority;
+
+		/** scroll_value
+		*/
+		public Scroll_Value scroll_value;
+
+		/** scroll_drag
+		*/
+		public Scroll_Drag scroll_drag;
+
+		/** 矩形。
+		*/
+		public Fee.Geometry.Rect2D_R<int> rect;
+
+		/** scroll_type
+		*/
+		public Scroll_Type scroll_type;
+
+		/** is_onover
+		*/
+		public bool is_onover;
+
+		/** visible_flag
+		*/
+		public bool visible_flag;
+	};
+
+	/** Scroll_Base
 	*/
 	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack , Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int>
 		where ITEM : ScrollItem_Base
 	{
 		/** deleter
 		*/
-		protected Fee.Deleter.Deleter deleter;
-
-		/** drawpriority
-		*/
-		protected long drawpriority;
+		public Fee.Deleter.Deleter deleter;
 
 		/** eventplate
 		*/
-		private Fee.EventPlate.Item eventplate;
+		public Fee.EventPlate.Item eventplate;
 
 		/** list
 		*/
 		private System.Collections.Generic.List<ITEM> list;
 
-		/** scroll_value
+		/** param
 		*/
-		protected Scroll_Value scroll_value;
-
-		/** scroll_drag
-		*/
-		protected Scroll_Drag scroll_drag;
-
-		/** 矩形。
-		*/
-		protected Fee.Geometry.Rect2D_R<int> rect;
-
-		/** scroll_type
-		*/
-		private Scroll_Type scroll_type;
-
-		/** is_onover
-		*/
-		private bool is_onover;
-
-		/** visible_flag
-		*/
-		protected bool visible_flag;
+		protected Scroll_Param param;
 
 		/** constructor
 		*/
@@ -64,9 +73,6 @@ namespace Fee.Ui
 			//deleter
 			this.deleter = new Deleter.Deleter();
 
-			//drawpriority
-			this.drawpriority = a_drawpriority;
-
 			//eventplate
 			this.eventplate = new EventPlate.Item(this.deleter,EventPlate.EventType.View,a_drawpriority);
 			this.eventplate.SetOnEventPlateOver(this,-1);
@@ -74,26 +80,29 @@ namespace Fee.Ui
 			//list
 			this.list = new System.Collections.Generic.List<ITEM>();
 
+			//drawpriority
+			this.param.drawpriority = a_drawpriority;
+
 			//scroll_value
-			this.scroll_value.Initialize();
-			this.scroll_value.SetCallBack(this);
-			this.scroll_value.SetItemLength(a_item_length);
+			this.param.scroll_value.Initialize();
+			this.param.scroll_value.SetCallBack(this);
+			this.param.scroll_value.SetItemLength(a_item_length);
 
 			//scroll_drag
-			this.scroll_drag.Initialize();
-			this.scroll_drag.SetCallBack(this);
+			this.param.scroll_drag.Initialize();
+			this.param.scroll_drag.SetCallBack(this);
 
 			//rect
-			this.rect.Set(0,0,0,0);
+			this.param.rect.Set(0,0,0,0);
 
 			//scroll_type
-			this.scroll_type = a_scroll_type;
+			this.param.scroll_type = a_scroll_type;
 
 			//is_onover
-			this.is_onover = false;
+			this.param.is_onover = false;
 
 			//visible_flag
-			this.visible_flag = true;
+			this.param.visible_flag = true;
 
 			if(a_deleter != null){
 				a_deleter.Regist(this);
@@ -131,28 +140,28 @@ namespace Fee.Ui
 		*/
 		public void OnEventPlateEnter(int a_id)
 		{
-			this.is_onover = true;
+			this.param.is_onover = true;
 		}
 
 		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートから退場。
 		*/
 		public void OnEventPlateLeave(int a_id)
 		{
-			this.is_onover = false;
+			this.param.is_onover = false;
 		}
 
 		/** 描画プライオリティー。設定。
 		*/
 		public void SetDrawPriority(long a_drawpriority)
 		{
-			if(this.drawpriority != a_drawpriority){
-				this.drawpriority = a_drawpriority;
+			if(this.param.drawpriority != a_drawpriority){
+				this.param.drawpriority = a_drawpriority;
 
 				this.eventplate.SetPriority(a_drawpriority);
 
-				if(this.scroll_value.GetViewStartIndex() >= 0){
-					for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-						this.list[ii].SetDrawPriority(a_drawpriority);
+				if(this.param.scroll_value.GetViewStartIndex() >= 0){
+					for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
+						this.list[ii].OnChangeParentDrawPriority(a_drawpriority);
 					}
 				}
 
@@ -165,19 +174,19 @@ namespace Fee.Ui
 		*/
 		public void SetVisible(bool a_flag)
 		{
-			if(this.visible_flag != a_flag){
-				this.visible_flag = a_flag;
+			if(this.param.visible_flag != a_flag){
+				this.param.visible_flag = a_flag;
 				this.eventplate.SetEnable(a_flag);
 
 				if(a_flag == true){
-					if(this.scroll_value.GetViewStartIndex() >= 0){
-						for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+					if(this.param.scroll_value.GetViewStartIndex() >= 0){
+						for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
 							this.list[ii].OnViewIn();
 						}
 					}
 				}else{
-					if(this.scroll_value.GetViewStartIndex() >= 0){
-						for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+					if(this.param.scroll_value.GetViewStartIndex() >= 0){
+						for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
 							this.list[ii].OnViewOut();
 						}
 					}
@@ -192,7 +201,7 @@ namespace Fee.Ui
 		*/
 		public bool IsOnOver()
 		{
-			return this.is_onover;
+			return this.param.is_onover;
 		}
 
 		/** アイテム。取得。
@@ -211,14 +220,14 @@ namespace Fee.Ui
 		*/
 		public Scroll_Type GetScrollType()
 		{
-			return this.scroll_type;
+			return this.param.scroll_type;
 		}
 
 		/** リスト数。取得。
 		*/
 		public int GetListCount()
 		{
-			return this.scroll_value.GetListCount();
+			return this.param.scroll_value.GetListCount();
 		}
 
 		/** 表示位置。取得。
@@ -228,35 +237,35 @@ namespace Fee.Ui
 		*/
 		public int GetViewPosition()
 		{
-			return this.scroll_value.GetViewPosition();
+			return this.param.scroll_value.GetViewPosition();
 		}
 
 		/** アイテム幅。取得。
 		*/
 		public int GetItemLength()
 		{
-			return this.scroll_value.GetItemLength();
+			return this.param.scroll_value.GetItemLength();
 		}
 
 		/** 表示幅。取得。
 		*/
 		public int GetViewLength()
 		{
-			return this.scroll_value.GetViewLength();
+			return this.param.scroll_value.GetViewLength();
 		}
 
 		/** 表示開始インデックス。取得。
 		*/
 		public int GetViewStartIndex()
 		{
-			return this.scroll_value.GetViewStartIndex();
+			return this.param.scroll_value.GetViewStartIndex();
 		}
 
 		/** 表示終了インデックス。取得。
 		*/
 		public int GetViewEndIndex()
 		{
-			return this.scroll_value.GetViewEndIndex();
+			return this.param.scroll_value.GetViewEndIndex();
 		}
 
 		/** 表示位置。設定。
@@ -266,7 +275,7 @@ namespace Fee.Ui
 		*/
 		public void SetViewPosition(int a_view_position)
 		{
-			this.scroll_value.SetViewPosition(a_view_position);
+			this.param.scroll_value.SetViewPosition(a_view_position);
 
 			//[Scroll_Base]コールバック。表示位置変更。
 			this.OnChangeViewPosition();
@@ -277,22 +286,22 @@ namespace Fee.Ui
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
 		{
 			//rect
-			this.rect.Set(a_x,a_y,a_w,a_h);
+			this.param.rect.Set(a_x,a_y,a_w,a_h);
 
 			//eventplate
-			this.eventplate.SetRect(in this.rect);
+			this.eventplate.SetRect(in this.param.rect);
 
 			//SetViewLength
-			if(this.scroll_type == Scroll_Type.Vertical){
-				this.scroll_value.SetViewLength(a_h);
+			if(this.param.scroll_type == Scroll_Type.Vertical){
+				this.param.scroll_value.SetViewLength(a_h);
 			}else{
-				this.scroll_value.SetViewLength(a_w);
+				this.param.scroll_value.SetViewLength(a_w);
 			}
 
 			//位置更新。
-			if(this.scroll_value.GetViewStartIndex() >= 0){
-				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].SetClipRect(in this.rect);
+			if(this.param.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
+					this.list[ii].OnChangeParentClipRect(in this.param.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 
@@ -309,22 +318,22 @@ namespace Fee.Ui
 		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			//rect
-			this.rect = a_rect;
+			this.param.rect = a_rect;
 
 			//eventplate
-			this.eventplate.SetRect(in this.rect);
+			this.eventplate.SetRect(in this.param.rect);
 
 			//SetViewLength
-			if(this.scroll_type == Scroll_Type.Vertical){
-				this.scroll_value.SetViewLength(a_rect.h);
+			if(this.param.scroll_type == Scroll_Type.Vertical){
+				this.param.scroll_value.SetViewLength(a_rect.h);
 			}else{
-				this.scroll_value.SetViewLength(a_rect.w);
+				this.param.scroll_value.SetViewLength(a_rect.w);
 			}
 
 			//位置更新。
-			if(this.scroll_value.GetViewStartIndex() >= 0){
-				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].SetClipRect(in this.rect);
+			if(this.param.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
+					this.list[ii].OnChangeParentClipRect(in this.param.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 
@@ -341,15 +350,15 @@ namespace Fee.Ui
 		public void SetX(int a_x)
 		{
 			//rect
-			this.rect.x = a_x;
+			this.param.rect.x = a_x;
 
 			//eventplate
 			this.eventplate.SetX(a_x);
 
 			//位置更新。
-			if(this.scroll_value.GetViewStartIndex() >= 0){
-				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].SetClipRect(in this.rect);
+			if(this.param.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
+					this.list[ii].OnChangeParentClipRect(in this.param.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 				}
@@ -364,15 +373,15 @@ namespace Fee.Ui
 		public void SetY(int a_y)
 		{
 			//rect
-			this.rect.y = a_y;
+			this.param.rect.y = a_y;
 
 			//eventplate
 			this.eventplate.SetY(a_y);
 
 			//位置更新。
-			if(this.scroll_value.GetViewStartIndex() >= 0){
-				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].SetClipRect(in this.rect);
+			if(this.param.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
+					this.list[ii].OnChangeParentClipRect(in this.param.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 				}
@@ -387,16 +396,16 @@ namespace Fee.Ui
 		public void SetXY(int a_x,int a_y)
 		{
 			//rect
-			this.rect.x = a_x;
-			this.rect.y = a_y;
+			this.param.rect.x = a_x;
+			this.param.rect.y = a_y;
 
 			//eventplate
 			this.eventplate.SetXY(a_x,a_y);
 
 			//位置更新。
-			if(this.scroll_value.GetViewStartIndex() >= 0){
-				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].SetClipRect(in this.rect);
+			if(this.param.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
+					this.list[ii].OnChangeParentClipRect(in this.param.rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 				}
@@ -413,14 +422,14 @@ namespace Fee.Ui
 		*/
 		public bool IsRectIn(in Fee.Geometry.Pos2D<int> a_position)
 		{
-			return Fee.Geometry.Range.IsRectIn(in this.rect,in a_position);
+			return Fee.Geometry.Range.IsRectIn(in this.param.rect,in a_position);
 		}
 
 		/** [Scroll_Drag_CallBack]コールバック。スクロール方向の値。取得。
 		*/
 		public int GetScrollDirectionValue(in Fee.Geometry.Pos2D<int> a_position)
 		{
-			if(this.scroll_type == Scroll_Type.Vertical){
+			if(this.param.scroll_type == Scroll_Type.Vertical){
 				return a_position.y;
 			}else{
 				return a_position.x;
@@ -431,12 +440,12 @@ namespace Fee.Ui
 		*/
 		public void OnItemPositionChange(int a_index)
 		{
-			int t_pos = a_index * this.scroll_value.GetItemLength() - this.scroll_value.GetViewPosition();
+			int t_pos = a_index * this.param.scroll_value.GetItemLength() - this.param.scroll_value.GetViewPosition();
 
-			if(this.scroll_type == Scroll_Type.Vertical){
-				this.list[a_index].SetY(t_pos + this.rect.y);
+			if(this.param.scroll_type == Scroll_Type.Vertical){
+				this.list[a_index].OnChangeParentRectY(t_pos + this.param.rect.y);
 			}else{
-				this.list[a_index].SetX(t_pos + this.rect.x);
+				this.list[a_index].OnChangeParentRectX(t_pos + this.param.rect.x);
 			}
 		}
 
@@ -444,10 +453,10 @@ namespace Fee.Ui
 		*/
 		public void OnItemOtherPositionChange(int a_index)
 		{
-			if(this.scroll_type == Scroll_Type.Vertical){
-				this.list[a_index].SetX(this.rect.x);
+			if(this.param.scroll_type == Scroll_Type.Vertical){
+				this.list[a_index].OnChangeParentRectX(this.param.rect.x);
 			}else{
-				this.list[a_index].SetY(this.rect.y);
+				this.list[a_index].OnChangeParentRectY(this.param.rect.y);
 			}
 		}
 
@@ -462,10 +471,10 @@ namespace Fee.Ui
 		*/
 		private void SetItemWH(ITEM a_item)
 		{
-			if(this.scroll_type == Scroll_Type.Vertical){
-				a_item.SetWH(this.rect.w,this.GetItemLength());
+			if(this.param.scroll_type == Scroll_Type.Vertical){
+				a_item.OnChangeParentRectWH(this.param.rect.w,this.GetItemLength());
 			}else{
-				a_item.SetWH(this.GetItemLength(),this.rect.h);
+				a_item.OnChangeParentRectWH(this.GetItemLength(),this.param.rect.h);
 			}
 		}
 		
@@ -478,23 +487,23 @@ namespace Fee.Ui
 				//スクロール処理は表示中のみなので表示開始時に復元。
 				{
 					//スクロール方向とは違う方向の位置変更。
-					if(this.scroll_type == Scroll_Type.Vertical){
-						this.list[a_index].SetX(this.rect.x);
+					if(this.param.scroll_type == Scroll_Type.Vertical){
+						this.list[a_index].OnChangeParentRectX(this.param.rect.x);
 					}else{
-						this.list[a_index].SetY(this.rect.y);
+						this.list[a_index].OnChangeParentRectY(this.param.rect.y);
 					}
 
 					this.OnItemWHChange(a_index);
 
 					//クリップ矩形。設定。
-					this.list[a_index].SetClipRect(in this.rect);
+					this.list[a_index].OnChangeParentClipRect(in this.param.rect);
 				}
 
-				if(this.visible_flag == true){
+				if(this.param.visible_flag == true){
 					this.list[a_index].OnViewIn();
 				}
 			}else{
-				if(this.visible_flag == true){
+				if(this.param.visible_flag == true){
 					this.list[a_index].OnViewOut();
 				}
 			}
@@ -507,22 +516,22 @@ namespace Fee.Ui
 			int t_index = this.list.Count;
 		
 			//rect
-			a_new_item.SetClipRect(in this.rect);
+			a_new_item.OnChangeParentClipRect(in this.param.rect);
 
 			//drawpriority
-			a_new_item.SetDrawPriority(this.drawpriority);
+			a_new_item.OnChangeParentDrawPriority(this.param.drawpriority);
 
 			//other direction
-			if(this.scroll_type == Scroll_Type.Vertical){
-				a_new_item.SetX(this.rect.x);
+			if(this.param.scroll_type == Scroll_Type.Vertical){
+				a_new_item.OnChangeParentRectX(this.param.rect.x);
 			}else{
-				a_new_item.SetY(this.rect.y);
+				a_new_item.OnChangeParentRectY(this.param.rect.y);
 			}
 
 			this.SetItemWH(a_new_item);
 
 			this.list.Add(a_new_item);
-			this.scroll_value.InsertItem(t_index);
+			this.param.scroll_value.InsertItem(t_index);
 
 			//[Scroll_Base]コールバック。リスト数変更。
 			this.OnChangeListCount();
@@ -537,7 +546,7 @@ namespace Fee.Ui
 				ITEM t_item = this.list[t_index];
 
 				this.list.RemoveAt(t_index);
-				this.scroll_value.RemoveItem(t_index);
+				this.param.scroll_value.RemoveItem(t_index);
 
 				//[Scroll_Base]コールバック。リスト数変更。
 				this.OnChangeListCount();
@@ -559,22 +568,22 @@ namespace Fee.Ui
 				//追加。
 
 				//rect
-				a_new_item.SetClipRect(in this.rect);
+				a_new_item.OnChangeParentClipRect(in this.param.rect);
 
 				//drawpriority
-				a_new_item.SetDrawPriority(this.drawpriority);
+				a_new_item.OnChangeParentDrawPriority(this.param.drawpriority);
 
 				//other direction
-				if(this.scroll_type == Scroll_Type.Vertical){
-					a_new_item.SetX(this.rect.x);
+				if(this.param.scroll_type == Scroll_Type.Vertical){
+					a_new_item.OnChangeParentRectX(this.param.rect.x);
 				}else{
-					a_new_item.SetY(this.rect.y);
+					a_new_item.OnChangeParentRectY(this.param.rect.y);
 				}
 
 				this.SetItemWH(a_new_item);
 
 				this.list.Insert(a_index,a_new_item);
-				this.scroll_value.InsertItem(a_index);
+				this.param.scroll_value.InsertItem(a_index);
 
 				//[Scroll_Base]コールバック。リスト数変更。
 				this.OnChangeListCount();
@@ -594,7 +603,7 @@ namespace Fee.Ui
 				ITEM t_item = this.list[a_index];
 				
 				this.list.RemoveAt(a_index);
-				this.scroll_value.RemoveItem(a_index);
+				this.param.scroll_value.RemoveItem(a_index);
 
 				//[Scroll_Base]コールバック。リスト数変更。
 				this.OnChangeListCount();
@@ -609,7 +618,7 @@ namespace Fee.Ui
 		public void RemoveAllItem()
 		{
 			this.list.Clear();
-			this.scroll_value.RemoveAllItem();
+			this.param.scroll_value.RemoveAllItem();
 
 			//[Scroll_Base]コールバック。リスト数変更。
 			this.OnChangeListCount();
@@ -628,8 +637,8 @@ namespace Fee.Ui
 		{
 			System.Collections.Generic.List<ITEM> t_capture_list = new System.Collections.Generic.List<ITEM>();
 
-			if(this.scroll_value.GetViewStartIndex() >= 0){
-				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+			if(this.param.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
 					t_capture_list.Add(this.list[ii]);
 				}
 			}
@@ -637,8 +646,8 @@ namespace Fee.Ui
 			this.list.Sort(a_comparison);
 
 			//位置。
-			if(this.scroll_value.GetViewStartIndex() >= 0){
-				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+			if(this.param.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
 					this.OnItemPositionChange(ii);
 				}
 			}
@@ -646,14 +655,14 @@ namespace Fee.Ui
 			//範囲外へ。
 			for(int ii=0;ii<t_capture_list.Count;ii++){
 				int t_now_index = this.list.IndexOf(t_capture_list[ii]);
-				if(t_now_index < this.scroll_value.GetViewStartIndex()||(this.scroll_value.GetViewEndIndex() < t_now_index)){
+				if(t_now_index < this.param.scroll_value.GetViewStartIndex()||(this.param.scroll_value.GetViewEndIndex() < t_now_index)){
 					this.OnItemVisibleChange(t_now_index,false);
 				}
 			}
 
 			//範囲内へ。
-			if(this.scroll_value.GetViewStartIndex() >= 0){
-				for(int ii=this.scroll_value.GetViewStartIndex();ii<=this.scroll_value.GetViewEndIndex();ii++){
+			if(this.param.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
 					int t_old_index = t_capture_list.IndexOf(this.list[ii]);
 					if(t_old_index < 0){
 						this.OnItemVisibleChange(ii,true);
@@ -674,11 +683,11 @@ namespace Fee.Ui
 
 				bool t_a = false;
 				bool t_b = false;
-				if((this.scroll_value.GetViewStartIndex() <= a_index_a)&&(a_index_a <= this.scroll_value.GetViewEndIndex())){
+				if((this.param.scroll_value.GetViewStartIndex() <= a_index_a)&&(a_index_a <= this.param.scroll_value.GetViewEndIndex())){
 					this.OnItemPositionChange(a_index_a);
 					t_a = true;
 				}
-				if((this.scroll_value.GetViewStartIndex() <= a_index_b)&&(a_index_b <= this.scroll_value.GetViewEndIndex())){
+				if((this.param.scroll_value.GetViewStartIndex() <= a_index_b)&&(a_index_b <= this.param.scroll_value.GetViewEndIndex())){
 					this.OnItemPositionChange(a_index_b);
 					t_b = true;
 				}
@@ -697,21 +706,21 @@ namespace Fee.Ui
 		*/
 		public void SetDragScrollSpeed(float a_speed)
 		{
-			this.scroll_drag.SetSpeed(a_speed);
+			this.param.scroll_drag.SetSpeed(a_speed);
 		}
 
 		/** ドラッグスクロール速度。取得。
 		*/
 		public float GetDragScrollSpeed()
 		{
-			return this.scroll_drag.GetSpeed();
+			return this.param.scroll_drag.GetSpeed();
 		}
 
 		/** ドラッグスクロール。更新。
 		*/
 		public void DragScrollUpdate()
 		{
-			this.scroll_drag.Main(this.is_onover);
+			this.param.scroll_drag.Main(this.param.is_onover);
 		}
 	}
 }
