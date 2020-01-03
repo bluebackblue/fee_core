@@ -78,6 +78,9 @@ public class Android_LoadContentFile
 		byte[] t_result_bainry = null;
 
 		try{
+
+			UnityPlayer.UnitySendMessage("Platform","LoadContentFile_Log","LoadContentFile : " + a_uri);
+
 			final Activity t_current_activity = UnityPlayer.currentActivity;
 
 			android.net.Uri t_uri = android.net.Uri.parse(a_uri);
@@ -99,6 +102,9 @@ public class Android_LoadContentFile
 				}
 
 				t_result_bainry = t_out.toByteArray();
+				if(t_result_bainry == null){
+					UnityPlayer.UnitySendMessage("Platform","LoadContentFile_Log","toByteArray == null");
+				}
 
 				t_in.close();
 				t_out.close();
