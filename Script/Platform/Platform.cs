@@ -198,6 +198,19 @@ namespace Fee.Platform
 		{
 			this.root_instance.openfiledialog_result = a_result;
 		}
+
+		/** オープンファイルダイアログ。結果。取得。
+		*/
+		public byte[] GetOpenFileDialogResultBInary()
+		{
+			#if(UNITY_EDITOR)
+			return null;
+			#elif(UNITY_ANDROID)
+			return Android_OpenFileDialog.GetOpenFileDialogResultBianry(this.root_instance);
+			#else
+			return null;
+			#endif
+		}
 	}
 }
 

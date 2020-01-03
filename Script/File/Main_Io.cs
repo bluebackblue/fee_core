@@ -743,7 +743,8 @@ namespace Fee.File
 
 		#endif
 
-		#if((UNITY_EDITOR)||(UNITY_STANDALONE))
+		#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+		#else
 
 		/** リクエスト。ロードフルパス。バイナリファイル。
 		*/
@@ -774,7 +775,7 @@ namespace Fee.File
 			return false;
 		}
 
-		/** 実行。ロードフルパス。バイナリファイル。
+		/** 実行。ロードフルパス。テクスチャファイル。
 		*/
 		private System.Collections.IEnumerator DoLoadFullPathBinaryFile()
 		{
@@ -796,10 +797,6 @@ namespace Fee.File
 				yield break;
 			}
 		}
-
-		#endif
-
-		#if((UNITY_EDITOR)||(UNITY_STANDALONE))
 
 		/** リクエスト。ロードフルパス。テキストファイル。
 		*/
@@ -843,6 +840,58 @@ namespace Fee.File
 			if(t_coroutine.result.text_file != null){
 				this.result_progress = 1.0f;
 				this.result_asset = new Asset.Asset(Asset.AssetType.Text,t_coroutine.result.text_file);
+				this.result_type = ResultType.Asset;
+				yield break;
+			}else{
+				this.result_progress = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
+		}
+
+		/** リクエスト。ロードフルパス。テキストファイル。
+		*/
+		public bool RequestLoadFullPathTextureFile(Fee.File.Path a_relative_path)
+		{
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//result
+				this.result_progress = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_asset = null;
+
+				//request
+				this.request_relative_path = a_relative_path;
+				this.request_binary = null;
+				this.request_text = null;
+				this.request_texture = null;
+
+				Function.Function.StartCoroutine(this.DoLoadFullPathTextureFile());
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 実行。ロードフルパス。テキストファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadFullPathTextureFile()
+		{
+			//request_relative_pathは絶対パス。
+			Fee.File.Path t_path = this.request_relative_path;
+
+			Coroutine_LoadLocalTextureFile t_coroutine = new Coroutine_LoadLocalTextureFile();
+			yield return t_coroutine.CoroutineMain(this,t_path);
+
+			if(t_coroutine.result.texture_file != null){
+				this.result_progress = 1.0f;
+				this.result_asset = new Asset.Asset(Asset.AssetType.Texture,t_coroutine.result.texture_file);
 				this.result_type = ResultType.Asset;
 				yield break;
 			}else{

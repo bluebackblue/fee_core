@@ -20,11 +20,27 @@ namespace Fee.Platform
 		*/
 		public string openfiledialog_result;
 
+		/** openfiledialog_result_binary
+		*/
+		//public byte[] openfiledialog_result_binary;
+
 		/** Awake
 		*/
 		public void Awake()
 		{
+			//openfiledialog_result
 			this.openfiledialog_result = "";
+
+			//openfiledialog_result_binary
+			//this.openfiledialog_result_binary = null;
+		}
+
+		/** OpenFileDialog_Log
+		*/
+		public void OpenFileDialog_Log(string a_text)
+		{
+			UnityEngine.Debug.Log("OpenFileDialog_Log : " + a_text);
+			//Tool.Log("OpenFileDialog_Log",a_text);
 		}
 
 		/** オープンファイルダイログ。コールバック。
@@ -36,13 +52,6 @@ namespace Fee.Platform
 			}else{
 				this.openfiledialog_result = a_result;
 			}
-		}
-
-		/** OpenFileDialog_Log
-		*/
-		public void OpenFileDialog_Log(string a_text)
-		{
-			Tool.Log("OpenFileDialog_Log",a_text);
 		}
 	}
 }

@@ -121,7 +121,8 @@ namespace Fee.File
 
 			#endif
 
-			#if((UNITY_EDITOR)||(UNITY_STANDALONE))
+			#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+			#else
 
 			/** ロードフルパス。バイナリファイル。
 			*/
@@ -130,6 +131,10 @@ namespace Fee.File
 			/** ロードフルパス。テキストファイル。
 			*/
 			LoadFullPathTextFile,
+
+			/** ロードフルパス。テクスチャファイル。
+			*/
+			LoadFullPathTextureFile,
 
 			#endif
 		};
@@ -351,7 +356,8 @@ namespace Fee.File
 
 		#endif
 
-		#if((UNITY_EDITOR)||(UNITY_STANDALONE))
+		#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+		#else
 
 		/** リクエスト。ロードフルパス。バイナリファイル。
 		*/
@@ -361,11 +367,19 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
-		/** リクエスト。ロードフルパス。バイナリファイル。
+		/** リクエスト。ロードフルパス。テキストファイル。
 		*/
 		public void RequestLoadFullPathTextFile(Path a_relative_path)
 		{
 			this.request_type = RequestType.LoadFullPathTextFile;
+			this.request_path = a_relative_path;
+		}
+
+		/** リクエスト。ロードフルパス。テクスチャーファイル。
+		*/
+		public void RequestLoadFullPathTextureFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadFullPathTextureFile;
 			this.request_path = a_relative_path;
 		}
 
@@ -530,7 +544,8 @@ namespace Fee.File
 
 					#endif
 
-					#if((UNITY_EDITOR)||(UNITY_STANDALONE))
+					#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+					#else
 
 					case RequestType.LoadFullPathBinaryFile:
 						{
@@ -541,6 +556,12 @@ namespace Fee.File
 					case RequestType.LoadFullPathTextFile:
 						{
 							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadFullPathTextFile(this.request_path) == true){
+								this.mode = Mode.Do_Io;
+							}
+						}break;
+					case RequestType.LoadFullPathTextureFile:
+						{
+							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadFullPathTextureFile(this.request_path) == true){
 								this.mode = Mode.Do_Io;
 							}
 						}break;

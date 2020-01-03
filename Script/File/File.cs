@@ -163,10 +163,12 @@ namespace Fee.File
 
 			#endif
 
-			#if((UNITY_EDITOR)||(UNITY_STANDALONE))
+			#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+			#else
 
 			LoadFullPathBinaryFile,
 			LoadFullPathTextFile,
+			LoadFullPathTextureFile,
 
 			#endif
 
@@ -331,7 +333,8 @@ namespace Fee.File
 
 			#endif
 
-			#if((UNITY_EDITOR)||(UNITY_STANDALONE))
+			#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+			#else
 
 			//フルパス。
 
@@ -349,7 +352,13 @@ namespace Fee.File
 					this.add_list.Add(t_work_item);
 					return t_work_item.GetItem();
 				}break;
-
+			case LoadRequestType.LoadFullPathTextureFile:
+				{
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadFullPathTextureFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
+				}break;
 			#endif
 
 			}
