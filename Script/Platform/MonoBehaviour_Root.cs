@@ -20,31 +20,26 @@ namespace Fee.Platform
 		*/
 		public string openfiledialog_result;
 
-		/** openfiledialog_result_binary
-		*/
-		//public byte[] openfiledialog_result_binary;
-
 		/** Awake
 		*/
 		public void Awake()
 		{
 			//openfiledialog_result
 			this.openfiledialog_result = "";
-
-			//openfiledialog_result_binary
-			//this.openfiledialog_result_binary = null;
 		}
 
 		/** OpenFileDialog_Log
 		*/
+		#if((UNITY_ANDROID)||(UNITY_WEBGL))
 		public void OpenFileDialog_Log(string a_text)
 		{
-			UnityEngine.Debug.Log("OpenFileDialog_Log : " + a_text);
-			//Tool.Log("OpenFileDialog_Log",a_text);
+			Tool.Log("OpenFileDialog_Log",a_text);
 		}
+		#endif
 
 		/** オープンファイルダイログ。コールバック。
 		*/
+		#if((UNITY_ANDROID)||(UNITY_WEBGL))
 		public void OpenFileDialog_CallBack(string a_result)
 		{
 			if(a_result == null){
@@ -53,6 +48,16 @@ namespace Fee.Platform
 				this.openfiledialog_result = a_result;
 			}
 		}
+		#endif
+
+		/** LoadContentFile_Log
+		*/
+		#if(UNITY_ANDROID)
+		public void LoadContentFile_Log(string a_text)
+		{
+			Tool.Log("LoadContentFile_Log",a_text);
+		}
+		#endif
 	}
 }
 

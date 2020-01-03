@@ -27,17 +27,6 @@ namespace Fee.Platform
 			UnityEngine.AndroidJavaClass t_class_openfiledialog = new UnityEngine.AndroidJavaClass("fee.platform.Android_OpenFileDialogActivity");
 			t_class_openfiledialog.CallStatic("DO","*/*");
 		}
-
-		/** GetOpenFileDialogResultBianry
-		*/
-		public static byte[] GetOpenFileDialogResultBianry(MonoBehaviour_Root a_root_instance)
-		{
-			UnityEngine.AndroidJavaClass t_class_openfiledialog = new UnityEngine.AndroidJavaClass("fee.platform.Android_OpenFileDialogActivity");
-			UnityEngine.AndroidJavaObject t_array_object = t_class_openfiledialog.CallStatic<UnityEngine.AndroidJavaObject>("GET");
-			byte[] t_result = UnityEngine.AndroidJNIHelper.ConvertFromJNIArray<byte[]>(t_array_object.GetRawObject());
-
-			return t_result;
-		}
 	}
 
 	#endif

@@ -376,17 +376,6 @@ namespace Fee.Render2D
 				}
 			}
 		}
-
-		/** ログ。
-		*/
-		#if(USE_DEF_FEE_DEBUGTOOL)
-		public void Log()
-		{
-			for(int ii=0;ii<this.list.Length;ii++){
-				this.list[ii].Log();
-			}
-		}
-		#endif
 	}
 }
 

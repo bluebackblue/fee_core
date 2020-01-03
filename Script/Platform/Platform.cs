@@ -199,14 +199,14 @@ namespace Fee.Platform
 			this.root_instance.openfiledialog_result = a_result;
 		}
 
-		/** オープンファイルダイアログ。結果。取得。
+		/** ロードコンテンツファイル。
 		*/
-		public byte[] GetOpenFileDialogResultBInary()
+		public byte[] LoadContentFile(Fee.File.Path a_path)
 		{
 			#if(UNITY_EDITOR)
 			return null;
 			#elif(UNITY_ANDROID)
-			return Android_OpenFileDialog.GetOpenFileDialogResultBianry(this.root_instance);
+			return Android_LoadContentFile.LoadContentFile(a_path);
 			#else
 			return null;
 			#endif
