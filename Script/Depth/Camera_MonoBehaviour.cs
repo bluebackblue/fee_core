@@ -12,9 +12,9 @@
 */
 namespace Fee.Depth
 {
-	/** MonoBehaviour_Camera
+	/** Camera_MonoBehaviour
 	*/
-	public class MonoBehaviour_Camera : UnityEngine.MonoBehaviour
+	public class Camera_MonoBehaviour : UnityEngine.MonoBehaviour
 	{
 		/** mycamera
 		*/

@@ -15,9 +15,9 @@ namespace Fee.Network
 	/** Player
 	*/
 	#if(USE_DEF_FEE_PUN)
-	public class Player : Photon.Pun.MonoBehaviourPun
+	public class Player_MonoBehaviour : Photon.Pun.MonoBehaviourPun
 	#else
-	public class Player : UnityEngine.MonoBehaviour
+	public class Player_MonoBehaviour : UnityEngine.MonoBehaviour
 	#endif
 	{
 		/** トランスフォーム。

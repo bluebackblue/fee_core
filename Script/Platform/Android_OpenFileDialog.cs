@@ -20,9 +20,9 @@ namespace Fee.Platform
 	{
 		/** OpenFileDialog
 		*/
-		public static void OpenFileDialog(MonoBehaviour_Root a_root_instance)
+		public static void OpenFileDialog(Root_MonoBehaviour a_root_monobehaviour)
 		{
-			a_root_instance.openfiledialog_result = null;
+			a_root_monobehaviour.openfiledialog_result = null;
 
 			UnityEngine.AndroidJavaClass t_class_openfiledialog = new UnityEngine.AndroidJavaClass("fee.platform.Android_OpenFileDialogActivity");
 			t_class_openfiledialog.CallStatic("DO","*/*");

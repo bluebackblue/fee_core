@@ -629,7 +629,7 @@ namespace Fee.Render2D
 			}
 		}
 
-		/** ＧＬ描画。MonoBehaviour_Camera_GLのOnPostRenderから呼び出される。
+		/** ＧＬ描画。Camera_GL_MonoBehaviourのOnPostRenderから呼び出される。
 		*/
 		public void OnPostRender_DrawGL(int a_layer_index)
 		{

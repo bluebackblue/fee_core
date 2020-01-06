@@ -775,7 +775,7 @@ namespace Fee.File
 			return false;
 		}
 
-		/** 実行。ロードフルパス。テクスチャファイル。
+		/** 実行。ロードフルパス。バイナリファイル。
 		*/
 		private System.Collections.IEnumerator DoLoadFullPathBinaryFile()
 		{

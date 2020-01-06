@@ -85,12 +85,12 @@ namespace Fee.Audio
 		/** ＳＥ。オーディオソース。
 		*/
 		private UnityEngine.GameObject se_audiosource_gameobject;
-		private MonoBehaviour_AudioSource_Se se_audiosource_script;
+		private Se_AudioSource_MonoBehaviour se_audiosource_monobehaviour;
 
 		/** ＢＧＭ。オーディオソース。
 		*/
 		private UnityEngine.GameObject bgm_audiosource_gameobject;
-		private MonoBehaviour_AudioSource_Bgm bgm_audiosource_script;
+		private Bgm_AudioSource_MonoBehaviour bgm_audiosource_monobehaviour;
 
 		/** フォーカス。
 		*/
@@ -124,8 +124,8 @@ namespace Fee.Audio
 				this.se_audiosource_gameobject.name = "Se";
 				this.se_audiosource_gameobject.transform.SetParent(t_root_transform);
 				this.se_audiosource_gameobject.AddComponent<UnityEngine.AudioSource>();
-				this.se_audiosource_script = this.se_audiosource_gameobject.AddComponent<MonoBehaviour_AudioSource_Se>();
-				this.se_audiosource_script.Initialize(this.volume_master,this.volume_se);
+				this.se_audiosource_monobehaviour = this.se_audiosource_gameobject.AddComponent<Se_AudioSource_MonoBehaviour>();
+				this.se_audiosource_monobehaviour.Initialize(this.volume_master,this.volume_se);
 			}
 
 			//オーディオソース。ＢＧＭ。
@@ -135,8 +135,8 @@ namespace Fee.Audio
 				this.bgm_audiosource_gameobject.transform.SetParent(t_root_transform);
 				this.bgm_audiosource_gameobject.AddComponent<UnityEngine.AudioSource>();
 				this.bgm_audiosource_gameobject.AddComponent<UnityEngine.AudioSource>();
-				this.bgm_audiosource_script = this.bgm_audiosource_gameobject.AddComponent<MonoBehaviour_AudioSource_Bgm>();
-				this.bgm_audiosource_script.Initialize(this.volume_master,this.volume_bgm);
+				this.bgm_audiosource_monobehaviour = this.bgm_audiosource_gameobject.AddComponent<Bgm_AudioSource_MonoBehaviour>();
+				this.bgm_audiosource_monobehaviour.Initialize(this.volume_master,this.volume_bgm);
 			}
 
 			//フォーカス。
@@ -147,8 +147,8 @@ namespace Fee.Audio
 		*/
 		private void Delete()
 		{
-			this.se_audiosource_script.Delete();
-			this.se_audiosource_script = null;
+			this.se_audiosource_monobehaviour.Delete();
+			this.se_audiosource_monobehaviour = null;
 
 			this.soundpool.Delete();
 			this.soundpool = null;			
@@ -187,8 +187,8 @@ namespace Fee.Audio
 		public void SetMasterVolume(float a_volume)
 		{
 			this.volume_master.SetVolume(a_volume);
-			this.se_audiosource_script.UpdateVolume();
-			this.bgm_audiosource_script.UpdateVolume();
+			this.se_audiosource_monobehaviour.UpdateVolume();
+			this.bgm_audiosource_monobehaviour.UpdateVolume();
 		}
 
 		/** ＳＥボリューム。設定。
@@ -196,7 +196,7 @@ namespace Fee.Audio
 		public void SetSeVolume(float a_volume)
 		{
 			this.volume_se.SetVolume(a_volume);
-			this.se_audiosource_script.UpdateVolume();
+			this.se_audiosource_monobehaviour.UpdateVolume();
 		}
 
 		/** ＢＧＭボリューム。設定。
@@ -204,7 +204,7 @@ namespace Fee.Audio
 		public void SetBgmVolume(float a_volume)
 		{
 			this.volume_bgm.SetVolume(a_volume);
-			this.bgm_audiosource_script.UpdateVolume();
+			this.bgm_audiosource_monobehaviour.UpdateVolume();
 		}
 
 		/** マスターボリューム。取得。
@@ -230,51 +230,51 @@ namespace Fee.Audio
 
 		/** ＢＧＭ。ロード。
 		*/
-		public bool LoadBgm(Pack_AudioClip a_pack)
+		public bool LoadBgm(Pack_AudioClip_MonoBehaviour a_pack)
 		{
-			return this.bgm_audiosource_script.SetBank(new Bank(a_pack));
+			return this.bgm_audiosource_monobehaviour.SetBank(new Bank(a_pack));
 		}
 
 		/** ＢＧＭ。アンロード。
 		*/
 		public bool UnLoadBgm()
 		{
-			return this.bgm_audiosource_script.UnSetBank();
+			return this.bgm_audiosource_monobehaviour.UnSetBank();
 		}
 
 		/** ＳＥ。ロード。
 		*/
-		public void LoadSe(Pack_AudioClip a_pack,long a_se_id)
+		public void LoadSe(Pack_AudioClip_MonoBehaviour a_pack,long a_se_id)
 		{
-			this.se_audiosource_script.SetPack(a_pack,a_se_id);
+			this.se_audiosource_monobehaviour.SetPack(a_pack,a_se_id);
 		}
 
 		/** ＳＥ。ロード。
 		*/
 		public void LoadSe(Pack_SoundPool a_pack,long a_se_id)
 		{
-			this.se_audiosource_script.SetPack(a_pack,a_se_id);
+			this.se_audiosource_monobehaviour.SetPack(a_pack,a_se_id);
 		}
 
 		/** ＳＥ。アンロード。
 		*/
 		public void UnLoadSe(long a_se_id)
 		{
-			this.se_audiosource_script.UnSetBank(a_se_id);
+			this.se_audiosource_monobehaviour.UnSetBank(a_se_id);
 		}
 
 		/** ＳＥ。チェック。
 		*/
 		public bool IsExistSe(long a_se_id)
 		{
-			return this.se_audiosource_script.IsExistBank(a_se_id);
+			return this.se_audiosource_monobehaviour.IsExistBank(a_se_id);
 		}
 
 		/** 再生。
 		*/
 		public void PlaySe(long a_se_id,int a_index)
 		{
-			this.se_audiosource_script.PlayOneShot(a_se_id,a_index);
+			this.se_audiosource_monobehaviour.PlayOneShot(a_se_id,a_index);
 		}
 
 		/** 再生。
@@ -284,14 +284,14 @@ namespace Fee.Audio
 		{
 			System.Object t_object = a_index;
 			int t_index = (int)t_object;
-			this.se_audiosource_script.PlayOneShot(a_se_id,t_index);
+			this.se_audiosource_monobehaviour.PlayOneShot(a_se_id,t_index);
 		}
 
 		/** ＢＧＭ。再生。
 		*/
 		public void PlayBgm(int a_index)
 		{
-			this.bgm_audiosource_script.PlayBgm(a_index);
+			this.bgm_audiosource_monobehaviour.PlayBgm(a_index);
 		}
 
 		/** ＢＧＭ。再生。
@@ -301,35 +301,35 @@ namespace Fee.Audio
 		{
 			System.Object t_object = a_index;
 			int t_index = (int)t_object;
-			this.bgm_audiosource_script.PlayBgm(t_index);
+			this.bgm_audiosource_monobehaviour.PlayBgm(t_index);
 		}
 
 		/** ＢＧＭ。停止。
 		*/
 		public void StopBgm()
 		{
-			this.bgm_audiosource_script.PlayBgm(-1);
+			this.bgm_audiosource_monobehaviour.PlayBgm(-1);
 		}
 
 		/** ＢＧＭ数。取得。
 		*/
 		public int GetBgmMax()
 		{
-			return this.bgm_audiosource_script.GetBgmMax();
+			return this.bgm_audiosource_monobehaviour.GetBgmMax();
 		}
 
 		/** ＢＧＭループカウント。取得。
 		*/
 		public int GetBgmLoopCount()
 		{
-			return this.bgm_audiosource_script.GetLoopCount();
+			return this.bgm_audiosource_monobehaviour.GetLoopCount();
 		}
 
 		/** ＢＧＭ再生位置。取得。
 		*/
 		public float GetBgmPlayPosition()
 		{
-			return this.bgm_audiosource_script.GetPlayPosition();
+			return this.bgm_audiosource_monobehaviour.GetPlayPosition();
 		}
 	}
 }

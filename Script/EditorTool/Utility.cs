@@ -17,6 +17,145 @@ namespace Fee.EditorTool
 	#if(UNITY_EDITOR)
 	public class Utility
 	{
+		/** SavePrefab
+
+			a_assets_path	: アセットフォルダからの相対パス。
+
+		*/
+		public static void SavePrefab(UnityEngine.GameObject a_prefab,Fee.File.Path a_assets_path)
+		{
+			try{
+				bool t_ret;
+				UnityEditor.PrefabUtility.SaveAsPrefabAsset(a_prefab,"Assets\\" + a_assets_path.GetPath(),out t_ret);
+				if(t_ret == false){
+					UnityEngine.Debug.LogError("SavePrefab : error");
+				}
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+			}
+		}
+
+		/** ファイルを列挙。
+
+			a_assets_path	: アセットフォルダからの相対パス。
+
+		*/
+		public static System.Collections.Generic.List<string> CreateFileNameList(Fee.File.Path a_assets_path)
+		{
+			System.Collections.Generic.List<string> t_list = new System.Collections.Generic.List<string>();
+			{
+				try{
+					string[] t_fullpath_list = System.IO.Directory.GetFiles(Fee.File.Path.CreateAssetsPath().GetPath(),a_assets_path.GetPath() + "\\",System.IO.SearchOption.TopDirectoryOnly);
+					for(int ii=0;ii<t_fullpath_list.Length;ii++){
+						string t_name = System.IO.Path.GetFileName(t_fullpath_list[ii]);
+						if(t_name.Length > 0){
+							t_list.Add(t_name);
+						}
+					}
+				}catch(System.Exception t_exception){
+					UnityEngine.Debug.LogError(t_exception.Message);
+				}
+			}
+			return t_list;
+		}
+
+		/** ディレクトリを列挙。
+
+			a_assets_path	: アセットフォルダからの相対パス。
+
+		*/
+		public static System.Collections.Generic.List<string> CreateDirectoryNameList(Fee.File.Path a_assets_path)
+		{
+			System.Collections.Generic.List<string> t_list = new System.Collections.Generic.List<string>();
+			{
+				string[] t_fullpath_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),a_assets_path.GetPath() + "\\",System.IO.SearchOption.TopDirectoryOnly);
+				for(int ii=0;ii<t_fullpath_list.Length;ii++){
+					string t_name = System.IO.Path.GetFileName(t_fullpath_list[ii]);
+					if(t_name.Length > 0){
+						t_list.Add(t_name);
+					}
+				}
+			}
+			return t_list;
+		}
+
+
+		/** アセットをロード。
+
+			a_assets_path	: アセットフォルダからの相対パス。
+
+		*/
+		public static UnityEngine.Object[] LoadAllAsset(Fee.File.Path a_assets_path)
+		{
+			UnityEngine.Object[] t_object_list;
+
+			try{
+				t_object_list = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets\\" + a_assets_path.GetPath());
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+				t_object_list = null;
+			}
+
+			return t_object_list;
+		}
+
+		/** アセットをロード。
+
+			a_assets_path	: アセットフォルダからの相対パス。
+
+		*/
+		public static T LoadAsset< T >(Fee.File.Path a_assets_path)
+			where T : UnityEngine.Object
+		{
+			T t_object;
+
+			try{
+				t_object = UnityEditor.AssetDatabase.LoadAssetAtPath< T >("Assets\\" + a_assets_path.GetPath());
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+				t_object = null;
+			}
+
+			return t_object;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		/** GetPathNormalize
+		*/
+		public static string GetPathNormalize(string a_path)
+		{
+			string t_a = System.IO.Path.GetFileName(a_path);
+			string t_b = System.IO.Path.GetDirectoryName(a_path);
+
+			if(t_a == ""){
+				return t_b;
+			}else{
+				return t_b + "\\" + t_a;
+			}
+		}
+
 		/** ディレクトリ内のファイルを列挙。
 
 			a_dir_name == "xxx/" : "Assets/xxx/"
@@ -24,9 +163,11 @@ namespace Fee.EditorTool
 		*/
 		public static System.Collections.Generic.List<string> GetFileNameList(string a_dir_name)
 		{
+			string t_dir_name = GetPathNormalize(a_dir_name) + "\\";
+
 			System.Collections.Generic.List<string> t_list = new System.Collections.Generic.List<string>();
 			{
-				string[] t_fullpath_list = System.IO.Directory.GetFiles(Fee.File.Path.CreateAssetsPath().GetPath(),a_dir_name,System.IO.SearchOption.TopDirectoryOnly);
+				string[] t_fullpath_list = System.IO.Directory.GetFiles(Fee.File.Path.CreateAssetsPath().GetPath(),t_dir_name,System.IO.SearchOption.TopDirectoryOnly);
 				for(int ii=0;ii<t_fullpath_list.Length;ii++){
 					string t_filename = System.IO.Path.GetFileName(t_fullpath_list[ii]);
 					if(t_filename.Length > 0){
@@ -44,9 +185,11 @@ namespace Fee.EditorTool
 		*/
 		public static System.Collections.Generic.List<string> GetDirectoryNameList(string a_dir_name)
 		{
+			string t_dir_name = GetPathNormalize(a_dir_name) + "\\";
+
 			System.Collections.Generic.List<string> t_list = new System.Collections.Generic.List<string>();
 			{
-				string[] t_fullpath_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),a_dir_name,System.IO.SearchOption.TopDirectoryOnly);
+				string[] t_fullpath_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),t_dir_name,System.IO.SearchOption.TopDirectoryOnly);
 				for(int ii=0;ii<t_fullpath_list.Length;ii++){
 					string t_filename = System.IO.Path.GetFileName(t_fullpath_list[ii]);
 					if(t_filename.Length > 0){
@@ -64,7 +207,9 @@ namespace Fee.EditorTool
 		*/
 		public static Fee.File.Path FindFile(string a_dir_name,string a_find_name)
 		{
-			string[] t_dir_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),a_dir_name,System.IO.SearchOption.AllDirectories);
+			string t_dir_name = GetPathNormalize(a_dir_name) + "\\";
+
+			string[] t_dir_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),t_dir_name,System.IO.SearchOption.AllDirectories);
 			for(int ii=0;ii<t_dir_list.Length;ii++){
 				string[] t_file_list = System.IO.Directory.GetFiles(t_dir_list[ii],a_find_name,System.IO.SearchOption.TopDirectoryOnly);
 				if(t_file_list != null){
@@ -83,7 +228,9 @@ namespace Fee.EditorTool
 		*/
 		public static Fee.File.Path FindDirectory(string a_dir_name,string a_find_name)
 		{
-			string[] t_dir_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),a_dir_name,System.IO.SearchOption.AllDirectories);
+			string t_dir_name = GetPathNormalize(a_dir_name) + "\\";
+
+			string[] t_dir_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),t_dir_name,System.IO.SearchOption.AllDirectories);
 			for(int ii=0;ii<t_dir_list.Length;ii++){
 				string t_directory_name = System.IO.Path.GetFileName(t_dir_list[ii]);
 				if(t_directory_name == a_find_name){

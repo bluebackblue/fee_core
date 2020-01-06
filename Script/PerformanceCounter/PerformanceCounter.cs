@@ -72,7 +72,7 @@ namespace Fee.PerformanceCounter
 		/** camera_gameobject
 		*/
 		private UnityEngine.GameObject camera_gameobject;
-		private MonoBehaviour_Camera camera_script;
+		private Camera_MonoBehaviour camera_monobehaviour;
 
 		/** フレームデータ。
 		*/
@@ -93,15 +93,15 @@ namespace Fee.PerformanceCounter
 
 			//カメラ。
 			this.camera_gameobject = Fee.Instantiate.Instantiate.CreateOrthographicCameraObject("Camera",t_root_transform,999.0f);
-			this.camera_script = this.camera_gameobject.AddComponent<MonoBehaviour_Camera>();
-			this.camera_script.Initialize();
+			this.camera_monobehaviour = this.camera_gameobject.AddComponent<Camera_MonoBehaviour>();
+			this.camera_monobehaviour.Initialize();
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
-			this.camera_script.Delete();
+			this.camera_monobehaviour.Delete();
 			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 

@@ -46,12 +46,12 @@ namespace Fee.Render2D
 				UnityEngine.GameObject t_gameobject_canvas = Fee.Instantiate.Instantiate.CreateCameraCanvas("Canvas_" + ii.ToString(),a_transform_root,t_camera_ui);
 
 				//ＧＬ描画設定。
-				this.list[ii].camera_gl = t_gameobject_camera_gl.AddComponent<MonoBehaviour_Camera_GL>();
-				this.list[ii].camera_gl.Initialize(ii,t_camera_gl,t_gl_depth);
+				this.list[ii].camera_gl_monobehaviour = t_gameobject_camera_gl.AddComponent<Camera_GL_MonoBehaviour>();
+				this.list[ii].camera_gl_monobehaviour.Initialize(ii,t_camera_gl,t_gl_depth);
 				
 				//ＵＩカメラ。
-				this.list[ii].camera_ui = t_gameobject_camera_ui.AddComponent<MonoBehaviour_Camera_UI>();
-				this.list[ii].camera_ui.Initialize(ii,t_camera_ui,t_ui_depth);
+				this.list[ii].camera_ui_monobehaviour = t_gameobject_camera_ui.AddComponent<Camera_UI_MonoBehaviour>();
+				this.list[ii].camera_ui_monobehaviour.Initialize(ii,t_camera_ui,t_ui_depth);
 
 				//キャンバス設定。
 				this.list[ii].canvas_transform = t_gameobject_canvas.GetComponent<UnityEngine.Transform>();
@@ -137,28 +137,28 @@ namespace Fee.Render2D
 		*/
 		public void SetDepthClearFlagGL(int a_layerindex,bool a_flag)
 		{
-			this.list[a_layerindex].camera_gl.SetDepthFlagClear(a_flag);
+			this.list[a_layerindex].camera_gl_monobehaviour.SetDepthFlagClear(a_flag);
 		}
 
 		/** デプスクリアフラグ。設定。
 		*/
 		public void SetDepthClearFlagUI(int a_layerindex,bool a_flag)
 		{
-			this.list[a_layerindex].camera_ui.SetDepthFlagClear(a_flag);
+			this.list[a_layerindex].camera_ui_monobehaviour.SetDepthFlagClear(a_flag);
 		}
 
 		/** コールバック。設定。
 		*/
 		public float GetGLCameraDepth(int a_layerindex)
 		{
-			return this.list[a_layerindex].camera_gl.GetCameraDepth();
+			return this.list[a_layerindex].camera_gl_monobehaviour.GetCameraDepth();
 		}
 
 		/** コールバック。設定。
 		*/
 		public float GetUICameraDepth(int a_layerindex)
 		{
-			return this.list[a_layerindex].camera_ui.GetCameraDepth();
+			return this.list[a_layerindex].camera_ui_monobehaviour.GetCameraDepth();
 		}
 
 		/** アクティブ。変更。
@@ -170,17 +170,17 @@ namespace Fee.Render2D
 		{
 			for(int ii=1;ii<this.list.Length;ii++){
 				if(this.list[ii].sprite_index_start >= 0){
-					this.list[ii].camera_gl.SetActive(true);
+					this.list[ii].camera_gl_monobehaviour.SetActive(true);
 				}else{
-					this.list[ii].camera_gl.SetActive(false);
+					this.list[ii].camera_gl_monobehaviour.SetActive(false);
 				}
 			}
 
 			for(int ii=1;ii<this.list.Length;ii++){
 				if((this.list[ii].inputfield_index_last >= 0)||(this.list[ii].text_index_start >= 0)){
-					this.list[ii].camera_ui.SetActive(true);
+					this.list[ii].camera_ui_monobehaviour.SetActive(true);
 				}else{
-					this.list[ii].camera_ui.SetActive(false);
+					this.list[ii].camera_ui_monobehaviour.SetActive(false);
 				}
 			}
 		}

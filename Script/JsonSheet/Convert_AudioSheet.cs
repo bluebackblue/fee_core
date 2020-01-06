@@ -97,7 +97,7 @@ namespace Fee.JsonSheet
 					{
 						UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
 
-						Fee.Audio.Pack_AudioClip t_pack = t_prefab.AddComponent<Fee.Audio.Pack_AudioClip>();
+						Fee.Audio.Pack_AudioClip_MonoBehaviour t_pack = t_prefab.AddComponent<Fee.Audio.Pack_AudioClip_MonoBehaviour>();
 						for(int ii=0;ii<t_list.Count;ii++){
 							t_pack.audioclip_list.Add(t_list[ii].Item1);
 							t_pack.volume_list.Add(t_list[ii].Item2);

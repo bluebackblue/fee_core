@@ -22,8 +22,8 @@ namespace Fee.Render2D
 
 		/** camera
 		*/
-		public MonoBehaviour_Camera_GL camera_gl;
-		public MonoBehaviour_Camera_UI camera_ui;
+		public Camera_GL_MonoBehaviour camera_gl_monobehaviour;
+		public Camera_UI_MonoBehaviour camera_ui_monobehaviour;
 
 		/** camera_depth
 		*/
@@ -62,8 +62,8 @@ namespace Fee.Render2D
 			this.canvas_transform = null;
 
 			//camera
-			this.camera_gl = null;
-			this.camera_ui = null;
+			this.camera_gl_monobehaviour = null;
+			this.camera_ui_monobehaviour = null;
 
 			//スプライト開始インデックス。
 			this.sprite_index_start = -1;

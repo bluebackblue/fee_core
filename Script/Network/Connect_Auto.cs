@@ -105,7 +105,7 @@ namespace Fee.Network
 		/** auto
 		*/
 		private UnityEngine.GameObject connect_gameobject;
-		private MonoBehaviour_Connect_Auto connect_script;
+		private Connect_Auto_MonoBehaviour connect_monobehaviour;
 
 		/** constructor
 		*/
@@ -119,7 +119,7 @@ namespace Fee.Network
 				this.connect_gameobject = new GameObject();
 				this.connect_gameobject.name = "Connect_Auto";
 				this.connect_gameobject.GetComponent<Transform>().SetParent(t_root);
-				this.connect_script = this.connect_gameobject.AddComponent<MonoBehaviour_Connect_Auto>();
+				this.connect_monobehaviour = this.connect_gameobject.AddComponent<Connect_Auto_MonoBehaviour>();
 			}
 
 			//mode
@@ -146,7 +146,7 @@ namespace Fee.Network
 					//初期化。
 
 					//フラグリセット。
-					this.connect_script.ResetAll();
+					this.connect_monobehaviour.ResetAll();
 
 					//ニックネーム。
 					Photon.Pun.PhotoFee.Network.NickName = Time.time.ToString();
@@ -171,7 +171,7 @@ namespace Fee.Network
 				{
 					//マスターへの接続処理中。
 
-					if(this.connect_script.result_connected_to_master == true){
+					if(this.connect_monobehaviour.result_connected_to_master == true){
 						this.SetMode(Mode.ConnectMasterFix);
 					}else{
 						//TODO:失敗。
@@ -188,7 +188,7 @@ namespace Fee.Network
 				{
 					//参加。
 
-					this.connect_script.ResetCreateJoinRoom();
+					this.connect_monobehaviour.ResetCreateJoinRoom();
 
 					Photon.Pun.PhotoFee.Network.JoinRandomRoom();
 
@@ -198,9 +198,9 @@ namespace Fee.Network
 				{
 					//参加処理中。
 
-					if(this.connect_script.result_joinroom_fix == true){
+					if(this.connect_monobehaviour.result_joinroom_fix == true){
 						this.SetMode(Mode.JoinFix);
-					}else if(this.connect_script.result_joinroom_failed == true){
+					}else if(this.connect_monobehaviour.result_joinroom_failed == true){
 						this.SetMode(Mode.JoinFailed);
 					}
 
@@ -221,7 +221,7 @@ namespace Fee.Network
 				{
 					//部屋作成。
 
-					this.connect_script.ResetCreateJoinRoom();
+					this.connect_monobehaviour.ResetCreateJoinRoom();
 
 					Photon.Realtime.RoomOptions t_room_optopm = new Photon.Realtime.RoomOptions();
 					{
@@ -237,15 +237,15 @@ namespace Fee.Network
 				{
 					//部屋作成処理中。
 
-					if(this.connect_script.result_createroom_failed == true){
+					if(this.connect_monobehaviour.result_createroom_failed == true){
 						this.SetMode(Mode.CreateRoomFailed);
 						break;
-					}else if(this.connect_script.result_joinroom_failed == true){
+					}else if(this.connect_monobehaviour.result_joinroom_failed == true){
 						this.SetMode(Mode.CreateRoomFailed);
 						break;
 					}else{
-						if(this.connect_script.result_createroom_fix == true){
-							if(this.connect_script.result_joinroom_fix == true){
+						if(this.connect_monobehaviour.result_createroom_fix == true){
+							if(this.connect_monobehaviour.result_joinroom_fix == true){
 								this.SetMode(Mode.CreateRoomFix);
 								break;
 							}
@@ -286,7 +286,7 @@ namespace Fee.Network
 						//切断リクエストあり。
 						this.SetMode(Mode.Disconnect);
 						break;
-					}else if(this.connect_script.result_disconnected == true){
+					}else if(this.connect_monobehaviour.result_disconnected == true){
 						//切断。
 						this.SetMode(Mode.Disconnect);
 						break;
@@ -300,7 +300,7 @@ namespace Fee.Network
 						//切断リクエストあり。
 						this.SetMode(Mode.Disconnect);
 						break;
-					}else if(this.connect_script.result_disconnected == true){
+					}else if(this.connect_monobehaviour.result_disconnected == true){
 						//切断。
 						this.SetMode(Mode.Disconnect);
 						break;
@@ -317,7 +317,7 @@ namespace Fee.Network
 				{
 					//切断処理中。
 
-					if(this.connect_script.result_disconnected == true){
+					if(this.connect_monobehaviour.result_disconnected == true){
 						this.SetMode(Mode.DisconnectFix);
 					}
 				}break;

@@ -19,15 +19,15 @@ namespace Fee.Platform
 	{
 		/** OpenFileDialog
 		*/
-		public static void OpenFileDialog(MonoBehaviour_Root a_root_instance)
+		public static void OpenFileDialog(Root_MonoBehaviour a_root_monobehaviour)
 		{
-			a_root_instance.openfiledialog_result = null;
+			a_root_monobehaviour.openfiledialog_result = null;
 
 			try{
-				a_root_instance.openfiledialog_result = UnityEditor.EditorUtility.OpenFilePanel("ファイルを開く",UnityEngine.Application.streamingAssetsPath,"");
+				a_root_monobehaviour.openfiledialog_result = UnityEditor.EditorUtility.OpenFilePanel("ファイルを開く",UnityEngine.Application.streamingAssetsPath,"");
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
-				a_root_instance.openfiledialog_result = "";
+				a_root_monobehaviour.openfiledialog_result = "";
 			}
 		}
 	}

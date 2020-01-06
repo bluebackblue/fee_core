@@ -49,15 +49,15 @@ namespace Fee.Platform
 
 		/** OpenFileDialog
 		*/
-		public static void OpenFileDialog(MonoBehaviour_Root a_root_instance)
+		public static void OpenFileDialog(Root_MonoBehaviour a_root_monobehaviour)
 		{
-			//a_root_instance.openfiledialog_result = null;
+			//a_root_monobehaviour.openfiledialog_result = null;
 
 			try{
 				WebGL_OpenFileDialog.Fee_Platform_WebGLPlugin_OpenFileDialog_Open();
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
-				//a_root_instance.openfiledialog_result = "";
+				//a_root_monobehaviour.openfiledialog_result = "";
 			}
 		}
 	}

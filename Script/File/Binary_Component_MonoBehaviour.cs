@@ -12,9 +12,9 @@
 */
 namespace Fee.File
 {
-	/** Binary_Component
+	/** Binary_Component_MonoBehaviour
 	*/
-	public class Binary_Component : UnityEngine.MonoBehaviour
+	public class Binary_Component_MonoBehaviour : UnityEngine.MonoBehaviour
 	{
 		/** data
 		*/
@@ -33,7 +33,7 @@ namespace Fee.File
 			t_prefab.name = "prefab_temp";
 			{
 				//バイナリコンポーネント追加。
-				Binary_Component t_binary = t_prefab.AddComponent<Binary_Component>();
+				Binary_Component_MonoBehaviour t_binary = t_prefab.AddComponent<Binary_Component_MonoBehaviour>();
 				t_binary.data = a_binary;
 
 				//保存。

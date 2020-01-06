@@ -18,7 +18,7 @@ namespace Fee.Audio
 	{
 		/** pack_audioclip
 		*/
-		public Pack_AudioClip pack_audioclip;
+		public Pack_AudioClip_MonoBehaviour pack_audioclip_monobehaviour;
 
 		/** pack_soundpool
 		*/
@@ -26,9 +26,9 @@ namespace Fee.Audio
 
 		/** constructor
 		*/
-		public Bank(Pack_AudioClip a_pack)
+		public Bank(Pack_AudioClip_MonoBehaviour a_pack)
 		{
-			this.pack_audioclip = a_pack;
+			this.pack_audioclip_monobehaviour = a_pack;
 			this.pack_soundpool = null;
 		}
 
@@ -36,7 +36,7 @@ namespace Fee.Audio
 		*/
 		public Bank(Pack_SoundPool a_pack)
 		{
-			this.pack_audioclip = null;
+			this.pack_audioclip_monobehaviour = null;
 			this.pack_soundpool = a_pack;
 		}
 
@@ -44,8 +44,8 @@ namespace Fee.Audio
 		*/
 		public int GetCount()
 		{
-			if(this.pack_audioclip != null){
-				return this.pack_audioclip.audioclip_list.Count;
+			if(this.pack_audioclip_monobehaviour != null){
+				return this.pack_audioclip_monobehaviour.audioclip_list.Count;
 			}
 
 			if(this.pack_soundpool != null){
@@ -59,11 +59,11 @@ namespace Fee.Audio
 		*/
 		public void GetAudioClip(int a_index,out UnityEngine.AudioClip a_audioclip,out float a_volume)
 		{
-			if(this.pack_audioclip != null){
-				if((0<=a_index)&&(a_index<this.pack_audioclip.audioclip_list.Count)){
-					if(this.pack_audioclip.audioclip_list[a_index] != null){
-						a_audioclip = this.pack_audioclip.audioclip_list[a_index];
-						a_volume = this.pack_audioclip.volume_list[a_index];
+			if(this.pack_audioclip_monobehaviour != null){
+				if((0<=a_index)&&(a_index<this.pack_audioclip_monobehaviour.audioclip_list.Count)){
+					if(this.pack_audioclip_monobehaviour.audioclip_list[a_index] != null){
+						a_audioclip = this.pack_audioclip_monobehaviour.audioclip_list[a_index];
+						a_volume = this.pack_audioclip_monobehaviour.volume_list[a_index];
 						return;
 					}
 				}
@@ -93,10 +93,10 @@ namespace Fee.Audio
 		*/
 		public bool LoadMain()
 		{
-			if(this.pack_audioclip != null){
-				for(int ii=0;ii<this.pack_audioclip.audioclip_list.Count;ii++){
-					if(this.pack_audioclip.audioclip_list[ii] != null){
-						this.pack_audioclip.audioclip_list[ii].LoadAudioData();
+			if(this.pack_audioclip_monobehaviour != null){
+				for(int ii=0;ii<this.pack_audioclip_monobehaviour.audioclip_list.Count;ii++){
+					if(this.pack_audioclip_monobehaviour.audioclip_list[ii] != null){
+						this.pack_audioclip_monobehaviour.audioclip_list[ii].LoadAudioData();
 					}
 				}
 			}
@@ -116,10 +116,10 @@ namespace Fee.Audio
 		*/
 		public bool UnloadMain()
 		{
-			if(this.pack_audioclip != null){
-				for(int ii=0;ii<this.pack_audioclip.audioclip_list.Count;ii++){
-					if(this.pack_audioclip.audioclip_list[ii] != null){
-						this.pack_audioclip.audioclip_list[ii].UnloadAudioData();
+			if(this.pack_audioclip_monobehaviour != null){
+				for(int ii=0;ii<this.pack_audioclip_monobehaviour.audioclip_list.Count;ii++){
+					if(this.pack_audioclip_monobehaviour.audioclip_list[ii] != null){
+						this.pack_audioclip_monobehaviour.audioclip_list[ii].UnloadAudioData();
 					}
 				}
 			}

@@ -66,10 +66,10 @@ namespace Fee.Depth
 		*/
 		private UnityEngine.GameObject root_gameobject;
 
-		/** monobehaviour_camera
+		/** camera
 		*/
 		private UnityEngine.GameObject camera_gameobject;
-		private MonoBehaviour_Camera camera_monobehaviour;
+		private Camera_MonoBehaviour camera_monobehaviour;
 
 		/** flag
 		*/
@@ -90,7 +90,7 @@ namespace Fee.Depth
 				this.camera_gameobject = Fee.Instantiate.Instantiate.CreateOrthographicCameraObject("Camera",t_root_transform,Config.DEFAULT_CAMERA_DEPTH);
 
 				//OnRenderImage
-				this.camera_monobehaviour = this.camera_gameobject.AddComponent<MonoBehaviour_Camera>();
+				this.camera_monobehaviour = this.camera_gameobject.AddComponent<Camera_MonoBehaviour>();
 				this.camera_monobehaviour.Initialize();
 
 				//無効。

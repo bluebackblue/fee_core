@@ -96,11 +96,11 @@ namespace Fee.Network
 
 		/** player_list
 		*/
-		private System.Collections.Generic.List<Player> player_list;
+		private System.Collections.Generic.List<Player_MonoBehaviour> player_list;
 
 		/** my_player
 		*/
-		private Player my_player;
+		private Player_MonoBehaviour my_player;
 
 		/** recv_callback
 		*/
@@ -128,7 +128,7 @@ namespace Fee.Network
 			this.disconnect_request = false;
 
 			//player_list
-			this.player_list = new System.Collections.Generic.List<Player>();
+			this.player_list = new System.Collections.Generic.List<Player_MonoBehaviour>();
 
 			//my_player
 			this.my_player = null;
@@ -191,14 +191,14 @@ namespace Fee.Network
 
 		/** プレイヤープレハブリスト。取得。
 		*/
-		public System.Collections.Generic.List<Fee.Network.Player> GetPlayerList()
+		public System.Collections.Generic.List<Fee.Network.Player_MonoBehaviour> GetPlayerList()
 		{
 			return this.player_list;
 		}
 
 		/** プレイヤー。取得。
 		*/
-		public Fee.Network.Player GetPlayer(int a_playerindex)
+		public Fee.Network.Player_MonoBehaviour GetPlayer(int a_playerindex)
 		{
 			if((0<=a_playerindex)&&(a_playerindex<this.player_list.Count)){
 				return this.player_list[a_playerindex];
@@ -208,14 +208,14 @@ namespace Fee.Network
 
 		/** 自分のプレイヤープレハブ。取得。
 		*/
-		public Fee.Network.Player GetMyPlayer()
+		public Fee.Network.Player_MonoBehaviour GetMyPlayer()
 		{
 			return this.my_player;
 		}
 
 		/** プレイヤ‐プレハブ。追加。
 		*/
-		public int AddPlayer(Fee.Network.Player a_player)
+		public int AddPlayer(Fee.Network.Player_MonoBehaviour a_player)
 		{
 			if(a_player != null){
 				if(a_player.IsMine() == true){
@@ -230,7 +230,7 @@ namespace Fee.Network
 
 		/** プレイヤープレハブ。削除。
 		*/
-		public void RemovePlayer(Fee.Network.Player a_player)
+		public void RemovePlayer(Fee.Network.Player_MonoBehaviour a_player)
 		{
 			if(this.my_player == a_player){
 				this.my_player = null;

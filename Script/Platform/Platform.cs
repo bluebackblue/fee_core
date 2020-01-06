@@ -65,7 +65,7 @@ namespace Fee.Platform
 		/** ルート。
 		*/
 		private UnityEngine.GameObject root_gameobject;
-		private MonoBehaviour_Root root_instance;
+		private Root_MonoBehaviour root_monobehaviour;
 
 		/** [シングルトン]constructor
 		*/
@@ -74,7 +74,7 @@ namespace Fee.Platform
 			this.root_gameobject = new UnityEngine.GameObject();
 			this.root_gameobject.name = "Platform";
 			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
-			this.root_instance = this.root_gameobject.AddComponent<MonoBehaviour_Root>();
+			this.root_monobehaviour = this.root_gameobject.AddComponent<Root_MonoBehaviour>();
 
 			#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
 			{
@@ -163,19 +163,19 @@ namespace Fee.Platform
 		{
 			#if(UNITY_EDITOR)
 			{
-				Editor_OpenFileDialog.OpenFileDialog(this.root_instance);
+				Editor_OpenFileDialog.OpenFileDialog(this.root_monobehaviour);
 			}
 			#elif(UNITY_STANDALONE_WIN)
 			{
-				Windows_OpenFileDialog.OpenFileDialog(this.root_instance);
+				Windows_OpenFileDialog.OpenFileDialog(this.root_monobehaviour);
 			}
 			#elif(UNITY_WEBGL)
 			{
-				WebGL_OpenFileDialog.OpenFileDialog(this.root_instance);
+				WebGL_OpenFileDialog.OpenFileDialog(this.root_monobehaviour);
 			}
 			#elif(UNITY_ANDROID)
 			{
-				Android_OpenFileDialog.OpenFileDialog(this.root_instance);
+				Android_OpenFileDialog.OpenFileDialog(this.root_monobehaviour);
 			}
 			#endif
 		}
@@ -189,14 +189,14 @@ namespace Fee.Platform
 		*/
 		public string GetOpenFileDialogResult()
 		{
-			return this.root_instance.openfiledialog_result;
+			return this.root_monobehaviour.openfiledialog_result;
 		}
 
 		/** オープンファイルダイアログ。結果。設定。
 		*/
 		public void SetOpenfileDialogResult(string a_result)
 		{
-			this.root_instance.openfiledialog_result = a_result;
+			this.root_monobehaviour.openfiledialog_result = a_result;
 		}
 
 		/** ロードコンテンツファイル。
