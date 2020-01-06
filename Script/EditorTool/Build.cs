@@ -35,23 +35,19 @@ namespace Fee.EditorTool
 		private static void BuildFeePackage()
 		{
 			//サブディレクトリの再帰探査。
-			UnityEditor.ExportPackageOptions t_options = UnityEditor.ExportPackageOptions.Recurse;
+			UnityEditor.ExportPackageOptions t_option = UnityEditor.ExportPackageOptions.Recurse;
 
 			//非同期実行。
-			t_options |= UnityEditor.ExportPackageOptions.Interactive;
+			t_option |= UnityEditor.ExportPackageOptions.Interactive;
 
 			//ファイル名。
 			string t_filename = "fee_" + System.DateTime.Now.ToString("yyyyMMdd_HH") + ".unitypackage";
 
 			//ディレクトリ名。
-			Fee.File.Path t_directory = Fee.EditorTool.Utility.FindFile("./","fee_buildtarget");
-			string t_directory_name = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(t_directory.GetDirectoryPath() + "\\"));
-
-			string t_root_directory_name = System.IO.Path.GetFullPath(Fee.File.Path.CreateAssetsPath().GetPath());
-			t_directory_name = t_directory_name.Substring(t_root_directory_name.Length - 6);
+			Fee.File.Path t_fee_path = Fee.EditorTool.Utility.FindFeePath();
 
 			//出力。
-			UnityEditor.AssetDatabase.ExportPackage(t_directory_name,t_filename,t_options);
+			Fee.EditorTool.Utility.ExportPackage(t_fee_path,t_filename,t_option);
 		}
 
 		/** CommandLineParam

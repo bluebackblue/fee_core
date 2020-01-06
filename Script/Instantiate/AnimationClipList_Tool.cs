@@ -184,7 +184,7 @@ namespace Fee.Instantiate
 
 			foreach(string t_file_name_item in t_name_list){
 				if(System.Text.RegularExpressions.Regex.IsMatch(t_file_name_item,"^.*\\.(fbx)$") == true){
-					FindAnimationClip(new File.Path(a_path.GetPath(),t_file_name_item),ref a_out_list);
+					FindAnimationClip(new File.Path(a_path.GetNormalizePath() + "/" + t_file_name_item),ref a_out_list);
 				}
 			}
 

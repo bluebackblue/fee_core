@@ -23,11 +23,11 @@ namespace Fee.File
 
 		/** CreatePrefab
 
-		a_output_path : "Assets/xxx.prefab"
+			a_assets_path	: アセットフォルダからの相対パス。
 
 		*/
 		#if(UNITY_EDITOR)
-		public static void CreatePrefab(string a_output_path,byte[] a_binary)
+		public static void CreatePrefab(Fee.File.Path a_asset_path,byte[] a_binary)
 		{
 			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
 			t_prefab.name = "prefab_temp";
@@ -37,23 +37,7 @@ namespace Fee.File
 				t_binary.data = a_binary;
 
 				//保存。
-				{
-					bool t_ret = false;
-
-					#if(UNITY_5)
-					{
-						if(UnityEditor.PrefabUtility.CreatePrefab(a_output_path,t_prefab) != null){
-							t_ret = true;
-						}
-					}
-					#else
-					{
-						UnityEditor.PrefabUtility.SaveAsPrefabAsset(t_prefab,a_output_path,out t_ret);
-					}
-					#endif
-
-					Tool.Assert(t_ret);
-				}
+				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_asset_path);
 			}
 			UnityEngine.GameObject.DestroyImmediate(t_prefab);
 		}

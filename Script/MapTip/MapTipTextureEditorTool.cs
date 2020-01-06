@@ -52,9 +52,9 @@ namespace Fee.MapTip
 									int t_count = 0;
 									while(true){
 										if(t_count <= 0){
-											t_path = new Fee.File.Path(a_path_out_directory.GetPath(),t_md5 + ".png");
+											t_path = new Fee.File.Path(a_path_out_directory.GetNormalizePath() + "/" + t_md5 + ".png");
 										}else{
-											t_path = new Fee.File.Path(a_path_out_directory.GetPath(),t_md5 + "_" + t_count.ToString() + ".png");
+											t_path = new Fee.File.Path(a_path_out_directory.GetNormalizePath() + "/" + t_md5 + "_" + t_count.ToString() + ".png");
 										}
 
 										//ファイル出力。
@@ -68,7 +68,7 @@ namespace Fee.MapTip
 								}
 							}else{
 								//パス。
-								Fee.File.Path t_path = new Fee.File.Path(a_path_out_directory.GetPath() + "/",t_md5 + ".png");
+								Fee.File.Path t_path = new Fee.File.Path(a_path_out_directory.GetNormalizePath() + "/" + t_md5 + ".png");
 
 								//ファイル出力。
 								if(Fee.EditorTool.Utility.IsExistFile(t_path) == false){
