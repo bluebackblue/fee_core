@@ -20,10 +20,10 @@ namespace Fee.Platform
 		*/
 		public string openfiledialog_result;
 
-		/** loadcontentfile_asyncobject
+		/** loadandroidcontentfile
 		*/ 
 		#if(UNITY_ANDROID)
-		public UnityEngine.AndroidJavaObject loadcontentfile_asyncobject;
+		public UnityEngine.AndroidJavaObject loadandroidcontentfile;
 		#endif
 
 		/** Awake
@@ -33,9 +33,9 @@ namespace Fee.Platform
 			//openfiledialog_result
 			this.openfiledialog_result = "";
 
-			//loadcontentfile_asyncobject
+			//loadandroidcontentfile
 			#if(UNITY_ANDROID)
-			this.loadcontentfile_asyncobject = null;
+			this.loadandroidcontentfile = null;
 			#endif
 		}
 

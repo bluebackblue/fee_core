@@ -631,121 +631,6 @@ namespace Fee.File
 			}
 		}
 
-		#if(UNITY_EDITOR)
-
-		/** リクエスト。ロードアセットパス。バイナリファイル。
-		*/
-		public bool RequestLoadAssetsPathBinaryFile(Fee.File.Path a_relative_path)
-		{
-			if(this.is_busy == false){
-				this.is_busy = true;
-
-				//is_cancel
-				this.is_cancel = false;
-
-				//result
-				this.result_progress = 0.0f;
-				this.result_errorstring = null;
-				this.result_type = ResultType.None;
-				this.result_asset = null;
-
-				//request
-				this.request_relative_path = a_relative_path;
-				this.request_binary = null;
-				this.request_text = null;
-				this.request_texture = null;
-
-				Function.Function.StartCoroutine(this.DoLoadAssetsPathBinaryFile());
-				return true;
-			}
-
-			return false;
-		}
-
-		/** 実行。ロードアセットパス。バイナリファイル。
-		*/
-		private System.Collections.IEnumerator DoLoadAssetsPathBinaryFile()
-		{
-			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath(this.request_relative_path);
-
-			Coroutine_LoadLocalBinaryFile t_coroutine = new Coroutine_LoadLocalBinaryFile();
-			yield return t_coroutine.CoroutineMain(this,t_path);
-
-			if(t_coroutine.result.binary_file != null){
-				this.result_progress = 1.0f;
-				this.result_asset = new Asset.Asset(Asset.AssetType.Binary,t_coroutine.result.binary_file);
-				this.result_type = ResultType.Asset;
-				yield break;
-			}else{
-				this.result_progress = 1.0f;
-				this.result_errorstring = t_coroutine.result.errorstring;
-				this.result_type = ResultType.Error;
-				yield break;
-			}
-		}
-
-		#endif
-
-		#if(UNITY_EDITOR)
-
-		/** リクエスト。ロードアセットパス。テキストファイル。
-		*/
-		public bool RequestLoadAssetsPathTextFile(Fee.File.Path a_relative_path)
-		{
-			if(this.is_busy == false){
-				this.is_busy = true;
-
-				//is_cancel
-				this.is_cancel = false;
-
-				//result
-				this.result_progress = 0.0f;
-				this.result_errorstring = null;
-				this.result_type = ResultType.None;
-				this.result_asset = null;
-
-				//request
-				this.request_relative_path = a_relative_path;
-				this.request_binary = null;
-				this.request_text = null;
-				this.request_texture = null;
-
-				Function.Function.StartCoroutine(this.DoLoadAssetsPathTextFile());
-				return true;
-			}
-
-			return false;
-		}
-
-		/** 実行。ロードアセットパス。テキストファイル。
-		*/
-		private System.Collections.IEnumerator DoLoadAssetsPathTextFile()
-		{
-			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath(this.request_relative_path);
-
-			Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
-			yield return t_coroutine.CoroutineMain(this,t_path);
-
-			if(t_coroutine.result.text_file != null){
-				this.result_progress = 1.0f;
-				this.result_asset = new Asset.Asset(Asset.AssetType.Text,t_coroutine.result.text_file);
-				this.result_type = ResultType.Asset;
-				yield break;
-			}else{
-				this.result_progress = 1.0f;
-				this.result_errorstring = t_coroutine.result.errorstring;
-				this.result_type = ResultType.Error;
-				yield break;
-			}
-		}
-
-		#endif
-
-		#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
-		#else
-
 		/** リクエスト。ロードフルパス。バイナリファイル。
 		*/
 		public bool RequestLoadFullPathBinaryFile(Fee.File.Path a_relative_path)
@@ -892,6 +777,116 @@ namespace Fee.File
 			if(t_coroutine.result.texture_file != null){
 				this.result_progress = 1.0f;
 				this.result_asset = new Asset.Asset(Asset.AssetType.Texture,t_coroutine.result.texture_file);
+				this.result_type = ResultType.Asset;
+				yield break;
+			}else{
+				this.result_progress = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
+		}
+
+		#if(UNITY_EDITOR)
+
+		/** リクエスト。ロードアセットパス。バイナリファイル。
+		*/
+		public bool RequestLoadAssetsPathBinaryFile(Fee.File.Path a_relative_path)
+		{
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//result
+				this.result_progress = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_asset = null;
+
+				//request
+				this.request_relative_path = a_relative_path;
+				this.request_binary = null;
+				this.request_text = null;
+				this.request_texture = null;
+
+				Function.Function.StartCoroutine(this.DoLoadAssetsPathBinaryFile());
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 実行。ロードアセットパス。バイナリファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadAssetsPathBinaryFile()
+		{
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath(this.request_relative_path);
+
+			Coroutine_LoadLocalBinaryFile t_coroutine = new Coroutine_LoadLocalBinaryFile();
+			yield return t_coroutine.CoroutineMain(this,t_path);
+
+			if(t_coroutine.result.binary_file != null){
+				this.result_progress = 1.0f;
+				this.result_asset = new Asset.Asset(Asset.AssetType.Binary,t_coroutine.result.binary_file);
+				this.result_type = ResultType.Asset;
+				yield break;
+			}else{
+				this.result_progress = 1.0f;
+				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_type = ResultType.Error;
+				yield break;
+			}
+		}
+
+		#endif
+
+		#if(UNITY_EDITOR)
+
+		/** リクエスト。ロードアセットパス。テキストファイル。
+		*/
+		public bool RequestLoadAssetsPathTextFile(Fee.File.Path a_relative_path)
+		{
+			if(this.is_busy == false){
+				this.is_busy = true;
+
+				//is_cancel
+				this.is_cancel = false;
+
+				//result
+				this.result_progress = 0.0f;
+				this.result_errorstring = null;
+				this.result_type = ResultType.None;
+				this.result_asset = null;
+
+				//request
+				this.request_relative_path = a_relative_path;
+				this.request_binary = null;
+				this.request_text = null;
+				this.request_texture = null;
+
+				Function.Function.StartCoroutine(this.DoLoadAssetsPathTextFile());
+				return true;
+			}
+
+			return false;
+		}
+
+		/** 実行。ロードアセットパス。テキストファイル。
+		*/
+		private System.Collections.IEnumerator DoLoadAssetsPathTextFile()
+		{
+			//request_relative_pathは相対パス。
+			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath(this.request_relative_path);
+
+			Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
+			yield return t_coroutine.CoroutineMain(this,t_path);
+
+			if(t_coroutine.result.text_file != null){
+				this.result_progress = 1.0f;
+				this.result_asset = new Asset.Asset(Asset.AssetType.Text,t_coroutine.result.text_file);
 				this.result_type = ResultType.Asset;
 				yield break;
 			}else{

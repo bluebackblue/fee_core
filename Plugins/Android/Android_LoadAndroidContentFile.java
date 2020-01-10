@@ -10,9 +10,9 @@ package fee.platform;
 import com.unity3d.player.UnityPlayer;
 
 
-/** Android_LoadContentFile
+/** Android_LoadAndroidContentFile
 */
-public class Android_LoadContentFile
+public class Android_LoadAndroidContentFile
 {
 	/** IsVirtualFile
 	*/
@@ -68,15 +68,15 @@ public class Android_LoadContentFile
 		return t_input_stream;
 	}
 
-	/** LoadContentFile
+	/** Load
 	*/
-	public static byte[] LoadContentFile(String a_uri)
+	public static byte[] Load(String a_uri)
 	{
 		byte[] t_result_bainry = null;
 
 		try{
 
-			UnityPlayer.UnitySendMessage("Platform","Log_CallBack","LoadContentFile : " + a_uri);
+			UnityPlayer.UnitySendMessage("Platform","Log_CallBack",a_uri);
 
 			android.app.Activity t_current_activity = UnityPlayer.currentActivity;
 

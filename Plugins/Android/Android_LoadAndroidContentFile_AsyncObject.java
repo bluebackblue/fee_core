@@ -10,9 +10,9 @@ package fee.platform;
 import com.unity3d.player.UnityPlayer;
 
 
-/** Android_LoadContentFile_AsyncObject
+/** Android_LoadAndroidContentFile_AsyncObject
 */
-public class Android_LoadContentFile_AsyncObject
+public class Android_LoadAndroidContentFile_AsyncObject
 {
 	/** LoadTask
 	*/
@@ -61,7 +61,7 @@ public class Android_LoadContentFile_AsyncObject
 			byte[] t_binary = null;
 
 			try{
-				t_binary = Android_LoadContentFile.LoadContentFile(this.uri);
+				t_binary = Android_LoadAndroidContentFile.Load(this.uri);
 			}catch(Exception t_exception){
 				UnityPlayer.UnitySendMessage("Platform","Log_CallBack","exception : " + t_exception.getMessage());
 			}
@@ -116,7 +116,7 @@ public class Android_LoadContentFile_AsyncObject
 
 	/** constructor
 	*/
-	public Android_LoadContentFile_AsyncObject(String a_uri)
+	public Android_LoadAndroidContentFile_AsyncObject(String a_uri)
 	{
 		//loadtask
 		this.loadtask = new LoadTask(a_uri);
@@ -138,6 +138,12 @@ public class Android_LoadContentFile_AsyncObject
 
 		this.thread = null;
 		this.loadtask = null;
+	}
+
+	/** Cancel
+	*/
+	public void Cancel()
+	{
 	}
 
 	/** IsComplate
@@ -217,12 +223,12 @@ public class Android_LoadContentFile_AsyncObject
 
 	/** Start
 	*/
-	public static Android_LoadContentFile_AsyncObject Start(String a_uri)
+	public static Android_LoadAndroidContentFile_AsyncObject Start(String a_uri)
 	{
-		Android_LoadContentFile_AsyncObject t_asyncobject = null;
+		Android_LoadAndroidContentFile_AsyncObject t_asyncobject = null;
 
 		try{
-			t_asyncobject = new Android_LoadContentFile_AsyncObject(a_uri);
+			t_asyncobject = new Android_LoadAndroidContentFile_AsyncObject(a_uri);
 		}catch(Exception t_exception){
 			UnityPlayer.UnitySendMessage("Platform","Log_CallBack","exception : " + t_exception.getMessage());
 		}
@@ -232,7 +238,7 @@ public class Android_LoadContentFile_AsyncObject
 
 	/** End
 	*/
-	public static void End(Android_LoadContentFile_AsyncObject a_asyncobject)
+	public static void End(Android_LoadAndroidContentFile_AsyncObject a_asyncobject)
 	{
 		try{
 			if(a_asyncobject != null){
@@ -245,9 +251,24 @@ public class Android_LoadContentFile_AsyncObject
 		}
 	}
 
+	/** Cancel
+	*/
+	public static void Cancel(Android_LoadAndroidContentFile_AsyncObject a_asyncobject)
+	{
+		try{
+			if(a_asyncobject != null){
+				a_asyncobject.Cancel();
+			}else{
+				UnityPlayer.UnitySendMessage("Platform","Log_CallBack","error : asyncobject == null");
+			}
+		}catch(Exception t_exception){
+			UnityPlayer.UnitySendMessage("Platform","Log_CallBack","exception : " + t_exception.getMessage());
+		}
+	}
+
 	/** IsComplate
 	*/
-	public static boolean IsComplate(Android_LoadContentFile_AsyncObject a_asyncobject)
+	public static boolean IsComplate(Android_LoadAndroidContentFile_AsyncObject a_asyncobject)
 	{
 		boolean t_is_complate = false;
 
@@ -266,7 +287,7 @@ public class Android_LoadContentFile_AsyncObject
 
 	/** GetResult
 	*/
-	public static byte[] GetResult(Android_LoadContentFile_AsyncObject a_asyncobject)
+	public static byte[] GetResult(Android_LoadAndroidContentFile_AsyncObject a_asyncobject)
 	{
 		byte[] t_binary = null;
 
@@ -285,7 +306,7 @@ public class Android_LoadContentFile_AsyncObject
 
 	/** GetThreadStatus
 	*/
-	public static int GetThreadStatus(Android_LoadContentFile_AsyncObject a_asyncobject)
+	public static int GetThreadStatus(Android_LoadAndroidContentFile_AsyncObject a_asyncobject)
 	{
 		int t_status = -1;
 

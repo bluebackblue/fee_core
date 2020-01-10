@@ -24,6 +24,10 @@ namespace Fee.File
 			*/
 			Start,
 
+			/** Do_AndroidContent
+			*/
+			Do_AndroidContent,
+
 			/** Do_Io
 			*/
 			Do_Io,
@@ -109,21 +113,6 @@ namespace Fee.File
 			*/
 			LoadResourcesPrefabFile,
 
-			#if(UNITY_EDITOR)
-
-			/** ロードアセットパス。バイナリファイル。
-			*/
-			LoadAssetsPathBinaryFile,
-
-			/** ロードアセットパス。テキストファイル。
-			*/
-			LoadAssetsPathTextFile,
-
-			#endif
-
-			#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
-			#else
-
 			/** ロードフルパス。バイナリファイル。
 			*/
 			LoadFullPathBinaryFile,
@@ -135,6 +124,16 @@ namespace Fee.File
 			/** ロードフルパス。テクスチャファイル。
 			*/
 			LoadFullPathTextureFile,
+
+			#if(UNITY_EDITOR)
+
+			/** ロードアセットパス。バイナリファイル。
+			*/
+			LoadAssetsPathBinaryFile,
+
+			/** ロードアセットパス。テキストファイル。
+			*/
+			LoadAssetsPathTextFile,
 
 			#endif
 		};
@@ -336,29 +335,6 @@ namespace Fee.File
 			this.request_path = a_relative_path;
 		}
 
-		#if(UNITY_EDITOR)
-
-		/** リクエスト。ロードアセットパス。バイナリファイル。
-		*/
-		public void RequestLoadAssetsPathBinaryFile(Path a_relative_path)
-		{
-			this.request_type = RequestType.LoadAssetsPathBinaryFile;
-			this.request_path = a_relative_path;
-		}
-
-		/** リクエスト。ロードアセットパス。バイナリファイル。
-		*/
-		public void RequestLoadAssetsPathTextFile(Path a_relative_path)
-		{
-			this.request_type = RequestType.LoadAssetsPathTextFile;
-			this.request_path = a_relative_path;
-		}
-
-		#endif
-
-		#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
-		#else
-
 		/** リクエスト。ロードフルパス。バイナリファイル。
 		*/
 		public void RequestLoadFullPathBinaryFile(Path a_relative_path)
@@ -380,6 +356,24 @@ namespace Fee.File
 		public void RequestLoadFullPathTextureFile(Path a_relative_path)
 		{
 			this.request_type = RequestType.LoadFullPathTextureFile;
+			this.request_path = a_relative_path;
+		}
+
+		#if(UNITY_EDITOR)
+
+		/** リクエスト。ロードアセットパス。バイナリファイル。
+		*/
+		public void RequestLoadAssetsPathBinaryFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadAssetsPathBinaryFile;
+			this.request_path = a_relative_path;
+		}
+
+		/** リクエスト。ロードアセットパス。バイナリファイル。
+		*/
+		public void RequestLoadAssetsPathTextFile(Path a_relative_path)
+		{
+			this.request_type = RequestType.LoadAssetsPathTextFile;
 			this.request_path = a_relative_path;
 		}
 
@@ -527,6 +521,110 @@ namespace Fee.File
 							}
 						}break;
 
+					case RequestType.LoadFullPathBinaryFile:
+						{
+							#if(UNITY_ANDROID)
+							if(System.Text.RegularExpressions.Regex.IsMatch(this.request_path.GetPath(),"^content\\:\\/\\/.*$") == true){
+								if(Fee.File.File.GetInstance().GetMainAndroidContent().RequestLoadAndroidContentBinaryFile(this.request_path) == true){
+									this.mode = Mode.Do_AndroidContent;
+									break;
+								}
+							}
+							#endif
+
+							#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+							{
+								if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlBinaryFile(this.request_path,null,null) == true){
+									this.mode = Mode.Do_WebRequest;
+									break;
+								}
+							}
+							#else
+							{
+								if(System.Text.RegularExpressions.Regex.IsMatch(this.request_path.GetPath(),"^(http|https)\\:\\/\\/.*$") == true){
+									if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlBinaryFile(this.request_path,null,null) == true){
+										this.mode = Mode.Do_WebRequest;
+										break;
+									}
+								}
+
+								if(Fee.File.File.GetInstance().GetMainIo().RequestLoadFullPathBinaryFile(this.request_path) == true){
+									this.mode = Mode.Do_Io;
+									break;
+								}
+							}
+							#endif
+
+						}break;
+					case RequestType.LoadFullPathTextFile:
+						{
+							#if(UNITY_ANDROID)
+							if(System.Text.RegularExpressions.Regex.IsMatch(this.request_path.GetPath(),"^content\\:\\/\\/.*$") == true){
+								if(Fee.File.File.GetInstance().GetMainAndroidContent().RequestLoadAndroidContentTextFile(this.request_path) == true){
+									this.mode = Mode.Do_AndroidContent;
+									break;
+								}
+							}
+							#endif
+						
+							#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+							{
+								if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlTextFile(this.request_path,null,null) == true){
+									this.mode = Mode.Do_WebRequest;
+									break;
+								}
+							}
+							#else
+							{
+								if(System.Text.RegularExpressions.Regex.IsMatch(this.request_path.GetPath(),"^(http|https)\\:\\/\\/.*$") == true){
+									if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlTextFile(this.request_path,null,null) == true){
+										this.mode = Mode.Do_WebRequest;
+										break;
+									}
+								}
+
+								if(Fee.File.File.GetInstance().GetMainIo().RequestLoadFullPathTextFile(this.request_path) == true){
+									this.mode = Mode.Do_Io;
+									break;
+								}
+							}
+							#endif
+						}break;
+					case RequestType.LoadFullPathTextureFile:
+						{
+							#if(UNITY_ANDROID)
+							if(System.Text.RegularExpressions.Regex.IsMatch(this.request_path.GetPath(),"^content\\:\\/\\/.*$") == true){
+								if(Fee.File.File.GetInstance().GetMainAndroidContent().RequestLoadAndroidContentTextureFile(this.request_path) == true){
+									this.mode = Mode.Do_AndroidContent;
+									break;
+								}
+							}
+							#endif
+						
+							#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+							{
+								if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlTextureFile(this.request_path,null,null) == true){
+									this.mode = Mode.Do_WebRequest;
+									break;
+								}
+							}
+							#else
+							{
+								if(System.Text.RegularExpressions.Regex.IsMatch(this.request_path.GetPath(),"^(http|https)\\:\\/\\/.*$") == true){
+									if(Fee.File.File.GetInstance().GetMainWebRequest().RequestLoadUrlTextureFile(this.request_path,null,null) == true){
+										this.mode = Mode.Do_WebRequest;
+										break;
+									}
+								}
+
+								if(Fee.File.File.GetInstance().GetMainIo().RequestLoadFullPathTextureFile(this.request_path) == true){
+									this.mode = Mode.Do_Io;
+									break;
+								}
+							}
+							#endif
+						}break;
+
 					#if(UNITY_EDITOR)
 
 					case RequestType.LoadAssetsPathBinaryFile:
@@ -544,30 +642,6 @@ namespace Fee.File
 
 					#endif
 
-					#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
-					#else
-
-					case RequestType.LoadFullPathBinaryFile:
-						{
-							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadFullPathBinaryFile(this.request_path) == true){
-								this.mode = Mode.Do_Io;
-							}
-						}break;
-					case RequestType.LoadFullPathTextFile:
-						{
-							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadFullPathTextFile(this.request_path) == true){
-								this.mode = Mode.Do_Io;
-							}
-						}break;
-					case RequestType.LoadFullPathTextureFile:
-						{
-							if(Fee.File.File.GetInstance().GetMainIo().RequestLoadFullPathTextureFile(this.request_path) == true){
-								this.mode = Mode.Do_Io;
-							}
-						}break;
-
-					#endif
-
 					default:
 						{
 							Tool.Assert(false);
@@ -577,6 +651,38 @@ namespace Fee.File
 			case Mode.End:
 				{
 				}return true;
+			case Mode.Do_AndroidContent:
+				{
+					Main_AndroidContent t_main = Fee.File.File.GetInstance().GetMainAndroidContent();
+
+					this.item.SetResultProgress(t_main.GetResultProgress());
+
+					if(t_main.GetResultType() != Main_AndroidContent.ResultType.None){
+						//結果。
+						bool t_success = false;
+						switch(t_main.GetResultType()){
+						case Main_AndroidContent.ResultType.Asset:
+							{
+								if(t_main.GetResultAsset() != null){
+									this.item.SetResultAsset(t_main.GetResultAsset());
+									t_success = true;
+								}
+							}break;
+						}
+
+						if(t_success == false){
+							this.item.SetResultErrorString(t_main.GetResultErrorString());
+						}
+
+						//完了。
+						t_main.Fix();				
+
+						this.mode = Mode.End;
+					}else if(this.item.IsCancel() == true){
+						//キャンセル。
+						t_main.Cancel();
+					}
+				}break;
 			case Mode.Do_Io:
 				{
 					Main_Io t_main = Fee.File.File.GetInstance().GetMainIo();

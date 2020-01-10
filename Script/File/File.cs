@@ -67,6 +67,10 @@ namespace Fee.File
 			}
 		}
 
+		/** main_androidcontent
+		*/
+		private Main_AndroidContent main_androidcontent;
+
 		/** main_io
 		*/
 		private Main_Io main_io;
@@ -91,6 +95,9 @@ namespace Fee.File
 		*/
 		private File()
 		{
+			//main_androidcontent
+			this.main_androidcontent = new Main_AndroidContent();
+
 			//main_io
 			this.main_io = new Main_Io();
 
@@ -111,6 +118,13 @@ namespace Fee.File
 		*/
 		private void Delete()
 		{
+		}
+
+		/** main_androidcontent。取得。
+		*/
+		public Main_AndroidContent GetMainAndroidContent()
+		{
+			return this.main_androidcontent;
 		}
 
 		/** main_io。取得。
@@ -156,22 +170,16 @@ namespace Fee.File
 			LoadUrlTextFile,
 			LoadUrlTextureFile,
 
+			LoadFullPathBinaryFile,
+			LoadFullPathTextFile,
+			LoadFullPathTextureFile,
+
 			#if(UNITY_EDITOR)
 
 			LoadAssetsPathBinaryFile,
 			LoadAssetsPathTextFile,
 
 			#endif
-
-			#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
-			#else
-
-			LoadFullPathBinaryFile,
-			LoadFullPathTextFile,
-			LoadFullPathTextureFile,
-
-			#endif
-
 		};
 
 		/** RequestLoadUrl
@@ -312,30 +320,6 @@ namespace Fee.File
 					return t_work_item.GetItem();
 				}break;
 
-			#if(UNITY_EDITOR)
-
-			//アセットパス。
-
-			case LoadRequestType.LoadAssetsPathBinaryFile:
-				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadAssetsPathBinaryFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
-				}break;
-			case LoadRequestType.LoadAssetsPathTextFile:
-				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadAssetsPathTextFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
-				}break;
-
-			#endif
-
-			#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
-			#else
-
 			//フルパス。
 
 			case LoadRequestType.LoadFullPathBinaryFile:
@@ -359,8 +343,27 @@ namespace Fee.File
 					this.add_list.Add(t_work_item);
 					return t_work_item.GetItem();
 				}break;
-			#endif
 
+			#if(UNITY_EDITOR)
+
+			//アセットパス。
+
+			case LoadRequestType.LoadAssetsPathBinaryFile:
+				{
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadAssetsPathBinaryFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
+				}break;
+			case LoadRequestType.LoadAssetsPathTextFile:
+				{
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestLoadAssetsPathTextFile(a_path);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
+				}break;
+
+			#endif
 			}
 
 			Tool.Assert(false);
