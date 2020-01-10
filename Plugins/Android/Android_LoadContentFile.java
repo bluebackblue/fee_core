@@ -7,9 +7,6 @@ package fee.platform;
 
 /** import
 */
-import android.app.Activity;
-import android.os.Bundle;
-import android.content.Intent;
 import com.unity3d.player.UnityPlayer;
 
 
@@ -57,14 +54,14 @@ public class Android_LoadContentFile
 				}
 			}
 		}catch(Exception t_exception){
-			UnityPlayer.UnitySendMessage("Platform","LoadContentFile_Log","exception : virtual input stream : " + t_exception.getMessage());
+			UnityPlayer.UnitySendMessage("Platform","Log_CallBack","exception : virtual input stream : " + t_exception.getMessage());
 		}
 		
 		if(t_input_stream == null){
 			try{
 				t_input_stream = a_context_resolver.openInputStream(a_uri);
 			}catch(Exception t_exception){
-				UnityPlayer.UnitySendMessage("Platform","LoadContentFile_Log","exception : input stream : " + t_exception.getMessage());
+				UnityPlayer.UnitySendMessage("Platform","Log_CallBack","exception : input stream : " + t_exception.getMessage());
 			}
 		}
 
@@ -79,9 +76,9 @@ public class Android_LoadContentFile
 
 		try{
 
-			UnityPlayer.UnitySendMessage("Platform","LoadContentFile_Log","LoadContentFile : " + a_uri);
+			UnityPlayer.UnitySendMessage("Platform","Log_CallBack","LoadContentFile : " + a_uri);
 
-			final Activity t_current_activity = UnityPlayer.currentActivity;
+			android.app.Activity t_current_activity = UnityPlayer.currentActivity;
 
 			android.net.Uri t_uri = android.net.Uri.parse(a_uri);
 			android.content.Context t_context = t_current_activity.getApplicationContext();
@@ -103,14 +100,14 @@ public class Android_LoadContentFile
 
 				t_result_bainry = t_out.toByteArray();
 				if(t_result_bainry == null){
-					UnityPlayer.UnitySendMessage("Platform","LoadContentFile_Log","toByteArray == null");
+					UnityPlayer.UnitySendMessage("Platform","Log_CallBack","toByteArray == null");
 				}
 
 				t_in.close();
 				t_out.close();
 			}catch(Exception t_exception){
 				t_result_bainry = null;
-				UnityPlayer.UnitySendMessage("Platform","LoadContentFile_Log","exception : read : " + t_exception.getMessage());
+				UnityPlayer.UnitySendMessage("Platform","Log_CallBack","exception : read : " + t_exception.getMessage());
 			}
 
 			try{
@@ -122,11 +119,11 @@ public class Android_LoadContentFile
 				}
 			}catch(Exception t_exception){
 				t_result_bainry = null;
-				UnityPlayer.UnitySendMessage("Platform","LoadContentFile_Log","exception : close : " + t_exception.getMessage());
+				UnityPlayer.UnitySendMessage("Platform","Log_CallBack","exception : close : " + t_exception.getMessage());
 			}
 		}catch(Exception t_exception){
 			t_result_bainry = null;
-			UnityPlayer.UnitySendMessage("Platform","LoadContentFile_Log","exception : " + t_exception.getMessage());
+			UnityPlayer.UnitySendMessage("Platform","Log_CallBack","exception : " + t_exception.getMessage());
 		}
 
 		return t_result_bainry;

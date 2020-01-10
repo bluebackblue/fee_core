@@ -27,7 +27,7 @@ namespace Fee.Platform
 
 		/** OpenPrompt
 		*/
-		public static string OpenPrompt(string a_title,string a_text)
+		public static string OpenPrompt(Root_MonoBehaviour a_root_monobehaviour,string a_title,string a_text)
 		{
 			try{
 				return WebGL_OpenPrompt.Fee_Platform_WebGLPlugin_OpenPrompt(a_title,a_text);

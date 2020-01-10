@@ -27,7 +27,7 @@ namespace Fee.Platform
 
 		/** SyncFs
 		*/
-		public static void SyncFs()
+		public static void SyncFs(Root_MonoBehaviour a_root_monobehaviour)
 		{
 			try{
 				bool t_ret = WebGL_SyncFs.Fee_Platform_WebGLPlugin_SyncFs();

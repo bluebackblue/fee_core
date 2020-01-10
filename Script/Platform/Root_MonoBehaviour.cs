@@ -20,11 +20,30 @@ namespace Fee.Platform
 		*/
 		public string openfiledialog_result;
 
+		/** loadcontentfile_asyncobject
+		*/ 
+		#if(UNITY_ANDROID)
+		public UnityEngine.AndroidJavaObject loadcontentfile_asyncobject;
+		#endif
+
 		/** Awake
 		*/
 		public void Awake()
 		{
+			//openfiledialog_result
 			this.openfiledialog_result = "";
+
+			//loadcontentfile_asyncobject
+			#if(UNITY_ANDROID)
+			this.loadcontentfile_asyncobject = null;
+			#endif
+		}
+
+		/** ログ。コールバック。
+		*/
+		public void Log_CallBack(string a_text)
+		{
+			Tool.Log("Log_CallBack",a_text);
 		}
 
 		/** オープンファイルダイログ。コールバック。
@@ -36,13 +55,6 @@ namespace Fee.Platform
 			}else{
 				this.openfiledialog_result = a_result;
 			}
-		}
-
-		/** OpenFileDialog_Log
-		*/
-		public void OpenFileDialog_Log(string a_text)
-		{
-			Tool.Log("OpenFileDialog_Log",a_text);
 		}
 	}
 }

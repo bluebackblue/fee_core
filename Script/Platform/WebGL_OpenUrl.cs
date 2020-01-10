@@ -27,7 +27,7 @@ namespace Fee.Platform
 
 		/** OpenUrl
 		*/
-		public static void OpenUrl(string  a_url_string)
+		public static void OpenUrl(Root_MonoBehaviour a_root_monobehaviour,string  a_url_string)
 		{
 			try{
 				WebGL_OpenUrl.Fee_Platform_WebGLPlugin_OpenUrl(a_url_string);

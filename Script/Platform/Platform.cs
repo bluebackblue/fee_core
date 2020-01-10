@@ -98,11 +98,11 @@ namespace Fee.Platform
 			{
 				#if(UNITY_EDITOR)
 				{
-					UnityEngine.Application.OpenURL(a_path.GetPath());
+					UnityEngine.Application.OpenURL(this.root_monobehaviour,a_path.GetPath());
 				}
 				#else
 				{
-					WebGL_OpenUrl.OpenUrl(a_path.GetPath());
+					WebGL_OpenUrl.OpenUrl(this.root_monobehaviour,a_path.GetPath());
 				}
 				#endif
 			}
@@ -125,7 +125,7 @@ namespace Fee.Platform
 				}
 				#else
 				{
-					return WebGL_OpenPrompt.OpenPrompt(a_title,a_text);
+					return WebGL_OpenPrompt.OpenPrompt(this.root_monobehaviour,a_title,a_text);
 				}
 				#endif
 			}
@@ -199,16 +199,65 @@ namespace Fee.Platform
 			this.root_monobehaviour.openfiledialog_result = a_result;
 		}
 
-		/** ロードコンテンツファイル。
+		/** ロードコンテンツファイル。開始。
 		*/
-		public byte[] LoadContentFile(Fee.File.Path a_path)
+		public bool LoadContentFile_Start(Fee.File.Path a_path)
 		{
-			#if(UNITY_EDITOR)
+			#if(UNITY_EDITOR) && false // TODO:
+			return false;
+			#elif(UNITY_ANDROID)
+			return Android_LoadContentFile.Start(this.root_monobehaviour,a_path);
+			#else
+			return false;
+			#endif
+		}
+
+		/** ロードコンテンツファイル。終了。
+		*/
+		public void LoadContentFile_End()
+		{
+			#if(UNITY_EDITOR) && false // TODO:
+			#elif(UNITY_ANDROID)
+			Android_LoadContentFile.End(this.root_monobehaviour);
+			#endif
+		}
+
+		/** ロードコンテンツファイル。終了。チェック。
+		*/
+		public bool LoadContentFile_IsComplate()
+		{
+			#if(UNITY_EDITOR) && false // TODO:
+			return true;
+			#elif(UNITY_ANDROID)
+			return Android_LoadContentFile.IsComplate(this.root_monobehaviour);
+			#else
+			return true;
+			#endif
+		}
+
+		/** ロードコンテンツファイル。結果取得。
+		*/
+		public byte[] LoadContentFile_GetResult()
+		{
+			#if(UNITY_EDITOR) && false // TODO:
 			return null;
 			#elif(UNITY_ANDROID)
-			return Android_LoadContentFile.LoadContentFile(a_path);
+			return Android_LoadContentFile.GetResult(this.root_monobehaviour);
 			#else
 			return null;
+			#endif
+		}
+
+		/** ロードコンテンツファイル。スレッドステータス取得。
+		*/
+		public int LoadContentFile_GetThreadStatus()
+		{
+			#if(UNITY_EDITOR) && false // TODO:
+			return -1;
+			#elif(UNITY_ANDROID)
+			return Android_LoadContentFile.GetThreadStatus(this.root_monobehaviour);
+			#else
+			return -1;
 			#endif
 		}
 	}
