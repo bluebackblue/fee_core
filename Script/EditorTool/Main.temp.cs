@@ -33,6 +33,7 @@
 //#define DEF_DEPTH
 //#define DEF_FUNCTION
 //#define DEF_PERFORMANCECOUNTER
+//#define DEF_MOVIE
 
 
 /** Fee.EditorTool
@@ -292,6 +293,13 @@ namespace Fee.EditorTool
 				{
 				}
 
+				//ムービー。
+				#if(DEF_MOVIE)
+				{
+					Fee.Movie.Movie.CreateInstance();
+				}
+				#endif
+
 				//ネットワーク。
 				#if(DEF_NETWORK)
 				{
@@ -514,6 +522,11 @@ namespace Fee.EditorTool
 
 			//モデル。
 			{
+			}
+
+			//ムービー。
+			{
+				Fee.Movie.Movie.DeleteInstance();
 			}
 
 			//ネットワーク。
@@ -771,6 +784,10 @@ namespace Fee.EditorTool
 				}
 
 				//モデル。
+				{
+				}
+
+				//ムービー。
 				{
 				}
 
