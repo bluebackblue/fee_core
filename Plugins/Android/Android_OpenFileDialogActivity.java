@@ -14,13 +14,14 @@ import com.unity3d.player.UnityPlayer;
 */
 public class Android_OpenFileDialogActivity extends android.app.Activity
 {
-	/** DO
+	/** Open
 	*/
-	public static void DO(String a_mime)
+	public static void Open(String a_title,String a_mime)
 	{
 		android.app.Activity t_current_activity = UnityPlayer.currentActivity;
 		android.content.Intent t_intent = new android.content.Intent(t_current_activity,Android_OpenFileDialogActivity.class);
 		t_intent.setAction(android.content.Intent.ACTION_MAIN);
+		t_intent.putExtra("TITLE",a_title);
 		t_intent.putExtra("MIME",a_mime);
 		t_current_activity.startActivity(t_intent);
 	}
@@ -33,13 +34,14 @@ public class Android_OpenFileDialogActivity extends android.app.Activity
 		super.onCreate(a_bundle);
 
 		{
+			String t_title = this.getIntent().getStringExtra("TITLE");
 			String t_mime = this.getIntent().getStringExtra("MIME");
 
 			android.content.Intent t_intent = new android.content.Intent();
 			t_intent.setType(t_mime);
 			t_intent.setAction(android.content.Intent.ACTION_GET_CONTENT);
 
-			android.content.Intent t_intent_chooser = android.content.Intent.createChooser(t_intent,"open");
+			android.content.Intent t_intent_chooser = android.content.Intent.createChooser(t_intent,t_title);
 			startActivityForResult(t_intent_chooser,10628);
 		}
 	}

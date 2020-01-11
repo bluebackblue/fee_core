@@ -142,25 +142,108 @@ namespace Fee.Platform
 			#endif
 		}
 
+		/** CreateOpenFileDialogExtension
+		*/
+		public string CreateOpenFileDialogExtension(string[] a_extension_name)
+		{
+			if(a_extension_name != null){
+				if(a_extension_name.Length > 0){
+					#if(UNITY_EDITOR)
+					{
+						string t_extension = "Custom;";
+
+						for(int ii=0;ii<a_extension_name.Length;ii++){
+							t_extension += "*." + a_extension_name[ii];
+							if(ii < a_extension_name.Length - 1){
+								t_extension += ";";
+							}
+						}
+
+						return t_extension;
+					}
+					#elif(UNITY_STANDALONE_WIN)
+					{
+						string t_extension = "Custom (";
+						for(int ii=0;ii<a_extension_name.Length;ii++){
+							t_extension += "*." + a_extension_name[ii];
+							if(ii < a_extension_name.Length - 1){
+								t_extension += ";";
+							}
+						}
+						t_extension += ")\0";
+
+						for(int ii=0;ii<a_extension_name.Length;ii++){
+							t_extension += "*." + a_extension_name[ii];
+							if(ii < a_extension_name.Length - 1){
+								t_extension += ";";
+							}
+						}
+
+						t_extension += "\0All Files (*.*)\0*.*\0\0";
+
+						return t_extension;
+					}
+					#elif(UNITY_WEBGL)
+					{
+						string t_extension = "";
+
+						for(int ii=0;ii<a_extension_name.Length;ii++){
+							t_extension += "." + a_extension_name[ii];
+							if(ii < a_extension_name.Length - 1){
+								t_extension += ",";
+							}
+						}
+
+						return t_extension;
+					}
+					#elif(UNITY_ANDROID)
+					{
+						return "*/*";
+					}
+					#endif
+				}
+			}
+
+			{
+				#if(UNITY_EDITOR)
+				{
+					return "";
+				}
+				#elif(UNITY_STANDALONE_WIN)
+				{
+					return "All Files (*.*)\0*.*\0" + "\0";
+				}
+				#elif(UNITY_WEBGL)
+				{
+					return "*/*";
+				}
+				#elif(UNITY_ANDROID)
+				{
+					return "*/*";
+				}
+				#endif
+			}
+		}
+
 		/** オープンファイルダイアログ。リクエスト。
 		*/
-		public void OpenFileDialog()
+		public void OpenFileDialog(string a_title,string a_extension)
 		{
 			#if(UNITY_EDITOR)
 			{
-				Editor_OpenFileDialog.OpenFileDialog(this.root_monobehaviour);
+				Editor_OpenFileDialog.OpenFileDialog(this.root_monobehaviour,a_title,a_extension);
 			}
 			#elif(UNITY_STANDALONE_WIN)
 			{
-				Windows_OpenFileDialog.OpenFileDialog(this.root_monobehaviour);
+				Windows_OpenFileDialog.OpenFileDialog(this.root_monobehaviour,a_title,a_extension);
 			}
 			#elif(UNITY_WEBGL)
 			{
-				WebGL_OpenFileDialog.OpenFileDialog(this.root_monobehaviour);
+				WebGL_OpenFileDialog.OpenFileDialog(this.root_monobehaviour,a_title,a_extension);
 			}
 			#elif(UNITY_ANDROID)
 			{
-				Android_OpenFileDialog.OpenFileDialog(this.root_monobehaviour);
+				Android_OpenFileDialog.OpenFileDialog(this.root_monobehaviour,a_title,a_extension);
 			}
 			#endif
 		}

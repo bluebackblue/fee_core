@@ -31,7 +31,7 @@ namespace Fee.Platform
 
 		*/
 		[System.Runtime.InteropServices.DllImport("__Internal")]
-		private static extern void Fee_Platform_WebGLPlugin_OpenFileDialog_Open();
+		private static extern void Fee_Platform_WebGLPlugin_OpenFileDialog_Open(string a_title,string a_extension);
 
 		/** 登録。
 
@@ -49,12 +49,12 @@ namespace Fee.Platform
 
 		/** OpenFileDialog
 		*/
-		public static void OpenFileDialog(Root_MonoBehaviour a_root_monobehaviour)
+		public static void OpenFileDialog(Root_MonoBehaviour a_root_monobehaviour,string a_title,string a_extension)
 		{
 			//a_root_monobehaviour.openfiledialog_result = null;
 
 			try{
-				WebGL_OpenFileDialog.Fee_Platform_WebGLPlugin_OpenFileDialog_Open();
+				WebGL_OpenFileDialog.Fee_Platform_WebGLPlugin_OpenFileDialog_Open(a_title,a_extension);
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 				//a_root_monobehaviour.openfiledialog_result = "";

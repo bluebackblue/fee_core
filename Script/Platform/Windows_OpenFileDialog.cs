@@ -19,12 +19,12 @@ namespace Fee.Platform
 	{
 		/** OpenFileDialog
 		*/
-		public static void OpenFileDialog(Root_MonoBehaviour a_root_monobehaviour)
+		public static void OpenFileDialog(Root_MonoBehaviour a_root_monobehaviour,string a_title,string a_extension)
 		{
 			a_root_monobehaviour.openfiledialog_result = null;
 
 			try{
-				a_root_monobehaviour.openfiledialog_result = FeeCsDll.OpenFileDialog_Comdlg32.Open();
+				a_root_monobehaviour.openfiledialog_result = FeeCsDll.OpenFileDialog_Comdlg32.Open(a_title,a_extension);
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 				a_root_monobehaviour.openfiledialog_result = "";

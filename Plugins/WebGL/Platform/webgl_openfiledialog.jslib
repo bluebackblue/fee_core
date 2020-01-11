@@ -28,8 +28,15 @@ mergeInto(LibraryManager.library,{
 
 		}
 	},
-	Fee_Platform_WebGLPlugin_OpenFileDialog_Open: function()
+	Fee_Platform_WebGLPlugin_OpenFileDialog_Open: function(a_title,a_extension)
 	{
-		document.getElementById('ID_FEE_FILEOPENDIALOG').click();
+		var t_extension = Pointer_stringify(a_extension);
+
+		var t_input = document.getElementById('ID_FEE_FILEOPENDIALOG');
+		{
+			t_input.setAttribute('accept',t_extension);
+		}
+
+		t_input.click();
 	}
 });
