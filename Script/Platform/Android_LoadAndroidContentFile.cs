@@ -51,13 +51,18 @@ namespace Fee.Platform
 					using(UnityEngine.AndroidJavaClass t_class_loadcontentfile = new UnityEngine.AndroidJavaClass("fee.platform.Android_LoadAndroidContentFile_AsyncObject")){
 						t_class_loadcontentfile.CallStatic("End",a_root_monobehaviour.loadandroidcontentfile);
 					}
-
-					a_root_monobehaviour.loadandroidcontentfile.Dispose();
-					a_root_monobehaviour.loadandroidcontentfile = null;
-
 				}catch(System.Exception t_exception){
 					Tool.DebugReThrow(t_exception);
 				}
+			}
+
+			if(a_root_monobehaviour.loadandroidcontentfile != null){
+				try{
+					a_root_monobehaviour.loadandroidcontentfile.Dispose();
+				}catch(System.Exception t_exception){
+					Tool.DebugReThrow(t_exception);
+				}
+				a_root_monobehaviour.loadandroidcontentfile = null;
 			}
 		}
 
