@@ -88,6 +88,20 @@ namespace Fee.Ui
 			this.sprite.SetColor(a_r,a_g,a_b,a_a);
 		}
 
+		/** テクスチャー。設定。
+		*/
+		public void SetTexture(UnityEngine.Texture a_texture)
+		{
+			this.sprite.SetTexture(a_texture);
+		}
+
+		/** マテリアルタイプ。設定。
+		*/
+		public void SetMaterialType(Render2D.Config.MaterialType a_materialtype)
+		{
+			this.sprite.SetMaterialType(a_materialtype);
+		}
+
 		/** 矩形。設定。
 		*/
 		public void SetRect(in Fee.Geometry.Rect2D_A<int> a_rect)

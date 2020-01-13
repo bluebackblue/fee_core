@@ -9,19 +9,19 @@
 */
 namespace Fee.Instantiate
 {
-	/** MaterialList_MonoBehaviour
+	/** FontList_MonoBehaviour
 	*/
-	public class MaterialList_MonoBehaviour : UnityEngine.MonoBehaviour
+	public class FontList_MonoBehaviour : UnityEngine.MonoBehaviour
 	{
 		/** tag_list
 		*/
 		[UnityEngine.SerializeField]
 		public string[] tag_list;
 
-		/** material_list
+		/** font_list
 		*/
 		[UnityEngine.SerializeField]
-		public UnityEngine.Material[] material_list;
+		public UnityEngine.Font[] font_list;
 	}
 }
 

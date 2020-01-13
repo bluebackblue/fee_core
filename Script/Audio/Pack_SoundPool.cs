@@ -13,9 +13,6 @@
 namespace Fee.Audio
 {
 	/** Pack_SoundPool
-
-		TODO:このクラスをJSON化しない。
-
 	*/
 	public class Pack_SoundPool
 	{

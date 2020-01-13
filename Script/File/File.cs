@@ -182,6 +182,17 @@ namespace Fee.File
 			#endif
 		};
 
+		/** SaveRequestType
+		*/
+		public enum SaveRequestType
+		{
+			None,
+
+			SaveLocalBinaryFile,
+			SaveLocalTextFile,
+			SaveLocalTextureFile,
+		};
+
 		/** RequestLoadUrl
 		*/
 		public Item RequestLoadUrl(LoadRequestType a_request_type,Path a_path,UnityEngine.WWWForm a_post_data = null,Fee.File.CustomCertificateHandler a_certificate_handler = null)
@@ -370,34 +381,58 @@ namespace Fee.File
 			return null;
 		}
 
-		/** リクエスト。セーブローカル。バイナリファイル。
+		/** リクエスト。セーブ。バイナリファイル。
 		*/
-		public Item RequestSaveLocalBinaryFile(Path a_relative_path,byte[] a_binary)
+		public Item RequestSaveBinaryFile(SaveRequestType a_request_type,Path a_relative_path,byte[] a_binary)
 		{
-			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestSaveLocalBinaryFile(a_relative_path,a_binary);
-			this.add_list.Add(t_work_item);
-			return t_work_item.GetItem();
+			switch(a_request_type){
+			case SaveRequestType.SaveLocalBinaryFile:
+				{
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestSaveLocalBinaryFile(a_relative_path,a_binary);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
+				}break;
+			}
+
+			Tool.Assert(false);
+			return null;
 		}
 
-		/** リクエスト。セーブローカル。テキストファイル。
+		/** リクエスト。セーブ。テキストファイル。
 		*/
-		public Item RequestSaveLocalTextFile(Path a_relative_path,string a_text)
+		public Item RequestSaveTextFile(SaveRequestType a_request_type,Path a_relative_path,string a_text)
 		{
-			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestSaveLocalTextFile(a_relative_path,a_text);
-			this.add_list.Add(t_work_item);
-			return t_work_item.GetItem();
+			switch(a_request_type){
+			case SaveRequestType.SaveLocalTextFile:
+				{
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestSaveLocalTextFile(a_relative_path,a_text);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
+				}break;
+			}
+
+			Tool.Assert(false);
+			return null;
 		}
 
-		/** リクエスト。セーブローカル。テクスチャファイル。
+		/** リクエスト。セーブ。テクスチャファイル。
 		*/
-		public Item RequestSaveLocalTextureFile(Path a_relative_path,UnityEngine.Texture2D a_texture)
+		public Item RequestSaveTextureFile(SaveRequestType a_request_type,Path a_relative_path,UnityEngine.Texture2D a_texture)
 		{
-			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestSaveLocalTextureFile(a_relative_path,a_texture);
-			this.add_list.Add(t_work_item);
-			return t_work_item.GetItem();
+			switch(a_request_type){
+			case SaveRequestType.SaveLocalTextureFile:
+				{
+					WorkItem t_work_item = new WorkItem();
+					t_work_item.RequestSaveLocalTextureFile(a_relative_path,a_texture);
+					this.add_list.Add(t_work_item);
+					return t_work_item.GetItem();
+				}break;
+			}
+
+			Tool.Assert(false);
+			return null;
 		}
 
 		/** 処理中。チェック。

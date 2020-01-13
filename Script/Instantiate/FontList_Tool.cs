@@ -1,7 +1,7 @@
 ﻿
 
 /**
- * @brief マテリアルリスト。
+ * @brief フォントリスト。
 */
 
 
@@ -9,10 +9,10 @@
 */
 namespace Fee.Instantiate
 {
-	/** MaterialList_Tool
+	/** FontList_Tool
 	*/
 	#if(UNITY_EDITOR)
-	public class MaterialList_Tool : UnityEngine.MonoBehaviour
+	public class FontList_Tool : UnityEngine.MonoBehaviour
 	{
 		/** ResourceItem
 		*/
@@ -24,7 +24,7 @@ namespace Fee.Instantiate
 
 			/** path
 
-				"Assets/xxx/yyy/zzz.material"
+				"Assets/xxx/yyy/zzz.tty"
 
 			*/
 			public Fee.File.Path path;
@@ -51,14 +51,14 @@ namespace Fee.Instantiate
 			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
 			t_prefab.name = "prefab_temp";
 			try{
-				//materialclip_list
-				MaterialList_MonoBehaviour t_material_list = t_prefab.AddComponent<MaterialList_MonoBehaviour>();
+				//font_list
+				FontList_MonoBehaviour t_font_list = t_prefab.AddComponent<FontList_MonoBehaviour>();
 
-				t_material_list.tag_list = new string[a_resource_list.Length];
-				t_material_list.material_list = new UnityEngine.Material[a_resource_list.Length];
-				for(int ii=0;ii<t_material_list.material_list.Length;ii++){
-					t_material_list.tag_list[ii] = a_resource_list[ii].tag;
-					t_material_list.material_list[ii] = Fee.EditorTool.Utility.LoadAsset<UnityEngine.Material>(a_resource_list[ii].path); 
+				t_font_list.tag_list = new string[a_resource_list.Length];
+				t_font_list.font_list = new UnityEngine.Font[a_resource_list.Length];
+				for(int ii=0;ii<t_font_list.font_list.Length;ii++){
+					t_font_list.tag_list[ii] = a_resource_list[ii].tag;
+					t_font_list.font_list[ii] = Fee.EditorTool.Utility.LoadAsset<UnityEngine.Font>(a_resource_list[ii].path); 
 				}
 
 				//SavePrefab

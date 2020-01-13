@@ -78,37 +78,11 @@ namespace Fee.Audio
 			this.myaudiosource.volume = this.volume_master.GetVolume() * this.volume_se.GetVolume();
 		}
 
-		/** SetPack
+		/** SetBank
 		*/
-		public void SetPack(Pack_AudioClip_MonoBehaviour a_pack,long a_id)
+		public void SetBank(Bank a_bank,long a_id)
 		{
-			Bank t_bank_new = new Bank(a_pack);
-
-			Bank t_bank_old;
-			if(this.bank_list.TryGetValue(a_id,out t_bank_old) == true){
-				//差し替え。
-
-				//アンロード。
-				if(t_bank_old != null){
-					this.unload_worklist.Add(t_bank_old);
-				}
-
-				//差し替え。
-				this.bank_list[a_id] = t_bank_new;
-			}else{
-				//追加。
-				this.bank_list.Add(a_id,t_bank_new);
-			}
-
-			//ロード。
-			this.load_worklist.Add(t_bank_new);
-		}
-
-		/** SetPack
-		*/
-		public void SetPack(Pack_SoundPool a_pack,long a_id)
-		{
-			Bank t_bank_new = new Bank(a_pack);
+			Bank t_bank_new = a_bank;
 
 			Bank t_bank_old;
 			if(this.bank_list.TryGetValue(a_id,out t_bank_old) == true){

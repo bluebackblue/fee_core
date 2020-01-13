@@ -69,10 +69,10 @@ namespace Fee.EditorTool
 			a_assets_path	: アセットフォルダからの相対パス。
 
 		*/
-		public static void ExportPackage(Fee.File.Path a_asset_path,string a_package_name,UnityEditor.ExportPackageOptions a_option)
+		public static void ExportPackage(Fee.File.Path a_assets_path,string a_package_name,UnityEditor.ExportPackageOptions a_option)
 		{
 			try{
-				string t_path = "Assets/" + a_asset_path.GetNormalizePath();
+				string t_path = "Assets/" + a_assets_path.GetNormalizePath();
 
 				UnityEngine.Debug.Log("ExportPackage : " + t_path + " : " + a_package_name);
 				UnityEditor.AssetDatabase.ExportPackage(t_path,a_package_name,a_option);

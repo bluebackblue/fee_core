@@ -200,6 +200,14 @@ namespace Fee.JsonItem
 						return;
 					}//break;
 				case ValueType.None:
+					{
+						//NULL。
+
+						this.jsonstring = null;
+						this.valuetype = ValueType.None;
+						this.value.Reset();
+						return;
+					}//break;
 				case ValueType.BoolData:
 				default:
 					{
@@ -236,32 +244,15 @@ namespace Fee.JsonItem
 						int t_index = 1;
 						int t_max = t_jsonstring_temp.Length - 1;
 
-						//TODO:System.Text.StringBuilder
-						this.value.string_data = "";
+						System.Text.StringBuilder t_stringbuilder = new System.Text.StringBuilder();
 				
 						while(t_index < t_max){
-							int t_add = Impl.GetMojiSize(t_jsonstring_temp,t_index,true);
-							if(t_add == 2){
-								if(t_jsonstring_temp[t_index] == '\\'){
-									//エスケープシーケンス文字をシーケンス文字に変換。
-									string t_add_string = Impl.ToSequenceString(t_jsonstring_temp,t_index);
-									if(t_add_string != null){
-										//変換後文字列を追加。
-										this.value.string_data += t_add_string;
-									}else{
-										//不明。
-										Tool.Assert(false);
+							string t_out_string;
+							int t_use_index = Impl.ConvertFromEscapeSequenceString(t_jsonstring_temp,t_index,out t_out_string);
 
-										this.value.string_data = "";
-										return;
-									}
-								}else{
-									//通常文字（２文字）を追加。
-									this.value.string_data += t_jsonstring_temp.Substring(t_index,t_add);
-								}
-							}else if(t_add > 0){
-								//通常文字（複数文字）を追加。
-								this.value.string_data += t_jsonstring_temp.Substring(t_index,t_add);
+							if(t_use_index > 0){
+								t_stringbuilder.Append(t_out_string);
+								t_index += t_use_index;
 							}else{
 								//不明なエンコード。
 								Tool.Assert(false);
@@ -269,8 +260,6 @@ namespace Fee.JsonItem
 								this.value.string_data = "";
 								return;
 							}
-
-							t_index += t_add;
 						}
 
 						if(t_index != t_max){
@@ -280,6 +269,8 @@ namespace Fee.JsonItem
 							this.value.string_data = "";
 							return;
 						}
+
+						this.value.string_data = t_stringbuilder.ToString();
 
 						return;
 					}//break;
@@ -1024,21 +1015,14 @@ namespace Fee.JsonItem
 						int t_max = this.value.string_data.Length;
 
 						while(t_index < t_max){
-							//１文字取得。
-							int t_moji_size = Impl.GetMojiSize(this.value.string_data,t_index,false);
-							if(t_moji_size == 1){
-								string t_add_string = Impl.CheckEscapeSequence(this.value.string_data[t_index]);
-								if(t_add_string == null){
-									//通常文字。
-								}else{
-									//特殊文字。
+							string t_out_string;
+							int t_use_index = Impl.ConvertToEscapeSequenceString(this.value.string_data,t_index,out t_out_string);
 
-									a_stringbuilder.Append(t_add_string);
-
-									t_index++;
-									continue;
-								}
-							}else if(t_moji_size <= 0){
+							if(t_use_index > 0){
+								a_stringbuilder.Append(t_out_string);
+								t_index += t_use_index;
+								continue;
+							}else{
 								//不明。
 								Tool.Assert(false);
 
@@ -1047,10 +1031,6 @@ namespace Fee.JsonItem
 
 								return;
 							}
-
-							a_stringbuilder.Append(this.value.string_data.Substring(t_index,t_moji_size));
-
-							t_index += t_moji_size;
 						}
 					}
 

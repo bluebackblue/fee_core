@@ -31,22 +31,22 @@ namespace Fee.Instantiate
 
 			/** constructor
 			*/
-			public ResourceItem(string a_tag,Fee.File.Path a_path)
+			public ResourceItem(string a_tag,Fee.File.Path a_assets_path)
 			{
 				//tag
 				this.tag = a_tag;
 
 				//path
-				this.path = a_path;
+				this.path = a_assets_path;
 			}
 		}
 
-		/** CreatePrefab
+		/** Create
 
 			全部登録する。
 
 		*/
-		public static void CreatePrefab(Fee.File.Path a_output_path,ResourceItem[] a_resource_list)
+		public static void Create(Fee.File.Path a_output_assets_path,ResourceItem[] a_resource_list)
 		{
 			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
 			t_prefab.name = "prefab_temp";
@@ -62,7 +62,7 @@ namespace Fee.Instantiate
 				}
 
 				//SavePrefab
-				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_path);
+				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_assets_path);
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}

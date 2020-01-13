@@ -27,7 +27,7 @@ namespace Fee.File
 
 		*/
 		#if(UNITY_EDITOR)
-		public static void CreatePrefab(Fee.File.Path a_asset_path,byte[] a_binary)
+		public static void CreatePrefab(Fee.File.Path a_assets_path,byte[] a_binary)
 		{
 			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
 			t_prefab.name = "prefab_temp";
@@ -37,7 +37,7 @@ namespace Fee.File
 				t_binary.data = a_binary;
 
 				//保存。
-				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_asset_path);
+				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_assets_path);
 			}
 			UnityEngine.GameObject.DestroyImmediate(t_prefab);
 		}

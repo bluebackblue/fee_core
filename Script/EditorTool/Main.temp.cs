@@ -26,7 +26,7 @@
 //#define DEF_BLOOM
 //#define DEF_EVENTPLATE
 //#define DEF_CRYPT
-//#define DEF_SOUND
+//#define DEF_SOUNDPOOL
 //#define DEF_TASK
 //#define DEF_UNIVRM
 //#define DEF_BLUR
@@ -353,7 +353,7 @@ namespace Fee.EditorTool
 				#endif
 
 				//サウンドプール。
-				#if(DEF_SOUND)
+				#if(DEF_SOUNDPOOL)
 				{
 					Fee.SoundPool.SoundPool.CreateInstance();
 				}
@@ -835,7 +835,7 @@ namespace Fee.EditorTool
 				}
 
 				//サウンドプール。
-				#if(DEF_SOUND)
+				#if(DEF_SOUNDPOOL)
 				{
 					Fee.SoundPool.SoundPool.GetInstance().Main();
 				}

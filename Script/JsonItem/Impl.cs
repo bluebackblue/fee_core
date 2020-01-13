@@ -91,130 +91,227 @@ namespace Fee.JsonItem
 			return false;
 		}
 
-		/** エスケープシーケンス文字を「￥＋文字」に変換。
+		/** ConvertToEscapeSequenceString
 		*/
-		public static string CheckEscapeSequence(char a_char)
+		public static int ConvertToEscapeSequenceString(string a_string,int a_index,out string a_out_string)
 		{
-			switch(a_char){
-			case '\\':
-				{
-					return "\\\\";
-				}//break;
-			case '\"':
-				{
-					return "\\\"";
-				}//break;
-			case '\'':
-				{
-					return "\\\'";
-				}//break;
-			case '\n':
-				{
-					return "\\n";
-				}//break;
-			default:
-				{
-				}break;
+			if(a_index < a_string.Length){
+				switch(a_string[a_index]){
+				case '\\':
+					{
+						a_out_string = "\\\\";
+						return 1;
+					}//break;
+				case '\"':
+					{
+						a_out_string = "\\\"";
+						return 1;
+					}//break;
+				case '\'':
+					{
+						a_out_string = "\\\'";
+						return 1;
+					}//break;
+				case '\n':
+					{
+						a_out_string = "\\n";
+						return 1;
+					}//break;
+				default:
+					{
+						a_out_string = a_string.Substring(a_index,1);
+						return 1;
+					}//break;
+				}
+			}else{
+				//範囲外。
+				Tool.Assert(false);
+				a_out_string = null;
+				return 0;
 			}
-
-			//通常文字。
-			return null;
 		}
 
-		/** 「￥＋文字」をシーケンス文字に変換。
+		/** CharToByte
 		*/
-		public static string ToSequenceString(string a_string,int a_index)
+		public static byte CharToByte(char a_char)
+		{
+			switch(a_char){
+			case '0':return 0;
+			case '1':return 1;
+			case '2':return 2;
+			case '3':return 3;
+			case '4':return 4;
+			case '5':return 5;
+			case '6':return 6;
+			case '7':return 7;
+			case '8':return 8;
+			case '9':return 9;
+			case 'a':return 10;
+			case 'A':return 10;
+			case 'b':return 11;
+			case 'B':return 11;
+			case 'c':return 12;
+			case 'C':return 12;
+			case 'd':return 13;
+			case 'D':return 13;
+			case 'e':return 14;
+			case 'E':return 14;
+			case 'f':return 15;
+			case 'F':return 15;
+			default:
+				{
+					Tool.Assert(false);
+				}return 0;
+			}
+		}
+
+		/** ConvertFromEscapeSequenceString
+		*/
+		public static int ConvertFromEscapeSequenceString(string a_string,int a_index,out string a_out_string)
 		{
 			if(a_index < a_string.Length){
 				if(a_string[a_index] == '\\'){
+
 					if((a_index + 1) < a_string.Length){
 						switch(a_string[a_index+1]){
 						case '\"':
 							{
 								//ダブルクォーテーション。
-								return "\"";
+								a_out_string = "\"";
+								return 2;
 							}//break;
 						case '\'':
 							{
 								//シングルクォーテーション。
-								return "\'";
+								a_out_string = "\'";
+								return 2;
 							}//break;
 						case '\\':
 							{
 								//￥。
-								return "\\";
+								a_out_string = "\\";
+								return 2;
 							}//break;
 						case 'n':
 							{
 								//改行。
-								return "\n";
+								a_out_string = "\n";
+								return 2;
 							}//break;
 						case '/':
 							{
 								//スラッシュ。
-								return "/";
+								a_out_string = "/";
+								return 2;
+							}//break;
+						case 'u':
+							{
+								if((a_index + 5) < a_string.Length){
+
+									byte[] t_byte = new byte[2];
+									{
+										t_byte[0] = (byte)((CharToByte(a_string[a_index + 4]) << 4) + CharToByte(a_string[a_index + 5]));
+										t_byte[1] = (byte)((CharToByte(a_string[a_index + 2]) << 4) + CharToByte(a_string[a_index + 3]));
+									}
+									a_out_string = System.Text.Encoding.Unicode.GetString(t_byte);
+									return 6;
+								}else{
+									//範囲外。コードが足りない。
+									Tool.Assert(false);
+									a_out_string = null;
+									return 1;
+								}
 							}//break;
 						default:
 							{
 								//知らないエスケープシーケンス。
 								Tool.Assert(false);
-
-								return null;
+								a_out_string = null;
+								return 1;
 							}//break;
 						}
 					}else{
-						//範囲外。
+						//範囲外。エスケープシーケンスの後ろがない。
 						Tool.Assert(false);
-
-						return null;
-					}
-				}else{
-					//通常文字。
-					Tool.Assert(false);
-
-					return null;
-				}
-			}else{
-				//範囲外。
-				Tool.Assert(false);
-
-				return null;
-			}
-
-			//不明。
-			//Tool.Assert(false);
-
-			//return null;
-		}
-
-		/** 文字のサイズ。
-		*/
-		public static int GetMojiSize(string a_string,int a_index,bool a_escape)
-		{
-			if(a_index < a_string.Length){
-				if(a_string[a_index] == '\\'){
-					if(a_escape == true){
-						if(a_string.Length >= (2 + a_index)){
-							//エスケープシーケンスの後ろは１バイト文字。
-							return 2;
-						}else{
-							//文字数が足りない。
-							Tool.Assert(false);
-
-							return 0;
-						}
-					}else{
-						//エスケープシーケンスとして処理しない。
+						a_out_string = null;
 						return 1;
 					}
 				}else{
-					//エスケープシーケンス以外。
+					//通常文字。
+					a_out_string = a_string.Substring(a_index,1);
 					return 1;
 				}
 			}else{
 				//範囲外。
 				Tool.Assert(false);
+				a_out_string = null;
+				return 0;
+			}
+		}
 
+		/** ConvertFromEscapeSequenceString_Size
+		*/
+		public static int ConvertFromEscapeSequenceString_Size(string a_string,int a_index)
+		{
+			if(a_index < a_string.Length){
+				if(a_string[a_index] == '\\'){
+
+					if((a_index + 1) < a_string.Length){
+						switch(a_string[a_index+1]){
+						case '\"':
+							{
+								//ダブルクォーテーション。
+								return 2;
+							}//break;
+						case '\'':
+							{
+								//シングルクォーテーション。
+								return 2;
+							}//break;
+						case '\\':
+							{
+								//￥。
+								return 2;
+							}//break;
+						case 'n':
+							{
+								//改行。
+								return 2;
+							}//break;
+						case '/':
+							{
+								//スラッシュ。
+								return 2;
+							}//break;
+						case 'u':
+							{
+								if((a_index + 5) < a_string.Length){
+									return 6;
+								}else{
+									//範囲外。コードが足りない。
+									Tool.Assert(false);
+									return 1;
+								}
+							}//break;
+						default:
+							{
+								//知らないエスケープシーケンス。
+								Tool.Assert(false);
+								return 1;
+							}//break;
+						}
+					}else{
+						//範囲外。エスケープシーケンスの後ろがない。
+						Tool.Assert(false);
+						return 1;
+					}
+				}else{
+					//通常文字。
+					return 1;
+				}
+			}else{
+				//範囲外。
+				Tool.Assert(false);
 				return 0;
 			}
 		}
@@ -234,9 +331,9 @@ namespace Fee.JsonItem
 							return t_index - a_index + 1;
 						}else{
 							//次の文字へ。
-							int t_add = Impl.GetMojiSize(a_string,t_index,true);
-							if(t_add > 0){
-								t_index += t_add;
+							int t_use_index = Impl.ConvertFromEscapeSequenceString_Size(a_string,t_index);
+							if(t_use_index > 0){
+								t_index += t_use_index;
 							}else{
 								//予想外の文字コード。
 								Tool.Assert(false);

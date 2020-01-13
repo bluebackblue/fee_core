@@ -226,7 +226,7 @@ namespace Fee.SoundPool
 					{
 						Fee.File.Path t_sound_url = new File.Path(t_load_soundpool.name_list[ii]);
 
-						File.Item t_item = Fee.File.File.GetInstance().RequestSaveLocalBinaryFile(t_sound_url,t_sound_binary);
+						File.Item t_item = Fee.File.File.GetInstance().RequestSaveBinaryFile(File.File.SaveRequestType.SaveLocalBinaryFile,t_sound_url,t_sound_binary);
 
 						do{
 							//■ステップ２。
@@ -250,7 +250,7 @@ namespace Fee.SoundPool
 
 			//ローカル、サウンドプール管理ファイルのセーブ。
 			{
-				File.Item t_item = Fee.File.File.GetInstance().RequestSaveLocalTextFile(t_local_caoundpool_path,t_load_stringjson);
+				File.Item t_item = Fee.File.File.GetInstance().RequestSaveTextFile(File.File.SaveRequestType.SaveLocalTextFile,t_local_caoundpool_path,t_load_stringjson);
 
 				do{
 					//■ステップ３。

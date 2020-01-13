@@ -59,6 +59,9 @@ namespace Fee.JsonSheet
 		*/
 		public static void Convert(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet)
 		{
+			//TODO:
+
+			/*
 			try{
 				if(a_sheet != null){
 					System.Collections.Generic.List<System_Tuple.Tuple<UnityEngine.AudioClip,float>> t_list = new System.Collections.Generic.List<System_Tuple.Tuple<UnityEngine.AudioClip,float>>();
@@ -113,6 +116,7 @@ namespace Fee.JsonSheet
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 			}
+			*/
 		}
 	}
 	#endif

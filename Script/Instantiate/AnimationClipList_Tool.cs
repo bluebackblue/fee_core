@@ -31,13 +31,13 @@ namespace Fee.Instantiate
 
 			/** constructor
 			*/
-			public ResourceItem_Directory(string a_prefix,Fee.File.Path a_path)
+			public ResourceItem_Directory(string a_prefix,Fee.File.Path a_assets_path)
 			{
 				//prefix
 				this.prefix = a_prefix;
 
 				//path
-				this.path = a_path;
+				this.path = a_assets_path;
 			}
 		}
 
@@ -101,10 +101,10 @@ namespace Fee.Instantiate
 
 		/** CreatePrefab
 
-			全部登録する。
+			全部追加する。
 
 		*/
-		public static void CreatePrefab(Fee.File.Path a_output_path,ResourceItem_Directory[] a_resource_list)
+		public static void Create(Fee.File.Path a_output_assets_path,ResourceItem_Directory[] a_resource_list)
 		{
 			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
 			t_prefab.name = "prefab_temp";
@@ -132,7 +132,7 @@ namespace Fee.Instantiate
 				}
 
 				//SavePrefab
-				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_path);
+				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_assets_path);
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
@@ -140,8 +140,11 @@ namespace Fee.Instantiate
 		}
 
 		/** CreatePrefab
+
+			指定したものを追加する。
+
 		*/
-		public static void CreatePrefab(Fee.File.Path a_output_path,ResourceItem[] a_resource_list)
+		public static void Create(Fee.File.Path a_output_assets_path,ResourceItem[] a_resource_list)
 		{
 			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
 			t_prefab.name = "prefab_temp";
@@ -170,7 +173,7 @@ namespace Fee.Instantiate
 				}
 
 				//SavePrefab
-				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_path);
+				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_assets_path);
 			}
 			UnityEngine.GameObject.DestroyImmediate(t_prefab);
 		}

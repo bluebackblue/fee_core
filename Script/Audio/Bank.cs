@@ -18,7 +18,7 @@ namespace Fee.Audio
 	{
 		/** pack_audioclip
 		*/
-		public Pack_AudioClip_MonoBehaviour pack_audioclip_monobehaviour;
+		public Pack_AudioClip pack_audioclip_monobehaviour;
 
 		/** pack_soundpool
 		*/
@@ -26,7 +26,7 @@ namespace Fee.Audio
 
 		/** constructor
 		*/
-		public Bank(Pack_AudioClip_MonoBehaviour a_pack)
+		public Bank(Pack_AudioClip a_pack)
 		{
 			this.pack_audioclip_monobehaviour = a_pack;
 			this.pack_soundpool = null;

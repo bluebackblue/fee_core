@@ -38,7 +38,7 @@ namespace Fee.Fade
 
 		/** デフォルト。アニメ。色。
 		*/
-		public static UnityEngine.Color DEFAULT_ANIME_COLOR = new UnityEngine.Color(0.0f,0.0f,0.0f,0.0f);
+		public static UnityEngine.Color DEFAULT_ANIME_COLOR = UnityEngine.Color.clear;
 	}
 }
 

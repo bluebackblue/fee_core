@@ -230,9 +230,9 @@ namespace Fee.Audio
 
 		/** ＢＧＭ。ロード。
 		*/
-		public bool LoadBgm(Pack_AudioClip_MonoBehaviour a_pack)
+		public bool LoadBgm(Bank a_bank)
 		{
-			return this.bgm_audiosource_monobehaviour.SetBank(new Bank(a_pack));
+			return this.bgm_audiosource_monobehaviour.SetBank(a_bank);
 		}
 
 		/** ＢＧＭ。アンロード。
@@ -244,16 +244,9 @@ namespace Fee.Audio
 
 		/** ＳＥ。ロード。
 		*/
-		public void LoadSe(Pack_AudioClip_MonoBehaviour a_pack,long a_se_id)
+		public void LoadSe(Bank a_bank,long a_se_id)
 		{
-			this.se_audiosource_monobehaviour.SetPack(a_pack,a_se_id);
-		}
-
-		/** ＳＥ。ロード。
-		*/
-		public void LoadSe(Pack_SoundPool a_pack,long a_se_id)
-		{
-			this.se_audiosource_monobehaviour.SetPack(a_pack,a_se_id);
+			this.se_audiosource_monobehaviour.SetBank(a_bank,a_se_id);
 		}
 
 		/** ＳＥ。アンロード。

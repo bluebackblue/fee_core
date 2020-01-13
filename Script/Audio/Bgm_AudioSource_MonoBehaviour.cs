@@ -237,10 +237,6 @@ namespace Fee.Audio
 			if(this.load_work != null){
 				//ロード中。
 
-				//ストリーミング再生。
-				//this.load_work.LoadMain();
-				//t_request_index = -1;
-
 				this.bank = this.load_work;
 				this.load_work = null;
 			}

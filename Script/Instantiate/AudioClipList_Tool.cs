@@ -1,7 +1,7 @@
 ﻿
 
 /**
- * @brief マテリアルリスト。
+ * @brief フォントリスト。
 */
 
 
@@ -9,10 +9,10 @@
 */
 namespace Fee.Instantiate
 {
-	/** MaterialList_Tool
+	/** AudioClipList_Tool
 	*/
 	#if(UNITY_EDITOR)
-	public class MaterialList_Tool : UnityEngine.MonoBehaviour
+	public class AudioClipList_Tool : UnityEngine.MonoBehaviour
 	{
 		/** ResourceItem
 		*/
@@ -24,7 +24,7 @@ namespace Fee.Instantiate
 
 			/** path
 
-				"Assets/xxx/yyy/zzz.material"
+				"Assets/xxx/yyy/zzz.tty"
 
 			*/
 			public Fee.File.Path path;
@@ -51,14 +51,14 @@ namespace Fee.Instantiate
 			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
 			t_prefab.name = "prefab_temp";
 			try{
-				//materialclip_list
-				MaterialList_MonoBehaviour t_material_list = t_prefab.AddComponent<MaterialList_MonoBehaviour>();
+				//audioclip_list
+				AudioClipList_MonoBehaviour t_audioclip_list = t_prefab.AddComponent<AudioClipList_MonoBehaviour>();
 
-				t_material_list.tag_list = new string[a_resource_list.Length];
-				t_material_list.material_list = new UnityEngine.Material[a_resource_list.Length];
-				for(int ii=0;ii<t_material_list.material_list.Length;ii++){
-					t_material_list.tag_list[ii] = a_resource_list[ii].tag;
-					t_material_list.material_list[ii] = Fee.EditorTool.Utility.LoadAsset<UnityEngine.Material>(a_resource_list[ii].path); 
+				t_audioclip_list.tag_list = new string[a_resource_list.Length];
+				t_audioclip_list.audioclip_list = new UnityEngine.AudioClip[a_resource_list.Length];
+				for(int ii=0;ii<t_audioclip_list.audioclip_list.Length;ii++){
+					t_audioclip_list.tag_list[ii] = a_resource_list[ii].tag;
+					t_audioclip_list.audioclip_list[ii] = Fee.EditorTool.Utility.LoadAsset<UnityEngine.AudioClip>(a_resource_list[ii].path); 
 				}
 
 				//SavePrefab

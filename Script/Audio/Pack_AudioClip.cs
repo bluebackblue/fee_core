@@ -12,12 +12,9 @@
 */
 namespace Fee.Audio
 {
-	/** Pack_AudioClip_MonoBehaviour
-
-		アセットバンドル化するためのプレハブ。
-
+	/** Pack_AudioClip
 	*/
-	public class Pack_AudioClip_MonoBehaviour : UnityEngine.MonoBehaviour
+	public class Pack_AudioClip
 	{
 		/** audioclip_list
 		*/
@@ -29,7 +26,7 @@ namespace Fee.Audio
 
 		/** constructor
 		*/
-		public Pack_AudioClip_MonoBehaviour()
+		public Pack_AudioClip()
 		{
 			//audioclip_list
 			this.audioclip_list = new System.Collections.Generic.List<UnityEngine.AudioClip>();
