@@ -42,6 +42,10 @@ namespace Fee.Input
 		*/
 		public static bool RETHROW_ENABLE = false;
 
+		/** デフォルト。連打間隔。
+		*/
+		public static int DEFAULT_RAPID_TIME_MAX = 6;
+
 		/** インプットシステム。マウス。マウス位置。
 		*/
 		#if((ENABLE_LEGACY_INPUT_MANAGER)&&(!ENABLE_INPUT_SYSTEM))
@@ -390,19 +394,6 @@ namespace Fee.Input
 			public static bool USE_INPUTMANAGER_INPUTTOUCH_TOUCH = false;
 			#endif
 		#endif
-
-		/** ドラッグ判定閾値。4方向。
-		*/
-		//public static float DRAG_DIR4_DOT = 0.5f;
-
-		/** ドラッグアップ判定閾値。
-		*/
-		//public static float DRAGUP_LENGTH_SCALE = 1.5f;
-		//public static float DRAGUP_LENGTH_MIN = 9.0f;
-
-		/** ドラッグオン判定閾値。
-		*/
-		//public static float DRAGON_LENGTH_MIN = 20.0f;
 
 		/** マウス。ドラッグ時間。最大。
 		*/

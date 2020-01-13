@@ -23,6 +23,10 @@ namespace Fee.Input
 		public bool down;
 		public bool up;
 
+		public bool rapid;
+		public int rapid_time;
+		public int rapid_time_max;
+
 		/** リセット。
 		*/
 		public void Reset()
@@ -31,6 +35,10 @@ namespace Fee.Input
 			this.on = false;
 			this.down = false;
 			this.up = false;
+
+			this.rapid = false;
+			this.rapid_time = 0;
+			this.rapid_time_max = Config.DEFAULT_RAPID_TIME_MAX;
 		}
 
 		/** 設定。
@@ -49,10 +57,28 @@ namespace Fee.Input
 				//ダウン。
 				this.down = true;
 				this.up = false;
+
+				this.rapid = true;
+				this.rapid_time = 0;
 			}else if((this.on == false)&&(this.on_old == true)){
 				//アップ。
 				this.up = true;
 				this.down = false;
+
+				this.rapid = false;
+				this.rapid_time = 0;
+			}else if(this.on == true){
+				//オン。
+
+				this.down = false;
+				this.up = false;
+
+				this.rapid_time = (this.rapid_time + 1) % this.rapid_time_max; 
+				if(this.rapid_time == 0){
+					this.rapid = true;
+				}else{
+					this.rapid = false;
+				}
 			}else{
 				this.down = false;
 				this.up = false;
