@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief インスタンス作成。フォントリスト。
+ * @brief インスタンス作成。テクスチャーリスト。
 */
 
 
@@ -12,19 +12,19 @@
 */
 namespace Fee.Instantiate
 {
-	/** FontList_MonoBehaviour
+	/** TextureList_MonoBehaviour
 	*/
-	public class FontList_MonoBehaviour : UnityEngine.MonoBehaviour
+	public class TextureList_MonoBehaviour : UnityEngine.MonoBehaviour
 	{
 		/** tag_list
 		*/
 		[UnityEngine.SerializeField]
 		public string[] tag_list;
 
-		/** font_list
+		/** texture_list
 		*/
 		[UnityEngine.SerializeField]
-		public UnityEngine.Font[] font_list;
+		public UnityEngine.Texture2D[] texture_list;
 	}
 }
 

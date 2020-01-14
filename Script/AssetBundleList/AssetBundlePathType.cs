@@ -16,9 +16,21 @@ namespace Fee.AssetBundleList
 	*/
 	public enum AssetBundlePathType
 	{
-		/** アセットバンドルのＵＲＬ。
+		/** ＵＲＬ。
 		*/
 		UrlAssetBundle,
+
+		/** ストリーミングアセット。
+		*/
+		StreamingAssetsAssetBundle,
+
+		/** ローカル。
+		*/
+		LocalAssetBundle,
+
+		/** フルパス。
+		*/
+		FullPathAssetBundle,
 
 		/** アセットフォルダにあるアセットバンドルの相対パス。
 		*/

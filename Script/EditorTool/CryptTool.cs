@@ -17,9 +17,9 @@ namespace Fee.EditorTool
 	#if(UNITY_EDITOR)
 	public class Crypt
 	{
-		/** 公開鍵秘密鍵作成。
+		/** 鍵作成。
 		*/
-		public static void MakePublicKeyPrivateKey(Fee.File.Path a_public_key,Fee.File.Path a_private_key)
+		public static void CreatePublicKeyPrivateKey(Fee.File.Path a_public_key,Fee.File.Path a_private_key)
 		{
 			string t_public_key;
 			string t_private_key;

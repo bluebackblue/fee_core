@@ -59,6 +59,9 @@ namespace Fee.EditorTool
 				}else{
 					UnityEngine.Debug.Log("SavePrefab : " + t_path);
 				}
+
+				UnityEditor.AssetDatabase.Refresh();
+
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}

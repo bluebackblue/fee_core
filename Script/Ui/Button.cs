@@ -349,10 +349,10 @@ namespace Fee.Ui
 		{
 			#if(UNITY_EDITOR)
 			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.filterMode != UnityEngine.FilterMode.Point)){
-				Tool.Assert(false);
+				Tool.Log("SetNormalTexture","filterMode != Point");
 			}
 			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.mipmapCount != 1)){
-				Tool.Assert(false);
+				Tool.Log("SetNormalTexture","mipmapCount != 1");
 			}
 			#endif
 
@@ -365,10 +365,10 @@ namespace Fee.Ui
 		{
 			#if(UNITY_EDITOR)
 			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.filterMode != UnityEngine.FilterMode.Point)){
-				Tool.Assert(false);
+				Tool.Log("SetNormalTexture","filterMode != Point");
 			}
 			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.mipmapCount != 1)){
-				Tool.Assert(false);
+				Tool.Log("SetNormalTexture","mipmapCount != 1");
 			}
 			#endif
 
@@ -381,10 +381,10 @@ namespace Fee.Ui
 		{
 			#if(UNITY_EDITOR)
 			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.filterMode != UnityEngine.FilterMode.Point)){
-				Tool.Assert(false);
+				Tool.Log("SetNormalTexture","filterMode != Point");
 			}
 			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.mipmapCount != 1)){
-				Tool.Assert(false);
+				Tool.Log("SetNormalTexture","mipmapCount != 1");
 			}
 			#endif
 
@@ -397,10 +397,10 @@ namespace Fee.Ui
 		{
 			#if(UNITY_EDITOR)
 			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.filterMode != UnityEngine.FilterMode.Point)){
-				Tool.Assert(false);
+				Tool.Log("SetNormalTexture","filterMode != Point");
 			}
 			if((Config.BUTTONTEXTURE_CHECK_FILTERMODE_ENABLE == true)&&(a_texture.mipmapCount != 1)){
-				Tool.Assert(false);
+				Tool.Log("SetNormalTexture","mipmapCount != 1");
 			}
 			#endif
 

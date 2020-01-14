@@ -371,7 +371,7 @@ namespace Fee.JsonSheet
 									}
 								}
 
-								Fee.File.Path t_path = new File.Path(a_assets_path.GetPath() + "/" + t_pair.Key + ".json");
+								Fee.File.Path t_path = new File.Path(a_assets_path.GetPath() + t_pair.Key + ".json");
 								string t_jsonstring = Fee.JsonItem.Convert.ObjectToJsonString<Fee.AssetBundleList.DummryAssetBundle>(t_dummy_assetbundle);
 								EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(t_path),t_jsonstring,true);
 							}

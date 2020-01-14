@@ -171,11 +171,27 @@ namespace Fee.AssetBundleList
 
 					#endif
 
-					case  AssetBundlePathType.UrlAssetBundle:
+					case AssetBundlePathType.UrlAssetBundle:
 						{
-							//アセットバンドルのＵＲＬ。
+							//ＵＲＬ。
 							t_item_bianry = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadUrlBinaryFile,t_pathitem.assetbundle_path);
 						}break;
+					case AssetBundlePathType.StreamingAssetsAssetBundle:
+						{
+							//ストリーミングアセット。
+							t_item_bianry = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadStreamingAssetsBinaryFile,t_pathitem.assetbundle_path);
+						}break;
+					case AssetBundlePathType.LocalAssetBundle:
+						{
+							//ローカル。
+							t_item_bianry = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadLocalBinaryFile,t_pathitem.assetbundle_path);
+						}break;
+					case AssetBundlePathType.FullPathAssetBundle:
+						{
+							//フルパス。
+							t_item_bianry = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadFullPathBinaryFile,t_pathitem.assetbundle_path);
+						}break;
+
 					default:
 						{
 							//失敗。

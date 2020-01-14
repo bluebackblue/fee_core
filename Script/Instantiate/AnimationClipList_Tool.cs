@@ -1,7 +1,10 @@
 ﻿
 
 /**
- * @brief アニメーションクリップリスト。
+ * Copyright (c) blueback
+ * Released under the MIT License
+ * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
+ * @brief インスタンス作成。アニメーションクリップ。
 */
 
 
@@ -12,7 +15,7 @@ namespace Fee.Instantiate
 	/** AnimationClipList_Tool
 	*/
 	#if(UNITY_EDITOR)
-	public class AnimationClipList_Tool : UnityEngine.MonoBehaviour
+	public class AnimationClipList_Tool
 	{
 		/** ResourceItem_Directory
 		*/
@@ -62,13 +65,13 @@ namespace Fee.Instantiate
 
 			/** constructor
 			*/
-			public ResourceItem(string a_tag,Fee.File.Path a_path,string a_clipanimation_name)
+			public ResourceItem(string a_tag,Fee.File.Path a_assets_path,string a_clipanimation_name)
 			{
 				//tag
 				this.tag = a_tag;
 
 				//path
-				this.path = a_path;
+				this.path = a_assets_path;
 
 				//clipanimation_name
 				this.clipanimation_name = a_clipanimation_name;
@@ -99,18 +102,66 @@ namespace Fee.Instantiate
 			}
 		}
 
-		/** CreatePrefab
+		/** 作成。
 
 			全部追加する。
 
 		*/
-		public static void Create(Fee.File.Path a_output_assets_path,ResourceItem_Directory[] a_resource_list)
+		public static UnityEngine.GameObject Create(Fee.File.Path a_output_assets_path,ResourceItem_Directory[] a_resource_list)
 		{
 			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
 			t_prefab.name = "prefab_temp";
 			try{
+				//追加。
+				Add(t_prefab,a_resource_list);
+
+				//新規作成。
+				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_assets_path);
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+			}
+			UnityEngine.GameObject.DestroyImmediate(t_prefab);
+
+			//ロード。
+			UnityEngine.GameObject t_gameobject = Fee.EditorTool.Utility.LoadAsset<UnityEngine.GameObject>(a_output_assets_path);
+			Tool.Assert(t_gameobject != null);
+			return t_gameobject;
+		}
+
+		/** 作成。
+
+			指定したものを追加する。
+
+		*/
+		public static UnityEngine.GameObject Create(Fee.File.Path a_output_assets_path,ResourceItem[] a_resource_list)
+		{
+			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
+			t_prefab.name = "prefab_temp";
+			{
+				//追加。
+				Add(t_prefab,a_resource_list);
+
+				//新規作成。
+				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_assets_path);
+			}
+			UnityEngine.GameObject.DestroyImmediate(t_prefab);
+
+			//ロード。
+			UnityEngine.GameObject t_gameobject = Fee.EditorTool.Utility.LoadAsset<UnityEngine.GameObject>(a_output_assets_path);
+			Tool.Assert(t_gameobject != null);
+			return t_gameobject;
+		}
+
+		/** 追加。
+
+			全部追加する。
+
+		*/
+		public static UnityEngine.GameObject Add(UnityEngine.GameObject a_prefab,ResourceItem_Directory[] a_resource_list)
+		{
+			try{
 				//animationclip_list
-				AnimationClipList_MonoBehaviour t_animationclip_list = t_prefab.AddComponent<AnimationClipList_MonoBehaviour>();
+				AnimationClipList_MonoBehaviour t_animationclip_list = a_prefab.AddComponent<AnimationClipList_MonoBehaviour>();
 
 				System.Collections.Generic.List<System.Tuple<string,FindItem>> t_list = new System.Collections.Generic.List<System.Tuple<string,FindItem>>();
 
@@ -130,27 +181,23 @@ namespace Fee.Instantiate
 					t_animationclip_list.tag_list[ii] = t_list[ii].Item1;
 					t_animationclip_list.animationclip_list[ii] = t_list[ii].Item2.animationclip;
 				}
-
-				//SavePrefab
-				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_assets_path);
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
-			UnityEngine.GameObject.DestroyImmediate(t_prefab);
+
+			return a_prefab;
 		}
 
-		/** CreatePrefab
+		/** 追加。
 
 			指定したものを追加する。
 
 		*/
-		public static void Create(Fee.File.Path a_output_assets_path,ResourceItem[] a_resource_list)
+		public static UnityEngine.GameObject Add(UnityEngine.GameObject a_prefab,ResourceItem[] a_resource_list)
 		{
-			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
-			t_prefab.name = "prefab_temp";
-			{
+			try{
 				//animationclip_list
-				AnimationClipList_MonoBehaviour t_animationclip_list = t_prefab.AddComponent<AnimationClipList_MonoBehaviour>();
+				AnimationClipList_MonoBehaviour t_animationclip_list = a_prefab.AddComponent<AnimationClipList_MonoBehaviour>();
 
 				System.Collections.Generic.List<System.Tuple<string,FindItem>> t_list = new System.Collections.Generic.List<System.Tuple<string,FindItem>>();
 
@@ -171,11 +218,11 @@ namespace Fee.Instantiate
 					t_animationclip_list.tag_list[ii] = t_list[ii].Item1;
 					t_animationclip_list.animationclip_list[ii] = t_list[ii].Item2.animationclip;
 				}
-
-				//SavePrefab
-				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_assets_path);
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
 			}
-			UnityEngine.GameObject.DestroyImmediate(t_prefab);
+
+			return a_prefab;
 		}
 
 		/** FindAnimationClip

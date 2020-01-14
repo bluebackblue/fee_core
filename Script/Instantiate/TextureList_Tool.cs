@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief インスタンス作成。プレハブリスト。
+ * @brief インスタンス作成。テクスチャーリスト。
 */
 
 
@@ -12,10 +12,10 @@
 */
 namespace Fee.Instantiate
 {
-	/** PrefabList_Tool
+	/** TextureList_Tool
 	*/
 	#if(UNITY_EDITOR)
-	public class PrefabList_Tool
+	public class TextureList_Tool
 	{
 		/** ResourceItem
 		*/
@@ -27,7 +27,7 @@ namespace Fee.Instantiate
 
 			/** path
 
-				"Assets/xxx/yyy/zzz.prefab"
+				"Assets/xxx/yyy/zzz.png"
 
 			*/
 			public Fee.File.Path path;
@@ -72,14 +72,14 @@ namespace Fee.Instantiate
 		public static UnityEngine.GameObject Add(UnityEngine.GameObject a_prefab,ResourceItem[] a_resource_list)
 		{
 			try{
-				//prefab_list
-				PrefabList_MonoBehaviour t_prefab_list = a_prefab.AddComponent<PrefabList_MonoBehaviour>();
+				//texture_list
+				TextureList_MonoBehaviour t_texture_list = a_prefab.AddComponent<TextureList_MonoBehaviour>();
 
-				t_prefab_list.tag_list = new string[a_resource_list.Length];
-				t_prefab_list.prefab_list = new UnityEngine.GameObject[a_resource_list.Length];
-				for(int ii=0;ii<t_prefab_list.prefab_list.Length;ii++){
-					t_prefab_list.tag_list[ii] = a_resource_list[ii].tag;
-					t_prefab_list.prefab_list[ii] = Fee.EditorTool.Utility.LoadAsset<UnityEngine.GameObject>(a_resource_list[ii].path); 
+				t_texture_list.tag_list = new string[a_resource_list.Length];
+				t_texture_list.texture_list = new UnityEngine.Texture2D[a_resource_list.Length];
+				for(int ii=0;ii<t_texture_list.texture_list.Length;ii++){
+					t_texture_list.tag_list[ii] = a_resource_list[ii].tag;
+					t_texture_list.texture_list[ii] = Fee.EditorTool.Utility.LoadAsset<UnityEngine.Texture2D>(a_resource_list[ii].path); 
 				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
