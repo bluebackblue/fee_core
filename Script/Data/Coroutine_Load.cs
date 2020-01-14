@@ -69,30 +69,30 @@ namespace Fee.Data
 			switch(a_listitem.path_type){
 			case PathType.AssetBundle_Prefab:
 				{
-					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadPackItemPrefabFile(a_listitem.assetbundle_name,a_listitem.id);
+					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadAssetBundleItemPrefabFile(a_listitem.assetbundle_name,a_listitem.id);
 					if(t_assetbundlelist_item == null){
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.assetbundle_name + " : " + a_listitem.id;
 						yield break;
-					}					
+					}
 				}break;
 			case PathType.AssetBundle_Texture:
 				{
-					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadPackItemTextureFile(a_listitem.assetbundle_name,a_listitem.id);
+					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadAssetBundleItemTextureFile(a_listitem.assetbundle_name,a_listitem.id);
 					if(t_assetbundlelist_item == null){
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.assetbundle_name + " : " + a_listitem.id;
 						yield break;
-					}	
+					}
 				}break;
 			case PathType.AssetBundle_Text:
 				{
-					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadPackItemTextFile(a_listitem.assetbundle_name,a_listitem.id);
+					t_assetbundlelist_item = Fee.AssetBundleList.AssetBundleList.GetInstance().RequestLoadAssetBundleItemTextFile(a_listitem.assetbundle_name,a_listitem.id);
 					if(t_assetbundlelist_item == null){
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.assetbundle_name + " : " + a_listitem.id;
 						yield break;
-					}	
+					}
 				}break;
 			case PathType.Resources_Prefab:
 				{
@@ -102,7 +102,7 @@ namespace Fee.Data
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
 						yield break;
-					}	
+					}
 				}break;
 			case PathType.Resources_Texture:
 				{
@@ -112,7 +112,7 @@ namespace Fee.Data
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
 						yield break;
-					}	
+					}
 				}break;
 			case PathType.Resources_Text:
 				{
@@ -122,7 +122,7 @@ namespace Fee.Data
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
 						yield break;
-					}	
+					}
 				}break;
 			case PathType.StreamingAssets_Texture:
 				{
@@ -132,7 +132,7 @@ namespace Fee.Data
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
 						yield break;
-					}	
+					}
 				}break;
 			case PathType.StreamingAssets_Text:
 				{
@@ -142,7 +142,7 @@ namespace Fee.Data
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
 						yield break;
-					}	
+					}
 				}break;
 			case PathType.StreamingAssets_Binary:
 				{
@@ -152,7 +152,7 @@ namespace Fee.Data
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
 						yield break;
-					}	
+					}
 				}break;
 			case PathType.Url_Texture:
 				{
@@ -162,7 +162,7 @@ namespace Fee.Data
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
 						yield break;
-					}	
+					}
 				}break;
 			case PathType.Url_Text:
 				{
@@ -172,7 +172,7 @@ namespace Fee.Data
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
 						yield break;
-					}	
+					}
 				}break;
 			case PathType.Url_Binary:
 				{
@@ -182,8 +182,50 @@ namespace Fee.Data
 						//失敗。
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
 						yield break;
-					}	
+					}
 				}break;
+
+			#if(UNITY_EDITOR)
+			case PathType.AssetsPath_Prefab:
+				{
+					//TODO:
+
+					/*
+					//アセット。プレハブ。
+					t_file_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadAssetsPathTextFile,a_listitem.path);
+					if(t_file_item == null){
+						//失敗。
+						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
+						yield break;
+					}
+					*/
+				}break;
+			case PathType.AssetsPath_Text:
+				{
+					//アセット。テキスト。
+					t_file_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadAssetsPathTextFile,a_listitem.path);
+					if(t_file_item == null){
+						//失敗。
+						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
+						yield break;
+					}
+				}break;
+			case PathType.AssetsPath_Texture:
+				{
+					//TODO:
+
+					/*
+					//アセット。テクスチャ。
+					t_file_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadUrlBinaryFile,a_listitem.path);
+					if(t_file_item == null){
+						//失敗。
+						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
+						yield break;
+					}
+					*/
+				}break;
+			#endif
+
 			default:
 				{
 					Tool.Assert(false);

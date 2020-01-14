@@ -152,9 +152,9 @@ namespace Fee.AssetBundleList
 			return true;
 		}
 
-		/** リクエスト。ロードパックアイテム。テキストファイル。
+		/** リクエスト。ロードアセットバンドルアイテム。テキストファイル。
 		*/
-		public bool RequestLoadPackItemTextFile(string a_id,string a_assetname)
+		public bool RequestLoadAssetBundleItemTextFile(string a_id,string a_assetname)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -172,18 +172,18 @@ namespace Fee.AssetBundleList
 				this.request_id = a_id;
 				this.request_assetname = a_assetname;
 
-				Function.Function.StartCoroutine(this.DoLoadPackItemTextFile());
+				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemTextFile());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ロードパックアイテム。テキストファイル。
+		/** 実行。ロードアセットバンドルアイテム。テキストファイル。
 		*/
-		private System.Collections.IEnumerator DoLoadPackItemTextFile()
+		private System.Collections.IEnumerator DoLoadAssetBundleItemTextFile()
 		{
-			Coroutine_LoadPackItemTextFile t_coroutine = new Coroutine_LoadPackItemTextFile();
+			Coroutine_LoadAssetBundleItemTextFile t_coroutine = new Coroutine_LoadAssetBundleItemTextFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_id,this.request_assetname);
 
 			if(t_coroutine.result.asset_file != null){
@@ -199,9 +199,9 @@ namespace Fee.AssetBundleList
 			}
 		}
 
-		/** リクエスト。ロードパックアイテム。テクスチャファイル。
+		/** リクエスト。ロードアセットバンドルアイテム。テクスチャファイル。
 		*/
-		public bool RequestLoadPackItemTextureFile(string a_id,string a_assetname)
+		public bool RequestLoadAssetBundleItemTextureFile(string a_id,string a_assetname)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -219,18 +219,18 @@ namespace Fee.AssetBundleList
 				this.request_id = a_id;
 				this.request_assetname = a_assetname;
 
-				Function.Function.StartCoroutine(this.DoLoadPackItemTextureFile());
+				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemTextureFile());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ロードパックアイテム。テクスチャファイル。
+		/** 実行。ロードアセットバンドルアイテム。テクスチャファイル。
 		*/
-		private System.Collections.IEnumerator DoLoadPackItemTextureFile()
+		private System.Collections.IEnumerator DoLoadAssetBundleItemTextureFile()
 		{
-			Coroutine_LoadPackItemTextureFile t_coroutine = new Coroutine_LoadPackItemTextureFile();
+			Coroutine_LoadAssetBundleItemTextureFile t_coroutine = new Coroutine_LoadAssetBundleItemTextureFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_id,this.request_assetname);
 
 			if(t_coroutine.result.asset_file != null){
@@ -246,9 +246,9 @@ namespace Fee.AssetBundleList
 			}
 		}
 
-		/** リクエスト。ロードパックアイテム。プレハブファイル。
+		/** リクエスト。ロードアセットバンドルアイテム。プレハブファイル。
 		*/
-		public bool RequestLoadPackItemPrefabFile(string a_id,string a_assetname)
+		public bool RequestLoadAssetBundleItemPrefabFile(string a_id,string a_assetname)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -266,18 +266,18 @@ namespace Fee.AssetBundleList
 				this.request_id = a_id;
 				this.request_assetname = a_assetname;
 
-				Function.Function.StartCoroutine(this.DoLoadPackItemPrefabFile());
+				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemPrefabFile());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ロードパックアイテムアイテム。プレハブファイル。
+		/** 実行。ロードアセットバンドルアイテムアイテム。プレハブファイル。
 		*/
-		private System.Collections.IEnumerator DoLoadPackItemPrefabFile()
+		private System.Collections.IEnumerator DoLoadAssetBundleItemPrefabFile()
 		{
-			Coroutine_LoadPackItemPrefabFile t_coroutine = new Coroutine_LoadPackItemPrefabFile();
+			Coroutine_LoadAssetBundleItemPrefabFile t_coroutine = new Coroutine_LoadAssetBundleItemPrefabFile();
 			yield return t_coroutine.CoroutineMain(this,this.request_id,this.request_assetname);
 
 			if(t_coroutine.result.asset_file != null){

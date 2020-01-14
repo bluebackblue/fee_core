@@ -129,6 +129,13 @@ namespace Fee.Data
 			}
 		}
 
+		/** データリスト。クリア。
+		*/
+		public void ClearDataList()
+		{
+			this.list.Clear();
+		}
+
 		/** リクエスト。ロード。
 		*/
 		public Item RequestLoad(string a_id)

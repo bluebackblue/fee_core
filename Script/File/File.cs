@@ -91,6 +91,10 @@ namespace Fee.File
 		*/
 		private System.Collections.Generic.List<WorkItem> add_list;
 
+		/** publickey_list
+		*/
+		private PublicKeyList publickey_list;
+
 		/** [シングルトン]constructor
 		*/
 		private File()
@@ -112,6 +116,9 @@ namespace Fee.File
 
 			//add_list
 			this.add_list = new System.Collections.Generic.List<WorkItem>();
+
+			//publickey_list
+			this.publickey_list = new PublicKeyList();
 		}
 
 		/** [シングルトン]削除。
@@ -179,6 +186,11 @@ namespace Fee.File
 			LoadAssetsPathBinaryFile,
 			LoadAssetsPathTextFile,
 
+			/*
+			LoadAssetsPathTextureFile,
+			LoadAssetsPathPrefabFile,
+			*/
+
 			#endif
 		};
 
@@ -192,6 +204,27 @@ namespace Fee.File
 			SaveLocalTextFile,
 			SaveLocalTextureFile,
 		};
+
+		/** RegistPublicKey
+		*/
+		public void RegistPublicKey(string a_tag,string a_url_pattern,string a_publickey)
+		{
+			this.publickey_list.Regist(a_tag,a_url_pattern,a_publickey);
+		}
+
+		/** UnRegistPublicKey
+		*/
+		public void UnRegistPublicKey(string a_tag,string a_url_pattern,string a_publickey)
+		{
+			this.publickey_list.UnRegist(a_tag);
+		}
+
+		/** GetPublicKey
+		*/
+		public string GetPublicKey(string a_url)
+		{
+			return this.publickey_list.GetPublicKey(a_url);
+		}
 
 		/** RequestLoadUrl
 		*/

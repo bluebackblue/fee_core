@@ -61,7 +61,7 @@ namespace Fee.Excel
 		*/
 		public bool ReadOpen(Fee.File.Path a_path)
 		{
-			this.raw_excel = Excel_Tool_ExcelDataReader.Open(a_path);
+			this.raw_excel = Excel_ExcelDataReader_Tool.Open(a_path);
 			if(this.raw_excel == null){
 				return false;
 			}
@@ -83,14 +83,14 @@ namespace Fee.Excel
 		*/
 		public int GetSheetCount()
 		{
-			return Excel_Tool_ExcelDataReader.GetSheetCount(this.raw_excel);
+			return Excel_ExcelDataReader_Tool.GetSheetCount(this.raw_excel);
 		}
 
 		/** アクティブシート。設定。
 		*/
 		public bool SetActiveSheet(int a_sheet_index)
 		{
-			this.raw_sheet = Excel_Tool_ExcelDataReader.GetSheet(this.raw_excel,a_sheet_index);
+			this.raw_sheet = Excel_ExcelDataReader_Tool.GetSheet(this.raw_excel,a_sheet_index);
 			if(this.raw_sheet == null){
 				Tool.Assert(false);
 				return false;
@@ -103,13 +103,13 @@ namespace Fee.Excel
 		*/
 		public bool SetActiveCell(int a_x,int a_y)
 		{
-			this.raw_line = Excel_Tool_ExcelDataReader.GetLine(this.raw_sheet,a_y);
+			this.raw_line = Excel_ExcelDataReader_Tool.GetLine(this.raw_sheet,a_y);
 
 			if(this.raw_line == null){
 				//データのないライン。
 				this.raw_cell = null;
 			}else{
-				this.raw_cell = Excel_Tool_ExcelDataReader.GetCell(this.raw_line,a_x);
+				this.raw_cell = Excel_ExcelDataReader_Tool.GetCell(this.raw_line,a_x);
 			}
 
 			return true;
@@ -119,14 +119,14 @@ namespace Fee.Excel
 		*/
 		public bool GetTryCellString(out string a_result_value)
 		{
-			return Excel_Tool_ExcelDataReader.GetTryCellString(this.raw_cell,out a_result_value);
+			return Excel_ExcelDataReader_Tool.GetTryCellString(this.raw_cell,out a_result_value);
 		}
 
 		/** 文字列。取得。
 		*/
 		public bool GetTryCellNumeric(out double a_result_value)
 		{
-			return Excel_Tool_ExcelDataReader.GetTryCellNumeric(this.raw_cell,out a_result_value);
+			return Excel_ExcelDataReader_Tool.GetTryCellNumeric(this.raw_cell,out a_result_value);
 		}
 	}
 	#endif

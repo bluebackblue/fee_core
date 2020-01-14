@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief アセットバンドルリスト。パックアイテム。
+ * @brief アセットバンドルリスト。アセットバンドルアイテム。
 */
 
 
@@ -12,10 +12,14 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** PackItem
+	/** AssetBundleItem
 	*/
-	public class PackItem
+	public class AssetBundleItem
 	{
+		/** pathitem
+		*/
+		public PathItem pathitem;
+
 		/** assetbundle_raw
 		*/
 		public UnityEngine.AssetBundle assetbundle_raw;
@@ -26,8 +30,11 @@ namespace Fee.AssetBundleList
 
 		/** constructor
 		*/
-		public PackItem(UnityEngine.AssetBundle a_assetbundle_raw)
+		public AssetBundleItem(UnityEngine.AssetBundle a_assetbundle_raw,PathItem a_pathitem)
 		{
+			//pathitem
+			this.pathitem = a_pathitem;
+
 			//assetbundle_raw
 			this.assetbundle_raw = a_assetbundle_raw;
 
@@ -37,8 +44,11 @@ namespace Fee.AssetBundleList
 
 		/** constructor
 		*/
-		public PackItem(Fee.AssetBundleList.DummryAssetBundle a_assetbundle_dummy)
+		public AssetBundleItem(Fee.AssetBundleList.DummryAssetBundle a_assetbundle_dummy,PathItem a_pathitem)
 		{
+			//pathitem
+			this.pathitem = a_pathitem;
+
 			//assetbundle_raw
 			this.assetbundle_raw = null;
 

@@ -322,6 +322,25 @@ namespace Fee.EditorTool
 
 			return t_new_texture;
 		}
+
+		/** WebRequest
+		*/
+		public static UnityEngine.Networking.UnityWebRequest WebRequest(string a_uri,UnityEngine.Networking.CertificateHandler a_certificate)
+		{
+			UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequest.Get(a_uri);
+
+			if(a_certificate != null){
+				t_webrequest.certificateHandler = a_certificate;
+			}
+
+			UnityEngine.Networking.UnityWebRequestAsyncOperation t_async = t_webrequest.SendWebRequest();
+
+			while(t_async.isDone == false){
+				 System.Threading.Thread.Sleep(100);
+			}
+
+			return t_webrequest;
+		}
 	}
 	#endif
 }

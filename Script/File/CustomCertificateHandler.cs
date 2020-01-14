@@ -28,6 +28,10 @@ namespace Fee.File
 		*/
 		private string errorstring;
 
+		/** receive_publickey
+		*/
+		private string receive_publickey;
+
 		/** constructor
 		*/
 		public CustomCertificateHandler(string a_publickey_string)
@@ -40,6 +44,9 @@ namespace Fee.File
 
 			//errorstring
 			this.errorstring = null;
+
+			//receive_publickey
+			this.receive_publickey = null;
 		}
 
 		/** constructor
@@ -54,6 +61,9 @@ namespace Fee.File
 
 			//errorstring
 			this.errorstring = null;
+
+			//receive_publickey
+			this.receive_publickey = null;
 		}
 
 		/** GetErrorString
@@ -61,6 +71,13 @@ namespace Fee.File
 		public string GetErrorString()
 		{
 			return this.errorstring;
+		}
+
+		/** GetReceivePublicKey
+		*/
+		public string GetReceivePublicKey()
+		{
+			return this.receive_publickey;
 		}
 
 		/** 初期化チェック。
@@ -79,6 +96,9 @@ namespace Fee.File
 
 			try{
 				using(System.Security.Cryptography.X509Certificates.X509Certificate2 t_certificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(a_certificate_data)){
+
+					this.receive_publickey = t_certificate.GetPublicKeyString();
+
 					if(this.publickey_string != null){
 						//文字列。
 

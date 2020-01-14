@@ -20,9 +20,9 @@
 #if(USE_DEF_FEE_EXCELDATAREADER)
 namespace Fee.Excel
 {
-	/** Excel_Tool_ExcelDataReader
+	/** Excel_ExcelDataReader_Tool
 	*/
-	public class Excel_Tool_ExcelDataReader
+	public class Excel_ExcelDataReader_Tool
 	{
 		/** 開く。
 		*/

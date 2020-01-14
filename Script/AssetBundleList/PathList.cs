@@ -48,13 +48,12 @@ namespace Fee.AssetBundleList
 
 		/** パスアイテム。解除。
 		*/
-		public void UnRegist(string a_assetbundle_name)
+		public bool UnRegist(string a_assetbundle_name)
 		{
-			if(this.path_list.ContainsKey(a_assetbundle_name) == true){
-				this.path_list.Remove(a_assetbundle_name);
-			}else{
-				Tool.Assert(false);
+			if(this.path_list.Remove(a_assetbundle_name) == true){
+				return true;
 			}
+			return false;
 		}
 
 		/** パスアイテム。取得。

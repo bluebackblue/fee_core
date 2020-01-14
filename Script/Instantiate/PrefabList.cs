@@ -32,7 +32,7 @@ namespace Fee.Instantiate
 
 		/** GetPrefab
 		*/
-		public UnityEngine.GameObject GetGetPrefab(string a_tag)
+		public UnityEngine.GameObject GetPrefab(string a_tag)
 		{
 			UnityEngine.GameObject t_prefab;
 			if(this.list.TryGetValue(a_tag,out t_prefab) == true){

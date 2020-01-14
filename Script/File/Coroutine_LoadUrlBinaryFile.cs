@@ -66,6 +66,8 @@ namespace Fee.File
 			if(a_certificate_handler != null){
 				a_certificate_handler.InitializeCheck();
 				t_webrequest.certificateHandler = a_certificate_handler;
+			}else{
+				t_webrequest.certificateHandler = new Fee.File.CustomCertificateHandler(Fee.File.File.GetInstance().GetPublicKey(a_path.GetPath()));
 			}
 
 			return t_webrequest;

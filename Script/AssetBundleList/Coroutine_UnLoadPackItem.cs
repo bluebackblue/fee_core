@@ -12,9 +12,9 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** アンロード。パックアイテム。
+	/** アンロード。アセットバンドルアイテム。
 	*/
-	public class Coroutine_UnLoadPackItem
+	public class Coroutine_UnLoadAssetBundleItem
 	{
 		/** ResultType
 		*/
@@ -51,19 +51,19 @@ namespace Fee.AssetBundleList
 			//result
 			this.result = new ResultType();
 
-			PackItem t_pack_item = Fee.AssetBundleList.AssetBundleList.GetInstance().GetPackItem(a_assetbundle_name);
+			AssetBundleItem t_assetbundle_item = Fee.AssetBundleList.AssetBundleList.GetInstance().GetAssetBundleItem(a_assetbundle_name);
 
-			if(t_pack_item == null){
+			if(t_assetbundle_item == null){
 				//失敗。
-				this.result.errorstring = "Coroutine_UnLoadPackItem : Not Found ID : " + a_assetbundle_name;
+				this.result.errorstring = "Coroutine_UnLoadAssetBundleItem : Not Found ID : " + a_assetbundle_name;
 				yield break;
 			}
 
 			//Unload
-			t_pack_item.Unload();
+			t_assetbundle_item.Unload();
 
 			//解除。
-			Fee.AssetBundleList.AssetBundleList.GetInstance().UnRegistPackItem(a_assetbundle_name);
+			Fee.AssetBundleList.AssetBundleList.GetInstance().UnRegistAssetBundleItem(a_assetbundle_name);
 
 			//成功。
 			this.result.unload = true;

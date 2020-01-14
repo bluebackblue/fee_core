@@ -77,12 +77,12 @@ namespace Fee.File
 		*/
 		public string GetDirectoryPath()
 		{
-			return Path.GetGetDirectoryString(this.path);
+			return Path.GetDirectoryString(this.path);
 		}
 
-		/** GetGetDirectoryString
+		/** GetDirectoryString
 		*/
-		public static string GetGetDirectoryString(string a_path)
+		public static string GetDirectoryString(string a_path)
 		{
 			int t_find_index = -1;
 			for(int ii=a_path.Length-1;ii >= 0;ii--){
@@ -103,7 +103,7 @@ namespace Fee.File
 		*/
 		public Path CreateFileNameChangePath(string a_filename,string a_separate = "/")
 		{
-			string t_path = Path.GetGetDirectoryString(this.path) + a_separate + a_filename;
+			string t_path = Path.GetDirectoryString(this.path) + a_separate + a_filename;
 
 			return new Path(t_path);
 		}

@@ -17,20 +17,20 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** ロードパス。パックアイテム。
+	/** ロードパス。アセットバンドルアイテム。
 
-		パスアイテムからパックアイテムをロード。
+		パスアイテムからアセットバンドルアイテムをロード。
 
 	*/
-	public class Coroutine_LoadPathItemPackItem
+	public class Coroutine_LoadPathItemAssetBundleItem
 	{
 		/** ResultType
 		*/
 		public class ResultType
 		{
-			/** パックアイテム。
+			/** アセットバンドルアイテム。
 			*/
-			public PackItem pack_item;
+			public AssetBundleItem assetbundle_item;
 
 			/** エラー文字列。
 			*/
@@ -44,8 +44,8 @@ namespace Fee.AssetBundleList
 			*/
 			public ResultType()
 			{
-				//pack_item
-				this.pack_item = null;
+				//assetbundle_item
+				this.assetbundle_item = null;
 
 				//errorstring
 				this.errorstring = null;
@@ -77,11 +77,11 @@ namespace Fee.AssetBundleList
 			this.result = new ResultType();
 
 			{
-				PackItem t_pack_item = Fee.AssetBundleList.AssetBundleList.GetInstance().GetPackItem(a_assetbundle_name);
+				AssetBundleItem t_assetbundle_item = Fee.AssetBundleList.AssetBundleList.GetInstance().GetAssetBundleItem(a_assetbundle_name);
 
-				if(t_pack_item != null){
+				if(t_assetbundle_item != null){
 					//成功。
-					this.result.pack_item = t_pack_item;
+					this.result.assetbundle_item = t_assetbundle_item;
 					yield break;
 				}
 			}
@@ -90,7 +90,7 @@ namespace Fee.AssetBundleList
 
 			if(t_pathitem == null){
 				//失敗。
-				this.result.errorstring = "Coroutine_LoadPathItemPackItem : Not Found Path : " + a_assetbundle_name;
+				this.result.errorstring = "Coroutine_LoadPathItemAssetBundleItem : Not Found Path : " + a_assetbundle_name;
 				yield break;
 			}
 
@@ -103,7 +103,7 @@ namespace Fee.AssetBundleList
 					Fee.File.Item t_item_dummy_assetbundle_json = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadAssetsPathTextFile,t_pathitem.assetbundle_path);
 					if(t_item_dummy_assetbundle_json == null){
 						//失敗。
-						this.result.errorstring = "Coroutine_LoadPathItemPackItem : item_json = null : " + a_assetbundle_name;
+						this.result.errorstring = "Coroutine_LoadPathItemAssetBundleItem : item_json = null : " + a_assetbundle_name;
 						yield break;
 					}
 
@@ -120,7 +120,7 @@ namespace Fee.AssetBundleList
 
 					if(t_result_string == null){
 						//失敗。
-						this.result.errorstring = "Coroutine_LoadPathItemPackItem : result_string == null : " + a_assetbundle_name;
+						this.result.errorstring = "Coroutine_LoadPathItemAssetBundleItem : result_string == null : " + a_assetbundle_name;
 						yield break;
 					}
 				}
@@ -130,17 +130,17 @@ namespace Fee.AssetBundleList
 
 				if(t_dummyassetbundle == null){
 					//失敗。
-					this.result.errorstring = "Coroutine_LoadPathItemPackItem : dummyassetbundle = null : " + a_assetbundle_name;
+					this.result.errorstring = "Coroutine_LoadPathItemAssetBundleItem : dummyassetbundle = null : " + a_assetbundle_name;
 					yield break;
 				}
 
-				PackItem t_pack_item = new PackItem(t_dummyassetbundle);
+				AssetBundleItem t_assetbundle_item = new AssetBundleItem(t_dummyassetbundle,t_pathitem);
 
 				//登録。
-				Fee.AssetBundleList.AssetBundleList.GetInstance().RegistPackItem(a_assetbundle_name,t_pack_item);
+				Fee.AssetBundleList.AssetBundleList.GetInstance().RegistAssetBundleItem(a_assetbundle_name,t_assetbundle_item);
 
 				//成功。
-				this.result.pack_item = t_pack_item;
+				this.result.assetbundle_item = t_assetbundle_item;
 				yield break;
 			}
 
@@ -195,14 +195,14 @@ namespace Fee.AssetBundleList
 					default:
 						{
 							//失敗。
-							this.result.errorstring = "Coroutine_LoadPathItemPackItem : PathTypeError : " + a_assetbundle_name;
+							this.result.errorstring = "Coroutine_LoadPathItemAssetBundleItem : PathTypeError : " + a_assetbundle_name;
 							yield break;
 						}break;
 					}
 
 					if(t_item_bianry == null){
 						//失敗。
-						this.result.errorstring = "Coroutine_LoadPathItemPackItem : item_bianry = null : " + a_assetbundle_name;
+						this.result.errorstring = "Coroutine_LoadPathItemAssetBundleItem : item_bianry = null : " + a_assetbundle_name;
 						yield break;
 					}
 
@@ -221,7 +221,7 @@ namespace Fee.AssetBundleList
 
 					if(t_result_binary == null){
 						//失敗。
-						this.result.errorstring = "Coroutine_LoadPathItemPackItem : result_binary == null : " + a_assetbundle_name;
+						this.result.errorstring = "Coroutine_LoadPathItemAssetBundleItem : result_binary == null : " + a_assetbundle_name;
 						yield break;
 					}
 				}
@@ -237,7 +237,7 @@ namespace Fee.AssetBundleList
 						Tool.DebugReThrow(t_exception);
 					}
 					if(t_request == null){
-						this.result.errorstring = "Coroutine_LoadPathItemPackItem : request == null : " + a_assetbundle_name;
+						this.result.errorstring = "Coroutine_LoadPathItemAssetBundleItem : request == null : " + a_assetbundle_name;
 						yield break;
 					}
 				
@@ -248,22 +248,22 @@ namespace Fee.AssetBundleList
 							a_callback_interface.OnAssetBundleListCoroutine(t_progress.CalcProgress(t_request.progress));
 						}
 						yield return null;
-					}while(t_request.isDone == true);
+					}while(t_request.isDone == false);
 
 					if(t_request.assetBundle == null){
 						//失敗。
-						this.result.errorstring = "Coroutine_LoadPathItemPackItem : assetbundle == null : " + a_assetbundle_name;
+						this.result.errorstring = "Coroutine_LoadPathItemAssetBundleItem : assetbundle == null : " + a_assetbundle_name;
 						yield break;
 					}
 
 					{
-						PackItem t_pack_item = new PackItem(t_request.assetBundle);
+						AssetBundleItem t_assetbundle_item = new AssetBundleItem(t_request.assetBundle,t_pathitem);
 
 						//登録。
-						Fee.AssetBundleList.AssetBundleList.GetInstance().RegistPackItem(a_assetbundle_name,t_pack_item);
+						Fee.AssetBundleList.AssetBundleList.GetInstance().RegistAssetBundleItem(a_assetbundle_name,t_assetbundle_item);
 
 						//成功。
-						this.result.pack_item = t_pack_item;
+						this.result.assetbundle_item = t_assetbundle_item;
 						yield break;
 					}
 				}

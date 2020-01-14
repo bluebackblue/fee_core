@@ -68,6 +68,21 @@ namespace Fee.Data
 		*/
 		Url_Binary,
 
+		#if(UNITY_EDITOR)
+
+		/** アセットパス。プレハブ。
+		*/
+		AssetsPath_Prefab,
+
+		/** アセットパス。テクスチャ。
+		*/
+		AssetsPath_Texture,
+
+		/** アセットパス。テキスト。
+		*/
+		AssetsPath_Text,
+
+		#endif
 	}
 }
 
