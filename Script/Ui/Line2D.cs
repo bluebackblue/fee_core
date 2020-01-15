@@ -53,7 +53,7 @@ namespace Fee.Ui
 				t_this.length = 0;
 
 				//sprite
-				t_this.sprite = Fee.Render2D.Sprite2D.Create(null,a_drawpriority + 1);
+				t_this.sprite = Fee.Render2D.Sprite2D.Create(null,a_drawpriority);
 				t_this.sprite.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
 				t_this.sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.sprite.SetRotate(true);
@@ -127,7 +127,7 @@ namespace Fee.Ui
 			this.length = (int)t_direction.magnitude;
 
 			//sprite
-			this.sprite.SetRect(this.rect.x1,this.rect.y1,this.length,this.size);
+			this.sprite.SetRect(this.rect.x1,this.rect.y1 - this.size / 2,this.length,this.size);
 		}
 	}
 }

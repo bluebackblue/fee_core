@@ -123,6 +123,11 @@ namespace Fee.JsonSheet
 						//テキストアセットシート。
 						Convert_TextAssetSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
 					}break;
+				case Convert_Videoheet.COMMAND:
+					{
+						//ムービーシート。
+						Convert_Videoheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
+					}break;
 				default:
 					{
 						Tool.Assert(false);
