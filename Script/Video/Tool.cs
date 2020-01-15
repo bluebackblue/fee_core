@@ -13,9 +13,9 @@
 #pragma warning disable 0162
 
 
-/** Fee.Movie
+/** Fee.Video
 */
-namespace Fee.Movie
+namespace Fee.Video
 {
 	/** Tool
 	*/

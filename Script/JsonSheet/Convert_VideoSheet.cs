@@ -33,22 +33,22 @@ namespace Fee.JsonSheet
 		*/
 		public class ListItem
 		{
-			/** movie_command
+			/** video_command
 			*/
-			public string movie_command;
+			public string video_command;
 
-			/** movie_tag
+			/** video_tag
 			*/
-			public string movie_tag;
+			public string video_tag;
 
-			/** movie_assetspath
+			/** video_assetspath
 			*/
-			public string movie_assetspath;
+			public string video_assetspath;
 		}
 
 		/** コマンド。
 		*/
-		public const string MOVIECOMMAND_ITEM = "<item>";
+		public const string VIDEOCOMMAND_ITEM = "<item>";
 
 		/** コンバート。
 
@@ -70,11 +70,11 @@ namespace Fee.JsonSheet
 							System.Collections.Generic.List<ListItem> t_sheet = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<ListItem>>(a_sheet[ii]);
 							if(t_sheet != null){
 								for(int jj=0;jj<t_sheet.Count;jj++){
-									if(Convert_Videoheet.MOVIECOMMAND_ITEM == t_sheet[jj].movie_command){
+									if(Convert_Videoheet.VIDEOCOMMAND_ITEM == t_sheet[jj].video_command){
 										//<item>
 
-										t_tag_list.Add(t_sheet[jj].movie_tag);
-										t_path_list.Add(new File.Path(t_sheet[jj].movie_assetspath));
+										t_tag_list.Add(t_sheet[jj].video_tag);
+										t_path_list.Add(new File.Path(t_sheet[jj].video_assetspath));
 									}else{
 										//無関係。複合シート。
 									}
@@ -87,12 +87,12 @@ namespace Fee.JsonSheet
 
 					//保存。
 					{
-						Fee.Instantiate.VideoClipList_Tool.ResourceItem[] t_movie_list = new Instantiate.VideoClipList_Tool.ResourceItem[t_tag_list.Count];
+						Fee.Instantiate.VideoClipList_Tool.ResourceItem[] t_video_list = new Instantiate.VideoClipList_Tool.ResourceItem[t_tag_list.Count];
 						for(int ii=0;ii<t_tag_list.Count;ii++){
-							t_movie_list[ii] = new Instantiate.VideoClipList_Tool.ResourceItem(t_tag_list[ii],t_path_list[ii]);
+							t_video_list[ii] = new Instantiate.VideoClipList_Tool.ResourceItem(t_tag_list[ii],t_path_list[ii]);
 						}
 
-						Fee.Instantiate.VideoClipList_Tool.Create(a_assets_path,t_movie_list);
+						Fee.Instantiate.VideoClipList_Tool.Create(a_assets_path,t_video_list);
 					}
 				}else{
 					Tool.Assert(false);

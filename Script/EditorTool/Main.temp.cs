@@ -33,7 +33,7 @@
 //#define DEF_DEPTH
 //#define DEF_FUNCTION
 //#define DEF_PERFORMANCECOUNTER
-//#define DEF_MOVIE
+//#define DEF_VIDEO
 
 
 /** Fee.EditorTool
@@ -293,13 +293,6 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//ムービー。
-				#if(DEF_MOVIE)
-				{
-					Fee.Movie.Movie.CreateInstance();
-				}
-				#endif
-
 				//ネットワーク。
 				#if(DEF_NETWORK)
 				{
@@ -381,6 +374,13 @@ namespace Fee.EditorTool
 				#if(DEF_UNIVRM)
 				{
 					Fee.UniVrm.UniVrm.CreateInstance();
+				}
+				#endif
+
+				//ムービー。
+				#if(DEF_VIDEO)
+				{
+					Fee.Video.Video.CreateInstance();
 				}
 				#endif
 			}
@@ -524,11 +524,6 @@ namespace Fee.EditorTool
 			{
 			}
 
-			//ムービー。
-			{
-				Fee.Movie.Movie.DeleteInstance();
-			}
-
 			//ネットワーク。
 			{
 				Fee.Network.Network.DeleteInstance();
@@ -596,6 +591,11 @@ namespace Fee.EditorTool
 			//ＵＮＩＶＲＭ。
 			{
 				Fee.UniVrm.UniVrm.DeleteInstance();
+			}
+
+			//ムービー。
+			{
+				Fee.Video.Video.DeleteInstance();
 			}
 		}
 

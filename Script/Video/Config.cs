@@ -8,9 +8,9 @@
 */
 
 
-/** Fee.Movie
+/** Fee.Video
 */
-namespace Fee.Movie
+namespace Fee.Video
 {
 	/** Config
 	*/

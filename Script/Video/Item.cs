@@ -8,13 +8,13 @@
 */
 
 
-/** Fee.Movie
+/** Fee.Video
 */
-namespace Fee.Movie
+namespace Fee.Video
 {
-	/** MovieItem
+	/** Item
 	*/
-	public class MovieItem : Fee.Deleter.OnDelete_CallBackInterface
+	public class Item : Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** rendertexture
 		*/
@@ -29,7 +29,7 @@ namespace Fee.Movie
 			プール用に作成。
 
 		*/
-		public MovieItem()
+		public Item()
 		{
 		}
 
@@ -50,7 +50,7 @@ namespace Fee.Movie
 		*/
 		private void CreateVideoPlayer(Fee.File.Path a_full_path)
 		{
-			this.videoplayer = Fee.Movie.Movie.GetInstance().GetRootGameObject().AddComponent<UnityEngine.Video.VideoPlayer>();
+			this.videoplayer = Fee.Video.Video.GetInstance().GetRootGameObject().AddComponent<UnityEngine.Video.VideoPlayer>();
 			this.videoplayer.playOnAwake = false;
 
 			//描画先。
@@ -80,9 +80,9 @@ namespace Fee.Movie
 
 		/** 作成。
 		*/
-		public static MovieItem Create(Fee.Deleter.Deleter a_deleter,int a_width,int a_height,Fee.File.Path a_full_path)
+		public static Item Create(Fee.Deleter.Deleter a_deleter,int a_width,int a_height,Fee.File.Path a_full_path)
 		{
-			MovieItem t_item = new MovieItem();
+			Item t_item = new Item();
 
 			//レンダーテクスチャ。作成。
 			t_item.CreateRenderTexture(a_width,a_height);
@@ -96,7 +96,7 @@ namespace Fee.Movie
 			}
 
 			//登録。
-			Fee.Movie.Movie.GetInstance().Regist(t_item);
+			Fee.Video.Video.GetInstance().Regist(t_item);
 
 			return t_item;
 		}
@@ -116,7 +116,7 @@ namespace Fee.Movie
 			}
 
 			//解除。
-			Fee.Movie.Movie.GetInstance().UnRegist(this);
+			Fee.Video.Video.GetInstance().UnRegist(this);
 		}
 
 		/** GetRenderTexture
