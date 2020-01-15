@@ -30,13 +30,13 @@ namespace Fee.File
 
 			/** constructor
 			*/
-			public ResultType()
+			public ResultType(byte[] a_binary_file,string a_errorstring)
 			{
 				//binary_file
-				this.binary_file = null;
+				this.binary_file = a_binary_file;
 
 				//errorstring
-				this.errorstring = null;
+				this.errorstring = a_errorstring;
 			}
 		}
 
@@ -60,51 +60,63 @@ namespace Fee.File
 		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnFileCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path)
 		{
 			//result
-			this.result = new ResultType();
+			this.result = null;
 
 			//taskprogress
 			this.taskprogress = 0.0f;
 
-			//キャンセルトークン。
-			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
+			//ロード。
+			byte[] t_result_binary = null;
+			{
+				//キャンセルトークン。
+				Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
-			//result
-			Task_LoadLocalBinaryFile.ResultType t_result;
+				//タスク起動。
+				using(Fee.TaskW.Task<Task_LoadLocalBinaryFile.ResultType> t_task = Task_LoadLocalBinaryFile.Run(this,a_path,t_cancel_token)){
 
-			//タスク起動。
-			using(Fee.TaskW.Task<Task_LoadLocalBinaryFile.ResultType> t_task = Task_LoadLocalBinaryFile.Run(this,a_path,t_cancel_token)){
-
-				//終了待ち。
-				do{
-					//キャンセル。
-					if(a_callback_interface != null){
-						if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
-							t_cancel_token.Cancel();
+					//終了待ち。
+					do{
+						//キャンセルチェック。
+						{
+							if(a_callback_interface != null){
+								if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
+									t_cancel_token.Cancel();
+								}
+							}
 						}
-					}
-					yield return null;
-				}while(t_task.IsEnd() == false);
 
-				//結果。
-				t_result = t_task.GetResult();
+						yield return null;
+					}while(t_task.IsEnd() == false);
 
-				//成功。
-				if(t_task.IsSuccess() == true){
-					if(t_result.binary != null){
-						this.result.binary_file = t_result.binary;
+					//結果。
+					Task_LoadLocalBinaryFile.ResultType t_result = t_task.GetResult();
+
+					if(t_result.errorstring != null){
+						//エラー。
+						this.result = new ResultType(null,t_result.errorstring);
 						yield break;
 					}
+
+					if(t_task.IsSuccess() == false){
+						//エラー。
+						this.result = new ResultType(null,"Task Error : LoadLocalBinaryFile : " + a_path.GetPath());
+						yield break;
+					}
+
+					if(t_result.binary == null){
+						//エラー。
+						this.result = new ResultType(null,"Unknown Error : LoadLocalBinaryFile : " + a_path.GetPath());
+						yield break;
+					}
+
+					//成功。
+					t_result_binary = t_result.binary;
 				}
 			}
 
-			//失敗。
-			if(t_result.errorstring != null){
-				this.result.errorstring = t_result.errorstring;
-				yield break;
-			}else{
-				this.result.errorstring = "Coroutine_LoadLocalBinaryFile : null";
-				yield break;
-			}
+			//成功。
+			this.result = new ResultType(t_result_binary,null);
+			yield break;
 		}
 	}
 }

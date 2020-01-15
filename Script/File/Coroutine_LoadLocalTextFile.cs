@@ -30,13 +30,13 @@ namespace Fee.File
 
 			/** constructor
 			*/
-			public ResultType()
+			public ResultType(string a_text_file,string a_errorstring)
 			{
 				//text_file
-				this.text_file = null;
+				this.text_file = a_text_file;
 
 				//errorstring
-				this.errorstring = null;
+				this.errorstring = a_errorstring;
 			}
 		}
 
@@ -60,51 +60,77 @@ namespace Fee.File
 		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnFileCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path)
 		{
 			//result
-			this.result = new ResultType();
+			this.result = null;
 
 			//taskprogress_
 			this.taskprogress = 0.0f;
 
-			//キャンセルトークン。
-			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
+			//ロード。
+			byte[] t_result_binary = null;
+			{
+				//キャンセルトークン。
+				Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
-			//result
-			Task_LoadLocalTextFile.ResultType t_result;
+				//タスク起動。
+				using(Fee.TaskW.Task<Task_LoadLocalBinaryFile.ResultType> t_task = Task_LoadLocalBinaryFile.Run(this,a_path,t_cancel_token)){
 
-			//タスク起動。
-			using(Fee.TaskW.Task<Task_LoadLocalTextFile.ResultType> t_task = Task_LoadLocalTextFile.Run(this,a_path,t_cancel_token)){
-
-				//終了待ち。
-				do{
-					//キャンセル。
-					if(a_callback_interface != null){
-						if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
-							t_cancel_token.Cancel();
+					//終了待ち。
+					do{
+						//キャンセルチェック。
+						{
+							if(a_callback_interface != null){
+								if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
+									t_cancel_token.Cancel();
+								}
+							}
 						}
-					}
-					yield return null;
-				}while(t_task.IsEnd() == false);
 
-				//結果。
-				t_result = t_task.GetResult();
+						yield return null;
+					}while(t_task.IsEnd() == false);
 
-				//成功。
-				if(t_task.IsSuccess() == true){
-					if(t_result.text != null){
-						this.result.text_file = t_result.text;
+					//結果。
+					Task_LoadLocalBinaryFile.ResultType t_result = t_task.GetResult();
+
+					if(t_result.errorstring != null){
+						//エラー。
+						this.result = new ResultType(null,t_result.errorstring);
 						yield break;
 					}
+
+					if(t_task.IsSuccess() == false){
+						//エラー。
+						this.result = new ResultType(null,"Task Error : LoadLocalTextFile : " + a_path.GetPath());
+						yield break;
+					}
+
+					if(t_result.binary == null){
+						//エラー。
+						this.result = new ResultType(null,"Unknown Error : LoadLocalTextFile : " + a_path.GetPath());
+						yield break;
+					}
+
+					//成功。
+					t_result_binary = t_result.binary;
 				}
 			}
 
-			//失敗。
-			if(t_result.errorstring != null){
-				this.result.errorstring = t_result.errorstring;
-				yield break;
-			}else{
-				this.result.errorstring = "Coroutine_LoadLocalTextFile : null";
-				yield break;
+			//コンバート。
+			string t_result_text = null;
+			{
+				string t_result = System.Text.Encoding.UTF8.GetString(t_result_binary);
+				if(t_result != null){
+					//成功。
+					t_result_text = t_result;
+				}else{
+					//エラー。
+					this.result = new ResultType(null,"Convert Error : LoadLocalTextFile : " + a_path.GetPath());
+					yield break;
+				}
 			}
+
+			//成功。
+			this.result = new ResultType(t_result_text,null);
+			yield break;
 		}
 	}
 }

@@ -30,13 +30,13 @@ namespace Fee.File
 
 			/** constructor
 			*/
-			public ResultType()
+			public ResultType(UnityEngine.Texture2D a_texture_file,string a_errorstring)
 			{
 				//texture_file
-				this.texture_file = null;
+				this.texture_file = a_texture_file;
 
 				//errorstring
-				this.errorstring = null;
+				this.errorstring = a_errorstring;
 			}
 		}
 
@@ -49,38 +49,64 @@ namespace Fee.File
 		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnFileCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path)
 		{
 			//result
-			this.result = new ResultType();
+			this.result = null;
 
-			UnityEngine.ResourceRequest t_request = null;
+			//ロード。
+			UnityEngine.Object t_result_object = null;
+			{
+				UnityEngine.ResourceRequest t_request = null;
 
-			try{
-				t_request = UnityEngine.Resources.LoadAsync(a_path.GetPath());
-			}catch(System.Exception t_exception){
-				Tool.DebugReThrow(t_exception);
-			}
-
-			if(t_request == null){
-				this.result.errorstring = "Coroutine_LoadResourcesTextureFile : " + a_path.GetPath();
-				yield break;
-			}
-
-			//isDone
-			do{
-				if(a_callback_interface != null){
-					a_callback_interface.OnFileCoroutine(t_request.progress);
+				try{
+					t_request = UnityEngine.Resources.LoadAsync(a_path.GetPath());
+					if(t_request == null){
+						//エラー。
+						this.result = new ResultType(null,"Unknown Error : LoadResourcesTextureFile : " + a_path.GetPath());
+						yield break;
+					}
+				}catch(System.Exception t_exception){
+					//エラー。
+					this.result = new ResultType(null,"Unknown Error : LoadResourcesPrefabFile : " + a_path.GetPath() + " : " + t_exception.Message);
+					yield break;
 				}
-				yield return null;
-			}while(t_request.isDone == false);
 
-			//Texture
-			UnityEngine.Texture2D t_result_texture = t_request.asset as UnityEngine.Texture2D;
+				do{
+					//キャンセルチェック。
+					{
+						if(a_callback_interface != null){
+							if(a_callback_interface.OnFileCoroutine(t_request.progress) == false){
+								//t_request.Cancel();
+							}
+						}
+					}
 
-			if(t_result_texture == null){
-				this.result.errorstring = "Coroutine_LoadResourcesTextureFile : result_texture == null : " + a_path.GetPath();
-				yield break;
+					yield return null;
+				}while(t_request.isDone == false);
+
+				if(t_request.asset == null){
+					//エラー。
+					this.result = new ResultType(null,"Load Error : LoadResourcesTextureFile : " + a_path.GetPath());
+					yield break;
+				}
+
+				t_result_object = t_request.asset;
 			}
 
-			this.result.texture_file = t_result_texture;
+			//コンバート。
+			UnityEngine.Texture2D t_result_texture = null;
+			{
+				UnityEngine.Texture2D t_result = t_result_object as UnityEngine.Texture2D;
+
+				if(t_result == null){
+					//エラー。
+					this.result = new ResultType(null,"Convert Error : LoadResourcesTextureFile : " + a_path.GetPath());
+					yield break;
+				}
+
+				t_result_texture = t_result;
+			}
+
+			//成功。
+			this.result = new ResultType(t_result_texture,null);
 			yield break;
 		}
 	}

@@ -30,13 +30,13 @@ namespace Fee.File
 
 			/** constructor
 			*/
-			public ResultType()
+			public ResultType(bool a_saveend,string a_errorstring)
 			{
 				//saveend
-				this.saveend = false;
+				this.saveend = a_saveend;
 
 				//errorstring
-				this.errorstring = null;
+				this.errorstring = a_errorstring;
 			}
 		}
 
@@ -60,72 +60,89 @@ namespace Fee.File
 		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnFileCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path,UnityEngine.Texture2D a_texture)
 		{
 			//result
-			this.result = new ResultType();
+			this.result = null;
 
 			//taskprogress_
 			this.taskprogress = 0.0f;
 
-			//バイナリ化。
-			byte[] t_binary_png = null;
+			//チェック。
+			if(a_texture == null){
+				//エラー。
+				this.result = new ResultType(false,"Convert Error : SaveLocalTextureFile : " + a_path.GetPath());
+				yield break;
+			}
+			
+			//コンバート。
+			byte[] t_result_binary = null;
 			{
-				if(a_texture != null){
-					try{
-						#if(UNITY_5)
-						t_binary_png = a_texture.EncodeToPNG();
-						#else
-						t_binary_png = UnityEngine.ImageConversion.EncodeToPNG(a_texture);
-						#endif
-					}catch(System.Exception t_exception){
-						this.result.errorstring = "Coroutine_SaveLocalTextureFile : " + t_exception.Message;
+				try{
+					byte[] t_result = UnityEngine.ImageConversion.EncodeToPNG(a_texture);
+
+					if(t_result == null){
+						//エラー。
+						this.result = new ResultType(false,"Convert Error : SaveLocalTextureFile : " + a_path.GetPath());
 						yield break;
 					}
-				}
-				if(t_binary_png == null){
-					this.result.errorstring = "Coroutine_SaveLocalTextureFile : binary_png == null";
+
+					t_result_binary = t_result;
+				}catch(System.Exception t_exception){
+					//エラー。
+					this.result = new ResultType(false,"Convert Error : SaveLocalTextureFile : " + a_path.GetPath() + " : " + t_exception.Message);
 					yield break;
 				}
 			}
 
-			//キャンセルトークン。
-			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
+			//セーブ。
+			bool t_result_saveend = false;
+			{
+				//キャンセルトークン。
+				Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
 
-			//result
-			Task_SaveLocalTextureFile.ResultType t_result;
+				//タスク起動。
+				using(Fee.TaskW.Task<Task_SaveLocalBinaryFile.ResultType> t_task = Task_SaveLocalBinaryFile.Run(this,a_path,t_result_binary,t_cancel_token)){
 
-			//タスク起動。
-			using(Fee.TaskW.Task<Task_SaveLocalTextureFile.ResultType> t_task = Task_SaveLocalTextureFile.Run(this,a_path,t_binary_png,t_cancel_token)){
-
-				//終了待ち。
-				do{
-					//キャンセル。
-					if(a_callback_interface != null){
-						if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
-							t_cancel_token.Cancel();
+					//終了待ち。
+					do{
+						//キャンセルチェック。
+						{
+							if(a_callback_interface != null){
+								if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
+									t_cancel_token.Cancel();
+								}
+							}
 						}
-					}
-					yield return null;
-				}while(t_task.IsEnd() == false);
 
-				//結果。
-				t_result = t_task.GetResult();
+						yield return null;
+					}while(t_task.IsEnd() == false);
 
-				//成功。
-				if(t_task.IsSuccess() == true){
-					if(t_result.saveend == true){
-						this.result.saveend = true;
+					//結果。
+					Task_SaveLocalBinaryFile.ResultType t_result = t_task.GetResult();
+
+					if(t_result.errorstring != null){
+						//エラー。
+						this.result = new ResultType(false,t_result.errorstring);
 						yield break;
 					}
+
+					if(t_task.IsSuccess() == false){
+						//エラー。
+						this.result = new ResultType(false,"Task Error : SaveLocalTextureFile : " + a_path.GetPath());
+						yield break;
+					}
+
+					if(t_result.saveend == false){
+						//エラー。
+						this.result = new ResultType(false,"Unknown Error : SaveLocalTextureFile : " + a_path.GetPath());
+						yield break;
+					}
+					
+					//成功。
+					t_result_saveend = t_result.saveend;
 				}
 			}
 
-			//失敗。
-			if(t_result.errorstring != null){
-				this.result.errorstring = t_result.errorstring;
-				yield break;
-			}else{
-				this.result.errorstring = "Coroutine_SaveLocalTextureFile : null";
-				yield break;
-			}
+			this.result = new ResultType(t_result_saveend,null);
+			yield break;
 		}
 	}
 }

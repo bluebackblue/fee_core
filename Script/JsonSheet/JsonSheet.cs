@@ -113,6 +113,16 @@ namespace Fee.JsonSheet
 						//テクスチャーシート。
 						Convert_TextureSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
 					}break;
+				case Convert_FontSheet.COMMAND:
+					{
+						//フォントシート。
+						Convert_FontSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
+					}break;
+				case Convert_TextAssetSheet.COMMAND:
+					{
+						//テキストアセットシート。
+						Convert_TextAssetSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
+					}break;
 				default:
 					{
 						Tool.Assert(false);

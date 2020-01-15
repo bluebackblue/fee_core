@@ -1,4 +1,4 @@
-
+﻿
 
 /**
  * Copyright (c) blueback
@@ -20,39 +20,35 @@ namespace Fee.JsonSheet
 	using System_Tuple = System;
 	#endif
 
-	/** Convert_AudioSheet
+	/** Convert_TextAssetSheet
 	*/
 	#if(UNITY_EDITOR)
-	public class Convert_AudioSheet
+	public class Convert_TextAssetSheet
 	{
 		/** COMMAND
 		*/
-		public const string COMMAND = "<audio>";
+		public const string COMMAND = "<textasset>";
 
 		/** リストアイテム。
 		*/
 		public class ListItem
 		{
-			/** audio_command
+			/** textasset_command
 			*/
-			public string audio_command;
+			public string textasset_command;
 
-			/** audio_tag
+			/** textasset_tag
 			*/
-			public string audio_tag;
+			public string textasset_tag;
 
-			/** audio_assetspath
+			/** textasset_assetspath
 			*/
-			public string audio_assetspath;
-
-			/** audio_volume
-			*/
-			public float audio_volume;
+			public string textasset_assetspath;
 		}
 
 		/** コマンド。
 		*/
-		public const string AUDIOCOMMAND_ITEM = "<item>";
+		public const string TEXTASSETCOMMAND_ITEM = "<item>";
 
 		/** コンバート。
 
@@ -74,12 +70,11 @@ namespace Fee.JsonSheet
 							System.Collections.Generic.List<ListItem> t_sheet = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<ListItem>>(a_sheet[ii]);
 							if(t_sheet != null){
 								for(int jj=0;jj<t_sheet.Count;jj++){
-									if(Convert_AudioSheet.AUDIOCOMMAND_ITEM == t_sheet[jj].audio_command){
+									if(Convert_TextAssetSheet.TEXTASSETCOMMAND_ITEM == t_sheet[jj].textasset_command){
 										//<item>
 
-										t_tag_list.Add(t_sheet[jj].audio_tag);
-										t_path_list.Add(new File.Path(t_sheet[jj].audio_assetspath));
-										t_volume_list.Add(t_sheet[jj].audio_volume);
+										t_tag_list.Add(t_sheet[jj].textasset_tag);
+										t_path_list.Add(new File.Path(t_sheet[jj].textasset_assetspath));
 									}else{
 										//無関係。複合シート。
 									}
@@ -92,15 +87,12 @@ namespace Fee.JsonSheet
 
 					//保存。
 					{
-						Fee.Instantiate.AudioClipList_Tool.ResourceItem[] t_audioclip_list = new Instantiate.AudioClipList_Tool.ResourceItem[t_tag_list.Count];
-						Fee.Instantiate.AudioVolumeList_Tool.ResourceItem[] t_audiovolume_list = new Instantiate.AudioVolumeList_Tool.ResourceItem[t_tag_list.Count];
+						Fee.Instantiate.TextAssetList_Tool.ResourceItem[] t_textasset_list = new Instantiate.TextAssetList_Tool.ResourceItem[t_tag_list.Count];
 						for(int ii=0;ii<t_tag_list.Count;ii++){
-							t_audioclip_list[ii] = new Instantiate.AudioClipList_Tool.ResourceItem(t_tag_list[ii],t_path_list[ii]);
-							t_audiovolume_list[ii] = new Instantiate.AudioVolumeList_Tool.ResourceItem(t_tag_list[ii],t_volume_list[ii]);
+							t_textasset_list[ii] = new Instantiate.TextAssetList_Tool.ResourceItem(t_tag_list[ii],t_path_list[ii]);
 						}
 
-						UnityEngine.GameObject t_prefab = Fee.Instantiate.AudioClipList_Tool.Create(a_assets_path,t_audioclip_list);
-						Fee.Instantiate.AudioVolumeList_Tool.Add(t_prefab,t_audiovolume_list);
+						Fee.Instantiate.TextAssetList_Tool.Create(a_assets_path,t_textasset_list);
 					}
 				}else{
 					Tool.Assert(false);

@@ -214,7 +214,7 @@ namespace Fee.EditorTool
 		public static void WriteTextFile(Fee.File.Path a_full_path,string a_text,bool a_refresh_unity)
 		{
 			try{
-				using(System.IO.StreamWriter t_stream = new System.IO.StreamWriter(a_full_path.GetPath(),false,System.Text.Encoding.UTF8)){
+				using(System.IO.StreamWriter t_stream = new System.IO.StreamWriter(a_full_path.GetPath(),false,new System.Text.UTF8Encoding(false))){
 					t_stream.Write(a_text);
 					t_stream.Flush();
 					t_stream.Close();
@@ -240,7 +240,7 @@ namespace Fee.EditorTool
 			try{
 				string t_json_string = a_jsonitem.ConvertJsonString();
 
-				using(System.IO.StreamWriter t_steram = new System.IO.StreamWriter(a_full_path.GetPath(),false,System.Text.Encoding.UTF8)){
+				using(System.IO.StreamWriter t_steram = new System.IO.StreamWriter(a_full_path.GetPath(),false,new System.Text.UTF8Encoding(false))){
 					t_steram.Write(t_json_string);
 					t_steram.Flush();
 					t_steram.Close();

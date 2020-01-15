@@ -30,13 +30,13 @@ namespace Fee.File
 
 			/** constructor
 			*/
-			public ResultType()
+			public ResultType(bool a_saveend,string a_errorstring)
 			{
 				//saveend
-				this.saveend = false;
+				this.saveend = a_saveend;
 
 				//errorstring
-				this.errorstring = null;
+				this.errorstring = a_errorstring;
 			}
 		}
 
@@ -60,51 +60,89 @@ namespace Fee.File
 		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnFileCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path,string a_text)
 		{
 			//result
-			this.result = new ResultType();
+			this.result = null;
 
 			//taskprogress_
 			this.taskprogress = 0.0f;
 
-			//キャンセルトークン。
-			Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
+			//チェック。
+			if(a_text == null){
+				//エラー。
+				this.result = new ResultType(false,"Param Error : SaveLocalTextFile : " + a_path.GetPath());
+				yield break;
+			}
 
-			//result
-			Task_SaveLocalTextFile.ResultType t_result;
+			//コンバート。
+			byte[] t_result_binary = null;
+			{
+				try{
+					byte[] t_result = System.Text.Encoding.UTF8.GetBytes(a_text);
 
-			//タスク起動。
-			using(Fee.TaskW.Task<Task_SaveLocalTextFile.ResultType> t_task = Task_SaveLocalTextFile.Run(this,a_path,a_text,t_cancel_token)){
-
-				//終了待ち。
-				do{
-					//キャンセル。
-					if(a_callback_interface != null){
-						if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
-							t_cancel_token.Cancel();
-						}
-					}
-					yield return null;
-				}while(t_task.IsEnd() == false);
-
-				//結果。
-				t_result = t_task.GetResult();
-
-				//成功。
-				if(t_task.IsSuccess() == true){
-					if(t_result.saveend == true){
-						this.result.saveend = true;
+					if(t_result == null){
+						//エラー。
+						this.result = new ResultType(false,"Convert Error : SaveLocalTextFile : " + a_path.GetPath());
 						yield break;
 					}
+
+					t_result_binary = t_result;
+				}catch(System.Exception t_exception){
+					//エラー。
+					this.result = new ResultType(false,"Convert Error : SaveLocalTextFile : " + a_path.GetPath() + " : " + t_exception.Message);
+					yield break;
 				}
 			}
 
-			//失敗。
-			if(t_result.errorstring != null){
-				this.result.errorstring = t_result.errorstring;
-				yield break;
-			}else{
-				this.result.errorstring = "Coroutine_SaveLocalTextFile : null";
-				yield break;
+			//セーブ。
+			bool t_result_saveend = false;
+			{
+				//キャンセルトークン。
+				Fee.TaskW.CancelToken t_cancel_token = new Fee.TaskW.CancelToken();
+
+				//タスク起動。
+				using(Fee.TaskW.Task<Task_SaveLocalBinaryFile.ResultType> t_task = Task_SaveLocalBinaryFile.Run(this,a_path,t_result_binary,t_cancel_token)){
+
+					//終了待ち。
+					do{
+						//キャンセルチェック。
+						{
+							if(a_callback_interface != null){
+								if(a_callback_interface.OnFileCoroutine(this.taskprogress) == false){
+									t_cancel_token.Cancel();
+								}
+							}
+						}
+
+						yield return null;
+					}while(t_task.IsEnd() == false);
+
+					//結果。
+					Task_SaveLocalBinaryFile.ResultType t_result = t_task.GetResult();
+
+					if(t_result.errorstring != null){
+						//エラー。
+						this.result = new ResultType(false,t_result.errorstring);
+						yield break;
+					}
+
+					if(t_task.IsSuccess() == false){
+						//エラー。
+						this.result = new ResultType(false,"Task Error : SaveLocalTextFile : " + a_path.GetPath());
+						yield break;
+					}
+
+					if(t_result.saveend == false){
+						//エラー。
+						this.result = new ResultType(false,"Unknown Error : SaveLocalTextFile : " + a_path.GetPath());
+						yield break;
+					}
+
+					//成功。
+					t_result_saveend = t_result.saveend;
+				}
 			}
+
+			this.result = new ResultType(t_result_saveend,null);
+			yield break;
 		}
 	}
 }

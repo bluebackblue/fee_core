@@ -34,16 +34,16 @@ namespace Fee.File
 
 			/** constructor
 			*/
-			public ResultType()
+			public ResultType(UnityEngine.Texture2D a_texture_file,string a_errorstring,System.Collections.Generic.Dictionary<string,string> a_responseheader)
 			{
 				//texture_file
-				this.texture_file = null;
+				this.texture_file = a_texture_file;
 
 				//errorstring
-				this.errorstring = null;
+				this.errorstring = a_errorstring;
 
 				//responseheader
-				this.responseheader = null;
+				this.responseheader = a_responseheader;
 			}
 		}
 
@@ -78,93 +78,106 @@ namespace Fee.File
 		public System.Collections.IEnumerator CoroutineMain(Fee.File.OnFileCoroutine_CallBackInterface a_callback_interface,Fee.File.Path a_path,UnityEngine.WWWForm a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler)
 		{
 			//result
-			this.result = new ResultType();
+			this.result = null;
 
-			using(UnityEngine.Networking.UnityWebRequest t_webrequest = CreateWebRequestInstance(a_path,a_post_data,a_certificate_handler)){
+			//ロード。
+			byte[] t_result_binary = null;
+			System.Collections.Generic.Dictionary<string,string> t_result_responseheader = null;
+			{
+				using(UnityEngine.Networking.UnityWebRequest t_webrequest = CreateWebRequestInstance(a_path,a_post_data,a_certificate_handler)){
 
-				#if(UNITY_5)
-				UnityEngine.AsyncOperation t_webrequest_async = null;
-				#else
-				UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
-				#endif
-
-				if(t_webrequest != null){
-
-					#if(UNITY_5)
-					t_webrequest_async = t_webrequest.Send();
-					#else
-					t_webrequest_async = t_webrequest.SendWebRequest();
-					#endif
-
-					if(t_webrequest_async == null){
-						this.result.errorstring = "Coroutine_LoadUrlTextureFile : webrequest_async == null";
-						yield break;
-					}
-				}else{
-					this.result.errorstring = "Coroutine_LoadUrlTextureFile : webrequest == null";
-					yield break;
-				}
-
-				do{
-					//エラーチェック。
-
-					#if(UNITY_5)
-					if(t_webrequest.isError == true){
-						//エラー終了。
-					}else if(t_webrequest.isDone == true){
-						//正常終了。
-						break;
-					}
-					#else
-					if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
-						//エラー終了。
-						this.result.errorstring = "Coroutine_LoadUrlTextureFile : " + t_webrequest.error;
-						yield break;
-					}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
-						//正常終了。
-						break;
-					}
-					#endif
-
-					//キャンセル。
-					if(a_callback_interface != null){
-						float t_progress = (t_webrequest.uploadProgress + t_webrequest.downloadProgress) / 2;
-						if(a_callback_interface.OnFileCoroutine(t_progress) == false){
-							t_webrequest.Abort();
+					//通信。
+					{
+						UnityEngine.Networking.UnityWebRequestAsyncOperation t_webrequest_async = null;
+						if(t_webrequest != null){
+							t_webrequest_async = t_webrequest.SendWebRequest();
+							if(t_webrequest_async == null){
+								//エラー。
+								this.result = new ResultType(null,"Unknown Error : LoadUrlTextureFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders());
+								yield break;
+							}
+						}else{
+							//エラー。
+							this.result = new ResultType(null,"Unknown Error : LoadUrlTextureFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders());
+							yield break;
 						}
+
+						do{
+							//エラーチェック。
+
+							if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
+								//エラー。
+								this.result = new ResultType(null,"Connect Error : LoadUrlTextureFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders());
+								yield break;
+							}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
+								//正常終了。
+								yield return t_webrequest_async;
+								break;
+							}
+
+							//キャンセルチェック。
+							{
+								if(a_callback_interface != null){
+									float t_progress = (t_webrequest.uploadProgress + t_webrequest.downloadProgress) / 2;
+									if(a_callback_interface.OnFileCoroutine(t_progress) == false){
+										t_webrequest.Abort();
+									}
+								}
+							}
+
+							yield return null;
+						}while(true);
 					}
 
-					yield return null;
-				}while(true);
+					//コンバート。
+					try{
+						if(t_webrequest.downloadHandler == null){
+							//エラー。
+							this.result = new ResultType(null,"Convert Error : LoadUrlTextureFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders());
+							yield break;
+						}
 
-				if(t_webrequest_async != null){
-					yield return t_webrequest_async;
-				}
+						byte[] t_result = t_webrequest.downloadHandler.data;
+						if(t_result == null){
+							//エラー。
+							this.result = new ResultType(null,"Convert Error : LoadUrlTextureFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders());
+							yield break;
+						}
 
-				//コンバート。
-				UnityEngine.Texture2D t_result_texture = null;
+						t_result_binary = t_result;
+					}catch(System.Exception t_exception){
+						//エラー。
+						this.result = new ResultType(null,"Convert Error : LoadUrlTextureFile : " + a_path.GetPath() + " : " + t_exception.Message,t_webrequest.GetResponseHeaders());
+						yield break;
+					}
 
-				try{
 					//レスポンスヘッダー。
-					this.result.responseheader = t_webrequest.GetResponseHeaders();
-
-					t_result_texture = Fee.File.BinaryToTexture2D.Convert(t_webrequest.downloadHandler.data);
-
-				}catch(System.Exception t_exception){
-					this.result.errorstring = "Coroutine_LoadUrlTextureFile : " + t_exception.Message;
-					yield break;
+					t_result_responseheader = t_webrequest.GetResponseHeaders();
 				}
-
-				//成功。
-				if(t_result_texture != null){
-					this.result.texture_file = t_result_texture;
-					yield break;
-				}
-
-				//失敗。
-				this.result.errorstring = "Coroutine_LoadUrlTextureFile : null";
-				yield break;
 			}
+
+			//コンバート。
+			UnityEngine.Texture2D t_result_texture = null;
+			{
+				try{
+					UnityEngine.Texture2D t_result = BinaryToTexture2D.Convert(t_result_binary);
+					if(t_result != null){
+						t_result_texture = t_result;
+					}else{
+						//エラー。
+						this.result = new ResultType(null,"Convert Error : LoadUrlTextureFile : " + a_path.GetPath(),t_result_responseheader);
+						yield break;
+					}
+				}catch(System.Exception t_exception){
+					//エラー。
+					this.result = new ResultType(null,"Convert Error : LoadUrlTextureFile : " + a_path.GetPath() + " : " + t_exception.Message,t_result_responseheader);
+					yield break;
+				}
+			}
+
+			//成功。
+			this.result = new ResultType(t_result_texture,null,t_result_responseheader);
+			yield break;
 		}
 	}
 }

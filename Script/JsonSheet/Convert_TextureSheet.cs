@@ -46,7 +46,7 @@ namespace Fee.JsonSheet
 			public string texture_assetspath;
 		}
 
-		/** オーディオコマンド。
+		/** コマンド。
 		*/
 		public const string TEXTURECOMMAND_ITEM = "<item>";
 

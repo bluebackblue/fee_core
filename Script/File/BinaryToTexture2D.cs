@@ -173,50 +173,57 @@ namespace Fee.File
 		*/
 		public static UnityEngine.Texture2D Convert(byte[] a_binary)
 		{
-			BinaryType t_type = GetType(a_binary);
+			UnityEngine.Texture2D t_result = null;
 
-			switch(t_type){
-			case BinaryType.Png:
-				{
-					int t_width;
-					int t_height;
-					if(Png_GetSize(a_binary,out t_width,out t_height) == true){
-						UnityEngine.Texture2D t_texture = new UnityEngine.Texture2D(t_width,t_height);
-						if(t_texture != null){
-							#if(UNITY_5)
-							if(t_texture.LoadImage(a_binary) == true){
-								return t_texture;
+			try{
+				BinaryType t_type = GetType(a_binary);
+
+				switch(t_type){
+				case BinaryType.Png:
+					{
+						int t_width;
+						int t_height;
+						if(Png_GetSize(a_binary,out t_width,out t_height) == true){
+							UnityEngine.Texture2D t_texture = new UnityEngine.Texture2D(t_width,t_height);
+							if(t_texture != null){
+								#if(UNITY_5)
+								if(t_texture.LoadImage(a_binary) == true){
+									t_result = t_texture;
+								}
+								#else
+								if(UnityEngine.ImageConversion.LoadImage(t_texture,a_binary) == true){
+									t_result = t_texture;
+								}
+								#endif
 							}
-							#else
-							if(UnityEngine.ImageConversion.LoadImage(t_texture,a_binary) == true){
-								return t_texture;
-							}
-							#endif
 						}
-					}
-				}break;
-			case BinaryType.Jpg:
-				{
-					int t_width;
-					int t_height;
-					if(Jpg_GetSize(a_binary,out t_width,out t_height) == true){
-						UnityEngine.Texture2D t_texture = new UnityEngine.Texture2D(t_width,t_height);
-						if(t_texture != null){
-							#if(UNITY_5)
-							if(t_texture.LoadImage(a_binary) == true){
-								return t_texture;
+					}break;
+				case BinaryType.Jpg:
+					{
+						int t_width;
+						int t_height;
+						if(Jpg_GetSize(a_binary,out t_width,out t_height) == true){
+							UnityEngine.Texture2D t_texture = new UnityEngine.Texture2D(t_width,t_height);
+							if(t_texture != null){
+								#if(UNITY_5)
+								if(t_texture.LoadImage(a_binary) == true){
+									t_result = t_texture;
+								}
+								#else
+								if(UnityEngine.ImageConversion.LoadImage(t_texture,a_binary) == true){
+									t_result = t_texture;
+								}
+								#endif
 							}
-							#else
-							if(UnityEngine.ImageConversion.LoadImage(t_texture,a_binary) == true){
-								return t_texture;
-							}
-							#endif
 						}
-					}
-				}break;
+					}break;
+				}
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
+				t_result = null;
 			}
 
-			return null;
+			return t_result;
 		}
 	}
 }
