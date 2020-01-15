@@ -171,9 +171,9 @@ namespace Fee.Render2D
 			this.task_calcvertex.Delete();
 			this.task_sortlist.Delete();
 
-			this.spritelist.Delete();
-			this.textlist.Delete();
-			this.inputfieldlist.Delete();
+			this.spritelist.DeleteAll();
+			this.textlist.DeleteAll();
+			this.inputfieldlist.DeleteAll();
 
 			UnityEngine.GameObject.Destroy(this.root_gameobject);
 
@@ -530,7 +530,7 @@ namespace Fee.Render2D
 							}
 						}
 
-						if(t_text.IsDelete() == false){
+						if(t_text.IsDeleteRequest() == false){
 							if((t_text.GetText().Length > 0)&&(t_text.IsVisible() == true)&&(t_text.GetDrawPriority() >= 0)){
 								//矩形計算。
 								this.screen.CalcTextRect(t_text);
@@ -612,7 +612,7 @@ namespace Fee.Render2D
 							}
 						}
 
-						if(t_inputfield.IsDelete() == false){
+						if(t_inputfield.IsDeleteRequest() == false){
 							if((t_inputfield.IsVisible() == true)&&(t_inputfield.GetDrawPriority() >= 0)){
 								//矩形計算。
 								this.screen.CalcInputFieldRect(t_inputfield);
@@ -663,7 +663,7 @@ namespace Fee.Render2D
 					{
 						for(int ii=t_start_index;ii<=t_last_index;ii++){
 							Sprite2D t_sprite = this.spritelist.GetItem(ii);
-							if((t_sprite.IsVisible() == true)&&(t_sprite.GetDrawPriority() >= 0)&&(t_sprite.IsDelete() == false)&&(t_sprite.GetW() != 0)&&(t_sprite.GetH() != 0)){
+							if((t_sprite.IsVisible() == true)&&(t_sprite.GetDrawPriority() >= 0)&&(t_sprite.IsDeleteRequest() == false)&&(t_sprite.GetW() != 0)&&(t_sprite.GetH() != 0)){
 
 								//マテリアル変更。
 								Material_Item t_material_item = this.materiallist.GetMaterialItem(t_sprite.GetMaterialType());

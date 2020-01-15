@@ -41,6 +41,13 @@ namespace Fee.Deleter
 			this.list.Remove(a_callback_interface);
 		}
 
+		/** クリア。
+		*/
+		public void Clear()
+		{
+			this.list.Clear();
+		}
+
 		/** すべて削除。
 		*/
 		public void DeleteAll()

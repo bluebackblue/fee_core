@@ -47,13 +47,9 @@ namespace Fee.Ui
 
 	/** Scroll_Base
 	*/
-	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack , Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int>
+	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int>
 		where ITEM : ScrollItem_Base
 	{
-		/** deleter
-		*/
-		public Fee.Deleter.Deleter deleter;
-
 		/** eventplate
 		*/
 		public Fee.EventPlate.Item eventplate;
@@ -67,14 +63,20 @@ namespace Fee.Ui
 		protected Scroll_Param param;
 
 		/** constructor
-		*/
-		public Scroll_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority,Scroll_Type a_scroll_type,int a_item_length)
-		{
-			//deleter
-			this.deleter = new Deleter.Deleter();
 
+			プール用に作成。
+
+		*/
+		public Scroll_Base()
+		{
+		}
+
+		/** プールから作成。
+		*/
+		public void InitializeFromPool(long a_drawpriority,Scroll_Type a_scroll_type,int a_item_length)
+		{
 			//eventplate
-			this.eventplate = new EventPlate.Item(this.deleter,EventPlate.EventType.View,a_drawpriority);
+			this.eventplate = new EventPlate.Item(null,EventPlate.EventType.View,a_drawpriority);
 			this.eventplate.SetOnEventPlateOver(this,-1);
 
 			//list
@@ -103,10 +105,20 @@ namespace Fee.Ui
 
 			//visible_flag
 			this.param.visible_flag = true;
+		}
 
-			if(a_deleter != null){
-				a_deleter.Regist(this);
-			}
+		/** プールへ削除。
+		*/
+		public void DeleteToPool()
+		{
+			//OnDelete
+			this.eventplate.OnDelete();
+		}
+
+		/** メモリから削除。
+		*/
+		public void DeleteFromMemory()
+		{
 		}
 
 		/** [Scroll_Base]コールバック。矩形。設定。
@@ -128,13 +140,6 @@ namespace Fee.Ui
 		/** [Scroll_Base]コールバック。表示フラグ変更。
 		*/
 		protected abstract void OnChangeVisibleFlag();
-
-		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
-		*/
-		public void OnDelete()
-		{
-			this.deleter.DeleteAll();
-		}
 
 		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートに入場。
 		*/

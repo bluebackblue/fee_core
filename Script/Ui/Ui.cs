@@ -120,7 +120,7 @@ namespace Fee.Ui
 		*/
 		private void Delete()
 		{
-			this.pool_list_sprite_clip.MemoryDelete();
+			this.pool_list_sprite_clip.DeleteAllFromMemory();
 		}
 
 		/** プールリスト。取得。

@@ -14,12 +14,8 @@ namespace Fee.Ui
 {
 	/** Slider_Base
 	*/
-	public abstract class Slider_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface
+	public abstract class Slider_Base : Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface
 	{
-		/** deleter
-		*/
-		protected Fee.Deleter.Deleter deleter;
-
 		/** rect
 		*/
 		protected Fee.Geometry.Rect2D_R<int> rect;
@@ -81,12 +77,18 @@ namespace Fee.Ui
 		protected bool lock_flag;
 
 		/** constructor
-		*/
-		public Slider_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
-		{
-			//deleter
-			this.deleter = new Fee.Deleter.Deleter();
 
+			プール用に作成。
+
+		*/
+		public Slider_Base()
+		{
+		}
+
+		/** プールから作成。
+		*/
+		public void InitializeFromPool(long a_drawpriority)
+		{
 			//rect
 			this.rect.Set(0,0,0,0);
 
@@ -97,11 +99,11 @@ namespace Fee.Ui
 			this.drawpriority = a_drawpriority;
 
 			//eventplate
-			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority);
+			this.eventplate = new Fee.EventPlate.Item(null,Fee.EventPlate.EventType.Button,this.drawpriority);
 			this.eventplate.SetOnEventPlateOver(this,0);
 
 			//eventplate_button
-			this.eventplate_button = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority + 1);
+			this.eventplate_button = new Fee.EventPlate.Item(null,Fee.EventPlate.EventType.Button,this.drawpriority + 1);
 			this.eventplate_button.SetOnEventPlateOver(this,1);
 
 			//callbackparam_changevalue
@@ -133,11 +135,24 @@ namespace Fee.Ui
 
 			//lock_flag
 			this.lock_flag = false;
+		}
 
-			//削除管理。
-			if(a_deleter != null){
-				a_deleter.Regist(this);
-			}
+		/** プールへ削除。
+		*/
+		public void DeleteToPool()
+		{
+			//delete
+			this.eventplate.OnDelete();
+			this.eventplate_button.OnDelete();
+
+			//コールバック解除。
+			this.callbackparam_changevalue = null;
+		}
+
+		/** メモリから削除。
+		*/
+		public void DeleteFromMemory()
+		{
 		}
 
 		/** [Slider_Base]コールバック。ロックフラグ変更。
@@ -163,16 +178,6 @@ namespace Fee.Ui
 		/** [Slider_Base]コールバック。描画プライオリティ変更。
 		*/
 		protected abstract void OnChangeDrawPriority();
-
-		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
-		*/
-		public void OnDelete()
-		{
-			//コールバック解除。
-			this.callbackparam_changevalue = null;
-
-			this.deleter.DeleteAll();
-		}
 
 		/** ボタン矩形。更新。
 		*/

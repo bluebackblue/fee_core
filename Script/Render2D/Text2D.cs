@@ -28,7 +28,7 @@ namespace Fee.Render2D
 
 		/** 削除フラグ。
 		*/
-		private bool deletereq; 
+		private bool is_delete_request; 
 
 		/** 描画プライオリティ。
 		*/
@@ -90,7 +90,7 @@ namespace Fee.Render2D
 				t_this.visible = true;
 
 				//削除フラグ。
-				t_this.deletereq = false;
+				t_this.is_delete_request = false;
 				Render2D.GetInstance().Text2D_Regist(t_this);
 
 				//描画プライオリティ。
@@ -100,7 +100,7 @@ namespace Fee.Render2D
 				//t_this.pos;
 
 				//パラメータ。
-				t_this.param.InitializeFromPoolNew();
+				t_this.param.InitializeFromPool();
 
 				//削除管理。
 				if(a_deleter != null){
@@ -117,38 +117,27 @@ namespace Fee.Render2D
 			//非表示。
 			this.visible = false;
 			
-			//PrePoolDelete
-			this.param.PrePoolDelete();
+			//非表示設定。
+			this.param.Raw_SetEnable(false);
+			this.param.Raw_SetText("");
 
 			//削除リクエスト。
-			this.deletereq = true;
+			this.is_delete_request = true;
 			Render2D.GetInstance().GetTextList().delete_request_flag = true;
 		}
 
-		/** [Fee.Pool.PoolItem_Base]プールへ削除。
-
-			タスクから呼び出される。
-
+		/** [Fee.Pool.PoolItem_Base]プールアイテムをメモリから削除。
 		*/
-		public void OnPoolDelete()
+		public void OnPoolItemDeleteFromMemory()
 		{
-			//rawの削除。
-			this.param.DeleteFromPoolDelete();
-		}
-
-		/** [Fee.Pool.PoolItem_Base]メモリから削除。
-		*/
-		public void OnMemoryDelete()
-		{
-			//rawの削除。
-			this.param.DeleteFromMemoryDelete();
+			this.param.DeleteFromMemory();
 		}
 
 		/** 削除チェック。
 		*/
-		public bool IsDelete()
+		public bool IsDeleteRequest()
 		{
-			return this.deletereq;
+			return this.is_delete_request;
 		}
 
 		/** 矩形。設定。

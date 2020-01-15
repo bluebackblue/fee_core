@@ -42,7 +42,7 @@ namespace Fee.Directory
 				t_dir_work_list.RemoveAt(t_dir_work_list.Count - 1);
 
 				//ディレクトリ列挙。
-				{
+				try{
 					string[] t_directory_list = System.IO.Directory.GetDirectories(t_root.GetFullPath() + t_work_item.GetPath());
 					for(int ii=0;ii<t_directory_list.Length;ii++){
 						string t_directory_name = System.IO.Path.GetFileName(t_directory_list[ii]);
@@ -61,10 +61,12 @@ namespace Fee.Directory
 
 						t_dir_work_list.Add(new WorkItem(t_sub_path,t_sub_item));
 					}
+				}catch(System.Exception t_exception){
+					Tool.DebugReThrow(t_exception);
 				}
 
 				//ファイル列挙。
-				{
+				try{
 					string[] t_file_list = System.IO.Directory.GetFiles(t_root.GetFullPath() + t_work_item.GetPath());
 					for(int ii=0;ii<t_file_list.Length;ii++){
 						string t_file_name = System.IO.Path.GetFileName(t_file_list[ii]);
@@ -73,6 +75,8 @@ namespace Fee.Directory
 						Item t_item = new Item(null,t_file_name);
 						t_work_item.GetItem().AddFileItem(t_item);
 					}
+				}catch(System.Exception t_exception){
+					Tool.DebugReThrow(t_exception);
 				}
 
 				//ソート。

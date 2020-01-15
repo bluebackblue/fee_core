@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** CheckButton
 	*/
-	public class CheckButton : CheckButton_Base
+	public class CheckButton : CheckButton_Base , Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** bg_normal_sprite
 		*/
@@ -45,41 +45,79 @@ namespace Fee.Ui
 		private int text_offset_x;
 
 		/** constructor
+
+			プール用に作成。
+
 		*/
-		public CheckButton(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public CheckButton()
 			:
-			base(a_deleter,a_drawpriority)
+			base()
 		{
-			//bg_normal_sprite
-			this.bg_normal_sprite = new Sprite2D_Slice9(this.deleter,a_drawpriority + 0);
-			this.bg_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.bg_normal_sprite.SetVisible(true);
+		}
 
-			//bg_on_sprite
-			this.bg_on_sprite = new Sprite2D_Slice9(this.deleter,a_drawpriority + 0);
-			this.bg_on_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.bg_on_sprite.SetVisible(false);
+		/** constructor
+		*/
+		public static CheckButton Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		{
+			//CheckButton t_this = Fee.Ui.Ui.GetInstance().GetPoolList_CheckButton().PoolNew();
+			CheckButton t_this = new CheckButton();
+			{
+				//プールから作成。
+				t_this.InitializeFromPool(a_drawpriority);
 
-			//bg_lock_sprite
-			this.bg_lock_sprite = new Sprite2D_Slice9(this.deleter,a_drawpriority + 0);
-			this.bg_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.bg_lock_sprite.SetVisible(false);
+				//bg_normal_sprite
+				t_this.bg_normal_sprite = Sprite2D_Slice9.Create(null,a_drawpriority + 0);
+				t_this.bg_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.bg_normal_sprite.SetVisible(true);
 
-			//check_normal_sprite
-			this.check_normal_sprite = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority + 1);
-			this.check_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.check_normal_sprite.SetVisible(false);
+				//bg_on_sprite
+				t_this.bg_on_sprite = Sprite2D_Slice9.Create(null,a_drawpriority + 0);
+				t_this.bg_on_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.bg_on_sprite.SetVisible(false);
 
-			//check_lock_sprite
-			this.check_lock_sprite = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority + 1);
-			this.check_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.check_lock_sprite.SetVisible(false);
+				//bg_lock_sprite
+				t_this.bg_lock_sprite = Sprite2D_Slice9.Create(null,a_drawpriority + 0);
+				t_this.bg_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.bg_lock_sprite.SetVisible(false);
 
-			//text
-			this.text = Fee.Render2D.Text2D.Create(this.deleter,a_drawpriority);
-			this.text.SetAlignmentType(Render2D.Text2D_HorizontalAlignmentType.Left,Render2D.Text2D_VerticalAlignmentType.Middle);
+				//check_normal_sprite
+				t_this.check_normal_sprite = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority + 1);
+				t_this.check_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.check_normal_sprite.SetVisible(false);
 
-			this.text_offset_x = 5;
+				//check_lock_sprite
+				t_this.check_lock_sprite = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority + 1);
+				t_this.check_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.check_lock_sprite.SetVisible(false);
+
+				//text
+				t_this.text = Fee.Render2D.Text2D.Create(null,a_drawpriority);
+				t_this.text.SetAlignmentType(Render2D.Text2D_HorizontalAlignmentType.Left,Render2D.Text2D_VerticalAlignmentType.Middle);
+				t_this.text_offset_x = 5;
+
+				if(a_deleter != null){
+					a_deleter.Regist(t_this);
+				}
+			}
+			return t_this;
+		}
+
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
+		*/
+		public void OnDelete()
+		{
+			//OnDelete
+			this.bg_normal_sprite.OnDelete();
+			this.bg_on_sprite.OnDelete();
+			this.bg_lock_sprite.OnDelete();
+			this.check_normal_sprite.OnDelete();
+			this.check_lock_sprite.OnDelete();
+			this.text.OnDelete();
+
+			//プールへ削除。
+			this.DeleteToPool();
+
+			//Fee.Ui.Ui.GetInstance().GetPoolList_CheckButton().PoolDelete(this);
 		}
 
 		/** [CheckButton_Base]コールバック。矩形変更。

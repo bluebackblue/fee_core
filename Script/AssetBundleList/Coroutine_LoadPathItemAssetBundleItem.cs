@@ -259,6 +259,17 @@ namespace Fee.AssetBundleList
 					{
 						AssetBundleItem t_assetbundle_item = new AssetBundleItem(t_request.assetBundle,t_pathitem);
 
+						#if(UNITY_EDITOR)
+						{
+							UnityEngine.Object[] t_object = t_request.assetBundle.LoadAllAssets();
+							for(int ii=0;ii<t_object.Length;ii++){
+								Tool.Log(a_assetbundle_name,t_object[ii].name);
+							}
+						}
+						#endif
+
+
+
 						//登録。
 						Fee.AssetBundleList.AssetBundleList.GetInstance().RegistAssetBundleItem(a_assetbundle_name,t_assetbundle_item);
 

@@ -14,12 +14,8 @@ namespace Fee.Ui
 {
 	/** CheckButton_Base
 	*/
-	public abstract class CheckButton_Base : Fee.Deleter.OnDelete_CallBackInterface , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface
+	public abstract class CheckButton_Base : Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface
 	{
-		/** deleter
-		*/
-		protected Fee.Deleter.Deleter deleter;
-
 		/** 矩形。
 		*/
 		protected Fee.Geometry.Rect2D_R<int> rect;
@@ -65,12 +61,18 @@ namespace Fee.Ui
 		protected bool check_flag;
 
 		/** constructor
-		*/
-		public CheckButton_Base(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
-		{
-			//deleter
-			this.deleter = new Fee.Deleter.Deleter();
 
+			プール用に作成。
+
+		*/
+		public CheckButton_Base()
+		{
+		}
+
+		/** プールから作成。
+		*/
+		public void InitializeFromPool(long a_drawpriority)
+		{
 			//rect
 			this.rect.Set(0,0,0,0);
 
@@ -78,7 +80,7 @@ namespace Fee.Ui
 			this.drawpriority = a_drawpriority;
 
 			//eventplate
-			this.eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,this.drawpriority);
+			this.eventplate = new Fee.EventPlate.Item(null,Fee.EventPlate.EventType.Button,this.drawpriority);
 			this.eventplate.SetOnEventPlateOver(this,-1);
 
 			//callbackparam_changecheck
@@ -104,11 +106,26 @@ namespace Fee.Ui
 
 			//check_flag
 			this.check_flag = false;
+		}
 
-			//削除管理。
-			if(a_deleter != null){
-				a_deleter.Regist(this);
-			}
+		/** プールへ削除。
+		*/
+		public void DeleteToPool()
+		{
+			//OnDelete
+			this.eventplate.OnDelete();
+
+			//コールバック解除。
+			this.callbackparam_changecheck = null;
+
+			//ターゲット解除。
+			Fee.Ui.Ui.GetInstance().UnSetTargetRequest(this);
+		}
+
+		/** メモリから削除。
+		*/
+		public void DeleteFromMemory()
+		{
 		}
 
 		/** [CheckButton_Base]コールバック。矩形変更。
@@ -138,19 +155,6 @@ namespace Fee.Ui
 		/** [Slider_Base]コールバック。描画プライオリティ変更。
 		*/
 		protected abstract void OnChangeDrawPriority();
-
-		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
-		*/
-		public void OnDelete()
-		{
-			this.deleter.DeleteAll();
-
-			//コールバック解除。
-			this.callbackparam_changecheck = null;
-
-			//ターゲット解除。
-			Fee.Ui.Ui.GetInstance().UnSetTargetRequest(this);
-		}
 
 		/** モード。設定。
 		*/

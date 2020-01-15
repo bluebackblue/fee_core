@@ -88,19 +88,6 @@ namespace Fee.Render2D
 			this.sort_request_flag = true;
 		}
 
-		/** 削除されたアイテムをリストから外す。
-		*/
-		public void RemoveDeletedItem()
-		{
-			this.list.RemoveAll((Fee.Render2D.InputField2D a_item) => {
-				if(a_item.IsDelete() == true){
-					this.pool_list.PoolDelete(a_item);
-					return true;
-				}
-				return false;
-			});
-		}
-
 		/** ソート。
 		*/
 		public void Sort()
@@ -141,21 +128,32 @@ namespace Fee.Render2D
 		public void ChangeParentLayer(LayerList a_layerlist)
 		{
 			for(int ii=0;ii<this.list.Count;ii++){
-				if(this.list[ii].IsDelete() == false){
+				if(this.list[ii].IsDeleteRequest() == false){
 					this.list[ii].Raw_SetLayer(a_layerlist.GetLayerTransformFromDrawPriority(this.list[ii].GetDrawPriority()));
 				}
 			}
 		}
 
+		/** タスクから呼び出される。
+		*/
+		public void Task_Update()
+		{
+			//削除リクエストのあるアイテムをプールへ削除。
+			this.list.RemoveAll((Fee.Render2D.InputField2D a_item) => {
+				if(a_item.IsDeleteRequest() == true){
+					this.pool_list.PoolToDelete(a_item);
+					return true;
+				}
+				return false;
+			});
+		}
+
 		/** 削除。
 		*/
-		public void Delete()
+		public void DeleteAll()
 		{
-			for(int ii=0;ii<this.list.Count;ii++){
-				this.pool_list.PoolDelete(this.list[ii]);
-			}
+			this.pool_list.DeleteAllFromMemory();
 			this.list.Clear();
-			this.pool_list.MemoryDelete();
 		}
 	}
 }

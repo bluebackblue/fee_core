@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Slider
 	*/
-	public class Slider : Slider_Base
+	public class Slider : Slider_Base , Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** bg_normal_sprite
 		*/
@@ -41,40 +41,80 @@ namespace Fee.Ui
 		private Fee.Ui.Sprite2D_Slice9 button_lock_sprite;
 
 		/** constructor
+
+			プール用に作成。
+
 		*/
-		public Slider(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public Slider()
 			:
-			base(a_deleter,a_drawpriority)
+			base()
 		{
-			//bg_normal_sprite
-			this.bg_normal_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 0);
-			this.bg_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.bg_normal_sprite.SetVisible(true);
+		}
 
-			//bg_lock_sprite
-			this.bg_lock_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 0);
-			this.bg_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.bg_lock_sprite.SetVisible(false);
+		/** 作成。
+		*/
+		public static Fee.Ui.Slider Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		{
+			//Slider t_this = Fee.Ui.Ui.GetInstance().GetPoolList_Slider().PoolNew();
+			Slider t_this = new Slider();
+			{
+				//プールから作成。
+				t_this.InitializeFromPool(a_drawpriority);
 
-			//value_normal_sprite
-			this.value_normal_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 1);
-			this.value_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.value_normal_sprite.SetVisible(true);
+				//bg_normal_sprite
+				t_this.bg_normal_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority + 0);
+				t_this.bg_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.bg_normal_sprite.SetVisible(true);
 
-			//value_lock_sprite
-			this.value_lock_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 1);
-			this.value_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.value_lock_sprite.SetVisible(false);
+				//bg_lock_sprite
+				t_this.bg_lock_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority + 0);
+				t_this.bg_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.bg_lock_sprite.SetVisible(false);
 
-			//button_normal_sprite
-			this.button_normal_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 2);
-			this.button_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.button_normal_sprite.SetVisible(true);
+				//value_normal_sprite
+				t_this.value_normal_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority + 1);
+				t_this.value_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.value_normal_sprite.SetVisible(true);
 
-			//button_lock_sprite
-			this.button_lock_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority + 2);
-			this.button_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.button_lock_sprite.SetVisible(false);
+				//value_lock_sprite
+				t_this.value_lock_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority + 1);
+				t_this.value_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.value_lock_sprite.SetVisible(false);
+
+				//button_normal_sprite
+				t_this.button_normal_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority + 2);
+				t_this.button_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.button_normal_sprite.SetVisible(true);
+
+				//button_lock_sprite
+				t_this.button_lock_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority + 2);
+				t_this.button_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.button_lock_sprite.SetVisible(false);
+
+				if(a_deleter != null){
+					a_deleter.Regist(t_this);
+				}
+			}
+			return t_this;
+		}
+
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
+		*/
+		public void OnDelete()
+		{
+			//OnDelete
+			this.bg_normal_sprite.OnDelete();
+			this.bg_lock_sprite.OnDelete();
+			this.value_normal_sprite.OnDelete();
+			this.value_lock_sprite.OnDelete();
+			this.button_normal_sprite.OnDelete();
+			this.button_lock_sprite.OnDelete();
+
+			//プールへ削除。
+			this.DeleteToPool();
+
+			//プールへ変換。
+			//Fee.Ui.Ui.GetInstance().GetPoolList_Button().PoolDelete(this);
 		}
 
 		/** [Slider_Base]コールバック。ロックフラグ変更。

@@ -16,10 +16,6 @@ namespace Fee.EventPlate
 	*/
 	public class BlockItem : Fee.Deleter.OnDelete_CallBackInterface
 	{
-		/** deleter
-		*/
-		Fee.Deleter.Deleter deleter;
-
 		/** eventplate
 		*/
 		private Item eventplate_window;
@@ -31,32 +27,29 @@ namespace Fee.EventPlate
 		*/
 		public BlockItem(Fee.Deleter.Deleter a_deleter,long a_priority,EventTypeMask a_eventtype_mask)
 		{
-			//deleter
-			this.deleter = new Fee.Deleter.Deleter();
-
-			if((a_eventtype_mask&EventTypeMask.Window) > 0){
-				this.eventplate_window = new Item(this.deleter,EventType.Window,a_priority);
+			if((a_eventtype_mask & EventTypeMask.Window) > 0){
+				this.eventplate_window = new Item(null,EventType.Window,a_priority);
 				this.eventplate_window.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
 			}else{
 				this.eventplate_window = null;
 			}
 
-			if((a_eventtype_mask&EventTypeMask.View) > 0){
-				this.eventplate_view = new Item(this.deleter,EventType.View,a_priority);
+			if((a_eventtype_mask & EventTypeMask.View) > 0){
+				this.eventplate_view = new Item(null,EventType.View,a_priority);
 				this.eventplate_view.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
 			}else{
 				this.eventplate_view = null;
 			}
 
-			if((a_eventtype_mask&EventTypeMask.ViewItem) > 0){
-				this.eventplate_viewitem = new Item(this.deleter,EventType.ViewItem,a_priority);
+			if((a_eventtype_mask & EventTypeMask.ViewItem) > 0){
+				this.eventplate_viewitem = new Item(null,EventType.ViewItem,a_priority);
 				this.eventplate_viewitem.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
 			}else{
 				this.eventplate_viewitem = null;
 			}
 
-			if((a_eventtype_mask&EventTypeMask.Button) > 0){
-				this.eventplate_button = new Item(this.deleter,EventType.Button,a_priority);
+			if((a_eventtype_mask & EventTypeMask.Button) > 0){
+				this.eventplate_button = new Item(null,EventType.Button,a_priority);
 				this.eventplate_button.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
 			}else{
 				this.eventplate_button = null;
@@ -72,7 +65,21 @@ namespace Fee.EventPlate
 		*/
 		public void OnDelete()
 		{
-			this.deleter.DeleteAll();
+			//OnDelete
+			{
+				if(this.eventplate_window != null){
+					this.eventplate_window.OnDelete();
+				}
+				if(this.eventplate_view != null){
+					this.eventplate_view.OnDelete();
+				}
+				if(this.eventplate_viewitem != null){
+					this.eventplate_viewitem.OnDelete();
+				}
+				if(this.eventplate_button != null){
+					this.eventplate_button.OnDelete();
+				}
+			}
 		}
 
 		/** 有効。設定。

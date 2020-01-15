@@ -36,7 +36,7 @@ namespace Fee.Render2D
 
 		/** プールから作成。
 		*/
-		public void InitializeFromPoolNew()
+		public void InitializeFromPool()
 		{
 			//テクスチャ。
 			this.texture = null;
@@ -46,27 +46,6 @@ namespace Fee.Render2D
 
 			//マテリアルタイプ。
 			this.materialtype = Config.DEFALUT_SPRITE_MATERIALTYPE;
-		}
-
-		/** プールへ削除。前。
-		*/
-		public void PrePoolDelete()
-		{
-			this.texture = null;
-		}
-
-		/** プールへ削除。
-		*/
-		public void DeleteFromPoolDelete()
-		{
-		}
-
-		/** メモリから削除。
-		*/
-		public void DeleteFromMemoryDelete()
-		{
-			//テキスチャ。
-			this.texture = null;
 		}
 
 		/** テクスチャ。設定。

@@ -16,16 +16,9 @@ namespace Fee.Pool
 	*/
 	public interface PoolItem_Base
 	{
-		/** [Fee.Pool.PoolItem_Base]プールへ削除。
-
-			タスクから呼び出される。
-
+		/** [Fee.Pool.PoolItem_Base]プールアイテムをメモリから削除。
 		*/
-		void OnPoolDelete();
-
-		/** [Fee.Pool.PoolItem_Base]メモリから削除。
-		*/
-		void OnMemoryDelete();
+		void OnPoolItemDeleteFromMemory();
 	}
 }
 

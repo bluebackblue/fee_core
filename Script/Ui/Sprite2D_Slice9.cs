@@ -16,10 +16,6 @@ namespace Fee.Ui
 	*/
 	public class Sprite2D_Slice9 : Fee.Deleter.OnDelete_CallBackInterface
 	{
-		/** deleter
-		*/
-		private Fee.Deleter.Deleter deleter;
-
 		/** sprite
 		*/
 		private Fee.Ui.Sprite2D_Clip sprite_1;
@@ -130,39 +126,63 @@ namespace Fee.Ui
 		}
 
 		/** constructor
+
+			プール用に作成。
+
 		*/
-		public Sprite2D_Slice9(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public Sprite2D_Slice9()
 		{
-			//deleter
-			this.deleter = new Fee.Deleter.Deleter();
+		}
 
-			//sprite
-			this.sprite_1 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
-			this.sprite_2 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
-			this.sprite_3 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
-			this.sprite_4 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
-			this.sprite_5 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
-			this.sprite_6 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
-			this.sprite_7 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
-			this.sprite_8 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
-			this.sprite_9 = Fee.Ui.Sprite2D_Clip.Create(this.deleter,a_drawpriority);
+		/** 作成。
+		*/
+		public static Sprite2D_Slice9 Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		{
+			//Sprite2D_Slice9 t_this = Fee.Ui.Ui.GetInstance().GetPoolList_Sprite2D_Slice9().PoolNew();
+			Sprite2D_Slice9 t_this = new Sprite2D_Slice9();
+			{
+				//sprite
+				t_this.sprite_1 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
+				t_this.sprite_2 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
+				t_this.sprite_3 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
+				t_this.sprite_4 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
+				t_this.sprite_5 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
+				t_this.sprite_6 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
+				t_this.sprite_7 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
+				t_this.sprite_8 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
+				t_this.sprite_9 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
 
-			//corner_size
-			this.corner_size = 0;
+				//corner_size
+				t_this.corner_size = 0;
 
-			this.texture_size.Set(1,1);
+				//texture_size
+				t_this.texture_size.Set(1,1);
 
-			//削除管理。
-			if(a_deleter != null){
-				a_deleter.Regist(this);
+				//削除管理。
+				if(a_deleter != null){
+					a_deleter.Regist(t_this);
+				}
 			}
+			return t_this;
 		}
 
 		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
 		public void OnDelete()
 		{
-			this.deleter.DeleteAll();
+			//OnDelete
+			this.sprite_1.OnDelete();
+			this.sprite_2.OnDelete();
+			this.sprite_3.OnDelete();
+			this.sprite_4.OnDelete();
+			this.sprite_5.OnDelete();
+			this.sprite_6.OnDelete();
+			this.sprite_7.OnDelete();
+			this.sprite_8.OnDelete();
+			this.sprite_9.OnDelete();
+
+			//プールへ変換。
+			//Fee.Ui.Ui.GetInstance().GetPoolList_Sprite2D_Slice9().PoolDelete(this);
 		}
 
 		/** クリップ。設定。

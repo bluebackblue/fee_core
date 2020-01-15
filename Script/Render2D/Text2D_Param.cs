@@ -69,7 +69,7 @@ namespace Fee.Render2D
 
 		/** プールから作成。
 		*/
-		public void InitializeFromPoolNew()
+		public void InitializeFromPool()
 		{
 			//フォントサイズ。
 			this.fontsize = Config.DEFAULT_TEXT_FONTSIZE;
@@ -132,23 +132,9 @@ namespace Fee.Render2D
 			}
 		}
 
-		/** プールへ削除。前。
-		*/
-		public void PrePoolDelete()
-		{
-			this.raw_gameobject.SetActive(false);
-			this.raw_text.text = "";
-		}
-
-		/** プールへ削除。
-		*/
-		public void DeleteFromPoolDelete()
-		{
-		}
-
 		/** メモリから削除。
 		*/
-		public void DeleteFromMemoryDelete()
+		public void DeleteFromMemory()
 		{
 			UnityEngine.GameObject.DestroyImmediate(this.raw_gameobject);
 			this.raw_gameobject = null;
@@ -479,6 +465,13 @@ namespace Fee.Render2D
 				//this.raw_gameobject.SetActive(true);
 				this.raw_recttransform.localScale = new UnityEngine.Vector3(1.0f,1.0f,1.0f);
 			}
+		}
+
+		/** [内部からの呼び出し]テキスト。設定。
+		*/
+		public void Raw_SetText(string a_text)
+		{
+			this.raw_text.text = a_text;
 		}
 
 		/** [内部からの呼び出し]有効。設定。

@@ -14,12 +14,8 @@ namespace Fee.Ui
 {
 	/** Window_Base
 	*/
-	public abstract class Window_Base : Fee.Deleter.OnDelete_CallBackInterface
+	public abstract class Window_Base
 	{
-		/** deleter
-		*/
-		protected Fee.Deleter.Deleter deleter;
-
 		/** 矩形。
 		*/
 		protected Fee.Geometry.Rect2D_R<int> rect;
@@ -53,12 +49,18 @@ namespace Fee.Ui
 		protected abstract void OnChangeXY_FromBase();
 
 		/** constructor
-		*/
-		public Window_Base(Fee.Deleter.Deleter a_deleter,Fee.Ui.OnWindow_CallBackInterface a_callback_interface)
-		{
-			//deleter
-			this.deleter = new Fee.Deleter.Deleter();
 
+			プール用に作成。
+
+		*/
+		public Window_Base()
+		{
+		}
+
+		/** プールから作成。
+		*/
+		public void InitializeFromPool(Fee.Ui.OnWindow_CallBackInterface a_callback_interface)
+		{
 			//rect
 			this.rect.Set(0,0,0,0);
 
@@ -71,11 +73,6 @@ namespace Fee.Ui
 			//windowresumeitem
 			this.windowresumeitem = null;
 
-			//削除管理。
-			if(a_deleter != null){
-				a_deleter.Regist(this);
-			}
-
 			//ウィンドウ登録。
 			Fee.Ui.Ui.GetInstance().RegistWindow(this);
 
@@ -83,18 +80,15 @@ namespace Fee.Ui
 			Fee.Ui.Ui.GetInstance().SetWindowPriorityTopMost(this);
 		}
 
-		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
+		/** プールへ削除。
 		*/
-		public void OnDelete()
+		public void DeleteToPool()
 		{
 			//ウィンドウ解除。
 			Fee.Ui.Ui.GetInstance().UnRegistWindow(this);
 
 			//[Window_Base]コールバック。削除。
 			this.OnDelete_FromBase();
-
-			//削除。
-			this.deleter.DeleteAll();
 		}
 
 		/** 描画プライオリティ。取得。

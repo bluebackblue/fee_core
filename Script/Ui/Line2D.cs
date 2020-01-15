@@ -12,14 +12,10 @@
 */
 namespace Fee.Ui
 {
-	/** Line
+	/** Line2D
 	*/
-	public class Line : Fee.Deleter.OnDelete_CallBackInterface
+	public class Line2D : Fee.Deleter.OnDelete_CallBackInterface
 	{
-		/** deleter
-		*/
-		private Fee.Deleter.Deleter deleter;
-
 		/** size
 		*/
 		private int size;
@@ -36,38 +32,48 @@ namespace Fee.Ui
 		*/
 		private Fee.Render2D.Sprite2D sprite;
 
-
-		/*
-		private Fee.Render2D.Sprite2D start;
-		private Fee.Render2D.Sprite2D end;
-		*/
-
 		/** constructor
+
+			プール用に作成。
+
 		*/
-		public Line(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public Line2D()
 		{
-			//deleter
-			this.deleter = new Fee.Deleter.Deleter();
+		}
 
-			//size
-			this.size = 3;
+		public static Line2D Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		{
+			//Line2D t_this = Fee.Ui.Ui.GetInstance().GetPoolList_Line2D().PoolNew();
+			Line2D t_this = new Line2D();
+			{
+				//size
+				t_this.size = 3;
 
-			//length
-			this.length = 0;
+				//length
+				t_this.length = 0;
 
-			//sprite
-			this.sprite = Fee.Render2D.Sprite2D.Create(a_deleter,a_drawpriority + 1);
-			this.sprite.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
-			this.sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.sprite.SetRotate(true);
-			this.sprite.SetWH(this.length,this.size);
+				//sprite
+				t_this.sprite = Fee.Render2D.Sprite2D.Create(null,a_drawpriority + 1);
+				t_this.sprite.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+				t_this.sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.sprite.SetRotate(true);
+				t_this.sprite.SetWH(t_this.length,t_this.size);
+
+				if(a_deleter != null){
+					a_deleter.Regist(t_this);
+				}
+			}
+			return t_this;
 		}
 
 		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
 		public void OnDelete()
 		{
-			this.deleter.DeleteAll();
+			//OnDelete
+			this.sprite.OnDelete();
+
+			//Fee.Ui.Ui.GetInstance().GetPoolList_Line2D().PoolDelete(this);
 		}
 
 		/** サイズ。設定。

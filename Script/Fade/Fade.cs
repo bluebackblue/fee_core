@@ -62,10 +62,6 @@ namespace Fee.Fade
 			}
 		}
 
-		/** deleter
-		*/
-		private Fee.Deleter.Deleter deleter;
-
 		/** flag
 		*/
 		private Flag flag;
@@ -78,14 +74,11 @@ namespace Fee.Fade
 		*/
 		private Fade()
 		{
-			//deleter
-			this.deleter = new Fee.Deleter.Deleter();
-
 			//flag
 			this.flag.Initialize();
 		
 			//sprite
-			this.sprite = new Sprite2D_Fade(this.deleter,(Fee.Render2D.Render2D.MAX_LAYER - 1) * Fee.Render2D.Render2D.DRAWPRIORITY_STEP);
+			this.sprite = new Sprite2D_Fade(null,(Fee.Render2D.Render2D.MAX_LAYER - 1) * Fee.Render2D.Render2D.DRAWPRIORITY_STEP);
 			this.sprite.SetTextureRect(0.0f,0.0f,Fee.Render2D.Render2D.TEXTURE_W,Fee.Render2D.Render2D.TEXTURE_H);
 			this.sprite.SetColor(UnityEngine.Color.clear);
 			this.sprite.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
@@ -105,7 +98,8 @@ namespace Fee.Fade
 			//スクリーンサイズ変更通知。解除。
 			Fee.Render2D.Render2D.GetInstance().UnRegistOnChangeScreenSize(this.OnChangeScreenSize);
 
-			this.deleter.DeleteAll();
+			//OnDelete
+			this.sprite.OnDelete();
 		}
 
 		/** SetRectFromScreenSize

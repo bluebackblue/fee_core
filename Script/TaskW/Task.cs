@@ -19,10 +19,23 @@ namespace Fee.TaskW
 		/**　Delay
 		*/
 		#if((UNITY_5)||(UNITY_WEBGL))
-		#else
-		public static System.Threading.Tasks.Task Delay(int a_milliseconds_delay)
+		public static void Sleep(int a_milliseconds)
 		{
-			return System.Threading.Tasks.Task.Delay(a_milliseconds_delay);
+		}
+		#else
+		public static void Sleep(int a_milliseconds)
+		{
+			System.Threading.Thread.Sleep(a_milliseconds);
+		}
+		#endif
+
+		/**　Delay
+		*/
+		#if((UNITY_5)||(UNITY_WEBGL))
+		#else
+		public static System.Threading.Tasks.Task Delay(int a_milliseconds)
+		{
+			return System.Threading.Tasks.Task.Delay(a_milliseconds);
 		}
 		#endif
 

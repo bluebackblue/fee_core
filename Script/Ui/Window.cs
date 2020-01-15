@@ -58,47 +58,75 @@ namespace Fee.Ui
 
 		/** constructor
 		*/
-		public Window(Fee.Deleter.Deleter a_deleter,OnWindow_CallBackInterface a_callback_interface)
-			:
-			base(a_deleter,a_callback_interface)
+		public static Window Create(Fee.Deleter.Deleter a_deleter,OnWindow_CallBackInterface a_callback_interface)
 		{
-			//bg_sprite
-			this.bg_sprite = Fee.Render2D.Sprite2D.Create(this.deleter,0);
-			this.bg_sprite.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
-			this.bg_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.bg_sprite.SetColor(0.0f,0.0f,0.0f,1.0f);
+			//Window t_this = Fee.Ui.Ui.GetInstance().GetPoolList_Window().PoolNew();
+			Window t_this = new Window();
+			{
+				//プールから作成。
+				t_this.InitializeFromPool(a_callback_interface);
 
-			//titlebar
-			this.titlebar = Fee.Render2D.Sprite2D.Create(this.deleter,0);
-			this.titlebar.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
-			this.titlebar.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.titlebar.SetColor(0.2f,0.2f,0.2f,1.0f);
+				//bg_sprite
+				t_this.bg_sprite = Fee.Render2D.Sprite2D.Create(null,0);
+				t_this.bg_sprite.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+				t_this.bg_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.bg_sprite.SetColor(0.0f,0.0f,0.0f,1.0f);
 
-			//titlebar_h
-			this.titlebar_h = 20;
+				//titlebar
+				t_this.titlebar = Fee.Render2D.Sprite2D.Create(null,0);
+				t_this.titlebar.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+				t_this.titlebar.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.titlebar.SetColor(0.2f,0.2f,0.2f,1.0f);
 
-			//blockitem
-			this.blockitem = new Fee.EventPlate.BlockItem(this.deleter,0,EventPlate.EventTypeMask.NotWindow);
+				//titlebar_h
+				t_this.titlebar_h = 20;
 
-			//bg_eventplate
-			this.bg_eventplate = new EventPlate.Item(this.deleter,EventPlate.EventType.Window,0);
-			this.bg_eventplate.SetOnEventPlateOver(this,0);
+				//blockitem
+				t_this.blockitem = new Fee.EventPlate.BlockItem(null,0,EventPlate.EventTypeMask.NotWindow);
 
-			//titlebar_eventplate
-			this.titlebar_eventplate = new Fee.EventPlate.Item(this.deleter,Fee.EventPlate.EventType.Button,0);
-			this.titlebar_eventplate.SetOnEventPlateOver(this,1);
+				//bg_eventplate
+				t_this.bg_eventplate = new EventPlate.Item(null,EventPlate.EventType.Window,0);
+				t_this.bg_eventplate.SetOnEventPlateOver(t_this,0);
 
-			//is_onover_bg
-			this.is_onover_bg = false;
+				//titlebar_eventplate
+				t_this.titlebar_eventplate = new Fee.EventPlate.Item(null,Fee.EventPlate.EventType.Button,0);
+				t_this.titlebar_eventplate.SetOnEventPlateOver(t_this,1);
 
-			//is_onover_titlebar
-			this.is_onover_titlebar = false;
+				//is_onover_bg
+				t_this.is_onover_bg = false;
 
-			//is_drag
-			this.is_drag = false;
+				//is_onover_titlebar
+				t_this.is_onover_titlebar = false;
 
-			//downpos
-			this.downpos.Set(0,0);
+				//is_drag
+				t_this.is_drag = false;
+
+				//downpos
+				t_this.downpos.Set(0,0);
+
+				if(a_deleter != null){
+					a_deleter.Regist(t_this);
+				}
+			}
+			return t_this;
+		}
+
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
+		*/
+		public void OnDelete()
+		{
+			//OnDelete
+			this.bg_sprite.OnDelete();
+			this.titlebar.OnDelete();
+			this.blockitem.OnDelete();
+			this.bg_eventplate.OnDelete();
+			this.titlebar_eventplate.OnDelete();
+
+			//プールへ削除。
+			this.DeleteToPool();
+
+			//プールに変換。
+			//Fee.Ui.Ui.GetInstance().GetPoolList_Window().PoolDelete(this);
 		}
 
 		/** 色。設定。

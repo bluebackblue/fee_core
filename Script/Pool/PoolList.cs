@@ -55,24 +55,19 @@ namespace Fee.Pool
 		}
 
 		/** プールへ削除。
-
-			タスクから呼び出される。
-			Render2D.Deleteから呼び出される。
-
 		*/
-		public void PoolDelete(T a_pool_item)
+		public void PoolToDelete(T a_pool_item)
 		{
-			a_pool_item.OnPoolDelete();
 			this.pool_list.Push(a_pool_item);
 		}
 
 		/** メモリから削除。
 		*/
-		public void MemoryDelete()
+		public void DeleteAllFromMemory()
 		{
 			while(this.pool_list.Count > 0){
 				T t_pool_item = this.pool_list.Pop();
-				t_pool_item.OnMemoryDelete();
+				t_pool_item.OnPoolItemDeleteFromMemory();
 			}
 		}
 
@@ -82,7 +77,7 @@ namespace Fee.Pool
 		{
 			while(this.pool_list.Count > a_capacity){
 				T t_pool_item = this.pool_list.Pop();
-				t_pool_item.OnMemoryDelete();
+				t_pool_item.OnPoolItemDeleteFromMemory();
 			}
 			while(this.pool_list.Count < a_capacity){
 				this.pool_list.Push(CreateInstance());

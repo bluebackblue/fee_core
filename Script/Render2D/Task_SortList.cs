@@ -59,7 +59,7 @@ namespace Fee.Render2D
 					if(this.spritelist.delete_request_flag == true){
 						this.spritelist.delete_request_flag = false;
 						this.spritelist.calc_index_request_flag = true;
-						this.spritelist.RemoveDeletedItem();
+						this.spritelist.Task_Update();
 					}
 				}
 
@@ -108,7 +108,7 @@ namespace Fee.Render2D
 					if(this.textlist.delete_request_flag == true){
 						this.textlist.delete_request_flag = false;
 						this.textlist.calc_index_request_flag = true;
-						this.textlist.RemoveDeletedItem();
+						this.textlist.Task_Update();
 					}
 				}
 
@@ -157,7 +157,7 @@ namespace Fee.Render2D
 					if(this.inputfieldlist.delete_request_flag == true){
 						this.inputfieldlist.delete_request_flag = false;
 						this.inputfieldlist.calc_index_request_flag = true;
-						this.inputfieldlist.RemoveDeletedItem();
+						this.inputfieldlist.Task_Update();
 					}
 				}
 

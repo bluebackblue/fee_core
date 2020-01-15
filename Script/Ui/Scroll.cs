@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Scroll
 	*/
-	public class Scroll<ITEM> : Scroll_Base<ITEM>
+	public class Scroll<ITEM> : Scroll_Base<ITEM> , Fee.Deleter.OnDelete_CallBackInterface
 		where ITEM : ScrollItem_Base
 	{
 		/** 背景。
@@ -34,38 +34,74 @@ namespace Fee.Ui
 		private int bar_offset;
 
 		/** constructor
+
+			プール用に作成。
+
 		*/
-		public Scroll(Fee.Deleter.Deleter a_deleter,long a_drawpriority,Scroll_Type a_scroll_type,int a_item_length)
+		public Scroll()
 			:
-			base(a_deleter,a_drawpriority,a_scroll_type,a_item_length)
+			base()
 		{
-			//背景。
-			this.bg = Fee.Render2D.Sprite2D.Create(this.deleter,a_drawpriority);
-			this.bg.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.bg.SetRect(0,0,0,0);
-			this.bg.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
-			this.bg.SetColor(0.0f,0.0f,0.0f,1.0f);
-			this.bg.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
+		}
+
+		/** constructor
+		*/
+		public static Scroll<ITEM> Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority,Scroll_Type a_scroll_type,int a_item_length)
+		{
+			//Scroll t_this = Fee.Ui.Ui.GetInstance().GetPoolList_Scroll().PoolNew();
+			Scroll<ITEM> t_this = new Scroll<ITEM>();
+			{
+				//プールから作成。
+				t_this.InitializeFromPool(a_drawpriority,a_scroll_type,a_item_length);
+				
+				//背景。
+				t_this.bg = Fee.Render2D.Sprite2D.Create(null,a_drawpriority);
+				t_this.bg.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.bg.SetRect(0,0,0,0);
+				t_this.bg.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+				t_this.bg.SetColor(0.0f,0.0f,0.0f,1.0f);
+				t_this.bg.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
 			
-			//背景。
-			this.bg_enable = true;
+				//背景。
+				t_this.bg_enable = true;
 
-			//バー。
-			this.bar_drawpriority_offset = 1;
-			this.bar_size = 5;
-			this.bar_offset = 1;
+				//バー。
+				t_this.bar_drawpriority_offset = 1;
+				t_this.bar_size = 5;
+				t_this.bar_offset = 1;
 
-			//バー。
-			this.bar = Fee.Render2D.Sprite2D.Create(this.deleter,a_drawpriority + this.bar_drawpriority_offset);
-			this.bar.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.bar.SetRect(0,0,0,0);
-			this.bar.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
-			this.bar.SetColor(1.0f,1.0f,1.0f,1.0f);
-			this.bar.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
-			this.bar.SetVisible(false);
+				//バー。
+				t_this.bar = Fee.Render2D.Sprite2D.Create(null,a_drawpriority + t_this.bar_drawpriority_offset);
+				t_this.bar.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.bar.SetRect(0,0,0,0);
+				t_this.bar.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+				t_this.bar.SetColor(1.0f,1.0f,1.0f,1.0f);
+				t_this.bar.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
+				t_this.bar.SetVisible(false);
 
-			//バー。
-			this.bar_enable = true;
+				//バー。
+				t_this.bar_enable = true;
+
+				if(a_deleter != null){
+					a_deleter.Regist(t_this);
+				}
+			}
+			return t_this;
+		}
+
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
+		*/
+		public void OnDelete()
+		{
+			//OnDelete
+			this.bg.OnDelete();
+			this.bar.OnDelete();
+
+			//プールへ削除。
+			this.DeleteToPool();
+
+			//プールへ変換。
+			//Fee.Ui.Ui.GetInstance().GetPoolList_Scroll().PoolDelete(this);
 		}
 
 		/** [Scroll_Base]コールバック。矩形。設定。

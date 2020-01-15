@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Button
 	*/
-	public class Button : Button_Base
+	public class Button : Button_Base , Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** sprite
 		*/
@@ -35,44 +35,76 @@ namespace Fee.Ui
 		private UnityEngine.Color lock_textcolor;
 
 		/** constructor
+
+			プール用に作成。
+
 		*/
-		public Button(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public Button()
 			:
-			base(a_deleter,a_drawpriority)
+			base()
 		{
-			//sprite
-			this.normal_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority);
-			this.normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.normal_sprite.SetVisible(true);
-
-			this.on_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority);
-			this.on_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.on_sprite.SetVisible(false);
-
-			this.down_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority);
-			this.down_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.down_sprite.SetVisible(false);
-
-			this.lock_sprite = new Fee.Ui.Sprite2D_Slice9(this.deleter,a_drawpriority);
-			this.lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
-			this.lock_sprite.SetVisible(false);
-
-			//text
-			this.text = Fee.Render2D.Text2D.Create(this.deleter,a_drawpriority);
-			this.text.SetAlignmentType(Render2D.Text2D_HorizontalAlignmentType.Center,Render2D.Text2D_VerticalAlignmentType.Middle);
-
-			//lock_textcolor
-			this.nomal_textcolor = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);
-			this.on_textcolor = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);
-			this.down_textcolor = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);
-			this.lock_textcolor = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);
 		}
 
 		/** 作成。
 		*/
 		public static Button Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
-			return new Button(a_deleter,a_drawpriority);
+			//Button t_this = Fee.Ui.Ui.GetInstance().GetPoolList_Button().PoolNew();
+			Button t_this = new Button();
+			{
+				//プールから作成。
+				t_this.InitializeFromPool(a_drawpriority);
+				
+				//sprite
+				t_this.normal_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority);
+				t_this.normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.normal_sprite.SetVisible(true);
+
+				t_this.on_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority);
+				t_this.on_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.on_sprite.SetVisible(false);
+
+				t_this.down_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority);
+				t_this.down_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.down_sprite.SetVisible(false);
+
+				t_this.lock_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority);
+				t_this.lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
+				t_this.lock_sprite.SetVisible(false);
+
+				//text
+				t_this.text = Fee.Render2D.Text2D.Create(null,a_drawpriority);
+				t_this.text.SetAlignmentType(Render2D.Text2D_HorizontalAlignmentType.Center,Render2D.Text2D_VerticalAlignmentType.Middle);
+
+				//lock_textcolor
+				t_this.nomal_textcolor = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);
+				t_this.on_textcolor = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);
+				t_this.down_textcolor = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);
+				t_this.lock_textcolor = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);
+
+				if(a_deleter != null){
+					a_deleter.Regist(t_this);
+				}
+			}
+			return t_this;
+		}
+
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
+		*/
+		public void OnDelete()
+		{
+			//OnDelete
+			this.normal_sprite.OnDelete();
+			this.on_sprite.OnDelete();
+			this.down_sprite.OnDelete();
+			this.lock_sprite.OnDelete();
+			this.text.OnDelete();
+
+			//プールへ削除。
+			this.DeleteToPool();
+
+			//プールに変換。
+			//Fee.Ui.Ui.GetInstance().GetPoolList_Button().PoolDelete(this);
 		}
 
 		/** [Button_Base]コールバック。矩形。設定。
