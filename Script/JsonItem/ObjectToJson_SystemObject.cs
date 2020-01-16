@@ -32,8 +32,60 @@ namespace Fee.JsonItem
 			if(a_instance != null){
 				System.Type t_type = a_instance.GetType();
 
-				if(t_type == typeof(string)){
-					//string
+				if(t_type == typeof(int)){
+					//20:int
+					int t_value_raw = (int)a_instance;
+					t_return = new JsonItem(new Value_Number<int>(t_value_raw));
+				}else if(t_type == typeof(float)){
+					//13:float
+					float t_value_raw = (float)a_instance;
+					t_return = new JsonItem(new Value_Number<float>(t_value_raw));
+				}else if(t_type == typeof(bool)){
+					//11:bool
+					bool t_value_raw = (bool)a_instance;
+					t_return = new JsonItem(new Value_Number<bool>(t_value_raw));
+				}else if(t_type == typeof(long)){
+					//22:long
+					long t_value_raw = (long)a_instance;
+					t_return = new JsonItem(new Value_Number<long>(t_value_raw));
+				}else if(t_type == typeof(char)){
+					//12:char
+					char t_value_raw = (char)a_instance;
+					t_return = new JsonItem(new Value_Number<char>(t_value_raw));
+				}else if(t_type == typeof(double)){
+					//14:double
+					double t_value_raw = (double)a_instance;
+					t_return = new JsonItem(new Value_Number<double>(t_value_raw));
+				}else if(t_type == typeof(decimal)){
+					//15:decimal
+					decimal t_value_raw = (decimal)a_instance;
+					t_return = new JsonItem(new Value_Number<decimal>(t_value_raw));
+				}else if(t_type == typeof(sbyte)){
+					//16:sbyte
+					sbyte t_value_raw = (sbyte)a_instance;
+					t_return = new JsonItem(new Value_Number<sbyte>(t_value_raw));
+				}else if(t_type == typeof(byte)){
+					//17:byte
+					byte t_value_raw = (byte)a_instance;
+					t_return = new JsonItem(new Value_Number<byte>(t_value_raw));
+				}else if(t_type == typeof(short)){
+					//18:short
+					short t_value_raw = (short)a_instance;
+					t_return = new JsonItem(new Value_Number<short>(t_value_raw));
+				}else if(t_type == typeof(ushort)){
+					//19:ushort
+					ushort t_value_raw = (ushort)a_instance;
+					t_return = new JsonItem(new Value_Number<ushort>(t_value_raw));
+				}else if(t_type == typeof(uint)){
+					//21:uint
+					uint t_value_raw = (uint)a_instance;
+					t_return = new JsonItem(new Value_Number<uint>(t_value_raw));
+				}else if(t_type == typeof(ulong)){
+					//23:ulong
+					ulong t_value_raw = (ulong)a_instance;
+					t_return = new JsonItem(new Value_Number<ulong>(t_value_raw));
+				}else if(t_type == typeof(string)){
+					//2:文字データ。
 
 					string t_value_raw = a_instance as string;
 
@@ -43,48 +95,6 @@ namespace Fee.JsonItem
 						//nullの場合は追加しない。
 						t_return = null;
 					}
-				}else if(t_type == typeof(bool)){
-					//bool
-
-					bool t_value_raw = (bool)a_instance;
-
-					t_return = new JsonItem(new Value_BoolData(t_value_raw));
-				}else if(t_type == typeof(int)){
-					//int
-
-					int t_value_raw = (int)a_instance;
-				
-					t_return = new JsonItem(new Value_Int(t_value_raw));
-				}else if(t_type == typeof(long)){
-					//long
-
-					long t_value_raw = (long)a_instance;
-
-					t_return = new JsonItem(new Value_Long(t_value_raw));
-				}else if(t_type == typeof(uint)){
-					//uint
-
-					uint t_value_raw = (uint)a_instance;
-
-					t_return = new JsonItem(new Value_UnsignedInt(t_value_raw));
-				}else if(t_type == typeof(ulong)){
-					//ulong
-
-					ulong t_value_raw = (ulong)a_instance;
-
-					t_return = new JsonItem(new Value_UnsignedLong(t_value_raw));
-				}else if(t_type == typeof(float)){
-					//float
-
-					float t_value_raw = (float)a_instance;
-
-					t_return = new JsonItem(new Value_Float(t_value_raw));
-				}else if(t_type == typeof(double)){
-					//double
-
-					double t_value_raw = (double)a_instance;
-
-					t_return = new JsonItem(new Value_Double(t_value_raw));
 				}else if(t_type.IsArray == true){
 					//x[]
 
@@ -123,7 +133,7 @@ namespace Fee.JsonItem
 						//enumの数値化。
 
 						int t_value_raw = (int)a_instance;
-						t_return = new JsonItem(new Value_Int(t_value_raw));
+						t_return = new JsonItem(new Value_Number<int>(t_value_raw));
 					}
 				}else if(t_type.IsGenericType == true){
 					System.Type t_type_g = t_type.GetGenericTypeDefinition();

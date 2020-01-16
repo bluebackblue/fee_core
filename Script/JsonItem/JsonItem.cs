@@ -32,6 +32,7 @@ namespace Fee.JsonItem
 		*/
 		public JsonItem()
 		{
+			this.jsonstring = null;
 			this.valuetype = ValueType.None;
 			this.value.Reset();
 		}
@@ -44,13 +45,9 @@ namespace Fee.JsonItem
 		}
 
 		/** constructor
-		*/
-		public JsonItem(Value_StringData a_value)
-		{
-			this.SetStringData(a_value.value);
-		}
 
-		/** constructor
+			0:連想配列。
+
 		*/
 		public JsonItem(Value_AssociativeArray a_value)
 		{
@@ -58,6 +55,9 @@ namespace Fee.JsonItem
 		}
 
 		/** constructor
+
+			1:インデックス配列。
+
 		*/
 		public JsonItem(Value_IndexArray a_value)
 		{
@@ -65,59 +65,1006 @@ namespace Fee.JsonItem
 		}
 
 		/** constructor
+
+			2:文字データ。
+
 		*/
-		public JsonItem(Value_Int a_value)
+		public JsonItem(Value_StringData a_value)
 		{
-			this.SetInt(a_value.value);
+			this.SetStringData(a_value.value);
 		}
 
 		/** constructor
+
+			3:バイナリデータ。
+
 		*/
-		public JsonItem(Value_Long a_value)
+		public JsonItem(Value_BinaryData a_value)
 		{
-			this.SetLong(a_value.value);
+			this.SetBinaryData(a_value.value);
 		}
 
 		/** constructor
-		*/
-		public JsonItem(Value_UnsignedInt a_value)
-		{
-			this.SetUnsignedInt(a_value.value);
-		}
 
-		/** constructor
-		*/
-		public JsonItem(Value_UnsignedLong a_value)
-		{
-			this.SetUnsignedLong(a_value.value);
-		}
+			11:bool
 
-		/** constructor
 		*/
-		public JsonItem(Value_Float a_value)
-		{
-			this.SetFloat(a_value.value);
-		}
-
-		/** constructor
-		*/
-		public JsonItem(Value_Double a_value)
-		{
-			this.SetDouble(a_value.value);
-		}
-
-		/** constructor
-		*/
-		public JsonItem(Value_BoolData a_value)
+		public JsonItem(Value_Number<bool> a_value)
 		{
 			this.SetBoolData(a_value.value);
 		}
 
 		/** constructor
+
+			12:char
+
 		*/
-		public JsonItem(Value_BinaryData a_value)
+		public JsonItem(Value_Number<char> a_value)
 		{
-			this.SetBinaryData(a_value.value);
+			this.SetChar(a_value.value);
+		}
+
+		/** constructor
+
+			13:float
+
+		*/
+		public JsonItem(Value_Number<float> a_value)
+		{
+			this.SetFloat(a_value.value);
+		}
+
+		/** constructor
+
+			14:double
+
+		*/
+		public JsonItem(Value_Number<double> a_value)
+		{
+			this.SetDouble(a_value.value);
+		}
+
+		/** constructor
+
+			15:decimal
+
+		*/
+		public JsonItem(Value_Number<decimal> a_value)
+		{
+			this.SetDecimal(a_value.value);
+		}
+
+		/** constructor
+
+			16:sbyte
+
+		*/
+		public JsonItem(Value_Number<sbyte> a_value)
+		{
+			this.SetSbyte(a_value.value);
+		}
+
+		/** constructor
+
+			17:byte
+
+		*/
+		public JsonItem(Value_Number<byte> a_value)
+		{
+			this.SetByte(a_value.value);
+		}
+
+		/** constructor
+
+			18:short
+
+		*/
+		public JsonItem(Value_Number<short> a_value)
+		{
+			this.SetShort(a_value.value);
+		}
+
+		/** constructor
+
+			19:ushort
+
+		*/
+		public JsonItem(Value_Number<ushort> a_value)
+		{
+			this.SetUshort(a_value.value);
+		}
+
+		/** constructor
+
+			20:int
+
+		*/
+		public JsonItem(Value_Number<int> a_value)
+		{
+			this.SetInt(a_value.value);
+		}
+
+		/** constructor
+
+			21:uint
+
+		*/
+		public JsonItem(Value_Number<uint> a_value)
+		{
+			this.SetUint(a_value.value);
+		}
+
+		/** constructor
+
+			22:long
+
+		*/
+		public JsonItem(Value_Number<long> a_value)
+		{
+			this.SetLong(a_value.value);
+		}
+
+		/** constructor
+
+			23:ulong
+
+		*/
+		public JsonItem(Value_Number<ulong> a_value)
+		{
+			this.SetUlong(a_value.value);
+		}
+
+		/** 設定。
+
+			0:連想配列。
+
+		*/
+		public void SetAssociativeArray()
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+		
+			this.valuetype = ValueType.AssociativeArray;
+			this.value.associative_array = new System.Collections.Generic.Dictionary<string,JsonItem>();
+		}
+
+		/** 設定。
+
+			1:インデックス配列。
+
+		*/
+		public void SetIndexArray()
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+		
+			this.valuetype = ValueType.IndexArray;
+			this.value.index_array = new System.Collections.Generic.List<JsonItem>();
+		}
+
+		/** 設定。
+
+			2:文字データ。
+
+		*/
+		public void SetStringData(string a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+		
+			this.valuetype = ValueType.StringData;
+			this.value.string_data = a_value;
+		}
+
+		/** 設定。
+
+			3:バイナリデータ。
+
+		*/
+		public void SetBinaryData(System.Collections.Generic.List<byte> a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.BinaryData;
+			this.value.binary_data = a_value;
+		}
+
+		/** 設定。
+
+			11:bool
+
+			false / true
+
+		*/
+		public void SetBoolData(bool a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.BoolData;
+			this.value.bool_data = a_value;
+		}
+
+		/** 設定。
+
+			12:char
+
+			0x0000 -- 0xFFFF
+
+		*/
+		public void SetChar(char a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.SignedNumber;
+			this.value.signed_number = a_value;
+		}
+
+		/** 設定。
+
+			13:float
+
+			-3.40282347E+38 -- 3.40282347E+38
+
+		*/
+		public void SetFloat(float a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.FloatingNumber;
+			this.value.floating_number = a_value;
+		}
+
+		/** 設定。
+
+			14:double
+
+			-1.7976931348623157E+308 -- 1.7976931348623157E+308
+
+		*/
+		public void SetDouble(double a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.FloatingNumber;
+			this.value.floating_number = a_value;
+		}
+
+		/** 設定。
+
+			15:decimal
+
+			-79228162514264337593543950335 -- 79228162514264337593543950335
+
+		*/
+		public void SetDecimal(decimal a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.SignedNumber;
+			if(a_value < long.MinValue){
+				this.value.signed_number = long.MinValue;
+			}else if(a_value > long.MaxValue){
+				this.value.signed_number = long.MaxValue;
+			}else{
+				this.value.signed_number = (long)a_value;
+			}
+		}
+
+		/** 設定。
+
+			16:sbyte
+
+			-128 -- 127
+
+		*/
+		public void SetSbyte(sbyte a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.SignedNumber;
+			this.value.signed_number = a_value;
+		}
+
+		/** 設定。
+
+			17:byte
+
+			0 -- 255
+
+		*/
+		public void SetByte(byte a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.SignedNumber;
+			this.value.signed_number = a_value;
+		}
+
+		/** 設定。
+
+			18:short
+
+			-32768 -- 32767
+
+		*/
+		public void SetShort(short a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.SignedNumber;
+			this.value.signed_number = a_value;
+		}
+
+		/** 設定。
+
+			19:ushort
+
+			0 -- 65535
+
+		*/
+		public void SetUshort(ushort a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.SignedNumber;
+			this.value.signed_number = a_value;
+		}
+
+		/** 設定。
+
+			20:int
+
+			-2147483648 -- 2147483647
+
+		*/
+		public void SetInt(int a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.SignedNumber;
+			this.value.signed_number = a_value;
+		}
+
+		/** 設定。
+
+			21:uint
+
+			0 -- 4294967295
+
+		*/
+		public void SetUint(uint a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.SignedNumber;
+			this.value.signed_number = a_value;
+		}
+
+		/** 設定。
+
+			22:long
+
+			-9223372036854775808 -- 9223372036854775807
+
+		*/
+		public void SetLong(long a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.SignedNumber;
+			this.value.signed_number = a_value;
+		}
+
+		/** 設定。
+
+			23:ulong
+
+			0 -- 18446744073709551615
+
+		*/
+		public void SetUlong(ulong a_value)
+		{
+			this.jsonstring = null;
+			this.value.Reset();
+
+			this.valuetype = ValueType.UnsignedNumber;
+			this.value.unsigned_number = a_value;
+		}
+
+		/** 取得。
+
+			0:連想配列。
+
+		*/
+		public System.Collections.Generic.Dictionary<string,JsonItem> GetAssociativeArray()
+		{
+			Tool.Assert(this.valuetype == ValueType.AssociativeArray);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			return this.value.associative_array;
+		}
+
+		/** 取得。
+
+			1:インデックス配列。
+
+		*/
+		public System.Collections.Generic.List<JsonItem> GetIndexArray()
+		{
+			Tool.Assert(this.valuetype == ValueType.IndexArray);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			return this.value.index_array;
+		}
+
+		/** 取得。
+
+			2:文字データ。
+
+		*/
+		public string GetStringData()
+		{
+			Tool.Assert(this.valuetype == ValueType.StringData);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			return this.value.string_data;
+		}
+
+		/** 取得。
+
+			3:バイナリデータ。
+
+		*/
+		public System.Collections.Generic.List<byte> GetBinaryData()
+		{
+			Tool.Assert(this.valuetype == ValueType.BinaryData);
+
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			return this.value.binary_data;
+		}
+
+		/** GetBoolData
+
+			11:bool
+
+		*/
+		public bool GetBoolData()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return ((this.value.signed_number > 0) ? true : false);
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return ((this.value.floating_number > 0) ? true : false);
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return ((this.value.unsigned_number > 0) ? true : false);
+				}//break;
+			case ValueType.BoolData:
+				{
+					return this.value.bool_data;
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return false;
+		}
+
+		/** GetChar
+
+			12:char
+
+		*/
+		public char GetChar()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (char)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (char)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (char)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (char)1 : (char)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (char)0;
+		}
+
+		/** GetFloat
+
+			13:float
+
+		*/
+		public float GetFloat()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (float)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (float)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (float)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (float)1 : (float)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (float)0;
+		}
+
+		/** GetDouble
+
+			14:double
+
+		*/
+		public double GetDouble()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (double)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (double)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (double)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (double)1 : (double)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (double)0;
+		}
+
+		/** GetDecimal
+
+			15:decimal
+
+		*/
+		public decimal GetDecimal()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (decimal)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (decimal)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (decimal)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (decimal)1 : (decimal)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (decimal)0;
+		}
+
+		/** GetSbyte
+
+			16:sbyte
+
+		*/
+		public sbyte GetSbyte()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (sbyte)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (sbyte)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (sbyte)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (sbyte)1 : (sbyte)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (sbyte)0;
+		}
+
+		/** GetByte
+
+			17:byte
+
+		*/
+		public byte GetByte()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (byte)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (byte)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (byte)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (byte)1 : (byte)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (byte)0;
+		}
+
+		/** GetShort
+
+			18:short
+
+		*/
+		public short GetShort()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (short)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (short)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (short)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (short)1 : (short)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (short)0;
+		}
+
+		/** GetUshort
+
+			19:ushort
+
+		*/
+		public ushort GetUshort()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (ushort)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (ushort)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (ushort)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (ushort)1 : (ushort)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (ushort)0;
+		}
+
+		/** GetInt
+
+			20:int
+
+		*/
+		public int GetInt()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (int)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (int)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (int)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (int)1 : (int)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (int)0;
+		}
+
+		/** GetUint
+
+			21:uint
+
+		*/
+		public uint GetUint()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (uint)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (uint)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (uint)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (uint)1 : (uint)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (uint)0;
+		}
+
+		/** GetLong
+
+			22:long
+
+		*/
+		public long GetLong()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (long)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (long)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (long)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (long)1 : (long)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (long)0;
+		}
+
+		/** GetUlong
+
+			23:ulong
+
+		*/
+		public ulong GetUlong()
+		{
+			if(this.jsonstring != null){
+				this.JsonStringToValue();
+			}
+
+			switch(this.valuetype){
+			case ValueType.SignedNumber:
+				{
+					return (ulong)this.value.signed_number;
+				}//break;
+			case ValueType.FloatingNumber:
+				{
+					return (ulong)this.value.floating_number;
+				}//break;
+			case ValueType.UnsignedNumber:
+				{
+					return (ulong)this.value.unsigned_number;
+				}//break;
+			case ValueType.BoolData:
+				{
+					return (this.value.bool_data ? (ulong)1 : (ulong)0);
+				}//break;
+			}
+
+			Tool.Assert(false);
+			return (ulong)0;
+		}
+
+		/** タイプチェック。文字データ。
+		*/
+		public bool IsStringData()
+		{
+			if(this.valuetype == ValueType.StringData){
+				return true;
+			}
+			return false;
+		}
+
+		/** タイプチェック。連想配列。
+		*/
+		public bool IsAssociativeArray()
+		{
+			if(this.valuetype == ValueType.AssociativeArray){
+				return true;
+			}
+			return false;
+		}
+
+		/** タイプチェック。インデックス配列。
+		*/
+		public bool IsIndexArray()
+		{
+			if(this.valuetype == ValueType.IndexArray){
+				return true;
+			}
+			return false;
+		}
+
+		/** タイプチェック。整数。
+		*/
+		public bool IsSignedNumber()
+		{
+			if(this.valuetype == ValueType.SignedNumber){
+				return true;
+			}
+			return false;
+		}
+
+		/** タイプチェック。整数。
+		*/
+		public bool IsUnSignedNumber()
+		{
+			if(this.valuetype == ValueType.UnsignedNumber){
+				return true;
+			}
+			return false;
+		}
+
+		/** タイプチェック。少数。
+		*/
+		public bool IsFloatNumber()
+		{
+			if(this.valuetype == ValueType.FloatingNumber){
+				return true;
+			}
+			return false;
+		}
+
+		/** タイプチェック。真偽データ。
+		*/
+		public bool IsBoolData()
+		{
+			if(this.valuetype == ValueType.BoolData){
+				return true;
+			}
+			return false;
+		}
+
+		/** [取得]GetValueType
+		*/
+		public ValueType GetValueType()
+		{
+			return this.valuetype;
 		}
 
 		/** ディープコピー。
@@ -377,200 +1324,6 @@ namespace Fee.JsonItem
 			return 0;
 		}
 
-		/** [取得][値]GetStringData
-		*/
-		public string GetStringData()
-		{
-			Tool.Assert(this.valuetype == ValueType.StringData);
-
-			if(this.jsonstring != null){
-				this.JsonStringToValue();
-			}
-
-			return this.value.string_data;
-		}
-
-		/** [取得][値]GetInt
-		*/
-		public int GetInt()
-		{
-			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
-
-			if(this.jsonstring != null){
-				this.JsonStringToValue();
-			}
-
-			return (int)this.value.signed_number;
-		}
-
-		/** [取得][値]GetLong
-		*/
-		public long GetLong()
-		{
-			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
-
-			if(this.jsonstring != null){
-				this.JsonStringToValue();
-			}
-
-			return (long)this.value.signed_number;
-		}
-
-		/** [取得][値]GetUint
-		*/
-		public uint GetUint()
-		{
-			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
-
-			if(this.jsonstring != null){
-				this.JsonStringToValue();
-			}
-
-			return (uint)this.value.unsigned_number;
-		}
-
-		/** [取得][値]GetUlong
-		*/
-		public ulong GetUlong()
-		{
-			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
-
-			if(this.jsonstring != null){
-				this.JsonStringToValue();
-			}
-
-			return (ulong)this.value.unsigned_number;
-		}
-
-		/** [取得][値]GetFloat
-		*/
-		public float GetFloat()
-		{
-			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
-
-			if(this.jsonstring != null){
-				this.JsonStringToValue();
-			}
-
-			return (float)this.value.floating_number;
-		}
-
-		/** [取得][値]GetDouble
-		*/
-		public double GetDouble()
-		{
-			Tool.Assert((this.valuetype == ValueType.UnsignedNumber)||(this.valuetype == ValueType.SignedNumber)||(this.valuetype == ValueType.FloatingNumber));
-
-			if(this.jsonstring != null){
-				this.JsonStringToValue();
-			}
-
-			return (double)this.value.floating_number;
-		}
-
-		/** [取得][値]GetBoolData
-		*/
-		public bool GetBoolData()
-		{
-			Tool.Assert(this.valuetype == ValueType.BoolData);
-
-			if(this.jsonstring != null){
-				this.JsonStringToValue();
-			}
-
-			return this.value.bool_data;
-		}
-
-		/** [取得][値]GetBinaryData
-		*/
-		public System.Collections.Generic.List<byte> GetBinaryData()
-		{
-			Tool.Assert(this.valuetype == ValueType.BinaryData);
-
-			if(this.jsonstring != null){
-				this.JsonStringToValue();
-			}
-
-			return this.value.binary_data;
-		}
-
-		/** [取得]GetValueType
-		*/
-		public ValueType GetValueType()
-		{
-			return this.valuetype;
-		}
-
-		/** タイプチェック。文字データ。
-		*/
-		public bool IsStringData()
-		{
-			if(this.valuetype == ValueType.StringData){
-				return true;
-			}
-			return false;
-		}
-
-		/** タイプチェック。連想配列。
-		*/
-		public bool IsAssociativeArray()
-		{
-			if(this.valuetype == ValueType.AssociativeArray){
-				return true;
-			}
-			return false;
-		}
-
-		/** タイプチェック。インデックス配列。
-		*/
-		public bool IsIndexArray()
-		{
-			if(this.valuetype == ValueType.IndexArray){
-				return true;
-			}
-			return false;
-		}
-
-		/** タイプチェック。整数。
-		*/
-		public bool IsSignedNumber()
-		{
-			if(this.valuetype == ValueType.SignedNumber){
-				return true;
-			}
-			return false;
-		}
-
-		/** タイプチェック。整数。
-		*/
-		public bool IsUnSignedNumber()
-		{
-			if(this.valuetype == ValueType.UnsignedNumber){
-				return true;
-			}
-			return false;
-		}
-
-		/** タイプチェック。少数。
-		*/
-		public bool IsFloatNumber()
-		{
-			if(this.valuetype == ValueType.FloatingNumber){
-				return true;
-			}
-			return false;
-		}
-
-		/** タイプチェック。真偽データ。
-		*/
-		public bool IsBoolData()
-		{
-			if(this.valuetype == ValueType.BoolData){
-				return true;
-			}
-			return false;
-		}
-
 		/** タイプチェック。バイナリデータ。
 		*/
 		public bool IsBinaryData()
@@ -824,127 +1577,6 @@ namespace Fee.JsonItem
 			}
 		}
 
-		/** [設定]文字データ。
-		*/
-		public void SetStringData(string a_string)
-		{
-			this.jsonstring = null;
-			this.value.Reset();
-		
-			this.valuetype = ValueType.StringData;
-			this.value.string_data = a_string;
-		}
-
-		/** [設定]空連想リスト。
-		*/
-		public void SetAssociativeArray()
-		{
-			this.jsonstring = null;
-			this.value.Reset();
-		
-			this.valuetype = ValueType.AssociativeArray;
-			this.value.associative_array = new System.Collections.Generic.Dictionary<string,JsonItem>();
-		}
-
-		/** [設定]空インデックスリスト。
-		*/
-		public void SetIndexArray()
-		{
-			this.jsonstring = null;
-			this.value.Reset();
-		
-			this.valuetype = ValueType.IndexArray;
-			this.value.index_array = new System.Collections.Generic.List<JsonItem>();
-		}
-
-		/** [設定]整数セット。
-		*/
-		public void SetInt(int a_int)
-		{
-			this.jsonstring = null;
-			this.value.Reset();
-		
-			this.valuetype = ValueType.SignedNumber;
-			this.value.signed_number = a_int;
-		}
-
-		/** [設定]整数セット。
-		*/
-		public void SetLong(long a_integer)
-		{
-			this.jsonstring = null;
-			this.value.Reset();
-		
-			this.valuetype = ValueType.SignedNumber;
-			this.value.signed_number = a_integer;
-		}
-
-		/** [設定]整数セット。
-		*/
-		public void SetUnsignedInt(uint a_unsigned_int)
-		{
-			this.jsonstring = null;
-			this.value.Reset();
-
-			this.valuetype = ValueType.UnsignedNumber;
-			this.value.unsigned_number = (ulong)a_unsigned_int;
-		}
-
-		/** [設定]整数セット。
-		*/
-		public void SetUnsignedLong(ulong a_unsigned_long)
-		{
-			this.jsonstring = null;
-			this.value.Reset();
-
-			this.valuetype = ValueType.UnsignedNumber;
-			this.value.unsigned_number = (ulong)a_unsigned_long;
-		}
-
-		/** [設定]少数セット。
-		*/
-		public void SetFloat(float a_float)
-		{
-			this.jsonstring = null;
-			this.value.Reset();
-
-			this.valuetype = ValueType.FloatingNumber;
-			this.value.floating_number = a_float;
-		}
-
-		/** [設定]少数セット。
-		*/
-		public void SetDouble(double a_double)
-		{
-			this.jsonstring = null;
-			this.value.Reset();
-
-			this.valuetype = ValueType.FloatingNumber;
-			this.value.floating_number = a_double;
-		}
-
-		/** [設定]真偽データセット。
-		*/
-		public void SetBoolData(bool a_bool)
-		{
-			this.jsonstring = null;
-			this.value.Reset();
-
-			this.valuetype = ValueType.BoolData;
-			this.value.bool_data = a_bool;
-		}	
-
-		/** SetBinaryData
-		*/
-		public void SetBinaryData(System.Collections.Generic.List<byte> a_binarydata)
-		{
-			this.jsonstring = null;
-			this.value.Reset();
-
-			this.valuetype = ValueType.BinaryData;
-			this.value.binary_data = a_binarydata;
-		}
-
 		/** 連想配列キーリスト作成。
 		*/
 		public System.Collections.Generic.List<string> CreateAssociativeKeyList()
@@ -1191,4 +1823,3 @@ namespace Fee.JsonItem
 		}
 	}
 }
-

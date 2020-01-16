@@ -389,6 +389,8 @@ namespace Fee.JsonItem
 					case '.':
 					case '+':
 					case '-':
+					case 'e':
+					case 'E':
 						{
 							//数値。
 							t_index++;
@@ -1123,4 +1125,3 @@ namespace Fee.JsonItem
 
 	}
 }
-

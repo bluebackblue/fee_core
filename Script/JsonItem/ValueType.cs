@@ -17,36 +17,58 @@ namespace Fee.JsonItem
 	public enum ValueType
 	{
 		None = 0,
-		
-		/** 文字データ。
-		*/
-		StringData,
 
-		/** 連想配列。
+		/** 0:連想配列。
 		*/
 		AssociativeArray,
 
-		/** インデックス配列。
+		/** 1:インデックス配列。
 		*/
 		IndexArray,
 
+		/** 2:文字データ。
+		*/
+		StringData,
+
+		/** 11:bool。
+		*/
+		BoolData,
+
 		/** 整数。
+
+		12:char
+		15:decimal
+
+		16:sbyte
+		17:byte
+
+		18:short
+		19:ushort
+
+		20:int
+		21:uint
+
+		22:long
+		
 		*/
 		SignedNumber,
 
 		/** 整数。
+
+		23:ulong
+
 		*/
 		UnsignedNumber,
 
 		/** 少数。
+
+		13:float
+		14:double
+
 		*/
 		FloatingNumber,
 
-		/** 真偽データ。
-		*/
-		BoolData,
-
-		/** バイナリデータ。
+		/** 3:バイナリデータ。
 		*/
 		BinaryData,
 

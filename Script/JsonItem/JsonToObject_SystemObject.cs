@@ -21,17 +21,28 @@ namespace Fee.JsonItem
 		public static System.Object CreateInstance(System.Type a_type,Fee.JsonItem.JsonItem a_jsonitem)
 		{
 			if(
-				a_type == typeof(string) ||
-				a_type == typeof(uint) ||
-				a_type == typeof(ulong) ||
-				a_type == typeof(int) ||
-				a_type == typeof(long) ||
+				a_type == typeof(bool) ||
+				a_type == typeof(char) ||
 				a_type == typeof(float) ||
 				a_type == typeof(double) ||
-				a_type == typeof(bool)
+				a_type == typeof(decimal) ||
+				a_type == typeof(sbyte) ||
+				a_type == typeof(byte) ||
+				a_type == typeof(short) ||
+				a_type == typeof(ushort) ||
+				a_type == typeof(int) ||
+				a_type == typeof(uint) ||
+				a_type == typeof(long) ||
+				a_type == typeof(ulong) ||
+
+				a_type == typeof(string)
 			){
+				//値。
+
 				return null;
 			}else if(a_type.IsArray == true){
+				//配列。
+
 				int t_list_count = 0;
 				if(a_jsonitem.IsIndexArray() == true){
 					t_list_count = a_jsonitem.GetListMax();
@@ -48,6 +59,8 @@ namespace Fee.JsonItem
 
 				return t_return;
 			}else{
+				//インスタンス。
+
 				System.Object t_return = null;
 
 				try{
@@ -74,7 +87,51 @@ namespace Fee.JsonItem
 			{
 				System.Type t_type = a_type;
 
-				if(a_jsonitem.IsStringData() == true){
+				if((a_jsonitem.IsSignedNumber() == true)||(a_jsonitem.IsUnSignedNumber() == true)||(a_jsonitem.IsFloatNumber() == true)||(a_jsonitem.IsBoolData() == true)){
+					if(t_type == typeof(int)){
+						//20:int
+						a_to_object_ref = (int)a_jsonitem.GetInt();
+					}else if(t_type == typeof(float)){
+						//13:float
+						a_to_object_ref = (float)a_jsonitem.GetFloat();
+					}else if(t_type == typeof(bool)){
+						//11:bool
+						a_to_object_ref = (bool)a_jsonitem.GetBoolData();
+					}else if(t_type.IsEnum == true){
+						//enum
+						a_to_object_ref = (System.Enum)(System.Enum.ToObject(t_type,a_jsonitem.GetInt()));
+					}else if(t_type == typeof(long)){
+						//22:long
+						a_to_object_ref = (long)a_jsonitem.GetLong();
+					}else if(t_type == typeof(char)){
+						//12:char
+						a_to_object_ref = (char)a_jsonitem.GetChar();
+					}else if(t_type == typeof(double)){
+						//14:double
+						a_to_object_ref = (double)a_jsonitem.GetDouble();
+					}else if(t_type == typeof(decimal)){
+						//15:decimal
+						a_to_object_ref = (decimal)a_jsonitem.GetDecimal();
+					}else if(t_type == typeof(sbyte)){
+						//16:sbyte
+						a_to_object_ref = (sbyte)a_jsonitem.GetSbyte();
+					}else if(t_type == typeof(byte)){
+						//17:byte
+						a_to_object_ref = (byte)a_jsonitem.GetByte();
+					}else if(t_type == typeof(short)){
+						//18:short
+						a_to_object_ref = (short)a_jsonitem.GetShort();
+					}else if(t_type == typeof(ushort)){
+						//19:ushort
+						a_to_object_ref = (ushort)a_jsonitem.GetUshort();
+					}else if(t_type == typeof(uint)){
+						//21:uint
+						a_to_object_ref = (uint)a_jsonitem.GetUint();
+					}else if(t_type == typeof(ulong)){
+						//23:ulong
+						a_to_object_ref = (ulong)a_jsonitem.GetUlong();
+					}
+				}else if(a_jsonitem.IsStringData() == true){
 					if(t_type == typeof(string)){
 						//string
 						a_to_object_ref = a_jsonitem.GetStringData();
@@ -82,38 +139,6 @@ namespace Fee.JsonItem
 						//enum
 						a_to_object_ref = (System.Enum)(System.Enum.Parse(t_type,a_jsonitem.GetStringData()));
 					}
-				}else if(a_jsonitem.IsBoolData() == true){
-					if(t_type == typeof(bool)){
-						//bool
-						a_to_object_ref = a_jsonitem.GetBoolData();
-					}
-				}else if(a_jsonitem.IsSignedNumber() == true){
-					if(t_type == typeof(int)){
-						//int
-						a_to_object_ref = (int)a_jsonitem.GetInt();
-					}else if(t_type == typeof(long)){
-						//long
-						a_to_object_ref = (long)a_jsonitem.GetLong();
-					}else if(t_type.IsEnum == true){
-						//enum
-						a_to_object_ref = (System.Enum)(System.Enum.ToObject(t_type,a_jsonitem.GetInt()));
-					}
-				}else if(a_jsonitem.IsUnSignedNumber() == true){
-					if(t_type == typeof(uint)){
-						//uint
-						a_to_object_ref = (uint)a_jsonitem.GetUint();
-					}else if(t_type == typeof(ulong)){
-						//ulong
-						a_to_object_ref = (ulong)a_jsonitem.GetUlong();
-					}
-				}else if(a_jsonitem.IsFloatNumber() == true){
-					if(t_type == typeof(float)){
-						//float
-						a_to_object_ref = (float)a_jsonitem.GetFloat();
-					}else if(t_type == typeof(double)){
-						//double
-						a_to_object_ref = (double)a_jsonitem.GetDouble();
-					} 
 				}else if(a_jsonitem.IsIndexArray() == true){
 					if(t_type.IsGenericType == true){
 						if(t_type.GetGenericTypeDefinition() == typeof(System.Collections.Generic.List<>)){

@@ -63,7 +63,19 @@ namespace Fee.JsonItem
 		}
 	}
 
-	/** 文字データ。
+	/** 0:連想配列。
+	*/
+	public struct Value_AssociativeArray
+	{
+	}
+
+	/** 1:インデックス配列。
+	*/
+	public struct Value_IndexArray
+	{
+	}
+
+	/** 2:文字データ。
 	*/
 	public struct Value_StringData
 	{
@@ -74,101 +86,42 @@ namespace Fee.JsonItem
 		}
 	}
 
-	/** 連想配列。
-	*/
-	public struct Value_AssociativeArray
-	{
-	}
-
-	/** インデックス配列。
-	*/
-	public struct Value_IndexArray
-	{
-	}
-
-	/** 整数。
-	*/
-	public struct Value_Int
-	{
-		public int value;
-		public Value_Int(int a_value)
-		{
-			this.value = a_value;
-		}
-	}
-
-	/** 整数。
-	*/
-	public struct Value_Long
-	{
-		public long value;
-		public Value_Long(long a_value)
-		{
-			this.value = a_value;
-		}
-	}
-
-	/** 整数。
-	*/
-	public struct Value_UnsignedInt
-	{
-		public uint value;
-		public Value_UnsignedInt(uint a_value)
-		{
-			this.value = a_value;
-		}
-	}
-
-	/** 整数。
-	*/
-	public struct Value_UnsignedLong
-	{
-		public ulong value;
-		public Value_UnsignedLong(ulong a_value)
-		{
-			this.value = a_value;
-		}
-	}
-
-	/** 少数。
-	*/
-	public struct Value_Float
-	{
-		public float value;
-		public Value_Float(float a_value)
-		{
-			this.value = a_value;
-		}
-	}
-
-	/** 少数。
-	*/
-	public struct Value_Double
-	{
-		public double value;
-		public Value_Double(double a_value)
-		{
-			this.value = a_value;
-		}
-	}
-
-	/** 真偽データ。
-	*/
-	public struct Value_BoolData
-	{
-		public bool value;
-		public Value_BoolData(bool a_value)
-		{
-			this.value = a_value;
-		}
-	}
-
-	/** バイナリデータ。
+	/** 3:バイナリデータ。
 	*/
 	public struct Value_BinaryData
 	{
 		public System.Collections.Generic.List<byte> value;
 		public Value_BinaryData(System.Collections.Generic.List<byte> a_value)
+		{
+			this.value = a_value;
+		}
+	}
+
+	/** 数値。
+
+		11:bool
+		12:char
+		13:float
+		14:double
+		15:decimal
+
+		16:sbyte
+		17:byte
+
+		18:short
+		19:ushort
+
+		20:int
+		21:uint
+
+		22:long
+		23:ulong
+
+	*/
+	public struct Value_Number<T>
+	{
+		public T value;
+		public Value_Number(T a_value)
 		{
 			this.value = a_value;
 		}
