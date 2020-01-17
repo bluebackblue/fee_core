@@ -91,46 +91,6 @@ namespace Fee.JsonItem
 			return false;
 		}
 
-		/** ConvertToEscapeSequenceString
-		*/
-		public static int ConvertToEscapeSequenceString(string a_string,int a_index,out string a_out_string)
-		{
-			if(a_index < a_string.Length){
-				switch(a_string[a_index]){
-				case '\\':
-					{
-						a_out_string = "\\\\";
-						return 1;
-					}//break;
-				case '\"':
-					{
-						a_out_string = "\\\"";
-						return 1;
-					}//break;
-				case '\'':
-					{
-						a_out_string = "\\\'";
-						return 1;
-					}//break;
-				case '\n':
-					{
-						a_out_string = "\\n";
-						return 1;
-					}//break;
-				default:
-					{
-						a_out_string = a_string.Substring(a_index,1);
-						return 1;
-					}//break;
-				}
-			}else{
-				//範囲外。
-				Tool.Assert(false);
-				a_out_string = null;
-				return 0;
-			}
-		}
-
 		/** CharToByte
 		*/
 		public static byte CharToByte(char a_char)
@@ -165,143 +125,252 @@ namespace Fee.JsonItem
 			}
 		}
 
-		/** ConvertFromEscapeSequenceString
+		/**
+		
+			"3040" ==> (char)'あ'
+
 		*/
-		public static int ConvertFromEscapeSequenceString(string a_string,int a_index,out string a_out_string)
+		public static string Utf16StringToChar(string a_string,int a_index)
 		{
-			if(a_index < a_string.Length){
-				if(a_string[a_index] == '\\'){
+			byte[] t_byte = new byte[2];
+			{
+				t_byte[0] = (byte)((CharToByte(a_string[a_index + 2]) << 4) + CharToByte(a_string[a_index + 3]));
+				t_byte[1] = (byte)((CharToByte(a_string[a_index + 0]) << 4) + CharToByte(a_string[a_index + 1]));
+			}
 
-					if((a_index + 1) < a_string.Length){
-						switch(a_string[a_index+1]){
-						case '\"':
-							{
-								//ダブルクォーテーション。
-								a_out_string = "\"";
-								return 2;
-							}//break;
-						case '\'':
-							{
-								//シングルクォーテーション。
-								a_out_string = "\'";
-								return 2;
-							}//break;
-						case '\\':
-							{
-								//￥。
-								a_out_string = "\\";
-								return 2;
-							}//break;
-						case 'n':
-							{
-								//改行。
-								a_out_string = "\n";
-								return 2;
-							}//break;
-						case '/':
-							{
-								//スラッシュ。
-								a_out_string = "/";
-								return 2;
-							}//break;
-						case 'u':
-							{
-								if((a_index + 5) < a_string.Length){
+			string t_string = System.Text.Encoding.Unicode.GetString(t_byte);
 
-									byte[] t_byte = new byte[2];
-									{
-										t_byte[0] = (byte)((CharToByte(a_string[a_index + 4]) << 4) + CharToByte(a_string[a_index + 5]));
-										t_byte[1] = (byte)((CharToByte(a_string[a_index + 2]) << 4) + CharToByte(a_string[a_index + 3]));
-									}
-									a_out_string = System.Text.Encoding.Unicode.GetString(t_byte);
-									return 6;
-								}else{
-									//範囲外。コードが足りない。
-									Tool.Assert(false);
-									a_out_string = null;
-									return 1;
-								}
-							}//break;
-						default:
-							{
-								//知らないエスケープシーケンス。
-								Tool.Assert(false);
-								a_out_string = null;
-								return 1;
-							}//break;
-						}
-					}else{
-						//範囲外。エスケープシーケンスの後ろがない。
-						Tool.Assert(false);
-						a_out_string = null;
-						return 1;
+			return t_string;
+		}
+
+		/** 特殊文字 ==> ＪＳＯＮ文字列。
+		*/
+		public static void ConvertSpecialStringToJsonString(string a_string,System.Text.StringBuilder a_stringbuilder)
+		{
+			if(a_string != null){
+				for(int ii=0;ii<a_string.Length;ii++){
+					switch(a_string[ii]){
+					case '\\':
+						{
+							//バックスラッシュ。
+							a_stringbuilder.Append("\\\\");
+						}break;
+					case '\"':
+						{
+							//ダブルクォーテーション。
+							a_stringbuilder.Append("\\\"");
+						}break;
+					case '\n':
+						{
+							//キャリッジリターン。
+							a_stringbuilder.Append("\\n");
+						}break;
+					case '\0':
+						{
+							//ヌル。
+							a_stringbuilder.Append("\\0");
+						}break;
+
+
+
+
+					case '\'':
+						{
+							//シングルクォーテーション。
+							a_stringbuilder.Append("\\\'");
+						}break;
+
+
+
+
+						/*
+
+					case '/':
+						{
+							//スラッシュ。
+							a_stringbuilder.Append("\\/");
+						}break;
+					case 'b':
+						{
+							//バックスペース。
+							a_stringbuilder.Append("\\b");
+						}break;
+					case 'f':
+						{
+							//ニューページ。
+							a_stringbuilder.Append("\\f");
+						}break;
+					case 'r':
+						{
+							//ラインフィード。
+							a_stringbuilder.Append("\\r");
+						}break;
+					case 't':
+						{
+							//タブ。
+							a_stringbuilder.Append("\\t");
+						}break;
+
+						*/
+
+					default:
+						{
+							//\\u0000。
+
+							//そのまま。
+							a_stringbuilder.Append(a_string[ii]);
+						}break;
 					}
-				}else{
-					//通常文字。
-					a_out_string = a_string.Substring(a_index,1);
-					return 1;
 				}
 			}else{
-				//範囲外。
 				Tool.Assert(false);
-				a_out_string = null;
-				return 0;
 			}
 		}
 
-		/** ConvertFromEscapeSequenceString_Size
+		/** ＪＳＯＮ文字列 ==> 特殊文字。
 		*/
-		public static int ConvertFromEscapeSequenceString_Size(string a_string,int a_index)
+		public static void ConvertJsonStringToSpecialString(string a_string,int a_index_start,int a_index_end,System.Text.StringBuilder a_stringbuilder)
 		{
-			if(a_index < a_string.Length){
-				if(a_string[a_index] == '\\'){
+			int t_index = a_index_start;
 
-					if((a_index + 1) < a_string.Length){
-						switch(a_string[a_index+1]){
+			while(t_index <= a_index_end){
+				if(a_string[t_index] == '\\'){
+					if((t_index + 1) < a_string.Length){
+						switch(a_string[t_index + 1]){
+						case '\\':
+							{
+								//バックスラッシュ。
+								a_stringbuilder.Append('\\');
+								t_index += 2;
+							}break;
 						case '\"':
 							{
 								//ダブルクォーテーション。
-								return 2;
-							}//break;
+								a_stringbuilder.Append("\"");
+								t_index += 2;
+							}break;
+						case 'n':
+							{
+								//キャリッジリターン。
+								a_stringbuilder.Append("\n");
+								t_index += 2;
+							}break;
+						case '0':
+							{
+								//ヌル。
+								a_stringbuilder.Append('\0');
+								t_index += 2;
+							}break;
+
+
+
+
 						case '\'':
 							{
 								//シングルクォーテーション。
-								return 2;
-							}//break;
-						case '\\':
+								a_stringbuilder.Append('\'');
+								t_index += 2;
+							}break;
+
+
+
+
+						case 'u':
 							{
-								//￥。
-								return 2;
-							}//break;
-						case 'n':
-							{
-								//改行。
-								return 2;
-							}//break;
+								//ＵＴＦ１６。
+								if((t_index + 5) < a_string.Length){
+									string t_string = Utf16StringToChar(a_string,t_index + 2);
+									a_stringbuilder.Append(t_string);
+
+									t_index += 6;
+								}else{
+									//後ろにコードがあるはずだった。
+									Tool.Assert(false);
+									return;
+								}
+							}break;
+
+
+
+
 						case '/':
 							{
 								//スラッシュ。
-								return 2;
-							}//break;
+								a_stringbuilder.Append('/');
+								t_index += 2;
+							}break;
+						case 'b':
+							{
+								//バックスペース。
+								a_stringbuilder.Append('\b');
+								t_index += 2;
+							}break;
+						case 'f':
+							{
+								//ニューページ。
+								a_stringbuilder.Append('\f');
+								t_index += 2;
+							}break;
+						case 'r':
+							{
+								//ラインフィード。
+								a_stringbuilder.Append('\r');
+								t_index += 2;
+							}break;
+						case 't':
+							{
+								//タブ。
+								a_stringbuilder.Append('\t');
+								t_index += 2;
+							}break;
+						default:
+							{
+								//対応していない。
+								a_stringbuilder.Append(a_string[t_index]);
+								t_index++;
+							}break;
+						}
+					}else{
+						//後ろにコードがあるはずだった。
+						Tool.Assert(false);
+						return;
+					}
+				}else{
+					//そのまま。
+					a_stringbuilder.Append(a_string[t_index]);
+					t_index++;
+				}
+			}
+		}
+
+		/** GetCharLength
+		*/
+		public static int GetCharLength(string a_string,int a_index)
+		{
+			if(a_index < a_string.Length){
+				if(a_string[a_index] == '\\'){
+					if((a_index + 1) < a_string.Length){
+						switch(a_string[a_index + 1]){
 						case 'u':
 							{
 								if((a_index + 5) < a_string.Length){
+									//ＵＴＦ１６。
+
+									//\u0000
 									return 6;
 								}else{
-									//範囲外。コードが足りない。
+									//後ろにコードがあるはずだった。
 									Tool.Assert(false);
-									return 1;
+									return a_string.Length - a_index;
 								}
-							}//break;
+							}
 						default:
 							{
-								//知らないエスケープシーケンス。
-								Tool.Assert(false);
-								return 1;
-							}//break;
+								//それ以外。
+							}return 2;
 						}
 					}else{
-						//範囲外。エスケープシーケンスの後ろがない。
+						//「\\」の後ろがない。
 						Tool.Assert(false);
 						return 1;
 					}
@@ -331,7 +400,7 @@ namespace Fee.JsonItem
 							return t_index - a_index + 1;
 						}else{
 							//次の文字へ。
-							int t_use_index = Impl.ConvertFromEscapeSequenceString_Size(a_string,t_index);
+							int t_use_index = Impl.GetCharLength(a_string,t_index);
 							if(t_use_index > 0){
 								t_index += t_use_index;
 							}else{
@@ -970,15 +1039,7 @@ namespace Fee.JsonItem
 				//リストに追加。
 				if(t_value_size > 0){
 
-					//#if defined(new)
-					//#undef new
-					//#endif
-
 					JsonItem t_additem = new JsonItem();
-
-					//#if defined(custom_new)
-					//#define new custom_new
-					//#endif
 
 					{
 						t_additem.SetJsonString(a_jsonstring.Substring(t_index,t_value_size));

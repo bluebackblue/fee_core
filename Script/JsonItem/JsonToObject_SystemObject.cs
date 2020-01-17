@@ -63,11 +63,15 @@ namespace Fee.JsonItem
 
 				System.Object t_return = null;
 
-				try{
-					t_return = System.Activator.CreateInstance(a_type);
-				}catch(System.Exception t_exception){
-					//引数なしconstructorの呼び出しに失敗。
-					Tool.DebugReThrow(t_exception);
+				if(a_jsonitem.IsNull() == true){
+					//NULL処理。
+				}else{
+					try{
+						t_return = System.Activator.CreateInstance(a_type);
+					}catch(System.Exception t_exception){
+						//引数なしconstructorの呼び出しに失敗。
+						Tool.DebugReThrow(t_exception);
+					}
 				}
 
 				return t_return;
@@ -76,12 +80,17 @@ namespace Fee.JsonItem
 
 		/** Convert
 		*/
-		public static void Convert(ref System.Object a_to_object_ref,System.Type a_type,JsonItem a_jsonitem,System.Collections.Generic.List<JsonToObject_Work> a_workpool = null)
+		public static void Convert(ref System.Object a_to_object_ref,System.Type a_type,JsonItem a_jsonitem,int a_nest,System.Collections.Generic.LinkedList<JsonToObject_Work> a_workpool = null)
 		{
-			System.Collections.Generic.List<JsonToObject_Work> t_workpool = a_workpool;
+			int t_nest = a_nest + 1;
+			if(t_nest >= 5){
+				Tool.Log("JsonToObject_SystemObject","nest = " + t_nest.ToString());
+			}
+
+			System.Collections.Generic.LinkedList<JsonToObject_Work> t_workpool = a_workpool;
 
 			if(t_workpool == null){
-				t_workpool = new System.Collections.Generic.List<JsonToObject_Work>();
+				t_workpool = new System.Collections.Generic.LinkedList<JsonToObject_Work>();
 			}
 
 			{
@@ -150,15 +159,25 @@ namespace Fee.JsonItem
 							for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
 								JsonItem t_jsonitem_member = a_jsonitem.GetItem(ii);
 
-								System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+								if(t_type_member.IsClass == true){
+									//インスタンス作成。
+									System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
 
-								if((t_object_member != null)&&(t_type_member.IsClass == true)){
-									t_workpool.Add(new JsonToObject_Work(t_object_member,t_type_member,t_jsonitem_member));
+									//中身の作成は後回し。
+									t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeConvertOnly.Value,t_object_member,t_type_member,t_jsonitem_member));
+
+									//リストに追加。
+									t_list.Add(t_object_member);
 								}else{
-									JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member);
-								}
+									//インスタンス作成。
+									System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
 
-								t_list.Add(t_object_member);
+									//■メンバーの設定。
+									JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member,t_nest);
+
+									//リストに追加。
+									t_list.Add(t_object_member);
+								}
 							}
 						}
 					}else if(a_type.IsArray == true){
@@ -171,17 +190,26 @@ namespace Fee.JsonItem
 						for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
 							JsonItem t_jsonitem_member = a_jsonitem.GetItem(ii);
 
-							System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+							if(t_type_member.IsClass == true){
+								//インスタンス作成。
+								System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
 
-							if((t_object_member != null)&&(t_type_member.IsClass == true)){
-								t_workpool.Add(new JsonToObject_Work(t_object_member,t_type_member,t_jsonitem_member));
+								//中身の作成は後回し。
+								t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeConvertOnly.Value,t_object_member,t_type_member,t_jsonitem_member));
+
+								//リストに追加。
+								t_list.SetValue(t_object_member,ii);
 							}else{
-								JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member);
+								//インスタンス作成。
+								System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+
+								//■メンバーの設定。
+								JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member,t_nest);
+
+								//リストに追加。
+								t_list.SetValue(t_object_member,ii);
 							}
-
-							t_list.SetValue(t_object_member,ii);
 						}
-
 					}
 				}else if(a_jsonitem.IsAssociativeArray() == true){
 					//struct,class,Dictionary
@@ -198,15 +226,27 @@ namespace Fee.JsonItem
 							for(int ii=0;ii<t_key_list.Count;ii++){
 								JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_key_list[ii]);
 
-								System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+								if(t_type_member.IsClass == true){
 
-								if((t_object_member != null)&&(t_type_member.IsClass == true)){
-									t_workpool.Add(new JsonToObject_Work(t_object_member,t_type_member,t_jsonitem_member));
+									//インスタンス作成。
+									System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+
+									//中身の作成は後回し。
+									t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeConvertOnly.Value,t_object_member,t_type_member,t_jsonitem_member));
+
+									//リストに追加。
+									t_list.Add(t_key_list[ii],t_object_member);
 								}else{
-									JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member);
-								}
 
-								t_list.Add(t_key_list[ii],t_object_member);
+									//インスタンス作成。
+									System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+
+									//■メンバーの設定。
+									JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member,t_nest);
+
+									//リストに追加。
+									t_list.Add(t_key_list[ii],t_object_member);
+								}
 							}
 
 							//no support dictionary
@@ -226,7 +266,6 @@ namespace Fee.JsonItem
 									if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.Ignore),false) == true){
 										//無視する。
 									}else{
-
 										switch(t_fieldinfo.Attributes){
 										case System.Reflection.FieldAttributes.Public:
 										case System.Reflection.FieldAttributes.Private:
@@ -238,26 +277,16 @@ namespace Fee.JsonItem
 
 													JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_fieldinfo.Name);
 
-													System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+													//全部後回し。
+													t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeCreateInstance.Value,t_fieldinfo,a_to_object_ref,t_jsonitem_member));
 
-													if((t_object_member != null)&&(t_type_member.IsClass == true)){
-														t_workpool.Add(new JsonToObject_Work(t_object_member,t_type_member,t_jsonitem_member));
-													}else{
-														JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member);
-													}
-
-													try{
-														t_fieldinfo.SetValue(a_to_object_ref,t_object_member);
-													}catch(System.Exception t_exception){
-														Tool.DebugReThrow(t_exception);
-													}
 												}else{
 													//ＪＳＯＮ側には存在しない。
 												}
 											}break;
 										default:
 											{
-												//オブジェクト化しない方型。
+												//オブジェクト化しない型。
 											}break;
 										}
 									}
@@ -274,9 +303,11 @@ namespace Fee.JsonItem
 				while(true){
 					int t_count = t_workpool.Count;
 					if(t_count > 0){
-						JsonToObject_Work t_current_work = t_workpool[t_count - 1];
-						t_workpool.RemoveAt(t_count - 1);
-						t_current_work.Do(t_workpool);
+
+						JsonToObject_Work t_current_work = t_workpool.First.Value;
+						t_workpool.RemoveFirst();
+						t_current_work.Do(t_nest,t_workpool);
+
 					}else{
 						break;
 					}

@@ -20,7 +20,7 @@ namespace Fee.JsonItem
 		*/
 		public static JsonItem ObjectToJsonItem<Type>(Type a_instance)
 		{
-			return ObjectToJson_SystemObject.Convert(a_instance,null);
+			return ObjectToJson_SystemObject.Convert(a_instance,null,0);
 		}
 
 		/** JsonItem => オブジェクト。
@@ -71,7 +71,7 @@ namespace Fee.JsonItem
 		public static string ObjectToJsonString_Fee<Type>(Type a_instance)
 		{
 			if(a_instance != null){
-				JsonItem t_jsonitem = ObjectToJson_SystemObject.Convert(a_instance,null);
+				JsonItem t_jsonitem = ObjectToJson_SystemObject.Convert(a_instance,null,0);
 				return t_jsonitem.ConvertJsonString();
 			}
 			return null;

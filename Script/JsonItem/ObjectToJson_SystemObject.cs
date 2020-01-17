@@ -18,8 +18,13 @@ namespace Fee.JsonItem
 	{
 		/** Convert
 		*/
-		public static JsonItem Convert(System.Object a_instance,ObjectToJson_Work.ObjectOption a_objectoption,System.Collections.Generic.List<ObjectToJson_Work> a_workpool = null)
+		public static JsonItem Convert(System.Object a_instance,ObjectToJson_Work.ObjectOption a_objectoption,int a_nest,System.Collections.Generic.List<ObjectToJson_Work> a_workpool = null)
 		{
+			int t_nest = a_nest + 1;
+			if(t_nest >= 5){
+				Tool.LogError("ObjectToJson_SystemObject","nest = " + t_nest.ToString());
+			}
+
 			System.Collections.Generic.List<ObjectToJson_Work> t_workpool = a_workpool;
 
 			if(t_workpool == null){
@@ -90,10 +95,14 @@ namespace Fee.JsonItem
 					string t_value_raw = a_instance as string;
 
 					if(t_value_raw != null){
+
 						t_return = new JsonItem(new Value_StringData(t_value_raw));
+
 					}else{
-						//nullの場合は追加しない。
+						//NULL処理。
+
 						t_return = null;
+						//t_return = new JsonItem();
 					}
 				}else if(t_type.IsArray == true){
 					//x[]
@@ -126,8 +135,10 @@ namespace Fee.JsonItem
 						if(t_value_raw != null){
 							t_return = new JsonItem(new Value_StringData(t_value_raw));
 						}else{
-							//nullの場合は追加しない。
+							//NULL処理。
+
 							t_return = null;
+							//t_return = new JsonItem();
 						}
 					}else{
 						//enumの数値化。
@@ -153,9 +164,10 @@ namespace Fee.JsonItem
 
 							t_return = t_jsonitem;
 						}else{
+							//NULL処理。
 
-							//nullの場合は追加しない。
 							t_return = null;
+							//t_return = new JsonItem();
 						}
 					}else if(t_type_g == typeof(System.Collections.Generic.Dictionary<,>)){
 						//Dictionary
@@ -171,6 +183,8 @@ namespace Fee.JsonItem
 										System.Object t_list_item_raw = t_value_raw[t_key_string];
 										t_workpool.Add(new ObjectToJson_Work(t_list_item_raw,null,t_key_string,t_jsonitem));
 									}else{
+										//NULL処理。
+
 										//nullの場合は追加しない。
 									}
 								}
@@ -178,11 +192,15 @@ namespace Fee.JsonItem
 								t_return = t_jsonitem;
 							}else{
 								//keyの型がstring以外のものは追加しない。
+
 								t_return = null;
+								//t_return = new JsonItem();
 							}
 						}else{
-							//nullの場合は追加しない。
+							//NULL処理。
+
 							t_return = null;
+							//t_return = new JsonItem();
 						}
 					}else{
 						t_search_member = true;
@@ -204,9 +222,11 @@ namespace Fee.JsonItem
 								if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.Ignore),false) == true){
 									//無視する。
 								}else{
-									ObjectToJson_Work.ObjectOption t_objectoption = new ObjectToJson_Work.ObjectOption();
+									ObjectToJson_Work.ObjectOption t_objectoption = null;
 
+									//ＥＮＵＭの文字列化。
 									if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.EnumString),false) == true){
+										t_objectoption = new ObjectToJson_Work.ObjectOption();
 										t_objectoption.attribute_enumstring = true;
 									}
 
@@ -218,9 +238,26 @@ namespace Fee.JsonItem
 										{
 											System.Object t_raw = t_fieldinfo.GetValue(a_instance);
 											if(t_raw != null){
-												t_workpool.Add(new ObjectToJson_Work(t_raw,t_objectoption,t_fieldinfo.Name,t_jsonitem));
+
+												//対応できないDictionaryのチェック。
+												bool t_no_support_dictionary = false;
+												{
+													System.Collections.IDictionary t_value_raw = t_raw as System.Collections.IDictionary;
+													if(t_value_raw != null){
+														System.Collections.Generic.ICollection<string> t_collection = t_value_raw.Keys as System.Collections.Generic.ICollection<string>;
+														if(t_collection == null){
+															t_no_support_dictionary = true;
+														}
+													}
+												}
+
+												if(t_no_support_dictionary == false){
+													t_workpool.Add(new ObjectToJson_Work(t_raw,t_objectoption,t_fieldinfo.Name,t_jsonitem));
+												}
 											}else{
-												//nullの子は追加しない。
+												//NULL処理。
+
+												//t_return = new JsonItem();
 											}
 										}break;
 									default:
@@ -238,8 +275,10 @@ namespace Fee.JsonItem
 					t_return = t_jsonitem;
 				}
 			}else{
-				//nullの場合は追加しない。
+
 				t_return = null;
+				//t_return = new JsonItem();
+
 			}
 
 			//再起呼び出し。
@@ -249,7 +288,7 @@ namespace Fee.JsonItem
 					if(t_count > 0){
 						ObjectToJson_Work t_current_work = t_workpool[t_count - 1];
 						t_workpool.RemoveAt(t_count - 1);
-						t_current_work.Do(t_workpool);
+						t_current_work.Do(t_nest,t_workpool);
 					}else{
 						break;
 					}

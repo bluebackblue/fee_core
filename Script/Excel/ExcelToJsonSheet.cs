@@ -303,14 +303,14 @@ namespace Fee.Excel
 									//int
 
 									double t_value = this.GetTryCellNumeric(t_param_list[ii].pos_x,yy);
-									t_jsonitem_item.AddItem(t_param_list[ii].param_name,new JsonItem.JsonItem(new  Fee.JsonItem.Value_Int((int)t_value)),false);
+									t_jsonitem_item.AddItem(t_param_list[ii].param_name,new JsonItem.JsonItem(new  Fee.JsonItem.Value_Number<int>((int)t_value)),false);
 								}break;
 							case ParamType.FloatType:
 								{
 									//float
 
 									double t_value = this.GetTryCellNumeric(t_param_list[ii].pos_x,yy);
-									t_jsonitem_item.AddItem(t_param_list[ii].param_name,new JsonItem.JsonItem(new  Fee.JsonItem.Value_Float((float)t_value)),false);
+									t_jsonitem_item.AddItem(t_param_list[ii].param_name,new JsonItem.JsonItem(new  Fee.JsonItem.Value_Number<float>((float)t_value)),false);
 								}break;
 							default:
 								{

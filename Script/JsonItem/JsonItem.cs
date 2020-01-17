@@ -990,6 +990,16 @@ namespace Fee.JsonItem
 			return (ulong)0;
 		}
 
+		/** タイプチェック。ＮＵＬＬ。
+		*/
+		public bool IsNull()
+		{
+			if(this.valuetype == ValueType.None){
+				return true;
+			}
+			return false;
+		}
+
 		/** タイプチェック。文字データ。
 		*/
 		public bool IsStringData()
@@ -1148,7 +1158,7 @@ namespace Fee.JsonItem
 					}//break;
 				case ValueType.None:
 					{
-						//NULL。
+						//NULL処理。
 
 						this.jsonstring = null;
 						this.valuetype = ValueType.None;
@@ -1188,35 +1198,11 @@ namespace Fee.JsonItem
 				switch(this.valuetype){
 				case ValueType.StringData:
 					{
-						int t_index = 1;
-						int t_max = t_jsonstring_temp.Length - 1;
-
 						System.Text.StringBuilder t_stringbuilder = new System.Text.StringBuilder();
+
+						//ＪＳＯＮ文字列 ==> 特殊文字。
+						Impl.ConvertJsonStringToSpecialString(t_jsonstring_temp,1,t_jsonstring_temp.Length - 2,t_stringbuilder);
 				
-						while(t_index < t_max){
-							string t_out_string;
-							int t_use_index = Impl.ConvertFromEscapeSequenceString(t_jsonstring_temp,t_index,out t_out_string);
-
-							if(t_use_index > 0){
-								t_stringbuilder.Append(t_out_string);
-								t_index += t_use_index;
-							}else{
-								//不明なエンコード。
-								Tool.Assert(false);
-
-								this.value.string_data = "";
-								return;
-							}
-						}
-
-						if(t_index != t_max){
-							//不明なエンコード。
-							Tool.Assert(false);
-
-							this.value.string_data = "";
-							return;
-						}
-
 						this.value.string_data = t_stringbuilder.ToString();
 
 						return;
@@ -1624,7 +1610,7 @@ namespace Fee.JsonItem
 		{
 			System.Type t_type = typeof(Type);
 			System.Object t_object = JsonToObject_SystemObject.CreateInstance(t_type,this);
-			JsonToObject_SystemObject.Convert(ref t_object,t_type,this);
+			JsonToObject_SystemObject.Convert(ref t_object,t_type,this,0);
 			return (Type)System.Convert.ChangeType(t_object,t_type);
 		}
 
@@ -1642,29 +1628,8 @@ namespace Fee.JsonItem
 				{
 					a_stringbuilder.Append("\"");
 
-					{
-						int t_index = 0;
-						int t_max = this.value.string_data.Length;
-
-						while(t_index < t_max){
-							string t_out_string;
-							int t_use_index = Impl.ConvertToEscapeSequenceString(this.value.string_data,t_index,out t_out_string);
-
-							if(t_use_index > 0){
-								a_stringbuilder.Append(t_out_string);
-								t_index += t_use_index;
-								continue;
-							}else{
-								//不明。
-								Tool.Assert(false);
-
-								//TODO:ロールバック。
-								//a_stringbuilder.Clear();
-
-								return;
-							}
-						}
-					}
+					//特殊文字 ==> ＪＳＯＮ文字列。
+					Impl.ConvertSpecialStringToJsonString(this.value.string_data,a_stringbuilder);
 
 					a_stringbuilder.Append( "\"");
 
@@ -1695,7 +1660,13 @@ namespace Fee.JsonItem
 						//一つ目。
 						if(t_count > 0){
 
-							this.value.index_array[0].ConvertJsonString(a_stringbuilder);
+							if(this.value.index_array[0] != null){
+								this.value.index_array[0].ConvertJsonString(a_stringbuilder);
+							}else{
+								//NULL処理。
+								a_stringbuilder.Append("null");
+							}
+
 							t_index++;
 
 							//二つ目以降。
@@ -1703,7 +1674,12 @@ namespace Fee.JsonItem
 
 								a_stringbuilder.Append(",");
 
-								this.value.index_array[t_index].ConvertJsonString(a_stringbuilder);
+								if(this.value.index_array[t_index] != null){
+									this.value.index_array[t_index].ConvertJsonString(a_stringbuilder);
+								}else{
+									//NULL処理。
+									a_stringbuilder.Append("null");
+								}
 							}
 						}
 					}
@@ -1720,26 +1696,39 @@ namespace Fee.JsonItem
 
 						foreach(System.Collections.Generic.KeyValuePair<string,JsonItem> t_pair in this.value.associative_array){
 							if(t_first == true){
-								t_first = false;
 								//一つ目。
+								if(t_pair.Value != null){
+									t_first = false;
 
-								a_stringbuilder.Append("\"");
+									a_stringbuilder.Append("\"");
+									a_stringbuilder.Append(t_pair.Key);
+									a_stringbuilder.Append("\":");
 
-								a_stringbuilder.Append(t_pair.Key);
+									t_pair.Value.ConvertJsonString(a_stringbuilder);
+								}else{
+									//NULL処理。
+									t_first = false;
 
-								a_stringbuilder.Append("\":");
-
-								t_pair.Value.ConvertJsonString(a_stringbuilder);
+									a_stringbuilder.Append("\"");
+									a_stringbuilder.Append(t_pair.Key);
+									a_stringbuilder.Append("\":null");
+								}
 							}else{
 								//二つ目以降。
+								if(t_pair.Value != null){
 
-								a_stringbuilder.Append(",\"");
+									a_stringbuilder.Append(",\"");
+									a_stringbuilder.Append(t_pair.Key);
+									a_stringbuilder.Append("\":");
 
-								a_stringbuilder.Append(t_pair.Key);
+									t_pair.Value.ConvertJsonString(a_stringbuilder);
+								}else{
+									//NULL処理。
 
-								a_stringbuilder.Append("\":");
-
-								t_pair.Value.ConvertJsonString(a_stringbuilder);
+									a_stringbuilder.Append(",\"");
+									a_stringbuilder.Append(t_pair.Key);
+									a_stringbuilder.Append("\":null");
+								}
 							}
 						}
 					}
@@ -1764,13 +1753,13 @@ namespace Fee.JsonItem
 
 						//一つ目。
 						if(t_count > 0){
-							a_stringbuilder.Append(string.Format("{0:X}",this.value.binary_data[t_index]));
+							a_stringbuilder.Append(string.Format("{0:X2}",this.value.binary_data[t_index]));
 
 							t_index++;
 
 							//二つ目以降。
 							for(;t_index<t_count;t_index++){
-								a_stringbuilder.Append(string.Format("{0:X}",this.value.binary_data[t_index]));
+								a_stringbuilder.Append(string.Format("{0:X2}",this.value.binary_data[t_index]));
 							}
 						}
 					}
@@ -1780,6 +1769,7 @@ namespace Fee.JsonItem
 				}return;
 			case ValueType.None:
 				{
+					//NULL処理。
 					a_stringbuilder.Append("null");
 				}return;
 			case ValueType.Calc_UnknownNumber:
