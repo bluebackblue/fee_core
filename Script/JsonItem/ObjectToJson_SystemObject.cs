@@ -213,28 +213,46 @@ namespace Fee.JsonItem
 					//class,struct
 
 					JsonItem t_jsonitem = new JsonItem(new Value_AssociativeArray());
-					System.Reflection.MemberInfo[] t_member = t_type.GetMembers(System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance);
 
-					for(int ii=0;ii<t_member.Length;ii++){
-						if(t_member[ii].MemberType == System.Reflection.MemberTypes.Field){
-							System.Reflection.FieldInfo t_fieldinfo = t_member[ii] as System.Reflection.FieldInfo;
-							if(t_fieldinfo != null){
-								if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.Ignore),false) == true){
-									//無視する。
-								}else{
-									ObjectToJson_Work.ObjectOption t_objectoption = null;
+					while(true){
 
-									//ＥＮＵＭの文字列化。
-									if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.EnumString),false) == true){
-										t_objectoption = new ObjectToJson_Work.ObjectOption();
-										t_objectoption.attribute_enumstring = true;
-									}
+						if(t_type == null){
+							break;
+						}else if(t_type == typeof(System.Object)){
+							break;
+						}
 
-									switch(t_fieldinfo.Attributes){
-									case System.Reflection.FieldAttributes.Public:
-									case System.Reflection.FieldAttributes.Private:
-									case System.Reflection.FieldAttributes.Public | System.Reflection.FieldAttributes.InitOnly:
-									case System.Reflection.FieldAttributes.Private | System.Reflection.FieldAttributes.InitOnly:
+						System.Reflection.MemberInfo[] t_member = t_type.GetMembers(
+						
+							//指定した型の階層のレベルで宣言されたメンバーのみを対象にすることを指定します。 継承されたメンバーは対象になりません。
+							System.Reflection.BindingFlags.DeclaredOnly |
+
+							//インスタンス メンバーを検索に含めることを指定します。
+							System.Reflection.BindingFlags.Instance |
+
+							//パブリック メンバーを検索に含めることを指定します。
+							System.Reflection.BindingFlags.Public |
+
+							//パブリック メンバー以外のメンバーを検索に含めることを指定します。
+							System.Reflection.BindingFlags.NonPublic
+
+						);
+
+						for(int ii=0;ii<t_member.Length;ii++){
+							if(t_member[ii].MemberType == System.Reflection.MemberTypes.Field){
+								System.Reflection.FieldInfo t_fieldinfo = t_member[ii] as System.Reflection.FieldInfo;
+								if(t_fieldinfo != null){
+									if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.Ignore),false) == true){
+										//無視する。
+									}else{
+										ObjectToJson_Work.ObjectOption t_objectoption = null;
+
+										//ＥＮＵＭの文字列化。
+										if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.EnumString),false) == true){
+											t_objectoption = new ObjectToJson_Work.ObjectOption();
+											t_objectoption.attribute_enumstring = true;
+										}
+
 										{
 											System.Object t_raw = t_fieldinfo.GetValue(a_instance);
 											if(t_raw != null){
@@ -259,17 +277,15 @@ namespace Fee.JsonItem
 
 												//t_return = new JsonItem();
 											}
-										}break;
-									default:
-										{
-											//ＪＳＯＮ化しない型。
-										}break;
+										}
 									}
+								}else{
+									Tool.Assert(false);
 								}
-							}else{
-								Tool.Assert(false);
 							}
 						}
+
+						t_type = t_type.BaseType;
 					}
 
 					t_return = t_jsonitem;
