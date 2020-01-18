@@ -32,6 +32,14 @@ namespace Fee.JsonItem
 		*/
 		public static bool RETHROW_ENABLE = false;
 
+		/** プール数。最大値。
+		*/
+		public static int POOL_MAX = 1024;
+
+		/** コンバートネスト。最大値。
+		*/
+		public static int CONVERTNEST_MAX = 32;
+
 		/** CULTURE
 		*/
 		public static System.IFormatProvider CULTURE = System.Globalization.CultureInfo.CreateSpecificCulture("ja-JP");

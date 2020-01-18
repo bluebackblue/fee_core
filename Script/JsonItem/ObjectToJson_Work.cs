@@ -34,6 +34,10 @@ namespace Fee.JsonItem
 		*/
 		private int mode;
 
+		/** nest
+		*/
+		private int nest;
+
 		/** from_object
 		*/
 		private System.Object from_object;
@@ -59,9 +63,9 @@ namespace Fee.JsonItem
 
 		/** constructor
 		*/
-		public ObjectToJson_Work(System.Object a_object,ObjectOption a_object_option,int a_index,JsonItem a_to_jsonitem)
+		public ObjectToJson_Work(ModeIndexArray a_mode,System.Object a_object,ObjectOption a_object_option,int a_index,JsonItem a_to_jsonitem,int a_nest)
 		{
-			this.mode = (int)ModeIndexArray.Value;
+			this.mode = (int)a_mode;
 
 			this.from_object = a_object;
 			this.to_jsonitem = a_to_jsonitem;
@@ -69,13 +73,15 @@ namespace Fee.JsonItem
 			this.to_key = null;
 
 			this.object_option = a_object_option;
+
+			this.nest = a_nest;
 		}
 
 		/** constructor
 		*/
-		public ObjectToJson_Work(System.Object a_object,ObjectOption a_object_option,string a_key,JsonItem a_to_jsonitem)
+		public ObjectToJson_Work(AssociativeArray a_mode,System.Object a_object,ObjectOption a_object_option,string a_key,JsonItem a_to_jsonitem,int a_nest)
 		{
-			this.mode = (int)AssociativeArray.Value;
+			this.mode = (int)a_mode;
 
 			this.from_object = a_object;
 			this.to_jsonitem = a_to_jsonitem;
@@ -83,22 +89,36 @@ namespace Fee.JsonItem
 			this.to_key = a_key;
 
 			this.object_option = a_object_option;
+
+			this.nest = a_nest;
 		}
 
 		/** 実行。
 		*/
-		public void Do(int a_nest,System.Collections.Generic.List<ObjectToJson_Work> a_work_pool)
+		public void Do(System.Collections.Generic.List<ObjectToJson_Work> a_work_pool)
 		{
 			switch(this.mode){
 			case (int)ModeIndexArray.Value:
 				{
-					JsonItem t_jsonitem_member = ObjectToJson_SystemObject.Convert(this.from_object,this.object_option,a_nest,a_work_pool);
+					JsonItem t_jsonitem_member = null;
+
+					if(this.nest < Config.CONVERTNEST_MAX){
+						t_jsonitem_member = ObjectToJson_SystemObject.Convert(this.from_object,this.object_option,this.nest + 1,a_work_pool);
+					}else{
+						Tool.Assert(false);
+					}
 
 					this.to_jsonitem.SetItem(this.to_index,t_jsonitem_member,false);
 				}break;
 			case (int)AssociativeArray.Value:
 				{
-					JsonItem t_jsonitem_member = ObjectToJson_SystemObject.Convert(this.from_object,this.object_option,a_nest,a_work_pool);
+					JsonItem t_jsonitem_member = null;
+
+					if(this.nest < Config.CONVERTNEST_MAX){
+						t_jsonitem_member = ObjectToJson_SystemObject.Convert(this.from_object,this.object_option,this.nest + 1,a_work_pool);
+					}else{
+						Tool.Assert(false);
+					}
 
 					this.to_jsonitem.SetItem(this.to_key,t_jsonitem_member,false);
 				}break;

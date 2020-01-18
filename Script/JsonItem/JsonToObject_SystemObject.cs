@@ -149,153 +149,175 @@ namespace Fee.JsonItem
 						a_to_object_ref = (System.Enum)(System.Enum.Parse(t_type,a_jsonitem.GetStringData()));
 					}
 				}else if(a_jsonitem.IsIndexArray() == true){
-					if(t_type.IsGenericType == true){
-						if(t_type.GetGenericTypeDefinition() == typeof(System.Collections.Generic.List<>)){
-							//List
 
-							System.Collections.IList t_list = a_to_object_ref as System.Collections.IList;
-							System.Type t_type_member = t_type.GetGenericArguments()[0];
+					do{
+						System.Collections.ICollection t_collection = a_to_object_ref as System.Collections.ICollection;
+						if(t_collection != null){
 
-							for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
-								JsonItem t_jsonitem_member = a_jsonitem.GetItem(ii);
+							//IList
+							{
+								System.Collections.IList t_list = t_collection as System.Collections.IList;
+								if(t_list != null){
+									System.Type t_type_member = t_type.GetGenericArguments()[0];
 
-								if(t_type_member.IsClass == true){
-									//インスタンス作成。
-									System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+									for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
+										JsonItem t_jsonitem_member = a_jsonitem.GetItem(ii);
 
-									//中身の作成は後回し。
-									t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeConvertOnly.Value,t_object_member,t_type_member,t_jsonitem_member));
+										if(t_type_member.IsClass == true){
+											//インスタンス作成。
+											System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
 
-									//リストに追加。
-									t_list.Add(t_object_member);
-								}else{
-									//インスタンス作成。
-									System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
+											//中身の作成は後回し。
+											t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeConvertOnly.Value,t_object_member,t_type_member,t_jsonitem_member));
 
-									//■メンバーの設定。
-									JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member,t_nest);
+											//リストに追加。
+											t_list.Add(t_object_member);
+										}else{
+											//インスタンス作成。
+											System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
 
-									//リストに追加。
-									t_list.Add(t_object_member);
-								}
-							}
-						}
-					}else if(a_type.IsArray == true){
-						//x[]
+											//■メンバーの設定。
+											JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member,t_nest);
 
-						System.Array t_list = a_to_object_ref as System.Array;
-
-						System.Type t_type_member = t_type.GetElementType();
-
-						for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
-							JsonItem t_jsonitem_member = a_jsonitem.GetItem(ii);
-
-							if(t_type_member.IsClass == true){
-								//インスタンス作成。
-								System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
-
-								//中身の作成は後回し。
-								t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeConvertOnly.Value,t_object_member,t_type_member,t_jsonitem_member));
-
-								//リストに追加。
-								t_list.SetValue(t_object_member,ii);
-							}else{
-								//インスタンス作成。
-								System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
-
-								//■メンバーの設定。
-								JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member,t_nest);
-
-								//リストに追加。
-								t_list.SetValue(t_object_member,ii);
-							}
-						}
-					}
-				}else if(a_jsonitem.IsAssociativeArray() == true){
-					//struct,class,Dictionary
-					bool t_search_member = true;
-
-					if(t_type.IsGenericType == true){
-						if(t_type.GetGenericTypeDefinition() == typeof(System.Collections.Generic.Dictionary<,>)){
-							//Dictionary
-
-							System.Collections.IDictionary t_list = a_to_object_ref as System.Collections.IDictionary;
-							System.Type t_type_member = t_type.GetGenericArguments()[1];
-
-							System.Collections.Generic.List<string> t_key_list = a_jsonitem.CreateAssociativeKeyList();
-							for(int ii=0;ii<t_key_list.Count;ii++){
-								JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_key_list[ii]);
-
-								if(t_type_member.IsClass == true){
-
-									//インスタンス作成。
-									System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
-
-									//中身の作成は後回し。
-									t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeConvertOnly.Value,t_object_member,t_type_member,t_jsonitem_member));
-
-									//リストに追加。
-									t_list.Add(t_key_list[ii],t_object_member);
-								}else{
-
-									//インスタンス作成。
-									System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_member,t_jsonitem_member);
-
-									//■メンバーの設定。
-									JsonToObject_SystemObject.Convert(ref t_object_member,t_type_member,t_jsonitem_member,t_nest);
-
-									//リストに追加。
-									t_list.Add(t_key_list[ii],t_object_member);
-								}
-							}
-
-							//no support dictionary
-							t_search_member = false;
-						}
-					}
-
-					if(t_search_member == true){
-						//struct,class
-
-						System.Reflection.MemberInfo[] t_member = t_type.GetMembers(System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance);
-
-						for(int ii=0;ii<t_member.Length;ii++){
-							if(t_member[ii].MemberType == System.Reflection.MemberTypes.Field){
-								System.Reflection.FieldInfo t_fieldinfo = t_member[ii] as System.Reflection.FieldInfo;
-								if(t_fieldinfo != null){
-									if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.Ignore),false) == true){
-										//無視する。
-									}else{
-										switch(t_fieldinfo.Attributes){
-										case System.Reflection.FieldAttributes.Public:
-										case System.Reflection.FieldAttributes.Private:
-										case System.Reflection.FieldAttributes.Public | System.Reflection.FieldAttributes.InitOnly:
-										case System.Reflection.FieldAttributes.Private | System.Reflection.FieldAttributes.InitOnly:
-											{
-												if(a_jsonitem.IsExistItem(t_fieldinfo.Name) == true){
-													System.Type t_type_member = t_fieldinfo.FieldType;
-
-													JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_fieldinfo.Name);
-
-													//全部後回し。
-													t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeCreateInstance.Value,t_fieldinfo,a_to_object_ref,t_jsonitem_member));
-
-												}else{
-													//ＪＳＯＮ側には存在しない。
-												}
-											}break;
-										default:
-											{
-												//オブジェクト化しない型。
-											}break;
+											//リストに追加。
+											t_list.Add(t_object_member);
 										}
 									}
-								}else{
-									Tool.Assert(false);
+
+									//doの外へ。
+									break;
+								}
+							}
+
+							{
+								//LinkedList
+								//HashSet
+							}
+
+						}
+
+						//doの外へ。
+						break;
+					}while(false);
+
+				}else if(a_jsonitem.IsAssociativeArray() == true){
+
+					do{
+
+						//dictionary
+						if(t_type.IsGenericType == true){
+							if(t_type.GetGenericTypeDefinition() == typeof(System.Collections.Generic.Dictionary<,>)){
+								if(t_type.GetGenericArguments()[0] == typeof(string)){
+									//Dictionary<string,X>
+
+									System.Collections.IDictionary t_list = a_to_object_ref as System.Collections.IDictionary;
+									System.Type t_value_type = t_type.GetGenericArguments()[1];
+									System.Collections.Generic.List<string> t_key_list = a_jsonitem.CreateAssociativeKeyList();
+
+									foreach(string t_key_name in t_key_list){
+										JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_key_name);
+
+										if(t_value_type.IsClass == true){
+
+											//インスタンス作成。
+											System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_value_type,t_jsonitem_member);
+
+											//中身の作成は後回し。
+											t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeConvertOnly.Value,t_object_member,t_value_type,t_jsonitem_member));
+
+											//リストに追加。
+											t_list.Add(t_key_name,t_object_member);
+
+										}else{
+
+											//インスタンス作成。
+											System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_value_type,t_jsonitem_member);
+
+											//■メンバーの設定。
+											JsonToObject_SystemObject.Convert(ref t_object_member,t_value_type,t_jsonitem_member,t_nest);
+
+											//リストに追加。
+											t_list.Add(t_key_name,t_object_member);
+
+										}
+									}
+
+									//doの外へ。
+									break;
 								}
 							}
 						}
-					}
+								
+						//class,struct
+						{
+							while(true){
+							
+								if(t_type == null){
+									break;
+								}else if(t_type == typeof(System.Object)){
+									break;
+								}
+
+								System.Reflection.MemberInfo[] t_member_list = t_type.GetMembers(
+								
+									//指定した型の階層のレベルで宣言されたメンバーのみを対象にすることを指定します。 継承されたメンバーは対象になりません。
+									System.Reflection.BindingFlags.DeclaredOnly |
+							
+									//インスタンス メンバーを検索に含めることを指定します。
+									System.Reflection.BindingFlags.Instance |
+							
+									//パブリック メンバーを検索に含めることを指定します。
+									System.Reflection.BindingFlags.Public |
+							
+									//パブリック メンバー以外のメンバーを検索に含めることを指定します。
+									System.Reflection.BindingFlags.NonPublic
+							
+								);
+
+								foreach(System.Reflection.MemberInfo t_memberinfo in t_member_list){
+									if(t_memberinfo.MemberType == System.Reflection.MemberTypes.Field){
+										System.Reflection.FieldInfo t_fieldinfo = t_memberinfo as System.Reflection.FieldInfo;
+										if(t_fieldinfo != null){
+							
+											if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.Ignore),false) == true){
+												//オブジェクト化しない。
+												continue;
+											}
+							
+											System.Type t_field_type = t_fieldinfo.FieldType;
+							
+											if((t_field_type == typeof(System.IntPtr))||(t_field_type == typeof(System.UIntPtr))){
+												//オブジェクト化しない。
+												continue;
+											}
+
+											if(a_jsonitem.IsExistItem(t_fieldinfo.Name) == true){
+												System.Type t_type_member = t_fieldinfo.FieldType;
+
+												JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_fieldinfo.Name);
+
+												//全部後回し。
+												t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeCreateInstance.Value,t_fieldinfo,a_to_object_ref,t_jsonitem_member));
+
+											}else{
+												//ＪＳＯＮ側には存在しない。
+											}
+										}else{
+											Tool.Assert(false);
+										}
+									}
+								}
+							
+								//次の継承元へ。
+								t_type = t_type.BaseType;
+							}
+
+							//doの外へ。
+							break;
+						}
+
+						//break;
+					}while(false);
 				}
 			}
 
@@ -303,10 +325,15 @@ namespace Fee.JsonItem
 				while(true){
 					int t_count = t_workpool.Count;
 					if(t_count > 0){
-
 						JsonToObject_Work t_current_work = t_workpool.First.Value;
 						t_workpool.RemoveFirst();
 						t_current_work.Do(t_nest,t_workpool);
+
+						//たぶん無限ループ。
+						if(t_count > Config.POOL_MAX){
+							t_workpool.Clear();
+							Tool.Assert(false);
+						}
 
 					}else{
 						break;

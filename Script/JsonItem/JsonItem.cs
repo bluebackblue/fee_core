@@ -1440,7 +1440,7 @@ namespace Fee.JsonItem
 				this.JsonStringToValue();
 			}
 
-			if(a_deepcopy == true){
+			if((a_deepcopy == true)&&(a_item != null)){
 				this.value.associative_array.Add(a_itemname,a_item.DeepCopy());
 			}else{
 				this.value.associative_array.Add(a_itemname,a_item);
@@ -1457,7 +1457,7 @@ namespace Fee.JsonItem
 				this.JsonStringToValue();
 			}
 		
-			if(a_deepcopy == true){
+			if((a_deepcopy == true)&&(a_item != null)){
 				this.value.index_array.Add(a_item.DeepCopy());
 			}else{
 				this.value.index_array.Add(a_item);
@@ -1477,7 +1477,7 @@ namespace Fee.JsonItem
 				this.JsonStringToValue();
 			}
 
-			if(a_deepcopy == true){
+			if((a_deepcopy == true)&&(a_item != null)){
 				if(this.value.associative_array.ContainsKey(a_itemname) == true){
 					this.value.associative_array[a_itemname] = a_item.DeepCopy();
 				}else{
@@ -1506,7 +1506,7 @@ namespace Fee.JsonItem
 			}
 		
 			if((0<=a_index)&&(a_index<this.value.index_array.Count)){
-				if(a_deepcopy == true){
+				if((a_deepcopy == true)&&(a_item != null)){
 					this.value.index_array[a_index] = a_item.DeepCopy();
 				}else{
 					this.value.index_array[a_index] = a_item;
