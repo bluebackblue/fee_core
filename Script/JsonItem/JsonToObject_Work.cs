@@ -158,7 +158,7 @@ namespace Fee.JsonItem
 						if(t_first_node != null){
 							a_work_pool.AddBefore(t_first_node,this);
 						}else{
-							a_work_pool.AddFirst(this);
+							a_work_pool.AddLast(this);
 						}
 					}
 				}break;

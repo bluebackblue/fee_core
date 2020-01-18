@@ -204,50 +204,58 @@ namespace Fee.JsonItem
 
 					do{
 
-						//dictionary
-						if(t_type.IsGenericType == true){
-							if(t_type.GetGenericTypeDefinition() == typeof(System.Collections.Generic.Dictionary<,>)){
-								if(t_type.GetGenericArguments()[0] == typeof(string)){
-									//Dictionary<string,X>
+						//IDictionary
+						{
+							System.Collections.IDictionary t_dictionary = a_to_object_ref as System.Collections.IDictionary;
+							if(t_dictionary != null){
 
-									System.Collections.IDictionary t_list = a_to_object_ref as System.Collections.IDictionary;
-									System.Type t_value_type = t_type.GetGenericArguments()[1];
-									System.Collections.Generic.List<string> t_key_list = a_jsonitem.CreateAssociativeKeyList();
+								System.Type[] t_type_list = t_type.GetGenericArguments();
+								if(t_type_list.Length >= 2){
+									if(t_type_list[0] == typeof(string)){
 
-									foreach(string t_key_name in t_key_list){
-										JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_key_name);
+										System.Collections.Generic.List<string> t_key_list = a_jsonitem.CreateAssociativeKeyList();
+										foreach(string t_key_name in t_key_list){
+											JsonItem t_jsonitem_member = a_jsonitem.GetItem(t_key_name);
 
-										if(t_value_type.IsClass == true){
+											System.Type t_type_value = t_type_list[1];
+											
+											if(t_type_value.IsClass == true){
 
-											//インスタンス作成。
-											System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_value_type,t_jsonitem_member);
+												//インスタンス作成。
+												System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_value,t_jsonitem_member);
 
-											//中身の作成は後回し。
-											t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeConvertOnly.Value,t_object_member,t_value_type,t_jsonitem_member));
+												//中身の作成は後回し。
+												t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeConvertOnly.Value,t_object_member,t_type_value,t_jsonitem_member));
 
-											//リストに追加。
-											t_list.Add(t_key_name,t_object_member);
+												//リストに追加。
+												t_dictionary.Add(t_key_name,t_object_member);
 
-										}else{
+											}else{
 
-											//インスタンス作成。
-											System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_value_type,t_jsonitem_member);
+												//インスタンス作成。
+												System.Object t_object_member = JsonToObject_SystemObject.CreateInstance(t_type_value,t_jsonitem_member);
 
-											//■メンバーの設定。
-											JsonToObject_SystemObject.Convert(ref t_object_member,t_value_type,t_jsonitem_member,t_nest);
+												//■メンバーの設定。
+												JsonToObject_SystemObject.Convert(ref t_object_member,t_type_value,t_jsonitem_member,t_nest);
 
-											//リストに追加。
-											t_list.Add(t_key_name,t_object_member);
+												//リストに追加。
+												t_dictionary.Add(t_key_name,t_object_member);
 
+											}
 										}
-									}
 
-									//doの外へ。
-									break;
+										//doの外へ。
+										break;
+									}else{
+										//key != string
+
+									}
+								}else{
+									//タイプの数がたりない。
 								}
 							}
 						}
-								
+							
 						//class,struct
 						{
 							while(true){
