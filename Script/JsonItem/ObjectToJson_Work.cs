@@ -16,37 +16,53 @@ namespace Fee.JsonItem
 	*/
 	public class ObjectToJson_Work
 	{
-		/** ModeIndexArray
+		/** ModeAddIndexArray
+
+			IndexArray。追加。
+
 		*/
-		public enum ModeIndexArray
+		public enum ModeAddIndexArray
 		{
-			Value = 0,
+			/** 開始。
+			*/
+			Start = 0,
 		}
 
-		/** AssociativeArray
+		/** ModeSetIndexArray
+
+			IndexArray。設定。
+
 		*/
-		public enum AssociativeArray
+		public enum ModeSetIndexArray
 		{
-			Value = 1,
+			/** 開始。
+			*/
+			Start = 1,
 		}
 
-		/** mode
-		*/
-		private int mode;
+		/** ModeAddAssociativeArray
 
-		/** nest
-		*/
-		private int nest;
+			AssociativeArray。追加。
 
-		/** from_object
 		*/
-		private System.Object from_object;
+		public enum ModeAddAssociativeArray
+		{
+			/** 開始。
+			*/
+			Start = 2,
+		}
 
-		/** to_jsonitem
+		/** ModeFieldInfo
+
+			FieldInfo。
+
 		*/
-		private JsonItem to_jsonitem;
-		private int to_index;
-		private string to_key;
+		public enum ModeFieldInfo
+		{
+			/** 開始。
+			*/
+			Start = 3,
+		}
 
 		/** ObjectOption
 		*/
@@ -54,43 +70,138 @@ namespace Fee.JsonItem
 		{
 			/** Enumを文字列に変換する。
 			*/
-			public bool attribute_enumstring = false;
+			public bool attribute_enumstring;
+
+			/** constructor
+			*/
+			public ObjectOption()
+			{
+				this.attribute_enumstring = false;
+			}
 		}
 
-		/** object_option
+		/** モード。
 		*/
-		private ObjectOption object_option;
+		private int mode;
+
+		/** ネスト。
+		*/
+		private int nest;
+
+		/** コンバート元、インスタンス。
+
+			from_object : フィールドインフォ用の親オブジェクト / リストアイテム。
+
+		*/
+		private System.Reflection.FieldInfo from_fieldinfo;
+		private System.Object from_parent_object;
+		private System.Object from_object;
+		private ObjectOption from_objectoption;
+
+		/** コンバート先。ＪＳＯＮ。
+		*/
+		private JsonItem to_jsonitem;
+		private int to_index;
+		private string to_key_string;
 
 		/** constructor
+
+			IndexArray。追加。
+
 		*/
-		public ObjectToJson_Work(ModeIndexArray a_mode,System.Object a_object,ObjectOption a_object_option,int a_index,JsonItem a_to_jsonitem,int a_nest)
+		public ObjectToJson_Work(ModeAddIndexArray a_mode,int a_nest,JsonItem a_to_jsonitem,System.Object a_from_listitem_object,ObjectOption a_from_objectoption)
 		{
+			//mode
 			this.mode = (int)a_mode;
 
-			this.from_object = a_object;
-			this.to_jsonitem = a_to_jsonitem;
-			this.to_index = a_index;
-			this.to_key = null;
-
-			this.object_option = a_object_option;
-
+			//nest
 			this.nest = a_nest;
+
+			//コンバート元、インスタンス。
+			this.from_fieldinfo = null;
+			this.from_parent_object = null;
+			this.from_object = a_from_listitem_object;
+			this.from_objectoption = a_from_objectoption;
+
+			//コンバート先。ＪＳＯＮ。
+			this.to_jsonitem = a_to_jsonitem;
+			this.to_index = 0;
+			this.to_key_string = null;
 		}
 
 		/** constructor
+
+			IndexArray。設定。
+
 		*/
-		public ObjectToJson_Work(AssociativeArray a_mode,System.Object a_object,ObjectOption a_object_option,string a_key,JsonItem a_to_jsonitem,int a_nest)
+		public ObjectToJson_Work(ModeSetIndexArray a_mode,int a_nest,JsonItem a_to_jsonitem,int a_to_index,System.Object a_from_listitem_object,ObjectOption a_from_objectoption)
 		{
+			//mode
 			this.mode = (int)a_mode;
 
-			this.from_object = a_object;
-			this.to_jsonitem = a_to_jsonitem;
-			this.to_index = -1;
-			this.to_key = a_key;
-
-			this.object_option = a_object_option;
-
+			//nest
 			this.nest = a_nest;
+
+			//コンバート元、インスタンス。
+			this.from_fieldinfo = null;
+			this.from_parent_object = null;
+			this.from_object = a_from_listitem_object;
+			this.from_objectoption = a_from_objectoption;
+
+			//コンバート先。ＪＳＯＮ。
+			this.to_jsonitem = a_to_jsonitem;
+			this.to_index = a_to_index;
+			this.to_key_string = null;
+		}
+
+		/** constructor
+
+			AssociativeArray。追加。
+
+		*/
+		public ObjectToJson_Work(ModeAddAssociativeArray a_mode,int a_nest,JsonItem a_to_jsonitem,string a_to_key_string,System.Object a_from_listitem_object,ObjectOption a_from_objectoption)
+		{
+			//mode
+			this.mode = (int)a_mode;
+
+			//nest
+			this.nest = a_nest;
+
+			//コンバート元、インスタンス。
+			this.from_fieldinfo = null;
+			this.from_parent_object = null;
+			this.from_object = a_from_listitem_object;
+			this.from_objectoption = a_from_objectoption;
+
+			//コンバート先。ＪＳＯＮ。
+			this.to_jsonitem = a_to_jsonitem;
+			this.to_index = 0;
+			this.to_key_string = a_to_key_string;
+		}
+
+		/** constructor
+
+			FieldInfo。
+
+		*/
+		public ObjectToJson_Work(ModeFieldInfo a_mode,int a_nest,JsonItem a_to_jsonitem,System.Reflection.FieldInfo a_from_fieldinfo,System.Object a_from_parent_object)
+		{
+			//モード。
+			this.mode = (int)a_mode;
+
+			//ネスト。
+			this.nest = a_nest;
+
+			//コンバート元、インスタンス。
+			this.from_fieldinfo = a_from_fieldinfo;
+			this.from_parent_object = a_from_parent_object;
+			this.from_object = null;
+			this.from_objectoption = null;
+
+			//コンバート先。ＪＳＯＮ。
+			this.to_jsonitem = a_to_jsonitem;
+			this.to_index = 0;
+			this.to_key_string = null;
 		}
 
 		/** 実行。
@@ -98,29 +209,78 @@ namespace Fee.JsonItem
 		public void Do(System.Collections.Generic.List<ObjectToJson_Work> a_work_pool)
 		{
 			switch(this.mode){
-			case (int)ModeIndexArray.Value:
+			case (int)ModeAddIndexArray.Start:
 				{
-					JsonItem t_jsonitem_member = null;
+					//IndexArray。追加。
+
+					JsonItem t_jsonitem_listitem = null;
 
 					if(this.nest < Config.CONVERTNEST_MAX){
-						t_jsonitem_member = ObjectToJson_SystemObject.Convert(this.from_object,this.object_option,this.nest + 1,a_work_pool);
+						t_jsonitem_listitem = ObjectToJson_SystemObject.Convert(this.from_object,this.from_objectoption,this.nest + 1,a_work_pool);
 					}else{
 						Tool.Assert(false);
 					}
 
-					this.to_jsonitem.SetItem(this.to_index,t_jsonitem_member,false);
+					this.to_jsonitem.AddItem(t_jsonitem_listitem,false);
 				}break;
-			case (int)AssociativeArray.Value:
+			case (int)ModeSetIndexArray.Start:
 				{
-					JsonItem t_jsonitem_member = null;
+					//IndexArray。設定。
+
+					JsonItem t_jsonitem_listitem = null;
 
 					if(this.nest < Config.CONVERTNEST_MAX){
-						t_jsonitem_member = ObjectToJson_SystemObject.Convert(this.from_object,this.object_option,this.nest + 1,a_work_pool);
+						t_jsonitem_listitem = ObjectToJson_SystemObject.Convert(this.from_object,this.from_objectoption,this.nest + 1,a_work_pool);
 					}else{
 						Tool.Assert(false);
 					}
 
-					this.to_jsonitem.SetItem(this.to_key,t_jsonitem_member,false);
+					this.to_jsonitem.SetItem(this.to_index,t_jsonitem_listitem,false);
+				}break;
+			case (int)ModeAddAssociativeArray.Start:
+				{
+					//AssociativeArray。追加。
+
+					JsonItem t_jsonitem_member = null;
+
+					if(this.nest < Config.CONVERTNEST_MAX){
+						t_jsonitem_member = ObjectToJson_SystemObject.Convert(this.from_object,this.from_objectoption,this.nest + 1,a_work_pool);
+					}else{
+						Tool.Assert(false);
+					}
+
+					this.to_jsonitem.SetItem(this.to_key_string,t_jsonitem_member,false);
+				}break;
+			case (int)ModeFieldInfo.Start:
+				{
+					//FieldInfo。
+
+					//オプション設定。
+					ObjectToJson_Work.ObjectOption t_objectoption = null;
+
+					//ＥＮＵＭの文字列化。
+					if(this.from_fieldinfo.IsDefined(typeof(Fee.JsonItem.EnumString),false) == true){
+						t_objectoption = new ObjectToJson_Work.ObjectOption();
+						t_objectoption.attribute_enumstring = true;
+					}
+
+					System.Object t_raw = this.from_fieldinfo.GetValue(this.from_parent_object);
+					if(t_raw != null){
+
+						JsonItem t_jsonitem_member = null;
+
+						if(this.nest < Config.CONVERTNEST_MAX){
+							t_jsonitem_member = ObjectToJson_SystemObject.Convert(t_raw,t_objectoption,this.nest + 1,a_work_pool);
+						}else{
+							Tool.Assert(false);
+						}
+
+						this.to_jsonitem.SetItem(this.from_fieldinfo.Name,t_jsonitem_member,false);
+
+					}else{
+						//NULL処理。
+					}
+
 				}break;
 			}
 		}

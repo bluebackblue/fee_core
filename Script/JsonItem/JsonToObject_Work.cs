@@ -16,107 +16,184 @@ namespace Fee.JsonItem
 	*/
 	public class JsonToObject_Work
 	{
-		/** コンバートのみ。
+		/** ModeSetList
+
+			List。設定。
+
 		*/
-		public enum ModeConvertOnly
+		public enum ModeSetList
 		{
-			Value = 0,
+			/** 開始。
+			*/
+			Start = 0,
+
+			/** 反映。
+			*/
+			Fix = 100,
 		}
 
-		/** インスタンス作成、コンバート。値設定。
+		/** ModeAddList
+
+			List。追加。
+
 		*/
-		public enum ModeCreateInstance
+		public enum ModeAddList
 		{
-			Value = 1,
+			/** 開始。
+			*/
+			Start = 1,
+
+			/** 反映。
+			*/
+			Fix = 101,
 		}
 
-		/** 設定。
+		/** ModeAddDictionary
+
+			Dictionary。追加。
+
 		*/
-		public enum ModeFix
+		public enum ModeAddDictionary
 		{
-			Value = 2,
+			/** 開始。
+			*/
+			Start = 2,
+
+			/** 反映。
+			*/
+			Fix = 102,
 		}
 
+		/** ModeFieldInfo
+
+			FieldInfo
+
+		*/
+		public enum ModeFieldInfo
+		{
+			/** 開始。
+			*/
+			Start = 3,
+
+			/** 反映。
+			*/
+			Fix = 103,
+		}
+
+		/** モード。
+		*/
 		int mode;
 
-		/** 設定先。
+		/** コンバート元。ＪＳＯＮ。
 		*/
-		System.Reflection.FieldInfo set_fieldinfo;
-		System.Object set_object;
-		System.Type set_type;
+		private JsonItem from_jsonitem;
 
-		/** コンバート先。
+		/** コンバート先。インスタンス。
 		*/
-		System.Object to_object;
-
-		/** コンバート元。
-		*/
-		JsonItem from_jsonitem;
+		private System.Type to_type;
+		private System.Object to_object;
+		private System.Collections.IList to_list;
+		private int to_index;
+		private System.Collections.IDictionary to_dictionary;
+		private string to_key_string;
+		private System.Reflection.FieldInfo to_fieldinfo;
+		private System.Object to_parent_object;
 
 		/** constructor
-		
-			コンバートのみ。
+
+			List。設定。
 
 		*/
-		public JsonToObject_Work(ModeConvertOnly a_mode,System.Object a_to_object,System.Type a_set_type,JsonItem a_from_jsonitem)
+		public JsonToObject_Work(ModeSetList a_mode,JsonItem a_from_listitem_json,System.Collections.IList a_to_list,int a_to_index,System.Type a_to_listitem_type)
 		{
 			//モード。
 			this.mode = (int)a_mode;
 
-			//設定先。
-			this.set_fieldinfo = null;
-			this.set_object = null;
-			this.set_type = a_set_type;
-
-			//コンバート先。
-			this.to_object = a_to_object;
-
-			//コンバート元。
-			this.from_jsonitem = a_from_jsonitem;
-		}
-
-		/** constructor
-		
-			インスタンス作成、コンバート。値設定。
-
-		*/
-		public JsonToObject_Work(ModeCreateInstance a_mode,System.Reflection.FieldInfo a_set_fieldinfo,System.Object a_set_object,JsonItem a_from_jsonitem)
-		{
-			//モード。
-			this.mode = (int)a_mode;
+			//設定元。
+			this.from_jsonitem = a_from_listitem_json;
 
 			//設定先。
-			this.set_fieldinfo = a_set_fieldinfo;
-			this.set_object = a_set_object;
-			this.set_type = a_set_fieldinfo.FieldType;
-
-			//コンバート先。
+			this.to_type = a_to_listitem_type;
 			this.to_object = null;
-
-			//コンバート元。
-			this.from_jsonitem = a_from_jsonitem;
+			this.to_list = a_to_list;
+			this.to_index = a_to_index;
+			this.to_dictionary = null;
+			this.to_key_string = null;
+			this.to_fieldinfo = null;
+			this.to_parent_object = null;
 		}
 
-		/** constructor
 		
-			設定。
+		/** constructor
+
+			List。追加。
 
 		*/
-		public JsonToObject_Work(ModeFix a_mode,System.Reflection.FieldInfo a_set_fieldinfo,System.Object a_set_object,System.Object a_to_object)
+		public JsonToObject_Work(ModeAddList a_mode,JsonItem a_from_listitem_json,System.Collections.IList a_to_list,System.Type a_to_listitem_type)
 		{
 			//モード。
 			this.mode = (int)a_mode;
 
+			//設定元。
+			this.from_jsonitem = a_from_listitem_json;
+
 			//設定先。
-			this.set_fieldinfo = a_set_fieldinfo;
-			this.set_object = a_set_object;
-			this.set_type = null;
+			this.to_type = a_to_listitem_type;
+			this.to_object = null;
+			this.to_list = a_to_list;
+			this.to_index = 0;
+			this.to_dictionary = null;
+			this.to_key_string = null;
+			this.to_fieldinfo = null;
+			this.to_parent_object = null;
+		}
 
-			//コンバート先。
-			this.to_object = a_to_object;
+		/** constructor
 
-			//コンバート元。
-			this.from_jsonitem = null;
+			Dictionary。追加。
+
+		*/
+		public JsonToObject_Work(ModeAddDictionary a_mode,JsonItem a_from_listitem_jsonitem,System.Collections.IDictionary a_to_dictionary,string a_to_key_string,System.Type a_to_listitem_type)
+		{
+			//モード。
+			this.mode = (int)a_mode;
+
+			//設定元。
+			this.from_jsonitem = a_from_listitem_jsonitem;
+
+			//設定先。
+			this.to_type = a_to_listitem_type;
+			this.to_object = null;
+			this.to_list = null;
+			this.to_index = 0;
+			this.to_dictionary = a_to_dictionary;
+			this.to_key_string = a_to_key_string;
+			this.to_fieldinfo = null;
+			this.to_parent_object = null;
+		}
+
+		/** constructor
+
+			FieldInfo
+
+		*/
+		public JsonToObject_Work(ModeFieldInfo a_mode,JsonItem a_from_member_jsonitem,System.Reflection.FieldInfo a_to_fieldinfo,System.Object a_to_parent_object)
+		{
+			//モード。
+			this.mode = (int)a_mode;
+
+			//設定元。
+			this.from_jsonitem = a_from_member_jsonitem;
+
+			//設定先。
+			this.to_type = a_to_fieldinfo.FieldType;
+			this.to_object = null;
+			this.to_list = null;
+			this.to_index = 0;
+			this.to_dictionary = null;
+			this.to_key_string = null;
+			this.to_fieldinfo = a_to_fieldinfo;
+			this.to_parent_object = a_to_parent_object;
 		}
 
 		/** 実行。
@@ -124,36 +201,29 @@ namespace Fee.JsonItem
 		public void Do(int a_nest,System.Collections.Generic.LinkedList<JsonToObject_Work> a_work_pool)
 		{
 			switch(this.mode){
-			case (int)ModeConvertOnly.Value:
+			case (int)ModeSetList.Start:
 				{
-					//メンバーの設定。
-					JsonToObject_SystemObject.Convert(ref this.to_object,this.set_type,this.from_jsonitem,a_nest,a_work_pool);
-				}break;
-			case (int)ModeCreateInstance.Value:
-				{
-					//インスタンスの作成。
-					this.to_object = JsonToObject_SystemObject.CreateInstance(this.set_type,this.from_jsonitem);
+					//List。設定。
 
-					if(this.set_type.IsClass == true){
+					//インスタンス作成。
+					this.to_object = JsonToObject_SystemObject.CreateInstance(this.to_type,this.from_jsonitem);
+
+					if(this.to_type.IsClass == true){
 
 						//メンバーの設定。
-						JsonToObject_SystemObject.Convert(ref this.to_object,this.set_type,this.from_jsonitem,a_nest,a_work_pool);
+						JsonToObject_SystemObject.Convert(ref this.to_object,this.to_type,this.from_jsonitem,a_nest,a_work_pool);
 
-						//フィールドに設定。
-						try{
-							this.set_fieldinfo.SetValue(this.set_object,this.to_object);
-						}catch(System.Exception t_exception){
-							Tool.DebugReThrow(t_exception);
-						}
+						//リストに設定。
+						this.to_list[this.to_index] = this.to_object;
 					}else{
 
 						System.Collections.Generic.LinkedListNode<JsonToObject_Work> t_first_node = a_work_pool.First;
 
 						//メンバーの設定。
-						JsonToObject_SystemObject.Convert(ref this.to_object,this.set_type,this.from_jsonitem,a_nest,a_work_pool);
+						JsonToObject_SystemObject.Convert(ref this.to_object,this.to_type,this.from_jsonitem,a_nest,a_work_pool);
 
 						//再登録。
-						this.mode = (int)ModeFix.Value;
+						this.mode = (int)ModeSetList.Fix;
 
 						if(t_first_node != null){
 							a_work_pool.AddBefore(t_first_node,this);
@@ -162,14 +232,127 @@ namespace Fee.JsonItem
 						}
 					}
 				}break;
-			case (int)ModeFix.Value:
+			case (int)ModeSetList.Fix:
 				{
-					//フィールドに設定。
-					try{
-						this.set_fieldinfo.SetValue(this.set_object,this.to_object);
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
+					//List。設定。
+
+					//リストに設定。
+					this.to_list[this.to_index] = this.to_object;
+				}break;
+			case (int)ModeAddList.Start:
+				{
+					//List。追加。
+
+					//インスタンス作成。
+					this.to_object = JsonToObject_SystemObject.CreateInstance(this.to_type,this.from_jsonitem);
+
+					if(this.to_type.IsClass == true){
+
+						//メンバーの設定。
+						JsonToObject_SystemObject.Convert(ref this.to_object,this.to_type,this.from_jsonitem,a_nest,a_work_pool);
+
+						//リストに設定。
+						this.to_list.Add(this.to_object);
+					}else{
+
+						System.Collections.Generic.LinkedListNode<JsonToObject_Work> t_first_node = a_work_pool.First;
+
+						//メンバーの設定。
+						JsonToObject_SystemObject.Convert(ref this.to_object,this.to_type,this.from_jsonitem,a_nest,a_work_pool);
+
+						//再登録。
+						this.mode = (int)ModeAddList.Fix;
+
+						if(t_first_node != null){
+							a_work_pool.AddBefore(t_first_node,this);
+						}else{
+							a_work_pool.AddLast(this);
+						}
 					}
+				}break;
+			case (int)ModeAddList.Fix:
+				{
+					//List。追加。
+
+					//リストに追加。
+					this.to_list.Add(this.to_object);
+				}break;
+			case (int)ModeAddDictionary.Start:
+				{
+					//Dictionary。追加。
+
+					//インスタンス作成。
+					this.to_object = JsonToObject_SystemObject.CreateInstance(this.to_type,this.from_jsonitem);
+
+					if(this.to_type.IsClass == true){
+
+						//メンバーの設定。
+						JsonToObject_SystemObject.Convert(ref this.to_object,this.to_type,this.from_jsonitem,a_nest,a_work_pool);
+
+						//リストに設定。
+						this.to_dictionary.Add(this.to_key_string,this.to_object);
+					}else{
+
+						System.Collections.Generic.LinkedListNode<JsonToObject_Work> t_first_node = a_work_pool.First;
+
+						//メンバーの設定。
+						JsonToObject_SystemObject.Convert(ref this.to_object,this.to_type,this.from_jsonitem,a_nest,a_work_pool);
+
+						//再登録。
+						this.mode = (int)ModeAddDictionary.Fix;
+
+						if(t_first_node != null){
+							a_work_pool.AddBefore(t_first_node,this);
+						}else{
+							a_work_pool.AddLast(this);
+						}
+					}
+				}break;
+			case (int)ModeAddDictionary.Fix:
+				{
+					//Dictionary。追加。
+
+					//リストに追加。
+					this.to_dictionary.Add(this.to_key_string,this.to_object);
+				}break;
+			case (int)ModeFieldInfo.Start:
+				{
+					//FieldInfo。
+
+					//インスタンスの作成。
+					this.to_object = JsonToObject_SystemObject.CreateInstance(this.to_type,this.from_jsonitem);
+
+					if(this.to_type.IsClass == true){
+
+						//メンバーの設定。
+						JsonToObject_SystemObject.Convert(ref this.to_object,this.to_type,this.from_jsonitem,a_nest,a_work_pool);
+
+						//フィールドに設定。
+						this.to_fieldinfo.SetValue(this.to_parent_object,this.to_object);
+					}else{
+
+						System.Collections.Generic.LinkedListNode<JsonToObject_Work> t_first_node = a_work_pool.First;
+
+						//メンバーの設定。
+						JsonToObject_SystemObject.Convert(ref this.to_object,this.to_type,this.from_jsonitem,a_nest,a_work_pool);
+
+						//再登録。
+						this.mode = (int)ModeFieldInfo.Fix;
+
+						if(t_first_node != null){
+							a_work_pool.AddBefore(t_first_node,this);
+						}else{
+							a_work_pool.AddLast(this);
+						}
+					}
+
+				}break;
+			case (int)ModeFieldInfo.Fix:
+				{
+					//FieldInfo。
+
+					//フィールドに設定。
+					this.to_fieldinfo.SetValue(this.to_parent_object,this.to_object);
 				}break;
 			}
 		}

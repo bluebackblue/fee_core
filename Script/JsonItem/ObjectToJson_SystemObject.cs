@@ -87,11 +87,8 @@ namespace Fee.JsonItem
 					//2:文字データ。
 
 					string t_value_raw = a_instance as string;
-
 					if(t_value_raw != null){
-
 						t_return = new JsonItem(new Value_StringData(t_value_raw));
-
 					}else{
 						//NULL処理。
 
@@ -104,10 +101,15 @@ namespace Fee.JsonItem
 					System.Array t_array_raw = (System.Array)a_instance;
 	
 					JsonItem t_jsonitem = new JsonItem(new Value_IndexArray());
+
+					//サイズ確保。
 					t_jsonitem.ReSize(t_array_raw.Length);
+
 					for(int ii=0;ii<t_array_raw.Length;ii++){
-						System.Object t_list_item_raw = t_array_raw.GetValue(ii);
-						t_workpool.Add(new ObjectToJson_Work(ObjectToJson_Work.ModeIndexArray.Value,t_list_item_raw,null,ii,t_jsonitem,a_nest + 1));
+
+						//ワークに追加。
+						System.Object t_instance_listitem = t_array_raw.GetValue(ii);
+						t_workpool.Add(new ObjectToJson_Work(ObjectToJson_Work.ModeSetIndexArray.Start,a_nest + 1,t_jsonitem,ii,t_instance_listitem,a_objectoption));
 					}
 
 					t_return = t_jsonitem;
@@ -144,6 +146,7 @@ namespace Fee.JsonItem
 
 					do{
 
+						//リスト。
 						{
 							//IEnumerable
 							{
@@ -159,17 +162,21 @@ namespace Fee.JsonItem
 											{
 												System.Collections.IDictionary t_instance_dictionary = t_instance_collection as System.Collections.IDictionary;
 												if(t_instance_dictionary != null){
-													System.Collections.Generic.ICollection<string> t_collection = t_instance_dictionary.Keys as System.Collections.Generic.ICollection<string>;
-													if(t_collection != null){
+													System.Collections.Generic.ICollection<string> t_instance_collection_key = t_instance_dictionary.Keys as System.Collections.Generic.ICollection<string>;
+													if(t_instance_collection_key != null){
+
+														//Dictionary<string,xxxx>
 
 														JsonItem t_jsonitem = new JsonItem(new Value_AssociativeArray());
-														foreach(string t_key_string in t_collection){
+														foreach(string t_key_string in t_instance_collection_key){
 															if(t_key_string != null){
-																System.Object t_list_item_raw = t_instance_dictionary[t_key_string];
-																t_workpool.Add(new ObjectToJson_Work(ObjectToJson_Work.AssociativeArray.Value,t_list_item_raw,null,t_key_string,t_jsonitem,a_nest + 1));
+
+																//ワークに追加。
+																System.Object t_instance_listitem = t_instance_dictionary[t_key_string];
+																t_workpool.Add(new ObjectToJson_Work(ObjectToJson_Work.ModeAddAssociativeArray.Start,a_nest + 1,t_jsonitem,t_key_string,t_instance_listitem,a_objectoption));
 															}else{
 																//NULL処理。
-
+																
 																//t_key_stringがnullの場合は追加しない。
 															}
 														}
@@ -178,26 +185,27 @@ namespace Fee.JsonItem
 														t_return = t_jsonitem;
 														break;
 													}
-
-													/*
-													//対応していないDictionary。
-													JsonItem t_jsonitem = new JsonItem(new Value_AssociativeArray());
-
-													//doの外へ。
-													t_return = t_jsonitem;
-													break;
-													*/
 												}
 											}
 
 											//ICollection
 											{
+												//List<xxxx>
+
+												//Dictionary<xxxx,xxxx>
+												//LinkedList<xxxx>
+												//Queue<xxxx>
+												//SortedSet<xxxx>
+												//Stack<xxxx>
+
 												JsonItem t_jsonitem = new JsonItem(new Value_IndexArray());
 												t_jsonitem.ReSize(t_instance_collection.Count);
 
 												int t_index = 0;
-												foreach(System.Object t_item in t_instance_collection){
-													t_workpool.Add(new ObjectToJson_Work(ObjectToJson_Work.ModeIndexArray.Value,t_item,null,t_index,t_jsonitem,a_nest + 1));
+												foreach(System.Object t_instance_listitem in t_instance_collection){
+
+													//ワークに追加。
+													t_workpool.Add(new ObjectToJson_Work(ObjectToJson_Work.ModeSetIndexArray.Start,a_nest + 1,t_jsonitem,t_index,t_instance_listitem,a_objectoption));
 													t_index++;
 												}
 
@@ -210,19 +218,14 @@ namespace Fee.JsonItem
 
 									//IEnumerable
 									{
+										//HashSet<xxxx>
+
 										JsonItem t_jsonitem = new JsonItem(new Value_IndexArray());
 
-										int t_count = 0;
-										foreach(System.Object t_item in t_instance_enumerable){
-											t_count++;
-										}
+										foreach(System.Object t_instance_listitem in t_instance_enumerable){
 
-										t_jsonitem.ReSize(t_count);
-
-										int t_index = 0;
-										foreach(System.Object t_item in t_instance_enumerable){
-											t_workpool.Add(new ObjectToJson_Work(ObjectToJson_Work.ModeIndexArray.Value,t_item,null,t_index,t_jsonitem,a_nest + 1));
-											t_index++;
+											//ワークに追加。
+											t_workpool.Add(new ObjectToJson_Work(ObjectToJson_Work.ModeAddIndexArray.Start,a_nest + 1,t_jsonitem,t_instance_listitem,a_objectoption));
 										}
 
 										//doの外へ。
@@ -237,73 +240,11 @@ namespace Fee.JsonItem
 						{
 							JsonItem t_jsonitem = new JsonItem(new Value_AssociativeArray());
 							
-							while(true){
-							
-								if(t_type == null){
-									break;
-								}else if(t_type == typeof(System.Object)){
-									break;
-								}
-							
-								System.Reflection.MemberInfo[] t_member_list = t_type.GetMembers(
-								
-									//指定した型の階層のレベルで宣言されたメンバーのみを対象にすることを指定します。 継承されたメンバーは対象になりません。
-									System.Reflection.BindingFlags.DeclaredOnly |
-							
-									//インスタンス メンバーを検索に含めることを指定します。
-									System.Reflection.BindingFlags.Instance |
-							
-									//パブリック メンバーを検索に含めることを指定します。
-									System.Reflection.BindingFlags.Public |
-							
-									//パブリック メンバー以外のメンバーを検索に含めることを指定します。
-									System.Reflection.BindingFlags.NonPublic
-							
-								);
-							
-								foreach(System.Reflection.MemberInfo t_memberinfo in t_member_list){
-									if(t_memberinfo.MemberType == System.Reflection.MemberTypes.Field){
-										System.Reflection.FieldInfo t_fieldinfo = t_memberinfo as System.Reflection.FieldInfo;
-										if(t_fieldinfo != null){
-							
-											if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.Ignore),false) == true){
-												//ＪＳＯＮ化しない。
-												continue;
-											}
-							
-											System.Type t_field_type = t_fieldinfo.FieldType;
-							
-											if((t_field_type == typeof(System.IntPtr))||(t_field_type == typeof(System.UIntPtr))){
-												//ＪＳＯＮ化しない。
-												continue;
-											}
-							
-											ObjectToJson_Work.ObjectOption t_objectoption = null;
-							
-											//ＥＮＵＭの文字列化。
-											if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.EnumString),false) == true){
-												t_objectoption = new ObjectToJson_Work.ObjectOption();
-												t_objectoption.attribute_enumstring = true;
-											}
-							
-											{
-												System.Object t_raw = t_fieldinfo.GetValue(a_instance);
-												if(t_raw != null){
-													t_workpool.Add(new ObjectToJson_Work(ObjectToJson_Work.AssociativeArray.Value,t_raw,t_objectoption,t_fieldinfo.Name,t_jsonitem,a_nest + 1));
-												}else{
-													//NULL処理。
-							
-													//t_return = new JsonItem();
-												}
-											}
-										}else{
-											Tool.Assert(false);
-										}
-									}
-								}
-							
-								//次の継承元へ。
-								t_type = t_type.BaseType;
+							System.Collections.Generic.List<System.Reflection.FieldInfo> t_fieldinfo_list = Fee.JsonItem.ReflectionTool.GetFieldInfoList(t_type);
+							foreach(System.Reflection.FieldInfo t_fieldinfo in t_fieldinfo_list){
+
+								//ワークに追加。
+								t_workpool.Add(new ObjectToJson_Work(ObjectToJson_Work.ModeFieldInfo.Start,a_nest + 1,t_jsonitem,t_fieldinfo,a_instance));
 							}
 							
 							//doの外へ。
@@ -311,10 +252,11 @@ namespace Fee.JsonItem
 							break;
 						}
 
+						//doの外へ。
 						//break;
 					}while(false);
 
-
+					//ここがdoの外。
 				}
 			}
 
