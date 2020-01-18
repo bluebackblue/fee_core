@@ -16,7 +16,76 @@ namespace Fee.JsonItem
 	*/
 	public class ReflectionTool
 	{
+
+		/** GetMethod_Stack_Push
+
+			System.Collections.Generic.Stack<>.Push
+
+		*/
+		public static System.Reflection.MethodInfo GetMethod_Stack_Push(System.Type a_class_type)
+		{
+			System.Reflection.MethodInfo t_result = null;
+
+			System.Type t_type = a_class_type;
+
+			while(true){
+
+				//終端チェック。
+				if(t_type == null){
+					break;
+				}else if(t_type == typeof(System.Object)){
+					break;
+				}
+
+				//取得。
+				System.Reflection.MethodInfo[] t_methodinfo_list = t_type.GetMethods(
+				
+					//指定した型の階層のレベルで宣言されたメンバーのみを対象にすることを指定します。 継承されたメンバーは対象になりません。
+					System.Reflection.BindingFlags.DeclaredOnly |
+							
+					//インスタンス メンバーを検索に含めることを指定します。
+					System.Reflection.BindingFlags.Instance |
+							
+					//パブリック メンバーを検索に含めることを指定します。
+					System.Reflection.BindingFlags.Public |
+							
+					//パブリック メンバー以外のメンバーを検索に含めることを指定します。
+					System.Reflection.BindingFlags.NonPublic
+				);
+
+				foreach(System.Reflection.MethodInfo t_methodinfo in t_methodinfo_list){
+					if(t_methodinfo.Name == "Push"){
+						t_result = t_methodinfo;
+					}
+				}
+
+				//次の継承元へ。
+				t_type = t_type.BaseType;
+			}
+
+			return t_result;
+		}
+
+		/** GetGenericTypeDefinition
+
+			現在のジェネリック型を構築する元になるジェネリック型定義を表す。
+
+		*/
+		public static System.Type GetGenericTypeDefinition(System.Type a_type)
+		{
+			System.Type t_type = null;
+
+			if(a_type != null){
+				t_type = a_type.GetGenericTypeDefinition();
+			}
+
+			return t_type;
+		}
+
 		/** GetDictionaryValueType
+
+			Dictionaryの値型。
+
 		*/
 		public static System.Type GetDictionaryValueType(System.Type a_dictionary_type)
 		{
@@ -36,6 +105,9 @@ namespace Fee.JsonItem
 		}
 
 		/** GetListValueType
+
+			リスト型の値型。
+
 		*/
 		public static System.Type GetListValueType(System.Type a_list_type)
 		{
@@ -68,6 +140,49 @@ namespace Fee.JsonItem
 			return t_type;
 		}
 
+		/** GetMethodList
+		*/
+		public static System.Collections.Generic.List<System.Reflection.MethodInfo> GetMethodList(System.Type a_class_type)
+		{
+			System.Collections.Generic.List<System.Reflection.MethodInfo> t_result = new System.Collections.Generic.List<System.Reflection.MethodInfo>();
+
+			System.Type t_type = a_class_type;
+
+			while(true){
+
+				//終端チェック。
+				if(t_type == null){
+					break;
+				}else if(t_type == typeof(System.Object)){
+					break;
+				}
+
+				//取得。
+				System.Reflection.MethodInfo[] t_methodinfo_list = t_type.GetMethods(
+				
+					//指定した型の階層のレベルで宣言されたメンバーのみを対象にすることを指定します。 継承されたメンバーは対象になりません。
+					System.Reflection.BindingFlags.DeclaredOnly |
+							
+					//インスタンス メンバーを検索に含めることを指定します。
+					System.Reflection.BindingFlags.Instance |
+							
+					//パブリック メンバーを検索に含めることを指定します。
+					System.Reflection.BindingFlags.Public |
+							
+					//パブリック メンバー以外のメンバーを検索に含めることを指定します。
+					System.Reflection.BindingFlags.NonPublic
+				);
+
+				foreach(System.Reflection.MethodInfo t_methodinfo in t_methodinfo_list){
+					t_result.Add(t_methodinfo);
+				}
+
+				//次の継承元へ。
+				t_type = t_type.BaseType;
+			}
+
+			return t_result;
+		}
 
 		/** GetFieldInfoList
 		*/

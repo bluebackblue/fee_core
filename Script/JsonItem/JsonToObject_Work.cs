@@ -80,6 +80,18 @@ namespace Fee.JsonItem
 			Fix = 103,
 		}
 
+		/** TODO_ModeIEnumerable
+
+			Enumerable
+
+		*/
+		public enum TODO_ModeIEnumerable
+		{
+			/** 開始。
+			*/
+			Start = 4,
+		}
+
 		/** モード。
 		*/
 		int mode;
@@ -98,6 +110,8 @@ namespace Fee.JsonItem
 		private string to_key_string;
 		private System.Reflection.FieldInfo to_fieldinfo;
 		private System.Object to_parent_object;
+		private System.Collections.IEnumerable to_enumerable;
+		private System.Reflection.MethodInfo to_methodinfo;
 
 		/** constructor
 
@@ -121,8 +135,9 @@ namespace Fee.JsonItem
 			this.to_key_string = null;
 			this.to_fieldinfo = null;
 			this.to_parent_object = null;
+			this.to_enumerable = null;
+			this.to_methodinfo = null;
 		}
-
 		
 		/** constructor
 
@@ -146,6 +161,8 @@ namespace Fee.JsonItem
 			this.to_key_string = null;
 			this.to_fieldinfo = null;
 			this.to_parent_object = null;
+			this.to_enumerable = null;
+			this.to_methodinfo = null;
 		}
 
 		/** constructor
@@ -170,6 +187,8 @@ namespace Fee.JsonItem
 			this.to_key_string = a_to_key_string;
 			this.to_fieldinfo = null;
 			this.to_parent_object = null;
+			this.to_enumerable = null;
+			this.to_methodinfo = null;
 		}
 
 		/** constructor
@@ -194,6 +213,34 @@ namespace Fee.JsonItem
 			this.to_key_string = null;
 			this.to_fieldinfo = a_to_fieldinfo;
 			this.to_parent_object = a_to_parent_object;
+			this.to_enumerable = null;
+			this.to_methodinfo = null;
+		}
+
+		/** constructor
+
+			Enumerable
+
+		*/
+		public JsonToObject_Work(TODO_ModeIEnumerable a_mode,JsonItem a_from_member_jsonitem,System.Collections.IEnumerable a_to_enumerable,System.Reflection.MethodInfo a_to_methodinfo,System.Type a_to_listitem_type)
+		{
+			//モード。
+			this.mode = (int)a_mode;
+
+			//設定元。
+			this.from_jsonitem = a_from_member_jsonitem;
+
+			//設定先。
+			this.to_type = a_to_listitem_type;
+			this.to_object = null;
+			this.to_list = null;
+			this.to_index = 0;
+			this.to_dictionary = null;
+			this.to_key_string = null;
+			this.to_fieldinfo = null;
+			this.to_parent_object = null;
+			this.to_enumerable = a_to_enumerable;
+			this.to_methodinfo = a_to_methodinfo;
 		}
 
 		/** 実行。
@@ -345,7 +392,6 @@ namespace Fee.JsonItem
 							a_work_pool.AddLast(this);
 						}
 					}
-
 				}break;
 			case (int)ModeFieldInfo.Fix:
 				{
@@ -353,6 +399,23 @@ namespace Fee.JsonItem
 
 					//フィールドに設定。
 					this.to_fieldinfo.SetValue(this.to_parent_object,this.to_object);
+				}break;
+
+
+			case (int)TODO_ModeIEnumerable.Start:
+				{
+					System.Type t_generic_type = ReflectionTool.GetGenericTypeDefinition(this.to_enumerable.GetType());
+					if(t_generic_type == typeof(System.Collections.Generic.Stack<>)){
+
+						//インスタンス作成。
+						System.Object t_object_listitem = JsonToObject_SystemObject.CreateInstance(this.to_type,this.from_jsonitem);
+
+						//■メンバーの設定。
+						JsonToObject_SystemObject.Convert(ref t_object_listitem,this.to_type,this.from_jsonitem,a_nest);
+
+						//呼び出し。
+						this.to_methodinfo.Invoke(this.to_enumerable,new object[]{t_object_listitem});
+					}
 				}break;
 			}
 		}

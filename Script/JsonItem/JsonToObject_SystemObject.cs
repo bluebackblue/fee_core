@@ -186,24 +186,27 @@ namespace Fee.JsonItem
 								}
 
 								//IEnumerable
-								/*
 								{
-									System.Type t_type_listitem = t_type.GetGenericArguments()[0];
+									System.Type t_listitem_type = t_type.GetGenericArguments()[0];
 
-									for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
-										JsonItem t_jsonitem_listitem = a_jsonitem.GetItem(ii);
+									System.Type t_generic_type = ReflectionTool.GetGenericTypeDefinition(t_enumerable.GetType());
+									if(t_generic_type == typeof(System.Collections.Generic.Stack<>)){
+										//Stack
 
-										//インスタンス作成。
-										System.Object t_object_listitem = JsonToObject_SystemObject.CreateInstance(t_type_listitem,t_jsonitem_listitem);
+										System.Reflection.MethodInfo t_methodinfo = ReflectionTool.GetMethod_Stack_Push(t_enumerable.GetType());
+										if(t_methodinfo != null){
+											for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
 
-										//■メンバーの設定。
-										JsonToObject_SystemObject.Convert(ref t_object_listitem,t_type_listitem,t_jsonitem_listitem,t_nest);
-
-										System.Reflection.MethodInfo t_info = t_type.GetMethod("Add");
-										if(t_info != null){
-											t_info.Invoke(t_collection,new object[]{t_object_listitem});
+												//ワークに追加。
+												JsonItem t_jsonitem_listitem = a_jsonitem.GetItem(ii);
+												t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.TODO_ModeIEnumerable.Start,t_jsonitem_listitem,t_enumerable,t_methodinfo,t_listitem_type));
+											}
 										}
+
+										//doの外へ。
+										break;
 									}
+
 
 
 									//Dictionary
@@ -211,10 +214,8 @@ namespace Fee.JsonItem
 									//HashSet
 									//Queue
 									//SortedSet
-									//Stack
-
+									
 								}
-								*/
 							}
 						}
 
