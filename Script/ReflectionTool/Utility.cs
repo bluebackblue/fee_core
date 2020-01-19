@@ -318,6 +318,41 @@ namespace Fee.ReflectionTool
 			return t_type;
 		}
 
+		/** Dictionary型のキー型。取得。
+		*/
+		public static System.Type GetDictionaryKeyType(System.Type a_type)
+		{
+			System.Type t_type = null;
+
+			try{
+				System.Type t_generic_type = GetGenericTypeDefinition(a_type);
+				if(
+					(t_generic_type == typeof(System.Collections.Generic.Dictionary<,>))		||
+					(t_generic_type == typeof(System.Collections.Generic.SortedList<,>))		||
+					(t_generic_type == typeof(System.Collections.Generic.SortedDictionary<,>))
+				){
+					System.Type[] t_type_list = a_type.GetGenericArguments();
+					if(t_type_list != null){
+						if(t_type_list.Length >= 2){
+							//Dictionary
+							t_type = t_type_list[0];
+						}else{
+							//不明。
+							Tool.Assert(false);
+						}
+					}else{
+						//不明。
+						Tool.Assert(false);
+					}
+				}
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
+				t_type = null;
+			}
+			
+			return t_type;
+		}
+
 		/** リスト型の値型。取得。
 		*/
 		public static System.Type GetListValueType(System.Type a_type)
@@ -334,7 +369,7 @@ namespace Fee.ReflectionTool
 					if(
 						(t_generic_type == typeof(System.Collections.Generic.Dictionary<,>))		||
 						(t_generic_type == typeof(System.Collections.Generic.SortedList<,>))		||
-						(t_generic_type == typeof(System.Collections.Generic.SortedDictionary<,>))	
+						(t_generic_type == typeof(System.Collections.Generic.SortedDictionary<,>))
 					){
 						System.Type[] t_type_list = a_type.GetGenericArguments();
 						if(t_type_list != null){

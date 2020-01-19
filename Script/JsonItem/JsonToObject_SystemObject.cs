@@ -249,11 +249,11 @@ namespace Fee.JsonItem
 
 						//IDictionary
 						{
-							System.Collections.IDictionary t_dictionary = a_to_object_ref as System.Collections.IDictionary;
-							if(t_dictionary != null){
+							System.Collections.IDictionary t_to_dictionary = a_to_object_ref as System.Collections.IDictionary;
+							if(t_to_dictionary != null){
 
-								System.Collections.Generic.ICollection<string> t_collection_key = t_dictionary.Keys as System.Collections.Generic.ICollection<string>;
-								if(t_collection_key != null){
+								System.Type t_key_type = Fee.ReflectionTool.Utility.GetDictionaryKeyType(t_type);
+								if(t_key_type == typeof(string)){
 									//key == string
 
 									//リスト型の値型。取得。
@@ -264,7 +264,7 @@ namespace Fee.JsonItem
 
 										//ワークに追加。
 										JsonItem t_listitem_jsonitem = a_jsonitem.GetItem(t_listitem_key_string);
-										t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeAddDictionary.Start,t_listitem_jsonitem,t_dictionary,t_listitem_key_string,t_listitem_valuetype));
+										t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeAddDictionary.Start,t_listitem_jsonitem,t_to_dictionary,t_listitem_key_string,t_listitem_valuetype));
 									}
 
 									//doの外へ。
