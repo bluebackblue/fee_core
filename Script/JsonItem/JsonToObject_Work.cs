@@ -252,6 +252,11 @@ namespace Fee.JsonItem
 				{
 					//List。設定。
 
+					//JsonItemから型を決める。
+					if(this.to_type == null){
+						this.to_type = JsonToObject_SystemObject.GetTypeFromJsonItem(this.from_jsonitem);
+					}
+
 					//インスタンス作成。
 					this.to_object = JsonToObject_SystemObject.CreateInstance(this.to_type,this.from_jsonitem);
 
@@ -289,6 +294,11 @@ namespace Fee.JsonItem
 			case (int)ModeAddList.Start:
 				{
 					//List。追加。
+
+					//JsonItemから型を決める。
+					if(this.to_type == null){
+						this.to_type = JsonToObject_SystemObject.GetTypeFromJsonItem(this.from_jsonitem);
+					}
 
 					//インスタンス作成。
 					this.to_object = JsonToObject_SystemObject.CreateInstance(this.to_type,this.from_jsonitem);

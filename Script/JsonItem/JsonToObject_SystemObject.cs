@@ -18,6 +18,54 @@ namespace Fee.JsonItem
 	{
 		/** インスタンス作成。
 		*/
+		public static System.Type GetTypeFromJsonItem(Fee.JsonItem.JsonItem a_jsonitem)
+		{
+			System.Type t_type = null;
+
+			if(a_jsonitem.IsSignedNumber()){
+				//12:char
+				//15:decimal
+				//16:sbyte
+				//17:byte
+				//18:short
+				//19:ushort
+				//20:int
+				//21:uint
+				//22:long
+				t_type = typeof(long);
+			}else if(a_jsonitem.IsUnSignedNumber()){
+				//23:ulong
+				t_type = typeof(ulong);
+			}else if(a_jsonitem.IsFloatNumber()){
+				//13:float
+				//14:double
+				t_type = typeof(double);
+			}else if(a_jsonitem.IsBoolData()){
+				//11:bool。
+				t_type = typeof(bool);
+			}else if(a_jsonitem.IsStringData()){
+				//2:文字データ。
+				t_type = typeof(string);
+			}else if(a_jsonitem.IsIndexArray() == true){
+				//1:インデックス配列。
+				t_type = typeof(System.Collections.ArrayList);
+			}else if(a_jsonitem.IsAssociativeArray() == true){
+				//0:連想配列。
+				t_type = typeof(System.Collections.Generic.Dictionary<string,System.Collections.ArrayList>);
+			}else if(a_jsonitem.IsNull()){
+				//24:null
+				t_type = typeof(System.Object);
+			}else if(a_jsonitem.IsBinaryData()){
+				//3:バイナリデータ。
+				t_type = typeof(System.Collections.Generic.List<byte>);
+			}
+
+			return t_type;
+		}
+
+
+		/** インスタンス作成。
+		*/
 		public static System.Object CreateInstance(System.Type a_type,Fee.JsonItem.JsonItem a_jsonitem)
 		{
 			if(
@@ -106,9 +154,6 @@ namespace Fee.JsonItem
 					}else if(t_type == typeof(bool)){
 						//11:bool
 						a_to_object_ref = (bool)a_jsonitem.GetBoolData();
-					}else if(t_type.IsEnum == true){
-						//enum
-						a_to_object_ref = (System.Enum)(System.Enum.ToObject(t_type,a_jsonitem.GetInt()));
 					}else if(t_type == typeof(long)){
 						//22:long
 						a_to_object_ref = (long)a_jsonitem.GetLong();
@@ -139,14 +184,55 @@ namespace Fee.JsonItem
 					}else if(t_type == typeof(ulong)){
 						//23:ulong
 						a_to_object_ref = (ulong)a_jsonitem.GetUlong();
+					}else if(t_type.IsEnum == true){
+						if(a_jsonitem.IsStringData() == true){
+							a_to_object_ref = System.Enum.Parse(t_type,a_jsonitem.GetStringData());
+						}else{
+							System.TypeCode t_typecode = ((System.Enum)a_to_object_ref).GetTypeCode();
+							switch(t_typecode){
+							case System.TypeCode.Byte:
+								{
+									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetByte());
+								}break;
+							case System.TypeCode.SByte:
+								{
+									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetSbyte());
+								}break;
+							case System.TypeCode.Int16:
+								{
+									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetShort());
+								}break;
+							case System.TypeCode.UInt16:
+								{
+									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetUshort());
+								}break;
+							case System.TypeCode.Int32:
+								{
+									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetInt());
+								}break;
+							case System.TypeCode.UInt32:
+								{
+									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetUint());
+								}break;
+							case System.TypeCode.Int64:
+								{
+									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetLong());
+								}break;
+							case System.TypeCode.UInt64:
+								{
+									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetUlong());
+								}break;
+							default:
+								{
+									Tool.Assert(false);
+								}break;
+							}
+						}
 					}
 				}else if(a_jsonitem.IsStringData() == true){
 					if(t_type == typeof(string)){
 						//string
 						a_to_object_ref = a_jsonitem.GetStringData();
-					}else if(t_type.IsEnum == true){
-						//enum
-						a_to_object_ref = (System.Enum)(System.Enum.Parse(t_type,a_jsonitem.GetStringData()));
 					}
 				}else if(a_jsonitem.IsIndexArray() == true){
 
@@ -172,6 +258,8 @@ namespace Fee.JsonItem
 												t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeSetList.Start,t_jsonitem_listitem,t_list,ii,t_listitem_valuetype));
 											}
 										}else{
+											//Generic.List
+
 											for(int ii=a_jsonitem.GetListMax()-1;ii>=0;ii--){
 
 												//ワークに追加。
@@ -196,7 +284,7 @@ namespace Fee.JsonItem
 								//メソッド取得。
 								System.Reflection.MethodInfo t_methodinfo = null;
 								if(t_generic_type == typeof(System.Collections.Generic.Stack<>)){
-									//Stack
+									//Generic.Stack
 									t_methodinfo = ConvertTool.GetMethod_Stack_Push(t_type,t_listitem_valuetype);
 
 									if(t_methodinfo != null){
@@ -211,16 +299,16 @@ namespace Fee.JsonItem
 										break;
 									}
 								}else if(t_generic_type == typeof(System.Collections.Generic.LinkedList<>)){
-									//LinkedList
+									//Generic.LinkedList
 									t_methodinfo = ConvertTool.GetMethod_LinkedList_AddLast(t_type,t_listitem_valuetype);
 								}else if(t_generic_type == typeof(System.Collections.Generic.HashSet<>)){
-									//HashSet
+									//Generic.HashSet
 									t_methodinfo = ConvertTool.GetMethod_HashSet_Add(t_type,t_listitem_valuetype);
 								}else if(t_generic_type == typeof(System.Collections.Generic.Queue<>)){
-									//Queue
+									//Generic.Queue
 									t_methodinfo = ConvertTool.GetMethod_Queue_Enqueue(t_type,t_listitem_valuetype);
 								}else if(t_generic_type == typeof(System.Collections.Generic.SortedSet<>)){
-									//SortedSet
+									//Generic.SortedSet
 									t_methodinfo = ConvertTool.GetMethod_SortedSet_Add(t_type,t_listitem_valuetype);
 								}
 
@@ -254,7 +342,9 @@ namespace Fee.JsonItem
 
 								System.Type t_key_type = Fee.ReflectionTool.Utility.GetDictionaryKeyType(t_type);
 								if(t_key_type == typeof(string)){
-									//key == string
+									//Generic.Dictionary<string.>
+									//Generic.SortedDictionary<string,>
+									//Generic.SortedList<string,>
 
 									//リスト型の値型。取得。
 									System.Type t_listitem_valuetype = Fee.ReflectionTool.Utility.GetListValueType(t_type);
@@ -270,7 +360,10 @@ namespace Fee.JsonItem
 									//doの外へ。
 									break;
 								}else{
-									//key != string
+									//Generic.Dictionary<xxxx.>
+									//Generic.SortedDictionary<xxxx,>
+									//Generic.SortedList<xxxx,>
+
 								}
 							}
 						}

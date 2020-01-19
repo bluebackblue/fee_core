@@ -139,8 +139,53 @@ namespace Fee.JsonItem
 					}else{
 						//enumの数値化。
 
-						int t_value = (int)a_from_object;
-						t_return = new JsonItem(new Value_Number<int>(t_value));
+						System.TypeCode t_typecode = ((System.Enum)a_from_object).GetTypeCode();
+						switch(t_typecode){
+						case System.TypeCode.Byte:
+							{
+								byte t_value = (byte)a_from_object;
+								t_return = new JsonItem(new Value_Number<byte>(t_value));
+							}break;
+						case System.TypeCode.SByte:
+							{
+								sbyte t_value = (sbyte)a_from_object;
+								t_return = new JsonItem(new Value_Number<sbyte>(t_value));
+							}break;
+						case System.TypeCode.Int16:
+							{
+								short t_value = (short)a_from_object;
+								t_return = new JsonItem(new Value_Number<short>(t_value));
+							}break;
+						case System.TypeCode.UInt16:
+							{
+								ushort t_value = (ushort)a_from_object;
+								t_return = new JsonItem(new Value_Number<ushort>(t_value));
+							}break;
+						case System.TypeCode.Int32:
+							{
+								int t_value = (int)a_from_object;
+								t_return = new JsonItem(new Value_Number<int>(t_value));
+							}break;
+						case System.TypeCode.UInt32:
+							{
+								uint t_value = (uint)a_from_object;
+								t_return = new JsonItem(new Value_Number<uint>(t_value));
+							}break;
+						case System.TypeCode.Int64:
+							{
+								long t_value = (long)a_from_object;
+								t_return = new JsonItem(new Value_Number<long>(t_value));
+							}break;
+						case System.TypeCode.UInt64:
+							{
+								ulong t_value = (ulong)a_from_object;
+								t_return = new JsonItem(new Value_Number<ulong>(t_value));
+							}break;
+						default:
+							{
+								Tool.Assert(false);
+							}break;
+						}
 					}
 				}else{
 

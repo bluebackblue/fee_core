@@ -16,6 +16,11 @@ namespace Fee.JsonItem
 	*/
 	public enum ValueType
 	{
+		/** ＮＵＬＬ。
+
+		24:null
+
+		*/
 		None = 0,
 
 		/** 0:連想配列。
@@ -38,16 +43,12 @@ namespace Fee.JsonItem
 
 		12:char
 		15:decimal
-
 		16:sbyte
 		17:byte
-
 		18:short
 		19:ushort
-
 		20:int
 		21:uint
-
 		22:long
 		
 		*/

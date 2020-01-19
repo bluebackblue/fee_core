@@ -312,7 +312,9 @@ namespace Fee.ReflectionTool
 			System.Type t_type = null;
 
 			if(a_type != null){
-				t_type = a_type.GetGenericTypeDefinition();
+				if(a_type.IsGenericType == true){
+					t_type = a_type.GetGenericTypeDefinition();
+				}
 			}
 
 			return t_type;
@@ -366,45 +368,49 @@ namespace Fee.ReflectionTool
 					t_type = a_type.GetElementType();
 				}else{
 					System.Type t_generic_type = GetGenericTypeDefinition(a_type);
-					if(
-						(t_generic_type == typeof(System.Collections.Generic.Dictionary<,>))		||
-						(t_generic_type == typeof(System.Collections.Generic.SortedList<,>))		||
-						(t_generic_type == typeof(System.Collections.Generic.SortedDictionary<,>))
-					){
-						System.Type[] t_type_list = a_type.GetGenericArguments();
-						if(t_type_list != null){
-							if(t_type_list.Length >= 2){
-								//Dictionary
-								t_type = t_type_list[1];
+					if(t_generic_type != null){
+						if(
+							(t_generic_type == typeof(System.Collections.Generic.Dictionary<,>))		||
+							(t_generic_type == typeof(System.Collections.Generic.SortedList<,>))		||
+							(t_generic_type == typeof(System.Collections.Generic.SortedDictionary<,>))
+						){
+							System.Type[] t_type_list = a_type.GetGenericArguments();
+							if(t_type_list != null){
+								if(t_type_list.Length >= 2){
+									//Dictionary
+									t_type = t_type_list[1];
+								}else{
+									//不明。
+									Tool.Assert(false);
+								}
 							}else{
 								//不明。
 								Tool.Assert(false);
 							}
-						}else{
-							//不明。
-							Tool.Assert(false);
-						}
-					}else if(
-						(t_generic_type == typeof(System.Collections.Generic.List<>))			|| 
-						(t_generic_type == typeof(System.Collections.Generic.Stack<>))			|| 
-						(t_generic_type == typeof(System.Collections.Generic.LinkedList<>))		||
-						(t_generic_type == typeof(System.Collections.Generic.HashSet<>))		||
-						(t_generic_type == typeof(System.Collections.Generic.Queue<>))			||
-						(t_generic_type == typeof(System.Collections.Generic.SortedSet<>))
-					){
-						System.Type[] t_type_list = a_type.GetGenericArguments();
-						if(t_type_list != null){
-							if(t_type_list.Length >= 1){
-								//List
-								t_type = t_type_list[0];
+						}else if(
+							(t_generic_type == typeof(System.Collections.Generic.List<>))			|| 
+							(t_generic_type == typeof(System.Collections.Generic.Stack<>))			|| 
+							(t_generic_type == typeof(System.Collections.Generic.LinkedList<>))		||
+							(t_generic_type == typeof(System.Collections.Generic.HashSet<>))		||
+							(t_generic_type == typeof(System.Collections.Generic.Queue<>))			||
+							(t_generic_type == typeof(System.Collections.Generic.SortedSet<>))
+						){
+							System.Type[] t_type_list = a_type.GetGenericArguments();
+							if(t_type_list != null){
+								if(t_type_list.Length >= 1){
+									//List
+									t_type = t_type_list[0];
+								}else{
+									//不明。
+									Tool.Assert(false);
+								}
 							}else{
 								//不明。
 								Tool.Assert(false);
 							}
-						}else{
-							//不明。
-							Tool.Assert(false);
 						}
+					}else if(a_type == typeof(System.Collections.ArrayList)){
+						t_type = null;//typeof(System.Object);
 					}
 				}
 			}catch(System.Exception t_exception){
