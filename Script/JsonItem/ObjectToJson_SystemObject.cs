@@ -191,7 +191,6 @@ namespace Fee.JsonItem
 											//ICollection
 											{
 												//List<xxxx>
-
 												//Dictionary<xxxx,xxxx>
 												//LinkedList<xxxx>
 												//Queue<xxxx>
@@ -199,6 +198,8 @@ namespace Fee.JsonItem
 												//Stack<xxxx>
 
 												JsonItem t_jsonitem = new JsonItem(new Value_IndexArray());
+
+												//サイズがわかるので要素確保。
 												t_jsonitem.ReSize(t_instance_collection.Count);
 
 												int t_index = 0;
@@ -239,8 +240,11 @@ namespace Fee.JsonItem
 						//class,struct
 						{
 							JsonItem t_jsonitem = new JsonItem(new Value_AssociativeArray());
-							
-							System.Collections.Generic.List<System.Reflection.FieldInfo> t_fieldinfo_list = Fee.JsonItem.ReflectionTool.GetFieldInfoList(t_type);
+
+							//メンバーリスト。取得。
+							System.Collections.Generic.List<System.Reflection.FieldInfo> t_fieldinfo_list = new System.Collections.Generic.List<System.Reflection.FieldInfo>();
+							Fee.JsonItem.ConvertTool.GetMemberListAll(t_type,t_fieldinfo_list);
+
 							foreach(System.Reflection.FieldInfo t_fieldinfo in t_fieldinfo_list){
 
 								//ワークに追加。

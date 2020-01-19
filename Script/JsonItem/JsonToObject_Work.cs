@@ -80,16 +80,16 @@ namespace Fee.JsonItem
 			Fix = 103,
 		}
 
-		/** TODO_ModeIEnumerable
+		/** ModeIEnumerableParam1
 
 			Enumerable
 
 		*/
-		public enum TODO_ModeIEnumerable
+		public enum ModeIEnumerable
 		{
 			/** 開始。
 			*/
-			Start = 4,
+			Start_Param1 = 4,
 		}
 
 		/** モード。
@@ -222,7 +222,7 @@ namespace Fee.JsonItem
 			Enumerable
 
 		*/
-		public JsonToObject_Work(TODO_ModeIEnumerable a_mode,JsonItem a_from_member_jsonitem,System.Collections.IEnumerable a_to_enumerable,System.Reflection.MethodInfo a_to_methodinfo,System.Type a_to_listitem_type)
+		public JsonToObject_Work(ModeIEnumerable a_mode,JsonItem a_from_member_jsonitem,System.Collections.IEnumerable a_to_enumerable,System.Reflection.MethodInfo a_to_methodinfo,System.Type a_to_listitem_type)
 		{
 			//モード。
 			this.mode = (int)a_mode;
@@ -400,22 +400,23 @@ namespace Fee.JsonItem
 					//フィールドに設定。
 					this.to_fieldinfo.SetValue(this.to_parent_object,this.to_object);
 				}break;
-
-
-			case (int)TODO_ModeIEnumerable.Start:
+			case (int)ModeIEnumerable.Start_Param1:
 				{
-					System.Type t_generic_type = ReflectionTool.GetGenericTypeDefinition(this.to_enumerable.GetType());
-					if(t_generic_type == typeof(System.Collections.Generic.Stack<>)){
+					System.Type t_generic_type = Fee.ReflectionTool.Utility.GetGenericTypeDefinition(this.to_enumerable.GetType());
 
-						//インスタンス作成。
-						System.Object t_object_listitem = JsonToObject_SystemObject.CreateInstance(this.to_type,this.from_jsonitem);
+					//インスタンス作成。
+					System.Object t_object_listitem = JsonToObject_SystemObject.CreateInstance(this.to_type,this.from_jsonitem);
 
-						//■メンバーの設定。
-						JsonToObject_SystemObject.Convert(ref t_object_listitem,this.to_type,this.from_jsonitem,a_nest);
+					//■メンバーの設定。
+					JsonToObject_SystemObject.Convert(ref t_object_listitem,this.to_type,this.from_jsonitem,a_nest);
 
-						//呼び出し。
-						this.to_methodinfo.Invoke(this.to_enumerable,new object[]{t_object_listitem});
-					}
+					//パラメータリスト。
+					System.Object[] t_parameter_list = new System.Object[]{
+						t_object_listitem
+					};
+
+					//呼び出し。
+					this.to_methodinfo.Invoke(this.to_enumerable,t_parameter_list);
 				}break;
 			}
 		}

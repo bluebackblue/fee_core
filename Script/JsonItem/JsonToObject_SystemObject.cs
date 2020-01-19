@@ -161,22 +161,22 @@ namespace Fee.JsonItem
 									System.Collections.IList t_list = t_collection as System.Collections.IList;
 									if(t_list != null){
 
-										//値の型。
-										System.Type t_listitem_type = ReflectionTool.GetListValueType(t_type);
+										//リスト型の値型。取得。
+										System.Type t_listitem_valuetype = Fee.ReflectionTool.Utility.GetListValueType(t_type);
 
 										if(t_list.IsFixedSize == true){
 											for(int ii=a_jsonitem.GetListMax()-1;ii>=0;ii--){
 
 												//ワークに追加。
 												JsonItem t_jsonitem_listitem = a_jsonitem.GetItem(ii);
-												t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeSetList.Start,t_jsonitem_listitem,t_list,ii,t_listitem_type));
+												t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeSetList.Start,t_jsonitem_listitem,t_list,ii,t_listitem_valuetype));
 											}
 										}else{
 											for(int ii=a_jsonitem.GetListMax()-1;ii>=0;ii--){
 
 												//ワークに追加。
 												JsonItem t_jsonitem_listitem = a_jsonitem.GetItem(ii);
-												t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeAddList.Start,t_jsonitem_listitem,t_list,t_listitem_type));
+												t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeAddList.Start,t_jsonitem_listitem,t_list,t_listitem_valuetype));
 											}
 										}
 
@@ -184,37 +184,56 @@ namespace Fee.JsonItem
 										break;
 									}
 								}
+							}
 
-								//IEnumerable
-								{
-									System.Type t_listitem_type = t_type.GetGenericArguments()[0];
+							//IEnumerable
+							{
+								System.Type t_generic_type = Fee.ReflectionTool.Utility.GetGenericTypeDefinition(t_type);
 
-									System.Type t_generic_type = ReflectionTool.GetGenericTypeDefinition(t_enumerable.GetType());
-									if(t_generic_type == typeof(System.Collections.Generic.Stack<>)){
-										//Stack
+								//リスト型の値型。取得。
+								System.Type t_listitem_valuetype = Fee.ReflectionTool.Utility.GetListValueType(t_type);
 
-										System.Reflection.MethodInfo t_methodinfo = ReflectionTool.GetMethod_Stack_Push(t_enumerable.GetType());
-										if(t_methodinfo != null){
-											for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
+								//メソッド取得。
+								System.Reflection.MethodInfo t_methodinfo = null;
+								if(t_generic_type == typeof(System.Collections.Generic.Stack<>)){
+									//Stack
+									t_methodinfo = ConvertTool.GetMethod_Stack_Push(t_type,t_listitem_valuetype);
 
-												//ワークに追加。
-												JsonItem t_jsonitem_listitem = a_jsonitem.GetItem(ii);
-												t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.TODO_ModeIEnumerable.Start,t_jsonitem_listitem,t_enumerable,t_methodinfo,t_listitem_type));
-											}
+									if(t_methodinfo != null){
+										for(int ii=0;ii<a_jsonitem.GetListMax();ii++){
+
+											//ワークに追加。
+											JsonItem t_jsonitem_listitem = a_jsonitem.GetItem(ii);
+											t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeIEnumerable.Start_Param1,t_jsonitem_listitem,t_enumerable,t_methodinfo,t_listitem_valuetype));
 										}
 
 										//doの外へ。
 										break;
 									}
-
-
-
-									//Dictionary
+								}else if(t_generic_type == typeof(System.Collections.Generic.LinkedList<>)){
 									//LinkedList
+									t_methodinfo = ConvertTool.GetMethod_LinkedList_AddLast(t_type,t_listitem_valuetype);
+								}else if(t_generic_type == typeof(System.Collections.Generic.HashSet<>)){
 									//HashSet
+									t_methodinfo = ConvertTool.GetMethod_HashSet_Add(t_type,t_listitem_valuetype);
+								}else if(t_generic_type == typeof(System.Collections.Generic.Queue<>)){
 									//Queue
+									t_methodinfo = ConvertTool.GetMethod_Queue_Enqueue(t_type,t_listitem_valuetype);
+								}else if(t_generic_type == typeof(System.Collections.Generic.SortedSet<>)){
 									//SortedSet
-									
+									t_methodinfo = ConvertTool.GetMethod_SortedSet_Add(t_type,t_listitem_valuetype);
+								}
+
+								if(t_methodinfo != null){
+									for(int ii=a_jsonitem.GetListMax()-1;ii>=0;ii--){
+
+										//ワークに追加。
+										JsonItem t_jsonitem_listitem = a_jsonitem.GetItem(ii);
+										t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeIEnumerable.Start_Param1,t_jsonitem_listitem,t_enumerable,t_methodinfo,t_listitem_valuetype));
+									}
+
+									//doの外へ。
+									break;
 								}
 							}
 						}
@@ -237,15 +256,15 @@ namespace Fee.JsonItem
 								if(t_collection_key != null){
 									//key == string
 
-									//値の型。
-									System.Type t_listitem_value_type = ReflectionTool.GetDictionaryValueType(t_type);
+									//リスト型の値型。取得。
+									System.Type t_listitem_valuetype = Fee.ReflectionTool.Utility.GetListValueType(t_type);
 
 									System.Collections.Generic.List<string> t_keylist = a_jsonitem.CreateAssociativeKeyList();
 									foreach(string t_listitem_key_string in t_keylist){
 
 										//ワークに追加。
 										JsonItem t_listitem_jsonitem = a_jsonitem.GetItem(t_listitem_key_string);
-										t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeAddDictionary.Start,t_listitem_jsonitem,t_dictionary,t_listitem_key_string,t_listitem_value_type));
+										t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeAddDictionary.Start,t_listitem_jsonitem,t_dictionary,t_listitem_key_string,t_listitem_valuetype));
 									}
 
 									//doの外へ。
@@ -258,7 +277,8 @@ namespace Fee.JsonItem
 							
 						//class,struct
 						{
-							System.Collections.Generic.List<System.Reflection.FieldInfo> t_fieldinfo_list = Fee.JsonItem.ReflectionTool.GetFieldInfoList(t_type);
+							System.Collections.Generic.List<System.Reflection.FieldInfo> t_fieldinfo_list = new System.Collections.Generic.List<System.Reflection.FieldInfo>();
+							Fee.JsonItem.ConvertTool.GetMemberListAll(t_type,t_fieldinfo_list);
 							foreach(System.Reflection.FieldInfo t_fieldinfo in t_fieldinfo_list){
 								if(a_jsonitem.IsExistItem(t_fieldinfo.Name) == true){
 									//ＪＳＯＮ側に存在する。
