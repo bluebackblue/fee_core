@@ -76,6 +76,13 @@ namespace Fee.Ui
 			//Fee.Ui.Ui.GetInstance().GetPoolList_Line2D().PoolDelete(this);
 		}
 
+		/** 表示。設定。
+		*/
+		public void SetVisible(bool a_flag)
+		{
+			this.sprite.SetVisible(a_flag);
+		}
+
 		/** サイズ。設定。
 		*/
 		public void SetSize(int a_size)

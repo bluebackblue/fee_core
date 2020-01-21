@@ -377,7 +377,7 @@ namespace Fee.EditorTool
 				}
 				#endif
 
-				//ムービー。
+				//ビデオ。
 				#if(DEF_VIDEO)
 				{
 					Fee.Video.Video.CreateInstance();
@@ -593,7 +593,7 @@ namespace Fee.EditorTool
 				Fee.UniVrm.UniVrm.DeleteInstance();
 			}
 
-			//ムービー。
+			//ビデオ。
 			{
 				Fee.Video.Video.DeleteInstance();
 			}
