@@ -144,98 +144,176 @@ namespace Fee.JsonItem
 			{
 				System.Type t_type = a_type;
 
-				if((a_jsonitem.IsSignedNumber() == true)||(a_jsonitem.IsUnSignedNumber() == true)||(a_jsonitem.IsFloatNumber() == true)||(a_jsonitem.IsBoolData() == true)){
-					if(t_type == typeof(int)){
-						//20:int
-						a_to_object_ref = (int)a_jsonitem.GetInt();
-					}else if(t_type == typeof(float)){
-						//13:float
-						a_to_object_ref = (float)a_jsonitem.GetFloat();
-					}else if(t_type == typeof(bool)){
-						//11:bool
-						a_to_object_ref = (bool)a_jsonitem.GetBoolData();
-					}else if(t_type == typeof(long)){
-						//22:long
-						a_to_object_ref = (long)a_jsonitem.GetLong();
-					}else if(t_type == typeof(char)){
-						//12:char
-						a_to_object_ref = (char)a_jsonitem.GetChar();
-					}else if(t_type == typeof(double)){
-						//14:double
-						a_to_object_ref = (double)a_jsonitem.GetDouble();
-					}else if(t_type == typeof(decimal)){
-						//15:decimal
-						a_to_object_ref = (decimal)a_jsonitem.GetDecimal();
-					}else if(t_type == typeof(sbyte)){
-						//16:sbyte
-						a_to_object_ref = (sbyte)a_jsonitem.GetSbyte();
-					}else if(t_type == typeof(byte)){
-						//17:byte
-						a_to_object_ref = (byte)a_jsonitem.GetByte();
-					}else if(t_type == typeof(short)){
-						//18:short
-						a_to_object_ref = (short)a_jsonitem.GetShort();
-					}else if(t_type == typeof(ushort)){
-						//19:ushort
-						a_to_object_ref = (ushort)a_jsonitem.GetUshort();
-					}else if(t_type == typeof(uint)){
-						//21:uint
-						a_to_object_ref = (uint)a_jsonitem.GetUint();
-					}else if(t_type == typeof(ulong)){
-						//23:ulong
-						a_to_object_ref = (ulong)a_jsonitem.GetUlong();
+				if(a_jsonitem.IsStringData() == true){
+					if(t_type == typeof(string)){
+						//stringdata => string
+						a_to_object_ref = a_jsonitem.GetStringData();
 					}else if(t_type.IsEnum == true){
-						if(a_jsonitem.IsStringData() == true){
-							a_to_object_ref = System.Enum.Parse(t_type,a_jsonitem.GetStringData());
-						}else{
-							System.TypeCode t_typecode = ((System.Enum)a_to_object_ref).GetTypeCode();
-							switch(t_typecode){
-							case System.TypeCode.Byte:
-								{
-									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetByte());
-								}break;
-							case System.TypeCode.SByte:
-								{
-									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetSbyte());
-								}break;
-							case System.TypeCode.Int16:
-								{
-									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetShort());
-								}break;
-							case System.TypeCode.UInt16:
-								{
-									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetUshort());
-								}break;
-							case System.TypeCode.Int32:
-								{
-									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetInt());
-								}break;
-							case System.TypeCode.UInt32:
-								{
-									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetUint());
-								}break;
-							case System.TypeCode.Int64:
-								{
-									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetLong());
-								}break;
-							case System.TypeCode.UInt64:
-								{
-									a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetUlong());
-								}break;
-							default:
-								{
-									Tool.Assert(false);
-								}break;
-							}
+						//stringdata => enum
+						a_to_object_ref = System.Enum.Parse(t_type,a_jsonitem.GetStringData());
+					}else if(t_type == typeof(int)){
+						//stringdata => int
+						int t_value;
+						if(int.TryParse(a_jsonitem.GetStringData(),out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(float)){
+						//stringdata => float
+						float t_value;
+						if(float.TryParse(a_jsonitem.GetStringData(),Config.STRING_TO_DOBULE_NUMBERSTYLE,Config.CULTURE,out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(bool)){
+						//stringdata => bool
+						bool t_value;
+						if(bool.TryParse(a_jsonitem.GetStringData(),out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(long)){
+						//stringdata => long
+						long t_value;
+						if(long.TryParse(a_jsonitem.GetStringData(),out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(char)){
+						//stringdata => char
+						char t_value;
+						if(char.TryParse(a_jsonitem.GetStringData(),out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(double)){
+						//stringdata => double
+						double t_value;
+						if(double.TryParse(a_jsonitem.GetStringData(),Config.STRING_TO_DOBULE_NUMBERSTYLE,Config.CULTURE,out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(decimal)){
+						//stringdata => decimal
+						decimal t_value;
+						if(decimal.TryParse(a_jsonitem.GetStringData(),out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(sbyte)){
+						//stringdata => sbyte
+						sbyte t_value;
+						if(sbyte.TryParse(a_jsonitem.GetStringData(),out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(byte)){
+						//stringdata => byte
+						byte t_value;
+						if(byte.TryParse(a_jsonitem.GetStringData(),out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(short)){
+						//stringdata => short
+						short t_value;
+						if(short.TryParse(a_jsonitem.GetStringData(),out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(ushort)){
+						//stringdata => ushort
+						ushort t_value;
+						if(ushort.TryParse(a_jsonitem.GetStringData(),out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(uint)){
+						//stringdata => uint
+						uint t_value;
+						if(uint.TryParse(a_jsonitem.GetStringData(),out t_value) == true){
+							a_to_object_ref = t_value;
+						}
+					}else if(t_type == typeof(ulong)){
+						//stringdata => ulong
+						ulong t_value;
+						if(ulong.TryParse(a_jsonitem.GetStringData(),out t_value) == true){
+							a_to_object_ref = t_value;
 						}
 					}
-				}else if(a_jsonitem.IsStringData() == true){
-					if(t_type == typeof(string)){
-						//string
-						a_to_object_ref = a_jsonitem.GetStringData();
-					}
-				}else if(a_jsonitem.IsIndexArray() == true){
+				}else if((a_jsonitem.IsSignedNumber() == true)||(a_jsonitem.IsUnSignedNumber() == true)||(a_jsonitem.IsFloatNumber() == true)||(a_jsonitem.IsBoolData() == true)){
+					if(t_type == typeof(int)){
+						//number => int
+						a_to_object_ref = (int)a_jsonitem.GetInt();
+					}else if(t_type == typeof(float)){
+						//number => float
+						a_to_object_ref = (float)a_jsonitem.GetFloat();
+					}else if(t_type == typeof(bool)){
+						//number => bool
+						a_to_object_ref = (bool)a_jsonitem.GetBoolData();
+					}else if(t_type == typeof(long)){
+						//number => long
+						a_to_object_ref = (long)a_jsonitem.GetLong();
+					}else if(t_type == typeof(char)){
+						//number => char
+						a_to_object_ref = (char)a_jsonitem.GetChar();
+					}else if(t_type == typeof(double)){
+						//number => double
+						a_to_object_ref = (double)a_jsonitem.GetDouble();
+					}else if(t_type == typeof(decimal)){
+						//number => decimal
+						a_to_object_ref = (decimal)a_jsonitem.GetDecimal();
+					}else if(t_type == typeof(sbyte)){
+						//number => sbyte
+						a_to_object_ref = (sbyte)a_jsonitem.GetSbyte();
+					}else if(t_type == typeof(byte)){
+						//number => byte
+						a_to_object_ref = (byte)a_jsonitem.GetByte();
+					}else if(t_type == typeof(short)){
+						//number => short
+						a_to_object_ref = (short)a_jsonitem.GetShort();
+					}else if(t_type == typeof(ushort)){
+						//number => ushort
+						a_to_object_ref = (ushort)a_jsonitem.GetUshort();
+					}else if(t_type == typeof(uint)){
+						//number => unit
+						a_to_object_ref = (uint)a_jsonitem.GetUint();
+					}else if(t_type == typeof(ulong)){
+						//number => uloong
+						a_to_object_ref = (ulong)a_jsonitem.GetUlong();
+					}else if(t_type.IsEnum == true){
+						//number => enum
 
+						System.TypeCode t_typecode = ((System.Enum)a_to_object_ref).GetTypeCode();
+						switch(t_typecode){
+						case System.TypeCode.Byte:
+							{
+								a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetByte());
+							}break;
+						case System.TypeCode.SByte:
+							{
+								a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetSbyte());
+							}break;
+						case System.TypeCode.Int16:
+							{
+								a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetShort());
+							}break;
+						case System.TypeCode.UInt16:
+							{
+								a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetUshort());
+							}break;
+						case System.TypeCode.Int32:
+							{
+								a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetInt());
+							}break;
+						case System.TypeCode.UInt32:
+							{
+								a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetUint());
+							}break;
+						case System.TypeCode.Int64:
+							{
+								a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetLong());
+							}break;
+						case System.TypeCode.UInt64:
+							{
+								a_to_object_ref = System.Enum.ToObject(t_type,a_jsonitem.GetUlong());
+							}break;
+						default:
+							{
+								Tool.Assert(false);
+							}break;
+						}
+					}				
+				}else if(a_jsonitem.IsIndexArray() == true){
 					do{
 						System.Collections.IEnumerable t_enumerable = a_to_object_ref as System.Collections.IEnumerable;
 						if(t_enumerable != null){
@@ -251,6 +329,8 @@ namespace Fee.JsonItem
 										System.Type t_listitem_valuetype = Fee.ReflectionTool.Utility.GetListValueType(t_type);
 
 										if(t_list.IsFixedSize == true){
+											//indexarray => []
+
 											for(int ii=a_jsonitem.GetListMax()-1;ii>=0;ii--){
 
 												//ワークに追加。
@@ -258,7 +338,7 @@ namespace Fee.JsonItem
 												t_workpool.AddFirst(new JsonToObject_Work(JsonToObject_Work.ModeSetList.Start,t_jsonitem_listitem,t_list,ii,t_listitem_valuetype));
 											}
 										}else{
-											//Generic.List
+											//indexarray => Generic.List
 
 											for(int ii=a_jsonitem.GetListMax()-1;ii>=0;ii--){
 
@@ -284,7 +364,7 @@ namespace Fee.JsonItem
 								//メソッド取得。
 								System.Reflection.MethodInfo t_methodinfo = null;
 								if(t_generic_type == typeof(System.Collections.Generic.Stack<>)){
-									//Generic.Stack
+									//indexarray => Generic.Stack
 									t_methodinfo = ConvertTool.GetMethod_Stack_Push(t_type,t_listitem_valuetype);
 
 									if(t_methodinfo != null){
@@ -299,16 +379,16 @@ namespace Fee.JsonItem
 										break;
 									}
 								}else if(t_generic_type == typeof(System.Collections.Generic.LinkedList<>)){
-									//Generic.LinkedList
+									//indexarray => Generic.LinkedList
 									t_methodinfo = ConvertTool.GetMethod_LinkedList_AddLast(t_type,t_listitem_valuetype);
 								}else if(t_generic_type == typeof(System.Collections.Generic.HashSet<>)){
-									//Generic.HashSet
+									//indexarray => Generic.HashSet
 									t_methodinfo = ConvertTool.GetMethod_HashSet_Add(t_type,t_listitem_valuetype);
 								}else if(t_generic_type == typeof(System.Collections.Generic.Queue<>)){
-									//Generic.Queue
+									//indexarray => Generic.Queue
 									t_methodinfo = ConvertTool.GetMethod_Queue_Enqueue(t_type,t_listitem_valuetype);
 								}else if(t_generic_type == typeof(System.Collections.Generic.SortedSet<>)){
-									//Generic.SortedSet
+									//indexarray => Generic.SortedSet
 									t_methodinfo = ConvertTool.GetMethod_SortedSet_Add(t_type,t_listitem_valuetype);
 								}
 
@@ -342,9 +422,9 @@ namespace Fee.JsonItem
 
 								System.Type t_key_type = Fee.ReflectionTool.Utility.GetDictionaryKeyType(t_type);
 								if(t_key_type == typeof(string)){
-									//Generic.Dictionary<string.>
-									//Generic.SortedDictionary<string,>
-									//Generic.SortedList<string,>
+									//associativearray => Generic.Dictionary<string.>
+									//associativearray => Generic.SortedDictionary<string,>
+									//associativearray => Generic.SortedList<string,>
 
 									//リスト型の値型。取得。
 									System.Type t_listitem_valuetype = Fee.ReflectionTool.Utility.GetListValueType(t_type);
@@ -370,6 +450,8 @@ namespace Fee.JsonItem
 							
 						//class,struct
 						{
+							//associativearray => class,strut
+
 							System.Collections.Generic.List<System.Reflection.FieldInfo> t_fieldinfo_list = new System.Collections.Generic.List<System.Reflection.FieldInfo>();
 							Fee.JsonItem.ConvertTool.GetMemberListAll(t_type,t_fieldinfo_list);
 							foreach(System.Reflection.FieldInfo t_fieldinfo in t_fieldinfo_list){

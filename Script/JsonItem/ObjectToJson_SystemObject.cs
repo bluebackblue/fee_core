@@ -96,7 +96,7 @@ namespace Fee.JsonItem
 						//t_return = new JsonItem();
 					}
 				}else if(t_type.IsArray == true){
-					//x[]
+					//[]
 
 					System.Array t_array_raw = (System.Array)a_from_object;
 	
@@ -208,7 +208,9 @@ namespace Fee.JsonItem
 
 													System.Type t_key_type = Fee.ReflectionTool.Utility.GetDictionaryKeyType(t_type);
 													if(t_key_type == typeof(string)){
-														//Dictionary<string,xxxx>
+														//Generic.Dictionary<string.>
+														//Generic.SortedDictionary<string,>
+														//Generic.SortedList<string,>
 
 														JsonItem t_jsonitem = new JsonItem(new Value_AssociativeArray());
 														foreach(System.Collections.DictionaryEntry t_from_pair in t_from_dictionary){
@@ -233,11 +235,11 @@ namespace Fee.JsonItem
 
 											//ICollection
 											{
-												//List<xxxx>
-												//Stack<xxxx>
-												//LinkedList<xxxx>
-												//Queue<xxxx>
-												//SortedSet<xxxx>
+												//Generic.List
+												//Generic.Stack
+												//Generic.LinkedList
+												//Generic.Queue
+												//Generic.SortedSet
 
 												JsonItem t_jsonitem = new JsonItem(new Value_IndexArray());
 
@@ -261,7 +263,7 @@ namespace Fee.JsonItem
 
 									//IEnumerable
 									{
-										//HashSet<xxxx>
+										//Generic.HashSet
 
 										JsonItem t_jsonitem = new JsonItem(new Value_IndexArray());
 
