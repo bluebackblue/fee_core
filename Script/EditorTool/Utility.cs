@@ -238,7 +238,7 @@ namespace Fee.EditorTool
 		public static void WriteJsonFile(Fee.File.Path a_full_path,Fee.JsonItem.JsonItem a_jsonitem,bool a_refresh)
 		{
 			try{
-				string t_json_string = a_jsonitem.ConvertJsonString();
+				string t_json_string = a_jsonitem.ConvertToJsonString();
 
 				using(System.IO.StreamWriter t_steram = new System.IO.StreamWriter(a_full_path.GetPath(),false,new System.Text.UTF8Encoding(false))){
 					t_steram.Write(t_json_string);

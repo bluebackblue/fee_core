@@ -410,7 +410,7 @@ namespace Fee.ReflectionTool
 							}
 						}
 					}else if(a_type == typeof(System.Collections.ArrayList)){
-						t_type = null;//typeof(System.Object);
+						t_type = typeof(System.Object);
 					}
 				}
 			}catch(System.Exception t_exception){

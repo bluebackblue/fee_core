@@ -14,90 +14,100 @@ namespace Fee.JsonItem
 {
 	/** ValueType
 	*/
-	public enum ValueType
+	public enum ValueType : ulong
 	{
 		/** ＮＵＬＬ。
+		*/
+		Null = 1,
 
-		24:null
+		/** 連想配列。
+		*/
+		AssociativeArray = 2,
+
+		/** インデックス配列。
+		*/
+		IndexArray = 4,
+
+		/** 文字データ。
+
+			System.String(string)
 
 		*/
-		None = 0,
+		StringData = 8,
 
-		/** 0:連想配列。
-		*/
-		AssociativeArray,
+		/** 符号あり整数。
 
-		/** 1:インデックス配列。
-		*/
-		IndexArray,
-
-		/** 2:文字データ。
-		*/
-		StringData,
-
-		/** 11:bool。
-		*/
-		BoolData,
-
-		/** 整数。
-
-		12:char
-		15:decimal
-		16:sbyte
-		17:byte
-		18:short
-		19:ushort
-		20:int
-		21:uint
-		22:long
+			System.Char(char)
+			System.SByte(sbyte)
+			System.Byte(byte)
+			System.Int16(short)
+			System.UInt16(ushort)
+			System.Int32(int)
+			System.UInt32(uint)
+			System.Int64(long)
 		
 		*/
-		SignedNumber,
+		SignedNumber = 16,
 
-		/** 整数。
+		/** 符号なし整数。
 
-		23:ulong
-
-		*/
-		UnsignedNumber,
-
-		/** 少数。
-
-		13:float
-		14:double
+			System.UInt64(ulong)
 
 		*/
-		FloatingNumber,
+		UnsignedNumber = 32,
 
-		/** 3:バイナリデータ。
+		/** 浮動小数。
+
+			System.Single(float)
+			System.Double(double)
+
 		*/
-		BinaryData,
+		FloatingNumber = 64,
+
+		/** 真偽データ。
+
+			System.Boolean(bool)
+
+		*/
+		BoolData = 128,
 
 
-		
+		/** １０進数の浮動小数点数。
+
+			decimal
+
+		*/
+		DecimalNumber = 256,
+
+		/** バイナリデータ。
+		*/
+		BinaryData = 512,
+
+
+
+
+		/** 中間計算用。
+		*/
+		Calc = 32768,
 
 		/** 中間計算用。数値（少数/整数）。
 		*/
-		Calc_UnknownNumber,
+		Calc_UnknownNumber = 32768 + 1,
 
 		/** 中間計算用。真。
 		*/
-		Calc_BoolDataTrue,
+		Calc_BoolDataTrue = 32768 + 2,
 
 		/** 中間計算用。偽。
 		*/
-		Calc_BoolDataFalse,
+		Calc_BoolDataFalse = 32768 + 3,
 
 
 
 
-		/** Mask : SignedNumber & UnsignedNumber として扱う。
+		/** Mask
 		*/
-		Mask_Integer_Number,
-
-		/** Mask : SignedNumber & UnsignedNumber & FloatingNumber として扱う。
-		*/
-		Mask_All_Number,
+		Mask_All = Null | AssociativeArray | IndexArray | StringData | BoolData | SignedNumber | DecimalNumber | UnsignedNumber | FloatingNumber | BinaryData,
 	}
 }
 

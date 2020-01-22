@@ -103,8 +103,8 @@ namespace Fee.SoundPool
 
 			//チェック。
 			if(t_local_soundpool_json != null){
-				if((t_local_soundpool_json.IsAssociativeArray() == true)&&(t_local_soundpool_json.IsExistItem("data_version",JsonItem.ValueType.Mask_Integer_Number))){
-					uint t_data_version = t_local_soundpool_json.GetItem("data_version").GetUint();
+				if((t_local_soundpool_json.IsAssociativeArray() == true)&&(t_local_soundpool_json.IsExistItem("data_version"))){
+					uint t_data_version = t_local_soundpool_json.GetItem("data_version").CastToUint16();
 					if(t_data_version == a_data_version){
 						Fee.Audio.Pack_SoundPool t_local_soundpool = Fee.JsonItem.Convert.JsonItemToObject<Fee.Audio.Pack_SoundPool>(t_local_soundpool_json);
 						if(t_local_soundpool != null){

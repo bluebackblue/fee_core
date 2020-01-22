@@ -262,7 +262,7 @@ namespace Fee.JsonSheet
 
 					//ＪＳＯＮ。出力。
 					Fee.JsonItem.JsonItem t_jsonitem = Fee.JsonItem.Convert.ObjectToJsonItem(t_list);
-					string t_jsonstring = t_jsonitem.ConvertJsonString();
+					string t_jsonstring = t_jsonitem.ConvertToJsonString();
 					Fee.EditorTool.Utility.WriteTextFile(Fee.File.Path.CreateAssetsPath(a_assets_path),t_jsonstring,true);
 				}else{
 					Tool.Assert(false);

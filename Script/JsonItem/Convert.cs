@@ -20,7 +20,11 @@ namespace Fee.JsonItem
 		*/
 		public static JsonItem ObjectToJsonItem<Type>(Type a_instance)
 		{
-			return ObjectToJson_SystemObject.Convert(a_instance,null,0);
+			if(a_instance != null){
+				return ObjectToJson.Convert(a_instance,a_instance.GetType(),null,0);
+			}else{
+				return null;
+			}
 		}
 
 		/** JsonItem => オブジェクト。
@@ -28,7 +32,7 @@ namespace Fee.JsonItem
 		public static Type JsonItemToObject<Type>(JsonItem a_jsonitem)
 		{
 			if(a_jsonitem != null){
-				return a_jsonitem.ConvertObject<Type>();
+				return a_jsonitem.ConvertToObject<Type>();
 			}else{
 				return default(Type);
 			}
@@ -39,7 +43,7 @@ namespace Fee.JsonItem
 		public static string JsonItemToJsonString(JsonItem a_jsonitem)
 		{
 			if(a_jsonitem != null){
-				return a_jsonitem.ConvertJsonString();
+				return a_jsonitem.ConvertToJsonString();
 			}else{
 				return null;
 			}
@@ -71,8 +75,8 @@ namespace Fee.JsonItem
 		public static string ObjectToJsonString_Fee<Type>(Type a_instance)
 		{
 			if(a_instance != null){
-				JsonItem t_jsonitem = ObjectToJson_SystemObject.Convert(a_instance,null,0);
-				return t_jsonitem.ConvertJsonString();
+				JsonItem t_jsonitem = ObjectToJson.Convert(a_instance,a_instance.GetType(),null,0);
+				return t_jsonitem.ConvertToJsonString();
 			}
 			return null;
 		}
@@ -83,7 +87,7 @@ namespace Fee.JsonItem
 		{
 			if(a_jsonstring != null){
 				JsonItem t_jsonitem = new JsonItem(a_jsonstring);
-				return t_jsonitem.ConvertObject<Type>();
+				return t_jsonitem.ConvertToObject<Type>();
 			}
 			return default(Type);
 		}

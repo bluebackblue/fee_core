@@ -64,14 +64,14 @@ namespace Fee.JsonItem
 				}//break;
 			case 'n':
 				{
-					return ValueType.None;
+					return ValueType.Null;
 				}//break;
 			default:
 				{
 					//不明な開始文字。
 					Tool.Assert(false);
 
-					return ValueType.None;
+					return ValueType.Null;
 				}//break;
 			}
 		}
@@ -600,18 +600,21 @@ namespace Fee.JsonItem
 			}
 		}
 
+		public static char[] STRING_FALSE_1 = {'F','A','L','S','E'};
+		public static char[] STRING_FALSE_2 = {'f','a','l','s','e'};
+		public static char[] STRING_TRUE_1 = {'T','R','U','E'};
+		public static char[] STRING_TRUE_2 = {'t','r','u','e'};
+
 		/** TRUEJSONの長さ。
 		*/
 		public static int GetLength_BoolTrue(string a_string,int a_index)
 		{
-			char[] t_true_1 = {'T','R','U','E'};
-			char[] t_true_2 = {'t','r','u','e'};
 
-			for(int ii=0;ii<t_true_1.Length;ii++){
+			for(int ii=0;ii<STRING_TRUE_1.Length;ii++){
 				int t_index = a_index + ii;
 
 				if(t_index < a_string.Length){
-					if((a_string[t_index] == t_true_1[ii])||(a_string[t_index] == t_true_2[ii])){
+					if((a_string[t_index] == STRING_TRUE_1[ii])||(a_string[t_index] == STRING_TRUE_2[ii])){
 					}else{
 						//TRUE以外。
 						Tool.Assert(false);
@@ -627,12 +630,12 @@ namespace Fee.JsonItem
 			}
 
 			{
-				int t_index = a_index + t_true_1.Length;
+				int t_index = a_index + STRING_TRUE_1.Length;
 
 				if(t_index < a_string.Length){
 					if((a_string[t_index] == '}')||(a_string[t_index] == ']')||(a_string[t_index] == ',')){
 						//終端。
-						return t_true_1.Length;
+						return STRING_TRUE_1.Length;
 					}else{
 						//TRUE以外。
 						Tool.Assert(false);
@@ -652,14 +655,11 @@ namespace Fee.JsonItem
 		*/
 		public static int GetLength_BoolFalse(string a_string,int a_index)
 		{
-			char[] t_true_1 = {'F','A','L','S','E'};
-			char[] t_true_2 = {'f','a','l','s','e'};
-
-			for(int ii=0;ii<t_true_1.Length;ii++){
+			for(int ii=0;ii<STRING_FALSE_1.Length;ii++){
 				int t_index = a_index + ii;
 
 				if(t_index < a_string.Length){
-					if((a_string[t_index] == t_true_1[ii])||(a_string[t_index] == t_true_2[ii])){
+					if((a_string[t_index] == STRING_FALSE_1[ii])||(a_string[t_index] == STRING_FALSE_2[ii])){
 					}else{
 						//FALSE以外。
 						Tool.Assert(false);
@@ -675,12 +675,12 @@ namespace Fee.JsonItem
 			}
 
 			{
-				int t_index = a_index + t_true_1.Length;
+				int t_index = a_index + STRING_FALSE_1.Length;
 
 				if(t_index < a_string.Length){
 					if((a_string[t_index] == '}')||(a_string[t_index] == ']')||(a_string[t_index] == ',')){
 						//終端。
-						return t_true_1.Length;
+						return STRING_FALSE_1.Length;
 					}else{
 						//FALSE以外。
 						Tool.Assert(false);
@@ -810,17 +810,14 @@ namespace Fee.JsonItem
 
 		/** JSON文字からインデックスリストの作成[*,*,*]。
 		*/
-		public static System.Collections.Generic.List<JsonItem> CreateIndexArrayFromJsonString(string a_jsonstring)
+		public static void CreateIndexArrayFromJsonString(string a_jsonstring,ref System.Collections.Generic.List<JsonItem> a_out_list)
 		{
-			System.Collections.Generic.List<JsonItem> t_indexlist = new System.Collections.Generic.List<JsonItem>();
-		
 			int t_index = 0;
 			while(t_index < a_jsonstring.Length){
 				if(a_jsonstring[t_index] == ']'){
 					//終端。
 					Tool.Assert(t_index + 1 == a_jsonstring.Length);
-
-					return t_indexlist;
+					return;
 				}else if(a_jsonstring[t_index] == ','){
 					//次の項目あり。
 					t_index++;
@@ -834,9 +831,7 @@ namespace Fee.JsonItem
 					}else{
 						//不明。
 						Tool.Assert(false);
-
-						t_indexlist.Clear();
-						return t_indexlist;
+						return;
 					}
 				}
 		
@@ -874,69 +869,52 @@ namespace Fee.JsonItem
 					{
 						t_value_size = GetLength_BinaryData(a_jsonstring,t_index);
 					}break;
-				case ValueType.None:
+				case ValueType.Null:
 					{
 						t_value_size = GetLength_Null(a_jsonstring,t_index);
 					}break;
-				case ValueType.BoolData:
 				default:
 					{
 						//不明。
 						Tool.Assert(false);
-
-						t_indexlist.Clear();
-						return t_indexlist;
+						return;
 					}//break;
 				}
 			
 				//リストの最後に追加。
 				if(t_value_size > 0){
 
-					//#if defined(new)
-					//#undef new
-					//#endif
-
 					JsonItem t_additem = new JsonItem();
-
-					//#if defined(custom_new)
-					//#define new custom_new
-					//#endif
 
 					{
 						t_additem.SetJsonString(a_jsonstring.Substring(t_index,t_value_size));
 					}
 
-					t_indexlist.Add(t_additem);
+					a_out_list.Add(t_additem);
 
 					t_index += t_value_size;
 				}else{
 					Tool.Assert(false);
-
-					t_indexlist.Clear();
-					return t_indexlist;
+					return;
 				}
 			}
 		
-			//範囲外。
+			//不明。
 			Tool.Assert(false);
-
-			t_indexlist.Clear();
-			return t_indexlist;
+			return;
 		}
 
 		/** JSON文字から連想配列の作成。
 		*/
-		public static System.Collections.Generic.Dictionary<string,JsonItem> CreateAssociativeArrayFromJsonString(string a_jsonstring)
+		public static void CreateAssociativeArrayFromJsonString(string a_jsonstring,ref System.Collections.Generic.Dictionary<string,JsonItem> a_out_list)
 		{
-			System.Collections.Generic.Dictionary<string,JsonItem> t_associativelist = new System.Collections.Generic.Dictionary<string,JsonItem>();
-		
 			int t_index = 0;
 			while(t_index < a_jsonstring.Length){
 				if(a_jsonstring[t_index] == '}'){
 					//終端。
 					Tool.Assert((t_index + 1) == a_jsonstring.Length);
 
-					return t_associativelist;
+					return;
 				}else if(a_jsonstring[t_index] == ','){
 					//次の項目あり。
 					t_index++;
@@ -948,9 +926,7 @@ namespace Fee.JsonItem
 					}else{
 						//不明。
 						Tool.Assert(false);
-
-						t_associativelist.Clear();
-						return t_associativelist;
+						return;
 					}
 				}
 			
@@ -964,16 +940,12 @@ namespace Fee.JsonItem
 					}else{
 						//不明。
 						Tool.Assert(false);
-
-						t_associativelist.Clear();
-						return t_associativelist;
+						return;
 					}
 				}else{
 					//不明。
 					Tool.Assert(false);
-
-					t_associativelist.Clear();
-					return t_associativelist;
+					return;
 				}
 			
 				//「:」。
@@ -982,9 +954,7 @@ namespace Fee.JsonItem
 				}else{
 					//不明。
 					Tool.Assert(false);
-
-					t_associativelist.Clear();
-					return t_associativelist;
+					return;
 				}
 			
 				//値。
@@ -1021,7 +991,7 @@ namespace Fee.JsonItem
 					{
 						t_value_size = GetLength_BinaryData(a_jsonstring,t_index);
 					}break;
-				case ValueType.None:
+				case ValueType.Null:
 					{
 						t_value_size = GetLength_Null(a_jsonstring,t_index);
 					}break;
@@ -1030,9 +1000,7 @@ namespace Fee.JsonItem
 					{
 						//不明。
 						Tool.Assert(false);
-
-						t_associativelist.Clear();
-						return t_associativelist;
+						return;
 					}//break;
 				}
 			
@@ -1045,40 +1013,30 @@ namespace Fee.JsonItem
 						t_additem.SetJsonString(a_jsonstring.Substring(t_index,t_value_size));
 					}
 
-					t_associativelist.Add(t_name_string,t_additem);
+					a_out_list.Add(t_name_string,t_additem);
 
 					t_index += t_value_size;
 				}else{
 					Tool.Assert(false);
-
-					t_associativelist.Clear();
-					return t_associativelist;
+					return;
 				}
 			}
 		
-			//範囲外。
+			//不明。
 			Tool.Assert(false);
-
-			t_associativelist.Clear();
-			return t_associativelist;
+			return;
 		}
 
 		/** JSON文字からバイナリデータの作成。
 		*/
-		public static System.Collections.Generic.List<byte> CreateBinaryDataFromJsonString(string a_jsonstring)
+		public static void CreateBinaryDataFromJsonString(string a_jsonstring,ref System.Collections.Generic.List<byte> a_out_list)
 		{
-			System.Collections.Generic.List<byte> t_binarydata = new System.Collections.Generic.List<byte>();
-
-			//t_binarydata.reserve(a_jsonstring.Length / 2);
-			t_binarydata.Capacity = a_jsonstring.Length / 2;
-
 			int t_index = 0;
 			while(t_index < a_jsonstring.Length){
 				if(a_jsonstring[t_index] == '>'){
 					//終端。
 					Tool.Assert((t_index + 1) == a_jsonstring.Length);
-
-					return t_binarydata;
+					return;
 				}else if(a_jsonstring[t_index] == '<'){
 					if(t_index == 0){
 						//開始。
@@ -1087,9 +1045,7 @@ namespace Fee.JsonItem
 					}else{
 						//不明。
 						Tool.Assert(false);
-
-						t_binarydata.Clear();
-						return t_binarydata;
+						return;
 					}
 				}else{
 
@@ -1122,9 +1078,7 @@ namespace Fee.JsonItem
 						{
 							//不明。
 							Tool.Assert(false);
-
-							t_binarydata.Clear();
-							return t_binarydata;
+							return;
 						}//break;
 					}
 
@@ -1158,31 +1112,26 @@ namespace Fee.JsonItem
 							{
 								//不明。
 								Tool.Assert(false);
-
-								t_binarydata.Clear();
-								return t_binarydata;
+								return;
 							}//break;
 						}
 
 						t_index++;
 
-						t_binarydata.Add(t_binary);
+						a_out_list.Add(t_binary);
 					}else{
 						//不明。
 						Tool.Assert(false);
-
-						t_binarydata.Clear();
-						return t_binarydata;
+						return;
 					}
 				}
 			}
 
 			//範囲外。
 			Tool.Assert(false);
-
-			t_binarydata.Clear();
-			return t_binarydata;
+			return;
 		}
 
 	}
 }
+
