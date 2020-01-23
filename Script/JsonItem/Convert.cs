@@ -21,7 +21,7 @@ namespace Fee.JsonItem
 		public static JsonItem ObjectToJsonItem<Type>(Type a_instance)
 		{
 			if(a_instance != null){
-				return ObjectToJson.Convert(a_instance,a_instance.GetType(),null,0);
+				return Fee.JsonItem.ObjectToJsonItem.Convert(a_instance,a_instance.GetType(),null,0);
 			}else{
 				return null;
 			}
@@ -35,6 +35,15 @@ namespace Fee.JsonItem
 				return a_jsonitem.ConvertToObject<Type>();
 			}else{
 				return default(Type);
+			}
+		}
+
+		/** JsonItem => Json文字列。
+		*/
+		public static void JsonItemToJsonString(JsonItem a_jsonitem,System.Text.StringBuilder a_stringbuilder,ConvertToJsonStringOption a_option)
+		{
+			if(a_jsonitem != null){
+				a_jsonitem.ConvertToJsonString(a_stringbuilder,a_option);
 			}
 		}
 
@@ -58,6 +67,13 @@ namespace Fee.JsonItem
 
 		/** オブジェクト => Json文字列。
 		*/
+		public static void ObjectToJsonString<Type>(Type a_instance,System.Text.StringBuilder a_stringbuilder,ConvertToJsonStringOption a_option)
+		{
+			ObjectToJsonString_Fee(a_instance,a_stringbuilder,a_option);
+		}
+
+		/** オブジェクト => Json文字列。
+		*/
 		public static string ObjectToJsonString<Type>(Type a_instance)
 		{
 			return ObjectToJsonString_Fee(a_instance);
@@ -72,13 +88,24 @@ namespace Fee.JsonItem
 	
 		/** Fee。オブジェクト => Json文字列。
 		*/
+		public static void ObjectToJsonString_Fee<Type>(Type a_instance,System.Text.StringBuilder a_stringbuilder,ConvertToJsonStringOption a_option)
+		{
+			if(a_instance != null){
+				JsonItem t_jsonitem = Fee.JsonItem.ObjectToJsonItem.Convert(a_instance,a_instance.GetType(),null,0);
+				t_jsonitem.ConvertToJsonString(a_stringbuilder,a_option);
+			}
+		}
+
+		/** Fee。オブジェクト => Json文字列。
+		*/
 		public static string ObjectToJsonString_Fee<Type>(Type a_instance)
 		{
 			if(a_instance != null){
-				JsonItem t_jsonitem = ObjectToJson.Convert(a_instance,a_instance.GetType(),null,0);
+				JsonItem t_jsonitem = Fee.JsonItem.ObjectToJsonItem.Convert(a_instance,a_instance.GetType(),null,0);
 				return t_jsonitem.ConvertToJsonString();
+			}else{
+				return null;
 			}
-			return null;
 		}
 
 		/** Fee。Json文字列 => オブジェクト。

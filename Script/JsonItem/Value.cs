@@ -382,7 +382,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.Char)0;
+			return default;
 		}
 
 		/** CastToSbyte
@@ -413,7 +413,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.SByte)0;
+			return default;
 		}
 
 		/** CastToByte
@@ -444,7 +444,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.Byte)0;
+			return default;
 		}
 
 		/** CastToInt16
@@ -475,7 +475,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.Int16)0;
+			return default;
 		}
 
 		/** CastToUint16
@@ -506,7 +506,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.UInt16)0;
+			return default;
 		}
 
 		/** CastToInt32
@@ -537,7 +537,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.Int32)0;
+			return default;
 		}
 
 		/** CastToUint32
@@ -568,7 +568,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.UInt32)0;
+			return default;
 		}
 
 		/** CastToInt64
@@ -599,7 +599,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.Int64)0;
+			return default;
 		}
 
 		/** CastToUint64
@@ -630,7 +630,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.UInt64)0;
+			return default;
 		}
 
 		/** CastToSingle
@@ -661,7 +661,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.Single)0;
+			return default;
 		}
 
 		/** CastToDouble
@@ -692,7 +692,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.Double)0;
+			return default;
 		}
 
 		/** CastToBoolData
@@ -723,7 +723,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.Boolean)false;
+			return default;
 		}
 
 		/** CastToDecimal
@@ -754,7 +754,7 @@ namespace Fee.JsonItem
 			}
 
 			Tool.Assert(false);
-			return (System.Decimal)0;
+			return default;
 		}
 	}
 

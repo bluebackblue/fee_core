@@ -68,10 +68,10 @@ namespace Fee.ReflectionTool
 					System.Reflection.BindingFlags.Instance |
 							
 					//パブリック メンバーを検索に含めることを指定します。
-					System.Reflection.BindingFlags.Public |
+					System.Reflection.BindingFlags.Public //|
 							
 					//パブリック メンバー以外のメンバーを検索に含めることを指定します。
-					System.Reflection.BindingFlags.NonPublic
+					//System.Reflection.BindingFlags.NonPublic
 
 				);
 			}catch(System.Exception t_exception){
@@ -411,11 +411,14 @@ namespace Fee.ReflectionTool
 						}
 					}else if(a_type == typeof(System.Collections.ArrayList)){
 						t_type = typeof(System.Object);
+					}else{
+						Tool.Assert(false);
+						t_type = typeof(System.Object);
 					}
 				}
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
-				t_type = null;
+				t_type = typeof(System.Object);
 			}
 			
 			return t_type;

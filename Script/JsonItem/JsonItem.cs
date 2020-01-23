@@ -64,11 +64,10 @@ namespace Fee.JsonItem
 			System.Type t_to_type = typeof(Type);
 
 			System.Object t_to_object;
-			JsonToObject.CreateInstance(out t_to_object,t_to_type,this);
-			JsonToObject.Convert(ref t_to_object,t_to_type,this);
+			JsonItemToObject.CreateInstance(out t_to_object,t_to_type,this);
+			JsonItemToObject.Convert(ref t_to_object,t_to_type,this);
 
 			return (Type)t_to_object;
-			//return (Type)System.Convert.ChangeType(t_to_object,t_to_type);
 		}
 
 		/** JsonStringへコンバート。
@@ -80,16 +79,16 @@ namespace Fee.JsonItem
 			}
 
 			System.Text.StringBuilder t_stringbuilder = new System.Text.StringBuilder();
-			this.ValueToJsonString(t_stringbuilder);
+			this.ValueToJsonString(t_stringbuilder,Config.DEFAULT_CONVERTTOJSONSTRING_OPTION);
 
 			return t_stringbuilder.ToString();
 		}
 
 		/** JsonStringへコンバート。
 		*/
-		public void ConvertToJsonString(System.Text.StringBuilder a_stringbuilder)
+		public void ConvertToJsonString(System.Text.StringBuilder a_stringbuilder,ConvertToJsonStringOption a_option)
 		{
-			this.ValueToJsonString(a_stringbuilder);
+			this.ValueToJsonString(a_stringbuilder,a_option);
 		}
 
 		/** constructor
@@ -427,9 +426,9 @@ namespace Fee.JsonItem
 
 		/** 値取得。
 
-			char
-			sbyte
-			byte
+			System.Char(char)
+			System.SByte(sbyte)
+			System.Byte(byte)
 			System.Int16(short)
 			System.UInt16(ushort)
 			System.Int32(int)
@@ -468,7 +467,7 @@ namespace Fee.JsonItem
 
 		/** 値取得。
 		*/
-		public bool GetBoolData()
+		public System.Boolean GetBoolData()
 		{
 			this.JsonStringToValue();
 			return this.value.GetBoolData();
@@ -476,7 +475,7 @@ namespace Fee.JsonItem
 
 		/** 値取得。
 		*/
-		public decimal GetDecimalNumber()
+		public System.Decimal GetDecimalNumber()
 		{
 			this.JsonStringToValue();
 			return this.value.GetDecimalNumber();
@@ -654,7 +653,7 @@ namespace Fee.JsonItem
 		*/
 		public bool IsDecimalNumber()
 		{
-			return this.value.IsBoolData();
+			return this.value.IsDecimalNumber();
 		}
 
 		/** タイプチェック。バイナリデータ。
@@ -684,7 +683,7 @@ namespace Fee.JsonItem
 		public void SetJsonString(string a_jsonstring)
 		{
 			if(a_jsonstring.Length > 0){
-				ValueType t_valuetype = Impl.GetValueTypeFromChar(a_jsonstring[0]);
+				ValueType t_valuetype = ValueType_FirstCharValueType.Get(a_jsonstring[0]);
 				switch(t_valuetype){
 				case ValueType.StringData:
 				case ValueType.AssociativeArray:
@@ -693,6 +692,7 @@ namespace Fee.JsonItem
 				case ValueType.SignedNumber:
 				case ValueType.UnsignedNumber:
 				case ValueType.FloatingNumber:
+				case ValueType.DecimalNumber:
 					{
 						//保留。
 						this.jsonstring = a_jsonstring;
@@ -701,28 +701,12 @@ namespace Fee.JsonItem
 					}break;
 				case ValueType.Calc_UnknownNumber:
 					{
-						if(Impl.IsFloat(a_jsonstring)){
-							//保留。
-							this.jsonstring = a_jsonstring;
-							this.value.ResetFromType(ValueType.FloatingNumber);
-							return;
-						}else{
-							if(a_jsonstring[0] == '-'){
-								//マイナス値。
+						ValueType t_number_valuetype = ValueType_NumverValueType.GetNumberValueType(a_jsonstring);
 
-								//保留。
-								this.jsonstring = a_jsonstring;
-								this.value.ResetFromType(ValueType.SignedNumber);
-								return;
-							}else{
-								//プラス値。
-
-								//保留。
-								this.jsonstring = a_jsonstring;
-								this.value.ResetFromType(ValueType.UnsignedNumber);
-								return;
-							}
-						}
+						//保留。
+						this.jsonstring = a_jsonstring;
+						this.value.ResetFromType(t_number_valuetype);
+						return;
 					}break;
 				case ValueType.Calc_BoolDataTrue:
 					{
@@ -789,17 +773,6 @@ namespace Fee.JsonItem
 						return t_binarydata.Count;
 					}
 				}break;
-			case ValueType.Null:
-			case ValueType.SignedNumber:
-			case ValueType.UnsignedNumber:
-			case ValueType.FloatingNumber:
-			case ValueType.BoolData:
-			case ValueType.Calc_BoolDataFalse:
-			case ValueType.Calc_BoolDataTrue:
-			case ValueType.Calc_UnknownNumber:
-			default:
-				{
-				}break;
 			}
 
 			Tool.Assert(false);
@@ -826,7 +799,7 @@ namespace Fee.JsonItem
 			return null;
 		}
 
-		/** インデックスリストのアイテム取得。
+		/** インデックス配列のアイテム取得。
 		*/
 		public JsonItem GetItem(int a_index)
 		{
@@ -867,7 +840,7 @@ namespace Fee.JsonItem
 			return false;
 		}
 
-		/** インデックスリストのアイテムチェック。
+		/** インデックス配列のアイテムチェック。
 		*/
 		public bool IsExistItem(int a_index,ValueType a_valuetype = ValueType.Mask_All)
 		{
@@ -906,7 +879,7 @@ namespace Fee.JsonItem
 			}
 		}
 
-		/** インデックスリストにアイテム追加。
+		/** インデックス配列にアイテム追加。
 		*/
 		public void AddItem(JsonItem a_item,bool a_clone)
 		{
@@ -953,7 +926,7 @@ namespace Fee.JsonItem
 			}
 		}
 
-		/** インデックスリストにアイテム設定。
+		/** インデックス配列にアイテム設定。
 
 			上書き。
 
@@ -978,7 +951,7 @@ namespace Fee.JsonItem
 			}
 		}
 
-		/** インデックスリストからアイテム削除。
+		/** インデックス配列からアイテム削除。
 		*/
 		public void RemoveItem(string a_itemname)
 		{
@@ -992,7 +965,7 @@ namespace Fee.JsonItem
 			}
 		}
 
-		/** インデックスリストからアイテム削除。
+		/** インデックス配列からアイテム削除。
 		*/
 		public void RemoveItem(int a_index)
 		{
@@ -1006,7 +979,7 @@ namespace Fee.JsonItem
 			}
 		}
 
-		/** インデックスリストのサイズ変更。
+		/** インデックス配列のサイズ変更。
 		*/
 		public void ReSize(int a_list_count)
 		{
@@ -1045,7 +1018,7 @@ namespace Fee.JsonItem
 
 		/** ValueToJsonString
 		*/
-		private void ValueToJsonString(System.Text.StringBuilder a_stringbuilder)
+		public void ValueToJsonString(System.Text.StringBuilder a_stringbuilder,ConvertToJsonStringOption a_option)
 		{
 			if(this.jsonstring != null){
 				a_stringbuilder.Append(this.jsonstring);
@@ -1055,215 +1028,47 @@ namespace Fee.JsonItem
 			switch(this.value.valuetype){
 			case ValueType.AssociativeArray:
 				{
-					a_stringbuilder.Append("{");
-
-					try{
-						System.Collections.Generic.Dictionary<string,JsonItem> t_associativearray = this.value.GetAssociativeArray();
-						if(t_associativearray != null){
-							bool t_first = true;
-
-							foreach(System.Collections.Generic.KeyValuePair<string,JsonItem> t_pair in t_associativearray){
-								if(t_first == true){
-									//一つ目。
-									if(t_pair.Value != null){
-										t_first = false;
-
-										a_stringbuilder.Append("\"");
-										a_stringbuilder.Append(t_pair.Key);
-										a_stringbuilder.Append("\":");
-
-										t_pair.Value.ValueToJsonString(a_stringbuilder);
-									}else{
-										//NULL処理。
-										t_first = false;
-
-										a_stringbuilder.Append("\"");
-										a_stringbuilder.Append(t_pair.Key);
-										a_stringbuilder.Append("\":null");
-									}
-								}else{
-									//二つ目以降。
-									if(t_pair.Value != null){
-
-										a_stringbuilder.Append(",\"");
-										a_stringbuilder.Append(t_pair.Key);
-										a_stringbuilder.Append("\":");
-
-										t_pair.Value.ValueToJsonString(a_stringbuilder);
-									}else{
-										//NULL処理。
-
-										a_stringbuilder.Append(",\"");
-										a_stringbuilder.Append(t_pair.Key);
-										a_stringbuilder.Append("\":null");
-									}
-								}
-							}
-						}else{
-							Tool.Assert(false);
-						}
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
-					}
-
-					a_stringbuilder.Append("}");
+					Convert_AssociativeArray_ToJsonString.Convert(this.value.GetAssociativeArray(),a_stringbuilder,a_option);
 					return;
 				}break;
 			case ValueType.IndexArray:
 				{
-					a_stringbuilder.Append("[");
-
-					try{
-						System.Collections.Generic.List<JsonItem> t_indexarray = this.value.GetIndexArray();
-						if(t_indexarray != null){
-							int t_count = t_indexarray.Count;
-							int t_index = 0;
-
-							//一つ目。
-							if(t_count > 0){
-
-								if(t_indexarray[0] != null){
-									t_indexarray[0].ValueToJsonString(a_stringbuilder);
-								}else{
-									//NULL処理。
-									a_stringbuilder.Append("null");
-								}
-
-								t_index++;
-
-								//二つ目以降。
-								for(;t_index<t_count;t_index++){
-
-									a_stringbuilder.Append(",");
-
-									if(t_indexarray[t_index] != null){
-										t_indexarray[t_index].ValueToJsonString(a_stringbuilder);
-									}else{
-										//NULL処理。
-										a_stringbuilder.Append("null");
-									}
-								}
-							}
-						}else{
-							Tool.Assert(false);
-						}
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
-					}
-
-					a_stringbuilder.Append("]");
+					Convert_IndexArray_ToJsonString.Convert(this.value.GetIndexArray(),a_stringbuilder,a_option);
 					return;
 				}break;
 			case ValueType.StringData:
 				{
-					a_stringbuilder.Append("\"");
-
-					try{
-						//特殊文字 ==> ＪＳＯＮ文字列。
-						string t_value = this.value.GetStringData();
-						Impl.ConvertSpecialStringToJsonString(t_value,a_stringbuilder);
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
-					}
-
-					a_stringbuilder.Append( "\"");
+					Convert_StringData_ToJsonString.Convert(this.value.GetStringData(),a_stringbuilder,a_option);
 					return;
 				}break;
 			case ValueType.SignedNumber:
 				{
-					try{
-						SIGNED_NUMBER_TYPE t_value = this.value.GetSignedNumber();
-						string t_string = t_value.ToString(Config.CULTURE);
-						a_stringbuilder.Append(t_string);
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
-					}
-
+					Convert_SignedNumber_ToJsonString.Convert(this.value.GetSignedNumber(),a_stringbuilder,a_option);
 					return;
 				}break;
 			case ValueType.UnsignedNumber:
 				{
-					try{
-						UNSIGNED_NUMBER_TYPE t_value = this.value.GetUnsignedNumber();
-						string t_string = t_value.ToString(Config.CULTURE);
-						a_stringbuilder.Append(t_string);
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
-					}
-
+					Convert_UnsignedNumber_ToJsonString.Convert(this.value.GetUnsignedNumber(),a_stringbuilder,a_option);
 					return;
 				}break;
 			case ValueType.FloatingNumber:
 				{
-					try{
-						FLOATING_NUMBER_TYPE t_value = this.value.GetFloatingNumber();
-						string t_string = string.Format(Config.CULTURE,DOUBLE_TO_STRING_FORMAT,t_value);
-						a_stringbuilder.Append(t_string);
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
-					}
-
+					Convert_FloatingNumber_ToJsonString.Convert(this.value.GetFloatingNumber(),a_stringbuilder,a_option);
 					return;
 				}break;
 			case ValueType.BoolData:
 				{
-					try{
-						if(this.value.GetBoolData() == true){
-							a_stringbuilder.Append("true");
-						}else{
-							a_stringbuilder.Append("false");
-						}
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
-					}
-
+					Convert_BoolData_ToJsonString.Convert(this.value.GetBoolData(),a_stringbuilder,a_option);
 					return;
 				}break;
 			case ValueType.DecimalNumber:
 				{
-					a_stringbuilder.Append("\"");
-
-					try{
-						System.Decimal t_value = this.value.GetDecimalNumber();
-						string t_string = t_value.ToString(Config.CULTURE);
-						a_stringbuilder.Append(t_string);
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
-					}
-
-					a_stringbuilder.Append("\"");
-
+					Convert_DecimalNumber_ToJsonString.Convert(this.value.GetDecimalNumber(),a_stringbuilder,a_option);
 					return;
 				}break;
 			case ValueType.BinaryData:
 				{
-					a_stringbuilder.Append("<");
-
-					try{
-						System.Collections.Generic.List<byte> t_binarydata = this.value.GetBinaryData();
-						if(t_binarydata != null){
-							int t_count = t_binarydata.Count;
-							int t_index = 0;
-
-							//一つ目。
-							if(t_count > 0){
-								a_stringbuilder.Append(string.Format("{0:X2}",t_binarydata[t_index]));
-
-								t_index++;
-
-								//二つ目以降。
-								for(;t_index<t_count;t_index++){
-									a_stringbuilder.Append(string.Format("{0:X2}",t_binarydata[t_index]));
-								}
-							}
-						}else{
-							Tool.Assert(false);
-						}
-					}catch(System.Exception t_exception){
-						Tool.DebugReThrow(t_exception);
-					}
-
-					a_stringbuilder.Append(">");
+					Convert_BinaryData_ToJsonString.Convert(this.value.GetBinaryData(),a_stringbuilder,a_option);
 					return;
 				}break;
 			case ValueType.Null:
@@ -1283,14 +1088,8 @@ namespace Fee.JsonItem
 				switch(this.value.valuetype){
 				case ValueType.StringData:
 					{
-						System.Text.StringBuilder t_stringbuilder = new System.Text.StringBuilder();
-
-						//ＪＳＯＮ文字列 ==> 特殊文字。
-						try{
-							Impl.ConvertJsonStringToSpecialString(this.jsonstring,1,this.jsonstring.Length - 2,t_stringbuilder);
-						}catch(System.Exception t_exception){
-							Tool.DebugReThrow(t_exception);
-						}
+						System.Text.StringBuilder t_stringbuilder = new System.Text.StringBuilder(this.jsonstring.Length);
+						Convert_StringData_FromJsonString.Convert(this.jsonstring,t_stringbuilder);
 
 						this.value.raw = t_stringbuilder.ToString();
 						this.jsonstring = null;
@@ -1299,56 +1098,34 @@ namespace Fee.JsonItem
 				case ValueType.SignedNumber:
 					{
 						SIGNED_NUMBER_TYPE t_value;
+						Convert_SignedNumber_FromJsonString.Convert(this.jsonstring,out t_value);
 
-						if(SIGNED_NUMBER_TYPE.TryParse(this.jsonstring,out t_value) == true){
-							this.value.raw = t_value;
-							this.jsonstring = null;
-							return;
-						}else{
-							Tool.Assert(false);
-						}
+						this.value.raw = t_value;
+						this.jsonstring = null;
+						return;
 					}break;
 				case ValueType.UnsignedNumber:
 					{
 						UNSIGNED_NUMBER_TYPE t_value;
+						Convert_UnsignedNumber_FromJsonString.Convert(this.jsonstring,out t_value);
 
-						if(UNSIGNED_NUMBER_TYPE.TryParse(this.jsonstring,out t_value) == true){
-							this.value.raw = t_value;
-							this.jsonstring = null;
-							return;
-						}else{
-							Tool.Assert(false);
-						}
+						this.value.raw = t_value;
+						this.jsonstring = null;
+						return;
 					}break;
 				case ValueType.FloatingNumber:
 					{
 						FLOATING_NUMBER_TYPE t_value;
+						Convert_FloatingNumber_FromJsonString.Convert(this.jsonstring,out t_value);
 
-						if(FLOATING_NUMBER_TYPE.TryParse(this.jsonstring,Config.STRING_TO_DOBULE_NUMBERSTYLE,Config.CULTURE,out t_value) == true){
-							this.value.raw = t_value;
-							this.jsonstring = null;
-							return;
-						}else{
-							//TODO:decimal
-							decimal t_value_decimal;
-							if(decimal.TryParse(this.jsonstring,Config.STRING_TO_DOBULE_NUMBERSTYLE,Config.CULTURE,out t_value_decimal) == true){
-								this.value.raw = t_value;
-								this.jsonstring =  null;
-								this.value.valuetype = ValueType.DecimalNumber;
-							}else{
-								Tool.Assert(false);
-							}
-						}
+						this.value.raw = t_value;
+						this.jsonstring = null;
+						return;
 					}break;
 				case ValueType.IndexArray:
 					{
 						System.Collections.Generic.List<JsonItem> t_value = new System.Collections.Generic.List<JsonItem>(4 + this.jsonstring.Length / 7);
-
-						try{
-							Impl.CreateIndexArrayFromJsonString(this.jsonstring,ref t_value);
-						}catch(System.Exception t_exception){
-							Tool.DebugReThrow(t_exception);
-						}
+						Convert_IndexArray_FromJsonString.Convert(this.jsonstring,t_value);
 
 						this.value.raw = t_value;
 						this.jsonstring = null;
@@ -1357,12 +1134,7 @@ namespace Fee.JsonItem
 				case ValueType.AssociativeArray:
 					{
 						System.Collections.Generic.Dictionary<string,JsonItem> t_value = new System.Collections.Generic.Dictionary<string,JsonItem>();
-
-						try{
-							Impl.CreateAssociativeArrayFromJsonString(this.jsonstring,ref t_value);
-						}catch(System.Exception t_exception){
-							Tool.DebugReThrow(t_exception);
-						}
+						Convert_AssociativeArray_FromJsonString.Convert(this.jsonstring,t_value);
 
 						this.value.raw = t_value;
 						this.jsonstring = null;
@@ -1370,36 +1142,26 @@ namespace Fee.JsonItem
 					}break;
 				case ValueType.BoolData:
 					{
-						switch(this.jsonstring[0]){
-						case 't':
-						case 'T':
-							{
-								this.value.raw = true;
-								this.jsonstring = null;
-								return;
-							}break;
-						case 'f':
-						case 'F':
-							{
-								this.value.raw = false;
-								this.jsonstring = null;
-								return;
-							}break;
-						default:
-							{
-								Tool.Assert(false);
-							}break;
-						}
+						bool t_value;
+						Convert_BoolData_FromJsonString.Convert(this.jsonstring,out t_value);
+
+						this.value.raw = t_value;
+						this.jsonstring = null;
+						return;
+					}break;
+				case ValueType.DecimalNumber:
+					{
+						System.Decimal t_value;
+						Convert_DecimalNumber_FromJsonString.Convert(this.jsonstring,out t_value);
+
+						this.value.raw = t_value;
+						this.jsonstring = null;
+						return;
 					}break;
 				case ValueType.BinaryData:
 					{
 						System.Collections.Generic.List<byte> t_value = new System.Collections.Generic.List<byte>(4 + this.jsonstring.Length / 2);
-
-						try{
-							Impl.CreateBinaryDataFromJsonString(this.jsonstring,ref t_value);
-						}catch(System.Exception t_exception){
-							Tool.DebugReThrow(t_exception);
-						}
+						Convert_BinaryData_FromJsonString.Convert(this.jsonstring,t_value);
 
 						this.value.raw = t_value;
 						this.jsonstring = null;

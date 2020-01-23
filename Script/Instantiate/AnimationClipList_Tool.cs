@@ -167,7 +167,7 @@ namespace Fee.Instantiate
 
 				foreach(ResourceItem_Directory t_resouce_item in a_resource_list){
 					System.Collections.Generic.List<FindItem> t_list_find = new System.Collections.Generic.List<FindItem>();
-					AnimationClipList_Tool.FindAnimationClip_Directory(t_resouce_item.path,ref t_list_find);
+					AnimationClipList_Tool.FindAnimationClip_Directory(t_resouce_item.path,t_list_find);
 					foreach(FindItem t_finditem in t_list_find){
 						//タグの自動生成。
 						string t_tag = t_resouce_item.prefix + ":" + t_finditem.path.GetFileName() + ":" + t_finditem.animationclip.name;
@@ -203,7 +203,7 @@ namespace Fee.Instantiate
 
 				foreach(ResourceItem t_resouce_item in a_resource_list){
 					System.Collections.Generic.List<FindItem> t_list_find = new System.Collections.Generic.List<FindItem>();
-					AnimationClipList_Tool.FindAnimationClip(t_resouce_item.path,ref t_list_find);
+					AnimationClipList_Tool.FindAnimationClip(t_resouce_item.path,t_list_find);
 					foreach(FindItem t_finditem in t_list_find){
 						if(t_finditem.animationclip.name == t_resouce_item.clipanimation_name){
 							t_list.Add(new System.Tuple<string,FindItem>(t_resouce_item.tag,t_finditem));
@@ -227,14 +227,14 @@ namespace Fee.Instantiate
 
 		/** FindAnimationClip
 		*/
-		private static void FindAnimationClip_Directory(Fee.File.Path a_path,ref System.Collections.Generic.List<FindItem> a_out_list)
+		private static void FindAnimationClip_Directory(Fee.File.Path a_path,System.Collections.Generic.List<FindItem> a_out_list)
 		{
 			//ディレクトリ内のファイルを列挙。
 			System.Collections.Generic.List<string> t_name_list = Fee.EditorTool.Utility.CreateFileNameList(a_path);
 
 			foreach(string t_file_name_item in t_name_list){
 				if(System.Text.RegularExpressions.Regex.IsMatch(t_file_name_item,"^.*\\.(fbx)$") == true){
-					FindAnimationClip(new File.Path(a_path.GetNormalizePath() + "/" + t_file_name_item),ref a_out_list);
+					FindAnimationClip(new File.Path(a_path.GetNormalizePath() + "/" + t_file_name_item),a_out_list);
 				}
 			}
 
@@ -242,7 +242,7 @@ namespace Fee.Instantiate
 
 		/** FindAnimationClip
 		*/
-		private static void FindAnimationClip(Fee.File.Path a_path,ref System.Collections.Generic.List<FindItem> a_out_list)
+		private static void FindAnimationClip(Fee.File.Path a_path,System.Collections.Generic.List<FindItem> a_out_list)
 		{
 			UnityEngine.Object[] t_object_list = Fee.EditorTool.Utility.LoadAllAsset(a_path);
 			foreach(UnityEngine.Object t_object in t_object_list){

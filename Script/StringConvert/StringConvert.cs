@@ -4,17 +4,17 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief リフレクションツール。
+ * @brief 文字コンバート。
 */
 
 
-/** Fee.ReflectionTool
+/** Fee.StringConvert
 */
-namespace Fee.ReflectionTool
+namespace Fee.StringConvert
 {
-	/** ReflectionTool
+	/** Convert_String
 	*/
-	public class ReflectionTool
+	public class Convert_String
 	{
 	}
 }

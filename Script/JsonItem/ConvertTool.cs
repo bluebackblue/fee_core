@@ -66,15 +66,13 @@ namespace Fee.JsonItem
 		}
 
 		/** GetMethod_Stack_Push
+
+			System.Collections.Generic.Stack<TYPE>.Push(TYPE);
+
 		*/
 		public static System.Reflection.MethodInfo GetMethod_Stack_Push(System.Type a_type,System.Type a_value_type)
 		{
 			System.Reflection.MethodInfo t_methodinfo = null;
-
-			/*
-			System.Collections.Generic.Stack<int> t_test = new System.Collections.Generic.Stack<int>();
-			t_test.Push((int)0);
-			*/
 
 			try{
 				t_methodinfo = Fee.ReflectionTool.Utility.FindMethodAllParam1(a_type,"Push",a_value_type);
@@ -87,15 +85,13 @@ namespace Fee.JsonItem
 		}
 
 		/** GetMethod_LinkedList_AddLast
+
+			System.Collections.Generic.LinkedList<TYPE>.AddLast(TYPE);
+
 		*/
 		public static System.Reflection.MethodInfo GetMethod_LinkedList_AddLast(System.Type a_type,System.Type a_value_type)
 		{
 			System.Reflection.MethodInfo t_methodinfo = null;
-
-			/*
-			System.Collections.Generic.LinkedList<int> t_test = new System.Collections.Generic.LinkedList<int>();
-			t_test.AddLast((int)0);
-			*/
 
 			try{
 				t_methodinfo = Fee.ReflectionTool.Utility.FindMethodAllParam1(a_type,"AddLast",a_value_type);
@@ -108,15 +104,13 @@ namespace Fee.JsonItem
 		}
 
 		/** GetMethod_HashSet_Add
+
+			System.Collections.Generic.HashSet<TYPE>.Add(TYPE);
+
 		*/
 		public static System.Reflection.MethodInfo GetMethod_HashSet_Add(System.Type a_type,System.Type a_value_type)
 		{
 			System.Reflection.MethodInfo t_methodinfo = null;
-
-			/*
-			System.Collections.Generic.HashSet<int> t_test = new System.Collections.Generic.HashSet<int>();
-			t_test.Add((int)0);
-			*/
 
 			try{
 				t_methodinfo = Fee.ReflectionTool.Utility.FindMethodAllParam1(a_type,"Add",a_value_type);
@@ -129,15 +123,13 @@ namespace Fee.JsonItem
 		}
 
 		/** GetMethod_Queue_Enqueue
+
+			System.Collections.Generic.Queue<TYPE>.Enqueue(TYPE);
+
 		*/
 		public static System.Reflection.MethodInfo GetMethod_Queue_Enqueue(System.Type a_type,System.Type a_value_type)
 		{
 			System.Reflection.MethodInfo t_methodinfo = null;
-
-			/*
-			System.Collections.Generic.Queue<int> t_test = new System.Collections.Generic.Queue<int>();
-			t_test.Enqueue((int)0);
-			*/
 
 			try{
 				t_methodinfo = Fee.ReflectionTool.Utility.FindMethodAllParam1(a_type,"Enqueue",a_value_type);
@@ -150,15 +142,13 @@ namespace Fee.JsonItem
 		}
 
 		/** GetMethod_SortedSet_Add
+
+			System.Collections.Generic.SortedSet<TYPE>.Add(TYP));
+
 		*/
 		public static System.Reflection.MethodInfo GetMethod_SortedSet_Add(System.Type a_type,System.Type a_value_type)
 		{
 			System.Reflection.MethodInfo t_methodinfo = null;
-
-			/*
-			System.Collections.Generic.SortedSet<int> t_test = new System.Collections.Generic.SortedSet<int>();
-			t_test.Add((int)0);
-			*/
 
 			try{
 				t_methodinfo = Fee.ReflectionTool.Utility.FindMethodAllParam1(a_type,"Add",a_value_type);
