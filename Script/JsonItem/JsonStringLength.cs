@@ -158,7 +158,7 @@ namespace Fee.JsonItem
 			}
 		}
 
-		/** 連想リスト。
+		/** 連想配列。
 		*/
 		public static int GetAssociateArrayLength(string a_string,int a_index)
 		{

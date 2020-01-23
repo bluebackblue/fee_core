@@ -17,7 +17,7 @@
 */
 namespace Fee.JsonItem
 {
-	/** １０進数の浮動小数点数 ==> JSON文字列。
+	/** １０進数の浮動小数点数 ==> Json文字列。
 	*/
 	public class Convert_DecimalNumber_ToJsonString
 	{

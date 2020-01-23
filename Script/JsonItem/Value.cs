@@ -23,7 +23,6 @@ namespace Fee.JsonItem
 	using UNSIGNED_NUMBER_TYPE = System.UInt64;
 	using FLOATING_NUMBER_TYPE = System.Double;
 
-
 	/** Value
 	*/
 	public struct Value
@@ -783,23 +782,23 @@ namespace Fee.JsonItem
 
 	/** 数値。
 
-		System.Char(char)
-		System.SByte(sbyte)
-		System.Byte(byte)
-		System.Int16(short)
-		System.UInt16(ushort)
-		System.Int32(int)
-		System.UInt32(uint)
-		System.Int64(long)
+		System.Char
+		System.SByte
+		System.Byte
+		System.Int16
+		System.UInt16
+		System.Int32
+		System.UInt32
+		System.Int64
 
-		System.UInt64(ulong)
+		System.UInt64
 
-		System.Single(float)
-		System.Double(double)
+		System.Single
+		System.Double
 
-		System.Boolean(bool)
+		System.Boolean
 
-		System.Decimal(decimal)
+		System.Decimal
 
 	*/
 	public readonly struct Value_Number<T>

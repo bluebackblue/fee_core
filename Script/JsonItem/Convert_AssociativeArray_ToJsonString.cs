@@ -17,7 +17,7 @@
 */
 namespace Fee.JsonItem
 {
-	/** 連想配列 ==> JSON文字列。
+	/** 連想配列 ==> Json文字列。
 	*/
 	public class Convert_AssociativeArray_ToJsonString
 	{

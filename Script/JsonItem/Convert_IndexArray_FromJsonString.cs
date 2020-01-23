@@ -17,7 +17,7 @@
 */
 namespace Fee.JsonItem
 {
-	/** JSON文字列 ==> インデックス配列。
+	/** Json文字列 ==> インデックス配列。
 	*/
 	public class Convert_IndexArray_FromJsonString
 	{

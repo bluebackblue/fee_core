@@ -12,7 +12,7 @@
 */
 namespace Fee.JsonItem
 {
-	/** 文字データ ==> JSON文字列。
+	/** JsonItem ==> Json文字列。
 	*/
 	public enum ConvertToJsonStringOption : long
 	{

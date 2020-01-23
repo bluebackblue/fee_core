@@ -23,18 +23,9 @@ namespace Fee.JsonItem
 	{
 		/** Convert
 		*/
-		public static JsonItem Convert(System.Object a_from_object,ObjectToJsonItem_WorkPool_Item.ObjectOption a_from_objectoption)
+		public static JsonItem Convert(System.Object a_from_object,ConvertToJsonItemOption a_from_option)
 		{
-			bool t_string_mode = false;
-			{
-				if(a_from_objectoption != null){
-					if(a_from_objectoption.attribute_enumstring == true){
-						t_string_mode = true;
-					}
-				}
-			}
-
-			if(t_string_mode == true){
+			if((a_from_option & ConvertToJsonItemOption.EnumString) > 0){
 				//enumの文字列化。
 
 				string t_value = a_from_object.ToString();
@@ -54,7 +45,6 @@ namespace Fee.JsonItem
 					case System.TypeCode.Byte:
 						{
 							return new JsonItem(new Value_Number<System.Byte>((System.Byte)a_from_object));
-							;
 						}break;
 					case System.TypeCode.SByte:
 						{

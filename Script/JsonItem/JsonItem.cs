@@ -23,7 +23,6 @@ namespace Fee.JsonItem
 	using UNSIGNED_NUMBER_TYPE = System.UInt64;
 	using FLOATING_NUMBER_TYPE = System.Double;
 
-
 	/** JsonItem
 	*/
 	public class JsonItem : Config
@@ -63,9 +62,9 @@ namespace Fee.JsonItem
 		{
 			System.Type t_to_type = typeof(Type);
 
-			System.Object t_to_object;
-			JsonItemToObject.CreateInstance(out t_to_object,t_to_type,this);
-			JsonItemToObject.Convert(ref t_to_object,t_to_type,this);
+			System.Object t_to_object = null;
+			JsonItemToObject_CreateInstance.Create(ref t_to_object,t_to_type,this);
+			JsonItemToObject.Convert(ref t_to_object,t_to_type,this,null);
 
 			return (Type)t_to_object;
 		}
@@ -426,14 +425,14 @@ namespace Fee.JsonItem
 
 		/** 値取得。
 
-			System.Char(char)
-			System.SByte(sbyte)
-			System.Byte(byte)
-			System.Int16(short)
-			System.UInt16(ushort)
-			System.Int32(int)
-			System.UInt32(uint)
-			System.Int64(long)
+			System.Char
+			System.SByte
+			System.Byte
+			System.Int16
+			System.UInt16
+			System.Int32
+			System.UInt32
+			System.Int64
 
 		*/
 		public SIGNED_NUMBER_TYPE GetSignedNumber()
@@ -444,7 +443,7 @@ namespace Fee.JsonItem
 
 		/** 値取得。
 
-			System.UInt64(ulong)
+			System.UInt64
 
 		*/
 		public UNSIGNED_NUMBER_TYPE GetUnsignedNumber()
@@ -455,8 +454,8 @@ namespace Fee.JsonItem
 
 		/** 値取得。
 
-			System.Single(float)
-			System.Double(double)
+			System.Single
+			System.Double
 
 		*/
 		public FLOATING_NUMBER_TYPE GetFloatingNumber()
@@ -701,7 +700,7 @@ namespace Fee.JsonItem
 					}break;
 				case ValueType.Calc_UnknownNumber:
 					{
-						ValueType t_number_valuetype = ValueType_NumverValueType.GetNumberValueType(a_jsonstring);
+						ValueType t_number_valuetype = ValueType_NumverValueType.Get(a_jsonstring);
 
 						//保留。
 						this.jsonstring = a_jsonstring;
@@ -779,7 +778,7 @@ namespace Fee.JsonItem
 			return 0;
 		}
 
-		/** 連想リストのアイテム取得。
+		/** 連想配列のアイテム取得。
 		*/
 		public JsonItem GetItem(string a_itemname)
 		{
@@ -818,7 +817,7 @@ namespace Fee.JsonItem
 			return null;
 		}
 
-		/** 連想リストのアイテムチェック。
+		/** 連想配列のアイテムチェック。
 		*/
 		public bool IsExistItem(string a_itemname,ValueType a_valuetype = ValueType.Mask_All)
 		{
@@ -861,7 +860,7 @@ namespace Fee.JsonItem
 			return false;
 		}
 
-		/** 連想リストにアイテム追加。
+		/** 連想配列にアイテム追加。
 		*/
 		public void AddItem(string a_itemname,JsonItem a_item,bool a_clone)
 		{
@@ -897,7 +896,7 @@ namespace Fee.JsonItem
 			}
 		}
 
-		/** 連想リストにアイテム設定。
+		/** 連想配列にアイテム設定。
 
 			上書き、追加。
 

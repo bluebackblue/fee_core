@@ -23,7 +23,7 @@ namespace Fee.JsonItem
 	{
 		/** Convert
 		*/
-		public static JsonItem Convert(System.Object a_from_object,System.Type a_from_type,ObjectToJsonItem_WorkPool_Item.ObjectOption a_from_objectoption,int a_nest,ObjectToJsonItem_WorkPool a_workpool)
+		public static JsonItem Convert(System.Object a_from_object,System.Type a_from_type,ConvertToJsonItemOption a_from_option,ObjectToJsonItem_WorkPool a_workpool,int a_nest)
 		{
 			try{
 				//IDictionary
@@ -47,7 +47,7 @@ namespace Fee.JsonItem
 									string t_from_listitem_key_string = (string)t_from_pair.Key;
 									if(t_from_listitem_key_string != null){
 										System.Object t_from_listitem_object = t_from_pair.Value;
-										a_workpool.Add(new ObjectToJsonItem_WorkPool_Item(ObjectToJsonItem_WorkPool_Item.ModeAddAssociativeArray.Start,a_nest + 1,t_to_jsonitem,t_from_listitem_key_string,t_from_listitem_object,t_from_listitem_object.GetType(),a_from_objectoption));
+										a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_to_jsonitem,t_from_listitem_key_string,t_from_listitem_object,t_from_listitem_object.GetType(),a_from_option,a_nest + 1);
 									}else{
 										//NULL処理。
 										//keyがnullの場合は追加しない。
@@ -59,7 +59,7 @@ namespace Fee.JsonItem
 									string t_from_listitem_key_string = (string)t_from_pair.Key;
 									if(t_from_listitem_key_string != null){
 										System.Object t_from_listitem_object = t_from_pair.Value;
-										a_workpool.Add(new ObjectToJsonItem_WorkPool_Item(ObjectToJsonItem_WorkPool_Item.ModeAddAssociativeArray.Start,a_nest + 1,t_to_jsonitem,t_from_listitem_key_string,t_from_listitem_object,t_listitem_valuetype,a_from_objectoption));
+										a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_to_jsonitem,t_from_listitem_key_string,t_from_listitem_object,t_listitem_valuetype,a_from_option,a_nest + 1);
 									}else{
 										//NULL処理。
 										//keyがnullの場合は追加しない。
@@ -101,13 +101,13 @@ namespace Fee.JsonItem
 
 							//ワークに追加。
 							foreach(System.Object t_from_listitem in t_from_collection){
-								a_workpool.Add(new ObjectToJsonItem_WorkPool_Item(ObjectToJsonItem_WorkPool_Item.ModeSetIndexArray.Start,a_nest + 1,t_to_jsonitem,t_index,t_from_listitem,t_from_listitem.GetType(),a_from_objectoption));
+								a_workpool.Add(ObjectToJsonItem_WorkPool.ModeSetIndexArray.Start,t_to_jsonitem,t_index,t_from_listitem,t_from_listitem.GetType(),a_from_option,a_nest + 1);
 								t_index++;
 							}
 						}else{
 							//ワークに追加。
 							foreach(System.Object t_from_listitem in t_from_collection){
-								a_workpool.Add(new ObjectToJsonItem_WorkPool_Item(ObjectToJsonItem_WorkPool_Item.ModeSetIndexArray.Start,a_nest + 1,t_to_jsonitem,t_index,t_from_listitem,t_listitem_valuetype,a_from_objectoption));
+								a_workpool.Add(ObjectToJsonItem_WorkPool.ModeSetIndexArray.Start,t_to_jsonitem,t_index,t_from_listitem,t_listitem_valuetype,a_from_option,a_nest + 1);
 								t_index++;
 							}
 						}
@@ -132,12 +132,12 @@ namespace Fee.JsonItem
 						if(t_listitem_valuetype == typeof(System.Object)){
 							//ワークに追加。
 							foreach(System.Object t_from_listitem in t_from_enumerable){
-								a_workpool.Add(new ObjectToJsonItem_WorkPool_Item(ObjectToJsonItem_WorkPool_Item.ModeAddIndexArray.Start,a_nest + 1,t_to_jsonitem,t_from_listitem,t_from_listitem.GetType(),a_from_objectoption));
+								a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddIndexArray.Start,t_to_jsonitem,t_from_listitem,t_from_listitem.GetType(),a_from_option,a_nest + 1);
 							}
 						}else{
 							//ワークに追加。
 							foreach(System.Object t_from_listitem in t_from_enumerable){
-								a_workpool.Add(new ObjectToJsonItem_WorkPool_Item(ObjectToJsonItem_WorkPool_Item.ModeAddIndexArray.Start,a_nest + 1,t_to_jsonitem,t_from_listitem,t_listitem_valuetype,a_from_objectoption));
+								a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddIndexArray.Start,t_to_jsonitem,t_from_listitem,t_listitem_valuetype,a_from_option,a_nest + 1);
 							}
 						}
 
@@ -156,7 +156,7 @@ namespace Fee.JsonItem
 
 					//ワークに追加。
 					foreach(System.Reflection.FieldInfo t_fieldinfo in t_fieldinfo_list){
-						a_workpool.Add(new ObjectToJsonItem_WorkPool_Item(ObjectToJsonItem_WorkPool_Item.ModeFieldInfo.Start,a_nest + 1,t_to_jsonitem,t_fieldinfo,a_from_object));
+						a_workpool.Add(ObjectToJsonItem_WorkPool.ModeFieldInfo.Start,t_to_jsonitem,t_fieldinfo,a_from_object,a_nest + 1);
 					}
 							
 					//成功。

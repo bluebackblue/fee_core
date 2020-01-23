@@ -17,7 +17,7 @@
 */
 namespace Fee.JsonItem
 {
-	/** JSON文字列 ==> バイナリデータ。
+	/** Json文字列 ==> バイナリデータ。
 	*/
 	public class Convert_BinaryData_FromJsonString
 	{

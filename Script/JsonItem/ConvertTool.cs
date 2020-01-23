@@ -41,12 +41,12 @@ namespace Fee.JsonItem
 							System.Reflection.FieldInfo t_fieldinfo = t_memberinfo as System.Reflection.FieldInfo;
 							if(t_fieldinfo != null){
 
-								//オブジェクト化しない。
+								//オブジェクト化しない。Json文字列化しない。
 								if(t_fieldinfo.IsDefined(typeof(Fee.JsonItem.Ignore),false) == true){
 									continue;
 								}
 
-								//オブジェクト化しない。
+								//オブジェクト化しない。Json文字列化しない。
 								System.Type t_field_type = t_fieldinfo.FieldType;
 								if((t_field_type == typeof(System.IntPtr))||(t_field_type == typeof(System.UIntPtr))){
 									continue;
@@ -65,7 +65,7 @@ namespace Fee.JsonItem
 			}
 		}
 
-		/** GetMethod_Stack_Push
+		/** 関数呼び出し用のMethodInfoを取得する。
 
 			System.Collections.Generic.Stack<TYPE>.Push(TYPE);
 
@@ -84,7 +84,7 @@ namespace Fee.JsonItem
 			return t_methodinfo;
 		}
 
-		/** GetMethod_LinkedList_AddLast
+		/** 関数呼び出し用のMethodInfoを取得する。
 
 			System.Collections.Generic.LinkedList<TYPE>.AddLast(TYPE);
 
@@ -103,7 +103,7 @@ namespace Fee.JsonItem
 			return t_methodinfo;
 		}
 
-		/** GetMethod_HashSet_Add
+		/** 関数呼び出し用のMethodInfoを取得する。
 
 			System.Collections.Generic.HashSet<TYPE>.Add(TYPE);
 
@@ -122,7 +122,7 @@ namespace Fee.JsonItem
 			return t_methodinfo;
 		}
 
-		/** GetMethod_Queue_Enqueue
+		/** 関数呼び出し用のMethodInfoを取得する。
 
 			System.Collections.Generic.Queue<TYPE>.Enqueue(TYPE);
 
@@ -141,7 +141,7 @@ namespace Fee.JsonItem
 			return t_methodinfo;
 		}
 
-		/** GetMethod_SortedSet_Add
+		/** 関数呼び出し用のMethodInfoを取得する。
 
 			System.Collections.Generic.SortedSet<TYPE>.Add(TYP));
 

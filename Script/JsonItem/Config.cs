@@ -55,6 +55,10 @@ namespace Fee.JsonItem
 		/** デフォルトオプション。
 		*/
 		public static ConvertToJsonStringOption DEFAULT_CONVERTTOJSONSTRING_OPTION = ConvertToJsonStringOption.None;
+
+		/** デフォルトオプション。
+		*/
+		public static ConvertToJsonItemOption DEFAULT_CONVERTTOJSONITEM_OPTION = ConvertToJsonItemOption.None;
 	}
 }
 

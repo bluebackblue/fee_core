@@ -17,7 +17,7 @@
 */
 namespace Fee.JsonItem
 {
-	/** 文字データ ==> JSON文字列。
+	/** 文字データ ==> Json文字列。
 	*/
 	public class Convert_StringData_ToJsonString
 	{

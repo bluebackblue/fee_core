@@ -23,7 +23,7 @@ namespace Fee.JsonItem
 	{
 		/** Convert
 		*/
-		public static JsonItem Convert(System.Object a_from_object,System.Type a_from_type,ObjectToJsonItem_WorkPool_Item.ObjectOption a_from_objectoption,int a_nest,ObjectToJsonItem_WorkPool a_workpool)
+		public static JsonItem Convert(System.Object a_from_object,System.Type a_from_type,ConvertToJsonItemOption a_from_option,ObjectToJsonItem_WorkPool a_workpool,int a_nest)
 		{
 			try{
 				//[]
@@ -42,13 +42,13 @@ namespace Fee.JsonItem
 					for(int ii=0;ii<t_array_raw.Length;ii++){
 						//ワークに追加。
 						System.Object t_listitem_object = t_array_raw.GetValue(ii);
-						a_workpool.Add(new ObjectToJsonItem_WorkPool_Item(ObjectToJsonItem_WorkPool_Item.ModeSetIndexArray.Start,a_nest + 1,t_to_jsonitem,ii,t_listitem_object,t_listitem_object.GetType(),a_from_objectoption));
+						a_workpool.Add(ObjectToJsonItem_WorkPool.ModeSetIndexArray.Start,t_to_jsonitem,ii,t_listitem_object,t_listitem_object.GetType(),a_from_option,a_nest + 1);
 					}
 				}else{
 					for(int ii=0;ii<t_array_raw.Length;ii++){
 						//ワークに追加。
 						System.Object t_listitem_object = t_array_raw.GetValue(ii);
-						a_workpool.Add(new ObjectToJsonItem_WorkPool_Item(ObjectToJsonItem_WorkPool_Item.ModeSetIndexArray.Start,a_nest + 1,t_to_jsonitem,ii,t_listitem_object,t_listitem_valuetype,a_from_objectoption));
+						a_workpool.Add(ObjectToJsonItem_WorkPool.ModeSetIndexArray.Start,t_to_jsonitem,ii,t_listitem_object,t_listitem_valuetype,a_from_option,a_nest + 1);
 					}
 				}
 

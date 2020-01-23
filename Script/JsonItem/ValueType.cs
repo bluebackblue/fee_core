@@ -37,29 +37,29 @@ namespace Fee.JsonItem
 
 		/** 符号あり整数。
 
-			System.Char(char)
-			System.SByte(sbyte)
-			System.Byte(byte)
-			System.Int16(short)
-			System.UInt16(ushort)
-			System.Int32(int)
-			System.UInt32(uint)
-			System.Int64(long)
+			System.Char
+			System.SByte
+			System.Byte
+			System.Int16
+			System.UInt16
+			System.Int32
+			System.UInt32
+			System.Int64
 		
 		*/
 		SignedNumber = 16,
 
 		/** 符号なし整数。
 
-			System.UInt64(ulong)
+			System.UInt64
 
 		*/
 		UnsignedNumber = 32,
 
 		/** 浮動小数。
 
-			System.Single(float)
-			System.Double(double)
+			System.Single
+			System.Double
 
 		*/
 		FloatingNumber = 64,
@@ -83,14 +83,11 @@ namespace Fee.JsonItem
 		*/
 		BinaryData = 512,
 
-
-
-
 		/** 中間計算用。
 		*/
 		Calc = 32768,
 
-		/** 中間計算用。数値（少数/整数）。
+		/** 中間計算用。数値。
 		*/
 		Calc_UnknownNumber = 32768 + 1,
 
@@ -101,9 +98,6 @@ namespace Fee.JsonItem
 		/** 中間計算用。偽。
 		*/
 		Calc_BoolDataFalse = 32768 + 3,
-
-
-
 
 		/** Mask
 		*/

@@ -12,19 +12,19 @@
 */
 namespace Fee.JsonItem
 {
-	/** 除外。
+	/** コンバート時に除外する。
 	*/
 	public class Ignore : System.Attribute
 	{
 	}
 
-	/** Enum文字列。
+	/** Enumを文字データとして出力する。
 	*/
 	public class EnumString : System.Attribute
 	{
 	}
 
-	/** Enum数値。
+	/** Enumを数値として出力する。
 	*/
 	public class EnumInt : System.Attribute
 	{

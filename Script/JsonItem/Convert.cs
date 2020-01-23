@@ -18,10 +18,21 @@ namespace Fee.JsonItem
 	{
 		/** オブジェクト => JsonItem。
 		*/
+		public static JsonItem ObjectToJsonItem<Type>(Type a_instance,ConvertToJsonItemOption a_option)
+		{
+			if(a_instance != null){
+				return Fee.JsonItem.ObjectToJsonItem.Convert(a_instance,a_instance.GetType(),a_option,null,0);
+			}else{
+				return null;
+			}
+		}
+
+		/** オブジェクト => JsonItem。
+		*/
 		public static JsonItem ObjectToJsonItem<Type>(Type a_instance)
 		{
 			if(a_instance != null){
-				return Fee.JsonItem.ObjectToJsonItem.Convert(a_instance,a_instance.GetType(),null,0);
+				return Fee.JsonItem.ObjectToJsonItem.Convert(a_instance,a_instance.GetType(),Config.DEFAULT_CONVERTTOJSONITEM_OPTION,null,0);
 			}else{
 				return null;
 			}
@@ -67,9 +78,9 @@ namespace Fee.JsonItem
 
 		/** オブジェクト => Json文字列。
 		*/
-		public static void ObjectToJsonString<Type>(Type a_instance,System.Text.StringBuilder a_stringbuilder,ConvertToJsonStringOption a_option)
+		public static void ObjectToJsonString<Type>(Type a_instance,System.Text.StringBuilder a_stringbuilder,ConvertToJsonItemOption a_option_tojsonitem,ConvertToJsonStringOption a_option_tojsonstring)
 		{
-			ObjectToJsonString_Fee(a_instance,a_stringbuilder,a_option);
+			ObjectToJsonString_Fee(a_instance,a_stringbuilder,a_option_tojsonitem,a_option_tojsonstring);
 		}
 
 		/** オブジェクト => Json文字列。
@@ -88,11 +99,11 @@ namespace Fee.JsonItem
 	
 		/** Fee。オブジェクト => Json文字列。
 		*/
-		public static void ObjectToJsonString_Fee<Type>(Type a_instance,System.Text.StringBuilder a_stringbuilder,ConvertToJsonStringOption a_option)
+		public static void ObjectToJsonString_Fee<Type>(Type a_instance,System.Text.StringBuilder a_stringbuilder,ConvertToJsonItemOption a_option_tojsonitem,ConvertToJsonStringOption a_option_tojsonstring)
 		{
 			if(a_instance != null){
-				JsonItem t_jsonitem = Fee.JsonItem.ObjectToJsonItem.Convert(a_instance,a_instance.GetType(),null,0);
-				t_jsonitem.ConvertToJsonString(a_stringbuilder,a_option);
+				JsonItem t_jsonitem = Fee.JsonItem.ObjectToJsonItem.Convert(a_instance,a_instance.GetType(),a_option_tojsonitem,null,0);
+				t_jsonitem.ConvertToJsonString(a_stringbuilder,a_option_tojsonstring);
 			}
 		}
 
@@ -101,7 +112,7 @@ namespace Fee.JsonItem
 		public static string ObjectToJsonString_Fee<Type>(Type a_instance)
 		{
 			if(a_instance != null){
-				JsonItem t_jsonitem = Fee.JsonItem.ObjectToJsonItem.Convert(a_instance,a_instance.GetType(),null,0);
+				JsonItem t_jsonitem = Fee.JsonItem.ObjectToJsonItem.Convert(a_instance,a_instance.GetType(),Config.DEFAULT_CONVERTTOJSONITEM_OPTION,null,0);
 				return t_jsonitem.ConvertToJsonString();
 			}else{
 				return null;

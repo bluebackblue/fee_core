@@ -17,7 +17,7 @@
 */
 namespace Fee.JsonItem
 {
-	/** JSON文字列 ==> 浮動小数。
+	/** Json文字列 ==> 浮動小数。
 	*/
 	public class Convert_FloatingNumber_FromJsonString
 	{

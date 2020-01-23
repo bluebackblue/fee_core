@@ -23,7 +23,7 @@ namespace Fee.JsonItem
 	{
 		/** Convert
 		*/
-		public static JsonItem Convert(System.Object a_from_object,System.Type a_from_type,ObjectToJsonItem_WorkPool_Item.ObjectOption a_from_objectoption,int a_nest,ObjectToJsonItem_WorkPool a_workpool = null)
+		public static JsonItem Convert(System.Object a_from_object,System.Type a_from_type,ConvertToJsonItemOption a_from_option,ObjectToJsonItem_WorkPool a_workpool,int a_nest)
 		{
 			ObjectToJsonItem_WorkPool t_workpool = a_workpool;
 
@@ -103,13 +103,13 @@ namespace Fee.JsonItem
 						{
 							if(a_from_type.IsArray == true){
 								//[]
-								t_to_jsonitem = ObjectToJsonItem_FromArray.Convert(a_from_object,a_from_type,a_from_objectoption,a_nest,t_workpool);
+								t_to_jsonitem = ObjectToJsonItem_FromArray.Convert(a_from_object,a_from_type,a_from_option,t_workpool,a_nest);
 							}else if(a_from_type.IsEnum == true){
 								//Enum
-								t_to_jsonitem = ObjectToJsonItem_FromEnum.Convert(a_from_object,a_from_objectoption);
+								t_to_jsonitem = ObjectToJsonItem_FromEnum.Convert(a_from_object,a_from_option);
 							}else{
 								//class struct generic
-								t_to_jsonitem = ObjectToJsonItem_FromClass.Convert(a_from_object,a_from_type,a_from_objectoption,a_nest,t_workpool);
+								t_to_jsonitem = ObjectToJsonItem_FromClass.Convert(a_from_object,a_from_type,a_from_option,t_workpool,a_nest);
 							}
 						}break;
 					}

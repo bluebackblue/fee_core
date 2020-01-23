@@ -17,16 +17,13 @@
 */
 namespace Fee.JsonItem
 {
-	/** 最初の一文字からタイプを推測。
+	/** 数値のタイプを取得。
 	*/
 	public class ValueType_NumverValueType
 	{
-		/** 整数チェック。
-
-			System.Text.RegularExpressions.Regex.IsMatch(a_string,"^[\\+\\-]?[0-9]+\\.[0-9]+$");
-
+		/** Get
 		*/
-		public static ValueType GetNumberValueType(string a_string)
+		public static ValueType Get(string a_string)
 		{
 			//サフィックス。
 			{
@@ -53,12 +50,14 @@ namespace Fee.JsonItem
 				}
 			}
 
+			//ピリオドがある場合は浮動小数。
 			for(int ii=0;ii<a_string.Length;ii++){
 				if(a_string[ii] == Config.FLOATING_SEPARATOR){
 					return ValueType.FloatingNumber;
 				}
 			}
 
+			//マイナス符号がある場合は符号あり整数。
 			if(a_string[0] == '-'){
 				return ValueType.SignedNumber;
 			}

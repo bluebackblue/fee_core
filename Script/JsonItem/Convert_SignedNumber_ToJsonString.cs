@@ -17,7 +17,7 @@
 */
 namespace Fee.JsonItem
 {
-	/** 符号あり整数 ==> JSON文字列。
+	/** 符号あり整数 ==> Json文字列。
 	*/
 	public class Convert_SignedNumber_ToJsonString
 	{

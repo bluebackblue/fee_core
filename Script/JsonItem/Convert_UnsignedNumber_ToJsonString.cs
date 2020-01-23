@@ -17,7 +17,7 @@
 */
 namespace Fee.JsonItem
 {
-	/** 符号なし整数 ==> JSON文字列。
+	/** 符号なし整数 ==> Json文字列。
 	*/
 	public class Convert_UnsignedNumber_ToJsonString
 	{

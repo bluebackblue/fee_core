@@ -17,7 +17,7 @@
 */
 namespace Fee.JsonItem
 {
-	/** JSON文字列 ==> 真偽データ。
+	/** Json文字列 ==> 真偽データ。
 	*/
 	public class Convert_BoolData_FromJsonString
 	{

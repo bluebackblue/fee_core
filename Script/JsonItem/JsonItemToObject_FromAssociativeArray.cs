@@ -17,18 +17,21 @@
 */
 namespace Fee.JsonItem
 {
-	/** JsonItemToObject_FromAssociativeArray
+	/** オブジェクト化。
+
+		ValueType.AssociativeArray
+
 	*/
 	public class JsonItemToObject_FromAssociativeArray
 	{
 		/** Convert
 		*/
-		public static void Convert(ref System.Object a_to_object,System.Type a_to_type,JsonItem a_from_jsonitem,JsonItemToObject_WorkPool a_workpool)
+		public static void Convert(ref System.Object a_to_ref_object,System.Type a_to_type,JsonItem a_from_jsonitem,JsonItemToObject_WorkPool a_workpool)
 		{
 			try{
 				//IDictionary
 				{
-					System.Collections.IDictionary t_to_dictionary = a_to_object as System.Collections.IDictionary;
+					System.Collections.IDictionary t_to_dictionary = a_to_ref_object as System.Collections.IDictionary;
 					if(t_to_dictionary != null){
 
 						System.Type t_key_type = Fee.ReflectionTool.Utility.GetDictionaryKeyType(a_to_type);
@@ -45,7 +48,7 @@ namespace Fee.JsonItem
 							//ワークに追加。
 							foreach(string t_listitem_key_string in t_keylist){
 								JsonItem t_listitem_jsonitem = a_from_jsonitem.GetItem(t_listitem_key_string);
-								a_workpool.AddFirst(new JsonItemToObject_WorkPool_Item(JsonItemToObject_WorkPool_Item.ModeAddDictionary.Start,t_listitem_jsonitem,t_to_dictionary,t_listitem_key_string,t_listitem_valuetype));
+								a_workpool.AddFirst(JsonItemToObject_WorkPool.ModeAddDictionary.Start,t_listitem_jsonitem,t_to_dictionary,t_listitem_key_string,t_listitem_valuetype);
 							}
 
 							//完了。
@@ -69,7 +72,7 @@ namespace Fee.JsonItem
 					foreach(System.Reflection.FieldInfo t_fieldinfo in t_fieldinfo_list){
 						if(a_from_jsonitem.IsExistItem(t_fieldinfo.Name) == true){
 							JsonItem t_jsonitem_classmember = a_from_jsonitem.GetItem(t_fieldinfo.Name);
-							a_workpool.AddFirst(new JsonItemToObject_WorkPool_Item(JsonItemToObject_WorkPool_Item.ModeFieldInfo.Start,t_jsonitem_classmember,t_fieldinfo,a_to_object));
+							a_workpool.AddFirst(JsonItemToObject_WorkPool.ModeFieldInfo.Start,t_jsonitem_classmember,t_fieldinfo,a_to_ref_object);
 						}
 					}
 
