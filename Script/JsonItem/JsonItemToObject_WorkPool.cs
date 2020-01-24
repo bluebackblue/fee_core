@@ -48,12 +48,12 @@ namespace Fee.JsonItem
 			Fix = 101,
 		}
 
-		/** ModeAddDictionary
+		/** ModeAddStringDictionary
 
 			Dictionary。追加。
 
 		*/
-		public enum ModeAddDictionary
+		public enum ModeAddStringDictionary
 		{
 			/** 開始。
 			*/
@@ -62,6 +62,22 @@ namespace Fee.JsonItem
 			/** 反映。
 			*/
 			Fix = 102,
+		}
+
+		/** ModeAddAnyDictionary
+
+			Dictionary。追加。
+
+		*/
+		public enum ModeAddAnyDictionary
+		{
+			/** 開始。
+			*/
+			Start = 3,
+
+			/** 反映。
+			*/
+			Fix = 103,
 		}
 
 		/** ModeFieldInfo
@@ -73,11 +89,11 @@ namespace Fee.JsonItem
 		{
 			/** 開始。
 			*/
-			Start = 3,
+			Start = 4,
 
 			/** 反映。
 			*/
-			Fix = 103,
+			Fix = 104,
 		}
 
 		/** ModeIEnumerableParam1
@@ -89,7 +105,7 @@ namespace Fee.JsonItem
 		{
 			/** 開始。
 			*/
-			Start_Param1 = 4,
+			Start_Param1 = 5,
 		}
 
 		/** list
@@ -124,15 +140,17 @@ namespace Fee.JsonItem
 				t_item.mode = (int)a_mode;
 
 				//設定元。
-				t_item.from_jsonitem = a_from_listitem_json;
+				t_item.from_value_jsonitem = a_from_listitem_json;
+				t_item.from_key_jsonitem = null;
 
 				//設定先。
-				t_item.to_type = a_to_listitem_type;
-				t_item.to_object = null;
+				t_item.to_value_type = a_to_listitem_type;
+				t_item.to_key_type = null;
+				t_item.to_value_object = null;
+				t_item.to_key_object = null;
 				t_item.to_list = a_to_list;
 				t_item.to_index = a_to_index;
 				t_item.to_dictionary = null;
-				t_item.to_key_string = null;
 				t_item.to_fieldinfo = null;
 				t_item.to_parent_object = null;
 				t_item.to_enumerable = null;
@@ -154,15 +172,17 @@ namespace Fee.JsonItem
 				t_item.mode = (int)a_mode;
 
 				//設定元。
-				t_item.from_jsonitem = a_from_listitem_json;
+				t_item.from_value_jsonitem = a_from_listitem_json;
+				t_item.from_key_jsonitem = null;
 
 				//設定先。
-				t_item.to_type = a_to_listitem_type;
-				t_item.to_object = null;
+				t_item.to_value_type = a_to_listitem_type;
+				t_item.to_key_type = null;
+				t_item.to_value_object = null;
+				t_item.to_key_object = null;
 				t_item.to_list = a_to_list;
 				t_item.to_index = 0;
 				t_item.to_dictionary = null;
-				t_item.to_key_string = null;
 				t_item.to_fieldinfo = null;
 				t_item.to_parent_object = null;
 				t_item.to_enumerable = null;
@@ -176,7 +196,7 @@ namespace Fee.JsonItem
 			Dictionary。追加。
 
 		*/
-		public void AddFirst(ModeAddDictionary a_mode,JsonItem a_from_listitem_jsonitem,System.Collections.IDictionary a_to_dictionary,string a_to_key_string,System.Type a_to_listitem_type)
+		public void AddFirst(ModeAddStringDictionary a_mode,JsonItem a_from_listitem_jsonitem,string a_from_key_string,System.Collections.IDictionary a_to_dictionary,System.Type a_to_listitem_type)
 		{
 			JsonItemToObject_WorkPool_Item t_item = new JsonItemToObject_WorkPool_Item();
 			{
@@ -184,15 +204,49 @@ namespace Fee.JsonItem
 				t_item.mode = (int)a_mode;
 
 				//設定元。
-				t_item.from_jsonitem = a_from_listitem_jsonitem;
+				t_item.from_value_jsonitem = a_from_listitem_jsonitem;
+				t_item.from_key_jsonitem = null;
 
 				//設定先。
-				t_item.to_type = a_to_listitem_type;
-				t_item.to_object = null;
+				t_item.to_value_type = a_to_listitem_type;
+				t_item.to_key_type = null;
+				t_item.to_value_object = null;
+				t_item.to_key_object = a_from_key_string;
 				t_item.to_list = null;
 				t_item.to_index = 0;
 				t_item.to_dictionary = a_to_dictionary;
-				t_item.to_key_string = a_to_key_string;
+				t_item.to_fieldinfo = null;
+				t_item.to_parent_object = null;
+				t_item.to_enumerable = null;
+				t_item.to_methodinfo = null;
+			}
+			this.list.AddFirst(t_item);
+		}
+
+		/** AddFirst
+
+			Dictionary。追加。
+
+		*/
+		public void AddFirst(ModeAddAnyDictionary a_mode,JsonItem a_from_key_jsonitem,JsonItem a_from_value_jsonitem,System.Collections.IDictionary a_to_dictionary,System.Type a_to_key_type,System.Type a_to_value_type)
+		{
+			JsonItemToObject_WorkPool_Item t_item = new JsonItemToObject_WorkPool_Item();
+			{
+				//モード。
+				t_item.mode = (int)a_mode;
+
+				//設定元。
+				t_item.from_value_jsonitem = a_from_value_jsonitem;
+				t_item.from_key_jsonitem = a_from_key_jsonitem;
+
+				//設定先。
+				t_item.to_value_type = a_to_value_type;
+				t_item.to_key_type = a_to_key_type;
+				t_item.to_value_object = null;
+				t_item.to_key_object = null;
+				t_item.to_list = null;
+				t_item.to_index = 0;
+				t_item.to_dictionary = a_to_dictionary;
 				t_item.to_fieldinfo = null;
 				t_item.to_parent_object = null;
 				t_item.to_enumerable = null;
@@ -214,15 +268,17 @@ namespace Fee.JsonItem
 				t_item.mode = (int)a_mode;
 
 				//設定元。
-				t_item.from_jsonitem = a_from_member_jsonitem;
+				t_item.from_value_jsonitem = a_from_member_jsonitem;
+				t_item.from_key_jsonitem = null;
 
 				//設定先。
-				t_item.to_type = a_to_fieldinfo.FieldType;
-				t_item.to_object = null;
+				t_item.to_value_type = a_to_fieldinfo.FieldType;
+				t_item.to_key_type = null;
+				t_item.to_value_object = null;
+				t_item.to_key_object = null;
 				t_item.to_list = null;
 				t_item.to_index = 0;
 				t_item.to_dictionary = null;
-				t_item.to_key_string = null;
 				t_item.to_fieldinfo = a_to_fieldinfo;
 				t_item.to_parent_object = a_to_parent_object;
 				t_item.to_enumerable = null;
@@ -244,15 +300,17 @@ namespace Fee.JsonItem
 				t_item.mode = (int)a_mode;
 
 				//設定元。
-				t_item.from_jsonitem = a_from_member_jsonitem;
+				t_item.from_value_jsonitem = a_from_member_jsonitem;
+				t_item.from_key_jsonitem = null;
 
 				//設定先。
-				t_item.to_type = a_to_listitem_type;
-				t_item.to_object = null;
+				t_item.to_value_type = a_to_listitem_type;
+				t_item.to_key_type = null;
+				t_item.to_value_object = null;
+				t_item.to_key_object = null;
 				t_item.to_list = null;
 				t_item.to_index = 0;
 				t_item.to_dictionary = null;
-				t_item.to_key_string = null;
 				t_item.to_fieldinfo = null;
 				t_item.to_parent_object = null;
 				t_item.to_enumerable = a_to_enumerable;
@@ -293,27 +351,27 @@ namespace Fee.JsonItem
 					//List。設定。
 
 					//JsonItemから型を決める。
-					if(a_item.to_type == typeof(System.Object)){
-						a_item.to_type = ValueType_ConvertToType.Get(a_item.from_jsonitem);
+					if(a_item.to_value_type == typeof(System.Object)){
+						a_item.to_value_type = ValueType_ConvertToType.Get(a_item.from_value_jsonitem);
 					}
 
 					//インスタンス作成。
-					JsonItemToObject_CreateInstance.Create(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem);
+					JsonItemToObject_CreateInstance.Create(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem);
 
-					if(a_item.to_type.IsClass == true){
+					if(a_item.to_value_type.IsClass == true){
 
 						//メンバーの設定。
-						JsonItemToObject.Convert(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem,this);
+						JsonItemToObject.Convert(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem,this);
 
 						//リストに設定。
-						a_item.to_list[a_item.to_index] = a_item.to_object;
+						a_item.to_list[a_item.to_index] = a_item.to_value_object;
 					}else{
 
 						//差し込み位置。
 						System.Collections.Generic.LinkedListNode<JsonItemToObject_WorkPool_Item> t_first_node = this.list.First;
 
 						//メンバーの設定。
-						JsonItemToObject.Convert(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem,this);
+						JsonItemToObject.Convert(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem,this);
 
 						//再登録。
 						a_item.mode = (int)ModeSetList.Fix;
@@ -332,7 +390,7 @@ namespace Fee.JsonItem
 
 					//リストに設定。
 					try{
-						a_item.to_list[a_item.to_index] = a_item.to_object;
+						a_item.to_list[a_item.to_index] = a_item.to_value_object;
 					}catch(System.Exception t_exception){
 						Tool.DebugReThrow(t_exception);
 					}					
@@ -342,27 +400,27 @@ namespace Fee.JsonItem
 					//List。追加。
 
 					//JsonItemから型を決める。
-					if(a_item.to_type == typeof(System.Object)){
-						a_item.to_type = ValueType_ConvertToType.Get(a_item.from_jsonitem);
+					if(a_item.to_value_type == typeof(System.Object)){
+						a_item.to_value_type = ValueType_ConvertToType.Get(a_item.from_value_jsonitem);
 					}
 
 					//インスタンス作成。
-					JsonItemToObject_CreateInstance.Create(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem);
+					JsonItemToObject_CreateInstance.Create(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem);
 
-					if(a_item.to_type.IsClass == true){
+					if(a_item.to_value_type.IsClass == true){
 
 						//メンバーの設定。
-						JsonItemToObject.Convert(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem,this);
+						JsonItemToObject.Convert(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem,this);
 
 						//リストに設定。
-						a_item.to_list.Add(a_item.to_object);
+						a_item.to_list.Add(a_item.to_value_object);
 					}else{
 
 						//差し込み位置。
 						System.Collections.Generic.LinkedListNode<JsonItemToObject_WorkPool_Item> t_first_node = this.list.First;
 
 						//メンバーの設定。
-						JsonItemToObject.Convert(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem,this);
+						JsonItemToObject.Convert(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem,this);
 
 						//再登録。
 						a_item.mode = (int)ModeAddList.Fix;
@@ -381,40 +439,40 @@ namespace Fee.JsonItem
 
 					//リストに追加。
 					try{
-						a_item.to_list.Add(a_item.to_object);
+						a_item.to_list.Add(a_item.to_value_object);
 					}catch(System.Exception t_exception){
 						Tool.DebugReThrow(t_exception);
 					}					
 				}break;
-			case (int)ModeAddDictionary.Start:
+			case (int)ModeAddStringDictionary.Start:
 				{
 					//Dictionary。追加。
 
 					//JsonItemから型を決める。
-					if(a_item.to_type == typeof(System.Object)){
-						a_item.to_type = ValueType_ConvertToType.Get(a_item.from_jsonitem);
+					if(a_item.to_value_type == typeof(System.Object)){
+						a_item.to_value_type = ValueType_ConvertToType.Get(a_item.from_value_jsonitem);
 					}
 
 					//インスタンス作成。
-					JsonItemToObject_CreateInstance.Create(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem);
+					JsonItemToObject_CreateInstance.Create(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem);
 
-					if(a_item.to_type.IsClass == true){
+					if(a_item.to_value_type.IsClass == true){
 
 						//メンバーの設定。
-						JsonItemToObject.Convert(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem,this);
+						JsonItemToObject.Convert(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem,this);
 
 						//リストに設定。
-						a_item.to_dictionary.Add(a_item.to_key_string,a_item.to_object);
+						a_item.to_dictionary.Add(a_item.to_key_object,a_item.to_value_object);
 					}else{
 
 						//差し込み位置。
 						System.Collections.Generic.LinkedListNode<JsonItemToObject_WorkPool_Item> t_first_node = this.list.First;
 
 						//メンバーの設定。
-						JsonItemToObject.Convert(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem,this);
+						JsonItemToObject.Convert(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem,this);
 
 						//再登録。
-						a_item.mode = (int)ModeAddDictionary.Fix;
+						a_item.mode = (int)ModeAddStringDictionary.Fix;
 
 						//差し込み。
 						if(t_first_node != null){
@@ -424,13 +482,74 @@ namespace Fee.JsonItem
 						}
 					}
 				}break;
-			case (int)ModeAddDictionary.Fix:
+			case (int)ModeAddStringDictionary.Fix:
 				{
 					//Dictionary。追加。
 
 					//リストに追加。
 					try{
-						a_item.to_dictionary.Add(a_item.to_key_string,a_item.to_object);
+						a_item.to_dictionary.Add(a_item.to_key_object,a_item.to_value_object);
+					}catch(System.Exception t_exception){
+						Tool.DebugReThrow(t_exception);
+					}
+				}break;
+			case (int)ModeAddAnyDictionary.Start:
+				{
+					//Dictionary。追加。
+
+					//JsonItemから型を決める。
+					if(a_item.to_key_type == typeof(System.Object)){
+						a_item.to_key_type = ValueType_ConvertToType.Get(a_item.from_key_jsonitem);
+					}
+
+					//JsonItemから型を決める。
+					if(a_item.to_value_type == typeof(System.Object)){
+						a_item.to_value_type = ValueType_ConvertToType.Get(a_item.from_value_jsonitem);
+					}
+
+					if((a_item.to_key_type.IsClass == true)&&(a_item.to_value_type.IsClass == true)){
+
+						//キーの作成。
+						JsonItemToObject_CreateInstance.Create(ref a_item.to_key_object,a_item.to_key_type,a_item.from_key_jsonitem);
+						JsonItemToObject.Convert(ref a_item.to_key_object,a_item.to_key_type,a_item.from_key_jsonitem,this);
+
+						//値の作成。
+						JsonItemToObject_CreateInstance.Create(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem);
+						JsonItemToObject.Convert(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem,this);
+
+						//リストに設定。
+						a_item.to_dictionary.Add(a_item.to_key_object,a_item.to_value_object);
+
+					}else{
+						//差し込み位置。
+						System.Collections.Generic.LinkedListNode<JsonItemToObject_WorkPool_Item> t_first_node = this.list.First;
+
+						//キーの作成。
+						JsonItemToObject_CreateInstance.Create(ref a_item.to_key_object,a_item.to_key_type,a_item.from_key_jsonitem);
+						JsonItemToObject.Convert(ref a_item.to_key_object,a_item.to_key_type,a_item.from_key_jsonitem,this);
+
+						//値の作成。
+						JsonItemToObject_CreateInstance.Create(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem);
+						JsonItemToObject.Convert(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem,this);
+
+						//再登録。
+						a_item.mode = (int)ModeAddAnyDictionary.Fix;
+
+						//差し込み。
+						if(t_first_node != null){
+							this.list.AddBefore(t_first_node,a_item);
+						}else{
+							this.list.AddLast(a_item);
+						}
+					}
+				}break;
+			case (int)ModeAddAnyDictionary.Fix:
+				{
+					//Dictionary。追加。
+
+					//リストに追加。
+					try{
+						a_item.to_dictionary.Add(a_item.to_key_object,a_item.to_value_object);
 					}catch(System.Exception t_exception){
 						Tool.DebugReThrow(t_exception);
 					}
@@ -440,27 +559,27 @@ namespace Fee.JsonItem
 					//FieldInfo。
 
 					//JsonItemから型を決める。
-					if(a_item.to_type == typeof(System.Object)){
-						a_item.to_type = ValueType_ConvertToType.Get(a_item.from_jsonitem);
+					if(a_item.to_value_type == typeof(System.Object)){
+						a_item.to_value_type = ValueType_ConvertToType.Get(a_item.from_value_jsonitem);
 					}
 
 					//インスタンスの作成。
-					JsonItemToObject_CreateInstance.Create(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem);
+					JsonItemToObject_CreateInstance.Create(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem);
 
-					if(a_item.to_type.IsClass == true){
+					if(a_item.to_value_type.IsClass == true){
 
 						//メンバーの設定。
-						JsonItemToObject.Convert(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem,this);
+						JsonItemToObject.Convert(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem,this);
 
 						//フィールドに設定。
-						a_item.to_fieldinfo.SetValue(a_item.to_parent_object,a_item.to_object);
+						a_item.to_fieldinfo.SetValue(a_item.to_parent_object,a_item.to_value_object);
 					}else{
 
 						//差し込み位置。
 						System.Collections.Generic.LinkedListNode<JsonItemToObject_WorkPool_Item> t_first_node = this.list.First;
 
 						//メンバーの設定。
-						JsonItemToObject.Convert(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem,this);
+						JsonItemToObject.Convert(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem,this);
 
 						//再登録。
 						a_item.mode = (int)ModeFieldInfo.Fix;
@@ -479,7 +598,7 @@ namespace Fee.JsonItem
 
 					//フィールドに設定。
 					try{
-						a_item.to_fieldinfo.SetValue(a_item.to_parent_object,a_item.to_object);
+						a_item.to_fieldinfo.SetValue(a_item.to_parent_object,a_item.to_value_object);
 					}catch(System.Exception t_exception){
 						Tool.DebugReThrow(t_exception);
 					}
@@ -493,20 +612,20 @@ namespace Fee.JsonItem
 					//Generic.SortedSet
 
 					//JsonItemから型を決める。
-					if(a_item.to_type == typeof(System.Object)){
-						a_item.to_type = ValueType_ConvertToType.Get(a_item.from_jsonitem);
+					if(a_item.to_value_type == typeof(System.Object)){
+						a_item.to_value_type = ValueType_ConvertToType.Get(a_item.from_value_jsonitem);
 					}
 
 					System.Type t_generic_type = Fee.ReflectionTool.Utility.GetGenericTypeDefinition(a_item.to_enumerable.GetType());
 
 					//インスタンス作成。
-					JsonItemToObject_CreateInstance.Create(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem);
+					JsonItemToObject_CreateInstance.Create(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem);
 
 					//■メンバーの設定。
-					JsonItemToObject.Convert(ref a_item.to_object,a_item.to_type,a_item.from_jsonitem,this);
+					JsonItemToObject.Convert(ref a_item.to_value_object,a_item.to_value_type,a_item.from_value_jsonitem,this);
 
 					//パラメータリスト。
-					this.temp_parameter_list_1[0] = a_item.to_object;
+					this.temp_parameter_list_1[0] = a_item.to_value_object;
 
 					//呼び出し。
 					try{

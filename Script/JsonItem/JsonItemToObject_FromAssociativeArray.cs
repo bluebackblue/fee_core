@@ -34,21 +34,21 @@ namespace Fee.JsonItem
 					System.Collections.IDictionary t_to_dictionary = a_to_ref_object as System.Collections.IDictionary;
 					if(t_to_dictionary != null){
 
-						System.Type t_key_type = Fee.ReflectionTool.Utility.GetDictionaryKeyType(a_to_type);
-						if(t_key_type == typeof(string)){
+						System.Type t_list_key_type = Fee.ReflectionTool.Utility.GetDictionaryKeyType(a_to_type);
+						if(t_list_key_type == typeof(string)){
 							//Generic.Dictionary<string.>
 							//Generic.SortedDictionary<string,>
 							//Generic.SortedList<string,>
 
 							//リスト型の値型。取得。
-							System.Type t_listitem_valuetype = Fee.ReflectionTool.Utility.GetListValueType(a_to_type);
+							System.Type t_list_value_type = Fee.ReflectionTool.Utility.GetListValueType(a_to_type);
 
 							System.Collections.Generic.Dictionary<string,JsonItem>.KeyCollection t_keylist = a_from_jsonitem.GetAssociativeKeyList();
 
 							//ワークに追加。
 							foreach(string t_listitem_key_string in t_keylist){
 								JsonItem t_listitem_jsonitem = a_from_jsonitem.GetItem(t_listitem_key_string);
-								a_workpool.AddFirst(JsonItemToObject_WorkPool.ModeAddDictionary.Start,t_listitem_jsonitem,t_to_dictionary,t_listitem_key_string,t_listitem_valuetype);
+								a_workpool.AddFirst(JsonItemToObject_WorkPool.ModeAddStringDictionary.Start,t_listitem_jsonitem,t_listitem_key_string,t_to_dictionary,t_list_value_type);
 							}
 
 							//完了。

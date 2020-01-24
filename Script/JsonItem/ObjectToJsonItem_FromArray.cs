@@ -36,9 +36,9 @@ namespace Fee.JsonItem
 				t_to_jsonitem.ReSize(t_array_raw.Length);
 
 				//値型。
-				System.Type t_listitem_valuetype = Fee.ReflectionTool.Utility.GetListValueType(a_from_type);
+				System.Type t_list_value_type = Fee.ReflectionTool.Utility.GetListValueType(a_from_type);
 
-				if(t_listitem_valuetype == typeof(System.Object)){
+				if(t_list_value_type == typeof(System.Object)){
 					for(int ii=0;ii<t_array_raw.Length;ii++){
 						//ワークに追加。
 						System.Object t_listitem_object = t_array_raw.GetValue(ii);
@@ -48,7 +48,7 @@ namespace Fee.JsonItem
 					for(int ii=0;ii<t_array_raw.Length;ii++){
 						//ワークに追加。
 						System.Object t_listitem_object = t_array_raw.GetValue(ii);
-						a_workpool.Add(ObjectToJsonItem_WorkPool.ModeSetIndexArray.Start,t_to_jsonitem,ii,t_listitem_object,t_listitem_valuetype,a_from_option,a_nest + 1);
+						a_workpool.Add(ObjectToJsonItem_WorkPool.ModeSetIndexArray.Start,t_to_jsonitem,ii,t_listitem_object,t_list_value_type,a_from_option,a_nest + 1);
 					}
 				}
 
