@@ -83,24 +83,44 @@ namespace Fee.JsonItem
 							System.Type t_list_value_type = Fee.ReflectionTool.Utility.GetListValueType(a_from_type);
 
 							if(t_list_value_type == typeof(System.Object)){
-
-								//ワークに追加。
-								foreach(System.Collections.DictionaryEntry t_from_listitem in t_from_dictionary){
-									JsonItem t_keyvalue_jsonitem = new JsonItem(new Value_AssociativeArray());
-									t_to_jsonitem.SetItem(t_index,t_keyvalue_jsonitem,false);
-									a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"KEY",t_from_listitem.Key,t_list_key_type,a_from_option,a_nest + 1);
-									a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"VALUE",t_from_listitem.Value,t_from_listitem.Value.GetType(),a_from_option,a_nest + 1);
-									t_index++;
+								if(t_list_key_type == typeof(System.Object)){
+									//ワークに追加。
+									foreach(System.Collections.DictionaryEntry t_from_listitem in t_from_dictionary){
+										JsonItem t_keyvalue_jsonitem = new JsonItem(new Value_AssociativeArray());
+										t_to_jsonitem.SetItem(t_index,t_keyvalue_jsonitem,false);
+										a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"KEY",t_from_listitem.Key,t_from_listitem.Key.GetType(),a_from_option,a_nest + 1);
+										a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"VALUE",t_from_listitem.Value,t_from_listitem.Value.GetType(),a_from_option,a_nest + 1);
+										t_index++;
+									}
+								}else{
+									//ワークに追加。
+									foreach(System.Collections.DictionaryEntry t_from_listitem in t_from_dictionary){
+										JsonItem t_keyvalue_jsonitem = new JsonItem(new Value_AssociativeArray());
+										t_to_jsonitem.SetItem(t_index,t_keyvalue_jsonitem,false);
+										a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"KEY",t_from_listitem.Key,t_list_key_type,a_from_option,a_nest + 1);
+										a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"VALUE",t_from_listitem.Value,t_from_listitem.Value.GetType(),a_from_option,a_nest + 1);
+										t_index++;
+									}
 								}
 							}else{
-
-								//ワークに追加。
-								foreach(System.Collections.DictionaryEntry t_from_listitem in t_from_dictionary){
-									JsonItem t_keyvalue_jsonitem = new JsonItem(new Value_AssociativeArray());
-									t_to_jsonitem.SetItem(t_index,t_keyvalue_jsonitem,false);
-									a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"KEY",t_from_listitem.Key,t_list_key_type,a_from_option,a_nest + 1);
-									a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"VALUE",t_from_listitem.Value,t_list_value_type,a_from_option,a_nest + 1);
-									t_index++;
+								if(t_list_key_type == typeof(System.Object)){
+									//ワークに追加。
+									foreach(System.Collections.DictionaryEntry t_from_listitem in t_from_dictionary){
+										JsonItem t_keyvalue_jsonitem = new JsonItem(new Value_AssociativeArray());
+										t_to_jsonitem.SetItem(t_index,t_keyvalue_jsonitem,false);
+										a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"KEY",t_from_listitem.Key,t_from_listitem.Key.GetType(),a_from_option,a_nest + 1);
+										a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"VALUE",t_from_listitem.Value,t_list_value_type,a_from_option,a_nest + 1);
+										t_index++;
+									}
+								}else{
+									//ワークに追加。
+									foreach(System.Collections.DictionaryEntry t_from_listitem in t_from_dictionary){
+										JsonItem t_keyvalue_jsonitem = new JsonItem(new Value_AssociativeArray());
+										t_to_jsonitem.SetItem(t_index,t_keyvalue_jsonitem,false);
+										a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"KEY",t_from_listitem.Key,t_list_key_type,a_from_option,a_nest + 1);
+										a_workpool.Add(ObjectToJsonItem_WorkPool.ModeAddAssociativeArray.Start,t_keyvalue_jsonitem,"VALUE",t_from_listitem.Value,t_list_value_type,a_from_option,a_nest + 1);
+										t_index++;
+									}
 								}
 							}
 
