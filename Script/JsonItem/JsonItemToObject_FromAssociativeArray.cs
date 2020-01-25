@@ -64,7 +64,7 @@ namespace Fee.JsonItem
 				}
 							
 				//class,struct
-				{
+				if(a_to_ref_object != null){
 					System.Collections.Generic.List<System.Reflection.FieldInfo> t_fieldinfo_list = new System.Collections.Generic.List<System.Reflection.FieldInfo>();
 					Fee.JsonItem.ConvertTool.GetMemberListAll(a_to_type,t_fieldinfo_list);
 

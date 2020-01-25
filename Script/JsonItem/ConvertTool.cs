@@ -52,6 +52,11 @@ namespace Fee.JsonItem
 									continue;
 								}
 
+								//オブジェクト化しない。Json文字列化しない。
+								if(t_field_type.IsSubclassOf(typeof(UnityEngine.Object))){
+									continue;
+								}
+
 								a_out_list.Add(t_fieldinfo);
 							}
 						}
