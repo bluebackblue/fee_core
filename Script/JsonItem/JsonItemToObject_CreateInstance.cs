@@ -72,6 +72,7 @@ namespace Fee.JsonItem
 								return;
 							}catch(System.Exception t_exception){
 								//引数なしconstructorの呼び出しに失敗。
+								//UnityEngine.Object系は[Fee.JsonItem.Ignore]を指定して除外するべき。
 								Tool.DebugReThrow(t_exception);
 							}
 						}

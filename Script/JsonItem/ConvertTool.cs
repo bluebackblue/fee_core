@@ -32,6 +32,8 @@ namespace Fee.JsonItem
 						break;
 					}else if(t_type == typeof(System.Object)){
 						break;
+					}else if(t_type == typeof(UnityEngine.Object)){
+						break;
 					}
 
 					//メンバーリスト。
@@ -49,11 +51,6 @@ namespace Fee.JsonItem
 								//オブジェクト化しない。Json文字列化しない。
 								System.Type t_field_type = t_fieldinfo.FieldType;
 								if((t_field_type == typeof(System.IntPtr))||(t_field_type == typeof(System.UIntPtr))){
-									continue;
-								}
-
-								//オブジェクト化しない。Json文字列化しない。
-								if(t_field_type.IsSubclassOf(typeof(UnityEngine.Object))){
 									continue;
 								}
 
