@@ -47,7 +47,7 @@ namespace Fee.Ui
 
 	/** Scroll_Base
 	*/
-	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int>
+	public abstract class Scroll_Base<ITEM> : Scroll_Value_CallBack , Scroll_Drag_CallBack , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , System.Collections.IEnumerable
 		where ITEM : ScrollItem_Base
 	{
 		/** eventplate
@@ -140,6 +140,13 @@ namespace Fee.Ui
 		/** [Scroll_Base]コールバック。表示フラグ変更。
 		*/
 		protected abstract void OnChangeVisibleFlag();
+
+		/** GetEnumerator
+		*/
+		public System.Collections.IEnumerator GetEnumerator()
+		{
+			return new Scroll_Enumerator<ITEM>(this);
+		}
 
 		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートに入場。
 		*/
