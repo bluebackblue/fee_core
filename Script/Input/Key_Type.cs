@@ -16,6 +16,8 @@ namespace Fee.Input
 	*/
 	public enum Key_Type
 	{
+		/** Ａ～Ｚ。
+		*/
 		A,
 		B,
 		C,
@@ -43,6 +45,65 @@ namespace Fee.Input
 		Y,
 		Z,
 
+		/** ０～９
+		*/
+		N0,
+		N1,
+		N2,
+		N3,
+		N4,
+		N5,
+		N6,
+		N7,
+		N8,
+		N9,
+
+		/** Ｆ１～Ｆ１。
+		*/
+		F1,
+		F2,
+		F3,
+		F4,
+		F5,
+		F6,
+		F7,
+		F8,
+		F9,
+		F10,
+		F11,
+		F12,
+
+		/** パッドの０～９
+		*/
+		P0,
+		P1,
+		P2,
+		P3,
+		P4,
+		P5,
+		P6,
+		P7,
+		P8,
+		P9,
+
+		/** パッド。
+		*/
+		PadEnter,
+		PadPeriod,
+		PadPlus,
+		PadMinus,
+		PadMultiply,
+		PadDivide,
+
+		/** 矢印。
+		*/
+		Up,
+		Down,
+		Left,
+		Right,
+
+		/** 他。
+		*/
 		Enter,
 		Space,
 		LeftShift,
@@ -53,7 +114,15 @@ namespace Fee.Input
 		RightAlt,
 		Tab,
 		Esc,
-		Back,
+		Backspace,
+		Insert,
+		Delete,
+		Home,
+		End,
+		PageUp,
+		PageDown,
+		Pause,
+
 	}
 }
 

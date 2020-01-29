@@ -210,6 +210,11 @@ namespace Fee.Ui
 			if(this.focus_flag != a_flag){
 				this.focus_flag = a_flag;
 
+				//ターゲット登録。
+				if(a_flag== true){
+					Ui.GetInstance().SetTargetRequest(this);
+				}
+
 				//コールバック。フォーカスチェック。
 				if(this.callbackparam_focuscheck != null){
 					this.callbackparam_focuscheck.Call();
@@ -218,6 +223,9 @@ namespace Fee.Ui
 		}
 
 		/** フォーカス。設定。
+
+			OnFocusCheckを呼び出さない。
+
 		*/
 		public void SetFocusNoCallBack(bool a_flag)
 		{
@@ -226,6 +234,22 @@ namespace Fee.Ui
 			}
 		}
 
+		/** フォーカス。設定。
+
+			OnFocusCheckを呼び出す。
+
+		*/
+		public void SetFocusMustCallBack(bool a_flag)
+		{
+			if(this.focus_flag != a_flag){
+				this.focus_flag = a_flag;
+			}
+
+			//コールバック。フォーカスチェック。
+			if(this.callbackparam_focuscheck != null){
+				this.callbackparam_focuscheck.Call();
+			}
+		}
 
 		/** モード。設定。
 		*/
@@ -598,8 +622,8 @@ namespace Fee.Ui
 				this.event_request--;
 				if(this.event_request == 0){
 
-					//ターゲット解除。
-					Ui.GetInstance().UnSetTargetRequest(this);
+					//フォーカス変更コールバック。
+					this.SetFocus(true);
 
 					//コールバック。
 					if(this.callbackparam_click != null){
@@ -690,6 +714,12 @@ namespace Fee.Ui
 
 					//モード変更コールバック。
 					this.SetMode(Button_Mode.On);
+				}else if(this.focus_flag == true){
+					//フォーカス中。
+
+					if(Fee.Input.Mouse.GetInstance().left.down == true){
+						this.SetFocus(false);
+					}
 				}else{
 					//ターゲット解除。
 					Ui.GetInstance().UnSetTargetRequest(this);

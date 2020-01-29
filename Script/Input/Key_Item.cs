@@ -233,6 +233,319 @@ namespace Fee.Input
 				}break;
 
 
+
+
+			case Key_Type.N0:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Digit0;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Alpha0;
+				}break;
+			case Key_Type.N1:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Digit1;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Alpha1;
+				}break;
+			case Key_Type.N2:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Digit2;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Alpha2;
+				}break;
+			case Key_Type.N3:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Digit3;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Alpha3;
+				}break;
+			case Key_Type.N4:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Digit4;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Alpha4;
+				}break;
+			case Key_Type.N5:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Digit5;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Alpha5;
+				}break;
+			case Key_Type.N6:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Digit6;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Alpha6;
+				}break;
+			case Key_Type.N7:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Digit7;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Alpha7;
+				}break;
+			case Key_Type.N8:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Digit8;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Alpha8;
+				}break;
+			case Key_Type.N9:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Digit9;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Alpha9;
+				}break;
+
+
+
+
+			case Key_Type.F1:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F1;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F1;
+				}break;
+			case Key_Type.F2:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F2;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F2;
+				}break;
+			case Key_Type.F3:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F3;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F3;
+				}break;
+			case Key_Type.F4:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F4;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F4;
+				}break;
+			case Key_Type.F5:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F5;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F5;
+				}break;
+			case Key_Type.F6:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F6;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F6;
+				}break;
+			case Key_Type.F7:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F7;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F7;
+				}break;
+			case Key_Type.F8:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F8;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F8;
+				}break;
+			case Key_Type.F9:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F9;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F9;
+				}break;
+			case Key_Type.F10:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F10;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F10;
+				}break;
+			case Key_Type.F11:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F11;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F11;
+				}break;
+			case Key_Type.F12:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.F12;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.F12;
+				}break;
+
+
+
+
+			case Key_Type.P0:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Numpad0;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Keypad0;
+				}break;
+			case Key_Type.P1:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Numpad1;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Keypad1;
+				}break;
+			case Key_Type.P2:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Numpad2;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Keypad2;
+				}break;
+			case Key_Type.P3:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Numpad3;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Keypad3;
+				}break;
+			case Key_Type.P4:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Numpad4;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Keypad4;
+				}break;
+			case Key_Type.P5:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Numpad5;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Keypad5;
+				}break;
+			case Key_Type.P6:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Numpad6;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Keypad6;
+				}break;
+			case Key_Type.P7:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Numpad7;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Keypad7;
+				}break;
+			case Key_Type.P8:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Numpad8;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Keypad8;
+				}break;
+			case Key_Type.P9:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Numpad9;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Keypad9;
+				}break;
+
+			case Key_Type.PadEnter:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.NumpadEnter;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.KeypadEnter;
+				}break;
+			case Key_Type.PadPeriod:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.NumpadPeriod;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.KeypadPeriod;
+				}break;
+			case Key_Type.PadPlus:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.NumpadPlus;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.KeypadPlus;
+				}break;
+			case Key_Type.PadMinus:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.NumpadMinus;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.KeypadMinus;
+				}break;
+			case Key_Type.PadMultiply:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.NumpadMultiply;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.KeypadMultiply;
+				}break;
+			case Key_Type.PadDivide:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.NumpadDivide;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.KeypadDivide;
+				}break;
+
+
+
+
+			case Key_Type.Up:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.UpArrow;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.UpArrow;
+				}break;
+			case Key_Type.Down:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.DownArrow;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.DownArrow;
+				}break;
+			case Key_Type.Left:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.LeftArrow;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.LeftArrow;
+				}break;
+			case Key_Type.Right:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.RightArrow;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.RightArrow;
+				}break;
+
+
+
+
 			case Key_Type.Enter:
 				{
 					#if(USE_DEF_FEE_INPUTSYSTEM)
@@ -303,16 +616,62 @@ namespace Fee.Input
 					#endif
 					this.inputmanager_key = UnityEngine.KeyCode.Escape;
 				}break;
-			case Key_Type.Back:
+			case Key_Type.Backspace:
 				{
 					#if(USE_DEF_FEE_INPUTSYSTEM)
 					this.inputsystem_key = UnityEngine_InputSystem.Key.Backspace;
 					#endif
 					this.inputmanager_key = UnityEngine.KeyCode.Backspace;
 				}break;
-
-
-
+			case Key_Type.Insert:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Insert;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Insert;
+				}break;
+			case Key_Type.Delete:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Delete;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Delete;
+				}break;
+			case Key_Type.Home:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Home;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Home;
+				}break;
+			case Key_Type.End:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.End;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.End;
+				}break;
+			case Key_Type.PageUp:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.PageUp;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.PageUp;
+				}break;
+			case Key_Type.PageDown:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.PageDown;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.PageDown;
+				}break;
+			case Key_Type.Pause:
+				{
+					#if(USE_DEF_FEE_INPUTSYSTEM)
+					this.inputsystem_key = UnityEngine_InputSystem.Key.Pause;
+					#endif
+					this.inputmanager_key = UnityEngine.KeyCode.Pause;
+				}break;
 
 
 

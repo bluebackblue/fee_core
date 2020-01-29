@@ -128,6 +128,11 @@ namespace Fee.JsonSheet
 						//ムービーシート。
 						Convert_Videoheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
 					}break;
+				case Convert_PrefabSheet.COMMAND:
+					{
+						//プレハブシート。
+						Convert_PrefabSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list);
+					}break;
 				default:
 					{
 						Tool.Assert(false);
