@@ -25,20 +25,22 @@ namespace Fee.Ui
 	*/
 	public interface OnCheckButtonChangekCheck_CallBackParam
 	{
+		/** Call
+		*/
 		void Call(bool a_check_flag);
 	}
 
 	/** OnCheckButtonChangekCheck_CallBackParam_Generic
 	*/
-	public class OnCheckButtonChangekCheck_CallBackParam_Generic<T> : OnCheckButtonChangekCheck_CallBackParam
+	public readonly struct OnCheckButtonChangekCheck_CallBackParam_Generic<T> : OnCheckButtonChangekCheck_CallBackParam
 	{
 		/** callback_interface
 		*/
-		public OnCheckButtonChangekCheck_CallBackInterface<T> callback_interface;
+		public readonly OnCheckButtonChangekCheck_CallBackInterface<T> callback_interface;
 
 		/** id
 		*/
-		public T id;
+		public readonly T id;
 
 		/** constructor
 		*/

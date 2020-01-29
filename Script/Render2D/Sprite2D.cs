@@ -178,7 +178,7 @@ namespace Fee.Render2D
 			return this.is_delete_request;
 		}
 
-		/** [Fee.Render2D.OnSprite2DMaterialUpdate_CallBackInterface]マテリアル更新。
+		/** [Fee.Render2D.OnSprite2DMaterialUpdate_CallBackInterface]マテリアルの更新。描画の直前に呼び出される。
 
 			デフォルト。
 
@@ -202,7 +202,7 @@ namespace Fee.Render2D
 			this.callback_materialupdate = a_callback_interface;
 		}
 
-		/** マテリアルアイテムを更新する。
+		/** マテリアルの更新。描画の直前に呼び出される。
 
 			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
 

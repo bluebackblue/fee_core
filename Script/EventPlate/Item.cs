@@ -284,11 +284,7 @@ namespace Fee.EventPlate
 		*/
 		public void SetOnEventPlateOver<T>(Fee.EventPlate.OnEventPlateOver_CallBackInterface<T> a_callback_interface,T a_id)
 		{
-			if(a_callback_interface != null){
-				this.callbackparam_over = new Fee.EventPlate.OnEventPlateOver_CallBackParam_Generic<T>(a_callback_interface,a_id);
-			}else{
-				this.callbackparam_over = null;
-			}
+			this.callbackparam_over = new Fee.EventPlate.OnEventPlateOver_CallBackParam_Generic<T>(a_callback_interface,a_id);
 		}
 
 		/** コールバック。呼び出し。

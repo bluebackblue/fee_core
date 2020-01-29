@@ -62,13 +62,17 @@ namespace Fee.Ui
 			}
 		}
 
+		/** フォーカス。
+		*/
+		private Focus focus;
+
 		/** ウィンドウリスト。
 		*/
 		private Ui_WindowList windowlist;
 
 		/** ターゲットリスト。
 		*/
-		private System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface> target_list;
+		private System.Collections.Generic.LinkedList<Fee.Ui.OnTarget_CallBackInterface> target_list;
 
 		/** ターゲット追加リスト。
 		*/
@@ -82,7 +86,7 @@ namespace Fee.Ui
 		*/
 		private Ui_WindowResumeList windowresumelist;
 
-		/** ダウンボタンインスタンス。
+		/** ダウン中ボタンインスタンス。
 		*/
 		private Button_Base down_button_instance;
 
@@ -94,11 +98,14 @@ namespace Fee.Ui
 		*/
 		private Ui()
 		{
+			//フォーカス。
+			this.focus = new Focus();
+
 			//ウィンドウリスト。
 			this.windowlist = new Ui_WindowList();
 
 			//target_list
-			this.target_list = new System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface>();
+			this.target_list = new System.Collections.Generic.LinkedList<Fee.Ui.OnTarget_CallBackInterface>();
 
 			//target_add_list
 			this.target_add_list = new System.Collections.Generic.List<Fee.Ui.OnTarget_CallBackInterface>();
@@ -109,7 +116,7 @@ namespace Fee.Ui
 			//ウィンドウレジュームリスト。
 			this.windowresumelist = new Ui_WindowResumeList();
 
-			//ダウンボタンインスタンス。
+			//ダウン中ボタンインスタンス。
 			this.down_button_instance = null;
 
 			//プールリスト。
@@ -135,24 +142,30 @@ namespace Fee.Ui
 		public void Main()
 		{
 			try{
+				//フォーカス。
+				this.focus.Main();
+
 				//ウィンドウリスト。
 				this.windowlist.Main();
 
-				//追加。
-				for(int ii=0;ii<this.target_add_list.Count;ii++){
-					this.target_list.Add(this.target_add_list[ii]);
-				}
-				this.target_add_list.Clear();
+				//ターゲット。
+				{
+					//追加。
+					for(int ii=0;ii<this.target_add_list.Count;ii++){
+						this.target_list.AddFirst(this.target_add_list[ii]);
+					}
+					this.target_add_list.Clear();
 
-				//削除。
-				for(int ii=0;ii<this.target_remove_list.Count;ii++){
-					this.target_list.Remove(this.target_remove_list[ii]);
-				}
-				this.target_remove_list.Clear();
+					//削除。
+					for(int ii=0;ii<this.target_remove_list.Count;ii++){
+						this.target_list.Remove(this.target_remove_list[ii]);
+					}
+					this.target_remove_list.Clear();
 
-				//呼び出し。
-				for(int ii=0;ii<this.target_list.Count;ii++){
-					this.target_list[ii].OnTarget();
+					//呼び出し。
+					foreach(OnTarget_CallBackInterface t_target in this.target_list){
+						t_target.OnTarget();
+					}
 				}
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
@@ -160,6 +173,9 @@ namespace Fee.Ui
 		}
 
 		/** 追加リクエスト。設定。
+
+			OnTarget内でターゲットリストは変更できない。
+
 		*/
 		public void SetTargetRequest(Fee.Ui.OnTarget_CallBackInterface a_callback_interface)
 		{
@@ -177,6 +193,9 @@ namespace Fee.Ui
 		}
 
 		/** 削除リクエスト。解除。
+
+			OnTarget内でターゲットリストは変更できない。
+
 		*/
 		public void UnSetTargetRequest(Fee.Ui.OnTarget_CallBackInterface a_callback_interface)
 		{
@@ -269,14 +288,14 @@ namespace Fee.Ui
 			return this.windowresumelist.GetItem(a_label);
 		}
 
-		/** ダウンボタンインスタンス。設定。
+		/** ダウン中ボタンのインスタンス。設定。
 		*/
 		public void SetDownButtonInstance(Button_Base a_button)
 		{
 			this.down_button_instance = a_button;
 		}
 
-		/** ダウンボタンインスタンス。取得。
+		/** ダウン中ボタンのインスタンス。取得。
 		*/
 		public Button_Base GetDownButtonInstance()
 		{

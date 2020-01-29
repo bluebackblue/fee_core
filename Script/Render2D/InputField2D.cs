@@ -50,7 +50,7 @@ namespace Fee.Render2D
 		public InputField2D()
 		{
 			//param
-			this.param.Initialize();
+			this.param.Initialize(this);
 		}
 
 		/** 作成。
@@ -133,6 +133,27 @@ namespace Fee.Render2D
 			return this.is_delete_request;
 		}
 
+		/** フォーカス。取得。
+		*/
+		public bool IsFocus()
+		{
+			return this.param.IsFocus();
+		}
+
+		/** フォーカス。設定。
+		*/
+		public void SetFocus(bool a_flag)
+		{
+			this.param.SetFocus(a_flag);
+		}
+
+		/** コールバックインターフェイス。設定。
+		*/
+		public void SetOnFocusCheck<T>(Fee.Ui.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
+		{
+			this.param.SetOnFocusCheck(a_callback_interface,a_id);
+		}
+
 		/** 矩形。設定。
 		*/
 		public void SetX(int a_x)
@@ -149,6 +170,14 @@ namespace Fee.Render2D
 
 		/** 矩形。設定。
 		*/
+		public void SetXY(int a_x,int a_y)
+		{
+			this.rect.SetX(a_x);
+			this.rect.SetY(a_y);
+		}
+
+		/** 矩形。設定。
+		*/
 		public void SetW(int a_w)
 		{
 			this.rect.SetW(a_w);
@@ -158,6 +187,14 @@ namespace Fee.Render2D
 		*/
 		public void SetH(int a_h)
 		{
+			this.rect.SetH(a_h);
+		}
+
+		/** 矩形。設定。
+		*/
+		public void SetWH(int a_w,int a_h)
+		{
+			this.rect.SetW(a_w);
 			this.rect.SetH(a_h);
 		}
 
@@ -335,20 +372,6 @@ namespace Fee.Render2D
 		public void SetPasswordType(bool a_flag)
 		{
 			this.param.SetPasswordType(a_flag);
-		}
-
-		/** フォーカス。取得。
-		*/
-		public bool IsFocused()
-		{
-			return this.param.IsFocused();
-		}
-
-		/** フォーカス。設定。
-		*/
-		public void SetFocuse()
-		{
-			this.param.SetFocuse();
 		}
 
 		/** フォントサイズ。設定。

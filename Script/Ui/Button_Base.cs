@@ -16,10 +16,6 @@ namespace Fee.Ui
 	*/
 	public abstract class Button_Base : Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface
 	{
-		/** [Button_Base]コールバック。オンオーバー。
-		*/
-		public delegate void CallBack_ChangeOnOver(int a_id,bool a_is_onover);
-
 		/** 矩形。
 		*/
 		protected Fee.Geometry.Rect2D_R<int> rect;
@@ -36,9 +32,17 @@ namespace Fee.Ui
 		*/
 		protected Fee.Ui.OnButtonClick_CallBackParam callbackparam_click;
 
+		/** callbackparam_down
+		*/
+		protected Fee.Ui.OnButtonDown_CallBackParam callbackparam_down;
+
 		/** callbackparam_changeoverflag
 		*/
 		protected Fee.Ui.OnButtonChangeOverFlag_CallBackParam callbackparam_changeoverflag;
+
+		/** callbackparam_focuscheck
+		*/
+		protected Fee.Ui.OnFocusCheck_CallBackParam callbackparam_focuscheck;
 
 		/** is_onover
 		*/
@@ -76,6 +80,10 @@ namespace Fee.Ui
 		*/
 		protected bool dragcancel_flag;
 
+		/** focus_flag
+		*/
+		protected bool focus_flag;
+
 		/** constructor
 
 			プール用に作成。
@@ -102,8 +110,14 @@ namespace Fee.Ui
 			//callbackparam_click
 			this.callbackparam_click = null;
 
+			//callbackparam_down
+			this.callbackparam_down = null;
+
 			//callbackparam_changeoverflag
 			this.callbackparam_changeoverflag = null;
+
+			//callbackparam_focuscheck
+			this.callbackparam_focuscheck = null;
 
 			//is_onover
 			this.is_onover = false;
@@ -131,6 +145,9 @@ namespace Fee.Ui
 
 			//dragcancel_flag
 			this.dragcancel_flag = false;
+
+			//focus_flag
+			this.focus_flag = false;
 		}
 
 		/** プールへ削除。
@@ -142,7 +159,9 @@ namespace Fee.Ui
 
 			//コールバック解除。
 			this.callbackparam_click = null;
+			this.callbackparam_down = null;
 			this.callbackparam_changeoverflag = null;
+			this.callbackparam_focuscheck = null;
 
 			//ターゲット解除。
 			Fee.Ui.Ui.GetInstance().UnSetTargetRequest(this);
@@ -176,6 +195,37 @@ namespace Fee.Ui
 		/** [Button_Base]コールバック。描画プライオリティ変更。
 		*/
 		protected abstract void OnChangeDrawPriority();
+
+		/** フォーカス。取得。
+		*/
+		public bool IsFocus()
+		{
+			return this.focus_flag;
+		}
+
+		/** フォーカス。設定。
+		*/
+		public void SetFocus(bool a_flag)
+		{
+			if(this.focus_flag != a_flag){
+				this.focus_flag = a_flag;
+
+				//コールバック。フォーカスチェック。
+				if(this.callbackparam_focuscheck != null){
+					this.callbackparam_focuscheck.Call();
+				}
+			}
+		}
+
+		/** フォーカス。設定。
+		*/
+		public void SetFocusNoCallBack(bool a_flag)
+		{
+			if(this.focus_flag != a_flag){
+				this.focus_flag = a_flag;
+			}
+		}
+
 
 		/** モード。設定。
 		*/
@@ -440,22 +490,28 @@ namespace Fee.Ui
 		*/
 		public void SetOnButtonClick<T>(Fee.Ui.OnButtonClick_CallBackInterface<T> a_callback_interface,T a_id)
 		{
-			if(a_callback_interface != null){
-				this.callbackparam_click = new Fee.Ui.OnButtonClick_CallBackParam_Generic<T>(a_callback_interface,a_id);
-			}else{
-				this.callbackparam_click = null;
-			}
+			this.callbackparam_click = new Fee.Ui.OnButtonClick_CallBackParam_Generic<T>(a_callback_interface,a_id);
+		}
+
+		/** コールバックインターフェイス。設定。
+		*/
+		public void SetOnButtonDown<T>(Fee.Ui.OnButtonDown_CallBackInterface<T> a_callback_interface,T a_id)
+		{
+			this.callbackparam_down = new Fee.Ui.OnButtonDown_CallBackParam_Generic<T>(a_callback_interface,a_id);
 		}
 
 		/** コールバックインターフェイス。設定。
 		*/
 		public void SetOnButtonChangeOverFlag<T>(Fee.Ui.OnButtonChangeOverFlag_CallBackInterface<T> a_callback_interface,T a_id)
 		{
-			if(a_callback_interface != null){
-				this.callbackparam_changeoverflag = new Fee.Ui.OnButtonChangeOverFlag_CallBackParam_Generic<T>(a_callback_interface,a_id);
-			}else{
-				this.callbackparam_changeoverflag = null;
-			}
+			this.callbackparam_changeoverflag = new Fee.Ui.OnButtonChangeOverFlag_CallBackParam_Generic<T>(a_callback_interface,a_id);
+		}
+
+		/** コールバックインターフェイス。設定。
+		*/
+		public void SetOnFocusCheck<T>(Fee.Ui.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
+		{
+			this.callbackparam_focuscheck = new Fee.Ui.OnFocusCheck_CallBackParam_Generic<T>(a_callback_interface,a_id);
 		}
 
 		/** オンオーバー。取得。
@@ -476,7 +532,7 @@ namespace Fee.Ui
 				//ターゲット登録。
 				Ui.GetInstance().SetTargetRequest(this);
 
-				//ダウンキャンセル。
+				//自分がダウン中だった場合それもキャンセルする。
 				this.down_flag = false;
 				if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == this){
 					Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
@@ -505,6 +561,9 @@ namespace Fee.Ui
 				//リクエストキャンセル。
 				this.event_request = 0;
 
+				//フォーカス変更コールバック。
+				this.SetFocus(false);
+
 				this.SetMode(Button_Mode.Lock);
 			}else if(this.visible_flag == false){
 				//非表示。
@@ -522,6 +581,9 @@ namespace Fee.Ui
 
 				//リクエストキャンセル。
 				this.event_request = 0;
+
+				//フォーカス変更コールバック。
+				this.SetFocus(false);
 
 				this.SetMode(Button_Mode.Normal);
 			}else if(this.event_request > 0){
@@ -544,12 +606,14 @@ namespace Fee.Ui
 						this.callbackparam_click.Call();
 					}
 
+					//モード変更コールバック。
 					if(this.is_onover == true){
 						this.SetMode(Button_Mode.On);
 					}else{
 						this.SetMode(Button_Mode.Normal);
 					}
 				}else{
+					//モード変更コールバック。
 					this.SetMode(Button_Mode.Down);
 				}
 			}else{
@@ -560,7 +624,16 @@ namespace Fee.Ui
 					this.down_flag = true;
 					Fee.Ui.Ui.GetInstance().SetDownButtonInstance(this);
 
+					//フォーカス変更コールバック。
+					this.SetFocus(true);
+
+					//モード変更コールバック。
 					this.SetMode(Button_Mode.Down);
+
+					//コールバック。
+					if(this.callbackparam_down != null){
+						this.callbackparam_down.Call();
+					}
 				}else if((this.down_flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){
 					//アップ。
 
@@ -570,18 +643,19 @@ namespace Fee.Ui
 						Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
 					}
 
-					//コールバック。
-					if(this.is_onover == true){
-						if(this.callbackparam_click != null){
-							this.callbackparam_click.Call();
-						}
-					}
-
+					//モード変更コールバック。
 					if(this.is_onover == true){
 						this.SetMode(Button_Mode.On);
 					}else{
 						this.SetMode(Button_Mode.Normal);
 					}
+
+					//コールバック。
+					if(this.is_onover == true){
+						if(this.callbackparam_click != null){
+							this.callbackparam_click.Call();
+						}
+					}		
 				}else if((this.down_flag == true)&&(this.dragcancel_flag == true)&&(Fee.Input.Mouse.GetInstance().left.drag_dir_magnitude >= Config.DRAGCANCEL_THRESHOLD)){
 					//ドラッグ距離でダウンをキャンセル。
 
@@ -591,19 +665,21 @@ namespace Fee.Ui
 						Fee.Ui.Ui.GetInstance().SetDownButtonInstance(null);
 					}
 
+					//モード変更コールバック。
 					if(this.is_onover == true){
 						this.SetMode(Button_Mode.On);
 					}else{
 						this.SetMode(Button_Mode.Normal);
 					}
-
 				}else if((this.is_onover == true)&&(this.down_flag == true)){
 					//ダウン中オーバー中。
 
+					//モード変更コールバック。
 					this.SetMode(Button_Mode.Down);
 				}else if(this.is_onover == true){
 					//オーバー中。
 
+					//モード変更コールバック。
 					if(Fee.Ui.Ui.GetInstance().GetDownButtonInstance() == null){
 						this.SetMode(Button_Mode.On);
 					}else{
@@ -611,10 +687,14 @@ namespace Fee.Ui
 					}
 				}else if(this.down_flag == true){
 					//範囲外ダウン中。
+
+					//モード変更コールバック。
 					this.SetMode(Button_Mode.On);
 				}else{
 					//ターゲット解除。
 					Ui.GetInstance().UnSetTargetRequest(this);
+
+					//モード変更コールバック。
 					this.SetMode(Button_Mode.Normal);
 				}
 			}

@@ -22,7 +22,7 @@ namespace Fee.Render2D
 	*/
 	public interface OnSprite2DMaterialUpdate_CallBackInterface
 	{
-		/** [Fee.Render2D.OnSprite2DMaterialUpdate_CallBackInterface]マテリアル更新。
+		/** [Fee.Render2D.OnSprite2DMaterialUpdate_CallBackInterface]マテリアルの更新。描画の直前に呼び出される。
 		*/
 		bool OnSprite2DMaterialUpdate(Sprite2D a_sprite2d,Material_Item a_material_item);
 	}

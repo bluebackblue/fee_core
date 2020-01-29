@@ -127,7 +127,7 @@ namespace Fee.Render2D
 			//イベントシステム作成。入力フィールド用。
 			{
 				if(Fee.Render2D.Config.CREATE_EVENTYSYSTEM == true){
-					this.eventsystem = Fee.Instantiate.Instantiate.CreateEventSystem("EventSystem",null/*this.root_transform*/);
+					this.eventsystem = Fee.Instantiate.Instantiate.CreateEventSystem("EventSystem",null);
 					UnityEngine.GameObject.DontDestroyOnLoad(this.eventsystem);
 				}
 			}
@@ -382,7 +382,7 @@ namespace Fee.Render2D
 			return Config.CAMERADEPTH_START + a_layerindex * Config.CAMERADEPTH_STEP + Config.CAMERADEPTH_OFFSET_AFTER;
 		}
 
-		/** ゲーム処理前。
+		/** 前処理。
 
 			タスクを停止し、スプライト操作を可能にする。
 
@@ -398,7 +398,7 @@ namespace Fee.Render2D
 			this.task_sortlist.CancelWait();
 		}
 
-		/** ゲーム処理後。
+		/** 後処理。
 
 			タスクを開始する。ここからはスプライト操作は不可。
 
@@ -677,7 +677,7 @@ namespace Fee.Render2D
 									}
 								}
 
-								//マテリアルの更新。
+								//マテリアルの更新。描画の直前に呼び出される。
 								if(t_sprite.UpdateMaterialItem(t_material_item) == true){
 
 									//GL.End

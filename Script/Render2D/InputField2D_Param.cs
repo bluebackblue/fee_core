@@ -40,6 +40,7 @@ namespace Fee.Render2D
 		/** raw
 		*/
 		private UnityEngine.GameObject raw_gameobject;
+		private Fee.Ui.Focus_MonoBehaviour raw_focus_monobehaviour;
 		private UnityEngine.Transform raw_transform;
 		private UnityEngine.UI.InputField raw_inputfield;
 		private UnityEngine.RectTransform raw_recttransform;
@@ -51,10 +52,11 @@ namespace Fee.Render2D
 
 		/** 初期化。
 		*/
-		public void Initialize()
+		public void Initialize(InputField2D a_parent)
 		{
 			//raw
 			this.raw_gameobject = Fee.Instantiate.Instantiate.CreateUiInputField("InputField",Fee.Render2D.Render2D.GetInstance().GetRootTransform());
+			this.raw_focus_monobehaviour = this.raw_gameobject.AddComponent<Fee.Ui.Focus_MonoBehaviour>();
 			this.raw_transform = this.raw_gameobject.GetComponent<UnityEngine.Transform>();
 			this.raw_inputfield = this.raw_gameobject.GetComponent<UnityEngine.UI.InputField>();
 			this.raw_recttransform = this.raw_gameobject.GetComponent<UnityEngine.RectTransform>();
@@ -62,6 +64,12 @@ namespace Fee.Render2D
 			this.raw_image = this.raw_inputfield.image;
 			this.raw_placeholder_text = this.raw_inputfield.placeholder.GetComponent<UnityEngine.UI.Text>();
 			this.raw_gameobject.SetActive(false);
+
+			{
+				UnityEngine.UI.Navigation t_navigation = this.raw_inputfield.navigation;
+				t_navigation.mode = UnityEngine.UI.Navigation.Mode.None;
+				this.raw_inputfield.navigation = t_navigation;
+			}
 
 			//共通マテリアルアイテム複製。
 			this.raw_custom_text_material_item = Render2D.GetInstance().GetUiTextMaterialItem().DuplicateMaterialItem();
@@ -125,6 +133,40 @@ namespace Fee.Render2D
 
 			this.raw_custom_image_material_item.DestroyImmediate();
 			this.raw_custom_image_material_item = null;
+		}
+
+		/** コールバックインターフェイス。設定。
+		*/
+		public void SetOnFocusCheck<T>(Fee.Ui.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
+		{
+			this.raw_focus_monobehaviour.SetOnFocusCheck(a_callback_interface,a_id);
+		}
+
+		/** フォーカス。取得。
+		*/
+		public bool IsFocus()
+		{
+			if(UnityEngine.EventSystems.EventSystem.current != null){
+				if(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == this.raw_gameobject){
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/** フォーカス。設定。
+		*/
+		public void SetFocus(bool a_flag)
+		{
+			if(a_flag == true){
+				this.raw_inputfield.ActivateInputField();
+			}else{
+				if(UnityEngine.EventSystems.EventSystem.current != null){
+					if(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == this.raw_gameobject){
+						UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+					}
+				}
+			}
 		}
 
 		/** クリップ。設定。
@@ -210,20 +252,6 @@ namespace Fee.Render2D
 		public Material_Item GetCustomImageMaterialItem()
 		{
 			return this.raw_custom_image_material_item;
-		}
-
-		/** フォーカス。取得。
-		*/
-		public bool IsFocused()
-		{
-			return this.raw_inputfield.isFocused;
-		}
-
-		/** フォーカス。設定。
-		*/
-		public void SetFocuse()
-		{
-			this.raw_inputfield.ActivateInputField();
 		}
 
 		/** テキスト。設定。

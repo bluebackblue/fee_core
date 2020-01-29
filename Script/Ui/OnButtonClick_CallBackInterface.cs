@@ -32,15 +32,15 @@ namespace Fee.Ui
 
 	/** OnButtonClick_CallBackParam_Generic
 	*/
-	public class OnButtonClick_CallBackParam_Generic<T> : OnButtonClick_CallBackParam
+	public readonly struct OnButtonClick_CallBackParam_Generic<T> : OnButtonClick_CallBackParam
 	{
 		/** callback_interface
 		*/
-		public OnButtonClick_CallBackInterface<T> callback_interface;
+		public readonly OnButtonClick_CallBackInterface<T> callback_interface;
 
 		/** id
 		*/
-		public T id;
+		public readonly T id;
 
 		/** constructor
 		*/

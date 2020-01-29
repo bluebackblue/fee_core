@@ -34,8 +34,6 @@ namespace Fee.Ui
 
 		*/
 		public Sprite2D_Clip()
-			:
-			base()
 		{
 		}
 
@@ -140,7 +138,7 @@ namespace Fee.Ui
 			return this.clip_rect.h;
 		}
 
-		/** マテリアルアイテムを更新する。
+		/** マテリアルの更新。描画の直前に呼び出される。
 
 			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
 

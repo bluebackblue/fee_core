@@ -40,15 +40,15 @@ namespace Fee.EventPlate
 
 	/** OnEventPlateOver_CallBackParam_Generic
 	*/
-	public class OnEventPlateOver_CallBackParam_Generic<T> : OnEventPlateOver_CallBackParam
+	public readonly struct OnEventPlateOver_CallBackParam_Generic<T> : OnEventPlateOver_CallBackParam
 	{
 		/** callback_interface
 		*/
-		public OnEventPlateOver_CallBackInterface<T> callback_interface;
+		public readonly OnEventPlateOver_CallBackInterface<T> callback_interface;
 
 		/** id
 		*/
-		public T id;
+		public readonly T id;
 
 		/** constructor
 		*/
