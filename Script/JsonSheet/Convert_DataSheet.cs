@@ -470,6 +470,10 @@ namespace Fee.JsonSheet
 								}break;
 							}
 
+							if(System.IO.Directory.Exists("Assets/" + a_assets_path.GetPath()) == false){
+								System.IO.Directory.CreateDirectory("Assets/" + a_assets_path.GetPath());
+							}
+
 							UnityEditor.BuildPipeline.BuildAssetBundles("Assets/" + a_assets_path.GetPath(),t_assetbundle_build,t_option,t_buildtarget);
 						}break;
 					default:

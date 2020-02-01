@@ -55,7 +55,11 @@ namespace Fee.Ui
 		public void Call(bool a_check_flag)
 		{
 			if(this.callback_interface != null){
-				this.callback_interface.OnCheckButtonChangeCheck(this.id,a_check_flag);
+				try{
+					this.callback_interface.OnCheckButtonChangeCheck(this.id,a_check_flag);
+				}catch(System.Exception t_exception){
+					Tool.DebugReThrow(t_exception);
+				}
 			}
 		}
 	}

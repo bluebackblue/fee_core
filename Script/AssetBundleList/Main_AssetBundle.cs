@@ -52,9 +52,9 @@ namespace Fee.AssetBundleList
 		*/
 		private bool is_shutdown;
 
-		/** request_id
+		/** request_assetbundle_name
 		*/
-		private string request_id;
+		private string request_assetbundle_name;
 
 		/** result_progress
 		*/
@@ -81,7 +81,7 @@ namespace Fee.AssetBundleList
 			this.is_shutdown = false;
 
 			//request
-			this.request_id = null;
+			this.request_assetbundle_name = null;
 
 			//result
 			this.result_progress = 0.0f;
@@ -159,7 +159,7 @@ namespace Fee.AssetBundleList
 			パスアイテムからアセットバンドルアイテムをロード。
 
 		*/
-		public bool RequestLoadPathItemAssetBundleItem(string a_id)
+		public bool RequestLoadPathItemAssetBundleItem(string a_assetbundle_name)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -174,7 +174,7 @@ namespace Fee.AssetBundleList
 				this.result_assetbundle_item = null;
 
 				//request
-				this.request_id = a_id;
+				this.request_assetbundle_name = a_assetbundle_name;
 
 				Function.Function.StartCoroutine(this.DoLoadPathItemAssetBundleItem());
 				return true;
@@ -191,7 +191,7 @@ namespace Fee.AssetBundleList
 		private System.Collections.IEnumerator DoLoadPathItemAssetBundleItem()
 		{
 			Coroutine_LoadPathItemAssetBundleItem t_coroutine = new Coroutine_LoadPathItemAssetBundleItem();
-			yield return t_coroutine.CoroutineMain(this,this.request_id);
+			yield return t_coroutine.CoroutineMain(this,this.request_assetbundle_name);
 
 			if(t_coroutine.result.assetbundle_item != null){
 				this.result_progress = 1.0f;
@@ -208,7 +208,7 @@ namespace Fee.AssetBundleList
 
 		/** リクエスト。アンロード。アセットバンドルアイテム。
 		*/
-		public bool RequestUnLoadAssetBundleItem(string a_id)
+		public bool RequestUnLoadAssetBundleItem(string a_assetbundle_name)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -223,7 +223,7 @@ namespace Fee.AssetBundleList
 				this.result_assetbundle_item = null;
 
 				//request
-				this.request_id = a_id;
+				this.request_assetbundle_name = a_assetbundle_name;
 
 				Function.Function.StartCoroutine(this.DoUnLoadAssetBundleItem());
 				return true;
@@ -237,7 +237,7 @@ namespace Fee.AssetBundleList
 		private System.Collections.IEnumerator DoUnLoadAssetBundleItem()
 		{
 			Coroutine_UnLoadAssetBundleItem t_coroutine = new Coroutine_UnLoadAssetBundleItem();
-			yield return t_coroutine.CoroutineMain(this,this.request_id);
+			yield return t_coroutine.CoroutineMain(this,this.request_assetbundle_name);
 
 			if(t_coroutine.result.unload == true){
 				this.result_progress = 1.0f;

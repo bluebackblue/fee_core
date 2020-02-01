@@ -17,9 +17,9 @@
 */
 namespace Fee.File
 {
-	/** PublicKeyList
+	/** CertificateList
 	*/
-	public class PublicKeyList
+	public class CertificateList
 	{
 		/** Item
 		*/
@@ -32,19 +32,19 @@ namespace Fee.File
 			*/
 			public string url_pattern;
 
-			/** a_public_key_string
+			/** certificate_string
 			*/
-			public string public_key_string;
+			public string certificate_string;
 
 			/** constructor
 			*/
-			public Item(string a_url_pattern,string a_public_key_string)
+			public Item(string a_url_pattern,string a_certificate_string)
 			{
 				//url_pattern
 				this.url_pattern = a_url_pattern;
 
-				//a_public_key_string
-				this.public_key_string = a_public_key_string;
+				//certificate_string
+				this.certificate_string = a_certificate_string;
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace Fee.File
 
 		/** constructor
 		*/
-		public PublicKeyList()
+		public CertificateList()
 		{
 			//list
 			this.list = new System.Collections.Generic.Dictionary<string,Item>();
@@ -62,9 +62,9 @@ namespace Fee.File
 
 		/** 登録。
 		*/
-		public void Regist(string a_tag,string a_url_pattern,string a_public_key_string)
+		public void Regist(string a_tag,string a_url_pattern,string a_certificate_string)
 		{
-			Item t_item = new Item(a_url_pattern,a_public_key_string);
+			Item t_item = new Item(a_url_pattern,a_certificate_string);
 			this.list.Add(a_url_pattern,t_item);
 		}
 
@@ -75,13 +75,13 @@ namespace Fee.File
 			this.list.Remove(a_tag);
 		}
 
-		/** GetPublicKey
+		/** GetCertificateString
 		*/
-		public string GetPublicKey(string a_url)
+		public string GetCertificateString(string a_url)
 		{
 			foreach(System.Collections.Generic.KeyValuePair<string,Item> t_pair in this.list){
 				if(System.Text.RegularExpressions.Regex.IsMatch(a_url,t_pair.Key) == true){
-					return t_pair.Value.public_key_string;
+					return t_pair.Value.certificate_string;
 				}
 			}
 			return null;

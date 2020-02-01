@@ -55,7 +55,11 @@ namespace Fee.Ui
 		public void Call()
 		{
 			if(this.callback_interface != null){
-				this.callback_interface.OnButtonClick(this.id);
+				try{
+					this.callback_interface.OnButtonClick(this.id);
+				}catch(System.Exception t_exception){
+					Tool.DebugReThrow(t_exception);
+				}
 			}
 		}
 	}

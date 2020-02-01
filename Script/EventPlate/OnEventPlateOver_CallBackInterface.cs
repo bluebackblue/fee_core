@@ -72,7 +72,11 @@ namespace Fee.EventPlate
 		public void CallLeave()
 		{
 			if(this.callback_interface != null){
-				this.callback_interface.OnEventPlateLeave(this.id);
+				try{
+					this.callback_interface.OnEventPlateLeave(this.id);
+				}catch(System.Exception t_exception){
+					Tool.DebugReThrow(t_exception);
+				}
 			}
 		}
 	}

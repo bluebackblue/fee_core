@@ -91,9 +91,9 @@ namespace Fee.File
 		*/
 		private System.Collections.Generic.List<WorkItem> add_list;
 
-		/** publickey_list
+		/** certificate_list
 		*/
-		private PublicKeyList publickey_list;
+		private CertificateList certificate_list;
 
 		/** [シングルトン]constructor
 		*/
@@ -117,8 +117,8 @@ namespace Fee.File
 			//add_list
 			this.add_list = new System.Collections.Generic.List<WorkItem>();
 
-			//publickey_list
-			this.publickey_list = new PublicKeyList();
+			//certificate_list
+			this.certificate_list = new CertificateList();
 		}
 
 		/** [シングルトン]削除。
@@ -205,25 +205,25 @@ namespace Fee.File
 			SaveLocalTextureFile,
 		};
 
-		/** RegistPublicKey
+		/** RegistCertificate
 		*/
-		public void RegistPublicKey(string a_tag,string a_url_pattern,string a_publickey)
+		public void RegistCertificate(string a_tag,string a_url_pattern,string a_certificate_string)
 		{
-			this.publickey_list.Regist(a_tag,a_url_pattern,a_publickey);
+			this.certificate_list.Regist(a_tag,a_url_pattern,a_certificate_string);
 		}
 
-		/** UnRegistPublicKey
+		/** UnRegistCertificate
 		*/
-		public void UnRegistPublicKey(string a_tag,string a_url_pattern,string a_publickey)
+		public void UnRegistCertificate(string a_tag)
 		{
-			this.publickey_list.UnRegist(a_tag);
+			this.certificate_list.UnRegist(a_tag);
 		}
 
-		/** GetPublicKey
+		/** GetCertificateString
 		*/
-		public string GetPublicKey(string a_url)
+		public string GetCertificateString(string a_url)
 		{
-			return this.publickey_list.GetPublicKey(a_url);
+			return this.certificate_list.GetCertificateString(a_url);
 		}
 
 		/** RequestLoadUrl

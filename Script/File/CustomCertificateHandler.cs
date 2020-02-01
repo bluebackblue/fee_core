@@ -16,54 +16,54 @@ namespace Fee.File
 	*/
 	public class CustomCertificateHandler : UnityEngine.Networking.CertificateHandler
 	{
-		/** publickey_string
+		/** certificate_string
 		*/
-		private string publickey_string;
+		private string certificate_string;
 
-		/** publickey_binary
+		/** certificate_binary
 		*/
-		private byte[] publickey_binary;
+		private byte[] certificate_binary;
 
 		/** errorstring
 		*/
 		private string errorstring;
 
-		/** receive_publickey
+		/** receive_certificate_string
 		*/
-		private string receive_publickey;
+		private string receive_certificate_string;
 
 		/** constructor
 		*/
-		public CustomCertificateHandler(string a_publickey_string)
+		public CustomCertificateHandler(string a_certificate_string)
 		{
-			//publickey_string
-			this.publickey_string = a_publickey_string;
+			//certificate_string
+			this.certificate_string = a_certificate_string;
 
-			//publickey_binary
-			this.publickey_binary = null;
+			//certificate_binary
+			this.certificate_binary = null;
 
 			//errorstring
 			this.errorstring = null;
 
-			//receive_publickey
-			this.receive_publickey = null;
+			//receive_certificate_string
+			this.receive_certificate_string = null;
 		}
 
 		/** constructor
 		*/
-		public CustomCertificateHandler(byte[] a_publickey_binary)
+		public CustomCertificateHandler(byte[] a_certificate_binary)
 		{
-			//publickey_string
-			this.publickey_string = null;
+			//certificate_string
+			this.certificate_string = null;
 
-			//publickey_binary
-			this.publickey_binary = a_publickey_binary;
+			//certificate_binary
+			this.certificate_binary = a_certificate_binary;
 
 			//errorstring
 			this.errorstring = null;
 
-			//receive_publickey
-			this.receive_publickey = null;
+			//receive_certificate_string
+			this.receive_certificate_string = null;
 		}
 
 		/** GetErrorString
@@ -73,11 +73,11 @@ namespace Fee.File
 			return this.errorstring;
 		}
 
-		/** GetReceivePublicKey
+		/** GetReceiveCertificateString
 		*/
-		public string GetReceivePublicKey()
+		public string GetReceiveCertificateString()
 		{
-			return this.receive_publickey;
+			return this.receive_certificate_string;
 		}
 
 		/** 初期化チェック。
@@ -97,37 +97,37 @@ namespace Fee.File
 			try{
 				using(System.Security.Cryptography.X509Certificates.X509Certificate2 t_certificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(a_certificate_data)){
 
-					this.receive_publickey = t_certificate.GetPublicKeyString();
+					this.receive_certificate_string = t_certificate.GetPublicKeyString();
 
-					if(this.publickey_string != null){
+					if(this.certificate_string != null){
 						//文字列。
 
-						if(t_certificate.GetPublicKeyString() == this.publickey_string){
-							this.errorstring = "Success(String Public Key)";
+						if(this.receive_certificate_string == this.certificate_string){
+							this.errorstring = "Success(String Certificate)";
 							return true;
 						}else{
-							this.errorstring = "Mismatch String Error(String Public Key)";
+							this.errorstring = "Mismatch String Error(String Certificate)";
 						}
-					}else if(this.publickey_binary != null){
+					}else if(this.certificate_binary != null){
 						//バイナリ。
 
 						byte[] t_binary = t_certificate.GetPublicKey();
-						if(t_binary.Length == this.publickey_binary.Length){
+						if(t_binary.Length == this.certificate_binary.Length){
 							bool t_check = true;
 							for(int ii=0;ii<t_binary.Length;ii++){
-								if(t_binary[ii] != this.publickey_binary[ii]){
+								if(t_binary[ii] != this.certificate_binary[ii]){
 									t_check = false;
 									break;
 								}
 							}
 							if(t_check == true){
-								this.errorstring = "Success(Binary Public Key)";
+								this.errorstring = "Success(Binary Certificate)";
 								return true;
 							}else{
-								this.errorstring = "Mismatch Binary Error(Binary Public Key)";
+								this.errorstring = "Mismatch Binary Error(Binary Certificate)";
 							}
 						}else{
-							this.errorstring = "Mismatch Binary Length Error(Binary Public Key)";
+							this.errorstring = "Mismatch Binary Length Error(Binary Certificate)";
 						}
 					}else{
 						//不明。

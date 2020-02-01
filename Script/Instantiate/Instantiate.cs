@@ -173,6 +173,12 @@ namespace Fee.Instantiate
 			//camera
 			UnityEngine.Camera t_camera = t_gameobject.AddComponent<UnityEngine.Camera>();
 			{
+				//Reset
+				t_camera.Reset();
+
+				//Depth
+				t_camera.depth = a_depth;
+
 				//Clear Flags
 				t_camera.clearFlags = UnityEngine.CameraClearFlags.Nothing;
 
@@ -191,30 +197,6 @@ namespace Fee.Instantiate
 
 				//Viewport Rect
 				t_camera.rect = new UnityEngine.Rect(0.0f,0.0f,1.0f,1.0f);
-
-				//Depth
-				t_camera.depth = a_depth;
-
-				//Rendering Path
-				t_camera.renderingPath = UnityEngine.RenderingPath.UsePlayerSettings;
-
-				//TargetTexture
-				t_camera.targetTexture = null;
-
-				//Occlusion Culling
-				t_camera.useOcclusionCulling = false;
-
-				//Allow HDR
-				t_camera.allowHDR = false;
-
-				//Allow MSAA
-				t_camera.allowMSAA = false;
-
-				#if(UNITY_5)
-				#else
-				//Allow Dynamic Resolution
-				t_camera.allowDynamicResolution = false;
-				#endif
 			}
 			
 			return t_gameobject;

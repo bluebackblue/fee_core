@@ -109,16 +109,19 @@ namespace Fee.Data
 			return this.main_load;
 		}
 
-		/** データリスト。登録。
+		/** データ。登録。
 		*/
-		public void RegistDataList(System.Collections.Generic.Dictionary<string,Fee.Data.JsonListItem> a_list)
+		public void RegistDataJson(string a_json_string)
 		{
-			foreach(System.Collections.Generic.KeyValuePair<string,Fee.Data.JsonListItem> t_pair in a_list){
-				this.RegistDataItem(t_pair.Key,t_pair.Value.path_type,new Fee.File.Path(t_pair.Value.path),t_pair.Value.assetbundle_name);
+			System.Collections.Generic.Dictionary<string,Fee.Data.JsonListItem> t_list = Fee.JsonItem.Convert.JsonStringToObject<System.Collections.Generic.Dictionary<string,Fee.Data.JsonListItem>>(a_json_string);
+			if(t_list != null){
+				foreach(System.Collections.Generic.KeyValuePair<string,Fee.Data.JsonListItem> t_pair in t_list){
+					this.RegistDataItem(t_pair.Key,t_pair.Value.path_type,new Fee.File.Path(t_pair.Value.path),t_pair.Value.assetbundle_name);
+				}
 			}
 		}
 
-		/** データアイテム。登録。
+		/** データ。登録。
 		*/
 		public void RegistDataItem(string a_id,PathType a_path_type,Fee.File.Path a_path,string a_assetbundle_name)
 		{
@@ -129,9 +132,9 @@ namespace Fee.Data
 			}
 		}
 
-		/** データリスト。クリア。
+		/** データ。クリア。
 		*/
-		public void ClearDataList()
+		public void ClearData()
 		{
 			this.list.Clear();
 		}

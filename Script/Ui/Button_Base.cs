@@ -224,22 +224,10 @@ namespace Fee.Ui
 
 		/** フォーカス。設定。
 
-			OnFocusCheckを呼び出さない。
-
-		*/
-		public void SetFocusNoCallBack(bool a_flag)
-		{
-			if(this.focus_flag != a_flag){
-				this.focus_flag = a_flag;
-			}
-		}
-
-		/** フォーカス。設定。
-
 			OnFocusCheckを呼び出す。
 
 		*/
-		public void SetFocusMustCallBack(bool a_flag)
+		public void SetFocusCallOnFocusCheck(bool a_flag)
 		{
 			if(this.focus_flag != a_flag){
 				this.focus_flag = a_flag;

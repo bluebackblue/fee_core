@@ -320,6 +320,7 @@ namespace Fee.SoundPool
 			}else{
 				this.result_progress = 1.0f;
 				this.result_errorstring = t_coroutine.result.errorstring;
+				this.result_responseheader = t_coroutine.result.responseheader;
 				this.result_type = ResultType.Error;
 				yield break;
 			}

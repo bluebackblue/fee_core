@@ -63,6 +63,15 @@ namespace Fee.UniVrm
 				//USE_DEF_FEE_UNIVRM
 				Tool.Assert(false);
 			}
+
+			/** LoadCoroutine
+			*/
+			public System.Collections.IEnumerator LoadCoroutine(System.Action a_onloadend,System.Action<System.Exception> a_onloaderror)
+			{
+				//USE_DEF_FEE_UNIVRM
+				Tool.Assert(false);
+				yield break;
+			}
 		}
 	}
 }

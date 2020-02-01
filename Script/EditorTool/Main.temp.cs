@@ -388,7 +388,7 @@ namespace Fee.EditorTool
 			//■シーン開始。
 			#if(false)
 			{
-				Fee.Scene.Scene.GetInstance().SetNextScene(new Game.Scene.InitScene());
+				Fee.Scene.Scene.GetInstance().SetNextScene(new Game.Scene.Scene_Init());
 			}
 			#endif
 		}

@@ -742,6 +742,7 @@ namespace Fee.File
 
 						if(t_success == false){
 							this.item.SetResultErrorString(t_main.GetResultErrorString());
+							this.item.SetResultResponseHeader(t_main.GetResultResponseHeader());
 						}
 
 						//完了。

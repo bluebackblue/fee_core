@@ -44,12 +44,19 @@ namespace Fee.UniVrm
 		*/
 		public ResultType result;
 
+		/** is_error
+		*/
+		private bool is_error;
+
 		/** CoroutineMain
 		*/
 		public System.Collections.IEnumerator CoroutineMain(Fee.UniVrm.OnUniVrmCoroutine_CallBackInterface a_callback,byte[] a_binary)
 		{
 			//result
 			this.result = new ResultType();
+
+			//is_error
+			this.is_error = false;
 
 			{
 				VRM.VRMImporterContext t_context = new VRM.VRMImporterContext();
@@ -95,10 +102,13 @@ namespace Fee.UniVrm
 
 				//「Load」。
 				if(this.result.errorstring == null){
-					try{
-						t_context.Load();
-					}catch(System.Exception t_exception){
-						this.result.errorstring = "Coroutine_Load : Load : " + t_exception.Message;
+					yield return t_context.LoadCoroutine(this.OnLoadEnd,this.OnLoadError);
+				}
+
+				//エラーチェック。
+				if(this.result.errorstring == null){
+					if(this.is_error == true){
+						this.result.errorstring = "Coroutine_Load : OnLoadError";
 					}
 				}
 
@@ -117,6 +127,20 @@ namespace Fee.UniVrm
 				this.result.context = t_context;
 				yield break;
 			}
+		}
+
+		/** OnLoadEnd
+		*/
+		private void OnLoadEnd()
+		{
+		}
+
+		/** OnLoadError
+		*/
+		private void OnLoadError(System.Exception a_exception)
+		{
+			this.is_error = true;
+			this.result.errorstring = a_exception.Message;
 		}
 	}
 }

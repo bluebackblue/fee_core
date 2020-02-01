@@ -186,6 +186,14 @@ namespace Fee.MD5
 
 			return t_hash_string;
 		}
+
+		/** CalcMD5
+		*/
+		public static string CalcMD5(string a_string)
+		{
+			byte[] t_binary = System.Text.Encoding.UTF8.GetBytes(a_string);
+			return CalcMD5(t_binary);
+		}
 	}
 }
 

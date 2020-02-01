@@ -159,10 +159,10 @@ namespace Fee.AssetBundleList
 			パスアイテムからアセットバンドルアイテムをロード。
 
 		*/
-		public Item RequestLoadPathItemAssetBundleItem(string a_id)
+		public Item RequestLoadPathItemAssetBundleItem(string a_assetbundle_name)
 		{
 			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestLoadPathItemAssetBundleItem(a_id);
+			t_work_item.RequestLoadPathItemAssetBundleItem(a_assetbundle_name);
 			this.add_list.Add(t_work_item);
 			return t_work_item.GetItem();
 		}
@@ -172,10 +172,10 @@ namespace Fee.AssetBundleList
 			アセットバンドルアイテムをアンロード。
 
 		*/
-		public Item RequestUnLoadAssetBundleItem(string a_id)
+		public Item RequestUnLoadAssetBundleItem(string a_assetbundle_name)
 		{
 			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestUnLoadAssetBundleItem(a_id);
+			t_work_item.RequestUnLoadAssetBundleItem(a_assetbundle_name);
 			this.add_list.Add(t_work_item);
 			return t_work_item.GetItem();
 		}
@@ -185,10 +185,10 @@ namespace Fee.AssetBundleList
 			ロード済みのアセットバンドルアイテムからテキストファイルをロード。
 
 		*/
-		public Item RequestLoadAssetBundleItemTextFile(string a_id,string a_asset_name)
+		public Item RequestLoadAssetBundleItemTextFile(string a_assetbundle_name,string a_asset_name)
 		{
 			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestLoadAssetBundleItemTextFile(a_id,a_asset_name);
+			t_work_item.RequestLoadAssetBundleItemTextFile(a_assetbundle_name,a_asset_name);
 			this.add_list.Add(t_work_item);
 			return t_work_item.GetItem();
 		}
@@ -198,10 +198,10 @@ namespace Fee.AssetBundleList
 			ロード済みのアセットバンドルアイテムからテクスチャーファイルをロード。
 
 		*/
-		public Item RequestLoadAssetBundleItemTextureFile(string a_id,string a_asset_name)
+		public Item RequestLoadAssetBundleItemTextureFile(string a_assetbundle_name,string a_asset_name)
 		{
 			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestLoadAssetBundleItemTextureFile(a_id,a_asset_name);
+			t_work_item.RequestLoadAssetBundleItemTextureFile(a_assetbundle_name,a_asset_name);
 			this.add_list.Add(t_work_item);
 			return t_work_item.GetItem();
 		}
@@ -211,10 +211,10 @@ namespace Fee.AssetBundleList
 			ロード済みのアセットバンドルアイテムからプレハブファイルをロード。
 
 		*/
-		public Item RequestLoadAssetBundleItemPrefabFile(string a_id,string a_asset_name)
+		public Item RequestLoadAssetBundleItemPrefabFile(string a_assetbundle_name,string a_asset_name)
 		{
 			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestLoadAssetBundleItemPrefabFile(a_id,a_asset_name);
+			t_work_item.RequestLoadAssetBundleItemPrefabFile(a_assetbundle_name,a_asset_name);
 			this.add_list.Add(t_work_item);
 			return t_work_item.GetItem();
 		}

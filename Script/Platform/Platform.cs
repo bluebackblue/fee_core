@@ -143,6 +143,9 @@ namespace Fee.Platform
 		}
 
 		/** CreateOpenFileDialogExtension
+
+			a_extension_name : new string[]{"png","jpg","bmp"}
+
 		*/
 		public string CreateOpenFileDialogExtension(string[] a_extension_name)
 		{

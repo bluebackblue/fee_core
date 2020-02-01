@@ -82,26 +82,30 @@ namespace Fee.Audio
 		*/
 		public void SetBank(Bank a_bank,long a_id)
 		{
-			Bank t_bank_new = a_bank;
+			if(a_bank != null){
+				Bank t_bank_new = a_bank;
 
-			Bank t_bank_old;
-			if(this.bank_list.TryGetValue(a_id,out t_bank_old) == true){
-				//差し替え。
+				Bank t_bank_old;
+				if(this.bank_list.TryGetValue(a_id,out t_bank_old) == true){
+					//差し替え。
 
-				//アンロード。
-				if(t_bank_old != null){
-					this.unload_worklist.Add(t_bank_old);
+					//アンロード。
+					if(t_bank_old != null){
+						this.unload_worklist.Add(t_bank_old);
+					}
+
+					//差し替え。
+					this.bank_list[a_id] = t_bank_new;
+				}else{
+					//追加。
+					this.bank_list.Add(a_id,t_bank_new);
 				}
 
-				//差し替え。
-				this.bank_list[a_id] = t_bank_new;
+				//ロード。
+				this.load_worklist.Add(t_bank_new);
 			}else{
-				//追加。
-				this.bank_list.Add(a_id,t_bank_new);
+				Tool.Assert(false);
 			}
-
-			//ロード。
-			this.load_worklist.Add(t_bank_new);
 		}
 
 		/** バンク。解除。

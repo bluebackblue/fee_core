@@ -160,6 +160,9 @@ namespace Fee.Render2D
 		{
 			if(a_flag == true){
 				this.raw_inputfield.ActivateInputField();
+				if(UnityEngine.EventSystems.EventSystem.current != null){
+					UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(this.raw_gameobject);
+				}
 			}else{
 				if(UnityEngine.EventSystems.EventSystem.current != null){
 					if(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == this.raw_gameobject){
@@ -167,6 +170,17 @@ namespace Fee.Render2D
 					}
 				}
 			}
+		}
+
+		/** フォーカス。設定。
+
+			OnFocusCheckを呼び出す。
+
+		*/
+		public void SetFocusCallOnFocusCheck(bool a_flag)
+		{
+			this.SetFocus(a_flag);
+			this.raw_focus_monobehaviour.CallOnFocusCheck();
 		}
 
 		/** クリップ。設定。

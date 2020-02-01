@@ -34,13 +34,31 @@ namespace Fee.File
 
 			/** constructor
 			*/
-			public ResultType(string a_text_file,string a_errorstring,System.Collections.Generic.Dictionary<string,string> a_responseheader)
+			public ResultType(string a_text_file,string a_errorstring,System.Collections.Generic.Dictionary<string,string> a_responseheader,long a_response_code)
 			{
 				//text_file
 				this.text_file = a_text_file;
 
 				//errorstring
 				this.errorstring = a_errorstring;
+
+				//responseheader
+				this.responseheader = a_responseheader;
+
+				//レスポンスコード。
+				try{
+					if(this.responseheader == null){
+						this.responseheader = new System.Collections.Generic.Dictionary<string,string>();
+					}
+					if(this.responseheader.ContainsKey("ResponseCode") == true){
+						Tool.Assert(false);
+						this.responseheader["ResponseCode"] = a_response_code.ToString();
+					}else{
+						this.responseheader.Add("ResponseCode",a_response_code.ToString());
+					}
+				}catch(System.Exception t_exception){
+					Tool.DebugReThrow(t_exception);
+				}
 			}
 		}
 
@@ -64,7 +82,7 @@ namespace Fee.File
 				a_certificate_handler.InitializeCheck();
 				t_webrequest.certificateHandler = a_certificate_handler;
 			}else{
-				t_webrequest.certificateHandler = new Fee.File.CustomCertificateHandler(Fee.File.File.GetInstance().GetPublicKey(a_path.GetPath()));
+				t_webrequest.certificateHandler = new Fee.File.CustomCertificateHandler(Fee.File.File.GetInstance().GetCertificateString(a_path.GetPath()));
 			}
 
 			return t_webrequest;
@@ -80,6 +98,7 @@ namespace Fee.File
 			//ロード。
 			byte[] t_result_binary = null;
 			System.Collections.Generic.Dictionary<string,string> t_result_responseheader = null;
+			long t_result_responsecode = 0;
 			{
 				using(UnityEngine.Networking.UnityWebRequest t_webrequest = CreateWebRequestInstance(a_path,a_post_data,a_certificate_handler)){
 
@@ -90,12 +109,12 @@ namespace Fee.File
 							t_webrequest_async = t_webrequest.SendWebRequest();
 							if(t_webrequest_async == null){
 								//エラー。
-								this.result = new ResultType(null,"Unknown Error : LoadUrlTextFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders());
+								this.result = new ResultType(null,"Unknown Error : LoadUrlTextFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders(),t_webrequest.responseCode);
 								yield break;
 							}
 						}else{
 							//エラー。
-							this.result = new ResultType(null,"Unknown Error : LoadUrlTextFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders());
+							this.result = new ResultType(null,"Unknown Error : LoadUrlTextFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders(),t_webrequest.responseCode);
 							yield break;
 						}
 
@@ -104,7 +123,11 @@ namespace Fee.File
 
 							if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
 								//エラー。
-								this.result = new ResultType(null,"Connect Error : LoadUrlTextFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders());
+								if(t_webrequest.error != null){
+									this.result = new ResultType(null,"Connect Error : LoadUrlTextFile : " + a_path.GetPath() + " : " + t_webrequest.error,t_webrequest.GetResponseHeaders(),t_webrequest.responseCode);
+								}else{
+									this.result = new ResultType(null,"Connect Error : LoadUrlTextFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders(),t_webrequest.responseCode);
+								}
 								yield break;
 							}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
 								//正常終了。
@@ -130,26 +153,27 @@ namespace Fee.File
 					try{
 						if(t_webrequest.downloadHandler == null){
 							//エラー。
-							this.result = new ResultType(null,"Convert Error : LoadUrlTextFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders());
+							this.result = new ResultType(null,"Convert Error : LoadUrlTextFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders(),t_webrequest.responseCode);
 							yield break;
 						}
 
 						byte[] t_result = t_webrequest.downloadHandler.data;
 						if(t_result == null){
 							//エラー。
-							this.result = new ResultType(null,"Convert Error : LoadUrlTextFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders());
+							this.result = new ResultType(null,"Convert Error : LoadUrlTextFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders(),t_webrequest.responseCode);
 							yield break;
 						}
 
 						t_result_binary = t_result;
 					}catch(System.Exception t_exception){
 						//エラー。
-						this.result = new ResultType(null,"Convert Error : LoadUrlTextFile : " + a_path.GetPath() + " : " + t_exception.Message,t_webrequest.GetResponseHeaders());
+						this.result = new ResultType(null,"Convert Error : LoadUrlTextFile : " + a_path.GetPath() + " : " + t_exception.Message,t_webrequest.GetResponseHeaders(),t_webrequest.responseCode);
 						yield break;
 					}
 
 					//レスポンスヘッダー。
 					t_result_responseheader = t_webrequest.GetResponseHeaders();
+					t_result_responsecode = t_webrequest.responseCode;
 				}
 			}
 
@@ -162,13 +186,13 @@ namespace Fee.File
 					t_result_text = t_result;
 				}else{
 					//エラー。
-					this.result = new ResultType(null,"Convert Error : LoadUrlTextFile : " + a_path.GetPath(),t_result_responseheader);
+					this.result = new ResultType(null,"Convert Error : LoadUrlTextFile : " + a_path.GetPath(),t_result_responseheader,t_result_responsecode);
 					yield break;
 				}
 			}
 
 			//成功。
-			this.result = new ResultType(t_result_text,null,t_result_responseheader);
+			this.result = new ResultType(t_result_text,null,t_result_responseheader,t_result_responsecode);
 			yield break;
 		}
 	}

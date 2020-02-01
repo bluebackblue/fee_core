@@ -79,6 +79,16 @@ namespace Fee.Ui
 			this.inputfield.SetFocus(a_flag);
 		}
 
+		/** フォーカス。設定。
+
+			OnFocusCheckを呼び出す。
+
+		*/
+		public void SetFocusCallOnFocusCheck(bool a_flag)
+		{
+			this.inputfield.SetFocusCallOnFocusCheck(a_flag);
+		}
+
 		/** クリップ。設定。
 		*/
 		public void SetClip(bool a_flag)

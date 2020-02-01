@@ -55,7 +55,11 @@ namespace Fee.Ui
 		public void Call(float a_value)
 		{
 			if(this.callback_interface != null){
-				this.callback_interface.OnSliderChangeValue(this.id,a_value);
+				try{
+					this.callback_interface.OnSliderChangeValue(this.id,a_value);
+				}catch(System.Exception t_exception){
+					Tool.DebugReThrow(t_exception);
+				}
 			}
 		}
 	}

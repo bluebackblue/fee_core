@@ -45,9 +45,9 @@ namespace Fee.AssetBundleList
 		*/
 		private bool is_shutdown;
 
-		/** request_id
+		/** request_assetbundle_name
 		*/
-		private string request_id;
+		private string request_assetbundle_name;
 
 		/** request_assetname
 		*/
@@ -78,7 +78,7 @@ namespace Fee.AssetBundleList
 			this.is_shutdown = false;
 
 			//request
-			this.request_id = null;
+			this.request_assetbundle_name = null;
 			this.request_assetname = null;
 
 			//result
@@ -154,7 +154,7 @@ namespace Fee.AssetBundleList
 
 		/** リクエスト。ロードアセットバンドルアイテム。テキストファイル。
 		*/
-		public bool RequestLoadAssetBundleItemTextFile(string a_id,string a_assetname)
+		public bool RequestLoadAssetBundleItemTextFile(string a_assetbundle_name,string a_assetname)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -169,7 +169,7 @@ namespace Fee.AssetBundleList
 				this.result_asset = null;
 
 				//request
-				this.request_id = a_id;
+				this.request_assetbundle_name = a_assetbundle_name;
 				this.request_assetname = a_assetname;
 
 				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemTextFile());
@@ -184,7 +184,7 @@ namespace Fee.AssetBundleList
 		private System.Collections.IEnumerator DoLoadAssetBundleItemTextFile()
 		{
 			Coroutine_LoadAssetBundleItemTextFile t_coroutine = new Coroutine_LoadAssetBundleItemTextFile();
-			yield return t_coroutine.CoroutineMain(this,this.request_id,this.request_assetname);
+			yield return t_coroutine.CoroutineMain(this,this.request_assetbundle_name,this.request_assetname);
 
 			if(t_coroutine.result.asset_file != null){
 				this.result_progress = 1.0f;
@@ -201,7 +201,7 @@ namespace Fee.AssetBundleList
 
 		/** リクエスト。ロードアセットバンドルアイテム。テクスチャファイル。
 		*/
-		public bool RequestLoadAssetBundleItemTextureFile(string a_id,string a_assetname)
+		public bool RequestLoadAssetBundleItemTextureFile(string a_assetbundle_name,string a_assetname)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -216,7 +216,7 @@ namespace Fee.AssetBundleList
 				this.result_asset = null;
 
 				//request
-				this.request_id = a_id;
+				this.request_assetbundle_name = a_assetbundle_name;
 				this.request_assetname = a_assetname;
 
 				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemTextureFile());
@@ -231,7 +231,7 @@ namespace Fee.AssetBundleList
 		private System.Collections.IEnumerator DoLoadAssetBundleItemTextureFile()
 		{
 			Coroutine_LoadAssetBundleItemTextureFile t_coroutine = new Coroutine_LoadAssetBundleItemTextureFile();
-			yield return t_coroutine.CoroutineMain(this,this.request_id,this.request_assetname);
+			yield return t_coroutine.CoroutineMain(this,this.request_assetbundle_name,this.request_assetname);
 
 			if(t_coroutine.result.asset_file != null){
 				this.result_progress = 1.0f;
@@ -248,7 +248,7 @@ namespace Fee.AssetBundleList
 
 		/** リクエスト。ロードアセットバンドルアイテム。プレハブファイル。
 		*/
-		public bool RequestLoadAssetBundleItemPrefabFile(string a_id,string a_assetname)
+		public bool RequestLoadAssetBundleItemPrefabFile(string a_assetbundle_name,string a_assetname)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -263,7 +263,7 @@ namespace Fee.AssetBundleList
 				this.result_asset = null;
 
 				//request
-				this.request_id = a_id;
+				this.request_assetbundle_name = a_assetbundle_name;
 				this.request_assetname = a_assetname;
 
 				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemPrefabFile());
@@ -278,7 +278,7 @@ namespace Fee.AssetBundleList
 		private System.Collections.IEnumerator DoLoadAssetBundleItemPrefabFile()
 		{
 			Coroutine_LoadAssetBundleItemPrefabFile t_coroutine = new Coroutine_LoadAssetBundleItemPrefabFile();
-			yield return t_coroutine.CoroutineMain(this,this.request_id,this.request_assetname);
+			yield return t_coroutine.CoroutineMain(this,this.request_assetbundle_name,this.request_assetname);
 
 			if(t_coroutine.result.asset_file != null){
 				this.result_progress = 1.0f;

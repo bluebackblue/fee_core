@@ -133,6 +133,13 @@ namespace Fee.Render2D
 			return this.is_delete_request;
 		}
 
+		/** コールバックインターフェイス。設定。
+		*/
+		public void SetOnFocusCheck<T>(Fee.Ui.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
+		{
+			this.param.SetOnFocusCheck(a_callback_interface,a_id);
+		}
+
 		/** フォーカス。取得。
 		*/
 		public bool IsFocus()
@@ -147,11 +154,14 @@ namespace Fee.Render2D
 			this.param.SetFocus(a_flag);
 		}
 
-		/** コールバックインターフェイス。設定。
+		/** フォーカス。設定。
+
+			OnFocusCheckを呼び出す。
+
 		*/
-		public void SetOnFocusCheck<T>(Fee.Ui.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
+		public void SetFocusCallOnFocusCheck(bool a_flag)
 		{
-			this.param.SetOnFocusCheck(a_callback_interface,a_id);
+			this.param.SetFocusCallOnFocusCheck(a_flag);
 		}
 
 		/** 矩形。設定。

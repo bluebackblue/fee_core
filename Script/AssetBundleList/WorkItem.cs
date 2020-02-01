@@ -79,9 +79,9 @@ namespace Fee.AssetBundleList
 		*/
 		private RequestType request_type;
 
-		/** request_id
+		/** request_assetbundle_name
 		*/
-		private string request_id;
+		private string request_assetbundle_name;
 
 		/** request_assetname
 		*/
@@ -101,8 +101,8 @@ namespace Fee.AssetBundleList
 			//request_type
 			this.request_type = RequestType.None;
 
-			//request_id
-			this.request_id = null;
+			//request_assetbundle_name
+			this.request_assetbundle_name = null;
 
 			//item
 			this.item = new Item();
@@ -113,44 +113,44 @@ namespace Fee.AssetBundleList
 			パスアイテムからアセットバンドルアイテムをロード。
 
 		*/
-		public void RequestLoadPathItemAssetBundleItem(string a_id)
+		public void RequestLoadPathItemAssetBundleItem(string a_assetbundle_name)
 		{
 			this.request_type = RequestType.LoadPathItemAssetBundleItem;
-			this.request_id = a_id;
+			this.request_assetbundle_name = a_assetbundle_name;
 		}
 
 		/** リクエスト。アンロード。アセットバンドルアイテム。
 		*/
-		public void RequestUnLoadAssetBundleItem(string a_id)
+		public void RequestUnLoadAssetBundleItem(string a_assetbundle_name)
 		{
 			this.request_type = RequestType.UnLoadAssetBundleItem;
-			this.request_id = a_id;
+			this.request_assetbundle_name = a_assetbundle_name;
 		}
 
 		/** リクエスト。ロードアセットバンドルアイテム。テキストファイル。
 		*/
-		public void RequestLoadAssetBundleItemTextFile(string a_id,string a_assetname)
+		public void RequestLoadAssetBundleItemTextFile(string a_assetbundle_name,string a_assetname)
 		{
 			this.request_type = RequestType.LoadAssetBundleItemTextFile;
-			this.request_id = a_id;
+			this.request_assetbundle_name = a_assetbundle_name;
 			this.request_assetname = a_assetname; 
 		}
 
 		/** リクエスト。ロードアセットバンドルアイテム。テクスチャファイル。
 		*/
-		public void RequestLoadAssetBundleItemTextureFile(string a_id,string a_assetname)
+		public void RequestLoadAssetBundleItemTextureFile(string a_assetbundle_name,string a_assetname)
 		{
 			this.request_type = RequestType.LoadAssetBundleItemTextureFile;
-			this.request_id = a_id;
+			this.request_assetbundle_name = a_assetbundle_name;
 			this.request_assetname = a_assetname; 
 		}
 
 		/** リクエスト。ロードアセットバンドルアイテム。プレハブファイル。
 		*/
-		public void RequestLoadAssetBundleItemPrefabFile(string a_id,string a_assetname)
+		public void RequestLoadAssetBundleItemPrefabFile(string a_assetbundle_name,string a_assetname)
 		{
 			this.request_type = RequestType.LoadAssetBundleItemPrefabFile;
-			this.request_id = a_id;
+			this.request_assetbundle_name = a_assetbundle_name;
 			this.request_assetname = a_assetname; 
 		}
 
@@ -174,31 +174,31 @@ namespace Fee.AssetBundleList
 					switch(this.request_type){
 					case RequestType.LoadPathItemAssetBundleItem:
 						{
-							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAssetBundle().RequestLoadPathItemAssetBundleItem(this.request_id) == true){
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAssetBundle().RequestLoadPathItemAssetBundleItem(this.request_assetbundle_name) == true){
 								this.mode = Mode.Do_AssetBundle;
 							}
 						}break;
 					case RequestType.UnLoadAssetBundleItem:
 						{
-							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAssetBundle().RequestUnLoadAssetBundleItem(this.request_id) == true){
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAssetBundle().RequestUnLoadAssetBundleItem(this.request_assetbundle_name) == true){
 								this.mode = Mode.Do_AssetBundle;
 							}
 						}break;
 					case RequestType.LoadAssetBundleItemTextFile:
 						{
-							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemTextFile(this.request_id,this.request_assetname) == true){
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemTextFile(this.request_assetbundle_name,this.request_assetname) == true){
 								this.mode = Mode.Do_Asset;
 							}
 						}break;
 					case RequestType.LoadAssetBundleItemTextureFile:
 						{
-							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemTextureFile(this.request_id,this.request_assetname) == true){
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemTextureFile(this.request_assetbundle_name,this.request_assetname) == true){
 								this.mode = Mode.Do_Asset;
 							}
 						}break;
 					case RequestType.LoadAssetBundleItemPrefabFile:
 						{
-							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemPrefabFile(this.request_id,this.request_assetname) == true){
+							if(Fee.AssetBundleList.AssetBundleList.GetInstance().GetMainAsset().RequestLoadAssetBundleItemPrefabFile(this.request_assetbundle_name,this.request_assetname) == true){
 								this.mode = Mode.Do_Asset;
 							}
 						}break;
