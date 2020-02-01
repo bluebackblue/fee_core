@@ -1,4 +1,4 @@
-﻿
+
 
 /**
  * Copyright (c) blueback
@@ -57,7 +57,7 @@ namespace Fee.JsonSheet
 			a_sheet			: ＪＳＯＮシート。
 
 		*/
-		public static void Convert(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet)
+		public static void Convert(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
 		{
 			try{
 				if(a_sheet != null){

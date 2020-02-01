@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ＪＳＯＮシート。ＳＥシート。
+ * @brief ＪＳＯＮシート。アニメーションシート。
 */
 
 
@@ -20,35 +20,39 @@ namespace Fee.JsonSheet
 	using System_Tuple = System;
 	#endif
 
-	/** Convert_TextAssetSheet
+	/** Convert_AnimationSheet
 	*/
 	#if(UNITY_EDITOR)
-	public class Convert_TextAssetSheet
+	public class Convert_AnimationSheet
 	{
 		/** COMMAND
 		*/
-		public const string COMMAND = "<textasset>";
+		public const string COMMAND = "<animation>";
 
 		/** リストアイテム。
 		*/
 		public class ListItem
 		{
-			/** textasset_command
+			/** animation_command
 			*/
-			public string textasset_command;
+			public string animation_command;
 
-			/** textasset_tag
+			/** animation_tag
 			*/
-			public string textasset_tag;
+			public string animation_tag;
 
-			/** textasset_assetspath
+			/** animation_assetspath
 			*/
-			public string textasset_assetspath;
+			public string animation_assetspath;
+
+			/** animation_clipname
+			*/
+			public string animation_clipname;
 		}
 
 		/** コマンド。
 		*/
-		public const string TEXTASSETCOMMAND_ITEM = "<item>";
+		public const string ANIMATIONCOMMAND_ITEM = "<item>";
 
 		/** コンバート。
 
@@ -63,18 +67,19 @@ namespace Fee.JsonSheet
 				if(a_sheet != null){
 					System.Collections.Generic.List<string> t_tag_list = new System_Tuple.Collections.Generic.List<string>();
 					System.Collections.Generic.List<Fee.File.Path> t_path_list = new System_Tuple.Collections.Generic.List<Fee.File.Path>();
-					System.Collections.Generic.List<float> t_volume_list = new System_Tuple.Collections.Generic.List<float>();
+					System.Collections.Generic.List<string> t_clipname_list = new System_Tuple.Collections.Generic.List<string>();
 
 					for(int ii=0;ii<a_sheet.Length;ii++){
 						if(a_sheet[ii] != null){
 							System.Collections.Generic.List<ListItem> t_sheet = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<ListItem>>(a_sheet[ii]);
 							if(t_sheet != null){
 								for(int jj=0;jj<t_sheet.Count;jj++){
-									if(Convert_TextAssetSheet.TEXTASSETCOMMAND_ITEM == t_sheet[jj].textasset_command){
+									if(Convert_AnimationSheet.ANIMATIONCOMMAND_ITEM == t_sheet[jj].animation_command){
 										//<item>
 
-										t_tag_list.Add(t_sheet[jj].textasset_tag);
-										t_path_list.Add(new File.Path(t_sheet[jj].textasset_assetspath));
+										t_tag_list.Add(t_sheet[jj].animation_tag);
+										t_path_list.Add(new File.Path(t_sheet[jj].animation_assetspath));
+										t_clipname_list.Add(t_sheet[jj].animation_clipname);
 									}else{
 										//無関係。複合シート。
 									}
@@ -87,12 +92,12 @@ namespace Fee.JsonSheet
 
 					//保存。
 					{
-						Fee.Instantiate.TextAssetList_Tool.ResourceItem[] t_textasset_list = new Instantiate.TextAssetList_Tool.ResourceItem[t_tag_list.Count];
+						Fee.Instantiate.AnimationClipList_Tool.ResourceItem[] t_animation_list = new Instantiate.AnimationClipList_Tool.ResourceItem[t_tag_list.Count];
 						for(int ii=0;ii<t_tag_list.Count;ii++){
-							t_textasset_list[ii] = new Instantiate.TextAssetList_Tool.ResourceItem(t_tag_list[ii],t_path_list[ii]);
+							t_animation_list[ii] = new Instantiate.AnimationClipList_Tool.ResourceItem(t_tag_list[ii],t_path_list[ii],t_clipname_list[ii]);
 						}
 
-						Fee.Instantiate.TextAssetList_Tool.Create(a_assets_path,t_textasset_list);
+						Fee.Instantiate.AnimationClipList_Tool.Create(a_assets_path,t_animation_list);
 					}
 				}else{
 					Tool.Assert(false);

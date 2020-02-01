@@ -113,14 +113,16 @@ namespace Fee.JsonSheet
 			a_sheet			: ＪＳＯＮシート。
 
 		*/
-		public static void Convert(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet)
+		public static void Convert(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
 		{
 			try{
 				if(a_sheet != null){
 					if((a_param == Convert_DataSheet.DATAPARAM_DEBUG)||(a_param == Convert_DataSheet.DATAPARAM_RELEASE)){
 						Convert_DataSheet.Convert_WriteJson(a_param,a_assets_path,a_sheet);
 					}else{
-						Convert_DataSheet.Convert_CreateAssetBundle(a_param,a_assets_path,a_sheet);
+						if(a_convertparam.create_assetbundle == true){
+							Convert_DataSheet.Convert_CreateAssetBundle(a_param,a_assets_path,a_sheet);
+						}
 					}
 				}else{
 					Tool.Assert(false);

@@ -111,7 +111,7 @@ namespace <<namespace>>
 			a_sheet			: ＥＮＵＭシート。
 
 		*/
-		public static void Convert(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet)
+		public static void Convert(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
 		{
 			try{
 				if(a_sheet != null){
