@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** ScrollItem_Base
 	*/
-	public abstract class ScrollItem_Base
+	public abstract class ScrollItem_Base : Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** is_viewin
 		*/
@@ -59,13 +59,17 @@ namespace Fee.Ui
 			return this.capture_viewout;
 		}
 
-		/** [Fee.Ui.ScrollItem_Base]矩形変更。
+		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
 		*/
-		public abstract void OnChangeParentRectX(int a_parent_x);
+		public abstract void OnDelete();
 
 		/** [Fee.Ui.ScrollItem_Base]矩形変更。
 		*/
-		public abstract void OnChangeParentRectY(int a_parent_y);
+		public abstract void OnChangeRectX(int a_x);
+
+		/** [Fee.Ui.ScrollItem_Base]矩形変更。
+		*/
+		public abstract void OnChangeRectY(int a_y);
 
 		/** [Fee.Ui.ScrollItem_Base]矩形変更。
 		*/

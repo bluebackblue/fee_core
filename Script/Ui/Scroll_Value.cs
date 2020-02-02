@@ -22,7 +22,7 @@ namespace Fee.Ui
 
 		/** 表示位置。
 		*/
-		private int view_position;
+		private float view_position_float;
 
 		/** アイテム幅。
 		*/
@@ -49,7 +49,7 @@ namespace Fee.Ui
 			this.callabck = null;
 
 			//表示位置。
-			this.view_position = 0;
+			this.view_position_float = 0.0f;
 
 			//アイテム幅。
 			this.item_length = 1;
@@ -74,16 +74,23 @@ namespace Fee.Ui
 
 		/** 表示位置。取得。
 		*/
-		public int GetViewPosition()
+		public float GetViewPositionFloat()
 		{
-			return this.view_position;
+			return this.view_position_float;
+		}
+
+		/** 表示位置。取得。
+		*/
+		public int GetViewPositionInt()
+		{
+			return (int)this.view_position_float;
 		}
 
 		/** 表示位置。設定。
 		*/
-		public void SetViewPosition(int a_view_position)
+		public void SetViewPosition(float a_view_position)
 		{
-			int t_view_position;
+			float t_view_position;
 			if((a_view_position < 0)||(this.item_length * this.listcount < this.view_length)){
 				//上に吸着。
 				t_view_position = 0;
@@ -97,13 +104,13 @@ namespace Fee.Ui
 				}
 			}
 
-			if(t_view_position != this.view_position){
-				this.view_position = t_view_position;
+			if(t_view_position != this.view_position_float){
+				this.view_position_float = t_view_position;
 
 				int t_old_viewindex_st = this.viewindex_st;
 				int t_old_viewindex_en = this.viewindex_en;
-				this.viewindex_st = this.view_position / this.item_length;
-				this.viewindex_en = (this.view_position + this.view_length) / this.item_length;
+				this.viewindex_st = this.GetViewPositionInt() / this.item_length;
+				this.viewindex_en = (this.GetViewPositionInt() + this.view_length) / this.item_length;
 				if(this.viewindex_en > this.listcount - 1){
 					this.viewindex_en = this.listcount - 1;
 				}
@@ -156,12 +163,12 @@ namespace Fee.Ui
 					int t_old_viewindex_en = this.viewindex_en;
 
 					int t_position_max = this.item_length * this.listcount - this.view_length;
-					if(this.view_position > t_position_max){
-						this.view_position = t_position_max;
+					if(this.view_position_float > t_position_max){
+						this.view_position_float = t_position_max;
 					}
 
-					this.viewindex_st = this.view_position / this.item_length;
-					this.viewindex_en = (this.view_position + this.view_length) / this.item_length;
+					this.viewindex_st = this.GetViewPositionInt() / this.item_length;
+					this.viewindex_en = (this.GetViewPositionInt() + this.view_length) / this.item_length;
 					if(this.viewindex_en > (this.listcount - 1)){
 						this.viewindex_en = this.listcount - 1;
 					}
@@ -215,12 +222,12 @@ namespace Fee.Ui
 						if(t_position_max < 0){
 							t_position_max = 0;
 						}
-						if(this.view_position > t_position_max){
-							this.view_position = t_position_max;
+						if(this.view_position_float > t_position_max){
+							this.view_position_float = t_position_max;
 						}
 
-						this.viewindex_st = this.view_position / this.item_length;
-						this.viewindex_en = (this.view_position + this.view_length) / this.item_length;
+						this.viewindex_st = this.GetViewPositionInt() / this.item_length;
+						this.viewindex_en = (this.GetViewPositionInt() + this.view_length) / this.item_length;
 						if(this.viewindex_en > (this.listcount - 1)){
 							this.viewindex_en = this.listcount - 1;
 						}
@@ -272,6 +279,7 @@ namespace Fee.Ui
 		*/
 		public void RemoveAllItem()
 		{
+			this.view_position_float = 0.0f;
 			this.listcount = 0;
 			this.viewindex_st = -1;
 			this.viewindex_en = -1;
@@ -344,8 +352,8 @@ namespace Fee.Ui
 			}else if(this.item_length * this.listcount < this.view_length){
 				//上に吸着。
 
-				if(this.view_position != 0){
-					this.view_position = 0;
+				if(this.view_position_float != 0){
+					this.view_position_float = 0;
 
 					this.viewindex_st = 0;
 					this.viewindex_en = this.listcount - 1;
@@ -365,10 +373,10 @@ namespace Fee.Ui
 
 				int t_viewindex_st_old = this.viewindex_st;
 
-				this.view_position = this.item_length * this.listcount - this.view_length;
+				this.view_position_float = this.item_length * this.listcount - this.view_length;
 
 				this.viewindex_en = this.listcount - 1;
-				this.viewindex_st = this.view_position / this.item_length;
+				this.viewindex_st = this.GetViewPositionInt() / this.item_length;
 
 				for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
 					this.callabck.OnItemPositionChange(ii);
@@ -382,8 +390,8 @@ namespace Fee.Ui
 				int t_old_viewindex_st = this.viewindex_st;
 				int t_old_viewindex_en = this.viewindex_en;
 				
-				this.viewindex_st = this.view_position / this.item_length;
-				this.viewindex_en = (this.view_position + this.view_length) / this.item_length;
+				this.viewindex_st = this.GetViewPositionInt() / this.item_length;
+				this.viewindex_en = (this.GetViewPositionInt() + this.view_length) / this.item_length;
 
 				for(int ii=this.viewindex_st;ii<=this.viewindex_en;ii++){
 					this.callabck.OnItemPositionChange(ii);

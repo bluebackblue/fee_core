@@ -22,7 +22,7 @@ namespace Fee.MapTip
 			a_use_count == true : 重複する場合に名前を最後にカウントを付ける。
 
 		*/
-		public static void Parse(UnityEngine.Texture2D a_texture,int a_tip_size,Fee.File.Path a_path_out_directory,bool a_use_count)
+		public static void Parse(UnityEngine.Texture2D a_texture,int a_tip_size,Fee.File.Path a_assets_path,bool a_use_count)
 		{
 			if(a_texture != null){
 				if(a_tip_size > 0){
@@ -52,9 +52,9 @@ namespace Fee.MapTip
 									int t_count = 0;
 									while(true){
 										if(t_count <= 0){
-											t_path = new Fee.File.Path(a_path_out_directory.GetNormalizePath() + "/" + t_md5 + ".png");
+											t_path = new File.Path(a_assets_path,t_md5 + ".png",Fee.File.Path.SEPARATOR);
 										}else{
-											t_path = new Fee.File.Path(a_path_out_directory.GetNormalizePath() + "/" + t_md5 + "_" + t_count.ToString() + ".png");
+											t_path = new File.Path(a_assets_path,t_md5 + "_" + t_count.ToString() + ".png",Fee.File.Path.SEPARATOR);
 										}
 
 										//ファイル出力。
@@ -68,7 +68,7 @@ namespace Fee.MapTip
 								}
 							}else{
 								//パス。
-								Fee.File.Path t_path = new Fee.File.Path(a_path_out_directory.GetNormalizePath() + "/" + t_md5 + ".png");
+								Fee.File.Path t_path = new Fee.File.Path(a_assets_path,t_md5 + ".png",Fee.File.Path.SEPARATOR);
 
 								//ファイル出力。
 								if(Fee.EditorTool.Utility.IsExistFile(t_path) == false){

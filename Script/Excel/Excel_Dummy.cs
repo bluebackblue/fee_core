@@ -31,7 +31,7 @@ namespace Fee.Excel
 
 		/** 開く。
 		*/
-		public bool ReadOpen(Fee.File.Path a_path)
+		public bool ReadOpen(Fee.File.Path a_assets_path)
 		{
 			Tool.Assert(false);
 			return false;

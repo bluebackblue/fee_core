@@ -113,6 +113,11 @@ namespace Fee.Ui
 		{
 			//OnDelete
 			this.eventplate.OnDelete();
+
+			for(int ii=0;ii<this.list.Count;ii++){
+				this.list[ii].OnDelete();
+			}
+			this.list.Clear();
 		}
 
 		/** メモリから削除。
@@ -247,9 +252,9 @@ namespace Fee.Ui
 			[Scroll_Drag_CallBack]コールバック。表示位置。取得。
 
 		*/
-		public int GetViewPosition()
+		public float GetViewPosition()
 		{
-			return this.param.scroll_value.GetViewPosition();
+			return this.param.scroll_value.GetViewPositionFloat();
 		}
 
 		/** アイテム幅。取得。
@@ -285,7 +290,7 @@ namespace Fee.Ui
 		[Scroll_Drag_CallBack]コールバック。表示位置。設定。
 
 		*/
-		public void SetViewPosition(int a_view_position)
+		public void SetViewPosition(float a_view_position)
 		{
 			this.param.scroll_value.SetViewPosition(a_view_position);
 
@@ -452,12 +457,12 @@ namespace Fee.Ui
 		*/
 		public void OnItemPositionChange(int a_index)
 		{
-			int t_pos = a_index * this.param.scroll_value.GetItemLength() - this.param.scroll_value.GetViewPosition();
+			int t_pos = a_index * this.param.scroll_value.GetItemLength() - this.param.scroll_value.GetViewPositionInt();
 
 			if(this.param.scroll_type == Scroll_Type.Vertical){
-				this.list[a_index].OnChangeParentRectY(t_pos + this.param.rect.y);
+				this.list[a_index].OnChangeRectY(t_pos + this.param.rect.y);
 			}else{
-				this.list[a_index].OnChangeParentRectX(t_pos + this.param.rect.x);
+				this.list[a_index].OnChangeRectX(t_pos + this.param.rect.x);
 			}
 		}
 
@@ -466,9 +471,9 @@ namespace Fee.Ui
 		public void OnItemOtherPositionChange(int a_index)
 		{
 			if(this.param.scroll_type == Scroll_Type.Vertical){
-				this.list[a_index].OnChangeParentRectX(this.param.rect.x);
+				this.list[a_index].OnChangeRectX(this.param.rect.x);
 			}else{
-				this.list[a_index].OnChangeParentRectY(this.param.rect.y);
+				this.list[a_index].OnChangeRectY(this.param.rect.y);
 			}
 		}
 
@@ -500,9 +505,9 @@ namespace Fee.Ui
 				{
 					//スクロール方向とは違う方向の位置変更。
 					if(this.param.scroll_type == Scroll_Type.Vertical){
-						this.list[a_index].OnChangeParentRectX(this.param.rect.x);
+						this.list[a_index].OnChangeRectX(this.param.rect.x);
 					}else{
-						this.list[a_index].OnChangeParentRectY(this.param.rect.y);
+						this.list[a_index].OnChangeRectY(this.param.rect.y);
 					}
 
 					this.OnItemWHChange(a_index);
@@ -535,9 +540,9 @@ namespace Fee.Ui
 
 			//other direction
 			if(this.param.scroll_type == Scroll_Type.Vertical){
-				a_new_item.OnChangeParentRectX(this.param.rect.x);
+				a_new_item.OnChangeRectX(this.param.rect.x);
 			}else{
-				a_new_item.OnChangeParentRectY(this.param.rect.y);
+				a_new_item.OnChangeRectY(this.param.rect.y);
 			}
 
 			this.SetItemWH(a_new_item);
@@ -551,7 +556,7 @@ namespace Fee.Ui
 
 		/** アイテム削除。最後尾。
 		*/
-		public ITEM PopItem()
+		public ITEM PopItem(bool a_call_ondelete)
 		{
 			if(this.list.Count > 0){
 				int t_index = this.list.Count - 1;
@@ -562,6 +567,10 @@ namespace Fee.Ui
 
 				//[Scroll_Base]コールバック。リスト数変更。
 				this.OnChangeListCount();
+
+				if(a_call_ondelete == true){
+					t_item.OnDelete();
+				}
 
 				return t_item;
 			}
@@ -587,9 +596,9 @@ namespace Fee.Ui
 
 				//other direction
 				if(this.param.scroll_type == Scroll_Type.Vertical){
-					a_new_item.OnChangeParentRectX(this.param.rect.x);
+					a_new_item.OnChangeRectX(this.param.rect.x);
 				}else{
-					a_new_item.OnChangeParentRectY(this.param.rect.y);
+					a_new_item.OnChangeRectY(this.param.rect.y);
 				}
 
 				this.SetItemWH(a_new_item);
@@ -608,7 +617,7 @@ namespace Fee.Ui
 
 		/** アイテム削除。インデックス指定。
 		*/
-		public ITEM RemoveItem(int a_index)
+		public ITEM RemoveItem(int a_index,bool a_call_ondelete)
 		{
 			if((0<=a_index)&&(a_index<this.list.Count)){
 				//削除。
@@ -620,6 +629,10 @@ namespace Fee.Ui
 				//[Scroll_Base]コールバック。リスト数変更。
 				this.OnChangeListCount();
 
+				if(a_call_ondelete == true){
+					t_item.OnDelete();
+				}
+
 				return t_item;
 			}
 			return null;
@@ -627,8 +640,14 @@ namespace Fee.Ui
 
 		/** 全アイテム削除。
 		*/
-		public void RemoveAllItem()
+		public void RemoveAllItem(bool a_call_ondelete)
 		{
+			if(a_call_ondelete == true){
+				for(int ii=0;ii<this.list.Count;ii++){
+					this.list[ii].OnDelete();
+				}
+			}
+
 			this.list.Clear();
 			this.param.scroll_value.RemoveAllItem();
 
@@ -730,9 +749,9 @@ namespace Fee.Ui
 
 		/** ドラッグスクロール。更新。
 		*/
-		public void DragScrollUpdate()
+		public void DragScrollUpdate(float a_eceleration)
 		{
-			this.param.scroll_drag.Main(this.param.is_onover);
+			this.param.scroll_drag.Main(this.param.is_onover,a_eceleration);
 		}
 	}
 }

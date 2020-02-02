@@ -255,7 +255,7 @@ namespace Fee.Ui
 				}else{
 					this.bar.SetVisible(this.param.visible_flag);
 
-					float t_offset_per = (float)this.param.scroll_value.GetViewPosition() / t_position_max;
+					float t_offset_per = (float)this.param.scroll_value.GetViewPositionInt() / t_position_max;
 					float t_length_per = (float)this.param.scroll_value.GetViewLength() / (this.param.scroll_value.GetItemLength() * this.param.scroll_value.GetListCount());
 
 					if(this.GetScrollType() == Scroll_Type.Vertical){

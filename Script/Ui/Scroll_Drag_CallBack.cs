@@ -21,11 +21,11 @@ namespace Fee.Ui
 	{
 		/** [Scroll_Drag_CallBack]コールバック。表示位置。取得。
 		*/
-		int GetViewPosition();
+		float GetViewPosition();
 
 		/** [Scroll_Drag_CallBack]コールバック。表示位置。設定。
 		*/
-		void SetViewPosition(int a_view_position);
+		void SetViewPosition(float a_view_position);
 
 		/** [Scroll_Drag_CallBack]コールバック。範囲チェック。
 		*/

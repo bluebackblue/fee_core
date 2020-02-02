@@ -18,28 +18,10 @@ namespace Fee.EditorTool
 	public class Utility
 	{
 		/** FindFeePath
-
-			return : アセットフォルダからの相対パス。
-
 		*/
 		public static Fee.File.Path FindFeePath()
 		{
-			Fee.File.Path t_path = null;
-
-			try{
-				Fee.File.Path t_directory = Fee.EditorTool.Utility.FindFile(new File.Path(),"fee_buildtarget");
-				string t_directory_name = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(t_directory.GetDirectoryPath() + "/"));
-				string t_root_directory_name = System.IO.Path.GetFullPath(Fee.File.Path.CreateAssetsPath().GetPath());
-				t_directory_name = t_directory_name.Substring(t_root_directory_name.Length + 1);
-
-				UnityEngine.Debug.Log("FindFeePath : " + t_directory_name);
-
-				t_path = new File.Path(t_directory_name);
-			}catch(System.Exception t_exception){
-				UnityEngine.Debug.LogError(t_exception.Message);
-			}
-
-			return t_path;
+			return Fee.EditorTool.Utility.FindFile(new File.Path(),new File.Path("fee_buildtarget")).CreateFileNameChangePath("",Fee.File.Path.SEPARATOR);
 		}
 
 		/** SavePrefab
@@ -50,7 +32,7 @@ namespace Fee.EditorTool
 		public static void SavePrefab(UnityEngine.GameObject a_prefab,Fee.File.Path a_assets_path)
 		{
 			try{
-				string t_path = "Assets/" + a_assets_path.GetPath();
+				string t_path = "Assets/" + a_assets_path.GetPathCutLastSeparator();
 
 				bool t_ret;
 				UnityEditor.PrefabUtility.SaveAsPrefabAsset(a_prefab,t_path,out t_ret);
@@ -68,14 +50,11 @@ namespace Fee.EditorTool
 		}
 
 		/** ExportPackage
-
-			a_assets_path	: アセットフォルダからの相対パス。
-
 		*/
 		public static void ExportPackage(Fee.File.Path a_assets_path,string a_package_name,UnityEditor.ExportPackageOptions a_option)
 		{
 			try{
-				string t_path = "Assets/" + a_assets_path.GetNormalizePath();
+				string t_path = "Assets/" + a_assets_path.GetPathCutLastSeparator();
 
 				UnityEngine.Debug.Log("ExportPackage : " + t_path + " : " + a_package_name);
 				UnityEditor.AssetDatabase.ExportPackage(t_path,a_package_name,a_option);
@@ -84,17 +63,21 @@ namespace Fee.EditorTool
 			}
 		}
 
-		/** ファイルを列挙。
-
-			a_assets_path	: アセットフォルダからの相対パス。
-
+		/** 指定パス直下のファイル名を列挙。
 		*/
 		public static System.Collections.Generic.List<string> CreateFileNameList(Fee.File.Path a_assets_path)
 		{
 			System.Collections.Generic.List<string> t_list = new System.Collections.Generic.List<string>();
 			{
 				try{
-					string[] t_fullpath_list = System.IO.Directory.GetFiles(Fee.File.Path.CreateAssetsPath().GetPath(),a_assets_path.GetNormalizePath() + "/",System.IO.SearchOption.TopDirectoryOnly);
+					string t_pattern = a_assets_path.GetPathCutLastSeparator();
+					if(t_pattern.Length == 0){
+						t_pattern = "*";
+					}else{
+						t_pattern += "/*";
+					}
+
+					string[] t_fullpath_list = System.IO.Directory.GetFiles(Fee.File.Path.CreateAssetsPath().GetPath(),t_pattern,System.IO.SearchOption.TopDirectoryOnly);
 					for(int ii=0;ii<t_fullpath_list.Length;ii++){
 						string t_name = System.IO.Path.GetFileName(t_fullpath_list[ii]);
 						if(t_name.Length > 0){
@@ -108,16 +91,20 @@ namespace Fee.EditorTool
 			return t_list;
 		}
 
-		/** ディレクトリを列挙。
-
-			a_assets_path	: アセットフォルダからの相対パス。
-
+		/** 指定パス直下のディレクトリ名を列挙。
 		*/
 		public static System.Collections.Generic.List<string> CreateDirectoryNameList(Fee.File.Path a_assets_path)
 		{
 			System.Collections.Generic.List<string> t_list = new System.Collections.Generic.List<string>();
 			{
-				string[] t_fullpath_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),a_assets_path.GetNormalizePath() + "/",System.IO.SearchOption.TopDirectoryOnly);
+				string t_pattern = a_assets_path.GetPathCutLastSeparator();
+				if(t_pattern.Length == 0){
+					t_pattern = "*";
+				}else{
+					t_pattern += "/*";
+				}
+
+				string[] t_fullpath_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),t_pattern,System.IO.SearchOption.TopDirectoryOnly);
 				for(int ii=0;ii<t_fullpath_list.Length;ii++){
 					string t_name = System.IO.Path.GetFileName(t_fullpath_list[ii]);
 					if(t_name.Length > 0){
@@ -128,10 +115,70 @@ namespace Fee.EditorTool
 			return t_list;
 		}
 
+		/** すべてのディレクトリの相対パスを列挙。
+		*/
+		public static System.Collections.Generic.List<Fee.File.Path> CreateAllDirectoryRelativePathList(Fee.File.Path a_assets_path)
+		{
+			System.Collections.Generic.List<Fee.File.Path> t_list = new System.Collections.Generic.List<Fee.File.Path>();
+			System.Collections.Generic.List<Fee.File.Path> t_work = new System.Collections.Generic.List<Fee.File.Path>();
+			{
+				t_work.Add(a_assets_path);
+				while(t_work.Count > 0){
+					Fee.File.Path t_path = t_work[t_work.Count - 1];
+					t_work.RemoveAt(t_work.Count - 1);
+
+					string t_pattern = t_path.GetPathCutLastSeparator();
+					if(t_pattern.Length == 0){
+						t_pattern = "*";
+					}else{
+						t_pattern += "/*";
+					}
+
+					string[] t_fullpath_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),t_pattern,System.IO.SearchOption.TopDirectoryOnly);
+
+					for(int ii=0;ii<t_fullpath_list.Length;ii++){
+						string t_name = System.IO.Path.GetFileName(t_fullpath_list[ii]);
+						if(t_name.Length > 0){
+							Fee.File.Path t_new_path = new File.Path(t_path,t_name,Fee.File.Path.SEPARATOR);
+							t_list.Add(t_new_path);
+							t_work.Add(t_new_path);
+						}
+					}
+				}
+			}
+			return t_list;
+		}
+
+		/** すべてのファイルの相対パスを列挙。
+		*/
+		public static System.Collections.Generic.List<Fee.File.Path> CreateAllFileRelativePathList(Fee.File.Path a_assets_path)
+		{
+			System.Collections.Generic.List<Fee.File.Path> t_list = new System.Collections.Generic.List<Fee.File.Path>();
+			{
+				System.Collections.Generic.List<Fee.File.Path> t_directory_list = CreateAllDirectoryRelativePathList(a_assets_path);
+				foreach(Fee.File.Path t_path in t_directory_list){
+					
+					string t_pattern = t_path.GetPathCutLastSeparator();
+					if(t_pattern.Length == 0){
+						t_pattern = "*";
+					}else{
+						t_pattern += "/*";
+					}
+					
+					string[] t_fullpath_list = System.IO.Directory.GetFiles(Fee.File.Path.CreateAssetsPath().GetPath(),t_pattern,System.IO.SearchOption.TopDirectoryOnly);
+
+					for(int ii=0;ii<t_fullpath_list.Length;ii++){
+						string t_name = System.IO.Path.GetFileName(t_fullpath_list[ii]);
+						if(t_name.Length > 0){
+							t_list.Add(new Fee.File.Path(t_path,t_name,Fee.File.Path.SEPARATOR));
+						}
+					}
+				}
+			}
+			return t_list;
+		}
+
 		/** アセットをロード。
-
-			a_assets_path	: アセットフォルダからの相対パス。
-
 		*/
 		public static UnityEngine.Object[] LoadAllAsset(Fee.File.Path a_assets_path)
 		{
@@ -148,9 +195,6 @@ namespace Fee.EditorTool
 		}
 
 		/** アセットをロード。
-
-			a_assets_path	: アセットフォルダからの相対パス。
-
 		*/
 		public static T LoadAsset< T >(Fee.File.Path a_assets_path)
 			where T : UnityEngine.Object
@@ -168,16 +212,13 @@ namespace Fee.EditorTool
 		}
 
 		/** ファイル存在チェック。
-
-			a_full_path : フルパス。
-
 		*/
-		public static bool IsExistFile(Fee.File.Path a_full_path)
+		public static bool IsExistFile(Fee.File.Path a_assets_path)
 		{
 			bool t_ret = false;
 
 			try{
-				t_ret = System.IO.File.Exists(a_full_path.GetPath());
+				t_ret = System.IO.File.Exists(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath());
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 				t_ret = false;
@@ -186,41 +227,31 @@ namespace Fee.EditorTool
 			return t_ret;
 		}
 
-		/** ファイル検索。
-
-			return == フルパス。
-
+		/** FindFile
 		*/
-		public static Fee.File.Path FindFile(Fee.File.Path a_assets_path,string a_find_name)
+		public static Fee.File.Path FindFile(Fee.File.Path a_assets_path,Fee.File.Path a_path)
 		{
-			string[] t_dir_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),a_assets_path.GetNormalizePath() + "/",System.IO.SearchOption.AllDirectories);
-			for(int ii=0;ii<t_dir_list.Length;ii++){
-				string[] t_file_list = System.IO.Directory.GetFiles(t_dir_list[ii],a_find_name,System.IO.SearchOption.TopDirectoryOnly);
-				if(t_file_list != null){
-					if(t_file_list.Length > 0){
-						UnityEngine.Debug.Log("FindFile : " + a_find_name + " : " + t_file_list[0]);
-						return new Fee.File.Path(t_file_list[0]);
-					}
+			System.Collections.Generic.List<Fee.File.Path> t_list = CreateAllFileRelativePathList(a_assets_path);
+			for(int ii=0;ii<t_list.Count;ii++){
+				if(t_list[ii].GetFileName() == a_path.GetFileName()){
+					return t_list[ii];
 				}
 			}
 			return null;
 		}
 
 		/** テキストファイル書き込み。
-
-			a_path : フルパス。
-
 		*/
-		public static void WriteTextFile(Fee.File.Path a_full_path,string a_text,bool a_refresh_unity)
+		public static void WriteTextFile(Fee.File.Path a_assets_path,string a_text,bool a_refresh_unity)
 		{
 			try{
-				using(System.IO.StreamWriter t_stream = new System.IO.StreamWriter(a_full_path.GetPath(),false,new System.Text.UTF8Encoding(false))){
+				using(System.IO.StreamWriter t_stream = new System.IO.StreamWriter(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath(),false,new System.Text.UTF8Encoding(false))){
 					t_stream.Write(a_text);
 					t_stream.Flush();
 					t_stream.Close();
 				}
 
-				UnityEngine.Debug.Log("WriteTextFile : " + a_full_path.GetPath());
+				UnityEngine.Debug.Log("WriteTextFile : " + a_assets_path.GetPath());
 
 				if(a_refresh_unity == true){
 					UnityEditor.AssetDatabase.Refresh();
@@ -231,22 +262,19 @@ namespace Fee.EditorTool
 		}
 
 		/** ＪＳＯＮファイル書き込み。
-
-			a_full_path : フルパス。
-
 		*/
-		public static void WriteJsonFile(Fee.File.Path a_full_path,Fee.JsonItem.JsonItem a_jsonitem,bool a_refresh)
+		public static void WriteJsonFile(Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem a_jsonitem,bool a_refresh)
 		{
 			try{
 				string t_json_string = a_jsonitem.ConvertToJsonString();
 
-				using(System.IO.StreamWriter t_steram = new System.IO.StreamWriter(a_full_path.GetPath(),false,new System.Text.UTF8Encoding(false))){
+				using(System.IO.StreamWriter t_steram = new System.IO.StreamWriter(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath(),false,new System.Text.UTF8Encoding(false))){
 					t_steram.Write(t_json_string);
 					t_steram.Flush();
 					t_steram.Close();
 				}
 
-				UnityEngine.Debug.Log("WriteJsonFile : " + a_full_path.GetPath());
+				UnityEngine.Debug.Log("WriteJsonFile : " + a_assets_path.GetPath());
 
 				if(a_refresh == true){
 					UnityEditor.AssetDatabase.Refresh();
@@ -257,21 +285,18 @@ namespace Fee.EditorTool
 		}
 
 		/** テキストファイル読み込み。
-
-			a_path : フルパス。
-
 		*/
-		public static string ReadTextFile(Fee.File.Path a_full_path)
+		public static string ReadTextFile(Fee.File.Path a_assets_path)
 		{
 			string t_string = null;
 
 			try{
-				using(System.IO.StreamReader t_stream = new System.IO.StreamReader(a_full_path.GetPath())){
+				using(System.IO.StreamReader t_stream = new System.IO.StreamReader(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath())){
 					t_string = t_stream.ReadToEnd();
 					t_stream.Close();
 				}
 
-				UnityEngine.Debug.Log("ReadTextFile : " + a_full_path.GetPath());
+				UnityEngine.Debug.Log("ReadTextFile : " + a_assets_path.GetPath());
 
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
@@ -281,20 +306,17 @@ namespace Fee.EditorTool
 		}
 
 		/** バイナリファイル書き込み。
-
-			a_full_path : フルパス。
-
 		*/
-		public static void WriteBinaryFile(Fee.File.Path a_full_path,byte[] a_binary,bool a_refresh)
+		public static void WriteBinaryFile(Fee.File.Path a_assets_path,byte[] a_binary,bool a_refresh)
 		{
 			try{
-				using(System.IO.BinaryWriter t_stream = new System.IO.BinaryWriter(System.IO.File.Open(a_full_path.GetPath(),System.IO.FileMode.Create))){
+				using(System.IO.BinaryWriter t_stream = new System.IO.BinaryWriter(System.IO.File.Open(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath(),System.IO.FileMode.Create))){
 					t_stream.Write(a_binary);
 					t_stream.Flush();
 					t_stream.Close();
 				}
 
-				UnityEngine.Debug.Log("WriteBinaryFile : " + a_full_path.GetPath());
+				UnityEngine.Debug.Log("WriteBinaryFile : " + a_assets_path.GetPath());
 
 				if(a_refresh == true){
 					UnityEditor.AssetDatabase.Refresh();
@@ -323,20 +345,27 @@ namespace Fee.EditorTool
 			return t_new_texture;
 		}
 
-		/** WebRequest
+		/** ＷＥＢリクエスト作成。
 		*/
-		public static UnityEngine.Networking.UnityWebRequest WebRequest(string a_uri,UnityEngine.Networking.CertificateHandler a_certificate)
+		public static UnityEngine.Networking.UnityWebRequest CreateWebRequest(Fee.File.Path a_uri_path,UnityEngine.Networking.CertificateHandler a_certificate)
 		{
-			UnityEngine.Networking.UnityWebRequest t_webrequest = UnityEngine.Networking.UnityWebRequest.Get(a_uri);
+			UnityEngine.Networking.UnityWebRequest t_webrequest = null;
 
-			if(a_certificate != null){
-				t_webrequest.certificateHandler = a_certificate;
-			}
+			try{
+				t_webrequest = UnityEngine.Networking.UnityWebRequest.Get(a_uri_path.GetPath());
 
-			UnityEngine.Networking.UnityWebRequestAsyncOperation t_async = t_webrequest.SendWebRequest();
+				if(a_certificate != null){
+					t_webrequest.certificateHandler = a_certificate;
+				}
 
-			while(t_async.isDone == false){
-				 System.Threading.Thread.Sleep(100);
+				UnityEngine.Networking.UnityWebRequestAsyncOperation t_async = t_webrequest.SendWebRequest();
+
+				while(t_async.isDone == false){
+					 System.Threading.Thread.Sleep(100);
+				}
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+				t_webrequest = null;
 			}
 
 			return t_webrequest;

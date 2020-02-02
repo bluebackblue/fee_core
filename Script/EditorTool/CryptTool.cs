@@ -19,7 +19,7 @@ namespace Fee.EditorTool
 	{
 		/** 鍵作成。
 		*/
-		public static void CreatePublicKeyPrivateKey(Fee.File.Path a_public_key,Fee.File.Path a_private_key)
+		public static void CreatePublicKeyPrivateKey(Fee.File.Path a_assets_path,Fee.File.Path a_private_key)
 		{
 			string t_public_key;
 			string t_private_key;
@@ -31,7 +31,7 @@ namespace Fee.EditorTool
 					Fee.JsonItem.JsonItem t_jsonitem_public = new Fee.JsonItem.JsonItem(new Fee.JsonItem.Value_StringData(t_public_key));
 					t_jsonitem.SetItem("public",t_jsonitem_public,false);
 
-					Utility.WriteJsonFile(a_public_key,t_jsonitem,true);
+					Utility.WriteJsonFile(a_assets_path,t_jsonitem,true);
 				}
 
 				//private

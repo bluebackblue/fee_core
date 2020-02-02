@@ -356,7 +356,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadStreamingAssetsBinaryFile()
 		{
 			//request_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_LoadUrlBinaryFile t_coroutine = new Coroutine_LoadUrlBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,null,null);
@@ -410,7 +410,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadStreamingAssetsTextFile()
 		{
 			//request_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_LoadUrlTextFile t_coroutine = new Coroutine_LoadUrlTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,null,null);
@@ -464,7 +464,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadStreamingAssetsTextureFile()
 		{
 			//request_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_LoadUrlTextureFile t_coroutine = new Coroutine_LoadUrlTextureFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,null,null);

@@ -59,9 +59,9 @@ namespace Fee.Excel
 
 		/** 開く。
 		*/
-		public bool ReadOpen(Fee.File.Path a_path)
+		public bool ReadOpen(Fee.File.Path a_assets_path)
 		{
-			this.raw_excel = Excel_ExcelDataReader_Tool.Open(a_path);
+			this.raw_excel = Excel_ExcelDataReader_Tool.Open(a_assets_path);
 			if(this.raw_excel == null){
 				return false;
 			}

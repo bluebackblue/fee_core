@@ -200,7 +200,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadLocalBinaryFile()
 		{
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_LoadLocalBinaryFile t_coroutine = new Coroutine_LoadLocalBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
@@ -252,7 +252,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadLocalTextFile()
 		{
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
@@ -304,7 +304,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadLocalTextureFile()
 		{
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_LoadLocalTextureFile t_coroutine = new Coroutine_LoadLocalTextureFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
@@ -356,7 +356,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoSaveLocalBinaryFile()
 		{
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_SaveLocalBinaryFile t_coroutine = new Coroutine_SaveLocalBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,this.request_binary);
@@ -407,7 +407,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoSaveLocalTextFile()
 		{
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_SaveLocalTextFile t_coroutine = new Coroutine_SaveLocalTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,this.request_text);
@@ -458,7 +458,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoSaveLocalTextureFile()
 		{
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateLocalPath(this.request_relative_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_SaveLocalTextureFile t_coroutine = new Coroutine_SaveLocalTextureFile();
 			yield return t_coroutine.CoroutineMain(this,t_path,this.request_texture);
@@ -509,7 +509,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadStreamingAssetsBinaryFile()
 		{
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_LoadLocalBinaryFile t_coroutine = new Coroutine_LoadLocalBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
@@ -561,7 +561,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadStreamingAssetsTextFile()
 		{
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
@@ -613,7 +613,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadStreamingAssetsTextureFile()
 		{
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateStreamingAssetsPath(this.request_relative_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_LoadLocalTextureFile t_coroutine = new Coroutine_LoadLocalTextureFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
@@ -823,7 +823,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadAssetsPathBinaryFile()
 		{
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath(this.request_relative_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_LoadLocalBinaryFile t_coroutine = new Coroutine_LoadLocalBinaryFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);
@@ -879,7 +879,7 @@ namespace Fee.File
 		private System.Collections.IEnumerator DoLoadAssetsPathTextFile()
 		{
 			//request_relative_pathは相対パス。
-			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath(this.request_relative_path);
+			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath(this.request_relative_path,Fee.File.Path.SEPARATOR);
 
 			Coroutine_LoadLocalTextFile t_coroutine = new Coroutine_LoadLocalTextFile();
 			yield return t_coroutine.CoroutineMain(this,t_path);

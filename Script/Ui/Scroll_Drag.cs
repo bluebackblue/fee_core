@@ -26,7 +26,7 @@ namespace Fee.Ui
 
 		/** ドラッグ開始時の表示位置。
 		*/
-		private int start_viewposition;
+		private float start_viewposition;
 
 		/** ドラッグ開始時のポイント位置。
 		*/
@@ -75,7 +75,7 @@ namespace Fee.Ui
 
 		/** 更新。
 		*/
-		public void Main(bool a_is_onover)
+		public void Main(bool a_is_onover,float a_eceleration)
 		{
 			if((this.flag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)&&(a_is_onover == true)){
 				Fee.Geometry.Pos2D<int> t_position = Fee.Input.Mouse.GetInstance().cursor.pos;
@@ -96,7 +96,7 @@ namespace Fee.Ui
 
 				//慣性。
 				int t_drag_new_pos =this.callback.GetScrollDirectionValue(in t_position);
-				this.speed = this.speed * 0.3f + (this.old_pos - t_drag_new_pos) * 0.7f;
+				this.speed = this.speed * 0.5f + (this.old_pos - t_drag_new_pos) * 0.5f;
 				this.old_pos = t_drag_new_pos;
 			}else if((this.flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){
 				//ドラッグ終了。
@@ -104,10 +104,9 @@ namespace Fee.Ui
 			}
 
 			if((this.flag == false)&&(this.speed != 0.0f)){
-				int t_move = (int)this.speed;
-				this.speed /= 1.08f;
-				if(t_move != 0){
-					this.callback.SetViewPosition(this.callback.GetViewPosition() + t_move);
+				this.speed *= a_eceleration;
+				if((this.speed * this.speed) >= 0.01f){
+					this.callback.SetViewPosition(this.callback.GetViewPosition() + this.speed);
 				}else{
 					this.speed = 0.0f;
 				}

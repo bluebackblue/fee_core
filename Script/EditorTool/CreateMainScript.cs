@@ -23,7 +23,7 @@ namespace Fee.EditorTool
 		[UnityEditor.MenuItem("Fee/Initialize/CreateMainScript")]
 		private static void MenuItem_CreateMainScript()
 		{
-			Fee.File.Path t_path = Fee.File.Path.CreateAssetsPath("Main.cs");
+			Fee.File.Path t_path = new Fee.File.Path("Main.cs");
 
 			//存在チェック。
 			if(Utility.IsExistFile(t_path) == true){
@@ -33,16 +33,23 @@ namespace Fee.EditorTool
 			//スクリプトテンプレートを読み込み。
 			string t_template_string = null;
 			{
-				Fee.File.Path t_fee_path = Fee.EditorTool.Utility.FindFeePath();
+				Fee.File.Path t_fee_path  = Fee.EditorTool.Utility.FindFeePath();
+				if(t_fee_path != null){
 
-				Fee.File.Path t_fullpath_temp = Utility.FindFile(t_fee_path,"Main.temp.cs");
-				if(t_fullpath_temp != null){
-					t_template_string = Utility.ReadTextFile(t_fullpath_temp);
-				}
-				if(t_template_string != null){
-					t_template_string = t_template_string.Replace("USE_DEF_FEE_TEMP","true");
+					Fee.File.Path t_template_path = Utility.FindFile(t_fee_path,new File.Path("Main.temp.cs"));
+					if(t_template_path != null){
+						t_template_string = Utility.ReadTextFile(t_template_path);
+					}else{
+						UnityEngine.Debug.LogError("Not Found : Main.temp.cs");
+					}
+
+					if(t_template_string != null){
+						t_template_string = t_template_string.Replace("USE_DEF_FEE_TEMP","true");
+					}else{
+						UnityEngine.Debug.LogError("Read Error : Main.temp.cs");
+					}
 				}else{
-					return;
+					UnityEngine.Debug.LogError("Not Found : fee_buildtarget");
 				}
 			}
 

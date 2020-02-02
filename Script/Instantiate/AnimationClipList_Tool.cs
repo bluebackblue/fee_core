@@ -1,4 +1,4 @@
-﻿
+
 
 /**
  * Copyright (c) blueback
@@ -80,7 +80,7 @@ namespace Fee.Instantiate
 
 		/** FindItem
 		*/
-		private class FindItem
+		public class FindItem
 		{
 			/** path
 			*/
@@ -100,32 +100,6 @@ namespace Fee.Instantiate
 				//animationclip
 				this.animationclip = a_animationclip;
 			}
-		}
-
-		/** 作成。
-
-			全部追加する。
-
-		*/
-		public static UnityEngine.GameObject Create(Fee.File.Path a_output_assets_path,ResourceItem_Directory[] a_resource_list)
-		{
-			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
-			t_prefab.name = "prefab_temp";
-			try{
-				//追加。
-				Add(t_prefab,a_resource_list);
-
-				//新規作成。
-				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_assets_path);
-			}catch(System.Exception t_exception){
-				UnityEngine.Debug.LogError(t_exception.Message);
-			}
-			UnityEngine.GameObject.DestroyImmediate(t_prefab);
-
-			//ロード。
-			UnityEngine.GameObject t_gameobject = Fee.EditorTool.Utility.LoadAsset<UnityEngine.GameObject>(a_output_assets_path);
-			Tool.Assert(t_gameobject != null);
-			return t_gameobject;
 		}
 
 		/** 作成。
@@ -150,42 +124,6 @@ namespace Fee.Instantiate
 			UnityEngine.GameObject t_gameobject = Fee.EditorTool.Utility.LoadAsset<UnityEngine.GameObject>(a_output_assets_path);
 			Tool.Assert(t_gameobject != null);
 			return t_gameobject;
-		}
-
-		/** 追加。
-
-			全部追加する。
-
-		*/
-		public static UnityEngine.GameObject Add(UnityEngine.GameObject a_prefab,ResourceItem_Directory[] a_resource_list)
-		{
-			try{
-				//animationclip_list
-				AnimationClipList_MonoBehaviour t_animationclip_list = a_prefab.AddComponent<AnimationClipList_MonoBehaviour>();
-
-				System.Collections.Generic.List<System.Tuple<string,FindItem>> t_list = new System.Collections.Generic.List<System.Tuple<string,FindItem>>();
-
-				foreach(ResourceItem_Directory t_resouce_item in a_resource_list){
-					System.Collections.Generic.List<FindItem> t_list_find = new System.Collections.Generic.List<FindItem>();
-					AnimationClipList_Tool.FindAnimationClip_Directory(t_resouce_item.path,t_list_find);
-					foreach(FindItem t_finditem in t_list_find){
-						//タグの自動生成。
-						string t_tag = t_resouce_item.prefix + ":" + t_finditem.path.GetFileName() + ":" + t_finditem.animationclip.name;
-						t_list.Add(new System.Tuple<string,FindItem>(t_tag,t_finditem));
-					}
-				}
-
-				t_animationclip_list.tag_list = new string[t_list.Count];
-				t_animationclip_list.animationclip_list = new UnityEngine.AnimationClip[t_list.Count];
-				for(int ii=0;ii<t_animationclip_list.animationclip_list.Length;ii++){
-					t_animationclip_list.tag_list[ii] = t_list[ii].Item1;
-					t_animationclip_list.animationclip_list[ii] = t_list[ii].Item2.animationclip;
-				}
-			}catch(System.Exception t_exception){
-				UnityEngine.Debug.LogError(t_exception.Message);
-			}
-
-			return a_prefab;
 		}
 
 		/** 追加。
@@ -227,21 +165,6 @@ namespace Fee.Instantiate
 
 		/** FindAnimationClip
 		*/
-		private static void FindAnimationClip_Directory(Fee.File.Path a_path,System.Collections.Generic.List<FindItem> a_out_list)
-		{
-			//ディレクトリ内のファイルを列挙。
-			System.Collections.Generic.List<string> t_name_list = Fee.EditorTool.Utility.CreateFileNameList(a_path);
-
-			foreach(string t_file_name_item in t_name_list){
-				if(System.Text.RegularExpressions.Regex.IsMatch(t_file_name_item,"^.*\\.(fbx)$") == true){
-					FindAnimationClip(new File.Path(a_path.GetNormalizePath() + "/" + t_file_name_item),a_out_list);
-				}
-			}
-
-		}
-
-		/** FindAnimationClip
-		*/
 		private static void FindAnimationClip(Fee.File.Path a_path,System.Collections.Generic.List<FindItem> a_out_list)
 		{
 			UnityEngine.Object[] t_object_list = Fee.EditorTool.Utility.LoadAllAsset(a_path);
@@ -253,6 +176,20 @@ namespace Fee.Instantiate
 					}else{
 						a_out_list.Add(new FindItem(a_path,t_animationclip));
 					}
+				}
+			}
+		}
+
+		/** アニメーションを列挙する。
+		*/
+		public static void ListUpAnimationClip(Fee.File.Path a_assets_path,System.Collections.Generic.List<FindItem> a_out_list)
+		{
+			//ディレクトリ内のファイルを列挙。
+			System.Collections.Generic.List<Fee.File.Path> t_list = Fee.EditorTool.Utility.CreateAllFileRelativePathList(a_assets_path);
+
+			foreach(Fee.File.Path t_path in t_list){
+				if(System.Text.RegularExpressions.Regex.IsMatch(t_path.GetPath(),"^.*\\.(fbx)$") == true){
+					FindAnimationClip(t_path,a_out_list);
 				}
 			}
 		}
