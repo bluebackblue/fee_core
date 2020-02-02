@@ -163,7 +163,11 @@ namespace Fee.AssetBundleList
 		*/
 		public string GetResultErrorString()
 		{
-			return this.result_errorstring;
+			if(this.result_errorstring != null){
+				return this.result_errorstring;
+			}else{
+				return "";
+			}
 		}
 
 		/** 結果。レスポンスヘッダー。設定。

@@ -62,10 +62,6 @@ namespace Fee.Ui
 			}
 		}
 
-		/** フォーカス。
-		*/
-		private Focus focus;
-
 		/** ウィンドウリスト。
 		*/
 		private Ui_WindowList windowlist;
@@ -98,9 +94,6 @@ namespace Fee.Ui
 		*/
 		private Ui()
 		{
-			//フォーカス。
-			this.focus = new Focus();
-
 			//ウィンドウリスト。
 			this.windowlist = new Ui_WindowList();
 
@@ -142,9 +135,6 @@ namespace Fee.Ui
 		public void Main()
 		{
 			try{
-				//フォーカス。
-				this.focus.Main();
-
 				//ウィンドウリスト。
 				this.windowlist.Main();
 

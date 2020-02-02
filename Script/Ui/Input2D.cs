@@ -1,4 +1,4 @@
-﻿
+
 
 /**
  * Copyright (c) blueback
@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Input2D
 	*/
-	public class Input2D : Fee.Deleter.OnDelete_CallBackInterface , Fee.Pool.PoolItem_Base
+	public class Input2D : Fee.Deleter.OnDelete_CallBackInterface , Fee.Pool.PoolItem_Base , Fee.Focus.FocusItem_Base
 	{
 		/** inputfield
 		*/
@@ -45,10 +45,36 @@ namespace Fee.Ui
 		}
 
 		/** コールバックインターフェイス。設定。
+
+			Fee.Focus.FocusGroupeを指定する。
+			フォーカス変更時に呼び出すコールバック。
+			Fee.Focus.Mainから呼び出される。
+
 		*/
-		public void SetOnFocusCheck<T>(Fee.Ui.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
+		public void SetOnFocusCheck<T>(Fee.Focus.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
 		{
 			this.inputfield.SetOnFocusCheck(a_callback_interface,a_id);
+		}
+
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
+		*/
+		public void SetFocus(bool a_flag)
+		{
+			this.inputfield.SetFocus(a_flag);
+		}
+
+		/** [Fee.Focus.FocusItem_Base]フォーカス。チェック。
+		*/
+		public bool IsFocus()
+		{
+			return this.inputfield.IsFocus();
+		}
+
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。OnFocusCheckを呼び出す。
+		*/
+		public void SetFocusCallOnFocusCheck(bool a_flag)
+		{
+			this.inputfield.SetFocusCallOnFocusCheck(a_flag);
 		}
 
 		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。
@@ -63,30 +89,6 @@ namespace Fee.Ui
 		*/
 		public void OnPoolItemDeleteFromMemory()
 		{
-		}
-
-		/** フォーカス。取得。
-		*/
-		public bool IsFocus()
-		{
-			return this.inputfield.IsFocus();
-		}
-
-		/** フォーカス。設定。
-		*/
-		public void SetFocus(bool a_flag)
-		{
-			this.inputfield.SetFocus(a_flag);
-		}
-
-		/** フォーカス。設定。
-
-			OnFocusCheckを呼び出す。
-
-		*/
-		public void SetFocusCallOnFocusCheck(bool a_flag)
-		{
-			this.inputfield.SetFocusCallOnFocusCheck(a_flag);
 		}
 
 		/** クリップ。設定。

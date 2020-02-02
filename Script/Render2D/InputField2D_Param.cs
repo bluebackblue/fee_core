@@ -40,7 +40,7 @@ namespace Fee.Render2D
 		/** raw
 		*/
 		private UnityEngine.GameObject raw_gameobject;
-		private Fee.Ui.Focus_MonoBehaviour raw_focus_monobehaviour;
+		private Fee.Focus.Focus_MonoBehaviour raw_focus_monobehaviour;
 		private UnityEngine.Transform raw_transform;
 		private UnityEngine.UI.InputField raw_inputfield;
 		private UnityEngine.RectTransform raw_recttransform;
@@ -56,7 +56,7 @@ namespace Fee.Render2D
 		{
 			//raw
 			this.raw_gameobject = Fee.Instantiate.Instantiate.CreateUiInputField("InputField",Fee.Render2D.Render2D.GetInstance().GetRootTransform());
-			this.raw_focus_monobehaviour = this.raw_gameobject.AddComponent<Fee.Ui.Focus_MonoBehaviour>();
+			this.raw_focus_monobehaviour = this.raw_gameobject.AddComponent<Fee.Focus.Focus_MonoBehaviour>();
 			this.raw_transform = this.raw_gameobject.GetComponent<UnityEngine.Transform>();
 			this.raw_inputfield = this.raw_gameobject.GetComponent<UnityEngine.UI.InputField>();
 			this.raw_recttransform = this.raw_gameobject.GetComponent<UnityEngine.RectTransform>();
@@ -136,25 +136,16 @@ namespace Fee.Render2D
 		}
 
 		/** コールバックインターフェイス。設定。
+
+			フォーカス変更時にFee.Focus.Mainから呼び出すコールバック。
+
 		*/
-		public void SetOnFocusCheck<T>(Fee.Ui.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
+		public void SetOnFocusCheck<T>(Fee.Focus.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
 		{
 			this.raw_focus_monobehaviour.SetOnFocusCheck(a_callback_interface,a_id);
 		}
 
-		/** フォーカス。取得。
-		*/
-		public bool IsFocus()
-		{
-			if(UnityEngine.EventSystems.EventSystem.current != null){
-				if(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == this.raw_gameobject){
-					return true;
-				}
-			}
-			return false;
-		}
-
-		/** フォーカス。設定。
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
 		*/
 		public void SetFocus(bool a_flag)
 		{
@@ -172,10 +163,19 @@ namespace Fee.Render2D
 			}
 		}
 
-		/** フォーカス。設定。
+		/** [Fee.Focus.FocusItem_Base]フォーカス。チェック。
+		*/
+		public bool IsFocus()
+		{
+			if(UnityEngine.EventSystems.EventSystem.current != null){
+				if(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject == this.raw_gameobject){
+					return true;
+				}
+			}
+			return false;
+		}
 
-			OnFocusCheckを呼び出す。
-
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。OnFocusCheckを呼び出す。
 		*/
 		public void SetFocusCallOnFocusCheck(bool a_flag)
 		{

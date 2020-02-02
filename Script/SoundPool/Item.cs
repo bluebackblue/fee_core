@@ -135,7 +135,11 @@ namespace Fee.SoundPool
 		*/
 		public string GetResultErrorString()
 		{
-			return this.result_errorstring;
+			if(this.result_errorstring != null){
+				return this.result_errorstring;
+			}else{
+				return "";
+			}
 		}
 
 		/** 結果。サウンドプール。設定。

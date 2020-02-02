@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Button_Base
 	*/
-	public abstract class Button_Base : Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface
+	public abstract class Button_Base : Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface , Fee.Focus.FocusItem_Base
 	{
 		/** 矩形。
 		*/
@@ -42,7 +42,7 @@ namespace Fee.Ui
 
 		/** callbackparam_focuscheck
 		*/
-		protected Fee.Ui.OnFocusCheck_CallBackParam callbackparam_focuscheck;
+		protected Fee.Focus.OnFocusCheck_CallBackParam callbackparam_focuscheck;
 
 		/** is_onover
 		*/
@@ -196,14 +196,7 @@ namespace Fee.Ui
 		*/
 		protected abstract void OnChangeDrawPriority();
 
-		/** フォーカス。取得。
-		*/
-		public bool IsFocus()
-		{
-			return this.focus_flag;
-		}
-
-		/** フォーカス。設定。
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
 		*/
 		public void SetFocus(bool a_flag)
 		{
@@ -222,10 +215,14 @@ namespace Fee.Ui
 			}
 		}
 
-		/** フォーカス。設定。
+		/** [Fee.Focus.FocusItem_Base]フォーカス。チェック。
+		*/
+		public bool IsFocus()
+		{
+			return this.focus_flag;
+		}
 
-			OnFocusCheckを呼び出す。
-
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。OnFocusCheckを呼び出す。
 		*/
 		public void SetFocusCallOnFocusCheck(bool a_flag)
 		{
@@ -520,10 +517,14 @@ namespace Fee.Ui
 		}
 
 		/** コールバックインターフェイス。設定。
+
+			Fee.Focus.FocusGroupeを指定する。
+			フォーカス変更時に呼び出すコールバック。
+
 		*/
-		public void SetOnFocusCheck<T>(Fee.Ui.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
+		public void SetOnFocusCheck<T>(Fee.Focus.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
 		{
-			this.callbackparam_focuscheck = new Fee.Ui.OnFocusCheck_CallBackParam_Generic<T>(a_callback_interface,a_id);
+			this.callbackparam_focuscheck = new Fee.Focus.OnFocusCheck_CallBackParam_Generic<T>(a_callback_interface,a_id);
 		}
 
 		/** オンオーバー。取得。

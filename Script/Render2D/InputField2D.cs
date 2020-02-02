@@ -14,7 +14,7 @@ namespace Fee.Render2D
 {
 	/** InputField2D
 	*/
-	public class InputField2D : Fee.Deleter.OnDelete_CallBackInterface , Fee.Pool.PoolItem_Base
+	public class InputField2D : Fee.Deleter.OnDelete_CallBackInterface , Fee.Pool.PoolItem_Base , Fee.Focus.FocusItem_Base
 	{
 		/** 表示フラグ。
 		*/
@@ -134,30 +134,32 @@ namespace Fee.Render2D
 		}
 
 		/** コールバックインターフェイス。設定。
+
+			Fee.Focus.FocusGroupeを指定する。
+			フォーカス変更時に呼び出すコールバック。
+			Fee.Focus.Mainから呼び出される。
+
 		*/
-		public void SetOnFocusCheck<T>(Fee.Ui.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
+		public void SetOnFocusCheck<T>(Fee.Focus.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
 		{
 			this.param.SetOnFocusCheck(a_callback_interface,a_id);
 		}
 
-		/** フォーカス。取得。
-		*/
-		public bool IsFocus()
-		{
-			return this.param.IsFocus();
-		}
-
-		/** フォーカス。設定。
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
 		*/
 		public void SetFocus(bool a_flag)
 		{
 			this.param.SetFocus(a_flag);
 		}
 
-		/** フォーカス。設定。
+		/** [Fee.Focus.FocusItem_Base]フォーカス。チェック。
+		*/
+		public bool IsFocus()
+		{
+			return this.param.IsFocus();
+		}
 
-			OnFocusCheckを呼び出す。
-
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。OnFocusCheckを呼び出す。
 		*/
 		public void SetFocusCallOnFocusCheck(bool a_flag)
 		{

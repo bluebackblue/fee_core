@@ -1,16 +1,16 @@
-﻿
+
 
 /**
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ＵＩ。コールバックインターフェイス。
+ * @brief フォーカス。コールバックインターフェイス。
 */
 
 
-/** Fee.Ui
+/** Fee.Focus
 */
-namespace Fee.Ui
+namespace Fee.Focus
 {
 	/** OnFocusCheck_CallBackInterface
 	*/
