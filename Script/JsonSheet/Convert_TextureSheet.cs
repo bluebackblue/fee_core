@@ -92,7 +92,10 @@ namespace Fee.JsonSheet
 							t_texture_list[ii] = new Instantiate.TextureList_Tool.ResourceItem(t_tag_list[ii],t_path_list[ii]);
 						}
 
-						Fee.Instantiate.TextureList_Tool.Create(a_assets_path,t_texture_list);
+						UnityEngine.GameObject t_prefab = new UnityEngine.GameObject("prefab_temp");
+						Fee.Instantiate.TextureList_Tool.Add(t_prefab,t_texture_list);
+						Fee.EditorTool.Utility.SavePrefab(t_prefab,a_assets_path);
+						UnityEngine.GameObject.DestroyImmediate(t_prefab);
 					}
 				}else{
 					Tool.Assert(false);

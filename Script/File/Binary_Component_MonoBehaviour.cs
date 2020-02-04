@@ -29,8 +29,7 @@ namespace Fee.File
 		#if(UNITY_EDITOR)
 		public static void CreatePrefab(Fee.File.Path a_assets_path,byte[] a_binary)
 		{
-			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
-			t_prefab.name = "prefab_temp";
+			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject("prefab_temp");
 			{
 				//バイナリコンポーネント追加。
 				Binary_Component_MonoBehaviour t_binary = t_prefab.AddComponent<Binary_Component_MonoBehaviour>();

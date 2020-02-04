@@ -92,7 +92,10 @@ namespace Fee.JsonSheet
 							t_textasset_list[ii] = new Instantiate.TextAssetList_Tool.ResourceItem(t_tag_list[ii],t_path_list[ii]);
 						}
 
-						Fee.Instantiate.TextAssetList_Tool.Create(a_assets_path,t_textasset_list);
+						UnityEngine.GameObject t_prefab = new UnityEngine.GameObject("prefab_temp");
+						Fee.Instantiate.TextAssetList_Tool.Add(t_prefab,t_textasset_list);
+						Fee.EditorTool.Utility.SavePrefab(t_prefab,a_assets_path);
+						UnityEngine.GameObject.DestroyImmediate(t_prefab);
 					}
 				}else{
 					Tool.Assert(false);

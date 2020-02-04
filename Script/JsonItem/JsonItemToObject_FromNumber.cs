@@ -99,6 +99,36 @@ namespace Fee.JsonItem
 						a_to_ref_object = a_from_jsonitem.CastToDecimal();
 						return;
 					}break;
+				case "System." + nameof(System.String):
+					{
+						switch(a_from_jsonitem.GetValueType()){
+						case ValueType.SignedNumber:
+							{
+								a_to_ref_object = a_from_jsonitem.GetSignedNumber().ToString();
+								return;
+							}break;
+						case ValueType.UnsignedNumber:
+							{
+								a_to_ref_object = a_from_jsonitem.GetUnsignedNumber().ToString();
+								return;
+							}break;
+						case ValueType.FloatingNumber:
+							{
+								a_to_ref_object = a_from_jsonitem.GetFloatingNumber().ToString();
+								return;
+							}break;
+						case ValueType.DecimalNumber:
+							{
+								a_to_ref_object = a_from_jsonitem.GetDecimalNumber().ToString();
+								return;
+							}break;
+						case ValueType.BoolData:
+							{
+								a_to_ref_object = a_from_jsonitem.GetBoolData().ToString();
+								return;
+							}break;
+						}
+					}break;
 				default:
 					{
 						if(a_to_type.IsEnum == true){

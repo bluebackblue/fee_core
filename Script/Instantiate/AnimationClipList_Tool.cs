@@ -102,30 +102,6 @@ namespace Fee.Instantiate
 			}
 		}
 
-		/** 作成。
-
-			指定したものを追加する。
-
-		*/
-		public static UnityEngine.GameObject Create(Fee.File.Path a_output_assets_path,ResourceItem[] a_resource_list)
-		{
-			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject();
-			t_prefab.name = "prefab_temp";
-			{
-				//追加。
-				Add(t_prefab,a_resource_list);
-
-				//新規作成。
-				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_output_assets_path);
-			}
-			UnityEngine.GameObject.DestroyImmediate(t_prefab);
-
-			//ロード。
-			UnityEngine.GameObject t_gameobject = Fee.EditorTool.Utility.LoadAsset<UnityEngine.GameObject>(a_output_assets_path);
-			Tool.Assert(t_gameobject != null);
-			return t_gameobject;
-		}
-
 		/** 追加。
 
 			指定したものを追加する。

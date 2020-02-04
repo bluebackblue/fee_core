@@ -92,7 +92,10 @@ namespace Fee.JsonSheet
 							t_video_list[ii] = new Instantiate.VideoClipList_Tool.ResourceItem(t_tag_list[ii],t_path_list[ii]);
 						}
 
-						Fee.Instantiate.VideoClipList_Tool.Create(a_assets_path,t_video_list);
+						UnityEngine.GameObject t_prefab = new UnityEngine.GameObject("prefab_temp");
+						Fee.Instantiate.VideoClipList_Tool.Add(t_prefab,t_video_list);
+						Fee.EditorTool.Utility.SavePrefab(t_prefab,a_assets_path);
+						UnityEngine.GameObject.DestroyImmediate(t_prefab);
 					}
 				}else{
 					Tool.Assert(false);

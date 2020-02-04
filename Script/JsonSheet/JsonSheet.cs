@@ -138,6 +138,11 @@ namespace Fee.JsonSheet
 						//アニメーションシート。
 						Convert_AnimationSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
+				case Convert_MaterialSheet.COMMAND:
+					{
+						//マテリアルシート。
+						Convert_MaterialSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+					}break;
 				default:
 					{
 						Tool.Assert(false);
