@@ -20,9 +20,9 @@ namespace Fee.Mirror
 		*/
 		public UnityEngine.GameObject raw_gameobjet;
 
-		/** rendertexture
+		/** raw_rendertexture
 		*/
-		public UnityEngine.RenderTexture rendertexture;
+		public UnityEngine.RenderTexture raw_rendertexture;
 
 		/** raw_camera
 		*/
@@ -32,6 +32,10 @@ namespace Fee.Mirror
 		*/
 		public UnityEngine.Camera target_camera;
 
+		/** target_transform
+		*/
+		public UnityEngine.Transform target_transform;
+
 		/** plane
 		*/
 		public UnityEngine.Vector4 plane;
@@ -40,30 +44,51 @@ namespace Fee.Mirror
 		*/
 		public UnityEngine.Matrix4x4 matrix;
 
-		/** init
+		/** 反転マトリックス。
 		*/
-		public int init;
+		public UnityEngine.Matrix4x4 matrix_rotate;
+
+		/** plane_quaternion
+		*/
+		public UnityEngine.Quaternion plane_quaternion;
+
+		/** plane_position
+		*/
+		public UnityEngine.Vector3 plane_position;
+
+		/** plane_offset
+		*/
+		public float plane_offset;
 
 		/** GetRenderTexture
 		*/
 		public UnityEngine.RenderTexture GetRenderTexture()
 		{
-			return this.rendertexture;
+			return this.raw_rendertexture;
 		}
 
-		/** SetTarget
+		/** SetTargetCamera
 		*/
-		public void SetTarget(UnityEngine.Camera a_camera)
+		public void SetTargetCamera(UnityEngine.Camera a_camera)
 		{
 			this.target_camera = a_camera;
+			this.target_transform = a_camera.GetComponent<UnityEngine.Transform>();
 		}
 
 		/** ミラーの法線、位置。設定。
 		*/
-		public void SetMirrorPlane(UnityEngine.Vector3 a_normal,UnityEngine.Vector3 a_position)
+		public void SetMirrorPlane(UnityEngine.Quaternion a_quaternion,UnityEngine.Vector3 a_position)
 		{
-			float t_distance = -UnityEngine.Vector3.Dot(a_normal,a_position);
-			this.plane = new UnityEngine.Vector4(a_normal.x,a_normal.y,a_normal.z,t_distance);
+			//plane_quaternion
+			this.plane_quaternion = a_quaternion;
+
+			//plane_position
+			this.plane_position = a_position;
+
+			UnityEngine.Vector3 t_plane_normal = this.plane_quaternion * UnityEngine.Vector3.up;
+
+			float t_distance = -UnityEngine.Vector3.Dot(t_plane_normal,this.plane_position) - this.plane_offset;
+			this.plane = new UnityEngine.Vector4(t_plane_normal.x,t_plane_normal.y,t_plane_normal.z,t_distance);
 
 			this.matrix.m00 = (1.0f - 2.0f * this.plane[0] * this.plane[0]);
 			this.matrix.m01 = (     - 2.0f * this.plane[0] * this.plane[1]);
@@ -81,6 +106,23 @@ namespace Fee.Mirror
 			this.matrix.m31 = 0.0f;
 			this.matrix.m32 = 0.0f;
 			this.matrix.m33 = 1.0f;
+
+			this.matrix_rotate.m00 = this.matrix.m00;
+			this.matrix_rotate.m01 = this.matrix.m01;
+			this.matrix_rotate.m02 = this.matrix.m02;
+			this.matrix_rotate.m03 = 0.0f;
+			this.matrix_rotate.m10 = this.matrix.m10;
+			this.matrix_rotate.m11 = this.matrix.m11;
+			this.matrix_rotate.m12 = this.matrix.m12;
+			this.matrix_rotate.m13 = 0.0f;
+			this.matrix_rotate.m20 = this.matrix.m20;
+			this.matrix_rotate.m21 = this.matrix.m21;
+			this.matrix_rotate.m22 = this.matrix.m22;
+			this.matrix_rotate.m23 = 0.0f;
+ 			this.matrix_rotate.m30 = 0.0f;
+			this.matrix_rotate.m31 = 0.0f;
+			this.matrix_rotate.m32 = 0.0f;
+			this.matrix_rotate.m33 = 1.0f;
 		}
 
 		/** Delete
@@ -91,64 +133,55 @@ namespace Fee.Mirror
 			
 			this.raw_camera.targetTexture = null;
 
-			if(this.rendertexture != null){
-				UnityEngine.GameObject.DestroyImmediate(this.rendertexture);
-				this.rendertexture = null;
+			if(this.raw_rendertexture != null){
+				UnityEngine.GameObject.DestroyImmediate(this.raw_rendertexture);
+				this.raw_rendertexture = null;
 			}
 		}
 
-		/** Awake
+		/** RenderFromOnWillRenderObject
 		*/
-		private void Awake()
+		public void RenderFromOnWillRenderObject()
 		{
-			this.init = 1;
-		}
-
-		/** OnPreRender
-
-			OnPreRenderはカメラがシーンのレンダリングを始める前に呼び出されます。
-
-		*/
-		private void OnPreRender()
-		{
-			UnityEngine.GL.invertCulling = true;
-
 			//worldToCameraMatrix
 			this.raw_camera.worldToCameraMatrix = this.target_camera.worldToCameraMatrix * this.matrix;
 
-			//position
-			this.raw_camera.transform.position = this.matrix * this.target_camera.transform.position;
-
-			{
-				UnityEngine.Vector3 t_euler_angle = this.target_camera.transform.eulerAngles;
-				this.raw_camera.transform.eulerAngles = new UnityEngine.Vector3(0,t_euler_angle.y,t_euler_angle.z);
-			}
-
-			if(this.init > 0){
-				this.init--;
-				return;
-			}
-
 			//projectionMatrix
 			{
-				UnityEngine.Matrix4x4 t_matrix = this.raw_camera.worldToCameraMatrix;
+				UnityEngine.Matrix4x4 t_mirror_camera_matrix = this.raw_camera.worldToCameraMatrix;
 				UnityEngine.Vector4 t_mirror_clip_plane;
 				{
-					UnityEngine.Vector3 t_mirror_position = t_matrix.MultiplyPoint(new UnityEngine.Vector3(this.plane.x,plane.y,plane.z) * this.plane.z);
-					UnityEngine.Vector3 t_mirror_normal = t_matrix.MultiplyVector(new UnityEngine.Vector3(this.plane.x,this.plane.y,this.plane.z)).normalized;
-					t_mirror_clip_plane  = new UnityEngine.Vector4(t_mirror_normal.x,t_mirror_normal.y,t_mirror_normal.z,-UnityEngine.Vector3.Dot(t_mirror_position,t_mirror_normal));
+					UnityEngine.Vector3 t_pos = new UnityEngine.Vector3(this.plane.x,plane.y,plane.z) * (this.plane_offset - this.plane.w);
+					UnityEngine.Vector3 t_mirror_position = t_mirror_camera_matrix.MultiplyPoint(t_pos);
+					UnityEngine.Vector3 t_mirror_normal = t_mirror_camera_matrix.MultiplyVector(new UnityEngine.Vector3(this.plane.x,this.plane.y,this.plane.z)).normalized;
+					t_mirror_clip_plane = new UnityEngine.Vector4(t_mirror_normal.x,t_mirror_normal.y,t_mirror_normal.z,-UnityEngine.Vector3.Dot(t_mirror_position,t_mirror_normal));
 				}
 				this.raw_camera.projectionMatrix = this.target_camera.CalculateObliqueMatrix(t_mirror_clip_plane);
 			}
-		}
 
-		/** OnPostRender
+			//position
+			{
+				this.raw_camera.transform.position = this.matrix.MultiplyPoint(this.target_transform.position);
+			}
 
-			OnPostRenderはカメラがシーンのレンダリングを完了した後に呼び出されます。
+			//eulerAngles
+			{
+				UnityEngine.Vector3 t_up = this.matrix_rotate.MultiplyPoint(this.target_transform.up).normalized;
+				UnityEngine.Vector3 t_forward = this.matrix_rotate.MultiplyPoint(this.target_transform.forward).normalized;
+				UnityEngine.Vector3 t_right = UnityEngine.Vector3.Cross(t_up,t_forward);
 
-		*/
-		private void OnPostRender()
-		{
+				UnityEngine.Matrix4x4 t_matrix = new UnityEngine.Matrix4x4(
+					new UnityEngine.Vector4(t_right.x,t_right.y,t_right.z,0.0f),
+					new UnityEngine.Vector4(t_up.x,t_up.y,t_up.z,0.0f),
+					new UnityEngine.Vector4(t_forward.x,t_forward.y,t_forward.z,0.0f),
+					new UnityEngine.Vector4(0.0f,0.0f,0.0f,1.0f)
+				);
+
+				this.raw_camera.transform.rotation = t_matrix.rotation;
+			}
+
+			UnityEngine.GL.invertCulling = true;
+			this.raw_camera.Render();
 			UnityEngine.GL.invertCulling = false;
 		}
 
@@ -193,16 +226,20 @@ namespace Fee.Mirror
 							}break;
 						}
 
-						t_this.rendertexture = new UnityEngine.RenderTexture(t_size,t_size,16,UnityEngine.RenderTextureFormat.ARGB32);
-						t_this.rendertexture.isPowerOfTwo = true;
+						t_this.raw_rendertexture = new UnityEngine.RenderTexture(t_size,t_size,16,UnityEngine.RenderTextureFormat.ARGB32);
+						t_this.raw_rendertexture.isPowerOfTwo = true;
 					}
 
 					//raw_camera
 					{
 						t_this.raw_camera = t_gameobject.AddComponent<UnityEngine.Camera>();
 						t_this.raw_camera.Reset();
-						t_this.raw_camera.SetTargetBuffers(t_this.rendertexture.colorBuffer,t_this.rendertexture.depthBuffer);
+						t_this.raw_camera.SetTargetBuffers(t_this.raw_rendertexture.colorBuffer,t_this.raw_rendertexture.depthBuffer);
+						t_this.raw_camera.enabled = false;
 					}
+
+					//plane_offset
+					t_this.plane_offset = 0.0f;
 				}
 			}
 			return t_this;

@@ -93,14 +93,23 @@ namespace Fee.Mirror
 			MirrorCamera_MonoBehaviour t_mirror_camera = MirrorCamera_MonoBehaviour.Create(a_size_type);
 			{
 				if(a_mirror_object != null){
+
+					//ミラーマテリアル。設定。
 					UnityEngine.Renderer t_renderer = a_mirror_object.GetComponent<UnityEngine.Renderer>();
 					if(t_renderer != null){
 						t_renderer.material = new UnityEngine.Material(this.material);
 						t_renderer.material.SetTexture("texture_mirror",t_mirror_camera.GetRenderTexture());
 					}
-					t_mirror_camera.SetMirrorPlane(a_mirror_object.transform.up,a_mirror_object.transform.position);
+
+					//ミラーオブジェクト。設定。
+					MirrorObject_MonoBehaviour t_mirror_object = a_mirror_object.AddComponent<MirrorObject_MonoBehaviour>();
+					{
+						t_mirror_object.mirror_camera = t_mirror_camera;
+					}
 				}
-				t_mirror_camera.SetTarget(a_camera);
+
+				//ターゲットカメラ。設定。
+				t_mirror_camera.SetTargetCamera(a_camera);
 			}
 			return t_mirror_camera;
 		}
