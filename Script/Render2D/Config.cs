@@ -50,13 +50,6 @@ namespace Fee.Render2D
 		*/
 		public static Fee.Geometry.Rect2D_R<int> VIRTUAL_RECT_MAX = new Fee.Geometry.Rect2D_R<int>(0,0,VIRTUAL_W,VIRTUAL_H);
 
-		/** テクスチャ矩形。４分の１。
-		*/
-		public static Fee.Geometry.Rect2D_R<float> TEXTURE_RECT_LU = new Fee.Geometry.Rect2D_R<float>(0.0f,									0.0f,									Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
-		public static Fee.Geometry.Rect2D_R<float> TEXTURE_RECT_RU = new Fee.Geometry.Rect2D_R<float>(Fee.Render2D.Render2D.TEXTURE_W / 2,	0.0f,									Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
-		public static Fee.Geometry.Rect2D_R<float> TEXTURE_RECT_LD = new Fee.Geometry.Rect2D_R<float>(0.0f,									Fee.Render2D.Render2D.TEXTURE_H / 2,	Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
-		public static Fee.Geometry.Rect2D_R<float> TEXTURE_RECT_RD = new Fee.Geometry.Rect2D_R<float>(Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2,	Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
-
 		/** USE_ASYNC
 		*/
 		#if(UNITY_5)
@@ -255,13 +248,6 @@ namespace Fee.Render2D
 			/** 矩形。最大値。
 			*/
 			VIRTUAL_RECT_MAX = new Fee.Geometry.Rect2D_R<int>(0,0,VIRTUAL_W,VIRTUAL_H);
-
-			/** テクスチャ矩形。４分の１。
-			*/
-			TEXTURE_RECT_LU = new Fee.Geometry.Rect2D_R<float>(0.0f,								0.0f,									Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
-			TEXTURE_RECT_RU = new Fee.Geometry.Rect2D_R<float>(Fee.Render2D.Render2D.TEXTURE_W / 2,	0.0f,									Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
-			TEXTURE_RECT_LD = new Fee.Geometry.Rect2D_R<float>(0.0f,								Fee.Render2D.Render2D.TEXTURE_H / 2,	Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
-			TEXTURE_RECT_RD = new Fee.Geometry.Rect2D_R<float>(Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2,	Fee.Render2D.Render2D.TEXTURE_W / 2,	Fee.Render2D.Render2D.TEXTURE_H / 2);
 		}
 	}
 }

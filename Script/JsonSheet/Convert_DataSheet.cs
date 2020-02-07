@@ -120,9 +120,7 @@ namespace Fee.JsonSheet
 					if((a_param == Convert_DataSheet.DATAPARAM_DEBUG)||(a_param == Convert_DataSheet.DATAPARAM_RELEASE)){
 						Convert_DataSheet.Convert_WriteJson(a_param,a_assets_path,a_sheet);
 					}else{
-						if(a_convertparam.create_assetbundle == true){
-							Convert_DataSheet.Convert_CreateAssetBundle(a_param,a_assets_path,a_sheet);
-						}
+						Convert_DataSheet.Convert_CreateAssetBundle(a_param,a_assets_path,a_sheet,a_convertparam);
 					}
 				}else{
 					Tool.Assert(false);
@@ -281,7 +279,7 @@ namespace Fee.JsonSheet
 			a_sheet			: ＪＳＯＮシート。
 
 		*/
-		public static void Convert_CreateAssetBundle(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet)
+		public static void Convert_CreateAssetBundle(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
 		{
 			try{
 				if(a_sheet != null){
@@ -352,6 +350,10 @@ namespace Fee.JsonSheet
 						{
 							//ダミー。
 
+							if(a_convertparam.create_dummy_assetbundle == false){
+								break;
+							}
+
 							foreach(System.Collections.Generic.KeyValuePair<string,System.Collections.Generic.Dictionary<string,ListItem>> t_pair in t_assetbundlelist){
 								Fee.AssetBundleList.DummryAssetBundle t_dummy_assetbundle = new AssetBundleList.DummryAssetBundle();
 
@@ -384,6 +386,10 @@ namespace Fee.JsonSheet
 					case Convert_DataSheet.DATAPARAM_IOS:
 						{
 							//アセットバンドル。
+
+							if(a_convertparam.create_assetbundle == false){
+								break;
+							}
 
 							//t_assetbundle_build
 							UnityEditor.AssetBundleBuild[] t_assetbundle_build = new UnityEditor.AssetBundleBuild[t_assetbundlelist.Count];
