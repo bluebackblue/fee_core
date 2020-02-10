@@ -24,12 +24,35 @@ namespace Fee.EditorTool
 			return Fee.EditorTool.Utility.FindFile(new File.Path(),new File.Path("fee_buildtarget")).CreateFileNameChangePath("",Fee.File.Path.SEPARATOR);
 		}
 
-		/** SavePrefab
-
-			a_assets_path	: アセットフォルダからの相対パス。
-
+		/** Refresh
 		*/
-		public static void SavePrefab(UnityEngine.GameObject a_prefab,Fee.File.Path a_assets_path)
+		public static void Refresh()
+		{
+			try{
+				UnityEditor.AssetDatabase.Refresh();
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+			}
+		}
+
+		/** CreateDirectory
+		*/
+		public static void CreateDirectory(Fee.File.Path a_assets_path,bool a_refresh_unity)
+		{
+			try{
+				System.IO.Directory.CreateDirectory(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath());
+
+				if(a_refresh_unity == true){
+					UnityEditor.AssetDatabase.Refresh();
+				}
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+			}
+		}
+
+		/** SavePrefab
+		*/
+		public static void SavePrefab(UnityEngine.GameObject a_prefab,Fee.File.Path a_assets_path,bool a_refresh_unity)
 		{
 			try{
 				string t_path = "Assets/" + a_assets_path.GetPathCutLastSeparator();
@@ -42,7 +65,9 @@ namespace Fee.EditorTool
 					UnityEngine.Debug.Log("SavePrefab : " + t_path);
 				}
 
-				UnityEditor.AssetDatabase.Refresh();
+				if(a_refresh_unity == true){
+					UnityEditor.AssetDatabase.Refresh();
+				}
 
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);

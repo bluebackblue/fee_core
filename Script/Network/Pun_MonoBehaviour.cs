@@ -111,11 +111,11 @@ namespace Fee.Network
 
 		/** game_version
 		*/
-		public string game_version = "0.01";
+		public string game_version;
 
 		/** nick_name
 		*/
-		public string nick_name = "NickName";
+		public string nick_name;
 
 		/** result_master
 		*/
@@ -149,6 +149,10 @@ namespace Fee.Network
 			UnityEngine.GameObject.DontDestroyOnLoad(t_gameobject);
 			Pun_MonoBehaviour t_this = t_gameobject.AddComponent<Pun_MonoBehaviour>();
 			{
+				t_this.game_version = "0.01";
+
+				t_this.nick_name = "NickName";
+
 				t_this.result_master = new Pun_MonoBehaviour.Result_Master();
 				t_this.result_master.Reset();
 
@@ -653,14 +657,22 @@ namespace Fee.Network
 			Tool.Log("Pun","OnLeftRoom");
 		}
 
+		/** CreatePlayer
+		*/
+		public void CreatePlayer(Fee.File.Path a_resources_path)
+		{
+			if(this.IsConnectRoom() == false){
+				//すでに切断済み。
+				return;
+			}
 
+			if(this.IsConnectMaster() == false){
+				//マスターが切断されている。
+				return;
+			}
 
-
-
-
-
-
-
+			Photon.Pun.PhotonNetwork.Instantiate(a_resources_path.GetPath(),UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity,0);
+		}
 
 		/** カスタム認証。レスポンス。
 		*/

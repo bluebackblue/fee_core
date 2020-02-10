@@ -229,6 +229,13 @@ namespace Fee.Network
 			}
 		}
 
+		/** CreatePlayer
+		*/
+		public void CreatePlayer(Fee.File.Path a_resources_path)
+		{
+			this.pun.CreatePlayer(a_resources_path);
+		}
+
 		/** マスター。接続チェック。
 		*/
 		public bool IsConnectMaster()

@@ -150,6 +150,8 @@ namespace Fee.JsonSheet
 				}
 			}
 
+			Fee.EditorTool.Utility.Refresh();
+
 			return true;
 		}
 	}

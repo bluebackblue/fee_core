@@ -99,7 +99,7 @@ namespace Fee.JsonSheet
 
 						UnityEngine.GameObject t_prefab = new UnityEngine.GameObject("prefab_temp");
 						Fee.Instantiate.AnimationClipList_Tool.Add(t_prefab,t_animation_list);
-						Fee.EditorTool.Utility.SavePrefab(t_prefab,a_assets_path);
+						Fee.EditorTool.Utility.SavePrefab(t_prefab,a_assets_path,false);
 						UnityEngine.GameObject.DestroyImmediate(t_prefab);
 					}
 				}else{
