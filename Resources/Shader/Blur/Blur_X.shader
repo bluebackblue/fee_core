@@ -8,16 +8,16 @@
 
 Shader "Fee/Blur/BlurX"
 {
-    Properties
+	Properties
 	{
-        _MainTex ("Texture", 2D) = "white" {}
-    }
-    SubShader
-    {
+		_MainTex ("Texture", 2D) = "white" {}
+	}
+	SubShader
+	{
 		Tags { "RenderType" = "Opaque" }
-        Cull Off
-        ZTest Always
-        ZWrite Off
+		Cull Off
+		ZTest Always
+		ZWrite Off
 
 		Pass
 		{
@@ -131,6 +131,6 @@ Shader "Fee/Blur/BlurX"
 			}
 			ENDCG
 		}
-    }
+	}
 }
 

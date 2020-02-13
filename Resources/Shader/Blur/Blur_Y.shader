@@ -8,18 +8,18 @@
 
 Shader "Fee/Blur/BlurY"
 {
-    Properties
+	Properties
 	{
-        _MainTex ("Texture", 2D) = "white" {}
+		_MainTex ("Texture", 2D) = "white" {}
 		texture_original ("Texture Original", 2D) = "white" {}
 		rate_blend ("rate_blend", Float) = 1
-    }
-    SubShader
-    {
+	}
+	SubShader
+	{
 		Tags { "RenderType" = "Opaque" }
-        Cull Off
-        ZTest Always
-        ZWrite Off
+		Cull Off
+		ZTest Always
+		ZWrite Off
 
 		Pass
 		{
@@ -145,6 +145,6 @@ Shader "Fee/Blur/BlurY"
 			}
 			ENDCG
 		}
-    }
+	}
 }
 

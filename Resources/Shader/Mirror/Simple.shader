@@ -69,7 +69,7 @@ Shader "Fee/Mirror/Simple"
 				return t_color;
 			}
 			ENDCG
-	    }
+		}
 	}
 }
 

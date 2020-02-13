@@ -8,18 +8,18 @@
 
 Shader "Fee/Bloom/LastAddUpSampling"
 {
-    Properties
+	Properties
 	{
-        _MainTex ("Texture", 2D) = "white" {}
+		_MainTex ("Texture", 2D) = "white" {}
 		texture_original ("Texture Original", 2D) = "white" {}
 		intensity ("Intensity", Float) = 0
-    }
-    SubShader
-    {
+	}
+	SubShader
+	{
 		Tags { "RenderType" = "Opaque" }
-        Cull Off
-        ZTest Always
-        ZWrite Off
+		Cull Off
+		ZTest Always
+		ZWrite Off
 
 		Pass
 		{
@@ -92,6 +92,6 @@ Shader "Fee/Bloom/LastAddUpSampling"
 			}
 			ENDCG
 		}
-    }
+	}
 }
 

@@ -34,15 +34,15 @@ namespace Fee.Key
 
 		/** GetHashCode
 		*/
-        public override int GetHashCode()
-        {
-            return this.x + this.y * 1024;
-        }
+		public override int GetHashCode()
+		{
+			return this.x + this.y * 1024;
+		}
 
 		/** Equals
 		*/
-        public override bool Equals(object a_other)
-        {
+		public override bool Equals(object a_other)
+		{
 			if(a_other == null){
 				return false;
 			}
@@ -59,7 +59,7 @@ namespace Fee.Key
 			}
 
 			return false;
-        }
+		}
 
 		/** [System.IEquatable]Equals
 		*/

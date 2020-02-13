@@ -60,6 +60,10 @@ namespace Fee.Render2D
 		public static bool USE_ASYNC = true;
 		#endif
 
+		/** DEBUG_TRACECOUNT
+		*/
+		public static int DEBUG_TRACECOUNT = 4;
+
 		/** 描画プライオリティ分割単位。
 		*/
 		public static long DRAWPRIORITY_STEP = 1000;

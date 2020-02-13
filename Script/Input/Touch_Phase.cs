@@ -114,6 +114,6 @@ namespace Fee.Input
 		public void Main()
 		{
 		}
-    }
+	}
 }
 

@@ -64,15 +64,23 @@ namespace Fee.Render2D
 		{
 			InputField2D t_this = Fee.Render2D.Render2D.GetInstance().GetInputFieldList().PoolNew();
 			{
+				//どこから確保されたのか。
 				#if(UNITY_EDITOR)
 				{
 					try{
-						System.Diagnostics.StackFrame t_stackframe = new System.Diagnostics.StackFrame(1);
-						if(t_stackframe != null){
-							if(t_stackframe.GetMethod() != null){
-								t_this.debug = t_stackframe.GetMethod().ReflectedType.FullName + " : " + t_stackframe.GetMethod().Name;
+						System.Text.StringBuilder t_stringbuilder = new System.Text.StringBuilder(Config.DEBUG_TRACECOUNT * 32);
+						for(int ii=Config.DEBUG_TRACECOUNT;ii>=1;ii--){
+							System.Diagnostics.StackFrame t_stackframe = new System.Diagnostics.StackFrame(ii);
+							if(t_stackframe != null){
+								if(t_stackframe.GetMethod() != null){
+									t_stringbuilder.Append(t_stackframe.GetMethod().ReflectedType.FullName);
+									t_stringbuilder.Append(" : ");
+									t_stringbuilder.Append(t_stackframe.GetMethod().Name);
+									t_stringbuilder.Append("\n");
+								}
 							}
 						}
+						t_this.debug = t_stringbuilder.ToString();
 					}catch(System.Exception t_exception){
 						Tool.DebugReThrow(t_exception);
 					}

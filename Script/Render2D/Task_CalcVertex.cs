@@ -95,12 +95,14 @@ namespace Fee.Render2D
 		*/
 		public void Wait()
 		{
-			for(int ii=0;ii<this.task_list.Length;ii++){
-				if(this.task_list[ii].IsEndFunction() == false){
-					if(this.task_list[ii].IsEnd() == false){
-						this.task_list[ii].Wait();
+			if(Config.USE_ASYNC == true){
+				for(int ii=0;ii<this.task_list.Length;ii++){
+					if(this.task_list[ii].IsEndFunction() == false){
+						if(this.task_list[ii].IsEnd() == false){
+							this.task_list[ii].Wait();
+						}
+						this.task_list[ii].EndFunction();
 					}
-					this.task_list[ii].EndFunction();
 				}
 			}
 		}
@@ -112,9 +114,11 @@ namespace Fee.Render2D
 		*/
 		public void Wait(int a_index)
 		{
-			if(this.task_list[a_index].IsEndFunction() == false){
-				this.task_list[a_index].Wait();
-				this.task_list[a_index].EndFunction();
+			if(Config.USE_ASYNC == true){
+				if(this.task_list[a_index].IsEndFunction() == false){
+					this.task_list[a_index].Wait();
+					this.task_list[a_index].EndFunction();
+				}
 			}
 		}
 
@@ -125,8 +129,14 @@ namespace Fee.Render2D
 		*/
 		public void Start()
 		{
-			for(int ii=0;ii<this.task_list.Length;ii++){
-				this.task_list[ii].StartFunction();
+			if(Config.USE_ASYNC == true){
+				for(int ii=0;ii<this.task_list.Length;ii++){
+					this.task_list[ii].StartFunction();
+				}
+			}else{
+				for(int ii=0;ii<this.task_list.Length;ii++){
+					this.task_list[ii].StartFunctionDirect();
+				}
 			}
 		}
 
@@ -134,10 +144,12 @@ namespace Fee.Render2D
 		*/
 		public void Delete()
 		{
-			for(int ii=0;ii<this.task_list.Length;ii++){
-				if(this.task_list[ii].IsEndFunction() == false){
-					this.task_list[ii].Wait();
-					this.task_list[ii].EndFunction();
+			if(Config.USE_ASYNC == true){
+				for(int ii=0;ii<this.task_list.Length;ii++){
+					if(this.task_list[ii].IsEndFunction() == false){
+						this.task_list[ii].Wait();
+						this.task_list[ii].EndFunction();
+					}
 				}
 			}
 			this.task_list = null;

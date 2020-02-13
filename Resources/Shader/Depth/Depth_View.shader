@@ -8,19 +8,19 @@
 
 Shader "Fee/Depth/DepthView"
 {
-    Properties
+	Properties
 	{
-        _MainTex ("Texture", 2D) = "white" {}
+		_MainTex ("Texture", 2D) = "white" {}
 		[MaterialToggle] camera_depth_flag ("Camera Depth Flag", Int) = 0
 		texture_depth ("Texture Depth", 2D) = "white" {}
 		rate_blend ("rate_blend", Float) = 1
-    }
-    SubShader
-    {
+	}
+	SubShader
+	{
 		Tags { "RenderType" = "Opaque" }
-        Cull Off
-        ZTest Always
-        ZWrite Off
+		Cull Off
+		ZTest Always
+		ZWrite Off
 
 		Pass
 		{
@@ -101,6 +101,6 @@ Shader "Fee/Depth/DepthView"
 			}
 			ENDCG
 		}
-    }
+	}
 }
 

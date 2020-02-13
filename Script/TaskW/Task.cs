@@ -180,6 +180,13 @@ namespace Fee.TaskW
 			#endif
 		}
 
+		/** 関数。開始。直接呼出し。
+		*/
+		public TResult StartFunctionDirect()
+		{
+			return this.instancemode_function();
+		}
+
 		/** 関数。終了。
 		*/
 		public void EndFunction()

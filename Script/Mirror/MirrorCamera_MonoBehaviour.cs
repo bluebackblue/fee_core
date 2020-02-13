@@ -91,17 +91,17 @@ namespace Fee.Mirror
 			this.plane = new UnityEngine.Vector4(t_plane_normal.x,t_plane_normal.y,t_plane_normal.z,t_distance);
 
 			this.matrix.m00 = (1.0f - 2.0f * this.plane[0] * this.plane[0]);
-			this.matrix.m01 = (     - 2.0f * this.plane[0] * this.plane[1]);
-			this.matrix.m02 = (     - 2.0f * this.plane[0] * this.plane[2]);
-			this.matrix.m03 = (     - 2.0f * this.plane[3] * this.plane[0]);
-			this.matrix.m10 = (     - 2.0f * this.plane[1] * this.plane[0]);
+			this.matrix.m01 = (	 - 2.0f * this.plane[0] * this.plane[1]);
+			this.matrix.m02 = (	 - 2.0f * this.plane[0] * this.plane[2]);
+			this.matrix.m03 = (	 - 2.0f * this.plane[3] * this.plane[0]);
+			this.matrix.m10 = (	 - 2.0f * this.plane[1] * this.plane[0]);
 			this.matrix.m11 = (1.0f - 2.0f * this.plane[1] * this.plane[1]);
-			this.matrix.m12 = (     - 2.0f * this.plane[1] * this.plane[2]);
-			this.matrix.m13 = (     - 2.0f * this.plane[3] * this.plane[1]);
-			this.matrix.m20 = (     - 2.0f * this.plane[2] * this.plane[0]);
-			this.matrix.m21 = (     - 2.0f * this.plane[2] * this.plane[1]);
+			this.matrix.m12 = (	 - 2.0f * this.plane[1] * this.plane[2]);
+			this.matrix.m13 = (	 - 2.0f * this.plane[3] * this.plane[1]);
+			this.matrix.m20 = (	 - 2.0f * this.plane[2] * this.plane[0]);
+			this.matrix.m21 = (	 - 2.0f * this.plane[2] * this.plane[1]);
 			this.matrix.m22 = (1.0f - 2.0f * this.plane[2] * this.plane[2]);
-			this.matrix.m23 = (     - 2.0f * this.plane[3] * this.plane[2]);
+			this.matrix.m23 = (	 - 2.0f * this.plane[3] * this.plane[2]);
  			this.matrix.m30 = 0.0f;
 			this.matrix.m31 = 0.0f;
 			this.matrix.m32 = 0.0f;

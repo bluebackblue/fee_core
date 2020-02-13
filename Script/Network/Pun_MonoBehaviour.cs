@@ -659,19 +659,23 @@ namespace Fee.Network
 
 		/** CreatePlayer
 		*/
-		public void CreatePlayer(Fee.File.Path a_resources_path)
+		public bool CreatePlayer(Fee.File.Path a_resources_path)
 		{
 			if(this.IsConnectRoom() == false){
 				//すでに切断済み。
-				return;
+				return false;
 			}
 
 			if(this.IsConnectMaster() == false){
 				//マスターが切断されている。
-				return;
+				return false;
 			}
 
-			Photon.Pun.PhotonNetwork.Instantiate(a_resources_path.GetPath(),UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity,0);
+			UnityEngine.GameObject t_gameobject = Photon.Pun.PhotonNetwork.Instantiate(a_resources_path.GetPath(),UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity,0);
+			if(t_gameobject != null){
+				return true;
+			}
+			return false;
 		}
 
 		/** カスタム認証。レスポンス。
