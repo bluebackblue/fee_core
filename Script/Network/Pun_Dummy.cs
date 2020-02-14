@@ -65,7 +65,7 @@ namespace Fee.Network
 				public static bool LeaveLobby(){return true;}
 				public static bool JoinOrCreateRoom(params System.Object[] a_param){return true;}
 				public static bool LeaveRoom(){return true;}
-				public static void Instantiate(params System.Object[] a_param){}
+				public static UnityEngine.GameObject Instantiate(params System.Object[] a_param){return null;}
 			}
 			public interface IPunObservable
 			{
