@@ -81,7 +81,10 @@ namespace Fee.File
 			if(a_certificate_handler != null){
 				t_webrequest.certificateHandler = a_certificate_handler;
 			}else{
-				t_webrequest.certificateHandler = new Fee.File.CustomCertificateHandler(Fee.File.File.GetInstance().GetCertificateString(a_path.GetPath()));
+				string t_certificate_string = Fee.File.File.GetInstance().GetCertificateString(a_path.GetPath());
+				if(t_certificate_string != null){
+					t_webrequest.certificateHandler = new Fee.File.CustomCertificateHandler(t_certificate_string);
+				}
 			}
 
 			return t_webrequest;

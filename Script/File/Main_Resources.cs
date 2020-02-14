@@ -166,7 +166,7 @@ namespace Fee.File
 				//request
 				this.request_relative_path = a_relative_path;
 
-				Function.Function.StartCoroutine(this.DoLoadResourcesTextFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadResourcesTextFile());
 				return true;
 			}
 
@@ -215,7 +215,7 @@ namespace Fee.File
 				//request
 				this.request_relative_path = a_relative_path;
 
-				Function.Function.StartCoroutine(this.DoLoadResourcesTextureFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadResourcesTextureFile());
 				return true;
 			}
 
@@ -264,7 +264,7 @@ namespace Fee.File
 				//request
 				this.request_relative_path = a_relative_path;
 
-				Function.Function.StartCoroutine(this.DoLoadResourcesPrefabFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadResourcesPrefabFile());
 				return true;
 			}
 

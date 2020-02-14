@@ -4,18 +4,18 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief マップチップ。
+ * @brief エディターツール。
 */
 
 
-/** Fee.MapTip
+/** Fee.EditorTool
 */
-namespace Fee.MapTip
+namespace Fee.EditorTool
 {
-	/** MapTipTextureEditorTool
+	/** MapTipTextureTool
 	*/
 	#if(UNITY_EDITOR)
-	public class MapTipTextureEditorTool
+	public class MapTipTextureTool
 	{
 		/** マップチップテクスチャーを分割。
 
@@ -27,9 +27,10 @@ namespace Fee.MapTip
 			if(a_texture != null){
 				if(a_tip_size > 0){
 
-					Tool.Assert((a_texture.width % a_tip_size) == 0);
-					Tool.Assert((a_texture.height % a_tip_size) == 0);
-
+					if(((a_texture.width % a_tip_size) != 0)||((a_texture.height % a_tip_size) != 0)){
+						UnityEngine.Debug.LogError("Size Error");
+					}
+					
 					int t_xx_max = a_texture.width / a_tip_size;
 					int t_yy_max = a_texture.height / a_tip_size;
 
@@ -78,10 +79,10 @@ namespace Fee.MapTip
 						}
 					}
 				}else{
-					Tool.Assert(false);
+					UnityEngine.Debug.LogError("Error");
 				}
 			}else{
-				Tool.Assert(false);
+				UnityEngine.Debug.LogError("Error");
 			}
 		}
 	}

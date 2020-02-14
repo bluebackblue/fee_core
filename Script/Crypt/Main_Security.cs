@@ -195,7 +195,7 @@ namespace Fee.Crypt
 				this.request_pass = null;
 				this.request_salt = null;
 
-				Function.Function.StartCoroutine(this.DoEncryptPublicKey());
+				Function.Function.GetInstance().StartCoroutine(this.DoEncryptPublicKey());
 				return true;
 			}
 
@@ -245,7 +245,7 @@ namespace Fee.Crypt
 				this.request_pass = null;
 				this.request_salt = null;
 
-				Function.Function.StartCoroutine(this.DoDecryptPrivateKey());
+				Function.Function.GetInstance().StartCoroutine(this.DoDecryptPrivateKey());
 				return true;
 			}
 
@@ -295,7 +295,7 @@ namespace Fee.Crypt
 				this.request_pass = null;
 				this.request_salt = null;
 
-				Function.Function.StartCoroutine(this.DoCreateSignaturePrivateKey());
+				Function.Function.GetInstance().StartCoroutine(this.DoCreateSignaturePrivateKey());
 				return true;
 			}
 
@@ -345,7 +345,7 @@ namespace Fee.Crypt
 				this.request_pass = null;
 				this.request_salt = null;
 
-				Function.Function.StartCoroutine(this.DoVerifySignaturePublicKey());
+				Function.Function.GetInstance().StartCoroutine(this.DoVerifySignaturePublicKey());
 				return true;
 			}
 
@@ -394,7 +394,7 @@ namespace Fee.Crypt
 				this.request_pass = a_pass;
 				this.request_salt = a_salt;
 
-				Function.Function.StartCoroutine(this.DoEncryptPass());
+				Function.Function.GetInstance().StartCoroutine(this.DoEncryptPass());
 				return true;
 			}
 
@@ -444,7 +444,7 @@ namespace Fee.Crypt
 				this.request_pass = a_pass;
 				this.request_salt = a_salt;
 
-				Function.Function.StartCoroutine(this.DoDecryptPass());
+				Function.Function.GetInstance().StartCoroutine(this.DoDecryptPass());
 				return true;
 			}
 

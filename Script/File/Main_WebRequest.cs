@@ -191,7 +191,7 @@ namespace Fee.File
 				this.result_asset = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoLoadUrlBinaryFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadUrlBinaryFile());
 				return true;
 			}
 
@@ -242,7 +242,7 @@ namespace Fee.File
 				this.result_asset = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoLoadUrlTextFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadUrlTextFile());
 				return true;
 			}
 
@@ -293,7 +293,7 @@ namespace Fee.File
 				this.result_asset = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoLoadUrlTextureFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadUrlTextureFile());
 				return true;
 			}
 
@@ -344,7 +344,7 @@ namespace Fee.File
 				this.result_asset = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsBinaryFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadStreamingAssetsBinaryFile());
 				return true;
 			}
 
@@ -398,7 +398,7 @@ namespace Fee.File
 				this.result_asset = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsTextFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadStreamingAssetsTextFile());
 				return true;
 			}
 
@@ -452,7 +452,7 @@ namespace Fee.File
 				this.result_asset = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsTextureFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadStreamingAssetsTextureFile());
 				return true;
 			}
 

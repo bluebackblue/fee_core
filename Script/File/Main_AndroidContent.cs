@@ -1,4 +1,4 @@
-﻿
+
 
 /**
  * Copyright (c) blueback
@@ -166,7 +166,7 @@ namespace Fee.File
 				this.result_type = ResultType.None;
 				this.result_asset = null;
 
-				Function.Function.StartCoroutine(this.DoLoadAndroidContentBinaryFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadAndroidContentBinaryFile());
 				return true;
 			}
 
@@ -212,7 +212,7 @@ namespace Fee.File
 				this.result_type = ResultType.None;
 				this.result_asset = null;
 
-				Function.Function.StartCoroutine(this.DoLoadAndroidContentTextFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadAndroidContentTextFile());
 				return true;
 			}
 
@@ -258,7 +258,7 @@ namespace Fee.File
 				this.result_type = ResultType.None;
 				this.result_asset = null;
 
-				Function.Function.StartCoroutine(this.DoLoadAndroidContentTextureFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadAndroidContentTextureFile());
 				return true;
 			}
 

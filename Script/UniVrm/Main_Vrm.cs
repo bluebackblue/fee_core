@@ -166,7 +166,7 @@ namespace Fee.UniVrm
 				//request
 				this.request_binary = a_binary;
 
-				Function.Function.StartCoroutine(this.DoLoadVrm());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadVrm());
 				return true;
 			}
 

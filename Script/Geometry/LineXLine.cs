@@ -1,16 +1,16 @@
-﻿
+
 
 /**
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ヒット。
+ * @brief ジオメトリ。
 */
 
 
-/** Fee.Hit
+/** Fee.Geometry
 */
-namespace Fee.Hit
+namespace Fee.Geometry
 {
 	/** 線と線。
 

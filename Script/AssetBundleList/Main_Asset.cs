@@ -172,7 +172,7 @@ namespace Fee.AssetBundleList
 				this.request_assetbundle_name = a_assetbundle_name;
 				this.request_assetname = a_assetname;
 
-				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemTextFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadAssetBundleItemTextFile());
 				return true;
 			}
 
@@ -219,7 +219,7 @@ namespace Fee.AssetBundleList
 				this.request_assetbundle_name = a_assetbundle_name;
 				this.request_assetname = a_assetname;
 
-				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemTextureFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadAssetBundleItemTextureFile());
 				return true;
 			}
 
@@ -266,7 +266,7 @@ namespace Fee.AssetBundleList
 				this.request_assetbundle_name = a_assetbundle_name;
 				this.request_assetname = a_assetname;
 
-				Function.Function.StartCoroutine(this.DoLoadAssetBundleItemPrefabFile());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadAssetBundleItemPrefabFile());
 				return true;
 			}
 

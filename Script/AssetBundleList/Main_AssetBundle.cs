@@ -176,7 +176,7 @@ namespace Fee.AssetBundleList
 				//request
 				this.request_assetbundle_name = a_assetbundle_name;
 
-				Function.Function.StartCoroutine(this.DoLoadPathItemAssetBundleItem());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadPathItemAssetBundleItem());
 				return true;
 			}
 
@@ -225,7 +225,7 @@ namespace Fee.AssetBundleList
 				//request
 				this.request_assetbundle_name = a_assetbundle_name;
 
-				Function.Function.StartCoroutine(this.DoUnLoadAssetBundleItem());
+				Function.Function.GetInstance().StartCoroutine(this.DoUnLoadAssetBundleItem());
 				return true;
 			}
 

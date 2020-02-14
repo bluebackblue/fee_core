@@ -166,7 +166,7 @@ namespace Fee.Data
 				//request
 				this.request_listitem = a_listitem;
 
-				Function.Function.StartCoroutine(this.DoLoad());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoad());
 				return true;
 			}
 

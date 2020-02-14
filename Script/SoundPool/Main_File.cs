@@ -197,7 +197,7 @@ namespace Fee.SoundPool
 				this.result_soundpool = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoLoadLocalSoundPool());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadLocalSoundPool());
 				return true;
 			}
 
@@ -247,7 +247,7 @@ namespace Fee.SoundPool
 				this.result_soundpool = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoLoadStreamingAssetsSoundPool());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadStreamingAssetsSoundPool());
 				return true;
 			}
 
@@ -297,7 +297,7 @@ namespace Fee.SoundPool
 				this.result_soundpool = null;
 				this.result_responseheader = null;
 
-				Function.Function.StartCoroutine(this.DoLoadUrlSoundPool());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadUrlSoundPool());
 				return true;
 			}
 

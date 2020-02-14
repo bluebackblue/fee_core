@@ -17,6 +17,7 @@
 //#define DEF_UI
 //#define DEF_SCENE
 //#define DEF_FILE
+//#define DEF_FOCUS
 //#define DEF_FADE
 //#define DEF_DATA
 //#define DEF_AUDIO
@@ -34,6 +35,7 @@
 //#define DEF_FUNCTION
 //#define DEF_PERFORMANCECOUNTER
 //#define DEF_VIDEO
+//#define DEF_MIRROR
 
 
 /** Fee.EditorTool
@@ -222,14 +224,23 @@ namespace Fee.EditorTool
 				//ファイル。
 				#if(DEF_FILE)
 				{
+					Fee.File.Config.LOG_ENABLE = true;
 					Fee.File.File.CreateInstance();
+				}
+				#endif
+
+				//フォーカス。
+				#if(DEF_FOCUS)
+				{
+					Fee.Focus.Focus.CreateInstance();
 				}
 				#endif
 
 				//関数呼び出し。
 				#if(DEF_FUNCTION)
 				{
-					Fee.Function.Function.SetMonoBehaviour(this);
+					Fee.Function.Function.CreateInstance();
+					Fee.Function.Function.GetInstance().SetMonoBehaviour(this);
 				}
 				#endif
 
@@ -277,10 +288,6 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//マップチップ。
-				{
-				}
-
 				//マテリアル。
 				{
 				}
@@ -289,6 +296,13 @@ namespace Fee.EditorTool
 				{
 				}
 
+				//ミラー。
+				#if(DEF_MIRROR)
+				{
+					Fee.Mirror.Mirror.CreateInstance();
+				}
+				#endif
+
 				//モデル。
 				{
 				}
@@ -296,6 +310,7 @@ namespace Fee.EditorTool
 				//ネットワーク。
 				#if(DEF_NETWORK)
 				{
+					Fee.Network.Config.LOG_ENABLE = true;
 					Fee.Network.Network.CreateInstance();
 				}
 				#endif
@@ -329,6 +344,10 @@ namespace Fee.EditorTool
 				//プール。
 				{
 				}
+				
+				//リフレクションツール。
+				{
+				}
 
 				//２Ｄ描画。
 				{
@@ -352,6 +371,10 @@ namespace Fee.EditorTool
 				}
 				#endif
 
+				//文字コンバート。
+				{
+				}
+
 				//タスク。
 				#if(DEF_TASK)
 				{
@@ -365,10 +388,6 @@ namespace Fee.EditorTool
 					Fee.Ui.Ui.CreateInstance();
 				}
 				#endif
-
-				//ＵＮＩＴＹ５。
-				{
-				}
 
 				//ＵＮＩＶＲＭ。
 				#if(DEF_UNIVRM)
@@ -386,7 +405,7 @@ namespace Fee.EditorTool
 			}
 
 			//■シーン開始。
-			#if(false)
+			#if(true)
 			{
 				Fee.Scene.Scene.GetInstance().SetNextScene(new Game.Scene.Scene_Init());
 			}
@@ -471,9 +490,14 @@ namespace Fee.EditorTool
 				Fee.File.File.DeleteInstance();
 			}
 
+			//フォーカス。
+			{
+				Fee.Focus.Focus.DeleteInstance();
+			}
+
 			//関数呼び出し。
 			{
-				Fee.Function.Function.SetMonoBehaviour(null);
+				Fee.Function.Function.DeleteInstance();
 			}
 
 			//ジオメトリ。
@@ -508,16 +532,17 @@ namespace Fee.EditorTool
 			{
 			}
 
-			//マップチップ。
-			{
-			}
-
 			//マテリアル。
 			{
 			}
 
 			//ＭＤ５。
 			{
+			}
+
+			//ミラー。
+			{
+				Fee.Mirror.Mirror.DeleteInstance();
 			}
 
 			//モデル。
@@ -555,6 +580,10 @@ namespace Fee.EditorTool
 			{
 			}
 
+			//リフレクションツール。
+			{
+			}
+
 			//２Ｄ描画。
 			{
 				Fee.Render2D.Render2D.DeleteInstance();
@@ -574,6 +603,10 @@ namespace Fee.EditorTool
 				Fee.SoundPool.SoundPool.DeleteInstance();
 			}
 
+			//文字列コンバート。
+			{
+			}
+
 			//タスク。
 			{
 				Fee.TaskW.TaskW.DeleteInstance();
@@ -582,10 +615,6 @@ namespace Fee.EditorTool
 			//ＵＩ。
 			{
 				Fee.Ui.Ui.DeleteInstance();
-			}
-
-			//ＵＮＩＴＹ５。
-			{
 			}
 
 			//ＵＮＩＶＲＭ。
@@ -743,6 +772,13 @@ namespace Fee.EditorTool
 				}
 				#endif
 
+				//フォーカス。
+				#if(DEF_FOCUS)
+				{
+					Fee.Focus.Focus.GetInstance().Main();
+				}
+				#endif
+
 				//関数呼び出し。
 				{
 				}
@@ -771,10 +807,6 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//マップチップ。
-				{
-				}
-
 				//マテリアル。
 				{
 				}
@@ -783,11 +815,11 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//モデル。
+				//ミラー。
 				{
 				}
 
-				//ムービー。
+				//モデル。
 				{
 				}
 
@@ -822,6 +854,10 @@ namespace Fee.EditorTool
 				{
 				}
 
+				//リフレクションツール。
+				{
+				}
+
 				//２Ｄ描画。順序変更。
 				{
 				}
@@ -841,15 +877,15 @@ namespace Fee.EditorTool
 				}
 				#endif
 
+				//文字列コンバート。
+				{
+				}
+
 				//タスク。
 				{
 				}
 
 				//ＵＩ。順序変更。
-				{
-				}
-
-				//ＵＮＩＴＹ５。
 				{
 				}
 
@@ -859,6 +895,10 @@ namespace Fee.EditorTool
 					Fee.UniVrm.UniVrm.GetInstance().Main();
 				}
 				#endif
+
+				//ビデオ。
+				{
+				}
 
 				//順序変更。
 				{

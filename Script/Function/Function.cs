@@ -16,15 +16,74 @@ namespace Fee.Function
 	*/
 	public class Function
 	{
-		/** s_monobehaviour
+		/** [シングルトン]s_instance
 		*/
-		static UnityEngine.MonoBehaviour s_monobehaviour;
+		private static Function s_instance = null;
+
+		/** [シングルトン]インスタンス。作成。
+		*/
+		public static void CreateInstance()
+		{
+			if(s_instance == null){
+				s_instance = new Function();
+			}
+		}
+
+		/** [シングルトン]インスタンス。チェック。
+		*/
+		public static bool IsCreateInstance()
+		{
+			if(s_instance != null){
+				return true;
+			}
+			return false;
+		}
+
+		/** [シングルトン]インスタンス。取得。
+		*/
+		public static Function GetInstance()
+		{
+			#if(UNITY_EDITOR)
+			if(s_instance == null){
+				Tool.Assert(false);
+			}
+			#endif
+
+			return s_instance;			
+		}
+
+		/** [シングルトン]インスタンス。削除。
+		*/
+		public static void DeleteInstance()
+		{
+			if(s_instance != null){
+				s_instance.Delete();
+				s_instance = null;
+			}
+		}
+
+		/** monobehaviour
+		*/
+		private UnityEngine.MonoBehaviour monobehaviour;
+
+		/** [シングルトン]constructor
+		*/
+		private Function()
+		{
+
+		}
+
+		/** [シングルトン]削除。
+		*/
+		private void Delete()
+		{
+		}
 
 		/** MonoBehaviour。設定。
 		*/
-		public static void SetMonoBehaviour(UnityEngine.MonoBehaviour a_monobehaviour)
+		public void SetMonoBehaviour(UnityEngine.MonoBehaviour a_monobehaviour)
 		{
-			s_monobehaviour = a_monobehaviour;
+			this.monobehaviour = a_monobehaviour;
 		}
 
 		/** 戻り値。
@@ -42,10 +101,10 @@ namespace Fee.Function
 
 		/** コルーチンから呼び出し。
 		*/
-		public static void CallFromCoroutine(System.Func<ReturnType> a_function)
+		public void CallFromCoroutine(System.Func<ReturnType> a_function)
 		{
-			if(s_monobehaviour != null){
-				s_monobehaviour.StartCoroutine(Do_Coroutine(a_function));
+			if(this.monobehaviour != null){
+				this.monobehaviour.StartCoroutine(Do_Coroutine(a_function));
 			}else{
 				Tool.Assert(false);
 			}
@@ -53,7 +112,7 @@ namespace Fee.Function
 
 		/** 処理。コルーチン。
 		*/
-		private static System.Collections.IEnumerator Do_Coroutine(System.Func<ReturnType> a_function)
+		private System.Collections.IEnumerator Do_Coroutine(System.Func<ReturnType> a_function)
 		{
 			while(a_function() == ReturnType.Continue){
 				yield return null;
@@ -63,10 +122,10 @@ namespace Fee.Function
 
 		/** コルーチン。開始。
 		*/
-		public static void StartCoroutine(System.Collections.IEnumerator a_coroutine)
+		public void StartCoroutine(System.Collections.IEnumerator a_coroutine)
 		{
-			if(s_monobehaviour != null){
-				s_monobehaviour.StartCoroutine(a_coroutine);
+			if(this.monobehaviour != null){
+				this.monobehaviour.StartCoroutine(a_coroutine);
 			}else{
 				Tool.Assert(false);
 			}
