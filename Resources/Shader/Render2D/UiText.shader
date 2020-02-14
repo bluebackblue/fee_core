@@ -98,6 +98,7 @@ Shader "Fee/Render2D/UiText"
 			*/
 			fixed4 frag(v2f a_v2f) : SV_Target
 			{
+				//クリップ。
 				if(clip_flag > 0){
 					if(clip_x1>a_v2f.pos.x){
 						discard;

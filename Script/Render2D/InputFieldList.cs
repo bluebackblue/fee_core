@@ -117,6 +117,7 @@ namespace Fee.Render2D
 		{
 			for(int ii=0;ii<this.list.Count;ii++){
 				this.list[ii].Raw_SetCalcFontSizeFlag(true);
+				this.list[ii].Raw_SetChangeShaderFlag(true);
 			}
 		}
 
