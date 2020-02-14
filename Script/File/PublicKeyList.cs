@@ -81,6 +81,7 @@ namespace Fee.File
 		{
 			foreach(System.Collections.Generic.KeyValuePair<string,Item> t_pair in this.list){
 				if(System.Text.RegularExpressions.Regex.IsMatch(a_url,t_pair.Key) == true){
+					Tool.Log("GetCertificateString",t_pair.Value.certificate_string);
 					return t_pair.Value.certificate_string;
 				}
 			}

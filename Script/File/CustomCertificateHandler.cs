@@ -24,10 +24,6 @@ namespace Fee.File
 		*/
 		private byte[] certificate_binary;
 
-		/** errorstring
-		*/
-		private string errorstring;
-
 		/** receive_certificate_string
 		*/
 		private string receive_certificate_string;
@@ -36,14 +32,13 @@ namespace Fee.File
 		*/
 		public CustomCertificateHandler(string a_certificate_string)
 		{
+			Tool.Log("CustomCertificateHandler.constructor",a_certificate_string);
+
 			//certificate_string
 			this.certificate_string = a_certificate_string;
 
 			//certificate_binary
 			this.certificate_binary = null;
-
-			//errorstring
-			this.errorstring = null;
 
 			//receive_certificate_string
 			this.receive_certificate_string = null;
@@ -53,24 +48,16 @@ namespace Fee.File
 		*/
 		public CustomCertificateHandler(byte[] a_certificate_binary)
 		{
+			Tool.Log("CustomCertificateHandler.constructor","binary");
+
 			//certificate_string
 			this.certificate_string = null;
 
 			//certificate_binary
 			this.certificate_binary = a_certificate_binary;
 
-			//errorstring
-			this.errorstring = null;
-
 			//receive_certificate_string
 			this.receive_certificate_string = null;
-		}
-
-		/** GetErrorString
-		*/
-		public string GetErrorString()
-		{
-			return this.errorstring;
 		}
 
 		/** GetReceiveCertificateString
@@ -80,19 +67,11 @@ namespace Fee.File
 			return this.receive_certificate_string;
 		}
 
-		/** 初期化チェック。
-		*/
-		public void InitializeCheck()
-		{
-			Tool.Assert(this.errorstring == null);
-			this.errorstring = "Initialize";
-		}
-
 		/** ValidateCertificate
 		*/
 		protected override bool ValidateCertificate(byte[] a_certificate_data)
 		{
-			this.errorstring = "Call ValidateCertificate";
+			Tool.Log("CustomCertificateHandler","ValidateCertificate");
 
 			try{
 				using(System.Security.Cryptography.X509Certificates.X509Certificate2 t_certificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(a_certificate_data)){
@@ -103,10 +82,9 @@ namespace Fee.File
 						//文字列。
 
 						if(this.receive_certificate_string == this.certificate_string){
-							this.errorstring = "Success(String Certificate)";
 							return true;
 						}else{
-							this.errorstring = "Mismatch String Error(String Certificate)";
+							Tool.Log("CustomCertificateHandler","Mismatch String Error(String Certificate)");
 						}
 					}else if(this.certificate_binary != null){
 						//バイナリ。
@@ -121,22 +99,21 @@ namespace Fee.File
 								}
 							}
 							if(t_check == true){
-								this.errorstring = "Success(Binary Certificate)";
 								return true;
 							}else{
-								this.errorstring = "Mismatch Binary Error(Binary Certificate)";
+								Tool.Log("CustomCertificateHandler","Mismatch Binary Error(Binary Certificate)");
 							}
 						}else{
-							this.errorstring = "Mismatch Binary Length Error(Binary Certificate)";
+							Tool.Log("CustomCertificateHandler","Mismatch Binary Length Error(Binary Certificate)");
 						}
 					}else{
 						//不明。
 
-						this.errorstring = "Unknown Type Error";
+						Tool.Log("CustomCertificateHandler","Unknown Type Error");
 					}
 				}
 			}catch(System.Exception t_exception){
-				this.errorstring = "Exception : " + t_exception.Message;
+				Tool.Log("CustomCertificateHandler","Exception : " + t_exception.Message);
 			}
 
 			return false;
