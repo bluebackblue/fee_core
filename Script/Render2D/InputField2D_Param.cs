@@ -20,10 +20,6 @@ namespace Fee.Render2D
 		*/
 		private int fontsize;
 
-		/** センター。
-		*/
-		private bool is_center;
-
 		/** シェーダの変更が必要。
 		*/
 		private bool raw_is_changeshader;
@@ -82,9 +78,6 @@ namespace Fee.Render2D
 		{
 			//フォントサイズ。
 			this.fontsize = Config.DEFAULT_TEXT_FONTSIZE;
-
-			//センター。
-			this.is_center = false;
 
 			//クリップ。
 			this.clip = false;
@@ -393,20 +386,6 @@ namespace Fee.Render2D
 		public void Raw_SetImageMaterialItem(Material_Item a_material_item)
 		{
 			a_material_item.SetMaterialToInstance(this.raw_image);
-		}
-
-		/** センター。設定。
-		*/
-		public void SetCenter(bool a_flag)
-		{
-			this.is_center = a_flag;
-		}
-
-		/** センター。取得。
-		*/
-		public bool IsCenter()
-		{
-			return this.is_center;
 		}
 
 		/** フォント。設定。

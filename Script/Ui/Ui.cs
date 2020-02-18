@@ -88,7 +88,7 @@ namespace Fee.Ui
 
 		/** pool_list_sprite_clip
 		*/
-		private Fee.Pool.PoolList<Sprite2D_Clip> pool_list_sprite_clip;
+		private Fee.Pool.PoolList<Sprite_Clip> pool_list_sprite_clip;
 
 		/** [シングルトン]constructor
 		*/
@@ -113,7 +113,7 @@ namespace Fee.Ui
 			this.down_button_instance = null;
 
 			//プールリスト。
-			this.pool_list_sprite_clip = new Pool.PoolList<Sprite2D_Clip>(0);
+			this.pool_list_sprite_clip = new Pool.PoolList<Sprite_Clip>(0);
 		}
 
 		/** [シングルトン]削除。
@@ -125,7 +125,7 @@ namespace Fee.Ui
 
 		/** プールリスト。取得。
 		*/
-		public Fee.Pool.PoolList<Sprite2D_Clip> GetPoolList_Sprite2D_Clip()
+		public Fee.Pool.PoolList<Sprite_Clip> GetPoolList_Sprite_Clip()
 		{
 			return this.pool_list_sprite_clip;
 		}

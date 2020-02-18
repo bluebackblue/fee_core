@@ -302,7 +302,7 @@ namespace Fee.Render2D
 
 			//位置計算。
 			UnityEngine.Vector3 t_localposition = new UnityEngine.Vector3(this.calc_ui_x + a_inputfield.GetX() * this.calc_ui_scale,this.calc_ui_y - a_inputfield.GetY() * this.calc_ui_scale,0.0f);
-			if(a_inputfield.IsCenter() == false){
+			{
 				//計算済みサイズ取得。
 				UnityEngine.Vector2 t_sizedelta;
 				a_inputfield.Raw_GetRectTransformSizeDelta(out t_sizedelta);

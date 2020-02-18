@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ＵＩ。クリップスプライト。
+ * @brief ＵＩ。インプット。
 */
 
 
@@ -12,36 +12,76 @@
 */
 namespace Fee.Ui
 {
-	/** Input2D
+	/** Input
 	*/
-	public class Input2D : Fee.Deleter.OnDelete_CallBackInterface , Fee.Pool.PoolItem_Base , Fee.Focus.FocusItem_Base
+	public class Input : Fee.Pool.PoolItem_Base , Fee.Focus.FocusItem_Base , Fee.EventPlate.OnEventPlateOver_CallBackInterface<int> , Fee.Ui.OnTarget_CallBackInterface , Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** inputfield
 		*/
 		private Fee.Render2D.InputField2D inputfield;
+
+		/** eventplate
+		*/
+		private Fee.EventPlate.Item eventplate;
+
+		/** is_onover
+		*/
+		private bool is_onover;
+
+		/** callbackparam_click
+		*/
+		protected Fee.Ui.OnInputClick_CallBackParam callbackparam_click;
 
 		/** constructor
 
 			プール用に作成。
 
 		*/
-		public Input2D()
+		public Input()
 		{
 		}
 
 		/** 作成。
 		*/
-		public static Input2D Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public static Input Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
-			Input2D t_this = new Input2D();
+			Input t_this = new Input();
 			{
+				//inputfield
 				t_this.inputfield = Fee.Render2D.InputField2D.Create(null,a_drawpriority);
+
+				//eventplate
+				t_this.eventplate = new EventPlate.Item(null,EventPlate.EventType.Button,a_drawpriority);
+				t_this.eventplate.SetOnEventPlateOver(t_this,-1);
+
+				//is_onover
+				t_this.is_onover = false;
+
+				//callbackparam_click
+				t_this.callbackparam_click = null;
 
 				if(a_deleter != null){
 					a_deleter.Regist(t_this);
 				}
 			}
 			return t_this;
+		}
+
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートに入場。
+		*/
+		public void OnEventPlateEnter(int a_id)
+		{
+			this.is_onover = true;
+
+			//ターゲット登録。
+			Ui.GetInstance().SetTargetRequest(this);
+		}
+
+		/** [Fee.Ui.OnEventPlateOver_CallBackInterface]イベントプレートから退場。
+		*/
+		public void OnEventPlateLeave(int a_id)
+		{
+			this.is_onover = false;
 		}
 
 		/** コールバックインターフェイス。設定。
@@ -83,6 +123,13 @@ namespace Fee.Ui
 		{
 			//OnDelete
 			this.inputfield.OnDelete();
+			this.eventplate.OnDelete();
+
+			//コールバック解除。
+			this.callbackparam_click = null;
+
+			//ターゲット解除。
+			Fee.Ui.Ui.GetInstance().UnSetTargetRequest(this);
 		}
 
 		/** [Fee.Pool.PoolItem_Base]プールアイテムをメモリから削除。
@@ -91,11 +138,19 @@ namespace Fee.Ui
 		{
 		}
 
+		/** コールバックインターフェイス。設定。
+		*/
+		public void SetOnInputClick<T>(Fee.Ui.OnInputClick_CallBackInterface<T> a_callback_interface,T a_id)
+		{
+			this.callbackparam_click = new Fee.Ui.OnInputClick_CallBackParam_Generic<T>(a_callback_interface,a_id);
+		}
+
 		/** クリップ。設定。
 		*/
 		public void SetClip(bool a_flag)
 		{
 			this.inputfield.SetClip(a_flag);
+			this.eventplate.SetClip(a_flag);
 		}
 
 		/** クリップ。取得。
@@ -110,6 +165,7 @@ namespace Fee.Ui
 		public void SetClipRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.inputfield.SetClipRect(in a_rect);
+			this.eventplate.SetClipRect(in a_rect);
 		}
 
 		/** クリップ矩形。設定。
@@ -117,6 +173,7 @@ namespace Fee.Ui
 		public void SetClipRect(int a_x,int a_y,int a_w,int a_h)
 		{
 			this.inputfield.SetClipRect(a_x,a_y,a_w,a_h);
+			this.eventplate.SetClipRect(a_x,a_y,a_w,a_h);
 		}
 
 		/** クリップ矩形。取得。
@@ -159,6 +216,7 @@ namespace Fee.Ui
 		public void SetY(int a_y)
 		{
 			this.inputfield.SetY(a_y);
+			this.eventplate.SetY(a_y);
 		}
 
 		/** 矩形。設定。
@@ -166,6 +224,7 @@ namespace Fee.Ui
 		public void SetXY(int a_x,int a_y)
 		{
 			this.inputfield.SetXY(a_x,a_y);
+			this.eventplate.SetXY(a_x,a_y);
 		}
 
 		/** 矩形。設定。
@@ -173,6 +232,7 @@ namespace Fee.Ui
 		public void SetW(int a_w)
 		{
 			this.inputfield.SetW(a_w);
+			this.eventplate.SetW(a_w);
 		}
 
 		/** 矩形。設定。
@@ -180,6 +240,7 @@ namespace Fee.Ui
 		public void SetH(int a_h)
 		{
 			this.inputfield.SetH(a_h);
+			this.eventplate.SetH(a_h);
 		}
 
 		/** 矩形。取得。
@@ -215,6 +276,7 @@ namespace Fee.Ui
 		public void SetWH(int a_w,int a_h)
 		{
 			this.inputfield.SetWH(a_w,a_h);
+			this.eventplate.SetWH(a_w,a_h);
 		}
 
 		/** 矩形。設定。
@@ -222,6 +284,7 @@ namespace Fee.Ui
 		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{
 			this.inputfield.SetRect(in a_rect);
+			this.eventplate.SetRect(in a_rect);
 		}
 
 		/** 矩形。設定。
@@ -229,6 +292,7 @@ namespace Fee.Ui
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
 		{
 			this.inputfield.SetRect(a_x,a_y,a_w,a_h);
+			this.eventplate.SetRect(a_x,a_y,a_w,a_h);
 		}
 
 		/** 表示。設定。
@@ -236,6 +300,7 @@ namespace Fee.Ui
 		public void SetVisible(bool a_flag)
 		{
 			this.inputfield.SetVisible(a_flag);
+			this.eventplate.SetEnable(a_flag);
 		}
 
 		/** 表示。取得。
@@ -250,6 +315,7 @@ namespace Fee.Ui
 		public void SetDrawPriority(long a_drawpriority)
 		{
 			this.inputfield.SetDrawPriority(a_drawpriority);
+			this.eventplate.SetPriority(a_drawpriority);
 		}
 
 		/** 描画プライオリティ。取得。
@@ -343,20 +409,6 @@ namespace Fee.Ui
 			return this.inputfield.GetTextColor();
 		}
 
-		/** センター。設定。
-		*/
-		public void SetCenter(bool a_flag)
-		{
-			this.inputfield.SetCenter(a_flag);
-		}
-
-		/** センター。設定。
-		*/
-		public bool IsCenter()
-		{
-			return this.inputfield.IsCenter();
-		}
-
 		/** フォント。設定。
 		*/
 		public void SetFont(UnityEngine.Font a_font)
@@ -369,6 +421,25 @@ namespace Fee.Ui
 		public UnityEngine.Font GetFont()
 		{
 			return this.inputfield.GetFont();
+		}
+
+		/** [Fee.Ui.OnTarget_CallBackInterface]ターゲット中。
+		*/
+		public void OnTarget()
+		{
+			if(this.is_onover == true){
+				//オーバー中。
+
+				if(Fee.Input.Mouse.GetInstance().left.down == true){
+					//コールバック。
+					if(this.callbackparam_click != null){
+						this.callbackparam_click.Call();
+					}
+				}
+			}else{
+				//ターゲット解除。
+				Ui.GetInstance().UnSetTargetRequest(this);
+			}
 		}
 	}
 }

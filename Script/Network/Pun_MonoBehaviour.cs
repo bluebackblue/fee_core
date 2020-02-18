@@ -560,6 +560,7 @@ namespace Fee.Network
 					};
 				}
 
+				Tool.Log("Pun","JoinOrCreateRoom : " + "room_key = " + this.result_room.room_key + " : room_info = " + this.result_room.room_info);
 				if(Photon.Pun.PhotonNetwork.JoinOrCreateRoom(this.result_room.room_key,t_room_option,Photon.Realtime.TypedLobby.Default) == true){
 					this.result_room.SetBusy();
 				}else{

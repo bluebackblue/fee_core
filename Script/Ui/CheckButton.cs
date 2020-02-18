@@ -18,23 +18,23 @@ namespace Fee.Ui
 	{
 		/** bg_normal_sprite
 		*/
-		private Fee.Ui.Sprite2D_Slice9 bg_normal_sprite;
+		private Fee.Ui.Sprite_Slice9 bg_normal_sprite;
 
 		/** bg_on_sprite
 		*/
-		private Fee.Ui.Sprite2D_Slice9 bg_on_sprite;
+		private Fee.Ui.Sprite_Slice9 bg_on_sprite;
 
 		/** bg_lock_sprite
 		*/
-		private Fee.Ui.Sprite2D_Slice9 bg_lock_sprite;
+		private Fee.Ui.Sprite_Slice9 bg_lock_sprite;
 
 		/** check_normal_sprite
 		*/
-		private Fee.Ui.Sprite2D_Clip check_normal_sprite;
+		private Fee.Ui.Sprite_Clip check_normal_sprite;
 
 		/** check_lock_sprite
 		*/
-		private Fee.Ui.Sprite2D_Clip check_lock_sprite;
+		private Fee.Ui.Sprite_Clip check_lock_sprite;
 
 		/** text
 		*/
@@ -66,27 +66,27 @@ namespace Fee.Ui
 				t_this.InitializeFromPool(a_drawpriority);
 
 				//bg_normal_sprite
-				t_this.bg_normal_sprite = Sprite2D_Slice9.Create(null,a_drawpriority + 0);
+				t_this.bg_normal_sprite = Sprite_Slice9.Create(null,a_drawpriority + 0);
 				t_this.bg_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.bg_normal_sprite.SetVisible(true);
 
 				//bg_on_sprite
-				t_this.bg_on_sprite = Sprite2D_Slice9.Create(null,a_drawpriority + 0);
+				t_this.bg_on_sprite = Sprite_Slice9.Create(null,a_drawpriority + 0);
 				t_this.bg_on_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.bg_on_sprite.SetVisible(false);
 
 				//bg_lock_sprite
-				t_this.bg_lock_sprite = Sprite2D_Slice9.Create(null,a_drawpriority + 0);
+				t_this.bg_lock_sprite = Sprite_Slice9.Create(null,a_drawpriority + 0);
 				t_this.bg_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.bg_lock_sprite.SetVisible(false);
 
 				//check_normal_sprite
-				t_this.check_normal_sprite = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority + 1);
+				t_this.check_normal_sprite = Fee.Ui.Sprite_Clip.Create(null,a_drawpriority + 1);
 				t_this.check_normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.check_normal_sprite.SetVisible(false);
 
 				//check_lock_sprite
-				t_this.check_lock_sprite = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority + 1);
+				t_this.check_lock_sprite = Fee.Ui.Sprite_Clip.Create(null,a_drawpriority + 1);
 				t_this.check_lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.check_lock_sprite.SetVisible(false);
 

@@ -12,21 +12,21 @@
 */
 namespace Fee.Ui
 {
-	/** Sprite2D_Slice9
+	/** Sprite_Slice9
 	*/
-	public class Sprite2D_Slice9 : Fee.Deleter.OnDelete_CallBackInterface
+	public class Sprite_Slice9 : Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** sprite
 		*/
-		private Fee.Ui.Sprite2D_Clip sprite_1;
-		private Fee.Ui.Sprite2D_Clip sprite_2;
-		private Fee.Ui.Sprite2D_Clip sprite_3;
-		private Fee.Ui.Sprite2D_Clip sprite_4;
-		private Fee.Ui.Sprite2D_Clip sprite_5;
-		private Fee.Ui.Sprite2D_Clip sprite_6;
-		private Fee.Ui.Sprite2D_Clip sprite_7;
-		private Fee.Ui.Sprite2D_Clip sprite_8;
-		private Fee.Ui.Sprite2D_Clip sprite_9;
+		private Fee.Ui.Sprite_Clip sprite_1;
+		private Fee.Ui.Sprite_Clip sprite_2;
+		private Fee.Ui.Sprite_Clip sprite_3;
+		private Fee.Ui.Sprite_Clip sprite_4;
+		private Fee.Ui.Sprite_Clip sprite_5;
+		private Fee.Ui.Sprite_Clip sprite_6;
+		private Fee.Ui.Sprite_Clip sprite_7;
+		private Fee.Ui.Sprite_Clip sprite_8;
+		private Fee.Ui.Sprite_Clip sprite_9;
 
 		/** rect
 		*/
@@ -130,27 +130,27 @@ namespace Fee.Ui
 			プール用に作成。
 
 		*/
-		public Sprite2D_Slice9()
+		public Sprite_Slice9()
 		{
 		}
 
 		/** 作成。
 		*/
-		public static Sprite2D_Slice9 Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public static Sprite_Slice9 Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			//Sprite2D_Slice9 t_this = Fee.Ui.Ui.GetInstance().GetPoolList_Sprite2D_Slice9().PoolNew();
-			Sprite2D_Slice9 t_this = new Sprite2D_Slice9();
+			Sprite_Slice9 t_this = new Sprite_Slice9();
 			{
 				//sprite
-				t_this.sprite_1 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
-				t_this.sprite_2 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
-				t_this.sprite_3 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
-				t_this.sprite_4 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
-				t_this.sprite_5 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
-				t_this.sprite_6 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
-				t_this.sprite_7 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
-				t_this.sprite_8 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
-				t_this.sprite_9 = Fee.Ui.Sprite2D_Clip.Create(null,a_drawpriority);
+				t_this.sprite_1 = Fee.Ui.Sprite_Clip.Create(null,a_drawpriority);
+				t_this.sprite_2 = Fee.Ui.Sprite_Clip.Create(null,a_drawpriority);
+				t_this.sprite_3 = Fee.Ui.Sprite_Clip.Create(null,a_drawpriority);
+				t_this.sprite_4 = Fee.Ui.Sprite_Clip.Create(null,a_drawpriority);
+				t_this.sprite_5 = Fee.Ui.Sprite_Clip.Create(null,a_drawpriority);
+				t_this.sprite_6 = Fee.Ui.Sprite_Clip.Create(null,a_drawpriority);
+				t_this.sprite_7 = Fee.Ui.Sprite_Clip.Create(null,a_drawpriority);
+				t_this.sprite_8 = Fee.Ui.Sprite_Clip.Create(null,a_drawpriority);
+				t_this.sprite_9 = Fee.Ui.Sprite_Clip.Create(null,a_drawpriority);
 
 				//corner_size
 				t_this.corner_size = 0;

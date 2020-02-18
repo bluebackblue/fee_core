@@ -44,7 +44,7 @@ namespace Fee.EditorTool
 							byte[] t_binary = UnityEngine.ImageConversion.EncodeToPNG(t_new_texture);
 
 							//ＭＤ５.
-							string t_md5 = Fee.MD5.MD5.CalcMD5(t_binary);
+							string t_md5 = Fee.MD5.MD5.CalcMD5(t_binary,0,t_binary.Length);
 
 							if(a_use_count == true){
 								//パス。

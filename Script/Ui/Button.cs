@@ -18,10 +18,10 @@ namespace Fee.Ui
 	{
 		/** sprite
 		*/
-		private Fee.Ui.Sprite2D_Slice9 normal_sprite;
-		private Fee.Ui.Sprite2D_Slice9 on_sprite;
-		private Fee.Ui.Sprite2D_Slice9 down_sprite;
-		private Fee.Ui.Sprite2D_Slice9 lock_sprite;
+		private Fee.Ui.Sprite_Slice9 normal_sprite;
+		private Fee.Ui.Sprite_Slice9 on_sprite;
+		private Fee.Ui.Sprite_Slice9 down_sprite;
+		private Fee.Ui.Sprite_Slice9 lock_sprite;
 
 		/** text
 		*/
@@ -56,19 +56,19 @@ namespace Fee.Ui
 				t_this.InitializeFromPool(a_drawpriority);
 				
 				//sprite
-				t_this.normal_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority);
+				t_this.normal_sprite = Fee.Ui.Sprite_Slice9.Create(null,a_drawpriority);
 				t_this.normal_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.normal_sprite.SetVisible(true);
 
-				t_this.on_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority);
+				t_this.on_sprite = Fee.Ui.Sprite_Slice9.Create(null,a_drawpriority);
 				t_this.on_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.on_sprite.SetVisible(false);
 
-				t_this.down_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority);
+				t_this.down_sprite = Fee.Ui.Sprite_Slice9.Create(null,a_drawpriority);
 				t_this.down_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.down_sprite.SetVisible(false);
 
-				t_this.lock_sprite = Fee.Ui.Sprite2D_Slice9.Create(null,a_drawpriority);
+				t_this.lock_sprite = Fee.Ui.Sprite_Slice9.Create(null,a_drawpriority);
 				t_this.lock_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.lock_sprite.SetVisible(false);
 

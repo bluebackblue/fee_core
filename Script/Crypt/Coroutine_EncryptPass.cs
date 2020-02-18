@@ -57,7 +57,7 @@ namespace Fee.Crypt
 
 		/** CoroutineMain
 		*/
-		public System.Collections.IEnumerator CoroutineMain(Fee.Crypt.OnCryptCoroutine_CallBackInterface a_callback_interface,byte[] a_binary,string a_pass,string a_salt)
+		public System.Collections.IEnumerator CoroutineMain(Fee.Crypt.OnCryptCoroutine_CallBackInterface a_callback_interface,byte[] a_binary,int a_index,int a_length,string a_pass,string a_salt)
 		{
 			//result
 			this.result = new ResultType();
@@ -72,7 +72,7 @@ namespace Fee.Crypt
 			Task_EncryptPass.ResultType t_result;
 
 			//タスク起動。
-			using(Fee.TaskW.Task<Task_EncryptPass.ResultType> t_task = Task_EncryptPass.Run(this,a_binary,a_pass,a_salt,t_cancel_token)){
+			using(Fee.TaskW.Task<Task_EncryptPass.ResultType> t_task = Task_EncryptPass.Run(this,a_binary,a_index,a_length,a_pass,a_salt,t_cancel_token)){
 
 				//終了待ち。
 				do{

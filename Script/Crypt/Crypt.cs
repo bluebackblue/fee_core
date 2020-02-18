@@ -144,20 +144,20 @@ namespace Fee.Crypt
 
 		/** リクエスト。暗号化。パスワード。
 		*/
-		public Item RequestEncryptPass(byte[] a_binary,string a_pass,string a_salt)
+		public Item RequestEncryptPass(byte[] a_binary,int a_index,int a_length,string a_pass,string a_salt)
 		{
 			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestEncryptPass(a_binary,a_pass,a_salt);
+			t_work_item.RequestEncryptPass(a_binary,a_index,a_length,a_pass,a_salt);
 			this.add_list.Add(t_work_item);
 			return t_work_item.GetItem();
 		}
 
 		/** リクエスト。複合化。パス。
 		*/
-		public Item RequestDecryptPass(byte[] a_binary,string a_pass,string a_salt)
+		public Item RequestDecryptPass(byte[] a_binary,int a_index,int a_length,string a_pass,string a_salt)
 		{
 			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestDecryptPass(a_binary,a_pass,a_salt);
+			t_work_item.RequestDecryptPass(a_binary,a_index,a_length,a_pass,a_salt);
 			this.add_list.Add(t_work_item);
 			return t_work_item.GetItem();
 		}

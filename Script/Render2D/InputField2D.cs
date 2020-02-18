@@ -450,20 +450,6 @@ namespace Fee.Render2D
 			return this.param.GetTextColor();
 		}
 
-		/** センター。設定。
-		*/
-		public void SetCenter(bool a_flag)
-		{
-			this.param.SetCenter(a_flag);
-		}
-
-		/** センター。設定。
-		*/
-		public bool IsCenter()
-		{
-			return this.param.IsCenter();
-		}
-
 		/** フォント。設定。
 		*/
 		public void SetFont(UnityEngine.Font a_font)

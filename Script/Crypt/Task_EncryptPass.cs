@@ -36,9 +36,9 @@ namespace Fee.Crypt
 		/** TaskMain
 		*/
 		#if((UNITY_5)||(UNITY_WEBGL))
-		private static ResultType TaskMain(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,string a_pass,string a_salt,Fee.TaskW.CancelToken a_cancel)
+		private static ResultType TaskMain(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,int a_index,int a_length,string a_pass,string a_salt,Fee.TaskW.CancelToken a_cancel)
 		#else
-		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,string a_pass,string a_salt,Fee.TaskW.CancelToken a_cancel)
+		private static async System.Threading.Tasks.Task<ResultType> TaskMain(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,int a_index,int a_length,string a_pass,string a_salt,Fee.TaskW.CancelToken a_cancel)
 		#endif
 		{
 			ResultType t_ret;
@@ -68,7 +68,12 @@ namespace Fee.Crypt
 
 				//TransformFinalBlock
 				using(System.Security.Cryptography.ICryptoTransform t_encryptor = t_rijndael.CreateEncryptor()){
-					t_ret.binary = t_encryptor.TransformFinalBlock(a_binary,0,a_binary.Length);
+					t_ret.binary = t_encryptor.TransformFinalBlock(a_binary,a_index,a_length);
+				}
+
+				using(System.Security.Cryptography.ICryptoTransform t_decryptor = t_rijndael.CreateDecryptor()){
+					byte[] t_check = t_decryptor.TransformFinalBlock(t_ret.binary,0,t_ret.binary.Length);
+					Tool.Log("check",t_check[0].ToString());
 				}
 			}catch(System.Exception t_exception){
 				t_ret.binary = null;
@@ -93,10 +98,10 @@ namespace Fee.Crypt
 
 		/** 実行。
 		*/
-		public static Fee.TaskW.Task<ResultType> Run(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,string a_pass,string a_salt,Fee.TaskW.CancelToken a_cancel)
+		public static Fee.TaskW.Task<ResultType> Run(Fee.Crypt.OnCryptTask_CallBackInterface a_callback_interface,byte[] a_binary,int a_index,int a_length,string a_pass,string a_salt,Fee.TaskW.CancelToken a_cancel)
 		{
 			return new Fee.TaskW.Task<ResultType>(() => {
-				return Task_EncryptPass.TaskMain(a_callback_interface,a_binary,a_pass,a_salt,a_cancel);
+				return Task_EncryptPass.TaskMain(a_callback_interface,a_binary,a_index,a_length,a_pass,a_salt,a_cancel);
 			});
 		}
 	}

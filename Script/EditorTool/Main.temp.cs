@@ -47,7 +47,7 @@ namespace Fee.EditorTool
 	*/
 	public class Main : UnityEngine.MonoBehaviour
 	{
-		/** forced_quit
+		/** s_forced_quit
 		*/
 		private static bool s_forced_quit = false;
 

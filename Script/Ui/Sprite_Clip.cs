@@ -12,9 +12,9 @@
 */
 namespace Fee.Ui
 {
-	/** Sprite2D_Clip
+	/** Sprite_Clip
 	*/
-	public class Sprite2D_Clip : Fee.Deleter.OnDelete_CallBackInterface , Fee.Render2D.OnSprite2DMaterialUpdate_CallBackInterface , Fee.Pool.PoolItem_Base
+	public class Sprite_Clip : Fee.Deleter.OnDelete_CallBackInterface , Fee.Render2D.OnSprite2DMaterialUpdate_CallBackInterface , Fee.Pool.PoolItem_Base
 	{
 		/** sprite
 		*/
@@ -33,15 +33,15 @@ namespace Fee.Ui
 			プール用に作成。
 
 		*/
-		public Sprite2D_Clip()
+		public Sprite_Clip()
 		{
 		}
 
 		/** 作成。
 		*/
-		public static Sprite2D_Clip Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public static Sprite_Clip Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
-			Sprite2D_Clip t_this = Fee.Ui.Ui.GetInstance().GetPoolList_Sprite2D_Clip().PoolNew();
+			Sprite_Clip t_this = Fee.Ui.Ui.GetInstance().GetPoolList_Sprite_Clip().PoolNew();
 			{
 				t_this.sprite = Fee.Render2D.Sprite2D.Create(null,a_drawpriority);
 
@@ -70,7 +70,7 @@ namespace Fee.Ui
 			this.sprite.OnDelete();
 
 			//プールへ返還。
-			Fee.Ui.Ui.GetInstance().GetPoolList_Sprite2D_Clip().PoolToDelete(this);
+			Fee.Ui.Ui.GetInstance().GetPoolList_Sprite_Clip().PoolToDelete(this);
 		}
 
 		/** [Fee.Pool.PoolItem_Base]プールアイテムをメモリから削除。

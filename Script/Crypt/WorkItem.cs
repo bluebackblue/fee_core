@@ -78,6 +78,14 @@ namespace Fee.Crypt
 		*/
 		private byte[] request_binary;
 
+		/** request_index
+		*/
+		private int request_index;
+
+		/** request_length
+		*/
+		private int request_length;
+
 		/** request_key
 		*/
 		private string request_key;
@@ -111,6 +119,12 @@ namespace Fee.Crypt
 			//request_binary
 			this.request_binary = null;
 
+			//request_index
+			this.request_index = -1;
+
+			//request_length
+			this.request_length = -1;
+
 			//request_key
 			this.request_key = null;
 
@@ -130,6 +144,8 @@ namespace Fee.Crypt
 		{
 			this.request_type = RequestType.EncryptPublicKey;
 			this.request_binary = a_binary;
+			this.request_index = -1;
+			this.request_length = -1;
 			this.request_key = a_key;
 		}
 
@@ -139,6 +155,8 @@ namespace Fee.Crypt
 		{
 			this.request_type = RequestType.DecryptPrivateKey;
 			this.request_binary = a_binary;
+			this.request_index = -1;
+			this.request_length = -1;
 			this.request_key = a_key;
 		}
 
@@ -148,6 +166,8 @@ namespace Fee.Crypt
 		{
 			this.request_type = RequestType.CreateSignaturePrivateKey;
 			this.request_binary = a_binary;
+			this.request_index = -1;
+			this.request_length = -1;
 			this.request_key = a_key;
 		}
 
@@ -157,26 +177,32 @@ namespace Fee.Crypt
 		{
 			this.request_type = RequestType.VerifySignaturePublicKey;
 			this.request_binary = a_binary;
+			this.request_index = -1;
+			this.request_length = -1;
 			this.request_signature_binary = a_signature_binary;
 			this.request_key = a_key;
 		}
 
 		/** リクエスト。暗号化。パス。
 		*/
-		public void RequestEncryptPass(byte[] a_binary,string a_pass,string a_salt)
+		public void RequestEncryptPass(byte[] a_binary,int a_index,int a_length,string a_pass,string a_salt)
 		{
 			this.request_type = RequestType.EncryptPass;
 			this.request_binary = a_binary;
+			this.request_index = a_index;
+			this.request_length = a_length;
 			this.request_pass = a_pass;
 			this.request_salt = a_salt;
 		}
 
 		/** リクエスト。複合化。パス。
 		*/
-		public void RequestDecryptPass(byte[] a_binary,string a_pass,string a_salt)
+		public void RequestDecryptPass(byte[] a_binary,int a_index,int a_length,string a_pass,string a_salt)
 		{
 			this.request_type = RequestType.DecryptPass;
 			this.request_binary = a_binary;
+			this.request_index = a_index;
+			this.request_length = a_length;
 			this.request_pass = a_pass;
 			this.request_salt = a_salt;
 		}
@@ -225,13 +251,13 @@ namespace Fee.Crypt
 						}break;
 					case RequestType.EncryptPass:
 						{
-							if(Fee.Crypt.Crypt.GetInstance().GetMainSecurity().RequestEncryptPass(this.request_binary,this.request_pass,this.request_salt) == true){
+							if(Fee.Crypt.Crypt.GetInstance().GetMainSecurity().RequestEncryptPass(this.request_binary,this.request_index,this.request_length,this.request_pass,this.request_salt) == true){
 								this.mode = Mode.Do_Security;
 							}
 						}break;
 					case RequestType.DecryptPass:
 						{
-							if(Fee.Crypt.Crypt.GetInstance().GetMainSecurity().RequestDecryptPass(this.request_binary,this.request_pass,this.request_salt) == true){
+							if(Fee.Crypt.Crypt.GetInstance().GetMainSecurity().RequestDecryptPass(this.request_binary,this.request_index,this.request_length,this.request_pass,this.request_salt) == true){
 								this.mode = Mode.Do_Security;
 							}
 						}break;

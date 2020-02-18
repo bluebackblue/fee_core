@@ -12,9 +12,9 @@
 */
 namespace Fee.Ui
 {
-	/** Line2D
+	/** Line
 	*/
-	public class Line2D : Fee.Deleter.OnDelete_CallBackInterface
+	public class Line : Fee.Deleter.OnDelete_CallBackInterface
 	{
 		/** size
 		*/
@@ -37,14 +37,14 @@ namespace Fee.Ui
 			プール用に作成。
 
 		*/
-		public Line2D()
+		public Line()
 		{
 		}
 
-		public static Line2D Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
+		public static Line Create(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			//Line2D t_this = Fee.Ui.Ui.GetInstance().GetPoolList_Line2D().PoolNew();
-			Line2D t_this = new Line2D();
+			Line t_this = new Line();
 			{
 				//size
 				t_this.size = 3;

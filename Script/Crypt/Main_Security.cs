@@ -53,6 +53,14 @@ namespace Fee.Crypt
 		*/
 		private byte[] request_binary;
 
+		/** request_index
+		*/
+		private int request_index;
+
+		/** request_length
+		*/
+		private int request_length;
+
 		/** request_key
 		*/
 		private string request_key;
@@ -95,6 +103,8 @@ namespace Fee.Crypt
 
 			//request
 			this.request_binary = null;
+			this.request_index = -1;
+			this.request_length = -1;
 			this.request_key = null;
 			this.request_signature_binary = null;
 			this.request_pass = null;
@@ -190,6 +200,8 @@ namespace Fee.Crypt
 
 				//request
 				this.request_binary = a_binary;
+				this.request_index = -1;
+				this.request_length = -1;
 				this.request_key = a_key;
 				this.request_signature_binary = null;
 				this.request_pass = null;
@@ -240,6 +252,8 @@ namespace Fee.Crypt
 
 				//request
 				this.request_binary = a_binary;
+				this.request_index = -1;
+				this.request_length = -1;
 				this.request_key = a_key;
 				this.request_signature_binary = null;
 				this.request_pass = null;
@@ -290,6 +304,8 @@ namespace Fee.Crypt
 
 				//request
 				this.request_binary = a_binary;
+				this.request_index = -1;
+				this.request_length = -1;
 				this.request_key = a_key;
 				this.request_signature_binary = null;
 				this.request_pass = null;
@@ -340,6 +356,8 @@ namespace Fee.Crypt
 
 				//request
 				this.request_binary = a_binary;
+				this.request_index = -1;
+				this.request_length = -1;
 				this.request_key = a_key;
 				this.request_signature_binary = a_signature_binary;
 				this.request_pass = null;
@@ -373,7 +391,7 @@ namespace Fee.Crypt
 
 		/** リクエスト。暗号化。パス。
 		*/
-		public bool RequestEncryptPass(byte[] a_binary,string a_pass,string a_salt)
+		public bool RequestEncryptPass(byte[] a_binary,int a_index,int a_length,string a_pass,string a_salt)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -389,6 +407,8 @@ namespace Fee.Crypt
 
 				//request
 				this.request_binary = a_binary;
+				this.request_index = a_index;
+				this.request_length = a_length;
 				this.request_key = null;
 				this.request_signature_binary = null;
 				this.request_pass = a_pass;
@@ -406,7 +426,7 @@ namespace Fee.Crypt
 		private System.Collections.IEnumerator DoEncryptPass()
 		{
 			Coroutine_EncryptPass t_coroutine = new Coroutine_EncryptPass();
-			yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_pass,this.request_salt);
+			yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_index,this.request_length,this.request_pass,this.request_salt);
 
 			if(t_coroutine.result.binary != null){
 				this.result_progress = 1.0f;
@@ -423,7 +443,7 @@ namespace Fee.Crypt
 
 		/** リクエスト。複合化。パス。
 		*/
-		public bool RequestDecryptPass(byte[] a_binary,string a_pass,string a_salt)
+		public bool RequestDecryptPass(byte[] a_binary,int a_index,int a_length,string a_pass,string a_salt)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -439,6 +459,8 @@ namespace Fee.Crypt
 
 				//request
 				this.request_binary = a_binary;
+				this.request_index = a_index;
+				this.request_length = a_length;
 				this.request_key = null;
 				this.request_signature_binary = null;
 				this.request_pass = a_pass;
@@ -456,7 +478,7 @@ namespace Fee.Crypt
 		private System.Collections.IEnumerator DoDecryptPass()
 		{
 			Coroutine_DecryptPass t_coroutine = new Coroutine_DecryptPass();
-			yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_pass,this.request_salt);
+			yield return t_coroutine.CoroutineMain(this,this.request_binary,this.request_index,this.request_length,this.request_pass,this.request_salt);
 
 			if(t_coroutine.result.binary != null){
 				this.result_progress = 1.0f;

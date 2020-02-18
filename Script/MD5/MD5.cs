@@ -170,7 +170,7 @@ namespace Fee.MD5
 
 		/** CalcMD5
 		*/
-		public static string CalcMD5(byte[] a_binary)
+		public static string CalcMD5(byte[] a_binary,int a_index,int a_length)
 		{
 			string t_hash_string = null;
 
@@ -191,8 +191,8 @@ namespace Fee.MD5
 		*/
 		public static string CalcMD5(string a_string)
 		{
-			byte[] t_binary = System.Text.Encoding.UTF8.GetBytes(a_string);
-			return CalcMD5(t_binary);
+			byte[] t_binary = Fee.StringConvert.StringToUtf8Binary.Convert(a_string);
+			return CalcMD5(t_binary,0,t_binary.Length);
 		}
 	}
 }
