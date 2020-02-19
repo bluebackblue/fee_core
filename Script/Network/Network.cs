@@ -149,7 +149,7 @@ namespace Fee.Network
 		public void SetPlayeType<T>()
 			where T : Fee.Network.NetworkObject_Player_Base
 		{
-			this.dataloader.network_player_type = typeof(T);
+			this.dataloader.SetPlayerComponent<T>();
 		}
 
 		/** ルームリスト。取得。

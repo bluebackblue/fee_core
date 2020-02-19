@@ -12,16 +12,30 @@
 */
 namespace Fee.Network
 {
-	public class Creator_Base
-	{
-	}
-
-
 	public class Pun_DataLoader : Photon.Pun.IPunPrefabPool
 	{
-		/** network_player_type
+		/** ID_NETWORKOBJECT_PLAYER
 		*/
-		public System.Type network_player_type;
+		public const string ID_NETWORKOBJECT_PLAYER = "network_player";
+
+		/** player_component_type
+		*/
+		private System.Type player_component_type;
+
+		/** constructor
+		*/
+		public Pun_DataLoader()
+		{
+			this.player_component_type = null;
+		}
+
+		/** プレイヤータイプ。設定。
+		*/
+		public void SetPlayerComponent<T>()
+			where T : NetworkObject_Player_Base
+		{
+			this.player_component_type = typeof(T);
+		}
 
 		/** インスタンス。作成。
 		*/
@@ -30,9 +44,9 @@ namespace Fee.Network
 			UnityEngine.GameObject t_gameobject = null;
 
 			switch(a_id){
-			case "network_player":
+			case Pun_DataLoader.ID_NETWORKOBJECT_PLAYER:
 				{
-					t_gameobject = new UnityEngine.GameObject("network_player");
+					t_gameobject = new UnityEngine.GameObject(Pun_DataLoader.ID_NETWORKOBJECT_PLAYER);
 					t_gameobject.SetActive(false);
 					{
 						Pun_Sync_Player t_sync_player = t_gameobject.AddComponent<Pun_Sync_Player>();
@@ -43,19 +57,22 @@ namespace Fee.Network
 
 						t_view_player.ObservedComponents = new System.Collections.Generic.List<UnityEngine.Component>();
 						t_view_player.ObservedComponents.Add(t_sync_player);
+
 						t_view_status.ObservedComponents = new System.Collections.Generic.List<UnityEngine.Component>();
 						t_view_status.ObservedComponents.Add(t_sync_status);
 
 						t_sync_player.view = t_view_player;
 						t_sync_status.view = t_view_status;
-					}
 
-					Fee.Network.NetworkObject_Player_Base t_networkobject = (Fee.Network.NetworkObject_Player_Base)t_gameobject.AddComponent(this.network_player_type);
-					{
-						t_networkobject.sync_player = t_gameobject.GetComponent<Fee.Network.Pun_Sync_Player>();
-						t_networkobject.sync_status = t_gameobject.GetComponent<Fee.Network.Pun_Sync_Status>();
-						t_networkobject.sync_player.networkobject = t_networkobject;
-						t_networkobject.sync_status.networkobject = t_networkobject;
+						if(this.player_component_type != null){
+							Fee.Network.NetworkObject_Player_Base t_networkobject = (Fee.Network.NetworkObject_Player_Base)t_gameobject.AddComponent(this.player_component_type);
+							if(t_networkobject != null){
+								t_sync_player.networkobject = t_networkobject;
+								t_sync_status.networkobject = t_networkobject;
+								t_networkobject.sync_player = t_sync_player;
+								t_networkobject.sync_status = t_sync_status;
+							}
+						}
 					}
 				}break;
 			default:

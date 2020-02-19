@@ -29,12 +29,20 @@ namespace Fee.Network
 		public Pun_Stream stream_send;
 		public Pun_Stream stream_recv;
 
+		/** interval
+		*/
+		public int interval;
+		public int interval_max;
+
 		/** Awake
 		*/
 		private void Awake()
 		{
 			this.stream_send = new Pun_Stream();
 			this.stream_recv = new Pun_Stream();
+
+			this.interval = 0;
+			this.interval_max = Config.DEFAULT_PLAYER_STATUS_SEND_INTERVAL;
 		}
 
 		/** Start
@@ -50,8 +58,14 @@ namespace Fee.Network
 		{
 			if(this.networkobject != null){
 				if(a_stream.IsWriting){
-					this.stream_send.SetStream(a_stream);
-					this.networkobject.OnSendStatus(this.stream_send);
+					this.interval--;
+					if(this.interval <= 0){
+						this.interval = this.interval_max;
+						this.stream_send.SetStream(a_stream);
+						this.networkobject.OnSendStatus(this.stream_send);
+
+						Tool.Log("OnSendStatus","");
+					}
 				}else{
 					this.stream_recv.SetStream(a_stream);
 					this.networkobject.OnRecvStatus(this.stream_recv);

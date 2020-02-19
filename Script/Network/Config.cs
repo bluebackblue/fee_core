@@ -36,9 +36,9 @@ namespace Fee.Network
 		*/
 		public static string GAME_VERSION = "1";
 
-		/** プレハブ名。
+		/** プレイヤーステータス。送信。頻度。
 		*/
-		public static string PREFAB_NAME_PLAYER = "Prefab/Network/Player";
+		public static int DEFAULT_PLAYER_STATUS_SEND_INTERVAL = 60;
 	}
 }
 

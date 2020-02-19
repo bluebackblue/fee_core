@@ -672,11 +672,8 @@ namespace Fee.Network
 				return false;
 			}
 
-			UnityEngine.GameObject t_gameobject = Photon.Pun.PhotonNetwork.Instantiate("network_player",UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity,0);
+			UnityEngine.GameObject t_gameobject = Photon.Pun.PhotonNetwork.Instantiate(Pun_DataLoader.ID_NETWORKOBJECT_PLAYER,UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity,0);
 			if(t_gameobject != null){
-				/*
-				*/
-
 				return true;
 			}
 			return false;
