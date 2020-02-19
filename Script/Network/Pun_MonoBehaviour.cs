@@ -10,6 +10,7 @@
 
 /** Fee.Network
 */
+#if(USE_DEF_FEE_PUN)
 namespace Fee.Network
 {
 	/** Pun_MonoBehaviour
@@ -20,9 +21,20 @@ namespace Fee.Network
 		*/
 		public enum Mode
 		{
+			/** なし。
+			*/
 			None,
+
+			/** リクエスト。
+			*/
 			Request,
+
+			/** 処理中。
+			*/
 			Busy,
+
+			/** 結果。
+			*/
 			Result,
 		}
 
@@ -660,23 +672,25 @@ namespace Fee.Network
 
 		/** CreatePlayer
 		*/
-		public bool CreatePlayer()
+		public UnityEngine.GameObject CreatePlayer()
 		{
 			if(this.IsConnectRoom() == false){
 				//すでに切断済み。
-				return false;
+				return null;
 			}
 
 			if(this.IsConnectMaster() == false){
 				//マスターが切断されている。
-				return false;
+				return null;
 			}
 
 			UnityEngine.GameObject t_gameobject = Photon.Pun.PhotonNetwork.Instantiate(Pun_DataLoader.ID_NETWORKOBJECT_PLAYER,UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity,0);
-			if(t_gameobject != null){
-				return true;
+			if(t_gameobject == null){
+				Tool.Assert(false);
+				return null;
 			}
-			return false;
+
+			return t_gameobject;
 		}
 
 		/** カスタム認証。レスポンス。
@@ -750,4 +764,5 @@ namespace Fee.Network
 		}
 	}
 }
+#endif
 

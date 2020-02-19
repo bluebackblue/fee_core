@@ -14,11 +14,17 @@ namespace Fee.Network
 {
 	/** constructor
 	*/
-	public class Pun_Sync_Player : UnityEngine.MonoBehaviour , Photon.Pun.IPunObservable
+	#if(USE_DEF_FEE_PUN)
+	public class Pun_Sync_Player : UnityEngine.MonoBehaviour , Photon.Pun.IPunObservable , Sync_Base
+	#else
+	public class Pun_Sync_Player : UnityEngine.MonoBehaviour , Sync_Base
+	#endif
 	{
 		/** view
 		*/
+		#if(USE_DEF_FEE_PUN)
 		public Photon.Pun.PhotonView view;
+		#endif
 
 		/** networkobject
 		*/
@@ -37,15 +43,33 @@ namespace Fee.Network
 			this.stream_recv = new Pun_Stream();
 		}
 
-		/** Start
+		/** [Fee.Network.Sync_Base.IsSelf]自分自身。
 		*/
-		private void Start()
+		public bool IsSelf()
 		{
-			this.view.Synchronization = Photon.Pun.ViewSynchronization.UnreliableOnChange;
+			#if(USE_DEF_FEE_PUN)
+			return this.view.IsMine;
+			#else
+			return true;
+			#endif
+		}
+
+		/** [Fee.Network.Sync_Base.IsSelf]同期。設定。
+		*/
+		public void SetSync(bool a_flag)
+		{
+			#if(USE_DEF_FEE_PUN)
+			if(a_flag == true){
+				this.view.Synchronization = Photon.Pun.ViewSynchronization.Unreliable;
+			}else{
+				this.view.Synchronization = Photon.Pun.ViewSynchronization.Off;
+			}
+			#endif
 		}
 
 		/** OnPhotonSerializeView
 		*/
+		#if(USE_DEF_FEE_PUN)
 		public void OnPhotonSerializeView(Photon.Pun.PhotonStream a_stream,Photon.Pun.PhotonMessageInfo a_info)
 		{
 			if(this.networkobject != null){
@@ -58,6 +82,7 @@ namespace Fee.Network
 				}
 			}
 		}
+		#endif
 	}
 }
 

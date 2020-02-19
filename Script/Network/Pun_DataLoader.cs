@@ -4,21 +4,24 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ネットワーク。
+ * @brief ネットワーク。データローダー。
 */
 
 
 /** Fee.Network
 */
+#if(USE_DEF_FEE_PUN)
 namespace Fee.Network
 {
+	/** Pun_DataLoader
+	*/
 	public class Pun_DataLoader : Photon.Pun.IPunPrefabPool
 	{
 		/** ID_NETWORKOBJECT_PLAYER
 		*/
 		public const string ID_NETWORKOBJECT_PLAYER = "network_player";
 
-		/** player_component_type
+		/** プレイヤータイプ。
 		*/
 		private System.Type player_component_type;
 
@@ -35,6 +38,13 @@ namespace Fee.Network
 			where T : NetworkObject_Player_Base
 		{
 			this.player_component_type = typeof(T);
+		}
+
+		/** プレイヤータイプ。解除。
+		*/
+		public void UnSetPlayerComponent()
+		{
+			this.player_component_type = null;
 		}
 
 		/** インスタンス。作成。
@@ -94,4 +104,5 @@ namespace Fee.Network
 		}
 	}
 }
+#endif
 

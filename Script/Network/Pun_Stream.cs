@@ -10,21 +10,9 @@
 
 /** Fee.Network
 */
+#if(USE_DEF_FEE_PUN)
 namespace Fee.Network
 {
-	/** Stream_Base
-	*/
-	public interface Stream_Base
-	{
-		/** SendNext
-		*/
-		void SendNext(System.Object a_object);
-
-		/** ReceiveNext
-		*/
-		System.Object ReceiveNext();
-	}
-
 	/** Pun_Stream
 	*/
 	public class Pun_Stream : Stream_Base
@@ -32,7 +20,7 @@ namespace Fee.Network
 		/** raw_stream
 		*/
 		public Photon.Pun.PhotonStream raw_stream;
-		
+
 		/** constructor
 		*/
 		public Pun_Stream()
@@ -47,19 +35,20 @@ namespace Fee.Network
 			this.raw_stream = a_stream;
 		}
 
-		/** SendNext
+		/** SetSendData
 		*/
-		public void SendNext(System.Object a_object)
+		public void SetSendData(System.Object a_object)
 		{
 			this.raw_stream.SendNext(a_object);
 		}
 
-		/** ReceiveNext
+		/** GetRecvData
 		*/
-		public System.Object ReceiveNext()
+		public System.Object GetRecvData()
 		{
 			return this.raw_stream.ReceiveNext();
 		}
 	}
 }
+#endif
 

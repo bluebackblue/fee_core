@@ -64,11 +64,15 @@ namespace Fee.Network
 
 		/** pun
 		*/
+		#if(USE_DEF_FEE_PUN)
 		public Pun_MonoBehaviour pun;
+		#endif
 
-		/** dataloader
+		/** pun_dataloader
 		*/
-		public Pun_DataLoader dataloader;
+		#if(USE_DEF_FEE_PUN)
+		public Pun_DataLoader pun_dataloader;
+		#endif
 
 		/** room_list
 		*/
@@ -112,12 +116,16 @@ namespace Fee.Network
 		*/
 		private Network()
 		{
-			//pun
-			this.pun = Pun_MonoBehaviour.Create();
+			#if(USE_DEF_FEE_PUN)
+			{
+				//pun
+				this.pun = Pun_MonoBehaviour.Create();
 
-			//dataloader
-			this.dataloader = new Pun_DataLoader();
-			Photon.Pun.PhotonNetwork.PrefabPool = this.dataloader;  
+				//pun_dataloader
+				this.pun_dataloader = new Pun_DataLoader();
+				Photon.Pun.PhotonNetwork.PrefabPool = this.pun_dataloader;  
+			}
+			#endif
 
 			//room_list
 			this.room_list = new System.Collections.Generic.Dictionary<string,RoomItem>();
@@ -130,8 +138,10 @@ namespace Fee.Network
 		*/
 		private void Delete()
 		{
+			#if(USE_DEF_FEE_PUN)
 			this.pun.Delete();
 			this.pun = null;
+			#endif
 		}
 
 		/** IsBusy
@@ -149,7 +159,11 @@ namespace Fee.Network
 		public void SetPlayeType<T>()
 			where T : Fee.Network.NetworkObject_Player_Base
 		{
-			this.dataloader.SetPlayerComponent<T>();
+			#if(USE_DEF_FEE_PUN)
+			{
+				this.pun_dataloader.SetPlayerComponent<T>();
+			}
+			#endif
 		}
 
 		/** ルームリスト。取得。
@@ -166,7 +180,11 @@ namespace Fee.Network
 			if(this.step == Step.None){
 				//接続。
 				this.step = Step.ConnectMaster;
-				this.pun.GetResultMaster().mode = Pun_MonoBehaviour.Mode.Request;
+				#if(USE_DEF_FEE_PUN)
+				{
+					this.pun.GetResultMaster().mode = Pun_MonoBehaviour.Mode.Request;
+				}
+				#endif
 			}else{
 				//処理中。
 				Tool.Assert(false);
@@ -180,7 +198,11 @@ namespace Fee.Network
 			if(this.step == Step.None){
 				//接続。
 				this.step = Step.ConnectLobby;
-				this.pun.GetResultLobby().mode = Pun_MonoBehaviour.Mode.Request;
+				#if(USE_DEF_FEE_PUN)
+				{
+					this.pun.GetResultLobby().mode = Pun_MonoBehaviour.Mode.Request;
+				}
+				#endif
 			}else{
 				//処理中。
 				Tool.Assert(false);
@@ -194,9 +216,13 @@ namespace Fee.Network
 			if(this.step == Step.None){
 				//接続。
 				this.step = Step.ConnectRoom;
-				this.pun.GetResultRoom().mode = Pun_MonoBehaviour.Mode.Request;
-				this.pun.GetResultRoom().room_key = a_room_key;
-				this.pun.GetResultRoom().room_info = a_room_info;
+				#if(USE_DEF_FEE_PUN)
+				{
+					this.pun.GetResultRoom().mode = Pun_MonoBehaviour.Mode.Request;
+					this.pun.GetResultRoom().room_key = a_room_key;
+					this.pun.GetResultRoom().room_info = a_room_info;
+				}
+				#endif
 			}else{
 				//処理中。
 				Tool.Assert(false);
@@ -210,7 +236,11 @@ namespace Fee.Network
 			if(this.step == Step.None){
 				//切断。
 				this.step = Step.DisconnectMaster;
-				this.pun.GetResultMaster().mode = Pun_MonoBehaviour.Mode.Request;
+				#if(USE_DEF_FEE_PUN)
+				{
+					this.pun.GetResultMaster().mode = Pun_MonoBehaviour.Mode.Request;
+				}
+				#endif
 			}else{
 				//処理中。
 				Tool.Assert(false);
@@ -224,7 +254,11 @@ namespace Fee.Network
 			if(this.step == Step.None){
 				//切断。
 				this.step = Step.DisconnectLobby;
-				this.pun.GetResultLobby().mode = Pun_MonoBehaviour.Mode.Request;
+				#if(USE_DEF_FEE_PUN)
+				{
+					this.pun.GetResultLobby().mode = Pun_MonoBehaviour.Mode.Request;
+				}
+				#endif
 			}else{
 				//処理中。
 				Tool.Assert(false);
@@ -238,7 +272,11 @@ namespace Fee.Network
 			if(this.step == Step.None){
 				//切断。
 				this.step = Step.DisconnectRoom;
-				this.pun.GetResultRoom().mode = Pun_MonoBehaviour.Mode.Request;
+				#if(USE_DEF_FEE_PUN)
+				{
+					this.pun.GetResultRoom().mode = Pun_MonoBehaviour.Mode.Request;
+				}
+				#endif
 			}else{
 				//処理中。
 				Tool.Assert(false);
@@ -249,33 +287,77 @@ namespace Fee.Network
 		*/
 		public bool CreatePlayer()
 		{
-			return this.pun.CreatePlayer();
+			#if(USE_DEF_FEE_PUN)
+			{
+				return this.pun.CreatePlayer();
+			}
+			#else
+			{
+				return false;
+			}
+			#endif
 		}
 
 		/** マスター。接続チェック。
 		*/
 		public bool IsConnectMaster()
 		{
-			return this.pun.IsConnectMaster();
+			#if(USE_DEF_FEE_PUN)
+			{
+				return this.pun.IsConnectMaster();
+			}
+			#else
+			{
+				return false;
+			}
+			#endif
 		}
 
 		/** ロビー。接続チェック。
 		*/
 		public bool IsConnectLobby()
 		{
-			return this.pun.IsConnectLobby();
+			#if(USE_DEF_FEE_PUN)
+			{
+				return this.pun.IsConnectLobby();
+			}
+			#else
+			{
+				return false;
+			}
+			#endif
 		}
 
 		/** ルーム。接続チェック。
 		*/
 		public bool IsConnectRoom()
 		{
-			return this.pun.IsConnectRoom();
+			#if(USE_DEF_FEE_PUN)
+			{
+				return this.pun.IsConnectRoom();
+			}
+			#else
+			{
+				return false;
+			}
+			#endif
 		}
 
 		/** 更新。
 		*/
 		public void Main()
+		{
+			#if(USE_DEF_FEE_PUN)
+			{
+				this.Main_Pun();
+			}
+			#endif
+		}
+
+		/** 更新。
+		*/
+		#if(USE_DEF_FEE_PUN)
+		public void Main_Pun()
 		{
 			switch(this.step){
 			case Step.ConnectMaster:
@@ -418,6 +500,7 @@ namespace Fee.Network
 				}break;
 			}
 		}
+		#endif
 	}
 }
 

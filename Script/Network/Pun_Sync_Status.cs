@@ -14,11 +14,17 @@ namespace Fee.Network
 {
 	/** constructor
 	*/
-	public class Pun_Sync_Status : UnityEngine.MonoBehaviour , Photon.Pun.IPunObservable
+	#if(USE_DEF_FEE_PUN)
+	public class Pun_Sync_Status : UnityEngine.MonoBehaviour , Photon.Pun.IPunObservable , Sync_Base
+	#else
+	public class Pun_Sync_Status : UnityEngine.MonoBehaviour , Sync_Base
+	#endif
 	{
 		/** view
 		*/
+		#if(USE_DEF_FEE_PUN)
 		public Photon.Pun.PhotonView view;
+		#endif
 
 		/** networkobject
 		*/
@@ -45,15 +51,33 @@ namespace Fee.Network
 			this.interval_max = Config.DEFAULT_PLAYER_STATUS_SEND_INTERVAL;
 		}
 
-		/** Start
+		/** [Fee.Network.Sync_Base.IsSelf]自分自身。
 		*/
-		private void Start()
+		public bool IsSelf()
 		{
-			this.view.Synchronization = Photon.Pun.ViewSynchronization.UnreliableOnChange;
+			#if(USE_DEF_FEE_PUN)
+			return this.view.IsMine;
+			#else
+			return true;
+			#endif
+		}
+
+		/** [Fee.Network.Sync_Base.IsSelf]同期。設定。
+		*/
+		public void SetSync(bool a_flag)
+		{
+			#if(USE_DEF_FEE_PUN)
+			if(a_flag == true){
+				this.view.Synchronization = Photon.Pun.ViewSynchronization.ReliableDeltaCompressed;
+			}else{
+				this.view.Synchronization = Photon.Pun.ViewSynchronization.Off;
+			}
+			#endif
 		}
 
 		/** OnPhotonSerializeView
 		*/
+		#if(USE_DEF_FEE_PUN)
 		public void OnPhotonSerializeView(Photon.Pun.PhotonStream a_stream,Photon.Pun.PhotonMessageInfo a_info)
 		{
 			if(this.networkobject != null){
@@ -63,15 +87,16 @@ namespace Fee.Network
 						this.interval = this.interval_max;
 						this.stream_send.SetStream(a_stream);
 						this.networkobject.OnSendStatus(this.stream_send);
-
-						Tool.Log("OnSendStatus","");
 					}
 				}else{
+					Tool.Log("Recv","");
+
 					this.stream_recv.SetStream(a_stream);
 					this.networkobject.OnRecvStatus(this.stream_recv);
 				}
 			}
 		}
+		#endif
 	}
 }
 

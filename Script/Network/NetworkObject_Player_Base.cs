@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ネットワーク。
+ * @brief ネットワーク。ネットワークオブジェクト。プレイヤー。
 */
 
 
@@ -22,14 +22,16 @@ namespace Fee.Network
 
 		/** sync
 		*/
-		public Fee.Network.Pun_Sync_Player sync_player;
-		public Fee.Network.Pun_Sync_Status sync_status;
+		public Sync_Base sync_player;
+		public Sync_Base sync_status;
 
 		/** Start
 		*/
 		private void Start()
 		{
-			this.self = this.sync_player.view.IsMine;
+			this.self = this.sync_player.IsSelf();
+			this.sync_player.SetSync(true);
+			this.sync_status.SetSync(true);
 			this.OnConnect();
 		}
 
@@ -57,6 +59,9 @@ namespace Fee.Network
 		public abstract void OnRecvPlayer(Fee.Network.Stream_Base a_stream);
 
 		/** [Fee.Network.NetworkObject_Player_Base.OnSendStatus]送信。
+
+			低インターバル。
+
 		*/
 		public abstract void OnSendStatus(Fee.Network.Stream_Base a_stream);
 
