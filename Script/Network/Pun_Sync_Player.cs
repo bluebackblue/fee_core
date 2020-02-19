@@ -32,15 +32,19 @@ namespace Fee.Network
 
 		/** stream
 		*/
+		#if(USE_DEF_FEE_PUN)
 		public Pun_Stream stream_send;
 		public Pun_Stream stream_recv;
+		#endif
 
 		/** Awake
 		*/
 		private void Awake()
 		{
+			#if(USE_DEF_FEE_PUN)
 			this.stream_send = new Pun_Stream();
 			this.stream_recv = new Pun_Stream();
+			#endif
 		}
 
 		/** [Fee.Network.Sync_Base.IsSelf]自分自身。

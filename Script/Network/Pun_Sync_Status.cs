@@ -32,8 +32,10 @@ namespace Fee.Network
 
 		/** stream
 		*/
+		#if(USE_DEF_FEE_PUN)
 		public Pun_Stream stream_send;
 		public Pun_Stream stream_recv;
+		#endif
 
 		/** interval
 		*/
@@ -44,8 +46,10 @@ namespace Fee.Network
 		*/
 		private void Awake()
 		{
+			#if(USE_DEF_FEE_PUN)
 			this.stream_send = new Pun_Stream();
 			this.stream_recv = new Pun_Stream();
+			#endif
 
 			this.interval = 0;
 			this.interval_max = Config.DEFAULT_PLAYER_STATUS_SEND_INTERVAL;
