@@ -66,6 +66,10 @@ namespace Fee.Network
 		*/
 		public Pun_MonoBehaviour pun;
 
+		/** dataloader
+		*/
+		public Pun_DataLoader dataloader;
+
 		/** room_list
 		*/
 		public System.Collections.Generic.Dictionary<string,RoomItem> room_list;
@@ -111,6 +115,10 @@ namespace Fee.Network
 			//pun
 			this.pun = Pun_MonoBehaviour.Create();
 
+			//dataloader
+			this.dataloader = new Pun_DataLoader();
+			Photon.Pun.PhotonNetwork.PrefabPool = this.dataloader;  
+
 			//room_list
 			this.room_list = new System.Collections.Generic.Dictionary<string,RoomItem>();
 
@@ -134,6 +142,14 @@ namespace Fee.Network
 				return false;
 			}
 			return true;
+		}
+
+		/** プレイヤータイプ。設定。
+		*/
+		public void SetPlayeType<T>()
+			where T : Fee.Network.NetworkObject_Player_Base
+		{
+			this.dataloader.network_player_type = typeof(T);
 		}
 
 		/** ルームリスト。取得。
@@ -231,9 +247,9 @@ namespace Fee.Network
 
 		/** CreatePlayer
 		*/
-		public bool CreatePlayer(Fee.File.Path a_resources_path)
+		public bool CreatePlayer()
 		{
-			return this.pun.CreatePlayer(a_resources_path);
+			return this.pun.CreatePlayer();
 		}
 
 		/** マスター。接続チェック。

@@ -660,7 +660,7 @@ namespace Fee.Network
 
 		/** CreatePlayer
 		*/
-		public bool CreatePlayer(Fee.File.Path a_resources_path)
+		public bool CreatePlayer()
 		{
 			if(this.IsConnectRoom() == false){
 				//すでに切断済み。
@@ -672,8 +672,11 @@ namespace Fee.Network
 				return false;
 			}
 
-			UnityEngine.GameObject t_gameobject = Photon.Pun.PhotonNetwork.Instantiate(a_resources_path.GetPath(),UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity,0);
+			UnityEngine.GameObject t_gameobject = Photon.Pun.PhotonNetwork.Instantiate("network_player",UnityEngine.Vector3.zero,UnityEngine.Quaternion.identity,0);
 			if(t_gameobject != null){
+				/*
+				*/
+
 				return true;
 			}
 			return false;
