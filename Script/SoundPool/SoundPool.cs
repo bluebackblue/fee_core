@@ -132,7 +132,7 @@ namespace Fee.SoundPool
 			ロード後ローカルセーブ。
 
 		*/
-		public Item RequestLoadUrlSoundPool(File.Path a_path,UnityEngine.WWWForm a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler,uint a_data_version)
+		public Item RequestLoadUrlSoundPool(File.Path a_path,System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler,uint a_data_version)
 		{
 			WorkItem t_work_item = new WorkItem();
 			t_work_item.RequestLoadUrlBinaryFile(a_path,a_post_data,a_certificate_handler,a_data_version);

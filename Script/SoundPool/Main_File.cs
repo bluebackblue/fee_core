@@ -51,7 +51,7 @@ namespace Fee.SoundPool
 
 		/** request_post_data
 		*/
-		private UnityEngine.WWWForm request_post_data;
+		private System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> request_post_data;
 
 		/** request_certificate_handler
 		*/
@@ -276,7 +276,7 @@ namespace Fee.SoundPool
 
 		/** リクエスト。ロードＵＲＬ。サウンドプール。
 		*/
-		public bool RequestLoadUrlSoundPool(File.Path a_path,UnityEngine.WWWForm a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler,uint a_data_version)
+		public bool RequestLoadUrlSoundPool(File.Path a_path,System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler,uint a_data_version)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;

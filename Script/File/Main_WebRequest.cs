@@ -47,7 +47,7 @@ namespace Fee.File
 
 		/** request_post_data
 		*/
-		private UnityEngine.WWWForm request_post_data;
+		private System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> request_post_data;
 
 		/** request_certificate_handler
 		*/
@@ -171,7 +171,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードＵＲＬ。バイナリファイル。
 		*/
-		public bool RequestLoadUrlBinaryFile(Path a_url_path,UnityEngine.WWWForm a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler)
+		public bool RequestLoadUrlBinaryFile(Path a_url_path,System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -222,7 +222,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードＵＲＬ。テキストファイル。
 		*/
-		public bool RequestLoadUrlTextFile(Path a_url_path,UnityEngine.WWWForm a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler)
+		public bool RequestLoadUrlTextFile(Path a_url_path,System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -273,7 +273,7 @@ namespace Fee.File
 
 		/** リクエスト。ロードＵＲＬ。テクスチャファイル。
 		*/
-		public bool RequestLoadUrlTextureFile(Path a_url_path,UnityEngine.WWWForm a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler)
+		public bool RequestLoadUrlTextureFile(Path a_url_path,System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;

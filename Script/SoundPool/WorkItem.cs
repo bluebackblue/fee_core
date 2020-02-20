@@ -68,7 +68,7 @@ namespace Fee.SoundPool
 
 		/** request_post_data
 		*/
-		private UnityEngine.WWWForm request_post_data;
+		private System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> request_post_data;
 
 		/** request_certificate_handler
 		*/
@@ -127,7 +127,7 @@ namespace Fee.SoundPool
 
 		/** リクエスト。ロードＵＲＬ。サウンドプール。
 		*/
-		public void RequestLoadUrlBinaryFile(File.Path a_url_path,UnityEngine.WWWForm a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler,uint a_data_version)
+		public void RequestLoadUrlBinaryFile(File.Path a_url_path,System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler,uint a_data_version)
 		{
 			this.request_type = RequestType.LoadUrlSoundPool;
 			this.request_path = a_url_path;
