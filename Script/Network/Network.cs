@@ -123,7 +123,7 @@ namespace Fee.Network
 
 				//pun_dataloader
 				this.pun_dataloader = new Pun_DataLoader();
-				Photon.Pun.PhotonNetwork.PrefabPool = this.pun_dataloader;  
+				Photon.Pun.PhotonNetwork.PrefabPool = this.pun_dataloader;
 			}
 			#endif
 

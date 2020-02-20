@@ -123,7 +123,7 @@ namespace Fee.File
 						do{
 							//エラーチェック。
 
-							if((t_webrequest.isNetworkError == true)||(t_webrequest.isHttpError == true)){
+							if(t_webrequest.isNetworkError == true){
 								//エラー。
 								if(t_webrequest.error != null){
 									this.result = new ResultType(null,"Connect Error : LoadUrlBinaryFile : " + a_path.GetPath() + " : " + t_webrequest.error,t_webrequest.GetResponseHeaders(),t_webrequest.responseCode);
@@ -131,7 +131,7 @@ namespace Fee.File
 									this.result = new ResultType(null,"Connect Error : LoadUrlBinaryFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders(),t_webrequest.responseCode);
 								}
 								yield break;
-							}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)&&(t_webrequest.isHttpError == false)){
+							}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)){
 								//正常終了。
 								yield return t_webrequest_async;
 								break;
