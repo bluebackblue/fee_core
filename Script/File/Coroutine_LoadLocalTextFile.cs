@@ -117,7 +117,7 @@ namespace Fee.File
 			//コンバート。
 			string t_result_text = null;
 			{
-				string t_result = System.Text.Encoding.UTF8.GetString(t_result_binary);
+				string t_result = Fee.StringConvert.Utf8BinaryToString.Convert(t_result_binary,0,t_result_binary.Length);
 				if(t_result != null){
 					//成功。
 					t_result_text = t_result;

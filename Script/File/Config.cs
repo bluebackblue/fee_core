@@ -41,6 +41,10 @@ namespace Fee.File
 		#else
 		public static bool USE_ASYNC = true;
 		#endif
+
+		/** RESPONSECODE_KEY
+		*/
+		public static string RESPONSECODE_KEY = "ResponseCode";
 	}
 }
 

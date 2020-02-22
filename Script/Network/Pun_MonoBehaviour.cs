@@ -157,7 +157,7 @@ namespace Fee.Network
 		*/
 		public static Pun_MonoBehaviour Create()
 		{
-			UnityEngine.GameObject t_gameobject = new UnityEngine.GameObject();
+			UnityEngine.GameObject t_gameobject = new UnityEngine.GameObject("Network");
 			UnityEngine.GameObject.DontDestroyOnLoad(t_gameobject);
 			Pun_MonoBehaviour t_this = t_gameobject.AddComponent<Pun_MonoBehaviour>();
 			{

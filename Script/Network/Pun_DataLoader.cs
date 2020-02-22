@@ -58,6 +58,7 @@ namespace Fee.Network
 				{
 					t_gameobject = new UnityEngine.GameObject(Pun_DataLoader.ID_NETWORKOBJECT_PLAYER);
 					t_gameobject.SetActive(false);
+					UnityEngine.GameObject.DontDestroyOnLoad(t_gameobject);
 					{
 						Pun_Sync_Player t_sync_player = t_gameobject.AddComponent<Pun_Sync_Player>();
 						Pun_Sync_Status t_sync_status = t_gameobject.AddComponent<Pun_Sync_Status>();

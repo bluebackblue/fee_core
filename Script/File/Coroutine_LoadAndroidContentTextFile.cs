@@ -126,7 +126,7 @@ namespace Fee.File
 			string t_result_text = null;
 			{
 				try{
-					string t_result = System.Text.Encoding.UTF8.GetString(t_result_binary);
+					string t_result = Fee.StringConvert.Utf8BinaryToString.Convert(t_result_binary,0,t_result_binary.Length);
 
 					if(t_result == null){
 						//エラー。

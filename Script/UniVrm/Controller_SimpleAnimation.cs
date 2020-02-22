@@ -41,11 +41,15 @@ namespace Fee.UniVrm
 		*/
 		public void AddMotion(string a_state_name,UnityEngine.AnimationClip a_animetion_clip)
 		{
-			#if(USE_DEF_FEE_SIMPLEANIMATION)
-			this.raw.AddClip(a_animetion_clip,a_state_name);
-			#else
-			Tool.Assert(false);
-			#endif
+			if(a_animetion_clip != null){
+				#if(USE_DEF_FEE_SIMPLEANIMATION)
+				this.raw.AddClip(a_animetion_clip,a_state_name);
+				#else
+				Tool.Assert(false);
+				#endif
+			}else{
+				Tool.Assert(false);
+			}
 		}
 		
 		/** モーション。停止。

@@ -50,11 +50,11 @@ namespace Fee.File
 					if(this.responseheader == null){
 						this.responseheader = new System.Collections.Generic.Dictionary<string,string>();
 					}
-					if(this.responseheader.ContainsKey("ResponseCode") == true){
+					if(this.responseheader.ContainsKey(Config.RESPONSECODE_KEY) == true){
 						Tool.Assert(false);
-						this.responseheader["ResponseCode"] = a_response_code.ToString();
+						this.responseheader[Config.RESPONSECODE_KEY] = a_response_code.ToString();
 					}else{
-						this.responseheader.Add("ResponseCode",a_response_code.ToString());
+						this.responseheader.Add(Config.RESPONSECODE_KEY,a_response_code.ToString());
 					}
 				}catch(System.Exception t_exception){
 					Tool.DebugReThrow(t_exception);
