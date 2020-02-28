@@ -87,6 +87,39 @@ namespace Fee.File
 			}
 		}
 
+		/** GetFileNameCutExtensionString
+
+			最後のセパレータより後の文字列。
+
+			例 : "xxx/yyy/zzz.e" ==> "zzz"
+			例 : "xxx/yyy/zzz.e/" ==> ""
+			例 : "/aaa.e" ==> "aaa"
+			例 : "aaa.e" ==> "aaa"
+
+		*/
+		public static string GetFileNameCutExtensionString(string a_path)
+		{
+			int t_find_index = -1;
+			int t_find_extension = a_path.Length;
+
+			for(int ii=(a_path.Length - 1);ii >= 0;ii--){
+				if((a_path[ii] == '/')||(a_path[ii] == '\\')){
+					t_find_index = ii;
+					break;
+				}else if(a_path[ii] == '.'){
+					t_find_extension = ii;
+				}
+			}
+
+			if(t_find_index < 0){
+				return a_path.Substring(0,t_find_extension);
+			}else if(t_find_index < a_path.Length - 1){
+				return a_path.Substring(t_find_index + 1,t_find_extension - t_find_index - 1);
+			}else{
+				return "";
+			}
+		}
+
 		/** constructor
 
 			JsonToObject
@@ -149,6 +182,13 @@ namespace Fee.File
 		public string GetFileName()
 		{
 			return Path.GetFileNameString(this.path);
+		}
+
+		/** ファイル名。拡張子なし。取得。
+		*/
+		public string GetFileNameCutExtension()
+		{
+			return Path.GetFileNameCutExtensionString(this.path);
 		}
 
 		/** ディレクトリパス。取得。

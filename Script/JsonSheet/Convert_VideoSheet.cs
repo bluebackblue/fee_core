@@ -27,7 +27,7 @@ namespace Fee.JsonSheet
 	{
 		/** COMMAND
 		*/
-		public const string COMMAND = "<video>";
+		public const string COMMAND = "<video_prefab>";
 
 		/** リストアイテム。
 		*/

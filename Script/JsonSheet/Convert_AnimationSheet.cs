@@ -27,7 +27,7 @@ namespace Fee.JsonSheet
 	{
 		/** COMMAND
 		*/
-		public const string COMMAND = "<animation>";
+		public const string COMMAND = "<animation_prefab>";
 
 		/** リストアイテム。
 		*/
@@ -102,6 +102,8 @@ namespace Fee.JsonSheet
 						Fee.EditorTool.Utility.SavePrefab(t_prefab,a_assets_path,false);
 						UnityEngine.GameObject.DestroyImmediate(t_prefab);
 					}
+
+
 				}else{
 					Tool.Assert(false);
 				}

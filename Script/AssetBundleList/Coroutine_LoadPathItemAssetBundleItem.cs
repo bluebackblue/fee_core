@@ -223,6 +223,18 @@ namespace Fee.AssetBundleList
 						//失敗。
 						this.result.errorstring = "Coroutine_LoadPathItemAssetBundleItem : result_binary == null : " + a_assetbundle_name;
 						yield break;
+					}else{
+						System.Collections.Generic.Dictionary<string,string> t_response_header = t_item_bianry.GetResultResponseHeader();
+						if(t_response_header != null){
+							string t_response_code;
+							if(t_item_bianry.GetResultResponseHeader().TryGetValue(Fee.File.Config.RESPONSECODE_KEY,out t_response_code) == true){
+								if(t_response_code != "200"){
+									//失敗。
+									this.result.errorstring = "Coroutine_LoadPathItemAssetBundleItem : t_response_code = " + t_response_code;
+									yield break;
+								}
+							}
+						}
 					}
 				}
 

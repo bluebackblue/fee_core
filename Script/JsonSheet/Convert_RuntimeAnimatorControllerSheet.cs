@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ＪＳＯＮシート。ＳＥシート。
+ * @brief ＪＳＯＮシート。マテリアルシート。
 */
 
 
@@ -20,35 +20,35 @@ namespace Fee.JsonSheet
 	using System_Tuple = System;
 	#endif
 
-	/** Convert_TextureSheet
+	/** Convert_RuntimeAnimatorControllerSheet
 	*/
 	#if(UNITY_EDITOR)
-	public class Convert_TextureSheet
+	public class Convert_RuntimeAnimatorControllerSheet
 	{
 		/** COMMAND
 		*/
-		public const string COMMAND = "<texture_prefab>";
+		public const string COMMAND = "<runtimeanimatorcontroller_prefab>";
 
 		/** リストアイテム。
 		*/
 		public class ListItem
 		{
-			/** texture_command
+			/** runtimeanimatorcontroller_command
 			*/
-			public string texture_command;
+			public string runtimeanimatorcontroller_command;
 
-			/** texture_tag
+			/** runtimeanimatorcontroller_tag
 			*/
-			public string texture_tag;
+			public string runtimeanimatorcontroller_tag;
 
-			/** texture_assetspath
+			/** runtimeanimatorcontroller_assetspath
 			*/
-			public string texture_assetspath;
+			public string runtimeanimatorcontroller_assetspath;
 		}
 
 		/** コマンド。
 		*/
-		public const string TEXTURECOMMAND_ITEM = "<item>";
+		public const string RUNTIMEANIMATORCONTROLLERCOMMAND_ITEM = "<item>";
 
 		/** コンバート。
 
@@ -70,11 +70,11 @@ namespace Fee.JsonSheet
 							System.Collections.Generic.List<ListItem> t_sheet = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<ListItem>>(a_sheet[ii]);
 							if(t_sheet != null){
 								for(int jj=0;jj<t_sheet.Count;jj++){
-									if(Convert_TextureSheet.TEXTURECOMMAND_ITEM == t_sheet[jj].texture_command){
+									if(Convert_RuntimeAnimatorControllerSheet.RUNTIMEANIMATORCONTROLLERCOMMAND_ITEM == t_sheet[jj].runtimeanimatorcontroller_command){
 										//<item>
 
-										t_tag_list.Add(t_sheet[jj].texture_tag);
-										t_path_list.Add(new File.Path(t_sheet[jj].texture_assetspath));
+										t_tag_list.Add(t_sheet[jj].runtimeanimatorcontroller_tag);
+										t_path_list.Add(new File.Path(t_sheet[jj].runtimeanimatorcontroller_assetspath));
 									}else{
 										//無関係。複合シート。
 									}
@@ -87,13 +87,13 @@ namespace Fee.JsonSheet
 
 					//保存。
 					{
-						Fee.Instantiate.TextureList_Tool.ResourceItem[] t_texture_list = new Instantiate.TextureList_Tool.ResourceItem[t_tag_list.Count];
+						Fee.Instantiate.RuntimeAnimatorControllerList_Tool.ResourceItem[] t_runtimeanimatorcontroller_list = new Instantiate.RuntimeAnimatorControllerList_Tool.ResourceItem[t_tag_list.Count];
 						for(int ii=0;ii<t_tag_list.Count;ii++){
-							t_texture_list[ii] = new Instantiate.TextureList_Tool.ResourceItem(t_tag_list[ii],t_path_list[ii]);
+							t_runtimeanimatorcontroller_list[ii] = new Instantiate.RuntimeAnimatorControllerList_Tool.ResourceItem(t_tag_list[ii],t_path_list[ii]);
 						}
 
 						UnityEngine.GameObject t_prefab = new UnityEngine.GameObject("prefab_temp");
-						Fee.Instantiate.TextureList_Tool.Add(t_prefab,t_texture_list);
+						Fee.Instantiate.RuntimeAnimatorControllerList_Tool.Add(t_prefab,t_runtimeanimatorcontroller_list);
 						Fee.EditorTool.Utility.SavePrefab(t_prefab,a_assets_path,false);
 						UnityEngine.GameObject.DestroyImmediate(t_prefab);
 					}

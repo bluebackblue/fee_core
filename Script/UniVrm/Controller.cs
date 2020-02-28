@@ -156,9 +156,13 @@ namespace Fee.UniVrm
 
 		/** [RuntimeAnimatorController]モーション。再生。
 		*/
-		public void PlayMotion_RuntimeAnimatorController(string a_state)
+		public void PlayMotion_RuntimeAnimatorController(string a_state,float a_cross_time,bool a_cross)
 		{
-			this.raw_animator.Play(a_state);
+			if(a_cross == true){
+				this.raw_animator.CrossFadeInFixedTime(a_state,a_cross_time);
+			}else{
+				this.raw_animator.Play(a_state);
+			}
 		}
 
 		/** [RuntimeAnimatorController]GetCurrentAnimatorStateInfo

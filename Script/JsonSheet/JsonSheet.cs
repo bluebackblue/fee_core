@@ -138,6 +138,16 @@ namespace Fee.JsonSheet
 						//アニメーションシート。
 						Convert_AnimationSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
+				case Convert_AnimatorControllerSheet.COMMAND:
+					{
+						//アニメータコントローラシート。
+						Convert_AnimatorControllerSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+					}break;
+				case Convert_RuntimeAnimatorControllerSheet.COMMAND:
+					{
+						//ランタイムアニメータコントローラシート。
+						Convert_RuntimeAnimatorControllerSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+					}break;
 				case Convert_MaterialSheet.COMMAND:
 					{
 						//マテリアルシート。
@@ -145,7 +155,7 @@ namespace Fee.JsonSheet
 					}break;
 				default:
 					{
-						Tool.Assert(false);
+						Tool.LogError("ConvertFromJsonSheet",t_list_convert[ii].convert_command);
 					}break;
 				}
 			}

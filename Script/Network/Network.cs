@@ -139,8 +139,10 @@ namespace Fee.Network
 		private void Delete()
 		{
 			#if(USE_DEF_FEE_PUN)
-			this.pun.Delete();
-			this.pun = null;
+			if(this.pun != null){
+				this.pun.Delete();
+				this.pun = null;
+			}
 			#endif
 		}
 

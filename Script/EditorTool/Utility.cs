@@ -74,6 +74,21 @@ namespace Fee.EditorTool
 			}
 		}
 
+		/** SaveAnimationClip
+		*/
+		public static void SaveAnimationClip(UnityEngine.AnimationClip a_animation_clip,Fee.File.Path a_assets_path,bool a_refresh_unity)
+		{
+			try{
+				UnityEngine.AnimationClip t_new = UnityEngine.Object.Instantiate<UnityEngine.AnimationClip>(a_animation_clip);
+				UnityEditor.AssetDatabase.CreateAsset(t_new,"Assets/" + a_assets_path.GetPath());
+				if(a_refresh_unity == true){
+					UnityEditor.AssetDatabase.Refresh();
+				}
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+			}
+		}
+
 		/** ExportPackage
 		*/
 		public static void ExportPackage(Fee.File.Path a_assets_path,string a_package_name,UnityEditor.ExportPackageOptions a_option)
