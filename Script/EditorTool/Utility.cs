@@ -110,14 +110,7 @@ namespace Fee.EditorTool
 			System.Collections.Generic.List<string> t_list = new System.Collections.Generic.List<string>();
 			{
 				try{
-					string t_pattern = a_assets_path.GetPathCutLastSeparator();
-					if(t_pattern.Length == 0){
-						t_pattern = "*";
-					}else{
-						t_pattern += "/*";
-					}
-
-					string[] t_fullpath_list = System.IO.Directory.GetFiles(Fee.File.Path.CreateAssetsPath().GetPath(),t_pattern,System.IO.SearchOption.TopDirectoryOnly);
+					string[] t_fullpath_list = System.IO.Directory.GetFiles(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath(),"*",System.IO.SearchOption.TopDirectoryOnly);
 					for(int ii=0;ii<t_fullpath_list.Length;ii++){
 						string t_name = System.IO.Path.GetFileName(t_fullpath_list[ii]);
 						if(t_name.Length > 0){
@@ -137,14 +130,7 @@ namespace Fee.EditorTool
 		{
 			System.Collections.Generic.List<string> t_list = new System.Collections.Generic.List<string>();
 			{
-				string t_pattern = a_assets_path.GetPathCutLastSeparator();
-				if(t_pattern.Length == 0){
-					t_pattern = "*";
-				}else{
-					t_pattern += "/*";
-				}
-
-				string[] t_fullpath_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),t_pattern,System.IO.SearchOption.TopDirectoryOnly);
+				string[] t_fullpath_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath(),"*",System.IO.SearchOption.TopDirectoryOnly);
 				for(int ii=0;ii<t_fullpath_list.Length;ii++){
 					string t_name = System.IO.Path.GetFileName(t_fullpath_list[ii]);
 					if(t_name.Length > 0){
@@ -161,28 +147,23 @@ namespace Fee.EditorTool
 		{
 			System.Collections.Generic.List<Fee.File.Path> t_list = new System.Collections.Generic.List<Fee.File.Path>();
 			System.Collections.Generic.List<Fee.File.Path> t_work = new System.Collections.Generic.List<Fee.File.Path>();
+
+			//自分を列挙。
+			{
+				t_list.Add(a_assets_path);
+			}
+
 			{
 				t_work.Add(a_assets_path);
 				while(t_work.Count > 0){
 					Fee.File.Path t_path = t_work[t_work.Count - 1];
 					t_work.RemoveAt(t_work.Count - 1);
 
-					string t_pattern = t_path.GetPathCutLastSeparator();
-					if(t_pattern.Length == 0){
-						t_pattern = "*";
-					}else{
-						t_pattern += "/*";
-					}
-
-					string[] t_fullpath_list = System.IO.Directory.GetDirectories(Fee.File.Path.CreateAssetsPath().GetPath(),t_pattern,System.IO.SearchOption.TopDirectoryOnly);
-
-					for(int ii=0;ii<t_fullpath_list.Length;ii++){
-						string t_name = System.IO.Path.GetFileName(t_fullpath_list[ii]);
-						if(t_name.Length > 0){
-							Fee.File.Path t_new_path = new File.Path(t_path,t_name,Fee.File.Path.SEPARATOR);
-							t_list.Add(t_new_path);
-							t_work.Add(t_new_path);
-						}
+					System.Collections.Generic.List<string> t_directory_name_list = CreateDirectoryNameList(t_path);
+					for(int ii=0;ii<t_directory_name_list.Count;ii++){
+						Fee.File.Path t_new_path = new File.Path(t_path,t_directory_name_list[ii],Fee.File.Path.SEPARATOR);
+						t_list.Add(t_new_path);
+						t_work.Add(t_new_path);
 					}
 				}
 			}
@@ -198,20 +179,9 @@ namespace Fee.EditorTool
 				System.Collections.Generic.List<Fee.File.Path> t_directory_list = CreateAllDirectoryRelativePathList(a_assets_path);
 				foreach(Fee.File.Path t_path in t_directory_list){
 					
-					string t_pattern = t_path.GetPathCutLastSeparator();
-					if(t_pattern.Length == 0){
-						t_pattern = "*";
-					}else{
-						t_pattern += "/*";
-					}
-					
-					string[] t_fullpath_list = System.IO.Directory.GetFiles(Fee.File.Path.CreateAssetsPath().GetPath(),t_pattern,System.IO.SearchOption.TopDirectoryOnly);
-
-					for(int ii=0;ii<t_fullpath_list.Length;ii++){
-						string t_name = System.IO.Path.GetFileName(t_fullpath_list[ii]);
-						if(t_name.Length > 0){
-							t_list.Add(new Fee.File.Path(t_path,t_name,Fee.File.Path.SEPARATOR));
-						}
+					System.Collections.Generic.List<string> t_file_name_list = CreateFileNameList(t_path);
+					for(int ii=0;ii<t_file_name_list.Count;ii++){
+						t_list.Add(new Fee.File.Path(t_path,t_file_name_list[ii],Fee.File.Path.SEPARATOR));
 					}
 				}
 			}

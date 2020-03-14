@@ -45,7 +45,7 @@ namespace Fee.JsonSheet
 			}
 
 			//コンバートシート。取得。
-			System.Collections.Generic.List<ConvertSheet_ListItem> t_list_convert = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<ConvertSheet_ListItem>>(t_jsonitem_convertsheet);
+			System.Collections.Generic.List<ConvertListItem> t_list_convert = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<ConvertListItem>>(t_jsonitem_convertsheet);
 			if(t_list_convert == null){
 				return false;
 			}
@@ -88,71 +88,75 @@ namespace Fee.JsonSheet
 				}
 
 				switch(t_list_convert[ii].convert_command){
-				case Convert_JsonSheet.COMMAND:
+				case ConvertSheet_Enum.COMMAND:
 					{
-						//ＪＳＯＮシート。
-						Convert_JsonSheet.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//ＥＮＵＭ。
+						ConvertSheet_Enum.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_EnumSheet.COMMAND:
+				case ConvertSheet_Json.COMMAND:
 					{
-						//ＥＮＵＭシート。
-						Convert_EnumSheet.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//ＪＳＯＮ。
+						ConvertSheet_Json.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_AudioSheet.COMMAND:
+				case ConvertSheet_Prefab.COMMAND:
 					{
-						//オーディオシート。
-						Convert_AudioSheet.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//プレハブ。
+						ConvertSheet_Prefab.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_DataSheet.COMMAND:
+				case ConvertSheet_Data.COMMAND:
 					{
-						//データシート。
-						Convert_DataSheet.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//データ。
+						ConvertSheet_Data.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_TextureSheet.COMMAND:
+
+
+
+				case ConvertSheet_AudioPrefab.COMMAND:
 					{
-						//テクスチャーシート。
-						Convert_TextureSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//オーディオプレハブ。
+						ConvertSheet_AudioPrefab.Convert(t_list_convert[ii].convert_param,new Fee.File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_FontSheet.COMMAND:
+				case ConvertSheet_MaterialPrefab.COMMAND:
 					{
-						//フォントシート。
-						Convert_FontSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//マテリアルプレハブ。
+						ConvertSheet_MaterialPrefab.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_TextAssetSheet.COMMAND:
+				case ConvertSheet_VideoPrefab.COMMAND:
 					{
-						//テキストアセットシート。
-						Convert_TextAssetSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//ビデオプレハブ。
+						ConvertSheet_VideoPrefab.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_Videoheet.COMMAND:
+				case ConvertSheet_TexturePrefab.COMMAND:
 					{
-						//ムービーシート。
-						Convert_Videoheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//テクスチャプレハブ。
+						ConvertSheet_TexturePrefab.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_PrefabSheet.COMMAND:
+				case ConvertSheet_FontPrefab.COMMAND:
 					{
-						//プレハブシート。
-						Convert_PrefabSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//フォントプレハブ。
+						ConvertSheet_FontPrefab.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_AnimationSheet.COMMAND:
+				case ConvertSheet_TextAssetPrefab.COMMAND:
 					{
-						//アニメーションシート。
-						Convert_AnimationSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//テキストアセットプレハブ。
+						ConvertSheet_TextAssetPrefab.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_AnimatorControllerSheet.COMMAND:
+				case ConvertSheet_RAControllerPrefab.COMMAND:
 					{
-						//アニメータコントローラシート。
-						Convert_AnimatorControllerSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//ランタイムアニメータコントローラプレハブ。
+						ConvertSheet_RAControllerPrefab.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_RuntimeAnimatorControllerSheet.COMMAND:
+
+
+
+				case ConvertSheet_AnimatorController.COMMAND:
 					{
-						//ランタイムアニメータコントローラシート。
-						Convert_RuntimeAnimatorControllerSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
+						//アニメータコントローラ。
+						ConvertSheet_AnimatorController.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
 					}break;
-				case Convert_MaterialSheet.COMMAND:
-					{
-						//マテリアルシート。
-						Convert_MaterialSheet.Convert(t_list_convert[ii].convert_param,new File.Path(t_list_convert[ii].convert_output),t_jsonitem_list,a_convertparam);
-					}break;
+
+
+
 				default:
 					{
 						Tool.LogError("ConvertFromJsonSheet",t_list_convert[ii].convert_command);

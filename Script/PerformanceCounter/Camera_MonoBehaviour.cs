@@ -41,7 +41,7 @@ namespace Fee.PerformanceCounter
 		{
 		}
 
-		/** OnRenderImage
+		/** OnPostRender
 		*/
 		private void OnPostRender()
 		{

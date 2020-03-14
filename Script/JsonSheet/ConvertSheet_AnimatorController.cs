@@ -12,18 +12,10 @@
 */
 namespace Fee.JsonSheet
 {
-	/** System_Tuple
-	*/
-	#if(UNITY_5)
-	using System_Tuple = Fee.Unity5;
-	#else
-	using System_Tuple = System;
-	#endif
-
-	/** Convert_AnimatorControllerSheet
+	/** ConvertSheet_AnimatorController
 	*/
 	#if(UNITY_EDITOR)
-	public class Convert_AnimatorControllerSheet
+	public class ConvertSheet_AnimatorController
 	{
 		/** COMMAND
 		*/
@@ -48,28 +40,23 @@ namespace Fee.JsonSheet
 
 		/** コマンド。
 		*/
-		public const string ANIMATORCONTROLLERCOMMAND_ITEM = "<item>";
+		private const string COMMAND_ITEM = "<item>";
 
 		/** コンバート。
-
-			a_param			: パラメータ。
-			a_assets_path	: アセットフォルダからの相対パス。
-			a_sheet			: ＪＳＯＮシート。
-
 		*/
-		public static void Convert(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
+		public static void Convert(string a_convert_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
 		{
 			try{
 				if(a_sheet != null){
-					System.Collections.Generic.List<string> t_state_list = new System_Tuple.Collections.Generic.List<string>();
-					System.Collections.Generic.List<Fee.File.Path> t_path_list = new System_Tuple.Collections.Generic.List<Fee.File.Path>();
+					System.Collections.Generic.List<string> t_state_list = new System.Collections.Generic.List<string>();
+					System.Collections.Generic.List<Fee.File.Path> t_path_list = new System.Collections.Generic.List<Fee.File.Path>();
 
 					for(int ii=0;ii<a_sheet.Length;ii++){
 						if(a_sheet[ii] != null){
 							System.Collections.Generic.List<ListItem> t_sheet = Fee.JsonItem.Convert.JsonItemToObject<System.Collections.Generic.List<ListItem>>(a_sheet[ii]);
 							if(t_sheet != null){
 								for(int jj=0;jj<t_sheet.Count;jj++){
-									if(Convert_AnimatorControllerSheet.ANIMATORCONTROLLERCOMMAND_ITEM == t_sheet[jj].animatorcontroller_command){
+									if(ConvertSheet_AnimatorController.COMMAND_ITEM == t_sheet[jj].animatorcontroller_command){
 										//<item>
 
 										t_state_list.Add(t_sheet[jj].animatorcontroller_state);

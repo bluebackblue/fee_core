@@ -12,10 +12,10 @@
 */
 namespace Fee.JsonSheet
 {
-	/** Convert_DataSheet
+	/** ConvertSheet_Data
 	*/
 	#if(UNITY_EDITOR)
-	public class Convert_DataSheet
+	public class ConvertSheet_Data
 	{
 		/** COMMAND
 		*/
@@ -42,85 +42,133 @@ namespace Fee.JsonSheet
 			public string data_assetbundle_name;
 		}
 
-		/** データコマンド。
-		*/
-		public const string DATACOMMAND_RESOURCES_PREFAB = "<resources_prefab>";
+		/** データパラメータ。
 
-		/** データコマンド。
-		*/
-		public const string DATACOMMAND_RESOURCES_TEXTURE = "<resources_texture>";
+			アセットバンドル名を出力せず、参照パスを出力する。
 
-		/** データコマンド。
-		*/
-		public const string DATACOMMAND_RESOURCES_TEXT = "<resources_text>";
 
-		/** データコマンド。
 		*/
-		public const string DATACOMMAND_STREAMINGASSETS_TEXTURE = "<streamingassets_texture>";
-
-		/** データコマンド。
-		*/
-		public const string DATACOMMAND_STREAMINGASSETS_TEXT = "<streamingassets_text>";
-
-		/** データコマンド。
-		*/
-		public const string DATACOMMAND_STREAMINGASSETS_BINARY = "<streamingassets_binary>";
-
-		/** データコマンド。
-		*/
-		public const string DATACOMMAND_URL_TEXTURE = "<url_texture>";
-
-		/** データコマンド。
-		*/
-		public const string DATACOMMAND_URL_TEXT = "<url_text>";
-
-		/** データコマンド。
-		*/
-		public const string DATACOMMAND_URL_BINARY = "<url_binary>";
+		private const string PARAM_DEBUG = "<debug>";
 
 		/** データパラメータ。
+
+			アセットバンドル名がある場合は、アセットバンドル名を使用し参照パスを出力しない。
+			アセットバンドル名がない場合は、参照パスを出力する。
+
 		*/
-		public const string DATAPARAM_DEBUG = "<debug>";
+		private const string PARAM_RELEASE = "<release>";
 
 		/** データパラメータ。
+
+			ダミーアセットバンドルを出力する。
+
 		*/
-		public const string DATAPARAM_RELEASE = "<release>";
+		private const string PARAM_DUMMY = "<dummy>";
 
 		/** データパラメータ。
+
+			プラットフォーム選択
+
 		*/
-		public const string DATAPARAM_DUMMY = "<dummy>";
+		private const string PARAM_STANDALONEWINDOWS = "<standalonewindows>";
 
 		/** データパラメータ。
+
+			プラットフォーム選択
+
 		*/
-		public const string DATAPARAM_STANDALONEWINDOWS = "<standalonewindows>";
+		private const string PARAM_ANDROID = "<android>";
 
 		/** データパラメータ。
+
+			プラットフォーム選択
+
 		*/
-		public const string DATAPARAM_ANDROID = "<android>";
+		private const string PARAM_WEBGL = "<webgl>";
 
 		/** データパラメータ。
-		*/
-		public const string DATAPARAM_WEBGL = "<webgl>";
 
-		/** データパラメータ。
+			プラットフォーム選択
+
 		*/
-		public const string DATAPARAM_IOS = "<ios>";
+		private const string PARAM_IOS = "<ios>";
+
+		/** コマンド。
+
+			リソースフォルダにあるプレハブ。
+			アセットバンドル化可能。
+
+		*/
+		private const string COMMAND_RESOURCES_PREFAB = "<resources_prefab>";
+
+		/** コマンド。
+
+			リソースフォルダにあるテクスチャ。
+			アセットバンドル化可能。
+
+		*/
+		private const string COMMAND_RESOURCES_TEXTURE = "<resources_texture>";
+
+		/** コマンド。
+
+			リソースフォルダにあるテキスト。
+			アセットバンドル化可能。
+
+		*/
+		private const string COMMAND_RESOURCES_TEXT = "<resources_text>";
+
+		/** コマンド。
+
+			ストリーミングアセットフォルダにあるテクスチャ。
+
+		*/
+		private const string COMMAND_STREAMINGASSETS_TEXTURE = "<streamingassets_texture>";
+
+		/** コマンド。
+
+			ストリーミングアセットフォルダにあるテキスト。
+
+		*/
+		private const string COMMAND_STREAMINGASSETS_TEXT = "<streamingassets_text>";
+
+		/** コマンド。
+
+			ストリーミングアセットフォルダにあるバイナリ。
+
+		*/
+		private const string COMMAND_STREAMINGASSETS_BINARY = "<streamingassets_binary>";
+
+		/** コマンド。
+
+			ＵＲＬにあるテクスチャ。
+
+		*/
+		private const string COMMAND_URL_TEXTURE = "<url_texture>";
+
+		/** コマンド。
+
+			ＵＲＬにあるテキスト。
+
+		*/
+		private const string COMMAND_URL_TEXT = "<url_text>";
+
+		/** コマンド。
+
+			ＵＲＬにあるバイナリ。
+
+		*/
+		private const string COMMAND_URL_BINARY = "<url_binary>";
 
 		/** コンバート。
-
-			a_param			: パラメータ。
-			a_assets_path	: アセットフォルダからの相対パス。
-			a_sheet			: ＪＳＯＮシート。
-
 		*/
-		public static void Convert(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
+		public static void Convert(string a_convert_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
 		{
 			try{
 				if(a_sheet != null){
-					if((a_param == Convert_DataSheet.DATAPARAM_DEBUG)||(a_param == Convert_DataSheet.DATAPARAM_RELEASE)){
-						Convert_DataSheet.Convert_WriteJson(a_param,a_assets_path,a_sheet);
+					if((a_convert_param == ConvertSheet_Data.PARAM_DEBUG)||(a_convert_param == ConvertSheet_Data.PARAM_RELEASE)){
+						ConvertSheet_Data.Convert_WriteJson(a_convert_param,a_assets_path,a_sheet);
 					}else{
-						Convert_DataSheet.Convert_CreateAssetBundle(a_param,a_assets_path,a_sheet,a_convertparam);
+						ConvertSheet_Data.Convert_CreateAssetBundle(a_convert_param,a_assets_path,a_sheet,a_convertparam);
 					}
 				}else{
 					Tool.Assert(false);
@@ -132,7 +180,7 @@ namespace Fee.JsonSheet
 
 		/** コンバート。ＪＳＯＮ出力。
 		*/
-		public static void Convert_WriteJson(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet)
+		private static void Convert_WriteJson(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet)
 		{
 			try{
 				if(a_sheet != null){
@@ -147,11 +195,11 @@ namespace Fee.JsonSheet
 									Data.JsonListItem t_item = null;
 
 									switch(t_sheet[jj].data_command){
-									case Convert_DataSheet.DATACOMMAND_RESOURCES_PREFAB:
+									case ConvertSheet_Data.COMMAND_RESOURCES_PREFAB:
 										{
 											//リソース。プレハブ。
 
-											if(a_param == Convert_DataSheet.DATAPARAM_RELEASE){
+											if(a_param == ConvertSheet_Data.PARAM_RELEASE){
 												if(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == false){
 													//アセットバンドル使用。
 													t_item = new Data.JsonListItem(Data.PathType.AssetBundle_Prefab,"",t_sheet[jj].data_assetbundle_name);
@@ -159,18 +207,18 @@ namespace Fee.JsonSheet
 													//リソース使用。
 													t_item = new Data.JsonListItem(Data.PathType.Resources_Prefab,t_sheet[jj].data_path,"");
 												}
-											}else if(a_param == Convert_DataSheet.DATAPARAM_DEBUG){
+											}else if(a_param == ConvertSheet_Data.PARAM_DEBUG){
 												//リソース使用。
 												t_item = new Data.JsonListItem(Data.PathType.Resources_Prefab,t_sheet[jj].data_path,"");
 											}else{
 												Tool.Assert(false);
 											}
 										}break;
-									case Convert_DataSheet.DATACOMMAND_RESOURCES_TEXTURE:
+									case ConvertSheet_Data.COMMAND_RESOURCES_TEXTURE:
 										{
 											//リソース。テクスチャ。
 
-											if(a_param == Convert_DataSheet.DATAPARAM_RELEASE){
+											if(a_param == ConvertSheet_Data.PARAM_RELEASE){
 												if(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == false){
 													//アセットバンドル使用。
 													t_item = new Data.JsonListItem(Data.PathType.AssetBundle_Texture,"",t_sheet[jj].data_assetbundle_name);
@@ -178,18 +226,18 @@ namespace Fee.JsonSheet
 													//リソース使用。
 													t_item = new Data.JsonListItem(Data.PathType.Resources_Texture,t_sheet[jj].data_path,"");
 												}
-											}else if(a_param == Convert_DataSheet.DATAPARAM_DEBUG){
+											}else if(a_param == ConvertSheet_Data.PARAM_DEBUG){
 												//リソース使用。
 												t_item = new Data.JsonListItem(Data.PathType.Resources_Texture,t_sheet[jj].data_path,"");
 											}else{
 												Tool.Assert(false);
 											}
 										}break;
-									case Convert_DataSheet.DATACOMMAND_RESOURCES_TEXT:
+									case ConvertSheet_Data.COMMAND_RESOURCES_TEXT:
 										{
 											//リソース。テキスト。
 
-											if(a_param == Convert_DataSheet.DATAPARAM_RELEASE){
+											if(a_param == ConvertSheet_Data.PARAM_RELEASE){
 												if(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == false){
 													//アセットバンドル使用。
 													t_item = new Data.JsonListItem(Data.PathType.AssetBundle_Text,"",t_sheet[jj].data_assetbundle_name);
@@ -197,49 +245,49 @@ namespace Fee.JsonSheet
 													//リソース使用。
 													t_item = new Data.JsonListItem(Data.PathType.Resources_Text,t_sheet[jj].data_path,"");
 												}
-											}else if(a_param == Convert_DataSheet.DATAPARAM_DEBUG){
+											}else if(a_param == ConvertSheet_Data.PARAM_DEBUG){
 												//リソース使用。
 												t_item = new Data.JsonListItem(Data.PathType.Resources_Text,t_sheet[jj].data_path,"");
 											}else{
 												Tool.Assert(false);
 											}
 										}break;
-									case Convert_DataSheet.DATACOMMAND_STREAMINGASSETS_TEXTURE:
+									case ConvertSheet_Data.COMMAND_STREAMINGASSETS_TEXTURE:
 										{
 											//ストリーミングアセット。テクスチャ。
 
 											Tool.Assert(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == true);
 											t_item = new Data.JsonListItem(Data.PathType.StreamingAssets_Texture,t_sheet[jj].data_path,"");
 										}break;
-									case Convert_DataSheet.DATACOMMAND_STREAMINGASSETS_TEXT:
+									case ConvertSheet_Data.COMMAND_STREAMINGASSETS_TEXT:
 										{
 											//ストリーミングアセット。テキスト。
 
 											Tool.Assert(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == true);
 											t_item = new Data.JsonListItem(Data.PathType.StreamingAssets_Text,t_sheet[jj].data_path,"");
 										}break;
-									case Convert_DataSheet.DATACOMMAND_STREAMINGASSETS_BINARY:
+									case ConvertSheet_Data.COMMAND_STREAMINGASSETS_BINARY:
 										{
 											//ストリーミングアセット。テキスト。
 
 											Tool.Assert(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == true);
 											t_item = new Data.JsonListItem(Data.PathType.StreamingAssets_Binary,t_sheet[jj].data_path,"");
 										}break;
-									case Convert_DataSheet.DATACOMMAND_URL_TEXTURE:
+									case ConvertSheet_Data.COMMAND_URL_TEXTURE:
 										{
 											//ＵＲＬ。テクスチャ。
 
 											Tool.Assert(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == true);
 											t_item = new Data.JsonListItem(Data.PathType.Url_Texture,t_sheet[jj].data_path,"");
 										}break;
-									case Convert_DataSheet.DATACOMMAND_URL_TEXT:
+									case ConvertSheet_Data.COMMAND_URL_TEXT:
 										{
 											//ＵＲＬ。テキスト。
 
 											Tool.Assert(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == true);
 											t_item = new Data.JsonListItem(Data.PathType.Url_Text,t_sheet[jj].data_path,"");
 										}break;
-									case Convert_DataSheet.DATACOMMAND_URL_BINARY:
+									case ConvertSheet_Data.COMMAND_URL_BINARY:
 										{
 											//ＵＲＬ。バイナリ。
 
@@ -279,7 +327,7 @@ namespace Fee.JsonSheet
 			a_sheet			: ＪＳＯＮシート。
 
 		*/
-		public static void Convert_CreateAssetBundle(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
+		private static void Convert_CreateAssetBundle(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
 		{
 			try{
 				if(a_sheet != null){
@@ -318,9 +366,9 @@ namespace Fee.JsonSheet
 									for(int jj=0;jj<t_sheet.Count;jj++){
 										if(string.IsNullOrEmpty(t_sheet[jj].data_assetbundle_name) == false){
 											switch(t_sheet[jj].data_command){
-											case Convert_DataSheet.DATACOMMAND_RESOURCES_PREFAB:
-											case Convert_DataSheet.DATACOMMAND_RESOURCES_TEXTURE:
-											case Convert_DataSheet.DATACOMMAND_RESOURCES_TEXT:
+											case ConvertSheet_Data.COMMAND_RESOURCES_PREFAB:
+											case ConvertSheet_Data.COMMAND_RESOURCES_TEXTURE:
+											case ConvertSheet_Data.COMMAND_RESOURCES_TEXT:
 												{
 													System.Collections.Generic.Dictionary<string,ListItem> t_item_list = null;
 													if(t_assetbundlelist.TryGetValue(t_sheet[jj].data_assetbundle_name,out t_item_list) == false){
@@ -346,7 +394,7 @@ namespace Fee.JsonSheet
 					}
 
 					switch(a_param){
-					case Convert_DataSheet.DATAPARAM_DUMMY:
+					case ConvertSheet_Data.PARAM_DUMMY:
 						{
 							//ダミー。
 
@@ -380,10 +428,10 @@ namespace Fee.JsonSheet
 								EditorTool.Utility.WriteTextFile(t_path,t_jsonstring,true);
 							}
 						}break;
-					case Convert_DataSheet.DATAPARAM_STANDALONEWINDOWS:
-					case Convert_DataSheet.DATAPARAM_ANDROID:
-					case Convert_DataSheet.DATAPARAM_WEBGL:
-					case Convert_DataSheet.DATAPARAM_IOS:
+					case ConvertSheet_Data.PARAM_STANDALONEWINDOWS:
+					case ConvertSheet_Data.PARAM_ANDROID:
+					case ConvertSheet_Data.PARAM_WEBGL:
+					case ConvertSheet_Data.PARAM_IOS:
 						{
 							//アセットバンドル。
 
@@ -456,19 +504,19 @@ namespace Fee.JsonSheet
 							//BuildTarget
 							UnityEditor.BuildTarget t_buildtarget = UnityEditor.BuildTarget.StandaloneWindows;
 							switch(a_param){
-							case Convert_DataSheet.DATAPARAM_STANDALONEWINDOWS:
+							case ConvertSheet_Data.PARAM_STANDALONEWINDOWS:
 								{
 									t_buildtarget = UnityEditor.BuildTarget.StandaloneWindows;
 								}break;
-							case Convert_DataSheet.DATAPARAM_ANDROID:
+							case ConvertSheet_Data.PARAM_ANDROID:
 								{
 									t_buildtarget = UnityEditor.BuildTarget.Android;
 								}break;
-							case Convert_DataSheet.DATAPARAM_WEBGL:
+							case ConvertSheet_Data.PARAM_WEBGL:
 								{
 									t_buildtarget = UnityEditor.BuildTarget.WebGL;
 								}break;
-							case Convert_DataSheet.DATAPARAM_IOS:
+							case ConvertSheet_Data.PARAM_IOS:
 								{
 									t_buildtarget = UnityEditor.BuildTarget.iOS;
 								}break;

@@ -12,24 +12,18 @@
 */
 namespace Fee.JsonSheet
 {
-	/** Convert_JsonSheet
+	/** ConvertSheet_Json
 	*/
 	#if(UNITY_EDITOR)
-	public class Convert_JsonSheet
+	public class ConvertSheet_Json
 	{
 		/** COMMAND
 		*/
 		public const string COMMAND = "<json>";
 
-
 		/** コンバート。
-
-			a_param			: パラメータ。
-			a_assets_path	: アセットフォルダからの相対パス。
-			a_sheet			: ＪＳＯＮシート。
-
 		*/
-		public static void Convert(string a_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
+		public static void Convert(string a_convert_param,Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem[] a_sheet,Fee.JsonSheet.ConvertParam a_convertparam)
 		{
 			try{
 				Fee.JsonItem.JsonItem t_jsonitem = new Fee.JsonItem.JsonItem(new Fee.JsonItem.Value_IndexArray());

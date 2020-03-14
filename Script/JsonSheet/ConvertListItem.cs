@@ -12,9 +12,9 @@
 */
 namespace Fee.JsonSheet
 {
-	/** コンバートシート。リストアイテム。
+	/** コンバートリストアイテム。
 	*/
-	public class ConvertSheet_ListItem
+	public class ConvertListItem
 	{
 		/** convert_command
 		*/
