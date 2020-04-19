@@ -203,6 +203,10 @@ namespace Fee.Platform
 					{
 						return "*/*";
 					}
+					#else
+					{
+						return "*/*";
+					}
 					#endif
 				}
 			}
@@ -221,6 +225,10 @@ namespace Fee.Platform
 					return "*/*";
 				}
 				#elif(UNITY_ANDROID)
+				{
+					return "*/*";
+				}
+				#else
 				{
 					return "*/*";
 				}

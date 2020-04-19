@@ -222,18 +222,11 @@ namespace Fee.Input
 							{
 								int t_pos_x = (int)t_touch.position.x.ReadValue();
 
-								#if(UNITY_ANDROID)
-								int t_pos_y = (int)(this.screen_h - t_touch.position.y.ReadValue());
-								#else
+								#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN)||(UNITY_WEBGL))
 								int t_pos_y = (int)t_touch.position.y.ReadValue();
+								#else
+								int t_pos_y = (int)(this.screen_h - t_touch.position.y.ReadValue());
 								#endif
-
-								/*
-								{
-									t_pos_x = (int)((float)t_pos_x * UnityEngine.Screen.width / this.screen_w);
-									t_pos_y = (int)((float)t_pos_y * UnityEngine.Screen.height / this.screen_h);
-								}
-								*/
 
 								//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 								a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
@@ -327,19 +320,7 @@ namespace Fee.Input
 						int t_y;
 						{
 							int t_pos_x = (int)t_mouse_current.position.x.ReadValue();
-
-							#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN))
 							int t_pos_y = (int)(this.screen_h - t_mouse_current.position.y.ReadValue());
-							#else
-							int t_pos_y = (int)(t_mouse_current.position.y.ReadValue());
-							#endif
-
-							/*
-							{
-								t_pos_x = (int)((float)t_pos_x * UnityEngine.Screen.width / this.screen_w);
-								t_pos_y = (int)((float)t_pos_y * UnityEngine.Screen.height / this.screen_h);
-							}
-							*/
 
 							//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 							a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
@@ -399,13 +380,6 @@ namespace Fee.Input
 							int t_pos_x = (int)t_touch.position.x;
 							int t_pos_y = this.screen_h - (int)t_touch.position.y;
 
-							/*
-							{
-								t_pos_x = t_pos_x * UnityEngine.Screen.width / this.screen_w;
-								t_pos_y = t_pos_y * UnityEngine.Screen.height / this.screen_h;
-							}
-							*/
-
 							//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 							a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
 						}
@@ -462,13 +436,6 @@ namespace Fee.Input
 				{
 					int t_pos_x = (int)UnityEngine.Input.mousePosition.x;
 					int t_pos_y = this.screen_h - (int)UnityEngine.Input.mousePosition.y;
-
-					/*
-					{
-						t_pos_x = t_pos_x * UnityEngine.Screen.width / this.screen_w;
-						t_pos_y = t_pos_y * UnityEngine.Screen.height / this.screen_h;
-					}
-					*/
 
 					//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。
 					a_render2d.GuiScreenToVirtualScreen(t_pos_x,t_pos_y,out t_x,out t_y);
