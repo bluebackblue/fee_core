@@ -38,9 +38,9 @@ namespace Fee.Input
 		*/
 		public static bool ASSERT_ENABLE = true;
 
-		/** リスロー。
+		/** デバッグリスロー。
 		*/
-		public static bool RETHROW_ENABLE = false;
+		public static bool DEBUGRETHROW_ENABLE = false;
 
 		/** デフォルト。連打間隔。
 		*/

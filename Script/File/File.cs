@@ -186,11 +186,6 @@ namespace Fee.File
 			LoadAssetsPathBinaryFile,
 			LoadAssetsPathTextFile,
 
-			/*
-			LoadAssetsPathTextureFile,
-			LoadAssetsPathPrefabFile,
-			*/
-
 			#endif
 		};
 

@@ -652,15 +652,9 @@ namespace Fee.Render2D
 
 				bool t_is_begin = false;
 
-				//GL.PushMatrix
-				UnityEngine.GL.PushMatrix();
-
-				try
-				{
-					//GL.LoadOrtho
-					UnityEngine.GL.LoadOrtho();
+				if(Fee.Graphic.Gl.PushMatrix() == true){
+					if(Fee.Graphic.Gl.LoadOrtho() == true){
 					
-					{
 						for(int ii=t_start_index;ii<=t_last_index;ii++){
 							Sprite2D t_sprite = this.spritelist.GetItem(ii);
 							if((t_sprite.IsVisible() == true)&&(t_sprite.GetDrawPriority() >= 0)&&(t_sprite.IsDeleteRequest() == false)&&(t_sprite.GetW() != 0)&&(t_sprite.GetH() != 0)){
@@ -673,7 +667,7 @@ namespace Fee.Render2D
 									//GL.End
 									if(t_is_begin == true){
 										t_is_begin = false;
-										UnityEngine.GL.End();
+										Fee.Graphic.Gl.End();
 									}
 								}
 
@@ -683,74 +677,72 @@ namespace Fee.Render2D
 									//GL.End
 									if(t_is_begin == true){
 										t_is_begin = false;
-										UnityEngine.GL.End();
+										Fee.Graphic.Gl.End();
 									}
 								}
 
 								//パス設定。
 								if(t_is_begin == false){
-									t_is_begin = true;
-
-									//GL.Begin
 									t_material_item.SetPass(0);
-									UnityEngine.GL.Begin(UnityEngine.GL.TRIANGLES);
+									if(Fee.Graphic.Gl.Begin(UnityEngine.GL.TRIANGLES) == true){
+										t_is_begin = true;
+									}
 								}
 
-								//GL.Color
-								{
-									UnityEngine.Color t_color = t_sprite.GetColor();
-									UnityEngine.GL.Color(t_color);
-								}
-
-								//GL.TexCoord2
-								//GL.Vertex3
-								{
-									//頂点情報。
-									float[] t_texcord = t_sprite.GetTexCoord();
-									float[] t_vertex = t_sprite.GetVertex();
-
+								if(t_is_begin == true){
+									//GL.Color
 									{
-										//左上。
-										UnityEngine.GL.TexCoord2(t_texcord[0],t_texcord[1]);
-										UnityEngine.GL.Vertex3(t_vertex[0],t_vertex[1],0.0f);
-
-										//右上。
-										UnityEngine.GL.TexCoord2(t_texcord[2],t_texcord[1]);
-										UnityEngine.GL.Vertex3(t_vertex[2],t_vertex[3],0.0f);
-
-										//左下。
-										UnityEngine.GL.TexCoord2(t_texcord[0],t_texcord[3]);
-										UnityEngine.GL.Vertex3(t_vertex[4],t_vertex[5],0.0f);
+										UnityEngine.Color t_color = t_sprite.GetColor();
+										UnityEngine.GL.Color(t_color);
 									}
 
+									//GL.TexCoord2
+									//GL.Vertex3
 									{
-										//左下。
-										UnityEngine.GL.TexCoord2(t_texcord[0],t_texcord[3]);
-										UnityEngine.GL.Vertex3(t_vertex[4],t_vertex[5],0.0f);
+										//頂点情報。
+										float[] t_texcord = t_sprite.GetTexCoord();
+										float[] t_vertex = t_sprite.GetVertex();
 
-										//右上。
-										UnityEngine.GL.TexCoord2(t_texcord[2],t_texcord[1]);
-										UnityEngine.GL.Vertex3(t_vertex[2],t_vertex[3],0.0f);
+										{
+											//左上。
+											UnityEngine.GL.TexCoord2(t_texcord[0],t_texcord[1]);
+											UnityEngine.GL.Vertex3(t_vertex[0],t_vertex[1],0.0f);
 
-										//右下。
-										UnityEngine.GL.TexCoord2(t_texcord[2],t_texcord[3]);
-										UnityEngine.GL.Vertex3(t_vertex[6],t_vertex[7],0.0f);	
+											//右上。
+											UnityEngine.GL.TexCoord2(t_texcord[2],t_texcord[1]);
+											UnityEngine.GL.Vertex3(t_vertex[2],t_vertex[3],0.0f);
+
+											//左下。
+											UnityEngine.GL.TexCoord2(t_texcord[0],t_texcord[3]);
+											UnityEngine.GL.Vertex3(t_vertex[4],t_vertex[5],0.0f);
+										}
+
+										{
+											//左下。
+											UnityEngine.GL.TexCoord2(t_texcord[0],t_texcord[3]);
+											UnityEngine.GL.Vertex3(t_vertex[4],t_vertex[5],0.0f);
+
+											//右上。
+											UnityEngine.GL.TexCoord2(t_texcord[2],t_texcord[1]);
+											UnityEngine.GL.Vertex3(t_vertex[2],t_vertex[3],0.0f);
+
+											//右下。
+											UnityEngine.GL.TexCoord2(t_texcord[2],t_texcord[3]);
+											UnityEngine.GL.Vertex3(t_vertex[6],t_vertex[7],0.0f);	
+										}
 									}
 								}
 							}
 						}
+
+						//GL.End
+						if(t_is_begin == true){
+							Fee.Graphic.Gl.End();
+						}
+
 					}
-				}catch(System.Exception t_exception){
-					Tool.DebugReThrow(t_exception);
+					Fee.Graphic.Gl.PopMatrix();
 				}
-
-				//GL.End
-				if(t_is_begin == true){
-					UnityEngine.GL.End();
-				}
-
-				//GL.PopMatrix
-				UnityEngine.GL.PopMatrix();
 			}
 		}
 	}

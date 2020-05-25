@@ -56,7 +56,7 @@ namespace Fee.Blur
 				UnityEngine.Debug.Log(a_exception.StackTrace + "\n\n" + a_exception.Message);
 			}
 
-			if(Config.RETHROW_ENABLE == true){
+			if(Config.DEBUGRETHROW_ENABLE == true){
 				if(a_exception is Fee.ReThrowException.ReThrowException){
 					throw a_exception;
 				}else{

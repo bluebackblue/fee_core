@@ -35,7 +35,7 @@ namespace Fee.Network
 		/** プレイヤータイプ。設定。
 		*/
 		public void SetPlayerComponent<T>()
-			where T : NetworkObject_Player_Base
+			where T : NetworkObject_Player_MonoBehaviour_Base
 		{
 			this.player_component_type = typeof(T);
 		}
@@ -60,28 +60,13 @@ namespace Fee.Network
 					t_gameobject.SetActive(false);
 					UnityEngine.GameObject.DontDestroyOnLoad(t_gameobject);
 					{
-						Pun_Sync_Player t_sync_player = t_gameobject.AddComponent<Pun_Sync_Player>();
-						Pun_Sync_Status t_sync_status = t_gameobject.AddComponent<Pun_Sync_Status>();
-
-						Photon.Pun.PhotonView t_view_player = t_gameobject.AddComponent<Photon.Pun.PhotonView>();
-						Photon.Pun.PhotonView t_view_status = t_gameobject.AddComponent<Photon.Pun.PhotonView>();
-
-						t_view_player.ObservedComponents = new System.Collections.Generic.List<UnityEngine.Component>();
-						t_view_player.ObservedComponents.Add(t_sync_player);
-
-						t_view_status.ObservedComponents = new System.Collections.Generic.List<UnityEngine.Component>();
-						t_view_status.ObservedComponents.Add(t_sync_status);
-
-						t_sync_player.view = t_view_player;
-						t_sync_status.view = t_view_status;
+						Sync t_sync = new Sync(t_gameobject);
 
 						if(this.player_component_type != null){
-							Fee.Network.NetworkObject_Player_Base t_networkobject = (Fee.Network.NetworkObject_Player_Base)t_gameobject.AddComponent(this.player_component_type);
+							Fee.Network.NetworkObject_Player_MonoBehaviour_Base t_networkobject = (Fee.Network.NetworkObject_Player_MonoBehaviour_Base)t_gameobject.AddComponent(this.player_component_type);
 							if(t_networkobject != null){
-								t_sync_player.networkobject = t_networkobject;
-								t_sync_status.networkobject = t_networkobject;
-								t_networkobject.sync_player = t_sync_player;
-								t_networkobject.sync_status = t_sync_status;
+								t_sync.SetNetworkObject(t_networkobject);
+								t_networkobject.SetSync(t_sync);
 							}
 						}
 					}

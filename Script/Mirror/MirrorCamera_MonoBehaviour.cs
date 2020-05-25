@@ -13,6 +13,9 @@
 namespace Fee.Mirror
 {
 	/** MirrorCamera
+
+		TODO:MonoBehaviour
+
 	*/
 	public class MirrorCamera_MonoBehaviour : UnityEngine.MonoBehaviour
 	{

@@ -60,7 +60,7 @@ namespace Fee.EditorTool
 
 										//ファイル出力。
 										if(Fee.EditorTool.Utility.IsExistFile(t_path) == false){
-											Fee.EditorTool.Utility.WriteBinaryFile(t_path,t_binary,false);
+											Fee.EditorTool.Utility.WriteBinaryFile(t_path,t_binary);
 											break;
 										}
 
@@ -73,7 +73,7 @@ namespace Fee.EditorTool
 
 								//ファイル出力。
 								if(Fee.EditorTool.Utility.IsExistFile(t_path) == false){
-									Fee.EditorTool.Utility.WriteBinaryFile(t_path,t_binary,false);
+									Fee.EditorTool.Utility.WriteBinaryFile(t_path,t_binary);
 								}
 							}
 						}

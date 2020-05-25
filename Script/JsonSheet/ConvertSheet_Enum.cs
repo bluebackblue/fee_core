@@ -167,7 +167,7 @@ namespace <<namespace>>
 						t_text = t_text.Replace(ConvertSheet_Enum.KEYWORD_ENUMCOMMENT,"NoComment");
 					}
 
-					Fee.EditorTool.Utility.WriteTextFile(a_assets_path,t_text,true);
+					Fee.EditorTool.Utility.WriteTextFile(a_assets_path,t_text);
 				}else{
 					Tool.Assert(false);
 				}

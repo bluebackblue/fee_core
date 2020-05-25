@@ -31,7 +31,7 @@ namespace Fee.EditorTool
 					Fee.JsonItem.JsonItem t_jsonitem_public = new Fee.JsonItem.JsonItem(new Fee.JsonItem.Value_StringData(t_public_key));
 					t_jsonitem.SetItem("public",t_jsonitem_public,false);
 
-					Utility.WriteJsonFile(a_assets_path,t_jsonitem,true);
+					Utility.WriteJsonFile(a_assets_path,t_jsonitem);
 				}
 
 				//private
@@ -40,7 +40,7 @@ namespace Fee.EditorTool
 					Fee.JsonItem.JsonItem t_jsonitem_private = new Fee.JsonItem.JsonItem(new Fee.JsonItem.Value_StringData(t_private_key));
 					t_jsonitem.SetItem("private",t_jsonitem_private,false);
 
-					Utility.WriteJsonFile(a_private_key,t_jsonitem,true);
+					Utility.WriteJsonFile(a_private_key,t_jsonitem);
 				}
 			
 				UnityEditor.AssetDatabase.Refresh();

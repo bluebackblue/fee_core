@@ -37,14 +37,10 @@ namespace Fee.EditorTool
 
 		/** CreateDirectory
 		*/
-		public static void CreateDirectory(Fee.File.Path a_assets_path,bool a_refresh_unity)
+		public static void CreateDirectory(Fee.File.Path a_assets_path)
 		{
 			try{
 				System.IO.Directory.CreateDirectory(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath());
-
-				if(a_refresh_unity == true){
-					UnityEditor.AssetDatabase.Refresh();
-				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
@@ -52,7 +48,7 @@ namespace Fee.EditorTool
 
 		/** SavePrefab
 		*/
-		public static void SavePrefab(UnityEngine.GameObject a_prefab,Fee.File.Path a_assets_path,bool a_refresh_unity)
+		public static void SavePrefab(UnityEngine.GameObject a_prefab,Fee.File.Path a_assets_path)
 		{
 			try{
 				string t_path = "Assets/" + a_assets_path.GetPathCutLastSeparator();
@@ -64,11 +60,6 @@ namespace Fee.EditorTool
 				}else{
 					UnityEngine.Debug.Log("SavePrefab : " + t_path);
 				}
-
-				if(a_refresh_unity == true){
-					UnityEditor.AssetDatabase.Refresh();
-				}
-
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
@@ -76,14 +67,11 @@ namespace Fee.EditorTool
 
 		/** SaveAnimationClip
 		*/
-		public static void SaveAnimationClip(UnityEngine.AnimationClip a_animation_clip,Fee.File.Path a_assets_path,bool a_refresh_unity)
+		public static void SaveAnimationClip(UnityEngine.AnimationClip a_animation_clip,Fee.File.Path a_assets_path)
 		{
 			try{
 				UnityEngine.AnimationClip t_new = UnityEngine.Object.Instantiate<UnityEngine.AnimationClip>(a_animation_clip);
 				UnityEditor.AssetDatabase.CreateAsset(t_new,"Assets/" + a_assets_path.GetPath());
-				if(a_refresh_unity == true){
-					UnityEditor.AssetDatabase.Refresh();
-				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
@@ -252,7 +240,7 @@ namespace Fee.EditorTool
 
 		/** テキストファイル書き込み。
 		*/
-		public static void WriteTextFile(Fee.File.Path a_assets_path,string a_text,bool a_refresh_unity)
+		public static void WriteTextFile(Fee.File.Path a_assets_path,string a_text)
 		{
 			try{
 				using(System.IO.StreamWriter t_stream = new System.IO.StreamWriter(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath(),false,new System.Text.UTF8Encoding(false))){
@@ -262,10 +250,6 @@ namespace Fee.EditorTool
 				}
 
 				UnityEngine.Debug.Log("WriteTextFile : " + a_assets_path.GetPath());
-
-				if(a_refresh_unity == true){
-					UnityEditor.AssetDatabase.Refresh();
-				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
@@ -273,7 +257,7 @@ namespace Fee.EditorTool
 
 		/** ＪＳＯＮファイル書き込み。
 		*/
-		public static void WriteJsonFile(Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem a_jsonitem,bool a_refresh)
+		public static void WriteJsonFile(Fee.File.Path a_assets_path,Fee.JsonItem.JsonItem a_jsonitem)
 		{
 			try{
 				string t_json_string = a_jsonitem.ConvertToJsonString();
@@ -285,10 +269,6 @@ namespace Fee.EditorTool
 				}
 
 				UnityEngine.Debug.Log("WriteJsonFile : " + a_assets_path.GetPath());
-
-				if(a_refresh == true){
-					UnityEditor.AssetDatabase.Refresh();
-				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
@@ -317,7 +297,7 @@ namespace Fee.EditorTool
 
 		/** バイナリファイル書き込み。
 		*/
-		public static void WriteBinaryFile(Fee.File.Path a_assets_path,byte[] a_binary,bool a_refresh)
+		public static void WriteBinaryFile(Fee.File.Path a_assets_path,byte[] a_binary)
 		{
 			try{
 				using(System.IO.BinaryWriter t_stream = new System.IO.BinaryWriter(System.IO.File.Open(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath(),System.IO.FileMode.Create))){
@@ -327,10 +307,6 @@ namespace Fee.EditorTool
 				}
 
 				UnityEngine.Debug.Log("WriteBinaryFile : " + a_assets_path.GetPath());
-
-				if(a_refresh == true){
-					UnityEditor.AssetDatabase.Refresh();
-				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
@@ -379,6 +355,17 @@ namespace Fee.EditorTool
 			}
 
 			return t_webrequest;
+		}
+
+		/** シーンを開く。
+		*/
+		public static void OpenScene(Fee.File.Path a_path)
+		{
+			try{
+				UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/" + a_path.GetPath(),UnityEditor.SceneManagement.OpenSceneMode.Single);
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+			}
 		}
 	}
 	#endif

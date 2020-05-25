@@ -13,6 +13,9 @@
 namespace Fee.Render2D
 {
 	/** Camera_UI_MonoBehaviour
+
+		TODO:MonoBehaviour
+
 	*/
 	public class Camera_UI_MonoBehaviour : UnityEngine.MonoBehaviour
 	{

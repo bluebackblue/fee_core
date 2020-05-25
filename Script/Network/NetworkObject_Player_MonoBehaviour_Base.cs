@@ -12,26 +12,39 @@
 */
 namespace Fee.Network
 {
-	/** NetworkObject_Player_Base
+	/** NetworkObject_Player_MonoBehaviour_Base
 	*/
-	public abstract class NetworkObject_Player_Base : UnityEngine.MonoBehaviour
+	public abstract class NetworkObject_Player_MonoBehaviour_Base : UnityEngine.MonoBehaviour
 	{
-		/** self
+		/** Sync
 		*/
-		public bool self;
+		private Sync sync;
 
-		/** sync
+		/** 設定。
 		*/
-		public Sync_Base sync_player;
-		public Sync_Base sync_status;
+		public void SetSync(Sync a_sync)
+		{
+			this.sync = a_sync;
+		}
+
+		/** IsSelf
+		*/
+		public bool IsSelf()
+		{
+			return this.sync.IsSelf();
+		}
 
 		/** Start
+
+			CreatePlayer 或いは PrefabPool から作成される。
+
 		*/
 		private void Start()
 		{
-			this.self = this.sync_player.IsSelf();
-			this.sync_player.SetSync(true);
-			this.sync_status.SetSync(true);
+			//sync
+			this.sync.OnStartNetworkObject();
+
+			//OnConnect
 			this.OnConnect();
 		}
 

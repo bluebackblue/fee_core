@@ -186,20 +186,6 @@ namespace Fee.Data
 				}break;
 
 			#if(UNITY_EDITOR)
-			case PathType.AssetsPath_Prefab:
-				{
-					//TODO:
-
-					/*
-					//アセット。プレハブ。
-					t_file_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadAssetsPathTextFile,a_listitem.path);
-					if(t_file_item == null){
-						//失敗。
-						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
-						yield break;
-					}
-					*/
-				}break;
 			case PathType.AssetsPath_Text:
 				{
 					//アセット。テキスト。
@@ -209,20 +195,6 @@ namespace Fee.Data
 						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
 						yield break;
 					}
-				}break;
-			case PathType.AssetsPath_Texture:
-				{
-					//TODO:
-
-					/*
-					//アセット。テクスチャ。
-					t_file_item = Fee.File.File.GetInstance().RequestLoad(File.File.LoadRequestType.LoadUrlBinaryFile,a_listitem.path);
-					if(t_file_item == null){
-						//失敗。
-						this.result.errorstring = "Coroutine_Load : " + a_listitem.path;
-						yield break;
-					}
-					*/
 				}break;
 			#endif
 

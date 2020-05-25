@@ -16,110 +16,46 @@ namespace Fee.PerformanceCounter
 	*/
 	public class Camera_MonoBehaviour : UnityEngine.MonoBehaviour
 	{
-		/** mycamera
+		/** Start
 		*/
-		public UnityEngine.Camera mycamera;
-
-		/** mymaterial
-		*/
-		public UnityEngine.Material mymaterial;
-
-		/** 初期化。
-		*/
-		public void Initialize()
+		private System.Collections.IEnumerator Start()
 		{
-			//カメラ取得。
-			this.mycamera = this.GetComponent<UnityEngine.Camera>();
-
-			//マテリアル。
-			this.mymaterial = UnityEngine.Resources.Load<UnityEngine.Material>("Material/PerformanceCounter/Sprite");
+			yield return PerformanceCounter.GetInstance().Unity_Start();
 		}
 
-		/** 削除。
+		/** FixedUpdate
 		*/
-		public void Delete()
+		private void FixedUpdate()
 		{
+			PerformanceCounter.GetInstance().Unity_FixedUpdate();
+		}
+
+		/** Update
+		*/
+		private void Update()
+		{
+			PerformanceCounter.GetInstance().Unity_Update();
+		}
+
+		/** LateUpdate
+		*/
+		private void LateUpdate()
+		{
+			PerformanceCounter.GetInstance().Unity_LateUpdate();
+		}
+
+		/** OnPreRender
+		*/
+		private void OnPreRender()
+		{
+			PerformanceCounter.GetInstance().Unity_OnPreRender();
 		}
 
 		/** OnPostRender
 		*/
 		private void OnPostRender()
 		{
-			//フレーム終了。
-			FrameData t_framedata = Fee.PerformanceCounter.PerformanceCounter.GetInstance().GetFrameData();
-			t_framedata.end_time = UnityEngine.Time.realtimeSinceStartup;
-
-			{
-				UnityEngine.GL.PushMatrix();
-				{
-					UnityEngine.GL.LoadOrtho();
-
-					this.mymaterial.SetPass(0);
-
-					UnityEngine.GL.Begin(UnityEngine.GL.TRIANGLES);
-
-					float t_length = t_framedata.end_time - t_framedata.start_time;
-					const float t_length_max = 1.0f / 60.0f;
-					float t_per = t_length / t_length_max;
-
-					float t_w = 0.3f * t_per;
-					float t_h = 5.0f * 1.0f / (float)UnityEngine.Screen.height;
-
-					float t_x_1 = 0.0f;
-					float t_y_1 = 1.0f - 0.0f;
-
-					float t_x_2 = t_w;
-					float t_y_2 = 1.0f - 0.0f;
-
-					float t_x_3 = 0.0f;
-					float t_y_3 = 1.0f - t_h;
-
-					float t_x_4 = t_w;
-					float t_y_4 = 1.0f - t_h;
-
-					if(t_per >= 2.0f){
-
-						//ログ表示。
-						#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)||(USE_DEF_FEE_DEBUGTOOL)
-						if(Config.LOG_ENABLE == true){
-							Tool.Log(Config.LOG_TAGNAME_STRING,t_per.ToString());
-						}
-						#endif
-
-						UnityEngine.GL.Color(Config.COLOR_OVER);
-					}else{
-						UnityEngine.GL.Color(Config.COLOR_NORMAL);
-					}
-
-					{
-						//1:左上。
-						UnityEngine.GL.Vertex3(t_x_1,t_y_1,0.0f);
-
-						//2:右上。
-						UnityEngine.GL.Vertex3(t_x_2,t_y_2,0.0f);
-
-						//3:左下。
-						UnityEngine.GL.Vertex3(t_x_3,t_y_3,0.0f);
-					}
-
-					{
-						//3:左下。
-						UnityEngine.GL.Vertex3(t_x_3,t_y_3,0.0f);
-
-						//2:右上。
-						UnityEngine.GL.Vertex3(t_x_2,t_y_2,0.0f);
-
-						//4:右下。
-						UnityEngine.GL.Vertex3(t_x_4,t_y_4,0.0f);	
-					}
-
-					UnityEngine.GL.End();
-				}
-				UnityEngine.GL.PopMatrix();
-			}
-
-			//新しいフレームを開始。
-			t_framedata.start_time = UnityEngine.Time.realtimeSinceStartup;
+			PerformanceCounter.GetInstance().Unity_OnPostRender();
 		}
 	}
 }
