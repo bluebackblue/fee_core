@@ -68,13 +68,13 @@ namespace Fee.Ui
 
 				//bg_sprite
 				t_this.bg_sprite = Fee.Render2D.Sprite2D.Create(null,0);
-				t_this.bg_sprite.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+				t_this.bg_sprite.SetTextureRect(in Fee.Render2D.Config.TEXTURE_RECT_MAX);
 				t_this.bg_sprite.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.bg_sprite.SetColor(0.0f,0.0f,0.0f,1.0f);
 
 				//titlebar
 				t_this.titlebar = Fee.Render2D.Sprite2D.Create(null,0);
-				t_this.titlebar.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+				t_this.titlebar.SetTextureRect(in Fee.Render2D.Config.TEXTURE_RECT_MAX);
 				t_this.titlebar.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.titlebar.SetColor(0.2f,0.2f,0.2f,1.0f);
 
@@ -195,7 +195,7 @@ namespace Fee.Ui
 		protected override void OnChangeLayerIndex_FromBase()
 		{
 			//drawpriority
-			long t_drawpriority = this.layerindex * Fee.Render2D.Render2D.DRAWPRIORITY_STEP;
+			long t_drawpriority = this.layerindex * Fee.Render2D.Config.DRAWPRIORITY_STEP;
 
 			//bg_sprite
 			this.bg_sprite.SetDrawPriority(t_drawpriority);
@@ -264,30 +264,30 @@ namespace Fee.Ui
 		*/
 		public void OnTarget()
 		{
-			if((this.is_onover_titlebar == true)&&(this.is_drag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)){
+			if((this.is_onover_titlebar == true)&&(this.is_drag == false)&&(Fee.Input.Input.GetInstance().mouse.left.down == true)){
 				//ドラッグ開始。
 
 				//ウィンドウを最前面にする。
 				Fee.Ui.Ui.GetInstance().SetWindowPriorityTopMost(this);
 
-				int t_x = Fee.Input.Mouse.GetInstance().cursor.GetX() - this.rect.x;
-				int t_y = Fee.Input.Mouse.GetInstance().cursor.GetY() - this.rect.y;
+				int t_x = Fee.Input.Input.GetInstance().mouse.cursor.GetX() - this.rect.x;
+				int t_y = Fee.Input.Input.GetInstance().mouse.cursor.GetY() - this.rect.y;
 				this.downpos.Set(t_x,t_y);
 
 				this.is_drag = true;
-			}else if((this.is_drag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){
+			}else if((this.is_drag == true)&&(Fee.Input.Input.GetInstance().mouse.left.on == false)){
 				//ドラッグ終了。
 				this.is_drag = false;
 			}else if(this.is_drag == true){
 				//ドラッグ中。
 
-				int t_x = Fee.Input.Mouse.GetInstance().cursor.GetX() - this.downpos.x;
-				int t_y = Fee.Input.Mouse.GetInstance().cursor.GetY() - this.downpos.y;
+				int t_x = Fee.Input.Input.GetInstance().mouse.cursor.GetX() - this.downpos.x;
+				int t_y = Fee.Input.Input.GetInstance().mouse.cursor.GetY() - this.downpos.y;
 				this.SetXY(t_x,t_y);
 			}else if(this.is_onover_titlebar == true){
 				//ドラッグ開始待ち。
 			}else if(this.is_onover_bg == true){
-				if(Fee.Input.Mouse.GetInstance().left.down == true){
+				if(Fee.Input.Input.GetInstance().mouse.left.down == true){
 					//ウィンドウを最前面にする。
 					Fee.Ui.Ui.GetInstance().SetWindowPriorityTopMost(this);
 				}

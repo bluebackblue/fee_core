@@ -158,7 +158,7 @@ namespace Fee.Network
 
 		/** プレイヤータイプ。設定。
 		*/
-		public void SetPlayeType<T>()
+		public void SetPlayerType<T>()
 			where T : Fee.Network.NetworkObject_Player_MonoBehaviour_Base
 		{
 			#if(USE_DEF_FEE_PUN)

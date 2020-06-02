@@ -14,7 +14,7 @@ namespace Fee.Blur
 {
 	/** Blur
 	*/
-	public class Blur : Config
+	public class Blur
 	{
 		/** [シングルトン]s_instance
 		*/

@@ -550,14 +550,14 @@ namespace Fee.Ui
 
 				//ダウンキャンセル。
 				this.down_flag = false;
-			}else if(((this.is_onover == true)||(this.is_onover_button == true))&&(this.down_flag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)){
+			}else if(((this.is_onover == true)||(this.is_onover_button == true))&&(this.down_flag == false)&&(Fee.Input.Input.GetInstance().mouse.left.down == true)){
 				//ダウン。
 
 				//ダウン開始。
 				this.down_flag = true;
 
 				{
-					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().cursor.GetX() - this.rect.x)) / this.rect.w;
+					float t_value_per = ((float)(Fee.Input.Input.GetInstance().mouse.cursor.GetX() - this.rect.x)) / this.rect.w;
 					if(t_value_per < 0.0f){
 						t_value_per = 0.0f;
 					}else if(t_value_per > 1.0f){
@@ -565,7 +565,7 @@ namespace Fee.Ui
 					}
 					this.SetValue(t_value_per * this.value_scale);
 				}
-			}else if((this.down_flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){
+			}else if((this.down_flag == true)&&(Fee.Input.Input.GetInstance().mouse.left.on == false)){
 				//アップ。
 
 				//ダウンキャンセル。
@@ -574,7 +574,7 @@ namespace Fee.Ui
 				//ダウン中オーバー中。
 
 				{
-					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().cursor.GetX() - this.rect.x)) / this.rect.w;
+					float t_value_per = ((float)(Fee.Input.Input.GetInstance().mouse.cursor.GetX() - this.rect.x)) / this.rect.w;
 					if(t_value_per < 0.0f){
 						t_value_per = 0.0f;
 					}else if(t_value_per > 1.0f){
@@ -588,7 +588,7 @@ namespace Fee.Ui
 				//範囲外ダウン中。
 
 				{
-					float t_value_per = ((float)(Fee.Input.Mouse.GetInstance().cursor.GetX() - this.rect.x)) / this.rect.w;
+					float t_value_per = ((float)(Fee.Input.Input.GetInstance().mouse.cursor.GetX() - this.rect.x)) / this.rect.w;
 					if(t_value_per < 0.0f){
 						t_value_per = 0.0f;
 					}else if(t_value_per > 1.0f){

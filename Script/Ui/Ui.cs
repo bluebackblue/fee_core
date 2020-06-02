@@ -14,7 +14,7 @@ namespace Fee.Ui
 {
 	/** Ui
 	*/
-	public class Ui : Config
+	public class Ui
 	{
 		/** [シングルトン]s_instance
 		*/

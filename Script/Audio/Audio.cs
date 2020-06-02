@@ -14,7 +14,7 @@ namespace Fee.Audio
 {
 	/** Audio
 	*/
-	public class Audio : Config
+	public class Audio
 	{
 		/** [シングルトン]s_instance
 		*/

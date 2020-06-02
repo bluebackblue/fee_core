@@ -430,7 +430,7 @@ namespace Fee.Ui
 			if(this.is_onover == true){
 				//オーバー中。
 
-				if(Fee.Input.Mouse.GetInstance().left.down == true){
+				if(Fee.Input.Input.GetInstance().mouse.left.down == true){
 					//コールバック。
 					if(this.callbackparam_click != null){
 						this.callbackparam_click.Call();

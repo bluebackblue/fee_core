@@ -31,6 +31,10 @@ namespace Fee.PlayerLoopSystem
 		/** デバッグリスロー。
 		*/
 		public static bool DEBUGRETHROW_ENABLE = false;
+
+		/** デバッグビュー。
+		*/
+		public static bool DEBUG_VIEW_FLAG = true;
 	}
 }
 

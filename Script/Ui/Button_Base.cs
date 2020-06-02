@@ -630,7 +630,7 @@ namespace Fee.Ui
 					this.SetMode(Button_Mode.Down);
 				}
 			}else{
-				if((this.is_onover == true)&&(this.down_flag == false)&&(Fee.Input.Mouse.GetInstance().left.down == true)){
+				if((this.is_onover == true)&&(this.down_flag == false)&&(Fee.Input.Input.GetInstance().mouse.left.down == true)){
 					//ダウン。
 
 					//ダウン開始。
@@ -647,7 +647,7 @@ namespace Fee.Ui
 					if(this.callbackparam_down != null){
 						this.callbackparam_down.Call();
 					}
-				}else if((this.down_flag == true)&&(Fee.Input.Mouse.GetInstance().left.on == false)){
+				}else if((this.down_flag == true)&&(Fee.Input.Input.GetInstance().mouse.left.on == false)){
 					//アップ。
 
 					//ダウンキャンセル。
@@ -669,7 +669,7 @@ namespace Fee.Ui
 							this.callbackparam_click.Call();
 						}
 					}		
-				}else if((this.down_flag == true)&&(this.dragcancel_flag == true)&&(Fee.Input.Mouse.GetInstance().left.drag_dir_magnitude >= Config.DRAGCANCEL_THRESHOLD)){
+				}else if((this.down_flag == true)&&(this.dragcancel_flag == true)&&(Fee.Input.Input.GetInstance().mouse.left.drag_dir_magnitude >= Config.DRAGCANCEL_THRESHOLD)){
 					//ドラッグ距離でダウンをキャンセル。
 
 					//ダウンキャンセル。
@@ -706,7 +706,7 @@ namespace Fee.Ui
 				}else if(this.focus_flag == true){
 					//フォーカス中。
 
-					if(Fee.Input.Mouse.GetInstance().left.down == true){
+					if(Fee.Input.Input.GetInstance().mouse.left.down == true){
 						this.SetFocus(false);
 					}
 				}else{

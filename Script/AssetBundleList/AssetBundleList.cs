@@ -14,7 +14,7 @@ namespace Fee.AssetBundleList
 {
 	/** AssetBundleList
 	*/
-	public class AssetBundleList : Config
+	public class AssetBundleList
 	{
 		/** [シングルトン]s_instance
 		*/

@@ -29,28 +29,28 @@ namespace Fee.EventPlate
 		{
 			if((a_eventtype_mask & EventTypeMask.Window) > 0){
 				this.eventplate_window = new Item(null,EventType.Window,a_priority);
-				this.eventplate_window.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+				this.eventplate_window.SetRect(0,0,Fee.Render2D.Config.VIRTUAL_W,Fee.Render2D.Config.VIRTUAL_H);
 			}else{
 				this.eventplate_window = null;
 			}
 
 			if((a_eventtype_mask & EventTypeMask.View) > 0){
 				this.eventplate_view = new Item(null,EventType.View,a_priority);
-				this.eventplate_view.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+				this.eventplate_view.SetRect(0,0,Fee.Render2D.Config.VIRTUAL_W,Fee.Render2D.Config.VIRTUAL_H);
 			}else{
 				this.eventplate_view = null;
 			}
 
 			if((a_eventtype_mask & EventTypeMask.ViewItem) > 0){
 				this.eventplate_viewitem = new Item(null,EventType.ViewItem,a_priority);
-				this.eventplate_viewitem.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+				this.eventplate_viewitem.SetRect(0,0,Fee.Render2D.Config.VIRTUAL_W,Fee.Render2D.Config.VIRTUAL_H);
 			}else{
 				this.eventplate_viewitem = null;
 			}
 
 			if((a_eventtype_mask & EventTypeMask.Button) > 0){
 				this.eventplate_button = new Item(null,EventType.Button,a_priority);
-				this.eventplate_button.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+				this.eventplate_button.SetRect(0,0,Fee.Render2D.Config.VIRTUAL_W,Fee.Render2D.Config.VIRTUAL_H);
 			}else{
 				this.eventplate_button = null;
 			}
@@ -123,16 +123,16 @@ namespace Fee.EventPlate
 		public void SetRectMax()
 		{
 			if(this.eventplate_window != null){
-				this.eventplate_window.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+				this.eventplate_window.SetRect(0,0,Fee.Render2D.Config.VIRTUAL_W,Fee.Render2D.Config.VIRTUAL_H);
 			}
 			if(this.eventplate_view != null){
-				this.eventplate_view.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+				this.eventplate_view.SetRect(0,0,Fee.Render2D.Config.VIRTUAL_W,Fee.Render2D.Config.VIRTUAL_H);
 			}
 			if(this.eventplate_viewitem != null){
-				this.eventplate_viewitem.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+				this.eventplate_viewitem.SetRect(0,0,Fee.Render2D.Config.VIRTUAL_W,Fee.Render2D.Config.VIRTUAL_H);
 			}
 			if(this.eventplate_button != null){
-				this.eventplate_button.SetRect(0,0,Fee.Render2D.Render2D.VIRTUAL_W,Fee.Render2D.Render2D.VIRTUAL_H);
+				this.eventplate_button.SetRect(0,0,Fee.Render2D.Config.VIRTUAL_W,Fee.Render2D.Config.VIRTUAL_H);
 			}
 		}
 

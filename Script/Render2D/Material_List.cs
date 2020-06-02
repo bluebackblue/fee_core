@@ -51,7 +51,7 @@ namespace Fee.Render2D
 
 		/** マテリアルアイテム。取得。
 		*/
-		public Material_Item GetMaterialItem(Render2D.MaterialType a_material_type)
+		public Material_Item GetMaterialItem(Config.MaterialType a_material_type)
 		{
 			return this.material_list[(int)a_material_type];
 		}

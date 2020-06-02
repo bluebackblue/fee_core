@@ -25,7 +25,7 @@ namespace Fee.JsonItem
 
 	/** JsonItem
 	*/
-	public class JsonItem : Config
+	public class JsonItem
 	{
 		/** ＪＳＯＮ文字列。
 		*/

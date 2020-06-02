@@ -14,7 +14,7 @@ namespace Fee.Deleter
 {
 	/** Deleter
 	*/
-	public class Deleter : Config
+	public class Deleter
 	{
 		/** リスト。
 		*/

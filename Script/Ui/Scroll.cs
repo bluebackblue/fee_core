@@ -58,7 +58,7 @@ namespace Fee.Ui
 				t_this.bg = Fee.Render2D.Sprite2D.Create(null,a_drawpriority);
 				t_this.bg.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.bg.SetRect(0,0,0,0);
-				t_this.bg.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+				t_this.bg.SetTextureRect(in Fee.Render2D.Config.TEXTURE_RECT_MAX);
 				t_this.bg.SetColor(0.0f,0.0f,0.0f,1.0f);
 				t_this.bg.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
 			
@@ -74,7 +74,7 @@ namespace Fee.Ui
 				t_this.bar = Fee.Render2D.Sprite2D.Create(null,a_drawpriority + t_this.bar_drawpriority_offset);
 				t_this.bar.SetTexture(UnityEngine.Texture2D.whiteTexture);
 				t_this.bar.SetRect(0,0,0,0);
-				t_this.bar.SetTextureRect(in Fee.Render2D.Render2D.TEXTURE_RECT_MAX);
+				t_this.bar.SetTextureRect(in Fee.Render2D.Config.TEXTURE_RECT_MAX);
 				t_this.bar.SetColor(1.0f,1.0f,1.0f,1.0f);
 				t_this.bar.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
 				t_this.bar.SetVisible(false);

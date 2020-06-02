@@ -14,7 +14,7 @@ namespace Fee.EventPlate
 {
 	/** EventPlate
 	*/
-	public class EventPlate : Config
+	public class EventPlate
 	{
 		/** [シングルトン]s_instance
 		*/

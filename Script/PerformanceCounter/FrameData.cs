@@ -19,13 +19,30 @@ namespace Fee.PerformanceCounter
 	*/
 	public class FrameData
 	{
+		/** startframe
+		*/
 		public float startframe;
 		public float startframe_old;
-		public float fixedupdate;
-		public float update;
-		public float lateupdate;
-		public float onprerender;
-		public float onpostrender;
+
+		/** fixedupdate
+		*/
+		public float fixedupdate_first;
+		public float fixedupdate_last;
+
+		/** update
+		*/
+		public float update_first;
+		public float update_last;
+
+		/** lateupdate
+		*/
+		public float lateupdate_first;
+		public float lateupdate_last;
+
+		/** render
+		*/
+		public float render_first;
+		public float render_last;
 
 		/** constructor
 		*/
@@ -33,11 +50,18 @@ namespace Fee.PerformanceCounter
 		{
 			this.startframe = UnityEngine.Time.realtimeSinceStartup;
 			this.startframe_old = this.startframe;
-			this.fixedupdate = this.startframe;
-			this.update = this.startframe;
-			this.lateupdate = this.startframe;
-			this.onprerender = this.startframe;
-			this.onpostrender = this.startframe;
+
+			this.fixedupdate_first = this.startframe;
+			this.fixedupdate_last = this.startframe;
+
+			this.update_first = this.startframe;
+			this.update_last = this.startframe;
+
+			this.lateupdate_first = this.startframe;
+			this.lateupdate_last = this.startframe;
+
+			this.render_first = this.startframe;
+			this.render_last = this.startframe;
 		}
 
 		/** 次のフレーム。
@@ -47,11 +71,17 @@ namespace Fee.PerformanceCounter
 			this.startframe_old = this.startframe;
 			this.startframe = UnityEngine.Time.realtimeSinceStartup;
 
-			this.fixedupdate = this.startframe;
-			this.update = this.startframe;
-			this.lateupdate = this.startframe;
-			this.onprerender = this.startframe;
-			this.onpostrender = this.startframe;
+			this.fixedupdate_first = this.startframe;
+			this.fixedupdate_last = this.startframe;
+
+			this.update_first = this.startframe;
+			this.update_last = this.startframe;
+
+			this.lateupdate_first = this.startframe;
+			this.lateupdate_last = this.startframe;
+
+			this.render_first = this.startframe;
+			this.render_last = this.startframe;
 		}
 	}
 }

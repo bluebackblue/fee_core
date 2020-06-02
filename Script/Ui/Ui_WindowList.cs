@@ -49,8 +49,8 @@ namespace Fee.Ui
 				for(int ii=0;ii<this.list.Count;ii++){
 					//layerindex
 					int t_layerindex = this.layerindex_start + ii;
-					if(t_layerindex >= Fee.Render2D.Render2D.MAX_LAYER){
-						t_layerindex =  Fee.Render2D.Render2D.MAX_LAYER - 1;
+					if(t_layerindex >= Fee.Render2D.Config.MAX_LAYER){
+						t_layerindex =  Fee.Render2D.Config.MAX_LAYER - 1;
 
 						//ウィンドウ用のレイヤインデックス不足。
 						Tool.Assert(false);

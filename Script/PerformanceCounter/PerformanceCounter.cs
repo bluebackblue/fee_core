@@ -17,7 +17,7 @@ namespace Fee.PerformanceCounter
 {
 	/** PerformanceCounter
 	*/
-	public class PerformanceCounter : Config
+	public class PerformanceCounter
 	{
 		/** [シングルトン]s_instance
 		*/
@@ -65,14 +65,10 @@ namespace Fee.PerformanceCounter
 			}
 		}
 
-		/** ルート。
+		/** camera
 		*/
-		private UnityEngine.GameObject root_gameobject;
-
-		/** camera_gameobject
-		*/
-		private UnityEngine.GameObject camera_gameobject;
-		private Camera_MonoBehaviour camera_monobehaviour;
+		private UnityEngine.GameObject camera_first_gameobject;
+		private UnityEngine.GameObject camera_last_gameobject;
 
 		/** フレームデータ。
 		*/
@@ -94,12 +90,6 @@ namespace Fee.PerformanceCounter
 		*/
 		private PerformanceCounter()
 		{
-			//ルート。
-			this.root_gameobject = new UnityEngine.GameObject();
-			this.root_gameobject.name = "PerformanceCounter";
-			UnityEngine.Transform t_root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
-			UnityEngine.GameObject.DontDestroyOnLoad(this.root_gameobject);
-
 			//マテリアル。
 			this.material = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_PATH);
 
@@ -113,8 +103,30 @@ namespace Fee.PerformanceCounter
 			this.delete_request = false;
 
 			//カメラ。
-			this.camera_gameobject = Fee.Instantiate.Instantiate.CreateOrthographicCameraObject("Camera",t_root_transform,999.0f);
-			this.camera_monobehaviour = this.camera_gameobject.AddComponent<Camera_MonoBehaviour>();
+			{
+				//最初。
+				this.camera_first_gameobject = new UnityEngine.GameObject("camera_first");
+				UnityEngine.GameObject.DontDestroyOnLoad(this.camera_first_gameobject);
+				UnityEngine.Camera t_camera_first_camera = this.camera_first_gameobject.AddComponent<UnityEngine.Camera>();
+				Camera_First_MonoBehaviour t_camera_first_monobehaviour = this.camera_first_gameobject.AddComponent<Camera_First_MonoBehaviour>();
+				t_camera_first_camera.Reset();
+				t_camera_first_camera.cullingMask = 0;
+				t_camera_first_camera.clearFlags = UnityEngine.CameraClearFlags.Nothing;
+				t_camera_first_camera.depth = Config.CAMERADEPTH_FIRST;
+
+				//最後。
+				this.camera_last_gameobject = new UnityEngine.GameObject("camera_last");
+				UnityEngine.GameObject.DontDestroyOnLoad(this.camera_last_gameobject);
+				UnityEngine.Camera t_camera_last_camera = this.camera_last_gameobject.AddComponent<UnityEngine.Camera>();
+				this.camera_last_gameobject.AddComponent<Camera_Last_MonoBehaviour>();
+				t_camera_last_camera.Reset();
+				t_camera_last_camera.cullingMask = 0;
+				t_camera_last_camera.clearFlags = UnityEngine.CameraClearFlags.Nothing;
+				t_camera_last_camera.depth = Config.CAMERADEPTH_LAST;
+
+				//StartCoroutine
+				t_camera_first_monobehaviour.StartCoroutine(this.Unity_Start());
+			}
 		}
 
 		/** [シングルトン]削除。
@@ -122,7 +134,16 @@ namespace Fee.PerformanceCounter
 		private void Delete()
 		{
 			this.delete_request = true;
-			UnityEngine.GameObject.Destroy(this.root_gameobject);
+
+			if(this.camera_first_gameobject != null){
+				UnityEngine.GameObject.DestroyImmediate(this.camera_first_gameobject);
+				this.camera_first_gameobject = null;
+			}
+
+			if(this.camera_last_gameobject != null){
+				UnityEngine.GameObject.DestroyImmediate(this.camera_last_gameobject);
+				this.camera_last_gameobject = null;
+			}
 		}
 
 		/** フレームデータ。取得。
@@ -145,45 +166,64 @@ namespace Fee.PerformanceCounter
 			}
 		}
 
-		/** Unity_FixedUpdate
+		/** Unity_FixedUpdate_First
 		*/
-		public void Unity_FixedUpdate()
+		public void Unity_FixedUpdate_First()
 		{
-			this.framedata.fixedupdate = UnityEngine.Time.realtimeSinceStartup;
+			this.framedata.fixedupdate_first = UnityEngine.Time.realtimeSinceStartup;
 		}
 
-		/** Unity_Update
+		/** Unity_FixedUpdate_Last
 		*/
-		public void Unity_Update()
+		public void Unity_FixedUpdate_Last()
 		{
-			this.framedata.update = UnityEngine.Time.realtimeSinceStartup;
+			this.framedata.fixedupdate_last = UnityEngine.Time.realtimeSinceStartup;
 		}
 
-		/** Unity_LateUpdate
+		/** Unity_Update_First
 		*/
-		public void Unity_LateUpdate()
+		public void Unity_Update_First()
 		{
-			this.framedata.lateupdate = UnityEngine.Time.realtimeSinceStartup;
+			this.framedata.update_first = UnityEngine.Time.realtimeSinceStartup;
 		}
 
-		/** Unity_OnPreRender
+		/** Unity_Update_Last
 		*/
-		public void Unity_OnPreRender()
+		public void Unity_Update_Last()
 		{
-			this.framedata.onprerender = UnityEngine.Time.realtimeSinceStartup;
+			this.framedata.update_last = UnityEngine.Time.realtimeSinceStartup;
 		}
 
-		/** Unity_OnPostRender
+		/** Unity_LateUpdate_First
 		*/
-		public void Unity_OnPostRender()
+		public void Unity_LateUpdate_First()
 		{
-			this.framedata.onpostrender = UnityEngine.Time.realtimeSinceStartup;
-			this.Draw();
+			this.framedata.lateupdate_first = UnityEngine.Time.realtimeSinceStartup;
+		}
+		/** Unity_LateUpdate_Last
+		*/
+		public void Unity_LateUpdate_Last()
+		{
+			this.framedata.lateupdate_last = UnityEngine.Time.realtimeSinceStartup;
+		}
+
+		/** Unity_Render_First
+		*/
+		public void Unity_Render_First()
+		{
+			this.framedata.render_first = UnityEngine.Time.realtimeSinceStartup;
+		}
+
+		/** Unity_Render_Last
+		*/
+		public void Unity_Render_Last()
+		{
+			this.framedata.render_last = UnityEngine.Time.realtimeSinceStartup;
 		}
 
 		/** 描画。
 		*/
-		private void Draw()
+		public void Draw()
 		{
 			if(Fee.Graphic.Gl.PushMatrix() == true){
 				if(Fee.Graphic.Gl.LoadOrtho() == true){
@@ -194,16 +234,23 @@ namespace Fee.PerformanceCounter
 						{
 							int t_index = 0;
 
-							this.DrawBar(this.framedata.startframe - this.framedata.startframe_old,t_index,Config.COLOR_FRAME);
-							this.DrawBar(1.0f / 60.0f,t_index,Config.COLOR_FRAME_BASE);
+							//前回のフレームの今回のフレームの差分。
+							this.DrawBar(0,this.framedata.startframe - this.framedata.startframe_old,t_index,Config.COLOR_FRAME);
+							this.DrawBar(0,Config.BAR_FRAME_TIME,t_index,Config.COLOR_FRAME_BASE);
 
 							t_index++;
 
-							this.DrawBar(this.framedata.onpostrender - this.framedata.startframe,t_index,Config.COLOR_ONPOSTRENDER);
-							this.DrawBar(this.framedata.onprerender - this.framedata.startframe,t_index,Config.COLOR_ONPRERENDER);
-							this.DrawBar(this.framedata.lateupdate - this.framedata.startframe,t_index,Config.COLOR_LATEUPDATE);
-							this.DrawBar(this.framedata.fixedupdate - this.framedata.startframe,t_index,Config.COLOR_FIXEDUPDATE);
-							this.DrawBar(this.framedata.update - this.framedata.startframe,t_index,Config.COLOR_UPDATE);
+							//FixedUpdate First -- FixedUpdate Last
+							this.DrawBar(this.framedata.fixedupdate_first - this.framedata.startframe,this.framedata.fixedupdate_last - this.framedata.startframe,t_index,Config.COLOR_FIXEDUPDATE);
+
+							//Update First -- Update Last
+							this.DrawBar(this.framedata.update_first - this.framedata.startframe,this.framedata.update_last - this.framedata.startframe,t_index,Config.COLOR_UPDATE);
+
+							//LateUpdate First -- LateUpdate Last
+							this.DrawBar(this.framedata.lateupdate_first - this.framedata.startframe,this.framedata.lateupdate_last - this.framedata.startframe,t_index,Config.COLOR_LATEUPDATE);
+
+							//OnPreRender First -- OnPostRender Last
+							this.DrawBar(this.framedata.render_first - this.framedata.startframe,this.framedata.render_last - this.framedata.startframe,t_index,Config.COLOR_RENDER);
 						}
 
 						Fee.Graphic.Gl.End();
@@ -215,29 +262,25 @@ namespace Fee.PerformanceCounter
 
 		/** DrawBar
 		*/
-		private void DrawBar(float a_length,int a_index,UnityEngine.Color a_color)
+		private void DrawBar(float a_x1,float a_x2,int a_index,UnityEngine.Color a_color)
 		{
 			try{
-				float t_length = a_length;
-				const float t_length_max = 1.0f / 60.0f;
-				float t_per = t_length / t_length_max;
-
-				float t_w = 0.3f * t_per;
+				float t_w = ((a_x2 - a_x1) / Config.BAR_FRAME_TIME) * Config.BAR_FRAME_LENGTH;
 				float t_h = 5.0f * 1.0f / (float)UnityEngine.Screen.height;
+				float t_x = (a_x1 / Config.BAR_FRAME_TIME) * Config.BAR_FRAME_LENGTH;
+				float t_y = (t_h + 0.0005f) * a_index;
 
-				float t_offset_y = (t_h + 0.0005f) * a_index;
+				float t_x_1 = 0.0f + t_x;
+				float t_y_1 = 1.0f - 0.0f - t_y;
 
-				float t_x_1 = 0.0f;
-				float t_y_1 = 1.0f - 0.0f - t_offset_y;
+				float t_x_2 = t_w + t_x;
+				float t_y_2 = 1.0f - 0.0f - t_y;
 
-				float t_x_2 = t_w;
-				float t_y_2 = 1.0f - 0.0f - t_offset_y;
+				float t_x_3 = 0.0f + t_x;
+				float t_y_3 = 1.0f - t_h - t_y;
 
-				float t_x_3 = 0.0f;
-				float t_y_3 = 1.0f - t_h - t_offset_y;
-
-				float t_x_4 = t_w;
-				float t_y_4 = 1.0f - t_h - t_offset_y;
+				float t_x_4 = t_w + t_x;
+				float t_y_4 = 1.0f - t_h - t_y;
 
 				UnityEngine.GL.Color(a_color);
 			

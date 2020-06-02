@@ -14,7 +14,7 @@ namespace Fee.Bloom
 {
 	/** Bloom
 	*/
-	public class Bloom : Config
+	public class Bloom
 	{
 		/** [シングルトン]s_instance
 		*/

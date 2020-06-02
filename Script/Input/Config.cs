@@ -12,16 +12,6 @@
 */
 namespace Fee.Input
 {
-	/** UnityEngine_InputSystem
-	*/
-	#if(USE_DEF_FEE_INPUTSYSTEM)
-		#if((UNITY_2018_3)||(UNITY_2018_4))
-			using UnityEngine_InputSystem = UnityEngine.Experimental.Input;
-		#else
-			using UnityEngine_InputSystem = UnityEngine.InputSystem;
-		#endif
-	#endif
-
 	/** Config
 	*/
 	public class Config
@@ -426,6 +416,16 @@ namespace Fee.Input
 		/** PAD_MAX
 		*/
 		public static int PAD_MAX = 2;
+
+		/** DEFAULT_INPUTMANAGER_PADTYPE
+		*/
+		#if((!UNITY_EDITOR)&&(UNITY_WEBGL))
+		public static Pad_InputManagerItemName.PadType DEFAULT_INPUTMANAGER_PADTYPE = Pad_InputManagerItemName.PadType.Type_X;
+		#elif((!UNITY_EDITOR)&&(UNITY_WEBGL))
+		public static Pad_InputManagerItemName.PadType DEFAULT_INPUTMANAGER_PADTYPE = Pad_InputManagerItemName.PadType.Type_A;
+		#else
+		public static Pad_InputManagerItemName.PadType DEFAULT_INPUTMANAGER_PADTYPE = Pad_InputManagerItemName.PadType.Type_P;
+		#endif
 		
 		/** インプットマネージャ。トリガー。
 		*/
@@ -595,173 +595,6 @@ namespace Fee.Input
 			"pad_1_type_x_right_stick_button",
 			"pad_1_type_a_right_stick_button"
 		);
-
-
-
-
-		#if(false)
-
-		/** インプットシステム。左。（デジタル）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_LEFT = UnityEngine_InputSystem.Key.LeftArrow;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_LEFT = UnityEngine.KeyCode.LeftArrow;
-
-		/** インプットシステム。右。（デジタル）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_RIGHT = UnityEngine_InputSystem.Key.RightArrow;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_RIGHT = UnityEngine.KeyCode.RightArrow;
-
-		/** インプットシステム。上。（デジタル）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_UP = UnityEngine_InputSystem.Key.UpArrow;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_UP = UnityEngine.KeyCode.UpArrow;
-
-		/** インプットシステム。下。（デジタル）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_DOWN = UnityEngine_InputSystem.Key.DownArrow;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_DOWN = UnityEngine.KeyCode.DownArrow;
-
-		/** インプットシステム。左。（左アナログ）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_L_LEFT = UnityEngine_InputSystem.Key.A;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_L_LEFT = UnityEngine.KeyCode.A;
-
-		/** インプットシステム。右。（左アナログ）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_L_RIGHT = UnityEngine_InputSystem.Key.D;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_L_RIGHT = UnityEngine.KeyCode.D;
-
-		/** インプットシステム。上。（左アナログ）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_L_UP = UnityEngine_InputSystem.Key.W;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_L_UP = UnityEngine.KeyCode.W;
-
-		/** インプットシステム。下。（左アナログ）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_L_DOWN = UnityEngine_InputSystem.Key.S;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_L_DOWN = UnityEngine.KeyCode.S;
-
-		/** インプットシステム。左。（右アナログ）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_R_LEFT = UnityEngine_InputSystem.Key.J;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_R_LEFT = UnityEngine.KeyCode.J;
-
-		/** インプットシステム。右。（右アナログ）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_R_RIGHT = UnityEngine_InputSystem.Key.L;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_R_RIGHT = UnityEngine.KeyCode.L;
-
-		/** インプットシステム。上。（右アナログ）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_R_UP = UnityEngine_InputSystem.Key.I;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_R_UP = UnityEngine.KeyCode.I;
-
-		/** インプットシステム。下。（右アナログ）。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_R_DOWN = UnityEngine_InputSystem.Key.K;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_R_DOWN = UnityEngine.KeyCode.K;
-
-		/** インプットシステム。エンター。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_ENTER = UnityEngine_InputSystem.Key.Enter;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_ENTER = UnityEngine.KeyCode.Return;
-
-		/** インプットシステム。エスケープ。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_ESCAPE = UnityEngine_InputSystem.Key.Escape;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_ESCAPE = UnityEngine.KeyCode.Escape;
-
-		/** インプットシステム。サブ１。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_SUB1 = UnityEngine_InputSystem.Key.LeftShift;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_SUB1 = UnityEngine.KeyCode.LeftShift;
-
-		/** インプットシステム。サブ２。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_SUB2 = UnityEngine_InputSystem.Key.LeftCtrl;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_SUB2 = UnityEngine.KeyCode.LeftControl;
-
-		/** インプットシステム。左メニュー。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_LEFT_MENU = UnityEngine_InputSystem.Key.Space;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_LEFT_MENU = UnityEngine.KeyCode.Space;
-
-		/** インプットシステム。右メニュー。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_RIGHT_MENU = UnityEngine_InputSystem.Key.Backspace;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_RIGHT_MENU = UnityEngine.KeyCode.Backspace;
-
-		/** インプットシステム。左トリガー１。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_L_TRIGGER_1 = UnityEngine_InputSystem.Key.Z;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_L_TRIGGER_1 = UnityEngine.KeyCode.Z;
-
-		/** インプットシステム。右トリガー１。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_R_TRIGGER_1 = UnityEngine_InputSystem.Key.X;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_R_TRIGGER_1 = UnityEngine.KeyCode.X;
-
-		/** インプットシステム。左トリガー２。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_L_TRIGGER_2 = UnityEngine_InputSystem.Key.C;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_L_TRIGGER_2 = UnityEngine.KeyCode.C;
-
-		/** インプットシステム。右トリガー２。
-		*/
-		#if(USE_DEF_FEE_INPUTSYSTEM)
-		public static UnityEngine_InputSystem.Key INPUTSYSTEM_B_R_TRIGGER_2 = UnityEngine_InputSystem.Key.V;
-		#endif
-		public static UnityEngine.KeyCode INPUTMANAGER_B_R_TRIGGER_2 = UnityEngine.KeyCode.V;
-
-		#endif
-
-
-
-
-
-
 	}
 }
 

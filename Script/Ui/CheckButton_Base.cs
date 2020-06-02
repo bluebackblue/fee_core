@@ -360,7 +360,7 @@ namespace Fee.Ui
 				//オーバー中。
 				this.SetMode(CheckButton_Mode.On);
 
-				if(Fee.Input.Mouse.GetInstance().left.down == true){
+				if(Fee.Input.Input.GetInstance().mouse.left.down == true){
 					this.check_flag = !this.check_flag;
 
 					//コールバック。チェックフラグ変更。

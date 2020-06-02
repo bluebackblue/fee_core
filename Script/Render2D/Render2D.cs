@@ -14,7 +14,7 @@ namespace Fee.Render2D
 {
 	/** Render2D
 	*/
-	public class Render2D : Config
+	public class Render2D
 	{
 		/** [シングルトン]s_instance
 		*/

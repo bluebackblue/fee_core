@@ -14,7 +14,7 @@ namespace Fee.Data
 {
 	/** Data
 	*/
-	public class Data : Config
+	public class Data
 	{
 		/** [シングルトン]s_instance
 		*/

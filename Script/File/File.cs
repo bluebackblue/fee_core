@@ -19,7 +19,7 @@ namespace Fee.File
 {
 	/** File
 	*/
-	public class File : Config
+	public class File
 	{
 		/** [シングルトン]s_instance
 		*/

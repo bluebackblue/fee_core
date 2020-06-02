@@ -14,7 +14,7 @@ namespace Fee.Depth
 {
 	/** Depth
 	*/
-	public class Depth : Config
+	public class Depth
 	{
 		/** [シングルトン]s_instance
 		*/

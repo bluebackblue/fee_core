@@ -141,6 +141,8 @@ namespace Fee.Render2D
 		/** MATERIAL_DATA
 		*/
 		public static Fee.Material.Status[] MATERIAL_DATA = {
+
+			//MaterialType.Simple
 			new Fee.Material.Status(
 
 				//resource_path
@@ -152,6 +154,7 @@ namespace Fee.Render2D
 				}
 			),
 
+			//MaterialType.Alpha
 			new Fee.Material.Status(
 
 				//resource_path
@@ -163,6 +166,7 @@ namespace Fee.Render2D
 				}
 			),
 
+			//MaterialType.AlphaClip
 			new Fee.Material.Status(
 
 				//resource_path
@@ -179,6 +183,7 @@ namespace Fee.Render2D
 				}
 			),
 
+			//MaterialType.Add
 			new Fee.Material.Status(
 
 				//resource_path

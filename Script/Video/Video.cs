@@ -1,4 +1,4 @@
-﻿
+
 
 /**
  * Copyright (c) blueback
@@ -14,7 +14,7 @@ namespace Fee.Video
 {
 	/** Video
 	*/
-	public class Video : Config
+	public class Video
 	{
 		/** [シングルトン]s_instance
 		*/

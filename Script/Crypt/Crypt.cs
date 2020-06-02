@@ -14,7 +14,7 @@ namespace Fee.Crypt
 {
 	/** Crypt
 	*/
-	public class Crypt : Config
+	public class Crypt
 	{
 		/** [シングルトン]s_instance
 		*/

@@ -14,7 +14,7 @@ namespace Fee.Directory
 {
 	/** Directory
 	*/
-	public class Directory : Config
+	public class Directory
 	{
 		/** constructor
 		*/
