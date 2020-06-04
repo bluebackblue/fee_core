@@ -28,9 +28,9 @@ namespace Fee.SoundPool
 			*/
 			Error,
 
-			/** アセットバンドル。
+			/** パック。
 			*/
-			SoundPool,
+			Pack,
 		};
 
 		/** is_busy
@@ -73,9 +73,9 @@ namespace Fee.SoundPool
 		*/
 		private ResultType result_type;
 
-		/** result_soundpool
+		/** result_pack
 		*/
-		private Fee.Audio.Pack_SoundPool result_soundpool;
+		private Pack result_pack;
 
 		/** result_responseheader
 		*/
@@ -99,7 +99,7 @@ namespace Fee.SoundPool
 			this.result_progress = 0.0f;
 			this.result_errorstring = null;
 			this.result_type = ResultType.None;
-			this.result_soundpool = null;
+			this.result_pack = null;
 			this.result_responseheader = null;
 		}
 
@@ -145,11 +145,11 @@ namespace Fee.SoundPool
 			return this.result_type;
 		}
 
-		/** GetResultSoundPool
+		/** GetResultPack
 		*/
-		public Fee.Audio.Pack_SoundPool GetResultSoundPool()
+		public Pack GetResultPack()
 		{
-			return this.result_soundpool;
+			return this.result_pack;
 		}
 
 		/** GetResultResponseHeader
@@ -174,9 +174,9 @@ namespace Fee.SoundPool
 			return true;
 		}
 
-		/** リクエスト。ロードローカル。サウンドプール。
+		/** リクエスト。ロードローカル。パック。
 		*/
-		public bool RequestLoadLocalSoundPool(File.Path a_path)
+		public bool RequestLoadLocalPack(File.Path a_path)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -194,27 +194,27 @@ namespace Fee.SoundPool
 				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
-				this.result_soundpool = null;
+				this.result_pack = null;
 				this.result_responseheader = null;
 
-				Function.Function.GetInstance().StartCoroutine(this.DoLoadLocalSoundPool());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadLocalPack());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ロードローカル。サウンドプール。
+		/** 実行。ロードローカル。パック。
 		*/
-		private System.Collections.IEnumerator DoLoadLocalSoundPool()
+		private System.Collections.IEnumerator DoLoadLocalPack()
 		{
-			Coroutine_LoadLocalSoundPool t_coroutine = new Coroutine_LoadLocalSoundPool();
+			Coroutine_LoadLocalPack t_coroutine = new Coroutine_LoadLocalPack();
 			yield return t_coroutine.CoroutineMain(this,this.request_path);
 
-			if(t_coroutine.result.soundpool != null){
+			if(t_coroutine.result.pack != null){
 				this.result_progress = 1.0f;
-				this.result_soundpool = t_coroutine.result.soundpool;
-				this.result_type = ResultType.SoundPool;
+				this.result_pack = t_coroutine.result.pack;
+				this.result_type = ResultType.Pack;
 				yield break;
 			}else{
 				this.result_progress = 1.0f;
@@ -224,9 +224,9 @@ namespace Fee.SoundPool
 			}
 		}
 
-		/** リクエスト。ロードストリーミングアセット。サウンドプール。
+		/** リクエスト。ロードストリーミングアセット。パック。
 		*/
-		public bool RequestLoadStreamingAssetsSoundPool(Fee.File.Path a_path,uint a_data_version)
+		public bool RequestLoadStreamingAssetsPack(Fee.File.Path a_path,uint a_data_version)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -244,27 +244,27 @@ namespace Fee.SoundPool
 				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
-				this.result_soundpool = null;
+				this.result_pack = null;
 				this.result_responseheader = null;
 
-				Function.Function.GetInstance().StartCoroutine(this.DoLoadStreamingAssetsSoundPool());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadStreamingAssetsPack());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ロードストリーミングアセット。サウンドプール。
+		/** 実行。ロードストリーミングアセット。パック。
 		*/
-		private System.Collections.IEnumerator DoLoadStreamingAssetsSoundPool()
+		private System.Collections.IEnumerator DoLoadStreamingAssetsPack()
 		{
-			Coroutine_LoadSoundPool t_coroutine = new Coroutine_LoadSoundPool();
+			Coroutine_LoadPack t_coroutine = new Coroutine_LoadPack();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,null,null,true,this.request_data_version);
 
-			if(t_coroutine.result.soundpool != null){
+			if(t_coroutine.result.pack != null){
 				this.result_progress = 1.0f;
-				this.result_soundpool = t_coroutine.result.soundpool;
-				this.result_type = ResultType.SoundPool;
+				this.result_pack = t_coroutine.result.pack;
+				this.result_type = ResultType.Pack;
 				yield break;
 			}else{
 				this.result_progress = 1.0f;
@@ -274,9 +274,9 @@ namespace Fee.SoundPool
 			}
 		}
 
-		/** リクエスト。ロードＵＲＬ。サウンドプール。
+		/** リクエスト。ロードＵＲＬ。パック。
 		*/
-		public bool RequestLoadUrlSoundPool(File.Path a_path,System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler,uint a_data_version)
+		public bool RequestLoadUrlPack(File.Path a_path,System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler,uint a_data_version)
 		{
 			if(this.is_busy == false){
 				this.is_busy = true;
@@ -294,28 +294,28 @@ namespace Fee.SoundPool
 				this.result_progress = 0.0f;
 				this.result_errorstring = null;
 				this.result_type = ResultType.None;
-				this.result_soundpool = null;
+				this.result_pack = null;
 				this.result_responseheader = null;
 
-				Function.Function.GetInstance().StartCoroutine(this.DoLoadUrlSoundPool());
+				Function.Function.GetInstance().StartCoroutine(this.DoLoadUrlPack());
 				return true;
 			}
 
 			return false;
 		}
 
-		/** 実行。ダウンロード。サウンドプール。
+		/** 実行。ダウンロード。パック。
 		*/
-		private System.Collections.IEnumerator DoLoadUrlSoundPool()
+		private System.Collections.IEnumerator DoLoadUrlPack()
 		{
-			Coroutine_LoadSoundPool t_coroutine = new Coroutine_LoadSoundPool();
+			Coroutine_LoadPack t_coroutine = new Coroutine_LoadPack();
 			yield return t_coroutine.CoroutineMain(this,this.request_path,this.request_post_data,this.request_certificate_handler,false,this.request_data_version);
 
-			if(t_coroutine.result.soundpool != null){
+			if(t_coroutine.result.pack != null){
 				this.result_progress = 1.0f;
-				this.result_soundpool = t_coroutine.result.soundpool;
+				this.result_pack = t_coroutine.result.pack;
 				this.result_responseheader = t_coroutine.result.responseheader;
-				this.result_type = ResultType.SoundPool;
+				this.result_type = ResultType.Pack;
 				yield break;
 			}else{
 				this.result_progress = 1.0f;

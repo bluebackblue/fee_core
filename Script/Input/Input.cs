@@ -86,14 +86,6 @@ namespace Fee.Input
 		*/
 		public bool is_focus;
 
-		/** CallBackType
-		*/
-		public delegate void CallBackType();
-
-		/** callback
-		*/
-		private CallBackType callback;
-
 		/** debugview
 		*/
 		#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)||(USE_DEF_FEE_DEBUGTOOL)
@@ -136,9 +128,6 @@ namespace Fee.Input
 			//is_focus
 			this.is_focus = true;
 
-			//callback
-			this.callback = null;
-
 			//playerloop_flag
 			this.playerloop_flag = true;
 
@@ -177,9 +166,6 @@ namespace Fee.Input
 				this.key.Delete();
 				this.key = null;
 			}
-
-			//callback
-			this.callback = null;
 
 			//playerloop_flag
 			this.playerloop_flag = false;
@@ -221,28 +207,10 @@ namespace Fee.Input
 					if(this.touch != null){
 						this.touch.Main();
 					}
-
-					if(this.callback != null){
-						this.callback();
-					}
 				}
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 			}
-		}
-
-		/** SetCallBack
-		*/
-		public void SetCallBack(CallBackType a_callback)
-		{
-			this.callback += a_callback;
-		}
-
-		/** UnSetCallBack
-		*/
-		public void UnSetCallBack(CallBackType a_callback)
-		{
-			this.callback -= a_callback;
 		}
 
 		/** SetFocusFlag

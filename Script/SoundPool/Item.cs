@@ -28,9 +28,9 @@ namespace Fee.SoundPool
 			*/
 			Error,
 
-			/** サウンドプール。
+			/** パック。
 			*/
-			SoundPool,
+			Pack,
 		}
 
 		/** result_type
@@ -49,9 +49,9 @@ namespace Fee.SoundPool
 		*/
 		private bool cancel_flag;
 
-		/** result_soundpool
+		/** result_pack
 		*/
-		private Fee.Audio.Pack_SoundPool result_soundpool;
+		private Pack result_pack;
 
 		/** result_responseheader
 		*/
@@ -72,6 +72,9 @@ namespace Fee.SoundPool
 
 			//cancel_flag
 			this.cancel_flag = false;
+
+			//result_pack
+			this.result_pack = null;
 
 			//result_responseheader
 			this.result_responseheader = null;
@@ -142,20 +145,20 @@ namespace Fee.SoundPool
 			}
 		}
 
-		/** 結果。サウンドプール。設定。
+		/** 結果。パック。設定。
 		*/
-		public void SetResultSoundPool(Fee.Audio.Pack_SoundPool a_soundpool)
+		public void SetResultPack(Pack a_pack)
 		{
-			this.result_type = ResultType.SoundPool;
+			this.result_type = ResultType.Pack;
 
-			this.result_soundpool = a_soundpool;
+			this.result_pack = a_pack;
 		}
 
-		/** 結果。サウンドプール。取得。
+		/** 結果。パック。取得。
 		*/
-		public Fee.Audio.Pack_SoundPool GetResultSoundPool()
+		public Pack GetResultPack()
 		{
-			return this.result_soundpool;
+			return this.result_pack;
 		}
 
 		/** 結果。レスポンスヘッダー。設定。

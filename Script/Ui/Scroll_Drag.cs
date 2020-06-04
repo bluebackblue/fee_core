@@ -96,14 +96,15 @@ namespace Fee.Ui
 
 				//慣性。
 				int t_drag_new_pos =this.callback.GetScrollDirectionValue(in t_position);
-				float t_delta = (this.old_pos - t_drag_new_pos);
-				if(a_delta > 0){
-					t_delta = t_delta / a_delta;
+
+				float t_speed = (this.old_pos - t_drag_new_pos);
+				if(a_delta > 0.0f){
+					t_speed = t_speed / a_delta;
 				}else{
-					t_delta = 0.0f;
+					t_speed = this.speed;
 				}
 
-				this.speed = this.speed * 0.5f + t_delta * 0.5f;
+				this.speed = this.speed * 0.5f + t_speed * 0.5f;
 				this.old_pos = t_drag_new_pos;
 			}else if((this.flag == true)&&(Fee.Input.Input.GetInstance().mouse.left.on == false)){
 				//ドラッグ終了。

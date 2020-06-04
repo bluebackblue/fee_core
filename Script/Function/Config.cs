@@ -31,6 +31,18 @@ namespace Fee.Function
 		/** デバッグリスロー。
 		*/
 		public static bool DEBUGRETHROW_ENABLE = false;
+
+		/** プレイヤーループ。低アップデート。追加先
+		*/
+		public static System.Type PLAYERLOOP_ROWUPDATE_TARGETTYPE = typeof(UnityEngine.Experimental.PlayerLoop.Update.ScriptRunBehaviourUpdate);
+		
+		/** プレイヤーループ。低アップデート。追加方法。
+		*/
+		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ROWUPDATE_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddAfter;
+
+		/** ROWUPDATE_DELTA
+		*/
+		public static float ROWUPDATE_DELTA = 1 / 20.0f;
 	}
 }
 

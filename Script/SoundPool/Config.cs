@@ -32,13 +32,13 @@ namespace Fee.SoundPool
 		*/
 		public static bool DEBUGRETHROW_ENABLE = false;
 
-		/** ロードＵＲＬサウンドプール。キャッシュ。
+		/** ロードＵＲＬ。パック。キャッシュ。
 		*/
-		public static bool USE_LOADURL_SOUNDPOOL_CACHE = true;
+		public static bool USE_LOADURL_PACK_CACHE = true;
 
-		/** ロードストリーミングアセットサウンドプール。キャッシュ。
+		/** ロードストリーミングアセット。パック。キャッシュ。
 		*/
-		public static bool USE_LOADSTREAMINGASSETS_SOUNDPOOL_CACHE = true;
+		public static bool USE_LOADSTREAMINGASSETS_PACK_CACHE = true;
 	}
 }
 

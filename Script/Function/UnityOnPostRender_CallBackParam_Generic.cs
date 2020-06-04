@@ -4,13 +4,13 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief グラフィック。UnityOnPostRender。
+ * @brief 関数呼び出し。
 */
 
 
-/** Fee.Graphic
+/** Fee.Function
 */
-namespace Fee.Graphic
+namespace Fee.Function
 {
 	/** UnityOnPostRender_CallBackParam_Generic
 	*/
@@ -32,7 +32,7 @@ namespace Fee.Graphic
 			this.id = a_id;
 		}
 
-		/** UnityOnPostRender。
+		/** UnityOnPostRender
 		*/
 		public void UnityOnPostRender()
 		{

@@ -62,27 +62,63 @@ namespace Fee.Function
 			}
 		}
 
+		/** playerloop_flag
+		*/
+		private bool playerloop_flag;
+
 		/** monobehaviour
 		*/
 		private UnityEngine.MonoBehaviour monobehaviour;
+
+		/** rowupdate
+		*/
+		private RowUpdate rowupdate;
 
 		/** [シングルトン]constructor
 		*/
 		private Function()
 		{
+			this.rowupdate = new RowUpdate();
 
+			//playerloop_flag
+			this.playerloop_flag = true;
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ROWUPDATE_ADDTYPE,Config.PLAYERLOOP_ROWUPDATE_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_Function_RowUpdate),this.RowUpdate);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			//playerloop_flag
+			this.playerloop_flag = false;
+
+			//rowupdate
+			this.rowupdate.Delete();
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_Function_RowUpdate));
+		}
+
+		/** RowUpdate
+		*/
+		private void RowUpdate()
+		{
+			try{
+				if(this.playerloop_flag == true){
+					this.rowupdate.Main();
+				}
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
+			}
 		}
 
 		/** MonoBehaviour。設定。
 		*/
 		public void SetMonoBehaviour(UnityEngine.MonoBehaviour a_monobehaviour)
 		{
+			//monobehaviour
 			this.monobehaviour = a_monobehaviour;
 		}
 
@@ -95,6 +131,20 @@ namespace Fee.Function
 			}else{
 				Tool.Assert(false);
 			}
+		}
+
+		/** SetRowUpdate
+		*/
+		public void SetRowUpdate(RowUpdateType a_callback)
+		{
+			this.rowupdate.SetCallBack(a_callback);
+		}
+
+		/** UnSetRowUpdate
+		*/
+		public void UnSetRowUpdate(RowUpdateType a_callback)
+		{
+			this.rowupdate.UnSetCallBack(a_callback);
 		}
 	}
 }

@@ -62,10 +62,6 @@ namespace Fee.Audio
 			}
 		}
 
-		/** サウンドプール。
-		*/
-		private SoundPool soundpool;
-
 		/** ボリューム。マスター。
 		*/
 		private Volume volume_master;
@@ -100,9 +96,6 @@ namespace Fee.Audio
 		*/
 		private Audio()
 		{
-			//サウンドプール。
-			this.soundpool = new SoundPool();
-
 			//ボリューム。マスター。
 			this.volume_master = new Volume(Config.DEFAULT_VOLUME_MASTER);
 
@@ -150,9 +143,6 @@ namespace Fee.Audio
 			this.se_audiosource_monobehaviour.Delete();
 			this.se_audiosource_monobehaviour = null;
 
-			this.soundpool.Delete();
-			this.soundpool = null;			
-
 			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
@@ -166,20 +156,6 @@ namespace Fee.Audio
 				float t_volume = this.GetBgmVolume();
 				this.SetBgmVolume(t_volume);
 			}
-		}
-
-		/** サウンドプール。
-		*/
-		public SoundPool GetSoundPool()
-		{
-			return this.soundpool;
-		}
-
-		/** サウンドプール数。取得。
-		*/
-		public int GetSoundPoolCount()
-		{
-			return this.soundpool.GetCount();
 		}
 
 		/** マスターボリューム。設定。

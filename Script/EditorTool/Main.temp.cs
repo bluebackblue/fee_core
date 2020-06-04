@@ -240,6 +240,7 @@ namespace Fee.EditorTool
 				{
 					Fee.Function.Function.CreateInstance();
 					Fee.Function.Function.GetInstance().SetMonoBehaviour(this);
+					Fee.Function.Function.GetInstance().SetRowUpdate(this.RowUpdate);
 				}
 				#endif
 

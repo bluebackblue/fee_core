@@ -161,7 +161,7 @@ namespace Fee.Audio
 				}else{
 					t_bank.GetSoundPool(a_index,out t_name,out t_volume);
 					if(t_name != null){
-						Fee.Audio.Audio.GetInstance().GetSoundPool().Play(t_name,this.volume_master.GetVolume() * this.volume_se.GetVolume() * t_volume);
+						Fee.SoundPool.SoundPool.GetInstance().GetPlayer().Play(t_name,this.volume_master.GetVolume() * this.volume_se.GetVolume() * t_volume);
 					}
 				}
 			}

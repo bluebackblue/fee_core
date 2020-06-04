@@ -12,9 +12,9 @@
 */
 namespace Fee.Audio
 {
-	/** Pack_AudioClip
+	/** Pack
 	*/
-	public class Pack_AudioClip
+	public class Pack
 	{
 		/** audioclip_list
 		*/
@@ -26,7 +26,7 @@ namespace Fee.Audio
 
 		/** constructor
 		*/
-		public Pack_AudioClip()
+		public Pack()
 		{
 			//audioclip_list
 			this.audioclip_list = new System.Collections.Generic.List<UnityEngine.AudioClip>();

@@ -41,17 +41,17 @@ namespace Fee.SoundPool
 			*/
 			None,
 
-			/** ロードローカル。サウンドプール。
+			/** ロードローカル。パック。
 			*/
-			LoadLocalSoundPool,
+			LoadLocalPack,
 
-			/** ロードストリーミングアセット。サウンドプール。
+			/** ロードストリーミングアセット。パック。
 			*/
-			LoadStreamingAssetsSoundPool,
+			LoadStreamingAssetsPack,
 
-			/** ロードＵＲＬ。サウンドプール。
+			/** ロードＵＲＬ。パック。
 			*/
-			LoadUrlSoundPool,
+			LoadUrlPack,
 		};
 
 		/** mode
@@ -108,28 +108,28 @@ namespace Fee.SoundPool
 			this.item = new Item();
 		}
 
-		/** リクエスト。ロードローカル。サウンドプール。
+		/** リクエスト。ロードローカル。パック。
 		*/
-		public void RequestLoadLocalSoundPool(File.Path a_relative_path)
+		public void RequestLoadLocalPack(File.Path a_relative_path)
 		{
-			this.request_type = RequestType.LoadLocalSoundPool;
+			this.request_type = RequestType.LoadLocalPack;
 			this.request_path = a_relative_path;
 		}
 
-		/** リクエスト。ロードストリーミングアセット。サウンドプール。
+		/** リクエスト。ロードストリーミングアセット。パック。
 		*/
-		public void RequestLoadStreamingAssetsSoundPool(File.Path a_relative_path,uint a_data_version)
+		public void RequestLoadStreamingAssetsPack(File.Path a_relative_path,uint a_data_version)
 		{
-			this.request_type = RequestType.LoadStreamingAssetsSoundPool;
+			this.request_type = RequestType.LoadStreamingAssetsPack;
 			this.request_path = a_relative_path;
 			this.request_data_version = a_data_version;
 		}
 
-		/** リクエスト。ロードＵＲＬ。サウンドプール。
+		/** リクエスト。ロードＵＲＬ。パック。
 		*/
 		public void RequestLoadUrlBinaryFile(File.Path a_url_path,System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler,uint a_data_version)
 		{
-			this.request_type = RequestType.LoadUrlSoundPool;
+			this.request_type = RequestType.LoadUrlPack;
 			this.request_path = a_url_path;
 			this.request_post_data = a_post_data;
 			this.request_certificate_handler = a_certificate_handler;
@@ -154,21 +154,21 @@ namespace Fee.SoundPool
 			case Mode.Start:
 				{
 					switch(this.request_type){
-					case RequestType.LoadLocalSoundPool:
+					case RequestType.LoadLocalPack:
 						{
-							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestLoadLocalSoundPool(this.request_path) == true){
+							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestLoadLocalPack(this.request_path) == true){
 								this.mode = Mode.Do_File;
 							}
 						}break;
-					case RequestType.LoadStreamingAssetsSoundPool:
+					case RequestType.LoadStreamingAssetsPack:
 						{
-							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestLoadStreamingAssetsSoundPool(this.request_path,this.request_data_version) == true){
+							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestLoadStreamingAssetsPack(this.request_path,this.request_data_version) == true){
 								this.mode = Mode.Do_File;
 							}
 						}break;
-					case RequestType.LoadUrlSoundPool:
+					case RequestType.LoadUrlPack:
 						{
-							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestLoadUrlSoundPool(this.request_path,this.request_post_data,this.request_certificate_handler,this.request_data_version) == true){
+							if(Fee.SoundPool.SoundPool.GetInstance().GetMainFile().RequestLoadUrlPack(this.request_path,this.request_post_data,this.request_certificate_handler,this.request_data_version) == true){
 								this.mode = Mode.Do_File;
 							}
 						}break;
@@ -187,11 +187,11 @@ namespace Fee.SoundPool
 						//結果。
 						bool t_success = false;
 						switch(t_main.GetResultType()){
-						case Main_File.ResultType.SoundPool:
+						case Main_File.ResultType.Pack:
 							{
-								if(t_main.GetResultSoundPool() != null){
+								if(t_main.GetResultPack() != null){
 									this.item.SetResultResponseHeader(t_main.GetResultResponseHeader());
-									this.item.SetResultSoundPool(t_main.GetResultSoundPool());
+									this.item.SetResultPack(t_main.GetResultPack());
 									t_success = true;
 								}
 							}break;

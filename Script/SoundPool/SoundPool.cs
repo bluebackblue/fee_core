@@ -74,6 +74,10 @@ namespace Fee.SoundPool
 		*/
 		private System.Collections.Generic.List<WorkItem> add_list;
 
+		/** player
+		*/
+		private Player player;
+
 		/** [シングルトン]constructor
 		*/
 		private SoundPool()
@@ -86,12 +90,24 @@ namespace Fee.SoundPool
 
 			//add_list
 			this.add_list = new System.Collections.Generic.List<WorkItem>();
+
+			//player
+			this.player = new Player();
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			//player
+			this.player.Delete();
+		}
+
+		/** GetPlayer
+		*/
+		public Player GetPlayer()
+		{
+			return this.player;
 		}
 
 		/** main_file。取得。
@@ -101,38 +117,38 @@ namespace Fee.SoundPool
 			return this.main_file;
 		}
 
-		/** リクエスト。ロードローカル。サウンドプール。
+		/** リクエスト。ロードローカル。パック。
 
 			管理ファイルを直接ロード。
 
 		*/
-		public Item RequestLoadLocalSoundPool(Fee.File.Path a_relative_path)
+		public Item RequestLoadLocalPack(Fee.File.Path a_relative_path)
 		{
 			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestLoadLocalSoundPool(a_relative_path);
+			t_work_item.RequestLoadLocalPack(a_relative_path);
 			this.add_list.Add(t_work_item);
 			return t_work_item.GetItem();
 		}
 
-		/** リクエスト。ロードストリーミングアセット。サウンドプール。
+		/** リクエスト。ロードストリーミングアセット。パック。
 
 			ロード後ローカルセーブ。
 
 		*/
-		public Item RequestLoadStreamingAssetsSoundPool(Fee.File.Path a_relative_path,uint a_data_version)
+		public Item RequestLoadStreamingAssetsPack(Fee.File.Path a_relative_path,uint a_data_version)
 		{
 			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestLoadStreamingAssetsSoundPool(a_relative_path,a_data_version);
+			t_work_item.RequestLoadStreamingAssetsPack(a_relative_path,a_data_version);
 			this.add_list.Add(t_work_item);
 			return t_work_item.GetItem();
 		}
 
-		/** リクエスト。ロードＵＲＬ。サウンドプール。
+		/** リクエスト。ロードＵＲＬ。パック。
 
 			ロード後ローカルセーブ。
 
 		*/
-		public Item RequestLoadUrlSoundPool(File.Path a_path,System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler,uint a_data_version)
+		public Item RequestLoadUrlPack(File.Path a_path,System.Collections.Generic.List<UnityEngine.Networking.IMultipartFormSection> a_post_data,Fee.File.CustomCertificateHandler a_certificate_handler,uint a_data_version)
 		{
 			WorkItem t_work_item = new WorkItem();
 			t_work_item.RequestLoadUrlBinaryFile(a_path,a_post_data,a_certificate_handler,a_data_version);
