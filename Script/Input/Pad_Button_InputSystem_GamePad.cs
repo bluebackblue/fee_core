@@ -27,7 +27,7 @@ namespace Fee.Input
 			//pad_index
 			int t_pad_index = Fee.Input.Input.GetInstance().pad.status[a_index].pad_index;
 
-			UnityEngine.InputSystem.Gamepad t_device = Fee.Input.Input.GetInstance().pad.GetDevice(t_pad_index);
+			UnityEngine.InputSystem.Gamepad t_device = Fee.Input.Input.GetInstance().pad.GetInputSystemDevice(t_pad_index);
 			if(t_device != null){
 
 				//デバイス。

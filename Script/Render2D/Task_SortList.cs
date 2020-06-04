@@ -243,6 +243,7 @@ namespace Fee.Render2D
 			スプライトを操作する前に呼び出す。
 
 		*/
+		/*
 		public void Wait()
 		{
 			if(Config.USE_ASYNC == true){
@@ -256,9 +257,11 @@ namespace Fee.Render2D
 				}
 			}
 		}
+		*/
 
 		/** キャンセル終了待ち。
 		*/
+		/*
 		public void CancelWait()
 		{
 			if(Config.USE_ASYNC == true){
@@ -273,12 +276,14 @@ namespace Fee.Render2D
 				}
 			}
 		}
+		*/
 
 		/** 終了待ち。
 
 			描画前に呼び出す。
 
 		*/
+		/*
 		public void Wait(int a_index)
 		{
 			if(Config.USE_ASYNC == true){
@@ -288,6 +293,7 @@ namespace Fee.Render2D
 				}
 			}
 		}
+		*/
 
 		/** 開始。
 
@@ -302,6 +308,7 @@ namespace Fee.Render2D
 				this.canceltoken.Reset();
 			}
 
+			/*
 			if(Config.USE_ASYNC == true){
 				for(int ii=0;ii<this.task_list.Length;ii++){
 					this.task_list[ii].StartFunction();
@@ -311,12 +318,17 @@ namespace Fee.Render2D
 					this.task_list[ii].StartFunctionDirect();
 				}
 			}
+			*/
+			for(int ii=0;ii<this.task_list.Length;ii++){
+				this.task_list[ii].StartFunctionDirect();
+			}
 		}
 
 		/** 削除。
 		*/
 		public void Delete()
 		{
+			/*
 			if(Config.USE_ASYNC == true){
 				this.canceltoken.Cancel();
 				for(int ii=0;ii<this.task_list.Length;ii++){
@@ -326,6 +338,8 @@ namespace Fee.Render2D
 					}
 				}
 			}
+			*/
+
 			this.task_list = null;
 		}
 	}

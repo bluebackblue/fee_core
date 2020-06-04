@@ -10,10 +10,9 @@
 
 /** define
 */
+//#define DEF_PLAYERLOOPSYSTEM
 //#define DEF_RENDER2D
-//#define DEF_INPUT_MOUSE
-//#define DEF_INPUT_KEY
-//#define DEF_INPUT_PAD
+//#define DEF_INPUT
 //#define DEF_UI
 //#define DEF_SCENE
 //#define DEF_FILE
@@ -249,28 +248,11 @@ namespace Fee.EditorTool
 				}
 
 				//入力。
+				#if(DEF_INPUT)
 				{
-					//マウス。
-					#if(DEF_INPUT_MOUSE)
-					{
-						Fee.Input.Mouse.CreateInstance();
-					}
-					#endif
-
-					//キー。
-					#if(DEF_INPUT_KEY)
-					{
-						Fee.Input.Key.CreateInstance();
-					}
-					#endif
-
-					//パッド。
-					#if(DEF_INPUT_PAD)
-					{
-						Fee.Input.Pad.CreateInstance();
-					}
-					#endif
+					Fee.Input.Input.CreateInstance(true,true,true,true);
 				}
+				#endif
 
 				//インスタンス作成。
 				{
@@ -338,8 +320,11 @@ namespace Fee.EditorTool
 				#endif
 
 				//プレイヤーループシステム。
+				#if(DEF_PLAYERLOOPSYSTEM)
 				{
+					Fee.PlayerLoopSystem.PlayerLoopSystem.CreateInstance(null);
 				}
+				#endif
 
 				//プール。
 				{
@@ -506,14 +491,7 @@ namespace Fee.EditorTool
 
 			//入力。
 			{
-				//マウス。
-				Fee.Input.Mouse.DeleteInstance();
-	
-				//キー。
-				Fee.Input.Key.DeleteInstance();
-	
-				//パッド。
-				Fee.Input.Pad.DeleteInstance();
+				Fee.Input.Input.DeleteInstance();
 			}
 
 			//インスタンス作成。
@@ -574,6 +552,7 @@ namespace Fee.EditorTool
 
 			//プレイヤーループシステム。
 			{
+				Fee.PlayerLoopSystem.PlayerLoopSystem.DeleteInstance();
 			}
 
 			//プール。
@@ -648,28 +627,10 @@ namespace Fee.EditorTool
 					}
 					#endif
 
-					//入力。
-					{
-						//マウス。
-						#if(DEF_INPUT_MOUSE)
-						Fee.Input.Mouse.GetInstance().Main(s_is_focus,Fee.Render2D.Render2D.GetInstance());
-						#endif
-
-						//キー。
-						#if(DEF_INPUT_KEY)
-						Fee.Input.Key.GetInstance().Main(s_is_focus);
-						#endif
-
-						//パッド。
-						#if(DEF_INPUT_PAD)
-						Fee.Input.Pad.GetInstance().Main(s_is_focus);
-						#endif
-					}
-
 					//イベントプレート。
 					#if(DEF_EVENTPLATE)
 					{
-						Fee.EventPlate.EventPlate.GetInstance().Main(in Fee.Input.Mouse.GetInstance().cursor.pos);
+						Fee.EventPlate.EventPlate.GetInstance().Main();
 					}
 					#endif
 
@@ -787,7 +748,7 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//入力。順序変更。
+				//入力。
 				{
 				}
 

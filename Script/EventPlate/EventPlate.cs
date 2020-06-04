@@ -62,10 +62,6 @@ namespace Fee.EventPlate
 			}
 		}
 
-		/** 位置。
-		*/
-		private Fee.Geometry.Pos2D<int> pos;
-
 		/** worklist
 		*/
 		private WorkItem[] worklist;
@@ -74,10 +70,6 @@ namespace Fee.EventPlate
 		*/
 		private EventPlate()
 		{
-			//位置。
-			this.pos.x = 0;
-			this.pos.y = 0;
-
 			//worklist
 			this.worklist = new WorkItem[(int)EventType.Max];
 			for(int ii=0;ii<this.worklist.Length;ii++){
@@ -112,31 +104,17 @@ namespace Fee.EventPlate
 			this.worklist[(int)a_eventtype].SortRequest();
 		}
 
-		/** 位置。取得。
-		*/
-		public int GetX()
-		{
-			return this.pos.x;
-		}
-
-		/** 位置。取得。
-		*/
-		public int GetY()
-		{
-			return this.pos.y;
-		}
-
 		/** [外部からの呼び出し]更新。
 		*/
-		public void Main(in Fee.Geometry.Pos2D<int> a_pos)
+		public void Main()
 		{
 			try{
-				//位置。
-				this.pos = a_pos;
+				//pos
+				Geometry.Pos2D<int> t_pos = Fee.Input.Input.GetInstance().mouse.cursor.pos;
 
 				//更新。
 				for(int ii=0;ii<this.worklist.Length;ii++){
-					this.worklist[ii].Main(in this.pos);
+					this.worklist[ii].Main(in t_pos);
 				}
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);

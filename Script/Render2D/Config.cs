@@ -52,6 +52,7 @@ namespace Fee.Render2D
 
 		/** USE_ASYNC
 		*/
+		/*
 		#if(UNITY_5)
 		public static bool USE_ASYNC = false;
 		#elif(UNITY_WEBGL)
@@ -59,6 +60,7 @@ namespace Fee.Render2D
 		#else
 		public static bool USE_ASYNC = true;
 		#endif
+		*/
 
 		/** DEBUG_TRACECOUNT
 		*/

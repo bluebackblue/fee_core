@@ -22,10 +22,10 @@ namespace Fee.Input
 
 		/** [シングルトン]インスタンス。作成。
 		*/
-		public static void CreateInstance()
+		public static void CreateInstance(bool a_key,bool a_pad,bool a_mouse,bool a_touch)
 		{
 			if(s_instance == null){
-				s_instance = new Input();
+				s_instance = new Input(a_key,a_pad,a_mouse,a_touch);
 			}
 		}
 
@@ -99,19 +99,35 @@ namespace Fee.Input
 
 		/** [シングルトン]constructor
 		*/
-		private Input()
+		private Input(bool a_key,bool a_pad,bool a_mouse,bool a_touch)
 		{
 			//key
-			this.key = new Key();
+			if(a_key == true){
+				this.key = new Key();
+			}else{
+				this.key = null;
+			}
 
 			//pad
-			this.pad = new Pad();
+			if(a_pad == true){
+				this.pad = new Pad();
+			}else{
+				this.pad = null;
+			}
 
 			//mouse
-			this.mouse = new Mouse();
+			if(a_mouse == true){
+				this.mouse = new Mouse();
+			}else{
+				this.mouse = null;
+			}
 
 			//touch
-			this.touch = new Touch();
+			if(a_touch == true){
+				this.touch = new Touch();
+			}else{
+				this.touch = null;
+			}
 
 			//is_focus
 			this.is_focus = true;
@@ -130,17 +146,34 @@ namespace Fee.Input
 
 			//AddFirst
 			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().AddFirst(typeof(UnityEngine.Experimental.PlayerLoop.Update),typeof(PlayerLoopSystemType.Update),this.Update);
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Apply();
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
-			this.touch.Delete();
-			this.mouse.Delete();
-			this.pad.Delete();
-			this.key.Delete();
+			if(this.touch != null){
+				this.touch.Delete();
+				this.touch = null;
+			}
+
+			if(this.mouse != null){
+				this.mouse.Delete();
+				this.mouse = null;
+			}
+
+			if(this.pad != null){
+				this.pad.Delete();
+				this.pad = null;
+			}
+
+			if(this.key != null){
+				this.key.Delete();
+				this.key = null;
+			}
+
+			//callback
+			this.callback = null;
 
 			#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)||(USE_DEF_FEE_DEBUGTOOL)
 			{
@@ -177,16 +210,24 @@ namespace Fee.Input
 		private void Update()
 		{
 			//key
-			this.key.Main();
+			if(this.key != null){
+				this.key.Main();
+			}
 
 			//pad
-			this.pad.Main();
+			if(this.pad != null){
+				this.pad.Main();
+			}
 
 			//mouse
-			this.mouse.Main();
+			if(this.mouse != null){
+				this.mouse.Main();
+			}
 
 			//touch
-			this.touch.Main();
+			if(this.touch != null){
+				this.touch.Main();
+			}
 
 			if(this.callback != null){
 				this.callback();

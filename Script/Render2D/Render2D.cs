@@ -389,6 +389,7 @@ namespace Fee.Render2D
 			１、終了していないタスクの終了待ち。
 
 		*/
+		/*
 		public void Main_Before()
 		{
 			//バーテックス計算タスク。終了待ち。
@@ -397,6 +398,7 @@ namespace Fee.Render2D
 			//ソートリストタスク。キャンセル終了待ち。
 			this.task_sortlist.CancelWait();
 		}
+		*/
 
 		/** 後処理。
 
@@ -405,11 +407,13 @@ namespace Fee.Render2D
 			１、ソートリストタスクの開始。
 
 		*/
+		/*
 		public void Main_After()
 		{
 			//ソートリストタスク。開始。
 			this.task_sortlist.Start();
 		}
+		*/
 
 		/** 描画前処理。
 
@@ -423,11 +427,16 @@ namespace Fee.Render2D
 		*/
 		public void Main_PreDraw()
 		{
+			//ソートリストタスク。開始。
+			this.task_sortlist.Start();
+
+			/*
 			//バーテックス計算タスク。終了待ち。
 			this.task_calcvertex.Wait();
 
 			//ソートリストタスク。終了待ち。
 			this.task_sortlist.Wait();
+			*/
 
 			{
 				//表示物のないカメラを非アクティブにする。
@@ -633,8 +642,10 @@ namespace Fee.Render2D
 		*/
 		public void OnPostRender_DrawGL(int a_layer_index)
 		{
+			/*
 			//バーテックス計算タスク。終了待ち。
 			this.task_calcvertex.Wait(a_layer_index);
+			*/
 
 			Material_Item t_current_material_item = null;
 

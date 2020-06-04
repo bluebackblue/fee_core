@@ -61,12 +61,14 @@ namespace Fee.Input
 			#endif
 		}
 
-		/** GetDevice
+		/** GetInputSystemDevice
 		*/
-		public UnityEngine.InputSystem.Gamepad GetDevice(int a_index)
+		#if(USE_DEF_FEE_INPUTSYSTEM)
+		public UnityEngine.InputSystem.Gamepad GetInputSystemDevice(int a_index)
 		{
 			return this.inputsystem.GetDevice(a_index);
 		}
+		#endif
 
 		/** 更新。デジタルボタン。
 		*/
