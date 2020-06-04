@@ -32,6 +32,14 @@ namespace Fee.File
 		*/
 		public static bool DEBUGRETHROW_ENABLE = false;
 
+		/** プレイヤーループ。追加先
+		*/
+		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(UnityEngine.Experimental.PlayerLoop.PostLateUpdate);
+		
+		/** プレイヤーループ。追加方法。
+		*/
+		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddFirst;
+
 		/** USE_ASYNC
 		*/
 		#if(UNITY_5)
@@ -41,6 +49,10 @@ namespace Fee.File
 		#else
 		public static bool USE_ASYNC = true;
 		#endif
+
+		/** WORK_LIMIT
+		*/
+		public static int WORK_LIMIT = 10;
 
 		/** RESPONSECODE_KEY
 		*/

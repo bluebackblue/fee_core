@@ -268,9 +268,9 @@ namespace Fee.PlayerLoopSystem
 			}
 		}
 
-		/** ターゲットのサブリストの最初に追加する。
+		/** 追加。
 		*/
-		public void AddFirst(System.Type a_target_type,System.Type a_add_type,UnityEngine_PlayerLoopSystem.PlayerLoopSystem.UpdateFunction a_add_callback)
+		public void Add(AddType a_addtype,System.Type a_target_type,System.Type a_add_type,UnityEngine_PlayerLoopSystem.PlayerLoopSystem.UpdateFunction a_add_callback)
 		{
 			if(this.callback != null){
 				this.raw = this.callback.Get();
@@ -290,158 +290,134 @@ namespace Fee.PlayerLoopSystem
 					t_item.updateDelegate = a_add_callback;
 				}
 
-				switch(t_index_count){
-				case 1:
-					{
-						System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem> t_target_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList);
-						t_target_list.Insert(0,t_item);
-						this.raw.subSystemList[t_index_1].subSystemList = t_target_list.ToArray();
-					}break;
-				case 2:
-					{
-						System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem> t_target_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList);
-						t_target_list.Insert(0,t_item);
-						this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList = t_target_list.ToArray();
-					}break;
-				case 3:
-					{
-						System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem> t_target_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList[t_index_3].subSystemList);
-						t_target_list.Insert(0,t_item);
-						this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList[t_index_3].subSystemList = t_target_list.ToArray();
-					}break;
-				default:
-					{
-						Tool.Assert(false);
-					}break;
-				}
-			}
+				System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem> t_list;
+				int t_index;
 
-			#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)||(USE_DEF_FEE_DEBUGTOOL)
-			{
-				this.Apply_DebugView(ref this.raw);
-			}
-			#endif
-
-			if(this.callback != null){
-				this.callback.Set(ref this.raw);
-			}else{
-				try{
-					UnityEngine_PlayerLoopSystem.PlayerLoop.SetPlayerLoop(this.raw);
-				}catch(System.Exception t_exception){
-					Tool.DebugReThrow(t_exception);
-				}
-			}
-		}
-
-		/** ターゲットの前に追加。
-		*/
-		public void AddBefor(System.Type a_target_type,System.Type a_add_type,UnityEngine_PlayerLoopSystem.PlayerLoopSystem.UpdateFunction a_add_callback)
-		{
-			if(this.callback != null){
-				this.raw = this.callback.Get();
-			}
-
-			{
-				int t_index_count;
-				int t_index_1;
-				int t_index_2;
-				int t_index_3;
-				Find(ref this.raw,a_target_type,out t_index_count,out t_index_1,out t_index_2,out t_index_3);
-
-				UnityEngine_PlayerLoopSystem.PlayerLoopSystem t_item = new UnityEngine_PlayerLoopSystem.PlayerLoopSystem();
-				{
-					t_item.subSystemList = null;
-					t_item.type = a_add_type;
-					t_item.updateDelegate = a_add_callback;
-				}
-
-				switch(t_index_count){
-				case 1:
+				switch(a_addtype){
+				case AddType.AddFirst:
+				case AddType.AddLast:
 					{
-						System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem> t_sub_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList);
-						t_sub_list.Insert(t_index_1,t_item);
-						this.raw.subSystemList = t_sub_list.ToArray();
+						t_index = -1;
+
+						switch(t_index_count){
+						case 1:
+							{
+								t_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList);
+							}break;
+						case 2:
+							{
+								t_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList);
+							}break;
+						case 3:
+							{
+								t_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList[t_index_3].subSystemList);
+							}break;
+						default:
+							{
+								Tool.Assert(false);
+								t_list = null;
+							}break;
+						}
 					}break;
-				case 2:
+				case AddType.AddBefore:
+				case AddType.AddAfter:
 					{
-						System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem> t_sub_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList);
-						t_sub_list.Insert(t_index_2,t_item);
-						this.raw.subSystemList[t_index_1].subSystemList = t_sub_list.ToArray();
-					}break;
-				case 3:
-					{
-						System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem> t_sub_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList);
-						t_sub_list.Insert(t_index_3,t_item);
-						this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList = t_sub_list.ToArray();
+						switch(t_index_count){
+						case 1:
+							{
+								t_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList);
+								t_index = t_index_1;
+							}break;
+						case 2:
+							{
+								t_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList);
+								t_index = t_index_2;
+							}break;
+						case 3:
+							{
+								t_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList);
+								t_index = t_index_3;
+							}break;
+						default:
+							{
+								Tool.Assert(false);
+								t_list = null;
+								t_index = -1;
+							}break;
+						}
 					}break;
 				default:
 					{
 						Tool.Assert(false);
+						t_list = null;
+						t_index = -1;
 					}break;
 				}
-			}
 
-			#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)||(USE_DEF_FEE_DEBUGTOOL)
-			{
-				this.Apply_DebugView(ref this.raw);
-			}
-			#endif
-
-			if(this.callback != null){
-				this.callback.Set(ref this.raw);
-			}else{
-				try{
-					UnityEngine_PlayerLoopSystem.PlayerLoop.SetPlayerLoop(this.raw);
-				}catch(System.Exception t_exception){
-					Tool.DebugReThrow(t_exception);
-				}
-			}
-		}
-
-		/** ターゲットの次の追加。
-		*/
-		public void AddAfter(System.Type a_target_type,System.Type a_add_type,UnityEngine_PlayerLoopSystem.PlayerLoopSystem.UpdateFunction a_add_callback)
-		{
-			if(this.callback != null){
-				this.raw = this.callback.Get();
-			}
-
-			{
-				int t_index_count;
-				int t_index_1;
-				int t_index_2;
-				int t_index_3;
-				Find(ref this.raw,a_target_type,out t_index_count,out t_index_1,out t_index_2,out t_index_3);
-
-				UnityEngine_PlayerLoopSystem.PlayerLoopSystem t_item = new UnityEngine_PlayerLoopSystem.PlayerLoopSystem();
-				{
-					t_item.subSystemList = null;
-					t_item.type = a_add_type;
-					t_item.updateDelegate = a_add_callback;
-				}
-
-				switch(t_index_count){
-				case 1:
+				switch(a_addtype){
+				case AddType.AddFirst:
 					{
-						System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem> t_sub_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList);
-						t_sub_list.Insert(t_index_1 + 1,t_item);
-						this.raw.subSystemList = t_sub_list.ToArray();
+						t_list.Insert(0,t_item);
 					}break;
-				case 2:
+				case AddType.AddLast:
 					{
-						System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem> t_sub_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList);
-						t_sub_list.Insert(t_index_2 + 1,t_item);
-						this.raw.subSystemList[t_index_1].subSystemList = t_sub_list.ToArray();
+						t_list.Add(t_item);
 					}break;
-				case 3:
+				case AddType.AddBefore:
 					{
-						System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem> t_sub_list = new System.Collections.Generic.List<UnityEngine_PlayerLoopSystem.PlayerLoopSystem>(this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList);
-						t_sub_list.Insert(t_index_3 + 1,t_item);
-						this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList = t_sub_list.ToArray();
+						t_list.Insert(t_index,t_item);
 					}break;
-				default:
+				case AddType.AddAfter:
 					{
-						Tool.Assert(false);
+						t_list.Insert(t_index + 1,t_item);
+					}break;
+				}				
+
+				switch(a_addtype){
+				case AddType.AddFirst:
+				case AddType.AddLast:
+					{
+						switch(t_index_count){
+						case 1:
+							{
+								this.raw.subSystemList[t_index_1].subSystemList = t_list.ToArray();
+							}break;
+						case 2:
+							{
+								this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList = t_list.ToArray();
+							}break;
+						case 3:
+							{
+								this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList[t_index_3].subSystemList = t_list.ToArray();
+							}break;
+						default:
+							{
+								t_list = null;
+								Tool.Assert(false);
+							}break;
+						}
+					}break;
+				case AddType.AddBefore:
+				case AddType.AddAfter:
+					{
+						switch(t_index_count){
+						case 1:
+							{
+								this.raw.subSystemList = t_list.ToArray();
+							}break;
+						case 2:
+							{
+								this.raw.subSystemList[t_index_1].subSystemList = t_list.ToArray();
+							}break;
+						case 3:
+							{
+								this.raw.subSystemList[t_index_1].subSystemList[t_index_2].subSystemList = t_list.ToArray();
+							}break;
+						default:
+							{
+								Tool.Assert(false);
+							}break;
+						}
 					}break;
 				}
 			}

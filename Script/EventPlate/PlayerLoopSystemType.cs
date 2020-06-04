@@ -4,21 +4,21 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief 入力。
+ * @brief イベントプレート。
 */
 
 
-/** Fee.Input
+/** Fee.EventPlate
 */
-namespace Fee.Input
+namespace Fee.EventPlate
 {
 	/** PlayerLoopSystemType
 	*/
 	public struct PlayerLoopSystemType
 	{
-		/** Fee_Input_Main
+		/** Fee_EventPlate_Main
 		*/
-		public struct Fee_Input_Main
+		public struct Fee_EventPlate_Main
 		{
 		}
 	}

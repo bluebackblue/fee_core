@@ -323,6 +323,7 @@ namespace Fee.EditorTool
 				#if(DEF_PLAYERLOOPSYSTEM)
 				{
 					Fee.PlayerLoopSystem.PlayerLoopSystem.CreateInstance(null);
+					Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof( UnityEngine.Experimental.PlayerLoop.PreUpdate.SendMouseEvents));
 				}
 				#endif
 

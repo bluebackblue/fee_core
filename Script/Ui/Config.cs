@@ -32,6 +32,14 @@ namespace Fee.Ui
 		*/
 		public static bool DEBUGRETHROW_ENABLE = false;
 
+		/** プレイヤーループ。追加先
+		*/
+		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(Fee.EventPlate.PlayerLoopSystemType.Fee_EventPlate_Main);
+		
+		/** プレイヤーループ。追加方法。
+		*/
+		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddAfter;
+
 		/** デフォルト。コーナーサイズ。
 		*/
 		public static int DEFAULT_BUTTON_CORNER_SIZE = 10;

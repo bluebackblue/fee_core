@@ -46,10 +46,9 @@ namespace Fee.Input
 		{
 			this.paddevice_list.Clear();
 
-			foreach(UnityEngine.InputSystem.InputDevice t_device in UnityEngine.InputSystem.InputSystem.devices){
-				UnityEngine.InputSystem.Gamepad t_gamepad = t_device as UnityEngine.InputSystem.Gamepad;
-				if(t_gamepad != null){
-					this.paddevice_list.Add(t_gamepad);
+			for(int ii=0;ii<UnityEngine.InputSystem.Gamepad.all.Count;ii++){
+				if(UnityEngine.InputSystem.Gamepad.all[ii] != null){
+					this.paddevice_list.Add(UnityEngine.InputSystem.Gamepad.all[ii]);
 				}
 			}
 

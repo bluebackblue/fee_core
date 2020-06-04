@@ -86,40 +86,6 @@ namespace Fee.Function
 			this.monobehaviour = a_monobehaviour;
 		}
 
-		/** 戻り値。
-		*/
-		public enum ReturnType
-		{
-			/** Continue
-			*/
-			Continue = 0,
-
-			/** End
-			*/
-			End,
-		}
-
-		/** コルーチンから呼び出し。
-		*/
-		public void CallFromCoroutine(System.Func<ReturnType> a_function)
-		{
-			if(this.monobehaviour != null){
-				this.monobehaviour.StartCoroutine(Do_Coroutine(a_function));
-			}else{
-				Tool.Assert(false);
-			}
-		}
-
-		/** 処理。コルーチン。
-		*/
-		private System.Collections.IEnumerator Do_Coroutine(System.Func<ReturnType> a_function)
-		{
-			while(a_function() == ReturnType.Continue){
-				yield return null;
-			}
-			yield break;
-		}
-
 		/** コルーチン。開始。
 		*/
 		public void StartCoroutine(System.Collections.IEnumerator a_coroutine)

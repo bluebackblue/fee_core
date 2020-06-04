@@ -67,6 +67,10 @@ namespace Fee.File
 			}
 		}
 
+		/** playerloop_flag
+		*/
+		private bool playerloop_flag;
+
 		/** main_androidcontent
 		*/
 		private Main_AndroidContent main_androidcontent;
@@ -119,12 +123,52 @@ namespace Fee.File
 
 			//certificate_list
 			this.certificate_list = new CertificateList();
+
+			//playerloop_flag
+			this.playerloop_flag = true;
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_File_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			//playerloop_flag
+			this.playerloop_flag = false;
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_File_Main));
+		}
+
+		/** 更新。
+		*/
+		private void Main()
+		{
+			try{
+				if(this.playerloop_flag == true){
+
+					//追加。
+					if(this.add_list.Count > 0){
+						for(int ii=0;ii<this.add_list.Count;ii++){
+							this.work_list.Add(this.add_list[ii]);
+						}
+						this.add_list.Clear();
+					}
+
+					int t_index = 0;
+					while((t_index < this.work_list.Count) && (t_index < Config.WORK_LIMIT)){
+						if(this.work_list[t_index].Main() == true){
+							this.work_list.RemoveAt(t_index);
+						}else{
+							t_index++;
+						}
+					}
+				}
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
+			}
 		}
 
 		/** main_androidcontent。取得。
@@ -471,32 +515,6 @@ namespace Fee.File
 				return true;
 			}
 			return false;
-		}
-
-		/** 更新。
-		*/
-		public void Main()
-		{
-			try{
-				//追加。
-				if(this.add_list.Count > 0){
-					for(int ii=0;ii<this.add_list.Count;ii++){
-						this.work_list.Add(this.add_list[ii]);
-					}
-					this.add_list.Clear();
-				}
-
-				int t_index = 0;
-				while(t_index < this.work_list.Count){
-					if(this.work_list[t_index].Main() == true){
-						this.work_list.RemoveAt(t_index);
-					}else{
-						t_index++;
-					}
-				}
-			}catch(System.Exception t_exception){
-				Tool.DebugReThrow(t_exception);
-			}
 		}
 	}
 }

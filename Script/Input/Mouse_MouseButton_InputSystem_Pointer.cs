@@ -21,7 +21,8 @@ namespace Fee.Input
 		*/
 		public static bool Main()
 		{
-			UnityEngine.InputSystem.Pointer t_device = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Pointer>();
+			UnityEngine.InputSystem.Pointer t_device = UnityEngine.InputSystem.Pointer.current;
+			//UnityEngine.InputSystem.Pointer t_device = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Pointer>();
 			if(t_device != null){
 
 				//is_focus

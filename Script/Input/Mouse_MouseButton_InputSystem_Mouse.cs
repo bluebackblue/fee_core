@@ -21,7 +21,8 @@ namespace Fee.Input
 		*/
 		public static bool Main()
 		{
-			UnityEngine.InputSystem.Mouse t_device = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Mouse>();
+			UnityEngine.InputSystem.Mouse t_device = UnityEngine.InputSystem.Mouse.current;
+			//UnityEngine.InputSystem.Mouse t_device = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Mouse>();
 			if(t_device != null){
 
 				//is_focus

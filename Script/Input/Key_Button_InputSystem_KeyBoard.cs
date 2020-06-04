@@ -21,8 +21,10 @@ namespace Fee.Input
 		*/
 		public static bool Main()
 		{
-			UnityEngine.InputSystem.Keyboard t_device = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Keyboard>();
+			UnityEngine.InputSystem.Keyboard t_device = UnityEngine.InputSystem.Keyboard.current;
+			//UnityEngine.InputSystem.Keyboard t_device = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Keyboard>();
 			if(t_device != null){
+
 				foreach(System.Collections.Generic.KeyValuePair<Status_Key_Type,Status_Key_Item> t_pair in Fee.Input.Input.GetInstance().key.list){
 					t_pair.Value.digital.Set(t_device[t_pair.Value.inputsystem_key].isPressed);
 				}

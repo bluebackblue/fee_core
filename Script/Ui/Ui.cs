@@ -62,6 +62,10 @@ namespace Fee.Ui
 			}
 		}
 
+		/** playerloop_flag
+		*/
+		private bool playerloop_flag;
+
 		/** ウィンドウリスト。
 		*/
 		private Ui_WindowList windowlist;
@@ -114,6 +118,12 @@ namespace Fee.Ui
 
 			//プールリスト。
 			this.pool_list_sprite_clip = new Pool.PoolList<Sprite_Clip>(0);
+
+			//playerloop_flag
+			this.playerloop_flag = true;
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_Ui_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
@@ -121,6 +131,46 @@ namespace Fee.Ui
 		private void Delete()
 		{
 			this.pool_list_sprite_clip.DeleteAllFromMemory();
+
+			//playerloop_flag
+			this.playerloop_flag = false;
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_Ui_Main));
+		}
+
+		/** 更新。
+		*/
+		private void Main()
+		{
+			try{
+				if(this.playerloop_flag == true){
+					//ウィンドウリスト。
+					this.windowlist.Main();
+
+					//ターゲット。
+					{
+						//追加。
+						for(int ii=0;ii<this.target_add_list.Count;ii++){
+							this.target_list.AddFirst(this.target_add_list[ii]);
+						}
+						this.target_add_list.Clear();
+
+						//削除。
+						for(int ii=0;ii<this.target_remove_list.Count;ii++){
+							this.target_list.Remove(this.target_remove_list[ii]);
+						}
+						this.target_remove_list.Clear();
+
+						//呼び出し。
+						foreach(OnTarget_CallBackInterface t_target in this.target_list){
+							t_target.OnTarget();
+						}
+					}
+				}
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
+			}
 		}
 
 		/** プールリスト。取得。
@@ -128,38 +178,6 @@ namespace Fee.Ui
 		public Fee.Pool.PoolList<Sprite_Clip> GetPoolList_Sprite_Clip()
 		{
 			return this.pool_list_sprite_clip;
-		}
-
-		/** 更新。
-		*/
-		public void Main()
-		{
-			try{
-				//ウィンドウリスト。
-				this.windowlist.Main();
-
-				//ターゲット。
-				{
-					//追加。
-					for(int ii=0;ii<this.target_add_list.Count;ii++){
-						this.target_list.AddFirst(this.target_add_list[ii]);
-					}
-					this.target_add_list.Clear();
-
-					//削除。
-					for(int ii=0;ii<this.target_remove_list.Count;ii++){
-						this.target_list.Remove(this.target_remove_list[ii]);
-					}
-					this.target_remove_list.Clear();
-
-					//呼び出し。
-					foreach(OnTarget_CallBackInterface t_target in this.target_list){
-						t_target.OnTarget();
-					}
-				}
-			}catch(System.Exception t_exception){
-				Tool.DebugReThrow(t_exception);
-			}
 		}
 
 		/** 追加リクエスト。設定。

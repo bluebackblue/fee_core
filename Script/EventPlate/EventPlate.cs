@@ -62,6 +62,10 @@ namespace Fee.EventPlate
 			}
 		}
 
+		/** playerloop_flag
+		*/
+		private bool playerloop_flag;
+
 		/** worklist
 		*/
 		private WorkItem[] worklist;
@@ -75,12 +79,39 @@ namespace Fee.EventPlate
 			for(int ii=0;ii<this.worklist.Length;ii++){
 				this.worklist[ii] = new WorkItem();
 			}
+
+			//playerloop_flag
+			this.playerloop_flag = true;
+
+			//
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_EventPlate_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			//playerloop_flag
+			this.playerloop_flag = false;
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_EventPlate_Main));
+		}
+
+		/** Main
+		*/
+		private void Main()
+		{
+			try{
+				if(this.playerloop_flag == true){
+					Geometry.Pos2D<int> t_pos = Fee.Input.Input.GetInstance().mouse.cursor.pos;
+					for(int ii=0;ii<this.worklist.Length;ii++){
+						this.worklist[ii].Main(in t_pos);
+					}
+				}
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
+			}
 		}
 
 		/** 追加。
@@ -102,23 +133,6 @@ namespace Fee.EventPlate
 		public void SortRequest(EventType a_eventtype)
 		{
 			this.worklist[(int)a_eventtype].SortRequest();
-		}
-
-		/** [外部からの呼び出し]更新。
-		*/
-		public void Main()
-		{
-			try{
-				//pos
-				Geometry.Pos2D<int> t_pos = Fee.Input.Input.GetInstance().mouse.cursor.pos;
-
-				//更新。
-				for(int ii=0;ii<this.worklist.Length;ii++){
-					this.worklist[ii].Main(in t_pos);
-				}
-			}catch(System.Exception t_exception){
-				Tool.DebugReThrow(t_exception);
-			}
 		}
 	}
 }
