@@ -609,6 +609,12 @@ namespace Fee.EditorTool
 			}
 		}
 
+		/** RowUpdate
+		*/
+		private void RowUpdate()
+		{
+		}
+
 		/** 更新。
 
 		https://docs.unity3d.com/ja/current/Manual/ExecutionOrder.html
@@ -622,27 +628,6 @@ namespace Fee.EditorTool
 
 				//順序変更。
 				{
-					//２Ｄ描画。
-					#if(DEF_RENDER2D)
-					{
-						Fee.Render2D.Render2D.GetInstance().Main_Before();
-					}
-					#endif
-
-					//イベントプレート。
-					#if(DEF_EVENTPLATE)
-					{
-						Fee.EventPlate.EventPlate.GetInstance().Main();
-					}
-					#endif
-
-					//ＵＩ。
-					#if(DEF_UI)
-					{
-						Fee.Ui.Ui.GetInstance().Main();
-					}
-					#endif
-
 					//シーン。
 					#if(DEF_SCENE)
 					{
@@ -729,11 +714,8 @@ namespace Fee.EditorTool
 				#endif
 
 				//ファイル。
-				#if(DEF_FILE)
 				{
-					Fee.File.File.GetInstance().Main();
 				}
-				#endif
 
 				//フォーカス。
 				#if(DEF_FOCUS)
@@ -862,17 +844,6 @@ namespace Fee.EditorTool
 				//ビデオ。
 				{
 				}
-
-				//順序変更。
-				{
-					//２Ｄ描画。
-					#if(DEF_RENDER2D)
-					{
-						Fee.Render2D.Render2D.GetInstance().Main_After();
-					}
-					#endif
-				}
-
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.StackTrace + "\n\n" + t_exception.Message);
 			}
