@@ -12,58 +12,37 @@
 */
 namespace Fee.List
 {
-	/** NodeItem
-	*/
-	public class NodeItem
-	{
-		/** index
-		*/
-		private int index;
-
-		/** GetNodeIndex
-		*/
-		public int GetNodeIndex()
-		{
-			return this.index;
-		}
-
-		/** SetNodeIndex
-		*/
-		public void SetNodeIndex(int a_index)
-		{
-			this.index = a_index;
-		}
-	}
-
 	/** NodeList
 	*/
-	public class NodeList<T,U>
-		where T : NodeItem , new()
-		where U : struct
+	public class NodeList<NODE,BUFFER>
+		where NODE : NodeItem , new()
 	{
-		/** free
+		/** list_free
 		*/
-		public System.Collections.Generic.LinkedList<T> free;
-		public System.Collections.Generic.LinkedList<T> use;
+		public System.Collections.Generic.LinkedList<NODE> list_free;
+
+		/** list_use
+		*/
+		public System.Collections.Generic.LinkedList<NODE> list_use;
 
 		/** buffer
 		*/
-		public U[] buffer;
+		public BUFFER[] buffer;
 
 		/** constructor
 		*/
-		public NodeList(U[] a_buffer)
+		public NodeList(BUFFER[] a_buffer)
 		{
-			//free
-			this.free = new System.Collections.Generic.LinkedList<T>();
+			//list_free
+			this.list_free = new System.Collections.Generic.LinkedList<NODE>();
 			for(int ii=0;ii<a_buffer.Length;ii++){
-				T t_raw = new T();
+				NODE t_raw = new NODE();
 				t_raw.SetNodeIndex(a_buffer.Length - ii - 1);
-				this.free.AddLast(new System.Collections.Generic.LinkedListNode<T>(t_raw));
+				this.list_free.AddLast(new System.Collections.Generic.LinkedListNode<NODE>(t_raw));
 			}
 
 			//use
-			this.use = new System.Collections.Generic.LinkedList<T>();
+			this.list_use = new System.Collections.Generic.LinkedList<NODE>();
 
 			//buffer
 			this.buffer = a_buffer;
@@ -71,12 +50,12 @@ namespace Fee.List
 
 		/** Alloc
 		*/
-		public System.Collections.Generic.LinkedListNode<T> Alloc()
+		public System.Collections.Generic.LinkedListNode<NODE> Alloc()
 		{
-			System.Collections.Generic.LinkedListNode<T> t_node = this.free.Last;
+			System.Collections.Generic.LinkedListNode<NODE> t_node = this.list_free.Last;
 			if(t_node != null){
-				this.free.Remove(t_node);
-				this.use.AddLast(t_node);
+				this.list_free.Remove(t_node);
+				this.list_use.AddLast(t_node);
 				return t_node;
 			}
 			return null;
@@ -84,11 +63,11 @@ namespace Fee.List
 
 		/** Free
 		*/
-		public void Free(System.Collections.Generic.LinkedListNode<T> a_item)
+		public void Free(System.Collections.Generic.LinkedListNode<NODE> a_item)
 		{
 			if(a_item != null){
-				this.use.Remove(a_item);
-				this.free.AddLast(a_item);
+				this.list_use.Remove(a_item);
+				this.list_free.AddLast(a_item);
 			}else{
 				Tool.Assert(false);
 			}
@@ -98,24 +77,24 @@ namespace Fee.List
 		*/
 		public int GetUseCount()
 		{
-			return this.use.Count;
+			return this.list_use.Count;
 		}
 
 		/** GetFreeCount
 		*/
 		public int GetFreeCount()
 		{
-			return this.free.Count;
+			return this.list_free.Count;
 		}
 
 		/** FindLessIndex
 
-			return < a_index : 検索
+			a_indexより小さい。
 
 		*/
-		public static System.Collections.Generic.LinkedListNode<T> FindLessIndex(System.Collections.Generic.LinkedListNode<T> a_node,int a_index)
+		public static System.Collections.Generic.LinkedListNode<NODE> FindLessIndex(System.Collections.Generic.LinkedListNode<NODE> a_node,int a_index)
 		{
-			System.Collections.Generic.LinkedListNode<T> t_node = a_node;
+			System.Collections.Generic.LinkedListNode<NODE> t_node = a_node;
 			do{
 				if(t_node.Value.GetNodeIndex() < a_index){
 					return t_node;
@@ -127,16 +106,16 @@ namespace Fee.List
 			return null;
 		}
 
-		/** FindGreaterEequalIndex
+		/** FindGreaterIndex
 
-			return >= a_index : 検索。
+			a_indexより大きい。
 
 		*/
-		public static System.Collections.Generic.LinkedListNode<T> FindGreaterEequalIndex(System.Collections.Generic.LinkedListNode<T> a_node,int a_index)
+		public static System.Collections.Generic.LinkedListNode<NODE> FindGreaterIndex(System.Collections.Generic.LinkedListNode<NODE> a_node,int a_index)
 		{
-			System.Collections.Generic.LinkedListNode<T> t_node = a_node;
+			System.Collections.Generic.LinkedListNode<NODE> t_node = a_node;
 			do{
-				if(t_node.Value.GetNodeIndex() >= a_index){
+				if(t_node.Value.GetNodeIndex() > a_index){
 					return t_node;
 				}
 
@@ -146,25 +125,64 @@ namespace Fee.List
 			return null;
 		}
 
+		/** FindLessEequalIndex
+
+			a_index以下。
+
+		*/
+		public static System.Collections.Generic.LinkedListNode<NODE> FindLessEequalIndex(System.Collections.Generic.LinkedListNode<NODE> a_node,int a_index)
+		{
+			System.Collections.Generic.LinkedListNode<NODE> t_node = a_node;
+			do{
+				if(t_node.Value.GetNodeIndex() <= a_index){
+					return t_node;
+				}
+
+				t_node = t_node.Next;
+			}while(t_node != null);
+
+			return null;
+		}
+
+		/** FindGreaterEequalIndex
+
+			a_index以上。
+
+		*/
+		public static System.Collections.Generic.LinkedListNode<NODE> FindGreaterEequalIndex(System.Collections.Generic.LinkedListNode<NODE> a_node,int a_index)
+		{
+			System.Collections.Generic.LinkedListNode<NODE> t_node = a_node;
+
+			while(t_node != null){
+				if(t_node.Value.GetNodeIndex() >= a_index){
+					return t_node;
+				}
+
+				t_node = t_node.Next;
+			}
+
+			return null;
+		}
+
 		/** 隙間を埋める。
 		*/
 		public void GarbageCollection()
 		{
-			int t_max = this.use.Count;
+			int t_max = this.list_use.Count;
 
 			//未使用にすべきノード。
-			System.Collections.Generic.LinkedListNode<T> t_node_use = Fee.List.NodeList<T,U>.FindGreaterEequalIndex(this.use.First,t_max);
-			System.Collections.Generic.LinkedListNode<T> t_node_free = this.free.First;
+			System.Collections.Generic.LinkedListNode<NODE> t_node_use = FindGreaterEequalIndex(this.list_use.First,t_max);
+			System.Collections.Generic.LinkedListNode<NODE> t_node_free = this.list_free.First;
 
 			while(t_node_use != null){
 				//使用にすべきノード。
-				t_node_free = Fee.List.NodeList<T,U>.FindLessIndex(t_node_free,t_max);
+				t_node_free = FindLessIndex(t_node_free,t_max);
 				{
 					int t_index_free = t_node_free.Value.GetNodeIndex();
 					int t_index_use = t_node_use.Value.GetNodeIndex();
 
 					//スワップ。
-					U t_temp = this.buffer[t_index_free];
+					BUFFER t_temp = this.buffer[t_index_free];
 					this.buffer[t_index_free] = this.buffer[t_index_use];
 					this.buffer[t_index_use] = t_temp;
 
@@ -174,7 +192,7 @@ namespace Fee.List
 				}
 
 				//次の未使用にすべきノード。
-				t_node_use = Fee.List.NodeList<T,U>.FindGreaterEequalIndex(t_node_use,t_max);
+				t_node_use = FindGreaterEequalIndex(t_node_use,t_max);
 			}
 		}
 	}
