@@ -87,13 +87,11 @@ namespace Fee.File
 		*/
 		private Main_Resources main_resources;
 
-		/** work_list
+		/** work
 		*/
-		private System.Collections.Generic.List<WorkItem> work_list;
-
-		/** add_list
-		*/
-		private System.Collections.Generic.List<WorkItem> add_list;
+		private Fee.List.NodePool<WorkItem> work_pool;
+		private System.Collections.Generic.LinkedList<WorkItem> work_add;
+		private System.Collections.Generic.LinkedList<WorkItem> work_list;
 
 		/** certificate_list
 		*/
@@ -115,11 +113,12 @@ namespace Fee.File
 			//main_resources
 			this.main_resources = new Main_Resources();
 
-			//work_list
-			this.work_list = new System.Collections.Generic.List<WorkItem>();
+			//work
+			this.work_pool = new List.NodePool<WorkItem>(16);
+			this.work_add = new System.Collections.Generic.LinkedList<WorkItem>();
+			this.work_list = new System.Collections.Generic.LinkedList<WorkItem>();
 
 			//add_list
-			this.add_list = new System.Collections.Generic.List<WorkItem>();
 
 			//certificate_list
 			this.certificate_list = new CertificateList();
@@ -148,21 +147,26 @@ namespace Fee.File
 		{
 			try{
 				if(this.playerloop_flag == true){
-
 					//追加。
-					if(this.add_list.Count > 0){
-						for(int ii=0;ii<this.add_list.Count;ii++){
-							this.work_list.Add(this.add_list[ii]);
+					{
+						System.Collections.Generic.LinkedListNode<WorkItem> t_node = this.work_add.Last;
+						while(t_node != null){
+							this.work_add.Remove(t_node);
+							this.work_list.AddLast(t_node);
+							t_node = this.work_add.Last;
 						}
-						this.add_list.Clear();
 					}
 
-					int t_index = 0;
-					while((t_index < this.work_list.Count) && (t_index < Config.WORK_LIMIT)){
-						if(this.work_list[t_index].Main() == true){
-							this.work_list.RemoveAt(t_index);
-						}else{
-							t_index++;
+					//更新。
+					{
+						System.Collections.Generic.LinkedListNode<WorkItem> t_node = this.work_list.First;
+						while(t_node != null){
+							System.Collections.Generic.LinkedListNode<WorkItem> t_node_next = t_node.Next;
+							if(t_node.Value.Main() == true){
+								this.work_list.Remove(t_node);
+								this.work_pool.Free(t_node);
+							}
+							t_node = t_node_next;
 						}
 					}
 				}
@@ -275,24 +279,33 @@ namespace Fee.File
 
 			case LoadRequestType.LoadUrlBinaryFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadUrlBinaryFile(a_path,a_post_data,a_certificate_handler);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadUrlBinaryFile(a_path,a_post_data,a_certificate_handler);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadUrlTextFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadUrlTextFile(a_path,a_post_data,a_certificate_handler);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadUrlTextFile(a_path,a_post_data,a_certificate_handler);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadUrlTextureFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadUrlTextureFile(a_path,a_post_data,a_certificate_handler);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadUrlTextureFile(a_path,a_post_data,a_certificate_handler);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 
 			}
@@ -311,120 +324,165 @@ namespace Fee.File
 
 			case LoadRequestType.LoadLocalBinaryFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadLocalBinaryFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadLocalBinaryFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadLocalTextFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadLocalTextFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadLocalTextFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadLocalTextureFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadLocalTextureFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadLocalTextureFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 
 			//ロードストリーミングアセット。
 
 			case LoadRequestType.LoadStreamingAssetsBinaryFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadStreamingAssetsBinaryFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadStreamingAssetsBinaryFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadStreamingAssetsTextFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadStreamingAssetsTextFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadStreamingAssetsTextFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadStreamingAssetsTextureFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadStreamingAssetsTextureFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadStreamingAssetsTextureFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 
 			//ロードリソース。
 
 			case LoadRequestType.LoadResourcesTextFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadResourcesTextFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadResourcesTextFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadResourcesTextureFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadResourcesTextureFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadResourcesTextureFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadResourcesPrefabFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadResourcesPrefabFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadResourcesPrefabFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 
 			//ロードＵＲＬ。
 
 			case LoadRequestType.LoadUrlBinaryFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadUrlBinaryFile(a_path,null,null);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadUrlBinaryFile(a_path,null,null);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadUrlTextFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadUrlTextFile(a_path,null,null);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadUrlTextFile(a_path,null,null);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadUrlTextureFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadUrlTextureFile(a_path,null,null);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadUrlTextureFile(a_path,null,null);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 
 			//フルパス。
 
 			case LoadRequestType.LoadFullPathBinaryFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadFullPathBinaryFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadFullPathBinaryFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadFullPathTextFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadFullPathTextFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadFullPathTextFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadFullPathTextureFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadFullPathTextureFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadFullPathTextureFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 
 			#if(UNITY_EDITOR)
@@ -433,17 +491,23 @@ namespace Fee.File
 
 			case LoadRequestType.LoadAssetsPathBinaryFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadAssetsPathBinaryFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadAssetsPathBinaryFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			case LoadRequestType.LoadAssetsPathTextFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestLoadAssetsPathTextFile(a_path);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestLoadAssetsPathTextFile(a_path);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 
 			#endif
@@ -460,10 +524,13 @@ namespace Fee.File
 			switch(a_request_type){
 			case SaveRequestType.SaveLocalBinaryFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestSaveLocalBinaryFile(a_relative_path,a_binary);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestSaveLocalBinaryFile(a_relative_path,a_binary);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			}
 
@@ -478,10 +545,13 @@ namespace Fee.File
 			switch(a_request_type){
 			case SaveRequestType.SaveLocalTextFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestSaveLocalTextFile(a_relative_path,a_text);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestSaveLocalTextFile(a_relative_path,a_text);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			}
 
@@ -496,10 +566,13 @@ namespace Fee.File
 			switch(a_request_type){
 			case SaveRequestType.SaveLocalTextureFile:
 				{
-					WorkItem t_work_item = new WorkItem();
-					t_work_item.RequestSaveLocalTextureFile(a_relative_path,a_texture);
-					this.add_list.Add(t_work_item);
-					return t_work_item.GetItem();
+					System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+					t_work_node.Value.Reset();
+
+					t_work_node.Value.RequestSaveLocalTextureFile(a_relative_path,a_texture);
+					this.work_add.AddLast(t_work_node);
+
+					return t_work_node.Value.GetItem();
 				}break;
 			}
 
@@ -511,7 +584,7 @@ namespace Fee.File
 		*/
 		public bool IsBusy()
 		{
-			if((this.work_list.Count > 0)||(this.add_list.Count > 0)){
+			if((this.work_list.Count > 0)||(this.work_add.Count > 0)){
 				return true;
 			}
 			return false;
