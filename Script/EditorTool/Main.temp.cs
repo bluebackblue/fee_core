@@ -39,7 +39,7 @@
 
 /** Fee.EditorTool
 */
-#if(USE_DEF_FEE_TEMP)
+#if(true)
 namespace Fee.EditorTool
 {
 	/** Main
@@ -248,6 +248,10 @@ namespace Fee.EditorTool
 				{
 				}
 
+				//グラフィック。
+				{
+				}
+
 				//入力。
 				#if(DEF_INPUT)
 				{
@@ -268,6 +272,10 @@ namespace Fee.EditorTool
 				}
 
 				//キー。
+				{
+				}
+
+				//リスト。
 				{
 				}
 
@@ -392,7 +400,7 @@ namespace Fee.EditorTool
 			}
 
 			//■シーン開始。
-			#if(true)
+			#if(USE_DEF_FEE_TEMP)
 			{
 				Fee.Scene.Scene.GetInstance().SetNextScene(new Game.Scene.Scene_Init());
 			}
@@ -491,6 +499,10 @@ namespace Fee.EditorTool
 			{
 			}
 
+			//グラフィック。
+			{
+			}
+
 			//入力。
 			{
 				Fee.Input.Input.DeleteInstance();
@@ -509,6 +521,10 @@ namespace Fee.EditorTool
 			}
 
 			//キー。
+			{
+			}
+
+			//リスト。
 			{
 			}
 
@@ -732,6 +748,10 @@ namespace Fee.EditorTool
 				{
 				}
 
+				//グラフィック。
+				{
+				}
+
 				//入力。
 				{
 				}
@@ -752,6 +772,10 @@ namespace Fee.EditorTool
 				{
 				}
 
+				//リスト。
+				{
+				}
+
 				//マテリアル。
 				{
 				}
@@ -769,11 +793,8 @@ namespace Fee.EditorTool
 				}
 
 				//ネットワーク。
-				#if(DEF_NETWORK)
 				{
-					Fee.Network.Network.GetInstance().Main();
 				}
-				#endif
 
 				//パターン。
 				{

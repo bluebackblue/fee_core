@@ -62,76 +62,41 @@ namespace Fee.Network
 			}
 		}
 
-		/** pun
-		*/
-		#if(USE_DEF_FEE_PUN)
-		public Pun_MonoBehaviour pun;
-		#endif
-
-		/** pun_dataloader
-		*/
-		#if(USE_DEF_FEE_PUN)
-		public Pun_DataLoader pun_dataloader;
-		#endif
-
 		/** room_list
 		*/
 		public System.Collections.Generic.Dictionary<string,RoomItem> room_list;
 
-		/** Step
+		/** game_version
 		*/
-		public enum Step
-		{
-			/** None
-			*/
-			None,
+		public string game_version;
 
-			/** ConnectMaster
-			*/
-			ConnectMaster,
+		/** nick_name
+		*/
+		public string nick_name;
 
-			/** ConnectLobby
-			*/
-			ConnectLobby,
-
-			/** ConnectRoom
-			*/
-			ConnectRoom,
-
-			/** DisconnectMaster
-			*/
-			DisconnectMaster,
-
-			/** DisconnectLobby
-			*/
-			DisconnectLobby,
-
-			/** ConnectRoom
-			*/
-			DisconnectRoom,
-		}
-		private Step step;
+		/** pun
+		*/
+		#if(USE_DEF_FEE_PUN)
+		private Pun pun;
+		#endif
 
 		/** [シングルトン]constructor
 		*/
 		private Network()
 		{
-			#if(USE_DEF_FEE_PUN)
-			{
-				//pun
-				this.pun = Pun_MonoBehaviour.Create();
-
-				//pun_dataloader
-				this.pun_dataloader = new Pun_DataLoader();
-				Photon.Pun.PhotonNetwork.PrefabPool = this.pun_dataloader;
-			}
-			#endif
-
 			//room_list
 			this.room_list = new System.Collections.Generic.Dictionary<string,RoomItem>();
 
-			//step
-			this.step = Step.None;
+			//game_version
+			this.game_version = "0.01";
+
+			//nick_name
+			this.nick_name = "NickName";
+
+			//pun
+			#if(USE_DEF_FEE_PUN)
+			this.pun = new Pun();
+			#endif
 		}
 
 		/** [シングルトン]削除。
@@ -139,10 +104,7 @@ namespace Fee.Network
 		private void Delete()
 		{
 			#if(USE_DEF_FEE_PUN)
-			if(this.pun != null){
-				this.pun.Delete();
-				this.pun = null;
-			}
+			this.pun.Delete();
 			#endif
 		}
 
@@ -150,10 +112,11 @@ namespace Fee.Network
 		*/
 		public bool IsBusy()
 		{
-			if(this.step == Step.None){
-				return false;
-			}
-			return true;
+			#if(USE_DEF_FEE_PUN)
+			return this.pun.IsBusy();
+			#else
+			return false;
+			#endif
 		}
 
 		/** プレイヤータイプ。設定。
@@ -162,9 +125,7 @@ namespace Fee.Network
 			where T : Fee.Network.NetworkObject_Player_MonoBehaviour_Base
 		{
 			#if(USE_DEF_FEE_PUN)
-			{
-				this.pun_dataloader.SetPlayerComponent<T>();
-			}
+			this.pun.SetPlayerType<T>();
 			#endif
 		}
 
@@ -179,124 +140,64 @@ namespace Fee.Network
 		*/
 		public void RequestConnectMaster()
 		{
-			if(this.step == Step.None){
-				//接続。
-				this.step = Step.ConnectMaster;
-				#if(USE_DEF_FEE_PUN)
-				{
-					this.pun.GetResultMaster().mode = Pun_MonoBehaviour.Mode.Request;
-				}
-				#endif
-			}else{
-				//処理中。
-				Tool.Assert(false);
-			}
+			#if(USE_DEF_FEE_PUN)
+			this.pun.RequestConnectMaster();
+			#endif
 		}
 
 		/** ロビー。接続リクエスト。
 		*/
 		public void RequestConnectLobby()
 		{
-			if(this.step == Step.None){
-				//接続。
-				this.step = Step.ConnectLobby;
-				#if(USE_DEF_FEE_PUN)
-				{
-					this.pun.GetResultLobby().mode = Pun_MonoBehaviour.Mode.Request;
-				}
-				#endif
-			}else{
-				//処理中。
-				Tool.Assert(false);
-			}
+			#if(USE_DEF_FEE_PUN)
+			this.pun.RequestConnectLobby();
+			#endif
 		}
 
 		/** ロビー。接続リクエスト。
 		*/
 		public void RequestConnectRoom(string a_room_key,string a_room_info)
 		{
-			if(this.step == Step.None){
-				//接続。
-				this.step = Step.ConnectRoom;
-				#if(USE_DEF_FEE_PUN)
-				{
-					this.pun.GetResultRoom().mode = Pun_MonoBehaviour.Mode.Request;
-					this.pun.GetResultRoom().room_key = a_room_key;
-					this.pun.GetResultRoom().room_info = a_room_info;
-				}
-				#endif
-			}else{
-				//処理中。
-				Tool.Assert(false);
-			}
+			#if(USE_DEF_FEE_PUN)
+			this.pun.RequestConnectRoom(a_room_key,a_room_info);
+			#endif
 		}
 
 		/** マスター。切断リクエスト。
 		*/
 		public void RequestDisconnectMaster()
 		{
-			if(this.step == Step.None){
-				//切断。
-				this.step = Step.DisconnectMaster;
-				#if(USE_DEF_FEE_PUN)
-				{
-					this.pun.GetResultMaster().mode = Pun_MonoBehaviour.Mode.Request;
-				}
-				#endif
-			}else{
-				//処理中。
-				Tool.Assert(false);
-			}
+			#if(USE_DEF_FEE_PUN)
+			this.pun.RequestDisconnectMaster();
+			#endif
 		}
 
 		/** ロビー。切断リクエスト。
 		*/
 		public void RequestDisconnectLobby()
 		{
-			if(this.step == Step.None){
-				//切断。
-				this.step = Step.DisconnectLobby;
-				#if(USE_DEF_FEE_PUN)
-				{
-					this.pun.GetResultLobby().mode = Pun_MonoBehaviour.Mode.Request;
-				}
-				#endif
-			}else{
-				//処理中。
-				Tool.Assert(false);
-			}
+			#if(USE_DEF_FEE_PUN)
+			this.pun.RequestDisconnectLobby();
+			#endif
 		}
 
 		/** ロビー。切断リクエスト。
 		*/
 		public void RequestDisconnectRoom()
 		{
-			if(this.step == Step.None){
-				//切断。
-				this.step = Step.DisconnectRoom;
-				#if(USE_DEF_FEE_PUN)
-				{
-					this.pun.GetResultRoom().mode = Pun_MonoBehaviour.Mode.Request;
-				}
-				#endif
-			}else{
-				//処理中。
-				Tool.Assert(false);
-			}
+			#if(USE_DEF_FEE_PUN)
+			this.pun.RequestDisconnectRoom();
+			#endif
 		}
 
 		/** CreatePlayer
 		*/
-		public bool CreatePlayer()
+		public UnityEngine.GameObject CreatePlayer()
 		{
 			#if(USE_DEF_FEE_PUN)
-			{
-				return this.pun.CreatePlayer();
-			}
+			return this.pun.CreatePlayer();
 			#else
-			{
-				return false;
-			}
+			return null;
 			#endif
 		}
 
@@ -305,13 +206,9 @@ namespace Fee.Network
 		public bool IsConnectMaster()
 		{
 			#if(USE_DEF_FEE_PUN)
-			{
-				return this.pun.IsConnectMaster();
-			}
+			return this.pun.IsConnectMaster();
 			#else
-			{
-				return false;
-			}
+			return false;
 			#endif
 		}
 
@@ -320,13 +217,9 @@ namespace Fee.Network
 		public bool IsConnectLobby()
 		{
 			#if(USE_DEF_FEE_PUN)
-			{
-				return this.pun.IsConnectLobby();
-			}
+			return this.pun.IsConnectLobby();
 			#else
-			{
-				return false;
-			}
+			return false;
 			#endif
 		}
 
@@ -335,174 +228,11 @@ namespace Fee.Network
 		public bool IsConnectRoom()
 		{
 			#if(USE_DEF_FEE_PUN)
-			{
-				return this.pun.IsConnectRoom();
-			}
+			return this.pun.IsConnectRoom();
 			#else
-			{
-				return false;
-			}
+			return false;
 			#endif
 		}
-
-		/** 更新。
-		*/
-		public void Main()
-		{
-			#if(USE_DEF_FEE_PUN)
-			{
-				this.Main_Pun();
-			}
-			#endif
-		}
-
-		/** 更新。
-		*/
-		#if(USE_DEF_FEE_PUN)
-		public void Main_Pun()
-		{
-			switch(this.step){
-			case Step.ConnectMaster:
-				{
-					switch(this.pun.GetResultMaster().mode){
-					case Pun_MonoBehaviour.Mode.Request:
-						{
-							//開始。
-							this.pun.RequestConnectMaster();
-						}break;
-					case Pun_MonoBehaviour.Mode.Busy:
-						{
-							//処理中。
-						}break;
-					case Pun_MonoBehaviour.Mode.Result:
-						{
-							//完了。
-							this.step = Step.None;
-						}break;
-					default:
-						{
-							Tool.Assert(false);
-						}break;
-					}
-				}break;
-			case Step.ConnectLobby:
-				{
-					switch(this.pun.GetResultLobby().mode){
-					case Pun_MonoBehaviour.Mode.Request:
-						{
-							//開始。
-							this.pun.RequestConnectLobby();
-						}break;
-					case Pun_MonoBehaviour.Mode.Busy:
-						{
-							//処理中。
-						}break;
-					case Pun_MonoBehaviour.Mode.Result:
-						{
-							//完了。
-							this.step = Step.None;
-						}break;
-					default:
-						{
-							Tool.Assert(false);
-						}break;
-					}
-				}break;
-			case Step.ConnectRoom:
-				{
-					switch(this.pun.GetResultRoom().mode){
-					case Pun_MonoBehaviour.Mode.Request:
-						{
-							//開始。
-							this.pun.RequestConnectRoom();
-						}break;
-					case Pun_MonoBehaviour.Mode.Busy:
-						{
-							//処理中。
-						}break;
-					case Pun_MonoBehaviour.Mode.Result:
-						{
-							//完了。
-							this.step = Step.None;
-						}break;
-					default:
-						{
-							Tool.Assert(false);
-						}break;
-					}
-				}break;
-			case Step.DisconnectMaster:
-				{
-					switch(this.pun.GetResultMaster().mode){
-					case Pun_MonoBehaviour.Mode.Request:
-						{
-							//開始。
-							this.pun.RequestDisconnectMaster();
-						}break;
-					case Pun_MonoBehaviour.Mode.Busy:
-						{
-							//処理中。
-						}break;
-					case Pun_MonoBehaviour.Mode.Result:
-						{
-							//完了。
-							this.step = Step.None;
-						}break;
-					default:
-						{
-							Tool.Assert(false);
-						}break;
-					}
-				}break;
-			case Step.DisconnectLobby:
-				{
-					switch(this.pun.GetResultLobby().mode){
-					case Pun_MonoBehaviour.Mode.Request:
-						{
-							//開始。
-							this.pun.RequestDisconnectLobby();
-						}break;
-					case Pun_MonoBehaviour.Mode.Busy:
-						{
-							//処理中。
-						}break;
-					case Pun_MonoBehaviour.Mode.Result:
-						{
-							//完了。
-							this.step = Step.None;
-						}break;
-					default:
-						{
-							Tool.Assert(false);
-						}break;
-					}
-				}break;
-			case Step.DisconnectRoom:
-				{
-					switch(this.pun.GetResultRoom().mode){
-					case Pun_MonoBehaviour.Mode.Request:
-						{
-							//開始。
-							this.pun.RequestDisconnectRoom();
-						}break;
-					case Pun_MonoBehaviour.Mode.Busy:
-						{
-							//処理中。
-						}break;
-					case Pun_MonoBehaviour.Mode.Result:
-						{
-							//完了。
-							this.step = Step.None;
-						}break;
-					default:
-						{
-							Tool.Assert(false);
-						}break;
-					}
-				}break;
-			}
-		}
-		#endif
 	}
 }
 

@@ -40,7 +40,9 @@ namespace Fee.EditorTool
 		public static void CreateDirectory(Fee.File.Path a_assets_path)
 		{
 			try{
-				System.IO.Directory.CreateDirectory(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath());
+				if(System.IO.Directory.Exists(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath()) == false){
+					System.IO.Directory.CreateDirectory(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath());
+				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
@@ -378,6 +380,13 @@ namespace Fee.EditorTool
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
 			}
+		}
+
+		/** アセットバンドル作成。
+		*/
+		public static void BuildAssetBundles(Fee.File.Path a_path,UnityEditor.AssetBundleBuild[] a_list,UnityEditor.BuildAssetBundleOptions a_option,UnityEditor.BuildTarget a_buildtarget)
+		{
+			UnityEditor.BuildPipeline.BuildAssetBundles("Assets/" + a_path.GetPath(),a_list,a_option,a_buildtarget);
 		}
 	}
 	#endif
