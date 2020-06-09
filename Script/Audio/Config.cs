@@ -51,6 +51,14 @@ namespace Fee.Audio
 		/** ＢＧＭ再生。フェードイン。
 		*/
 		public static bool BGM_PLAY_FADEIN = true;
+
+		/** プレイヤーループ。追加先
+		*/
+		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(UnityEngine.Experimental.PlayerLoop.PreLateUpdate);
+		
+		/** プレイヤーループ。追加方法。
+		*/
+		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddLast;
 	}
 }
 

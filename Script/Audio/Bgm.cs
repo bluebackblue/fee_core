@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief オーディオ。オーディオソース。
+ * @brief オーディオ。ＢＧＭ。
 */
 
 
@@ -12,9 +12,9 @@
 */
 namespace Fee.Audio
 {
-	/** Bgm_AudioSource_MonoBehaviour
+	/** Bgm
 	*/
-	public class Bgm_AudioSource_MonoBehaviour : UnityEngine.MonoBehaviour
+	public class Bgm
 	{
 		/** Mode
 		*/
@@ -35,21 +35,32 @@ namespace Fee.Audio
 			Cross1To0,
 		};
 
-		/** ボリューム。マスター。
+		/** ボリューム。
 		*/
-		private Volume volume_master;
+		private Volume volume;
 
-		/** ボリューム。ＢＧＭ。
+		/** audiosource
 		*/
-		private Volume volume_bgm;
+		private System.Collections.Generic.List<UnityAudioSource> audiosource;
 
-		/** オーディオソース。
+		/** ゲームオブジェクト。
 		*/
-		private UnityEngine.AudioSource[] myaudiosource;
-		private float[] myaudiosource_data_volume;
-		private float[] myaudiosource_volume;
-		private int[] myaudiosource_index;
-		private float[] myaudiosource_time;
+		private UnityEngine.GameObject gameobject;
+
+		/** ステータス。
+		*/
+		private class Status
+		{
+			public float time;
+
+			/** constructor
+			*/
+			public Status()
+			{
+				this.time = 0.0f;
+			}
+		}
+		private System.Collections.Generic.List<Status> status_list;
 
 		/** バンク。
 		*/
@@ -87,47 +98,35 @@ namespace Fee.Audio
 		*/
 		private Bank unload_work;
 
-		/** 初期化。
+		/** constructor
 		*/
-		public void Initialize(Volume a_volume_master,Volume a_volume_bgm)
+		public Bgm(Volume a_volume_master)
 		{
-			//volume_master
-			this.volume_master = a_volume_master;
+			//audiosource
+			this.audiosource = new System.Collections.Generic.List<UnityAudioSource>();
 
-			//volume_se
-			this.volume_bgm = a_volume_bgm;
+			//volume
+			this.volume = new Volume(a_volume_master,Config.DEFAULT_VOLUME_BGM);
 
-			//myaudiosource
-			this.myaudiosource = this.GetComponents<UnityEngine.AudioSource>();
-			for(int ii=0;ii<this.myaudiosource.Length;ii++){
-				this.myaudiosource[ii].playOnAwake = false;
-				this.myaudiosource[ii].loop = true;
-				this.myaudiosource[ii].volume = this.volume_master.GetVolume() * this.volume_bgm.GetVolume();
+			//ゲームオブジェクト。
+			{
+				this.gameobject = new UnityEngine.GameObject();
+				this.gameobject.name = "Bgm";
+				this.audiosource.Add(new UnityAudioSource(this.gameobject.AddComponent<UnityEngine.AudioSource>(),this.volume));
+				this.audiosource.Add(new UnityAudioSource(this.gameobject.AddComponent<UnityEngine.AudioSource>(),this.volume));
+
+				UnityEngine.GameObject.DontDestroyOnLoad(this.gameobject);
+			}
+			
+			//設定。
+			for(int ii=0;ii<this.audiosource.Count;ii++){
+				this.audiosource[ii].SetLoopFlag(true);
 			}
 
-			//myaudiosource_data_volume
-			this.myaudiosource_data_volume = new float[this.myaudiosource.Length];
-			for(int ii=0;ii<this.myaudiosource_data_volume.Length;ii++){
-				this.myaudiosource_data_volume[ii] = 0.0f;
-			}
-
-			//myaudiosource_volume
-			this.myaudiosource_volume = new float[this.myaudiosource.Length];
-			for(int ii=0;ii<this.myaudiosource_volume.Length;ii++){
-				this.myaudiosource_volume[ii] = 0.0f;
-			}
-
-			//myaudiosource_index
-			this.myaudiosource_index = new int[this.myaudiosource.Length];
-			for(int ii=0;ii<this.myaudiosource_volume.Length;ii++){
-				this.myaudiosource_index[ii] = -1;
-			}
-
-			//myaudiosource_time
-			this.myaudiosource_time = new float[this.myaudiosource.Length];
-			for(int ii=0;ii<this.myaudiosource_time.Length;ii++){
-				this.myaudiosource_time[ii] = 0.0f;
-			}
+			//status_list
+			this.status_list = new System.Collections.Generic.List<Status>();
+			this.status_list.Add(new Status());
+			this.status_list.Add(new Status());
 
 			//request_index
 			this.request_index = -1;
@@ -158,15 +157,29 @@ namespace Fee.Audio
 		*/
 		public void Delete()
 		{
+			UnityEngine.GameObject.Destroy(this.gameobject);
 		}
 
-		/** ボリューム更新。
+		/** ボリューム。設定。
 		*/
-		public void UpdateVolume()
+		public void SetVolume(float a_volume)
 		{
-			for(int ii=0;ii<this.myaudiosource_volume.Length;ii++){
-				//フェード * マスター * ＢＧＭ * データ。
-				this.myaudiosource[ii].volume = this.myaudiosource_volume[ii] * this.volume_master.GetVolume() * this.volume_bgm.GetVolume() * this.myaudiosource_data_volume[ii];
+			this.volume.SetVolume(a_volume);
+		}
+
+		/** ボリューム。取得。
+		*/
+		public float GetVolume()
+		{
+			return this.volume.GetVolume();
+		}
+
+		/** ボリューム。更新。
+		*/
+		public void ApplyVolume()
+		{
+			for(int ii=0;ii<this.audiosource.Count;ii++){
+				this.audiosource[ii].ApplyVolume();
 			}
 		}
 
@@ -204,6 +217,13 @@ namespace Fee.Audio
 			this.request_index = a_index;
 		}
 
+		/** 再生インデックス。取得。
+		*/
+		public int GetPlayIndex()
+		{
+			return this.request_index;
+		}
+
 		/** ＢＧＭ数。取得。
 		*/
 		public int GetBgmMax()
@@ -230,7 +250,7 @@ namespace Fee.Audio
 
 		/** 更新。
 		*/
-		public void Update()
+		public void Main()
 		{
 			int t_request_index = this.request_index;
 
@@ -261,27 +281,27 @@ namespace Fee.Audio
 
 							//オーディオクリップ。
 							UnityEngine.AudioClip t_audioclip = null;
-							float t_volume = 0.0f;
+							float t_data_volume = 0.0f;
 							if(this.bank != null){
-								this.bank.GetAudioClip(t_request_index,out t_audioclip,out t_volume);
+								this.bank.GetAudioClip(t_request_index,out t_audioclip,out t_data_volume);
 							}
 
 							//再生。
-							this.myaudiosource_data_volume[0] = t_volume;
-							this.myaudiosource[0].clip = t_audioclip;
-							this.myaudiosource[0].Play();
-							this.myaudiosource_time[0] = 0.0f;
+							this.status_list[0].time = 0.0f;
 
-							//ボリューム。
-							this.myaudiosource_volume[0] = 1.0f;
-							this.UpdateVolume();
+							//設定。
+							this.audiosource[0].SetDataVolume(t_data_volume);
+							this.audiosource[0].SetOperationVolume(1.0f);
+							this.audiosource[0].SetAudioClip(t_audioclip);
+
+							this.audiosource[0].ApplyVolume();
+							this.audiosource[0].PlayDirect();
 
 							this.play_index = t_request_index;
 							this.mode = Mode.Play0;
 
 							this.loopcount = 0;
 							this.playposition = 0.0f;
-
 						}
 					}
 				}break;
@@ -305,26 +325,29 @@ namespace Fee.Audio
 
 						//ボリューム。
 						if(Config.BGM_PLAY_FADEIN == true){
-							this.myaudiosource_volume[t_index_next] = 0.0f;
+							this.audiosource[t_index_next].SetOperationVolume(0.0f);
+							this.audiosource[t_index_next].ApplyVolume();
 						}else{
-							this.myaudiosource_volume[t_index_next] = 1.0f;
+							this.audiosource[t_index_next].SetOperationVolume(1.0f);
+							this.audiosource[t_index_next].ApplyVolume();
 						}
-						this.UpdateVolume();
 
 						//再生。
 						if(t_request_index >= 0){
 
 							//オーディオクリップ。
 							UnityEngine.AudioClip t_audioclip = null;
-							float t_volume = 0.0f;
+							float t_data_volume = 0.0f;
 							if(this.bank != null){
-								this.bank.GetAudioClip(t_request_index,out t_audioclip,out t_volume);
+								this.bank.GetAudioClip(t_request_index,out t_audioclip,out t_data_volume);
 							}
 
-							this.myaudiosource_data_volume[t_index_next] = t_volume;
-							this.myaudiosource[t_index_next].clip = t_audioclip;
-							this.myaudiosource[t_index_next].Play();
-							this.myaudiosource_time[t_index_next] = 0.0f;
+							//設定。
+							this.audiosource[t_index_next].SetDataVolume(t_data_volume);
+							this.audiosource[t_index_next].SetAudioClip(t_audioclip);
+							this.audiosource[t_index_next].PlayDirect();
+
+							this.status_list[t_index_next].time = 0.0f;
 						}
 
 						this.play_index = t_request_index;
@@ -339,12 +362,13 @@ namespace Fee.Audio
 						this.playposition = 0.0f;
 					}else{
 						//再生中。
-						float t_old = this.myaudiosource_time[t_index];
-						this.myaudiosource_time[t_index] = this.myaudiosource[t_index].time;
-						this.playposition = this.myaudiosource_time[t_index];
 
-						if(t_old > this.myaudiosource_time[t_index]){
-							Tool.Log("Bgm","loop : " + t_old.ToString() + " : " + this.myaudiosource_time[t_index].ToString());
+						float t_old_time = this.status_list[t_index].time;
+						this.status_list[t_index].time = this.audiosource[t_index].GetTime();
+						this.playposition = this.status_list[t_index].time;
+
+						if(t_old_time > this.status_list[t_index].time){
+							Tool.Log("Bgm","loop : " + t_old_time.ToString() + " : " + this.status_list[t_index].time.ToString());
 							this.loopcount++;
 						}
 					}
@@ -362,7 +386,7 @@ namespace Fee.Audio
 						t_index_next = 0;
 					}
 
-					this.playposition = this.myaudiosource[t_index_next].time;
+					this.playposition = this.audiosource[t_index_next].GetTime();
 
 					if(Config.BGM_PLAY_FADEIN == true){
 						this.fadetime += Config.BGM_CROSSFADE_SPEED;
@@ -372,24 +396,27 @@ namespace Fee.Audio
 
 					if(this.fadetime < 1.0f){
 						//ボリューム。
-						this.myaudiosource_volume[t_index_next] = this.fadetime;
-						this.myaudiosource_volume[t_index] = 1.0f - this.fadetime;
-						this.UpdateVolume();
+						this.audiosource[t_index_next].SetOperationVolume(this.fadetime);
+						this.audiosource[t_index_next].ApplyVolume();
+						this.audiosource[t_index].SetOperationVolume(1.0f - this.fadetime);
+						this.audiosource[t_index].ApplyVolume();
 
 						//再生位置。
-						this.myaudiosource_time[t_index_next] = this.myaudiosource[t_index_next].time;
+						this.status_list[t_index_next].time = this.audiosource[t_index_next].GetTime();
 						
 					}else{
 						//ボリューム。
-						this.myaudiosource_volume[t_index_next] = 1.0f;
-						this.myaudiosource_volume[t_index] = 0.0f;
-						this.UpdateVolume();
+						this.audiosource[t_index_next].SetOperationVolume(1.0f);
+						this.audiosource[t_index_next].ApplyVolume();
+						this.audiosource[t_index].SetOperationVolume(0.0f);
+						this.audiosource[t_index].ApplyVolume();
 
 						//停止。
-						this.myaudiosource[t_index].Stop();
-						this.myaudiosource[t_index].clip = null;
-						this.myaudiosource[t_index].time = 0.0f;
-						this.myaudiosource_time[t_index] = 0.0f;
+						this.status_list[t_index].time = 0.0f;
+
+						this.audiosource[t_index].Stop();
+						this.audiosource[t_index].SetAudioClip(null);
+						this.audiosource[t_index].SetTime(0.0f);
 
 						if(this.play_index < 0){
 							this.mode = Mode.Wait;

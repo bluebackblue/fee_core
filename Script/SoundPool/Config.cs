@@ -46,7 +46,7 @@ namespace Fee.SoundPool
 		
 		/** プレイヤーループ。追加方法。
 		*/
-		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddFirst;
+		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddLast;
 	}
 }
 

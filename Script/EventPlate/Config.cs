@@ -34,11 +34,11 @@ namespace Fee.EventPlate
 
 		/** プレイヤーループ。追加先
 		*/
-		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(Fee.Input.PlayerLoopSystemType.Fee_Input_Main);
+		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(UnityEngine.Experimental.PlayerLoop.Update);
 		
 		/** プレイヤーループ。追加方法。
 		*/
-		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddAfter;
+		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddLast;
 	}
 }
 

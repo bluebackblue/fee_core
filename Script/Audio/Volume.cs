@@ -16,14 +16,22 @@ namespace Fee.Audio
 	*/
 	public class Volume
 	{
+		/** parent
+		*/
+		private Volume parent;
+
 		/** volume
 		*/
 		private float volume;
 
 		/** constructor
 		*/
-		public Volume(float a_volume)
+		public Volume(Volume a_parent,float a_volume)
 		{
+			//parent
+			this.parent = a_parent;
+
+			//volume
 			this.volume = a_volume;
 		}
 
@@ -39,6 +47,18 @@ namespace Fee.Audio
 		public void SetVolume(float a_volume)
 		{
 			this.volume = a_volume;
+		}
+
+		/** オーディオソースボリューム。計算。
+		*/
+		public float CalcAudioSourceVolume()
+		{
+			if(this.parent == null){
+				return this.volume;
+			}else{
+				float t_volume = this.parent.CalcAudioSourceVolume();
+				return t_volume * this.volume;
+			}
 		}
 	}
 }

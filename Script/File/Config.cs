@@ -34,11 +34,11 @@ namespace Fee.File
 
 		/** プレイヤーループ。追加先
 		*/
-		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(UnityEngine.Experimental.PlayerLoop.PostLateUpdate);
+		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(UnityEngine.Experimental.PlayerLoop.PreLateUpdate);
 		
 		/** プレイヤーループ。追加方法。
 		*/
-		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddFirst;
+		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddLast;
 
 		/** USE_ASYNC
 		*/
