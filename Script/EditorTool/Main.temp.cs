@@ -10,31 +10,31 @@
 
 /** define
 */
-//#define DEF_PLAYERLOOPSYSTEM
-//#define DEF_RENDER2D
-//#define DEF_INPUT
-//#define DEF_UI
-//#define DEF_SCENE
-//#define DEF_FILE
-//#define DEF_FOCUS
-//#define DEF_FADE
-//#define DEF_DATA
-//#define DEF_AUDIO
-//#define DEF_ASSETBUNDLE
-//#define DEF_PLATFORM
-//#define DEF_NETWORK
-//#define DEF_BLOOM
-//#define DEF_EVENTPLATE
-//#define DEF_CRYPT
-//#define DEF_SOUNDPOOL
-//#define DEF_TASK
-//#define DEF_UNIVRM
-//#define DEF_BLUR
-//#define DEF_DEPTH
-//#define DEF_FUNCTION
-//#define DEF_PERFORMANCECOUNTER
-//#define DEF_VIDEO
-//#define DEF_MIRROR
+#define DEF_PLAYERLOOPSYSTEM
+#define DEF_RENDER2D
+#define DEF_INPUT
+#define DEF_UI
+#define DEF_SCENE
+#define DEF_FILE
+#define DEF_FOCUS
+#define DEF_FADE
+#define DEF_DATA
+#define DEF_AUDIO
+#define DEF_ASSETBUNDLE
+#define DEF_PLATFORM
+#define DEF_NETWORK
+#define DEF_BLOOM
+#define DEF_EVENTPLATE
+#define DEF_CRYPT
+#define DEF_SOUNDPOOL
+#define DEF_TASK
+#define DEF_UNIVRM
+#define DEF_BLUR
+#define DEF_DEPTH
+#define DEF_FUNCTION
+#define DEF_PERFORMANCECOUNTER
+#define DEF_VIDEO
+#define DEF_MIRROR
 
 
 /** Fee.EditorTool
