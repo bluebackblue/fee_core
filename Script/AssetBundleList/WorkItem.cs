@@ -108,6 +108,23 @@ namespace Fee.AssetBundleList
 			this.item = new Item();
 		}
 
+		/** リセット。
+		*/
+		public void Reset()
+		{
+			//mode
+			this.mode = Mode.Start;
+
+			//request_type
+			this.request_type = RequestType.None;
+
+			//request_assetbundle_name
+			this.request_assetbundle_name = null;
+
+			//item
+			this.item.Reset();
+		}
+
 		/** リクエスト。ロードパスアイテム。アセットバンドルアイテム。
 
 			パスアイテムからアセットバンドルアイテムをロード。

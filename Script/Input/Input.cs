@@ -128,12 +128,6 @@ namespace Fee.Input
 			//is_focus
 			this.is_focus = true;
 
-			//playerloop_flag
-			this.playerloop_flag = true;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_Input_Main),this.Main);
-
 			#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)||(USE_DEF_FEE_DEBUGTOOL)
 			{
 				this.debugview_gameobject = new UnityEngine.GameObject("input_debugview");
@@ -141,6 +135,12 @@ namespace Fee.Input
 				this.debugview = this.debugview_gameobject.AddComponent<DebugView_MonoBehaviour>();
 			}
 			#endif
+
+			//playerloop_flag
+			this.playerloop_flag = true;
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_Input_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
@@ -167,12 +167,6 @@ namespace Fee.Input
 				this.key = null;
 			}
 
-			//playerloop_flag
-			this.playerloop_flag = false;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_Input_Main));
-
 			#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)||(USE_DEF_FEE_DEBUGTOOL)
 			{
 				if(this.debugview_gameobject != null){
@@ -180,6 +174,12 @@ namespace Fee.Input
 				}
 			}
 			#endif
+
+			//playerloop_flag
+			this.playerloop_flag = false;
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_Input_Main));
 		}
 
 		/** Main
@@ -213,7 +213,7 @@ namespace Fee.Input
 			}
 		}
 
-		/** SetFocusFlag
+		/** フォーカスフラグ。設定。
 		*/
 		public void SetFocusFlag(bool a_is_focus)
 		{

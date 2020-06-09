@@ -133,7 +133,7 @@ namespace Fee.Audio
 			}
 
 			//フォーカス。
-			this.is_focus = false;
+			this.is_focus = true;
 		}
 
 		/** [シングルトン]削除。
@@ -146,9 +146,9 @@ namespace Fee.Audio
 			UnityEngine.GameObject.Destroy(this.root_gameobject);
 		}
 
-		/** 更新。
+		/** フォーカスフラグ。設定。
 		*/
-		public void Main(bool a_is_focus)
+		public void SetFocusFlag(bool a_is_focus)
 		{
 			if(this.is_focus != a_is_focus){
 				this.is_focus = a_is_focus;

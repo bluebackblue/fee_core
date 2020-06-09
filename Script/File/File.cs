@@ -67,6 +67,12 @@ namespace Fee.File
 			}
 		}
 
+		/** work
+		*/
+		private Fee.List.NodePool<WorkItem> work_pool;
+		private System.Collections.Generic.LinkedList<WorkItem> work_add;
+		private System.Collections.Generic.LinkedList<WorkItem> work_list;
+
 		/** playerloop_flag
 		*/
 		private bool playerloop_flag;
@@ -87,12 +93,6 @@ namespace Fee.File
 		*/
 		private Main_Resources main_resources;
 
-		/** work
-		*/
-		private Fee.List.NodePool<WorkItem> work_pool;
-		private System.Collections.Generic.LinkedList<WorkItem> work_add;
-		private System.Collections.Generic.LinkedList<WorkItem> work_list;
-
 		/** certificate_list
 		*/
 		private CertificateList certificate_list;
@@ -101,6 +101,11 @@ namespace Fee.File
 		*/
 		private File()
 		{
+			//work
+			this.work_pool = new List.NodePool<WorkItem>(16);
+			this.work_add = new System.Collections.Generic.LinkedList<WorkItem>();
+			this.work_list = new System.Collections.Generic.LinkedList<WorkItem>();
+
 			//main_androidcontent
 			this.main_androidcontent = new Main_AndroidContent();
 
@@ -112,13 +117,6 @@ namespace Fee.File
 
 			//main_resources
 			this.main_resources = new Main_Resources();
-
-			//work
-			this.work_pool = new List.NodePool<WorkItem>(16);
-			this.work_add = new System.Collections.Generic.LinkedList<WorkItem>();
-			this.work_list = new System.Collections.Generic.LinkedList<WorkItem>();
-
-			//add_list
 
 			//certificate_list
 			this.certificate_list = new CertificateList();

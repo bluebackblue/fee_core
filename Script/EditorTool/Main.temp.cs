@@ -73,6 +73,20 @@ namespace Fee.EditorTool
 		void OnApplicationFocus(bool a_flag)
 		{
 			s_is_focus = a_flag;
+
+			//オーディオ。
+			#if(DEF_AUDIO)
+			{
+				Fee.Audio.Audio.GetInstance().SetFocusFlag(a_flag);
+			}
+			#endif
+
+			//入力。
+			#if(DEF_INPUT)
+			{
+				Fee.Input.Input.GetInstance().SetFocusFlag(a_flag);
+			}
+			#endif
 		}
 
 		/** IsFocus
@@ -127,18 +141,37 @@ namespace Fee.EditorTool
 						Fee.Render2D.Render2D.CreateInstance();
 					}
 					#endif
+
+					//ファイル。順序変更。
+					#if(DEF_FILE)
+					{
+						Fee.File.Config.LOG_ENABLE = true;
+						Fee.File.File.CreateInstance();
+					}
+					#endif
+
+					//データ。順序変更。
+					#if(DEF_DATA)
+					{
+						Fee.Data.Data.CreateInstance();
+					}
+					#endif
+
+					//アセットバンドルリスト。順序変更。
+					#if(DEF_ASSETBUNDLE)
+					{
+						Fee.AssetBundleList.AssetBundleList.CreateInstance();
+					}
+					#endif
 				}
 
 				//アセット。
 				{
 				}
 
-				//アセットバンドルリスト。
-				#if(DEF_ASSETBUNDLE)
+				//アセットバンドルリスト。順序変更。
 				{
-					Fee.AssetBundleList.AssetBundleList.CreateInstance();
 				}
-				#endif
 
 				//オーディオ。
 				#if(DEF_AUDIO)
@@ -168,12 +201,9 @@ namespace Fee.EditorTool
 				}
 				#endif
 
-				//データ。
-				#if(DEF_DATA)
+				//データ。順序変更。
 				{
-					Fee.Data.Data.CreateInstance();
 				}
-				#endif
 
 				//削除管理。
 				{
@@ -220,13 +250,9 @@ namespace Fee.EditorTool
 				}
 				#endif
 
-				//ファイル。
-				#if(DEF_FILE)
+				//ファイル。順序変更。
 				{
-					Fee.File.Config.LOG_ENABLE = true;
-					Fee.File.File.CreateInstance();
 				}
-				#endif
 
 				//フォーカス。
 				#if(DEF_FOCUS)
@@ -659,18 +685,12 @@ namespace Fee.EditorTool
 				}
 
 				//アセットバンドルリスト。
-				#if(DEF_ASSETBUNDLE)
 				{
-					Fee.AssetBundleList.AssetBundleList.GetInstance().Main();
 				}
-				#endif
 
 				//オーディオ。
-				#if(DEF_AUDIO)
 				{
-					Fee.Audio.Audio.GetInstance().Main(s_is_focus);
 				}
-				#endif
 
 				//ブルーム。
 				{
@@ -681,18 +701,12 @@ namespace Fee.EditorTool
 				}
 
 				//暗号。
-				#if(DEF_CRYPT)
 				{
-					Fee.Crypt.Crypt.GetInstance().Main();
 				}
-				#endif
 
 				//データ。
-				#if(DEF_DATA)
 				{
-					Fee.Data.Data.GetInstance().Main();
 				}
-				#endif
 
 				//削除管理。
 				{
@@ -837,11 +851,8 @@ namespace Fee.EditorTool
 				}
 
 				//サウンドプール。
-				#if(DEF_SOUNDPOOL)
 				{
-					Fee.SoundPool.SoundPool.GetInstance().Main();
 				}
-				#endif
 
 				//文字列コンバート。
 				{

@@ -62,13 +62,15 @@ namespace Fee.AssetBundleList
 			}
 		}
 
-		/** work_list
+		/** work
 		*/
-		private System.Collections.Generic.List<WorkItem> work_list;
+		private Fee.List.NodePool<WorkItem> work_pool;
+		private System.Collections.Generic.LinkedList<WorkItem> work_add;
+		private System.Collections.Generic.LinkedList<WorkItem> work_list;
 
-		/** add_list
+		/** playerloop_flag
 		*/
-		private System.Collections.Generic.List<WorkItem> add_list;
+		private bool playerloop_flag;
 
 		/** main_assetbundle
 		*/
@@ -90,11 +92,10 @@ namespace Fee.AssetBundleList
 		*/
 		private AssetBundleList()
 		{
-			//work_list
-			this.work_list = new System.Collections.Generic.List<WorkItem>();
-
-			//add_list
-			this.add_list = new System.Collections.Generic.List<WorkItem>();
+			//work
+			this.work_pool = new List.NodePool<WorkItem>(16);
+			this.work_add = new System.Collections.Generic.LinkedList<WorkItem>();
+			this.work_list = new System.Collections.Generic.LinkedList<WorkItem>();
 
 			//main_assetbundle
 			this.main_assetbundle = new Main_AssetBundle();
@@ -107,6 +108,62 @@ namespace Fee.AssetBundleList
 
 			//assetbundleitem_list
 			this.assetbundleitem_list = new AssetBundleItem_List();
+
+			//playerloop_flag
+			this.playerloop_flag = true;
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_AssetBundleList_Main),this.Main);
+		}
+
+		/** [シングルトン]削除。
+		*/
+		private void Delete()
+		{
+			this.pathlist.Delete();
+			this.assetbundleitem_list.Delete();
+
+			this.main_assetbundle.Delete();
+
+			//playerloop_flag
+			this.playerloop_flag = false;
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_AssetBundleList_Main));
+		}
+
+		/** 更新。
+		*/
+		private void Main()
+		{
+			try{
+				if(this.playerloop_flag == true){
+					//追加。
+					{
+						System.Collections.Generic.LinkedListNode<WorkItem> t_node = this.work_add.Last;
+						while(t_node != null){
+							this.work_add.Remove(t_node);
+							this.work_list.AddLast(t_node);
+							t_node = this.work_add.Last;
+						}
+					}
+
+					//更新。
+					{
+						System.Collections.Generic.LinkedListNode<WorkItem> t_node = this.work_list.First;
+						while(t_node != null){
+							System.Collections.Generic.LinkedListNode<WorkItem> t_node_next = t_node.Next;
+							if(t_node.Value.Main() == true){
+								this.work_list.Remove(t_node);
+								this.work_pool.Free(t_node);
+							}
+							t_node = t_node_next;
+						}
+					}
+				}
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
+			}
 		}
 
 		/** パスアイテム。登録。
@@ -161,10 +218,13 @@ namespace Fee.AssetBundleList
 		*/
 		public Item RequestLoadPathItemAssetBundleItem(string a_assetbundle_name)
 		{
-			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestLoadPathItemAssetBundleItem(a_assetbundle_name);
-			this.add_list.Add(t_work_item);
-			return t_work_item.GetItem();
+			System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+			t_work_node.Value.Reset();
+
+			t_work_node.Value.RequestLoadPathItemAssetBundleItem(a_assetbundle_name);
+			this.work_add.AddLast(t_work_node);
+
+			return t_work_node.Value.GetItem();
 		}
 
 		/** アンロード。アセットバンドルアイテム。
@@ -174,10 +234,13 @@ namespace Fee.AssetBundleList
 		*/
 		public Item RequestUnLoadAssetBundleItem(string a_assetbundle_name)
 		{
-			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestUnLoadAssetBundleItem(a_assetbundle_name);
-			this.add_list.Add(t_work_item);
-			return t_work_item.GetItem();
+			System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+			t_work_node.Value.Reset();
+
+			t_work_node.Value.RequestUnLoadAssetBundleItem(a_assetbundle_name);
+			this.work_add.AddLast(t_work_node);
+
+			return t_work_node.Value.GetItem();
 		}
 
 		/** ロードアセットバンドルアイテム。テキストファイル。
@@ -187,10 +250,13 @@ namespace Fee.AssetBundleList
 		*/
 		public Item RequestLoadAssetBundleItemTextFile(string a_assetbundle_name,string a_asset_name)
 		{
-			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestLoadAssetBundleItemTextFile(a_assetbundle_name,a_asset_name);
-			this.add_list.Add(t_work_item);
-			return t_work_item.GetItem();
+			System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+			t_work_node.Value.Reset();
+
+			t_work_node.Value.RequestLoadAssetBundleItemTextFile(a_assetbundle_name,a_asset_name);
+			this.work_add.AddLast(t_work_node);
+
+			return t_work_node.Value.GetItem();
 		}
 
 		/** ロードアセットバンドルアイテム。テクスチャファイル。
@@ -200,10 +266,13 @@ namespace Fee.AssetBundleList
 		*/
 		public Item RequestLoadAssetBundleItemTextureFile(string a_assetbundle_name,string a_asset_name)
 		{
-			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestLoadAssetBundleItemTextureFile(a_assetbundle_name,a_asset_name);
-			this.add_list.Add(t_work_item);
-			return t_work_item.GetItem();
+			System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+			t_work_node.Value.Reset();
+
+			t_work_node.Value.RequestLoadAssetBundleItemTextureFile(a_assetbundle_name,a_asset_name);
+			this.work_add.AddLast(t_work_node);
+
+			return t_work_node.Value.GetItem();
 		}
 
 		/** ロードアセットバンドルアイテム。プレハブファイル。
@@ -213,20 +282,13 @@ namespace Fee.AssetBundleList
 		*/
 		public Item RequestLoadAssetBundleItemPrefabFile(string a_assetbundle_name,string a_asset_name)
 		{
-			WorkItem t_work_item = new WorkItem();
-			t_work_item.RequestLoadAssetBundleItemPrefabFile(a_assetbundle_name,a_asset_name);
-			this.add_list.Add(t_work_item);
-			return t_work_item.GetItem();
-		}
+			System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+			t_work_node.Value.Reset();
 
-		/** [シングルトン]削除。
-		*/
-		private void Delete()
-		{
-			this.pathlist.Delete();
-			this.assetbundleitem_list.Delete();
+			t_work_node.Value.RequestLoadAssetBundleItemPrefabFile(a_assetbundle_name,a_asset_name);
+			this.work_add.AddLast(t_work_node);
 
-			this.main_assetbundle.Delete();
+			return t_work_node.Value.GetItem();
 		}
 
 		/** メイン。取得。
@@ -247,36 +309,10 @@ namespace Fee.AssetBundleList
 		*/
 		public bool IsBusy()
 		{
-			if((this.work_list.Count > 0)||(this.add_list.Count > 0)){
+			if((this.work_list.Count > 0)||(this.work_add.Count > 0)){
 				return true;
 			}
 			return false;
-		}
-
-		/** 更新。
-		*/
-		public void Main()
-		{
-			try{
-				//追加。
-				if(this.add_list.Count > 0){
-					for(int ii=0;ii<this.add_list.Count;ii++){
-						this.work_list.Add(this.add_list[ii]);
-					}
-					this.add_list.Clear();
-				}
-
-				int t_index = 0;
-				while(t_index < this.work_list.Count){
-					if(this.work_list[t_index].Main() == true){
-						this.work_list.RemoveAt(t_index);
-					}else{
-						t_index++;
-					}
-				}
-			}catch(System.Exception t_exception){
-				Tool.DebugReThrow(t_exception);
-			}
 		}
 	}
 }

@@ -79,6 +79,23 @@ namespace Fee.Data
 			this.item = new Item();
 		}
 
+		/** リセット。
+		*/
+		public void Reset()
+		{
+			//mode
+			this.mode = Mode.Start;
+
+			//request_type
+			this.request_type = RequestType.None;
+
+			//request_listitem
+			this.request_listitem = null;
+
+			//item
+			this.item.Reset();
+		}
+
 		/** リクエスト。
 		*/
 		public void RequestLoad(ListItem a_listitem)

@@ -80,6 +80,29 @@ namespace Fee.SoundPool
 			this.result_responseheader = null;
 		}
 
+		/** リセット。
+		*/
+		public void Reset()
+		{
+			//result_type
+			this.result_type = ResultType.None;
+
+			//result_progress
+			this.result_progress = 0.0f;
+
+			//result_errorstring
+			this.result_errorstring = null;
+
+			//cancel_flag
+			this.cancel_flag = false;
+
+			//result_pack
+			this.result_pack = null;
+
+			//result_responseheader
+			this.result_responseheader = null;
+		}
+
 		/** 処理中。チェック。
 		*/
 		public bool IsBusy()

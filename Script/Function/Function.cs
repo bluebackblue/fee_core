@@ -91,11 +91,11 @@ namespace Fee.Function
 		*/
 		private void Delete()
 		{
-			//playerloop_flag
-			this.playerloop_flag = false;
-
 			//rowupdate
 			this.rowupdate.Delete();
+
+			//playerloop_flag
+			this.playerloop_flag = false;
 
 			//PlayerLoopSystem
 			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_Function_RowUpdate));

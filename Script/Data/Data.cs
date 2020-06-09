@@ -62,6 +62,16 @@ namespace Fee.Data
 			}
 		}
 
+		/** work
+		*/
+		private Fee.List.NodePool<WorkItem> work_pool;
+		private System.Collections.Generic.LinkedList<WorkItem> work_add;
+		private System.Collections.Generic.LinkedList<WorkItem> work_list;
+
+		/** playerloop_flag
+		*/
+		private bool playerloop_flag;
+
 		/** list
 		*/
 		private System.Collections.Generic.Dictionary<string,ListItem> list;
@@ -70,29 +80,26 @@ namespace Fee.Data
 		*/
 		private Main_Load main_load;
 
-		/** work_list
-		*/
-		private System.Collections.Generic.List<WorkItem> work_list;
-
-		/** add_list
-		*/
-		private System.Collections.Generic.List<WorkItem> add_list;
-
 		/** [シングルトン]constructor
 		*/
 		private Data()
 		{
+			//work
+			this.work_pool = new List.NodePool<WorkItem>(16);
+			this.work_add = new System.Collections.Generic.LinkedList<WorkItem>();
+			this.work_list = new System.Collections.Generic.LinkedList<WorkItem>();
+
 			//list
 			this.list = new System.Collections.Generic.Dictionary<string,ListItem>();
 
 			//main_load
 			this.main_load = new Main_Load();
 
-			//work_list
-			this.work_list = new System.Collections.Generic.List<WorkItem>();
+			//playerloop_flag
+			this.playerloop_flag = true;
 
-			//add_list
-			this.add_list = new System.Collections.Generic.List<WorkItem>();
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_Data_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
@@ -100,6 +107,46 @@ namespace Fee.Data
 		private void Delete()
 		{
 			this.main_load.Delete();
+
+			//playerloop_flag
+			this.playerloop_flag = false;
+
+			//PlayerLoopSystem
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_Data_Main));
+		}
+
+		/** 更新。
+		*/
+		private void Main()
+		{
+			try{
+				if(this.playerloop_flag == true){
+					//追加。
+					{
+						System.Collections.Generic.LinkedListNode<WorkItem> t_node = this.work_add.Last;
+						while(t_node != null){
+							this.work_add.Remove(t_node);
+							this.work_list.AddLast(t_node);
+							t_node = this.work_add.Last;
+						}
+					}
+
+					//更新。
+					{
+						System.Collections.Generic.LinkedListNode<WorkItem> t_node = this.work_list.First;
+						while(t_node != null){
+							System.Collections.Generic.LinkedListNode<WorkItem> t_node_next = t_node.Next;
+							if(t_node.Value.Main() == true){
+								this.work_list.Remove(t_node);
+								this.work_pool.Free(t_node);
+							}
+							t_node = t_node_next;
+						}
+					}
+				}
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
+			}
 		}
 
 		/** メイン。取得。
@@ -145,10 +192,13 @@ namespace Fee.Data
 		{
 			ListItem t_item;
 			if(this.list.TryGetValue(a_id,out t_item) == true){
-				WorkItem t_work = new WorkItem();
-				t_work.RequestLoad(t_item);
-				this.add_list.Add(t_work);
-				return t_work.GetItem();
+				System.Collections.Generic.LinkedListNode<WorkItem> t_work_node = this.work_pool.Alloc();
+				t_work_node.Value.Reset();
+
+				t_work_node.Value.RequestLoad(t_item);
+				this.work_add.AddLast(t_work_node);
+
+				return t_work_node.Value.GetItem();
 			}else{
 				Item t_result = new Item();
 				t_result.SetResultErrorString("ID Not Found : " + a_id);
@@ -160,36 +210,10 @@ namespace Fee.Data
 		*/
 		public bool IsBusy()
 		{
-			if((this.work_list.Count > 0)||(this.add_list.Count > 0)){
+			if((this.work_list.Count > 0)||(this.work_add.Count > 0)){
 				return true;
 			}
 			return false;
-		}
-
-		/** 更新。
-		*/
-		public void Main()
-		{
-			try{
-				//追加。
-				if(this.add_list.Count > 0){
-					for(int ii=0;ii<this.add_list.Count;ii++){
-						this.work_list.Add(this.add_list[ii]);
-					}
-					this.add_list.Clear();
-				}
-
-				int t_index = 0;
-				while(t_index < this.work_list.Count){
-					if(this.work_list[t_index].Main() == true){
-						this.work_list.RemoveAt(t_index);
-					}else{
-						t_index++;
-					}
-				}
-			}catch(System.Exception t_exception){
-				Tool.DebugReThrow(t_exception);
-			}
 		}
 	}
 }

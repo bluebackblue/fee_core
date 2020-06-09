@@ -31,6 +31,14 @@ namespace Fee.Data
 		/** デバッグリスロー。
 		*/
 		public static bool DEBUGRETHROW_ENABLE = false;
+
+		/** プレイヤーループ。追加先
+		*/
+		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(Fee.File.PlayerLoopSystemType.Fee_File_Main);
+		
+		/** プレイヤーループ。追加方法。
+		*/
+		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddBefore;
 	}
 }
 

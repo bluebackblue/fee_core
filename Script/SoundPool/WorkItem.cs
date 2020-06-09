@@ -108,6 +108,32 @@ namespace Fee.SoundPool
 			this.item = new Item();
 		}
 
+		/** リセット。
+		*/
+		public void Reset()
+		{
+			//mode
+			this.mode = Mode.Start;
+
+			//request_type
+			this.request_type = RequestType.None;
+
+			//request_path
+			this.request_path = null;
+
+			//request_post_data
+			this.request_post_data = null;
+
+			//request_certificate_handler
+			this.request_certificate_handler = null;
+
+			//request_data_version
+			this.request_data_version = 0;
+
+			//item
+			this.item.Reset();
+		}
+
 		/** リクエスト。ロードローカル。パック。
 		*/
 		public void RequestLoadLocalPack(File.Path a_relative_path)

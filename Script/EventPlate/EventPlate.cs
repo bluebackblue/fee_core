@@ -83,7 +83,7 @@ namespace Fee.EventPlate
 			//playerloop_flag
 			this.playerloop_flag = true;
 
-			//
+			//PlayerLoopSystem
 			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_EventPlate_Main),this.Main);
 		}
 

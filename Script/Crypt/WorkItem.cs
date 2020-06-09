@@ -138,6 +138,38 @@ namespace Fee.Crypt
 			this.item = new Item();
 		}
 
+		/** Reset
+		*/
+		public void Reset()
+		{
+			//mode
+			this.mode = Mode.Start;
+
+			//request_type
+			this.request_type = RequestType.None;
+
+			//request_binary
+			this.request_binary = null;
+
+			//request_index
+			this.request_index = -1;
+
+			//request_length
+			this.request_length = -1;
+
+			//request_key
+			this.request_key = null;
+
+			//request_pass
+			this.request_pass = null;
+
+			//request_salt
+			this.request_salt = null;
+
+			//item
+			this.item.Reset();
+		}
+
 		/** リクエスト。暗号化。パブリックキー。
 		*/
 		public void RequestEncryptPublicKey(byte[] a_binary,string a_key)
