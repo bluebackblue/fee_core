@@ -35,7 +35,7 @@ namespace Fee.EditorTool
 			}
 		}
 
-		/** CreateDirectory
+		/** ディレクトリ。作成。
 		*/
 		public static void CreateDirectory(Fee.File.Path a_assets_path)
 		{
@@ -382,7 +382,7 @@ namespace Fee.EditorTool
 			}
 		}
 
-		/** アセットバンドル作成。
+		/** アセットバンドル。作成。
 		*/
 		public static void BuildAssetBundles(Fee.File.Path a_path,UnityEditor.AssetBundleBuild[] a_list,UnityEditor.BuildAssetBundleOptions a_option,UnityEditor.BuildTarget a_buildtarget)
 		{

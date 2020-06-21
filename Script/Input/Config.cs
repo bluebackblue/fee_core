@@ -34,7 +34,7 @@ namespace Fee.Input
 
 		/** プレイヤーループ。追加先
 		*/
-		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(UnityEngine.Experimental.PlayerLoop.Update);
+		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(UnityEngine.PlayerLoop.Update);
 		
 		/** プレイヤーループ。追加方法。
 		*/

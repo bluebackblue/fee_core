@@ -21,29 +21,37 @@ namespace Fee.PerformanceCounter
 		*/
 		private void FixedUpdate()
 		{
-			PerformanceCounter.GetInstance().Unity_FixedUpdate_Last();
+			if(PerformanceCounter.GetInstance() != null){
+				PerformanceCounter.GetInstance().Unity_FixedUpdate_Last();
+			}
 		}
 
 		/** Update
 		*/
 		private void Update()
 		{
-			PerformanceCounter.GetInstance().Unity_Update_Last();
+			if(PerformanceCounter.GetInstance() != null){
+				PerformanceCounter.GetInstance().Unity_Update_Last();
+			}
 		}
 
 		/** LateUpdate
 		*/
 		private void LateUpdate()
 		{
-			PerformanceCounter.GetInstance().Unity_LateUpdate_Last();
+			if(PerformanceCounter.GetInstance() != null){
+				PerformanceCounter.GetInstance().Unity_LateUpdate_Last();
+			}
 		}
 
 		/** OnPostRender
 		*/
 		private void OnPostRender()
 		{
-			PerformanceCounter.GetInstance().Unity_Render_Last();
-			PerformanceCounter.GetInstance().Draw();
+			if(PerformanceCounter.GetInstance() != null){
+				PerformanceCounter.GetInstance().Unity_Render_Last();
+				PerformanceCounter.GetInstance().Draw();
+			}
 		}
 	}
 }

@@ -106,10 +106,6 @@ namespace Fee.Render2D
 		*/
 		public static UnityEngine.Color FIRSTGLCAMERA_CLEAR_RENDERTEXTURE_COLOR = new UnityEngine.Color(0.0f,0.0f,0.0f,1.0f);
 		
-		/** 初期化時にイベントシステムを作成するかどうか。
-		*/
-		public static bool CREATE_EVENTYSYSTEM = true;
-
 		/** 削除時にイベントシステムを削除するかどうか。
 		*/
 		public static bool DELETE_EVENTSYSTEM = true;

@@ -54,7 +54,7 @@ namespace Fee.Audio
 
 		/** プレイヤーループ。追加先
 		*/
-		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(UnityEngine.Experimental.PlayerLoop.PreLateUpdate);
+		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(UnityEngine.PlayerLoop.PreLateUpdate);
 		
 		/** プレイヤーループ。追加方法。
 		*/

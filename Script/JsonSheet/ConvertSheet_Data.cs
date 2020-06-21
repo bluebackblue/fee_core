@@ -423,9 +423,13 @@ namespace Fee.JsonSheet
 									}
 								}
 
+								//ディレクトリ。作成。
+								Fee.EditorTool.Utility.CreateDirectory(a_assets_path);
+
+								//ＪＳＯＮ。作成。
 								Fee.File.Path t_path = new File.Path(a_assets_path.GetPath() + t_pair.Key + ".json");
 								string t_jsonstring = Fee.JsonItem.Convert.ObjectToJsonString<Fee.AssetBundleList.DummryAssetBundle>(t_dummy_assetbundle);
-								EditorTool.Utility.WriteTextFile(t_path,t_jsonstring);
+								Fee.EditorTool.Utility.WriteTextFile(t_path,t_jsonstring);
 							}
 						}break;
 					case ConvertSheet_Data.PARAM_STANDALONEWINDOWS:
@@ -526,11 +530,11 @@ namespace Fee.JsonSheet
 								}break;
 							}
 
-							if(System.IO.Directory.Exists("Assets/" + a_assets_path.GetPath()) == false){
-								System.IO.Directory.CreateDirectory("Assets/" + a_assets_path.GetPath());
-							}
+							//ディレクトリ。作成。
+							Fee.EditorTool.Utility.CreateDirectory(a_assets_path);
 
-							UnityEditor.BuildPipeline.BuildAssetBundles("Assets/" + a_assets_path.GetPath(),t_assetbundle_build,t_option,t_buildtarget);
+							//アセットバンドル作成。
+							Fee.EditorTool.Utility.BuildAssetBundles(a_assets_path,t_assetbundle_build,t_option,t_buildtarget);
 						}break;
 					default:
 						{

@@ -358,7 +358,7 @@ namespace Fee.EditorTool
 				#if(DEF_PLAYERLOOPSYSTEM)
 				{
 					Fee.PlayerLoopSystem.PlayerLoopSystem.CreateInstance(null);
-					Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof( UnityEngine.Experimental.PlayerLoop.PreUpdate.SendMouseEvents));
+					Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof( UnityEngine.PlayerLoop.PreUpdate.SendMouseEvents));
 				}
 				#endif
 
@@ -426,7 +426,7 @@ namespace Fee.EditorTool
 			}
 
 			//■シーン開始。
-			#if(USE_DEF_FEE_TEMP)
+			#if(false)
 			{
 				Fee.Scene.Scene.GetInstance().SetNextScene(new Game.Scene.Scene_Init());
 			}

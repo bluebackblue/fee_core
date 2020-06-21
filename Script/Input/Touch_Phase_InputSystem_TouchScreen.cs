@@ -57,7 +57,7 @@ namespace Fee.Input
 						#if((UNITY_STANDALONE_WIN)||(UNITY_EDITOR_WIN)||(UNITY_WEBGL))
 						int t_pos_y = (int)t_touch.position.y.ReadValue();
 						#else
-						int t_pos_y = (int)(this.screen_h - t_touch.position.y.ReadValue());
+						int t_pos_y = (int)(UnityEngine.Screen.height - t_touch.position.y.ReadValue());
 						#endif
 
 						//（ＧＵＩスクリーン座標）=>（仮想スクリーン座標）。

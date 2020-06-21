@@ -67,10 +67,6 @@ namespace Fee.Render2D
 		private UnityEngine.GameObject root_gameobject;
 		private UnityEngine.Transform root_transform;
 
-		/** eventsystem
-		*/
-		private UnityEngine.GameObject eventsystem;
-
 		/** スクリーン。
 		*/
 		private Screen screen;
@@ -124,14 +120,6 @@ namespace Fee.Render2D
 				this.root_transform = this.root_gameobject.GetComponent<UnityEngine.Transform>();
 			}
 
-			//イベントシステム作成。入力フィールド用。
-			{
-				if(Fee.Render2D.Config.CREATE_EVENTYSYSTEM == true){
-					this.eventsystem = Fee.Instantiate.Instantiate.CreateEventSystem("EventSystem",null);
-					UnityEngine.GameObject.DontDestroyOnLoad(this.eventsystem);
-				}
-			}
-
 			//スクリーン。
 			this.screen = new Screen();
 
@@ -176,14 +164,6 @@ namespace Fee.Render2D
 			this.inputfieldlist.DeleteAll();
 
 			UnityEngine.GameObject.Destroy(this.root_gameobject);
-
-			//イベントシステムの削除。
-			if(Config.DELETE_EVENTSYSTEM == true){
-				if(this.eventsystem != null){
-					UnityEngine.GameObject.DestroyImmediate(this.eventsystem);
-					this.eventsystem = null;
-				}
-			}
 		}
 
 		/** ＧＵＩスクリーン座標　＝＞　仮想スクリーン座標。
