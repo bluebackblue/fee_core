@@ -66,42 +66,54 @@ namespace Fee.Focus
 		*/
 		private UnityEngine.GameObject ui_gameobject;
 
+		/** playerloop_flag
+		*/
+		private bool playerloop_flag;
+
 		/** [シングルトン]constructor
 		*/
 		private Focus()
 		{
 			this.ui_gameobject = null;
+
+			//PlayerLoopType
+			this.playerloop_flag = true;
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_Focus_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			//PlayerLoopType
+			this.playerloop_flag = false;
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_Focus_Main));
 		}
 
 		/** 更新。
 		*/
-		public void Main()
+		private void Main()
 		{
-			UnityEngine.GameObject t_new_gameobject = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+			if(this.playerloop_flag == true){
+				UnityEngine.GameObject t_new_gameobject = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+				if(t_new_gameobject != this.ui_gameobject){
 
-			if(t_new_gameobject != this.ui_gameobject){
-
-				//OnCheckFocusの呼び出し。
-				if(this.ui_gameobject != null){
-					Fee.Focus.Focus_MonoBehaviour t_focus = this.ui_gameobject.GetComponent<Fee.Focus.Focus_MonoBehaviour>();
-					if(t_focus != null){
-						t_focus.CallOnFocusCheck();
+					//OnCheckFocusの呼び出し。
+					if(this.ui_gameobject != null){
+						Fee.Focus.Focus_MonoBehaviour t_focus = this.ui_gameobject.GetComponent<Fee.Focus.Focus_MonoBehaviour>();
+						if(t_focus != null){
+							t_focus.CallOnFocusCheck();
+						}
 					}
-				}
 
-				this.ui_gameobject = t_new_gameobject;
+					this.ui_gameobject = t_new_gameobject;
 
-				//OnCheckFocusの呼び出し。
-				if(this.ui_gameobject != null){
-					Fee.Focus.Focus_MonoBehaviour t_focus = this.ui_gameobject.GetComponent<Fee.Focus.Focus_MonoBehaviour>();
-					if(t_focus != null){
-						t_focus.CallOnFocusCheck();
+					//OnCheckFocusの呼び出し。
+					if(this.ui_gameobject != null){
+						Fee.Focus.Focus_MonoBehaviour t_focus = this.ui_gameobject.GetComponent<Fee.Focus.Focus_MonoBehaviour>();
+						if(t_focus != null){
+							t_focus.CallOnFocusCheck();
+						}
 					}
 				}
 			}

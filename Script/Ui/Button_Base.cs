@@ -198,7 +198,7 @@ namespace Fee.Ui
 
 		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
 		*/
-		public void SetFocus(bool a_flag)
+		public void SetFocus_NoCall(bool a_flag)
 		{
 			if(this.focus_flag != a_flag){
 				this.focus_flag = a_flag;
@@ -206,11 +206,6 @@ namespace Fee.Ui
 				//ターゲット登録。
 				if(a_flag== true){
 					Ui.GetInstance().SetTargetRequest(this);
-				}
-
-				//コールバック。フォーカスチェック。
-				if(this.callbackparam_focuscheck != null){
-					this.callbackparam_focuscheck.Call();
 				}
 			}
 		}
@@ -222,13 +217,14 @@ namespace Fee.Ui
 			return this.focus_flag;
 		}
 
-		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。OnFocusCheckを呼び出す。
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
+
+			OnFocusCheckを呼び出す。
+
 		*/
-		public void SetFocusCallOnFocusCheck(bool a_flag)
+		public void SetFocus_CallOnFocusCheck(bool a_flag)
 		{
-			if(this.focus_flag != a_flag){
-				this.focus_flag = a_flag;
-			}
+			this.SetFocus_NoCall(a_flag);
 
 			//コールバック。フォーカスチェック。
 			if(this.callbackparam_focuscheck != null){
@@ -521,6 +517,8 @@ namespace Fee.Ui
 			Fee.Focus.FocusGroupeを指定する。
 			フォーカス変更時に呼び出すコールバック。
 
+			a_callback_interface : Fee.Focus.FocusGroup<ID>
+
 		*/
 		public void SetOnFocusCheck<T>(Fee.Focus.OnFocusCheck_CallBackInterface<T> a_callback_interface,T a_id)
 		{
@@ -575,7 +573,7 @@ namespace Fee.Ui
 				this.event_request = 0;
 
 				//フォーカス変更コールバック。
-				this.SetFocus(false);
+				this.SetFocus_CallOnFocusCheck(false);
 
 				this.SetMode(Button_Mode.Lock);
 			}else if(this.visible_flag == false){
@@ -596,7 +594,7 @@ namespace Fee.Ui
 				this.event_request = 0;
 
 				//フォーカス変更コールバック。
-				this.SetFocus(false);
+				this.SetFocus_CallOnFocusCheck(false);
 
 				this.SetMode(Button_Mode.Normal);
 			}else if(this.event_request > 0){
@@ -612,7 +610,7 @@ namespace Fee.Ui
 				if(this.event_request == 0){
 
 					//フォーカス変更コールバック。
-					this.SetFocus(true);
+					this.SetFocus_CallOnFocusCheck(true);
 
 					//コールバック。
 					if(this.callbackparam_click != null){
@@ -638,7 +636,7 @@ namespace Fee.Ui
 					Fee.Ui.Ui.GetInstance().SetDownButtonInstance(this);
 
 					//フォーカス変更コールバック。
-					this.SetFocus(true);
+					this.SetFocus_CallOnFocusCheck(true);
 
 					//モード変更コールバック。
 					this.SetMode(Button_Mode.Down);
@@ -707,7 +705,7 @@ namespace Fee.Ui
 					//フォーカス中。
 
 					if(Fee.Input.Input.GetInstance().mouse.left.down == true){
-						this.SetFocus(false);
+						this.SetFocus_CallOnFocusCheck(false);
 					}
 				}else{
 					//ターゲット解除。

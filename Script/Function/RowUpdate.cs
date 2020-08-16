@@ -48,6 +48,7 @@ namespace Fee.Function
 		{
 			#if(UNITY_EDITOR)||(DEVELOPMENT_BUILD)||(USE_DEF_FEE_DEBUGTOOL)
 			{
+				//解除漏れ。
 				Tool.Assert(this.callback == null);
 			}
 			#endif

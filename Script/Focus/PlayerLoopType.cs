@@ -4,21 +4,21 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief サウンドプール。
+ * @brief フォーカス。プレイヤーループタイプ。
 */
 
 
-/** Fee.SoundPool
+/** Fee.Focus
 */
-namespace Fee.SoundPool
+namespace Fee.Focus
 {
 	/** PlayerLoopType
 	*/
 	public struct PlayerLoopType
 	{
-		/** Fee_SoundPool_Main
+		/** Fee_Focus_Main
 		*/
-		public struct Fee_SoundPool_Main
+		public struct Fee_Focus_Main
 		{
 		}
 	}

@@ -12,9 +12,9 @@
 */
 namespace Fee.Crypt
 {
-	/** PlayerLoopSystemType
+	/** PlayerLoopType
 	*/
-	public struct PlayerLoopSystemType
+	public struct PlayerLoopType
 	{
 		/** Fee_Crypt_Main
 		*/

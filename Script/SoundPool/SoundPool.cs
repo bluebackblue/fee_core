@@ -95,17 +95,19 @@ namespace Fee.SoundPool
 			//player
 			this.player = new Player();
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = true;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_SoundPool_Main),this.Main);
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_SoundPool_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			//PlayerLoopType
+			this.playerloop_flag = false;
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_SoundPool_Main));
+
 			//player
 			this.player.Delete();
 		}

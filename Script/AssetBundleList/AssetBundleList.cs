@@ -109,11 +109,9 @@ namespace Fee.AssetBundleList
 			//assetbundleitem_list
 			this.assetbundleitem_list = new AssetBundleItem_List();
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = true;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_AssetBundleList_Main),this.Main);
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_AssetBundleList_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
@@ -125,11 +123,9 @@ namespace Fee.AssetBundleList
 
 			this.main_assetbundle.Delete();
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = false;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_AssetBundleList_Main));
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_AssetBundleList_Main));
 		}
 
 		/** 更新。

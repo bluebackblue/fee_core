@@ -748,11 +748,8 @@ namespace Fee.EditorTool
 				}
 
 				//フォーカス。
-				#if(DEF_FOCUS)
 				{
-					Fee.Focus.Focus.GetInstance().Main();
 				}
-				#endif
 
 				//関数呼び出し。
 				{

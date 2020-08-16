@@ -12,9 +12,9 @@
 */
 namespace Fee.AssetBundleList
 {
-	/** PlayerLoopSystemType
+	/** PlayerLoopType
 	*/
-	public struct PlayerLoopSystemType
+	public struct PlayerLoopType
 	{
 		/** Fee_AssetBundleList_Main
 		*/

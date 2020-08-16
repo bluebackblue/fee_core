@@ -104,6 +104,10 @@ namespace Fee.Render2D
 		public delegate void OnChangeScreenSize();
 		OnChangeScreenSize callback_on_change_screen_size;
 
+		/** playerloop_flag
+		*/
+		private bool playerloop_flag;
+
 		/** [シングルトン]constructor
 		*/
 		private Render2D()
@@ -143,13 +147,17 @@ namespace Fee.Render2D
 			//callback_on_change_screen_size
 			this.callback_on_change_screen_size = null;
 
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(PlayerLoopSystem.AddType.AddFirst,typeof(UnityEngine.PlayerLoop.PostLateUpdate),typeof(Fee.Render2D.PlayerLoopType.PreDraw),this.PreDraw);
+			//PlayerLoopType
+			this.playerloop_flag = true;
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(PlayerLoopSystem.AddType.AddFirst,typeof(UnityEngine.PlayerLoop.PostLateUpdate),typeof(PlayerLoopType.PreDraw),this.PreDraw);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			//PlayerLoopType
+			this.playerloop_flag = false;
 			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(Fee.Render2D.PlayerLoopType.PreDraw));
 
 			this.resource_list.Delete();
@@ -369,36 +377,38 @@ namespace Fee.Render2D
 		*/
 		private void PreDraw()
 		{
-			//リソースリスト。計算。
-			this.resource_list.Calc_Sort();
+			if(this.playerloop_flag == true){
+				//リソースリスト。計算。
+				this.resource_list.Calc_Sort();
 
-			//スクリーンサイズ変更チェック。
-			{
-				Fee.Render2D.Render2D.GetInstance().screen.SetChangeScreenSizeFlag(false);
-				Fee.Render2D.Render2D.GetInstance().screen.CalcScreen();
+				//スクリーンサイズ変更チェック。
+				{
+					Fee.Render2D.Render2D.GetInstance().screen.SetChangeScreenSizeFlag(false);
+					Fee.Render2D.Render2D.GetInstance().screen.CalcScreen();
 
-				//スクリーンサイズ変更あり。
-				if(Fee.Render2D.Render2D.GetInstance().screen.GetChangeScreenSizeFlag() == true){
+					//スクリーンサイズ変更あり。
+					if(Fee.Render2D.Render2D.GetInstance().screen.GetChangeScreenSizeFlag() == true){
 					
-					//スクリーンサイズ変更通知。
-					//ソートリストタスク終了後、バーテックス計算タスク開始前。
-					if(this.callback_on_change_screen_size != null){
-						this.callback_on_change_screen_size();
+						//スクリーンサイズ変更通知。
+						//ソートリストタスク終了後、バーテックス計算タスク開始前。
+						if(this.callback_on_change_screen_size != null){
+							this.callback_on_change_screen_size();
+						}
+
+						this.spritelist.ChangeScreenSize();
+						this.textlist.ChangeScreenSize();
+						this.inputfieldlist.ChangeScreenSize();
 					}
-
-					this.spritelist.ChangeScreenSize();
-					this.textlist.ChangeScreenSize();
-					this.inputfieldlist.ChangeScreenSize();
 				}
-			}
 
-			//リソースリスト。計算。
-			this.resource_list.Calc_Vertex();
+				//リソースリスト。計算。
+				this.resource_list.Calc_Vertex();
 
-			//ＵＩの位置計算。
-			{
-				for(int ii=0;ii<this.layerlist.GetListMax();ii++){
-					this.CalcUI(ii);
+				//ＵＩの位置計算。
+				{
+					for(int ii=0;ii<this.layerlist.GetListMax();ii++){
+						this.CalcUI(ii);
+					}
 				}
 			}
 		}

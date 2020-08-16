@@ -98,9 +98,9 @@ namespace Fee.Ui
 
 		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
 		*/
-		public void SetFocus(bool a_flag)
+		public void SetFocus_NoCall(bool a_flag)
 		{
-			this.inputfield.SetFocus(a_flag);
+			this.inputfield.SetFocus_NoCall(a_flag);
 		}
 
 		/** [Fee.Focus.FocusItem_Base]フォーカス。チェック。
@@ -110,11 +110,14 @@ namespace Fee.Ui
 			return this.inputfield.IsFocus();
 		}
 
-		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。OnFocusCheckを呼び出す。
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
+
+			OnFocusCheckを呼び出す。
+
 		*/
-		public void SetFocusCallOnFocusCheck(bool a_flag)
+		public void SetFocus_CallOnFocusCheck(bool a_flag)
 		{
-			this.inputfield.SetFocusCallOnFocusCheck(a_flag);
+			this.inputfield.SetFocus_CallOnFocusCheck(a_flag);
 		}
 
 		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。

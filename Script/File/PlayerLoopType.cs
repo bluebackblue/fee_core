@@ -12,9 +12,9 @@
 */
 namespace Fee.File
 {
-	/** PlayerLoopSystemType
+	/** PlayerLoopType
 	*/
-	public struct PlayerLoopSystemType
+	public struct PlayerLoopType
 	{
 		/** Fee_File_Main
 		*/

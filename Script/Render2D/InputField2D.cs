@@ -155,9 +155,9 @@ namespace Fee.Render2D
 
 		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
 		*/
-		public void SetFocus(bool a_flag)
+		public void SetFocus_NoCall(bool a_flag)
 		{
-			this.param.SetFocus(a_flag);
+			this.param.SetFocus_NoCall(a_flag);
 		}
 
 		/** [Fee.Focus.FocusItem_Base]フォーカス。チェック。
@@ -167,11 +167,14 @@ namespace Fee.Render2D
 			return this.param.IsFocus();
 		}
 
-		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。OnFocusCheckを呼び出す。
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
+
+			OnFocusCheckを呼び出す。
+
 		*/
-		public void SetFocusCallOnFocusCheck(bool a_flag)
+		public void SetFocus_CallOnFocusCheck(bool a_flag)
 		{
-			this.param.SetFocusCallOnFocusCheck(a_flag);
+			this.param.SetFocus_CallOnFocusCheck(a_flag);
 		}
 
 		/** 矩形。設定。

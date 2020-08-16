@@ -98,11 +98,9 @@ namespace Fee.Audio
 			//フォーカス。
 			this.is_focus = true;
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = true;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_Audio_Main),this.Main);
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_Audio_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
@@ -120,8 +118,8 @@ namespace Fee.Audio
 			//playerloop_flag
 			this.playerloop_flag = false;
 
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_Audio_Main));
+			//PlayerLoopType
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_Audio_Main));
 		}
 
 		/** 更新。

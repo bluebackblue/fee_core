@@ -80,22 +80,18 @@ namespace Fee.EventPlate
 				this.worklist[ii] = new WorkItem();
 			}
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = true;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_EventPlate_Main),this.Main);
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_EventPlate_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = false;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_EventPlate_Main));
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_EventPlate_Main));
 		}
 
 		/** Main

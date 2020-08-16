@@ -12,9 +12,9 @@
 */
 namespace Fee.Function
 {
-	/** PlayerLoopSystemType
+	/** PlayerLoopType
 	*/
-	public struct PlayerLoopSystemType
+	public struct PlayerLoopType
 	{
 		/** Fee_Function_RowUpdate
 		*/

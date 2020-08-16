@@ -119,11 +119,9 @@ namespace Fee.Ui
 			//プールリスト。
 			this.pool_list_sprite_clip = new Pool.PoolList<Sprite_Clip>(0);
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = true;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_Ui_Main),this.Main);
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_Ui_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
@@ -132,11 +130,9 @@ namespace Fee.Ui
 		{
 			this.pool_list_sprite_clip.DeleteAllFromMemory();
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = false;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_Ui_Main));
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_Ui_Main));
 		}
 
 		/** 更新。

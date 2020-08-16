@@ -140,7 +140,7 @@ namespace Fee.Render2D
 
 		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
 		*/
-		public void SetFocus(bool a_flag)
+		public void SetFocus_NoCall(bool a_flag)
 		{
 			if(a_flag == true){
 				this.raw_inputfield.ActivateInputField();
@@ -168,11 +168,14 @@ namespace Fee.Render2D
 			return false;
 		}
 
-		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。OnFocusCheckを呼び出す。
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
+
+			OnFocusCheckを呼び出す。
+
 		*/
-		public void SetFocusCallOnFocusCheck(bool a_flag)
+		public void SetFocus_CallOnFocusCheck(bool a_flag)
 		{
-			this.SetFocus(a_flag);
+			this.SetFocus_NoCall(a_flag);
 			this.raw_focus_monobehaviour.CallOnFocusCheck();
 		}
 

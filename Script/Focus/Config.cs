@@ -31,6 +31,15 @@ namespace Fee.Focus
 		/** デバッグリスロー。
 		*/
 		public static bool DEBUGRETHROW_ENABLE = false;
+
+		/** プレイヤーループ。追加先
+		*/
+		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(UnityEngine.PlayerLoop.Update);
+		
+		/** プレイヤーループ。追加方法。
+		*/
+		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddFirst;
+
 	}
 }
 

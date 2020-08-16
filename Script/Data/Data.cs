@@ -95,11 +95,9 @@ namespace Fee.Data
 			//main_load
 			this.main_load = new Main_Load();
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = true;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_Data_Main),this.Main);
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_Data_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
@@ -108,11 +106,9 @@ namespace Fee.Data
 		{
 			this.main_load.Delete();
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = false;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_Data_Main));
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_Data_Main));
 		}
 
 		/** 更新。

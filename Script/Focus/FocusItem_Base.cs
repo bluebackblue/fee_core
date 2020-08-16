@@ -17,16 +17,22 @@ namespace Fee.Focus
 	public interface FocusItem_Base
 	{
 		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
+
+			OnFocusCheckを呼び出さない。。
+
 		*/
-		void SetFocus(bool a_flag);
+		void SetFocus_NoCall(bool a_flag);
+
+		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。
+
+			OnFocusCheckを呼び出す。
+
+		*/
+		void SetFocus_CallOnFocusCheck(bool a_flag);
 
 		/** [Fee.Focus.FocusItem_Base]フォーカス。チェック。
 		*/
 		bool IsFocus();
-
-		/** [Fee.Focus.FocusItem_Base]フォーカス。設定。OnFocusCheckを呼び出す。
-		*/
-		void SetFocusCallOnFocusCheck(bool a_flag);
 	}
 }
 

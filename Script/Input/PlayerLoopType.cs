@@ -12,9 +12,9 @@
 */
 namespace Fee.Input
 {
-	/** PlayerLoopSystemType
+	/** PlayerLoopType
 	*/
-	public struct PlayerLoopSystemType
+	public struct PlayerLoopType
 	{
 		/** Fee_Input_Main
 		*/

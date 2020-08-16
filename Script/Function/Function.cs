@@ -80,11 +80,9 @@ namespace Fee.Function
 		{
 			this.rowupdate = new RowUpdate();
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = true;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ROWUPDATE_ADDTYPE,Config.PLAYERLOOP_ROWUPDATE_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_Function_RowUpdate),this.RowUpdate);
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ROWUPDATE_ADDTYPE,Config.PLAYERLOOP_ROWUPDATE_TARGETTYPE,typeof(PlayerLoopType.Fee_Function_RowUpdate),this.RowUpdate);
 		}
 
 		/** [シングルトン]削除。
@@ -94,11 +92,9 @@ namespace Fee.Function
 			//rowupdate
 			this.rowupdate.Delete();
 
-			//playerloop_flag
-			this.playerloop_flag = false;
-
 			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_Function_RowUpdate));
+			this.playerloop_flag = false;
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_Function_RowUpdate));
 		}
 
 		/** RowUpdate

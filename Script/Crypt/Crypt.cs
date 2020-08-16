@@ -88,11 +88,9 @@ namespace Fee.Crypt
 			//main_security
 			this.main_security = new Main_Security();
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = true;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopSystemType.Fee_Crypt_Main),this.Main);
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_Crypt_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
@@ -101,11 +99,9 @@ namespace Fee.Crypt
 		{
 			this.main_security.Delete();
 
-			//playerloop_flag
+			//PlayerLoopType
 			this.playerloop_flag = false;
-
-			//PlayerLoopSystem
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopSystemType.Fee_Crypt_Main));
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_Crypt_Main));
 		}
 
 		/** 更新。

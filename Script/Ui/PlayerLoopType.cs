@@ -12,9 +12,9 @@
 */
 namespace Fee.Ui
 {
-	/** PlayerLoopSystemType
+	/** PlayerLoopType
 	*/
-	public struct PlayerLoopSystemType
+	public struct PlayerLoopType
 	{
 		/** Fee_Ui_Main
 		*/
