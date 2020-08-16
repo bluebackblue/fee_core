@@ -115,9 +115,9 @@ namespace Fee.Ui
 			OnFocusCheckを呼び出す。
 
 		*/
-		public void SetFocus_CallOnFocusCheck(bool a_flag)
+		public void SetFocus(bool a_flag)
 		{
-			this.inputfield.SetFocus_CallOnFocusCheck(a_flag);
+			this.inputfield.SetFocus(a_flag);
 		}
 
 		/** [Fee.Deleter.OnDelete_CallBackInterface]削除。

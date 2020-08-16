@@ -71,7 +71,7 @@ namespace Fee.Focus
 		public void SetFocusAllOff_CallOnFocusCheck()
 		{
 			foreach(System.Collections.Generic.KeyValuePair<ID,FocusGroup_Item> t_pair in this.list){
-				t_pair.Value.item.SetFocus_CallOnFocusCheck(false);
+				t_pair.Value.item.SetFocus(false);
 			}
 		}
 

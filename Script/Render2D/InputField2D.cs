@@ -172,9 +172,9 @@ namespace Fee.Render2D
 			OnFocusCheckを呼び出す。
 
 		*/
-		public void SetFocus_CallOnFocusCheck(bool a_flag)
+		public void SetFocus(bool a_flag)
 		{
-			this.param.SetFocus_CallOnFocusCheck(a_flag);
+			this.param.SetFocus(a_flag);
 		}
 
 		/** 矩形。設定。
