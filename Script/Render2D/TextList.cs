@@ -136,9 +136,9 @@ namespace Fee.Render2D
 			}
 		}
 
-		/** タスクから呼び出される。
+		/** 削除反映。
 		*/
-		public void Task_Update()
+		public void ApplyDeleteRequest()
 		{
 			//削除リクエストのあるアイテムをプールへ削除。
 			this.list.RemoveAll((Fee.Render2D.Text2D a_item) => {

@@ -48,6 +48,19 @@ namespace Fee.EditorTool
 			}
 		}
 
+		/** ディレクトリ。削除。
+		*/
+		public static void DeleteDirectory(Fee.File.Path a_assets_path)
+		{
+			try{
+				if(System.IO.Directory.Exists(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath()) == true){
+					System.IO.Directory.Delete(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath(), true);
+				}
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+			}
+		}	
+
 		/** SavePrefab
 		*/
 		public static void SavePrefab(UnityEngine.GameObject a_prefab,Fee.File.Path a_assets_path)

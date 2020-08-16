@@ -40,9 +40,9 @@ namespace Fee.Graphic
 			}
 		}
 
-		/** LoadOrtho
+		/** LoadOrthographicMatrix
 		*/
-		public static bool LoadOrtho()
+		public static bool LoadOrthographicMatrix()
 		{
 			try{
 				UnityEngine.GL.LoadOrtho();

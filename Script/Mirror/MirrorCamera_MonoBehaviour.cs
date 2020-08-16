@@ -105,7 +105,7 @@ namespace Fee.Mirror
 			this.matrix.m21 = (	 - 2.0f * this.plane[2] * this.plane[1]);
 			this.matrix.m22 = (1.0f - 2.0f * this.plane[2] * this.plane[2]);
 			this.matrix.m23 = (	 - 2.0f * this.plane[3] * this.plane[2]);
- 			this.matrix.m30 = 0.0f;
+			this.matrix.m30 = 0.0f;
 			this.matrix.m31 = 0.0f;
 			this.matrix.m32 = 0.0f;
 			this.matrix.m33 = 1.0f;
@@ -122,7 +122,7 @@ namespace Fee.Mirror
 			this.matrix_rotate.m21 = this.matrix.m21;
 			this.matrix_rotate.m22 = this.matrix.m22;
 			this.matrix_rotate.m23 = 0.0f;
- 			this.matrix_rotate.m30 = 0.0f;
+			this.matrix_rotate.m30 = 0.0f;
 			this.matrix_rotate.m31 = 0.0f;
 			this.matrix_rotate.m32 = 0.0f;
 			this.matrix_rotate.m33 = 1.0f;

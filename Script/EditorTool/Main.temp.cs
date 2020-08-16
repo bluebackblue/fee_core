@@ -904,7 +904,7 @@ namespace Fee.EditorTool
 			//２Ｄ描画。
 			#if(DEF_RENDER2D)
 			{
-				Fee.Render2D.Render2D.GetInstance().Main_PreDraw();
+				//Fee.Render2D.Render2D.GetInstance().Main_PreDraw();
 			}
 			#endif
 		}

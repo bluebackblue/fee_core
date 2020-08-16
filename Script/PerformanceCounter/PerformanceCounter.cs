@@ -226,7 +226,7 @@ namespace Fee.PerformanceCounter
 		public void Draw()
 		{
 			if(Fee.Graphic.Gl.PushMatrix() == true){
-				if(Fee.Graphic.Gl.LoadOrtho() == true){
+				if(Fee.Graphic.Gl.LoadOrthographicMatrix() == true){
 
 					this.material.SetPass(0);
 

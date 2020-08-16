@@ -258,7 +258,7 @@ namespace Fee.PlayerLoopSystem
 			#endif
 
 			if(this.callback != null){
-				this.callback.Set(ref this.raw);
+				this.callback.Set(in this.raw);
 			}else{
 				try{
 					UnityEngine_PlayerLoopSystem.PlayerLoop.SetPlayerLoop(this.raw);
@@ -429,7 +429,7 @@ namespace Fee.PlayerLoopSystem
 			#endif
 
 			if(this.callback != null){
-				this.callback.Set(ref this.raw);
+				this.callback.Set(in this.raw);
 			}else{
 				try{
 					UnityEngine_PlayerLoopSystem.PlayerLoop.SetPlayerLoop(this.raw);

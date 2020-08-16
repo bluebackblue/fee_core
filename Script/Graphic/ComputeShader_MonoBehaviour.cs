@@ -4,22 +4,21 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ファイル。バイナリコンポーネント。
+ * @brief グラフィック。コンピュートシェーダ。
 */
 
 
-/** Fee.File
+/** Fee.Graphic
 */
-namespace Fee.File
+namespace Fee.Graphic
 {
-	/** Binary_Component_MonoBehaviour
+	/** ComputeShader_MonoBehaviour
 	*/
-	public class Binary_Component_MonoBehaviour : UnityEngine.MonoBehaviour
+	public class ComputeShader_MonoBehaviour : UnityEngine.MonoBehaviour
 	{
-		/** data
+		/** computeshader
 		*/
-		[UnityEngine.SerializeField,UnityEngine.HideInInspector]
-		public byte[] data;
+		public UnityEngine.ComputeShader computeshader;
 
 		/** CreatePrefab
 
@@ -27,13 +26,13 @@ namespace Fee.File
 
 		*/
 		#if(UNITY_EDITOR)
-		public static void CreatePrefab(Fee.File.Path a_assets_path,byte[] a_binary)
+		public static void CreatePrefab(Fee.File.Path a_assets_path,UnityEngine.ComputeShader a_computeshader)
 		{
 			UnityEngine.GameObject t_prefab = new UnityEngine.GameObject("prefab_temp");
 			{
 				//コンポーネント追加。
-				Binary_Component_MonoBehaviour t_monobehaviour = t_prefab.AddComponent<Binary_Component_MonoBehaviour>();
-				t_monobehaviour.data = a_binary;
+				ComputeShader_MonoBehaviour t_monobehaviour = t_prefab.AddComponent<ComputeShader_MonoBehaviour>();
+				t_monobehaviour.computeshader = a_computeshader;
 
 				//保存。
 				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_assets_path);

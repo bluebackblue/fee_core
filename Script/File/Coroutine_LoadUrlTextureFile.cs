@@ -123,7 +123,13 @@ namespace Fee.File
 						do{
 							//エラーチェック。
 
-							if(t_webrequest.isNetworkError == true){
+							if(t_webrequest.result == UnityEngine.Networking.UnityWebRequest.Result.InProgress){
+								//実行中。
+							}else if(t_webrequest.result == UnityEngine.Networking.UnityWebRequest.Result.Success){
+								//正常終了。
+								yield return t_webrequest_async;
+								break;
+							}else{
 								//エラー。
 								if(t_webrequest.error != null){
 									this.result = new ResultType(null,"Connect Error : LoadUrlTextureFile : " + a_path.GetPath() + " : " + t_webrequest.error,t_webrequest.GetResponseHeaders(),t_webrequest.responseCode);
@@ -131,10 +137,6 @@ namespace Fee.File
 									this.result = new ResultType(null,"Connect Error : LoadUrlTextureFile : " + a_path.GetPath(),t_webrequest.GetResponseHeaders(),t_webrequest.responseCode);
 								}
 								yield break;
-							}else if((t_webrequest.isDone == true)&&(t_webrequest.isNetworkError == false)){
-								//正常終了。
-								yield return t_webrequest_async;
-								break;
 							}
 
 							//キャンセルチェック。

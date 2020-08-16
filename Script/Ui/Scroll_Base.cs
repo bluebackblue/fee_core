@@ -298,7 +298,7 @@ namespace Fee.Ui
 			this.OnChangeViewPosition();
 		}
 
- 		/** 矩形。設定。
+		/** 矩形。設定。
 		*/
 		public void SetRect(int a_x,int a_y,int a_w,int a_h)
 		{
@@ -330,7 +330,7 @@ namespace Fee.Ui
 			this.OnChangeRect();
 		}
 
- 		/** 矩形。設定。
+		/** 矩形。設定。
 		*/
 		public void SetRect(in Fee.Geometry.Rect2D_R<int> a_rect)
 		{

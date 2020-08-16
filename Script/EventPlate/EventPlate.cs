@@ -104,7 +104,12 @@ namespace Fee.EventPlate
 		{
 			try{
 				if(this.playerloop_flag == true){
-					Geometry.Pos2D<int> t_pos = Fee.Input.Input.GetInstance().mouse.cursor.pos;
+					Geometry.Pos2D<int> t_pos;
+					if(Fee.Input.Input.IsCreateInstance() == true){
+						t_pos = Fee.Input.Input.GetInstance().mouse.cursor.pos;
+					}else{
+						t_pos = new Geometry.Pos2D<int>(0,0);
+					}
 					for(int ii=0;ii<this.worklist.Length;ii++){
 						this.worklist[ii].Main(in t_pos);
 					}

@@ -30,7 +30,7 @@ namespace Fee.PlayerLoopSystem
 
 		/** [Fee.PlayerLoopSystem.CallBack]Set
 		*/
-		void Set(ref UnityEngine_PlayerLoopSystem.PlayerLoopSystem a_playerloopsystem);
+		void Set(in UnityEngine_PlayerLoopSystem.PlayerLoopSystem a_playerloopsystem);
 	}
 }
 
