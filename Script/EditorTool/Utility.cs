@@ -92,6 +92,31 @@ namespace Fee.EditorTool
 			}
 		}
 
+		/** LoadMeshFromFbx
+		*/
+		public static System.Collections.Generic.List<UnityEngine.Mesh> LoadMeshFromFbxFile(Fee.File.Path a_assets_path)
+		{
+			System.Collections.Generic.List<UnityEngine.Mesh> t_list = new System.Collections.Generic.List<UnityEngine.Mesh>();
+
+			try{
+				UnityEngine.Object[] t_object_list = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/" + a_assets_path.GetPath());
+				if(t_object_list != null){
+					for(int ii=0;ii<t_object_list.Length;ii++){
+						if(t_object_list[ii].GetType() == typeof(UnityEngine.Mesh)){
+							UnityEngine.Mesh t_load_asset = t_object_list[ii] as UnityEngine.Mesh;
+							if(t_load_asset != null){
+								t_list.Add(t_load_asset);
+							}
+						}
+					}
+				}
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+			}
+
+			return t_list;
+		}
+
 		/** SaveMesh
 		*/
 		public static void SaveMesh(UnityEngine.Mesh a_mesh,Fee.File.Path a_assets_path)
