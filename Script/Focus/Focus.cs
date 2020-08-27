@@ -95,7 +95,14 @@ namespace Fee.Focus
 		private void Main()
 		{
 			if(this.playerloop_flag == true){
-				UnityEngine.GameObject t_new_gameobject = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+				UnityEngine.GameObject t_new_gameobject;
+
+				if(UnityEngine.EventSystems.EventSystem.current != null){
+					t_new_gameobject = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+				}else{
+					t_new_gameobject = null;
+				}
+
 				if(t_new_gameobject != this.ui_gameobject){
 
 					//OnCheckFocusの呼び出し。

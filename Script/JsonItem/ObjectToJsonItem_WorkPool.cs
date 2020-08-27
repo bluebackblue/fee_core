@@ -204,7 +204,11 @@ namespace Fee.JsonItem
 				if(t_count > 0){
 					ObjectToJsonItem_WorkPool_Item t_current_work = this.list[t_count - 1];
 					this.list.RemoveAt(t_count - 1);
-					this.Main_Item(t_current_work);
+					if(this.Main_Item(t_current_work) == false){
+						//エラー。
+						this.list.Clear();
+						Tool.Assert(false);
+					}
 
 					//たぶん無限ループ。
 					if(t_count > Config.POOL_MAX){
@@ -219,7 +223,7 @@ namespace Fee.JsonItem
 
 		/** 更新。
 		*/
-		private void Main_Item(ObjectToJsonItem_WorkPool_Item a_item)
+		private bool Main_Item(ObjectToJsonItem_WorkPool_Item a_item)
 		{
 			switch(a_item.mode){
 			case (int)ModeAddIndexArray.Start:
@@ -232,10 +236,16 @@ namespace Fee.JsonItem
 						t_jsonitem_listitem = ObjectToJsonItem.Convert(a_item.from_object,a_item.from_type,a_item.from_option,this,a_item.nest + 1);
 					}else{
 						Tool.Assert(false);
+						return false;
 					}
 
-					a_item.to_jsonitem.AddItem(t_jsonitem_listitem,false);
-				}break;
+					if(a_item.to_jsonitem != null){
+						a_item.to_jsonitem.AddItem(t_jsonitem_listitem,false);
+					}else{
+						Tool.Assert(false);
+						return false;
+					}
+				}return true;
 			case (int)ModeSetIndexArray.Start:
 				{
 					//IndexArray。設定。
@@ -246,10 +256,16 @@ namespace Fee.JsonItem
 						t_jsonitem_listitem = ObjectToJsonItem.Convert(a_item.from_object,a_item.from_type,a_item.from_option,this,a_item.nest + 1);
 					}else{
 						Tool.Assert(false);
+						return false;
 					}
 
-					a_item.to_jsonitem.SetItem(a_item.to_index,t_jsonitem_listitem,false);
-				}break;
+					if(a_item.to_jsonitem != null){
+						a_item.to_jsonitem.SetItem(a_item.to_index,t_jsonitem_listitem,false);
+					}else{
+						Tool.Assert(false);
+						return false;
+					}
+				}return true;
 			case (int)ModeAddAssociativeArray.Start:
 				{
 					//AssociativeArray。追加。
@@ -260,10 +276,16 @@ namespace Fee.JsonItem
 						t_jsonitem_member = ObjectToJsonItem.Convert(a_item.from_object,a_item.from_type,a_item.from_option,this,a_item.nest + 1);
 					}else{
 						Tool.Assert(false);
+						return false;
 					}
 
-					a_item.to_jsonitem.SetItem(a_item.to_key_string,t_jsonitem_member,false);
-				}break;
+					if(a_item.to_jsonitem != null){
+						a_item.to_jsonitem.SetItem(a_item.to_key_string,t_jsonitem_member,false);
+					}else{
+						Tool.Assert(false);
+						return false;
+					}
+				}return true;
 			case (int)ModeFieldInfo.Start:
 				{
 					//FieldInfo。
@@ -284,16 +306,24 @@ namespace Fee.JsonItem
 							t_jsonitem_member = ObjectToJsonItem.Convert(t_raw,t_raw.GetType(),a_item.from_option,this,a_item.nest + 1);
 						}else{
 							Tool.Assert(false);
+							return false;
 						}
 
-						a_item.to_jsonitem.SetItem(a_item.from_fieldinfo.Name,t_jsonitem_member,false);
+						if(a_item.to_jsonitem != null){
+							a_item.to_jsonitem.SetItem(a_item.from_fieldinfo.Name,t_jsonitem_member,false);
+						}else{
+							Tool.Assert(false);
+							return false;
+						}
 
 					}else{
 						//NULL処理。
 					}
 
-				}break;
+				}return true;
 			}
+
+			return false;
 		}
 
 	}

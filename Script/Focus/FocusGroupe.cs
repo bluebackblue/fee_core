@@ -46,8 +46,12 @@ namespace Fee.Focus
 		/** ＩＤ。追加。
 
 			a_user_instance : コールバック時に使用するインスタンス。
+
 			a_callback_on	: フォーカスチェック時のＯＮの場合に呼び出される。
+				(T a_user_instance,bool a_change) => {}
+
 			a_callback_off	: フォーカスチェック時のＯＦＦの場合に呼び出される。
+				(T a_user_instance,bool a_change) => {}
 
 		*/
 		public void AddID<T>(ID a_id,T a_user_instance,System.Action<T,bool> a_callback_on,System.Action<T,bool> a_callback_off)
@@ -72,6 +76,16 @@ namespace Fee.Focus
 		{
 			foreach(System.Collections.Generic.KeyValuePair<ID,FocusGroup_Item> t_pair in this.list){
 				t_pair.Value.item.SetFocus(false);
+			}
+		}
+
+		/** フォーカス設定。
+		*/
+		public void SetFocus(ID a_id)
+		{
+			FocusGroup_Item t_item;
+			if(this.list.TryGetValue(a_id,out t_item) == true){
+				t_item.item.SetFocus(true);
 			}
 		}
 
