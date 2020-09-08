@@ -54,7 +54,20 @@ namespace Fee.EditorTool
 		{
 			try{
 				if(System.IO.Directory.Exists(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath()) == true){
-					System.IO.Directory.Delete(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath(), true);
+					System.IO.Directory.Delete(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath(),true);
+				}
+			}catch(System.Exception t_exception){
+				UnityEngine.Debug.LogError(t_exception.Message);
+			}
+		}
+
+		/** ファイル。削除。
+		*/
+		public static void DeleteFile(Fee.File.Path a_assets_path)
+		{
+			try{
+				if(System.IO.File.Exists(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath()) == true){
+					System.IO.File.Delete(Fee.File.Path.CreateAssetsPath(a_assets_path,Fee.File.Path.SEPARATOR).GetPath());
 				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
