@@ -108,6 +108,10 @@ namespace Fee.Ui
 				this.view_position_float = t_view_position;
 
 				int t_old_viewindex_st = this.viewindex_st;
+				if(t_old_viewindex_st < 0){
+					t_old_viewindex_st = 0;
+				}
+
 				int t_old_viewindex_en = this.viewindex_en;
 				this.viewindex_st = this.GetViewPositionInt() / this.item_length;
 				this.viewindex_en = (this.GetViewPositionInt() + this.view_length) / this.item_length;
