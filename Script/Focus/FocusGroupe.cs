@@ -78,7 +78,7 @@ namespace Fee.Focus
 			OnFocusCheckを呼び出す。
 
 		*/
-		public void SetFocusAllOff_CallOnFocusCheck()
+		public void SetFocusAllOff()
 		{
 			foreach(System.Collections.Generic.KeyValuePair<ID,FocusGroup_Item> t_pair in this.list){
 				t_pair.Value.item.SetFocus(false);
