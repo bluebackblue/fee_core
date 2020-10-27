@@ -20,10 +20,6 @@ namespace Fee.Function
 		*/
 		private RowUpdateType callback;
 
-		/** time
-		*/
-		private float time;
-
 		/** delta
 		*/
 		public float delta;
@@ -34,9 +30,6 @@ namespace Fee.Function
 		{
 			//callback
 			this.callback = null;
-
-			//time
-			this.time = UnityEngine.Time.realtimeSinceStartup;
 
 			//delta
 			this.delta = 0.0f;
@@ -74,32 +67,24 @@ namespace Fee.Function
 		*/
 		public void Main()
 		{
-			float t_time = UnityEngine.Time.realtimeSinceStartup;
-			float t_delta = (t_time - this.time) * UnityEngine.Time.timeScale;
+			bool t_flag = false;
+			float t_delta_add = UnityEngine.Time.deltaTime;
+			this.delta += t_delta_add;
 
-			#if(UNITY_EDITOR)
-			{
-				if(UnityEditor.EditorApplication.isPaused == true){
-					t_delta = 0.0f;
+			if(this.delta >= Config.ROWUPDATE_DELTA){
+				if(this.delta <= Config.ROWUPDATE_DELTA * 2){
+					this.delta -= Config.ROWUPDATE_DELTA;
+				}else{
+					Tool.Log(this.GetType().ToString(),"busy = " + this.delta.ToString());
+					this.delta = 0.0f;
 				}
+
+				t_flag = true;
 			}
-			#endif
 
-			this.time = t_time;
-			this.delta += t_delta;
-
-			{
-				if(this.delta > Config.ROWUPDATE_DELTA){
-
-					if(this.callback != null){
-						this.callback();
-					}
-
-					if(this.delta < Config.ROWUPDATE_DELTA * 2){
-						this.delta -= Config.ROWUPDATE_DELTA;
-					}else{
-						Tool.Log(this.GetType().ToString(),"busy = " + this.delta.ToString());
-					}
+			if(t_flag == true){
+				if(this.callback != null){
+					this.callback();
 				}
 			}
 		}
