@@ -1,3 +1,5 @@
+
+
 /**
  * Copyright (c) blueback
  * Released under the MIT License
@@ -10,20 +12,24 @@ Shader "Fee/Bloom/LastAddUpSampling"
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
-		texture_original ("Texture Original", 2D) = "white" {}
-		intensity ("Intensity", Float) = 0
+		_MainTex("_MainTex",2D) = "white"{}
+		texture_original("texture_original",2D) = "white"{}
+		intensity("intensity",Float) = 0
 	}
 	SubShader
 	{
-		Tags { "RenderType" = "Opaque" }
-		Cull Off
-		ZTest Always
-		ZWrite Off
-
+		Tags
+		{
+			"RenderType" = "Opaque"
+		}
 		Pass
 		{
+			Cull Off
+			ZTest Always
+			ZWrite Off
+
 			CGPROGRAM
+
 			#pragma vertex vert
 			#pragma fragment frag
 
@@ -33,22 +39,21 @@ Shader "Fee/Bloom/LastAddUpSampling"
 			*/
 			struct appdata
 			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
+				float4 vertex		: POSITION;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** v2f
 			*/
 			struct v2f
 			{
-				float4 pos : SV_POSITION;
-				float2 uv : TEXCOORD0;
+				float4 vertex		: SV_POSITION;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** _MainTex
 			*/
 			sampler2D _MainTex;
-			float4 _MainTex_ST;
 			float4 _MainTex_TexelSize;
 
 			/** texture_original
@@ -65,8 +70,8 @@ Shader "Fee/Bloom/LastAddUpSampling"
 			{
 				v2f t_ret;
 				{
-					t_ret.pos = UnityObjectToClipPos(a_appdata.vertex);
-					t_ret.uv = TRANSFORM_TEX(a_appdata.uv,_MainTex);
+					t_ret.vertex = UnityObjectToClipPos(a_appdata.vertex);
+					t_ret.uv = a_appdata.uv;
 				}
 				return t_ret;
 			}

@@ -180,13 +180,6 @@ namespace Fee.EditorTool
 				}
 				#endif
 
-				//ブルーム。
-				#if(DEF_BLOOM)
-				{
-					Fee.Bloom.Bloom.CreateInstance();
-				}
-				#endif
-
 				//ブラー。
 				#if(DEF_BLUR)
 				{
@@ -449,11 +442,6 @@ namespace Fee.EditorTool
 			//オーディオ。
 			{
 				Fee.Audio.Audio.DeleteInstance();
-			}
-
-			//ブルーム。
-			{
-				Fee.Bloom.Bloom.DeleteInstance();
 			}
 
 			//ブラー。

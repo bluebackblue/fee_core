@@ -1,3 +1,5 @@
+
+
 /**
  * Copyright (c) blueback
  * Released under the MIT License
@@ -10,22 +12,24 @@ Shader "Fee/Bloom/AddUpSampling"
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
+		_MainTex("_MainTex",2D) = "white"{}
 	}
 	SubShader
 	{
-		Tags { "RenderType" = "Opaque" }
-		Cull Off
-		ZTest Always
-		ZWrite Off
-
-		/** 加算。
-		*/
-		Blend One One
-
+		Tags
+		{
+			"RenderType" = "Opaque"
+		}
 		Pass
 		{
+			Cull Off
+			ZTest Always
+			ZWrite Off
+
+			Blend One One
+
 			CGPROGRAM
+
 			#pragma vertex vert
 			#pragma fragment frag
 
@@ -35,22 +39,21 @@ Shader "Fee/Bloom/AddUpSampling"
 			*/
 			struct appdata
 			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
+				float4 vertex		: POSITION;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** v2f
 			*/
 			struct v2f
 			{
-				float4 pos : SV_POSITION;
-				float2 uv : TEXCOORD0;
+				float4 pos			: SV_POSITION;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** _MainTex
 			*/
 			sampler2D _MainTex;
-			float4 _MainTex_ST;
 			float4 _MainTex_TexelSize;
 
 			/** vert
@@ -60,7 +63,7 @@ Shader "Fee/Bloom/AddUpSampling"
 				v2f t_ret;
 				{
 					t_ret.pos = UnityObjectToClipPos(a_appdata.vertex);
-					t_ret.uv = TRANSFORM_TEX(a_appdata.uv,_MainTex);
+					t_ret.uv = a_appdata.uv;
 				}
 				return t_ret;
 			}
