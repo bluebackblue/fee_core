@@ -4,28 +4,28 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ポーズ。
+ * @brief タイム。
 */
 
 
-/** Fee.Pause
+/** Fee.Time
 */
-namespace Fee.Pause
+namespace Fee.Time
 {
-	/** Pause
+	/** Time
 	*/
-	public class Pause
+	public class Time
 	{
 		/** [シングルトン]s_instance
 		*/
-		private static Pause s_instance = null;
+		private static Time s_instance = null;
 
 		/** [シングルトン]インスタンス。作成。
 		*/
 		public static void CreateInstance()
 		{
 			if(s_instance == null){
-				s_instance = new Pause();
+				s_instance = new Time();
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace Fee.Pause
 
 		/** [シングルトン]インスタンス。取得。
 		*/
-		public static Pause GetInstance()
+		public static Time GetInstance()
 		{
 			#if(UNITY_EDITOR)
 			if(s_instance == null){
@@ -72,10 +72,10 @@ namespace Fee.Pause
 
 		/** [シングルトン]constructor
 		*/
-		private Pause()
+		private Time()
 		{
 			//PlayerLoopType
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_Pause_Main),this.Main);
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_Time_Main),this.Main);
 
 			//timescale
 			this.timescale = 1.0f;
@@ -89,7 +89,7 @@ namespace Fee.Pause
 		private void Delete()
 		{
 			//PlayerLoopType
-			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_Pause_Main));
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_Time_Main));
 		}
 
 		/** Main

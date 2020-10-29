@@ -4,21 +4,21 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ポーズ。
+ * @brief タイム。
 */
 
 
-/** Fee.Pause
+/** Fee.Time
 */
-namespace Fee.Pause
+namespace Fee.Time
 {
 	/** PlayerLoopType
 	*/
 	public struct PlayerLoopType
 	{
-		/** Fee_Pause_Main
+		/** Fee_Time_Main
 		*/
-		public struct Fee_Pause_Main
+		public struct Fee_Time_Main
 		{
 		}
 	}

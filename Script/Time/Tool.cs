@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief ポーズ。ツール。
+ * @brief タイム。ツール。
 */
 
 
@@ -13,9 +13,9 @@
 #pragma warning disable 0162
 
 
-/** Fee.Pause
+/** Fee.Time
 */
-namespace Fee.Pause
+namespace Fee.Time
 {
 	/** Tool
 	*/
