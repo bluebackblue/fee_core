@@ -311,7 +311,7 @@ namespace Fee.JsonSheet
 					//ＪＳＯＮ。出力。
 					Fee.JsonItem.JsonItem t_jsonitem = Fee.JsonItem.Convert.ObjectToJsonItem(t_list);
 					string t_jsonstring = t_jsonitem.ConvertToJsonString();
-					Fee.EditorTool.Utility.WriteTextFile(a_assets_path,t_jsonstring);
+					Fee.EditorTool.AssetTool.WriteTextFile(a_assets_path,t_jsonstring);
 				}else{
 					Tool.Assert(false);
 				}
@@ -424,12 +424,12 @@ namespace Fee.JsonSheet
 								}
 
 								//ディレクトリ。作成。
-								Fee.EditorTool.Utility.CreateDirectory(a_assets_path);
+								Fee.EditorTool.AssetTool.CreateDirectory(a_assets_path);
 
 								//ＪＳＯＮ。作成。
 								Fee.File.Path t_path = new File.Path(a_assets_path.GetPath() + t_pair.Key + ".json");
 								string t_jsonstring = Fee.JsonItem.Convert.ObjectToJsonString<Fee.AssetBundleList.DummryAssetBundle>(t_dummy_assetbundle);
-								Fee.EditorTool.Utility.WriteTextFile(t_path,t_jsonstring);
+								Fee.EditorTool.AssetTool.WriteTextFile(t_path,t_jsonstring);
 							}
 						}break;
 					case ConvertSheet_Data.PARAM_STANDALONEWINDOWS:
@@ -531,10 +531,10 @@ namespace Fee.JsonSheet
 							}
 
 							//ディレクトリ。作成。
-							Fee.EditorTool.Utility.CreateDirectory(a_assets_path);
+							Fee.EditorTool.AssetTool.CreateDirectory(a_assets_path);
 
 							//アセットバンドル作成。
-							Fee.EditorTool.Utility.BuildAssetBundles(a_assets_path,t_assetbundle_build,t_option,t_buildtarget);
+							Fee.EditorTool.AssetTool.BuildAssetBundles(a_assets_path,t_assetbundle_build,t_option,t_buildtarget);
 						}break;
 					default:
 						{

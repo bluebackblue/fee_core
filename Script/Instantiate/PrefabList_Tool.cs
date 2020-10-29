@@ -1,4 +1,4 @@
-﻿
+
 
 /**
  * Copyright (c) blueback
@@ -56,7 +56,7 @@ namespace Fee.Instantiate
 				t_prefab_list.prefab_list = new UnityEngine.GameObject[a_resource_list.Length];
 				for(int ii=0;ii<t_prefab_list.prefab_list.Length;ii++){
 					t_prefab_list.tag_list[ii] = a_resource_list[ii].tag;
-					t_prefab_list.prefab_list[ii] = Fee.EditorTool.Utility.LoadAsset<UnityEngine.GameObject>(a_resource_list[ii].path); 
+					t_prefab_list.prefab_list[ii] = Fee.EditorTool.AssetTool.LoadAsset<UnityEngine.GameObject>(a_resource_list[ii].path); 
 				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);

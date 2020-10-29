@@ -1,4 +1,4 @@
-﻿
+
 
 /**
  * Copyright (c) blueback
@@ -56,7 +56,7 @@ namespace Fee.Instantiate
 				t_audioclip_list.audioclip_list = new UnityEngine.AudioClip[a_resource_list.Length];
 				for(int ii=0;ii<t_audioclip_list.audioclip_list.Length;ii++){
 					t_audioclip_list.tag_list[ii] = a_resource_list[ii].tag;
-					t_audioclip_list.audioclip_list[ii] = Fee.EditorTool.Utility.LoadAsset<UnityEngine.AudioClip>(a_resource_list[ii].path); 
+					t_audioclip_list.audioclip_list[ii] = Fee.EditorTool.AssetTool.LoadAsset<UnityEngine.AudioClip>(a_resource_list[ii].path); 
 				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);

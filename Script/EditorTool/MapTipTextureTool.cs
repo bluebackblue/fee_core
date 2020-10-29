@@ -17,28 +17,28 @@ namespace Fee.EditorTool
 	#if(UNITY_EDITOR)
 	public class MapTipTextureTool
 	{
-		/** マップチップテクスチャーを分割。
+		/** １枚のマップチップテクスチャーを分割する。
 
 			a_use_count == true : 重複する場合に名前を最後にカウントを付ける。
 
 		*/
-		public static void Parse(UnityEngine.Texture2D a_texture,int a_tip_size,Fee.File.Path a_assets_path,bool a_use_count)
+		public static void Parse(UnityEngine.Texture2D a_texture,int a_tip_pixsize,Fee.File.Path a_assets_path,bool a_use_count)
 		{
 			if(a_texture != null){
-				if(a_tip_size > 0){
+				if(a_tip_pixsize > 0){
 
-					if(((a_texture.width % a_tip_size) != 0)||((a_texture.height % a_tip_size) != 0)){
-						UnityEngine.Debug.LogError("Size Error");
+					if(((a_texture.width % a_tip_pixsize) != 0)||((a_texture.height % a_tip_pixsize) != 0)){
+						Tool.EditorLogError("Size Error");
 					}
 					
-					int t_xx_max = a_texture.width / a_tip_size;
-					int t_yy_max = a_texture.height / a_tip_size;
+					int t_xx_max = a_texture.width / a_tip_pixsize;
+					int t_yy_max = a_texture.height / a_tip_pixsize;
 
 					for(int yy=0;yy<t_yy_max;yy++){
 						for(int xx=0;xx<t_xx_max;xx++){
 
 							//テクスチャー作成。
-							UnityEngine.Texture2D t_new_texture = Fee.EditorTool.Utility.CreateTextureFromTexture(a_texture,xx * a_tip_size,yy * a_tip_size,a_tip_size,a_tip_size);
+							UnityEngine.Texture2D t_new_texture = Fee.EditorTool.AssetTool.CreateTextureFromTexture(a_texture,xx * a_tip_pixsize,yy * a_tip_pixsize,a_tip_pixsize,a_tip_pixsize);
 										
 							//ＰＮＧコンバート。
 							byte[] t_binary = UnityEngine.ImageConversion.EncodeToPNG(t_new_texture);
@@ -59,8 +59,8 @@ namespace Fee.EditorTool
 										}
 
 										//ファイル出力。
-										if(Fee.EditorTool.Utility.IsExistFile(t_path) == false){
-											Fee.EditorTool.Utility.WriteBinaryFile(t_path,t_binary);
+										if(Fee.EditorTool.AssetTool.IsExistFile(t_path) == false){
+											Fee.EditorTool.AssetTool.WriteBinaryFile(t_path,t_binary);
 											break;
 										}
 
@@ -72,17 +72,17 @@ namespace Fee.EditorTool
 								Fee.File.Path t_path = new Fee.File.Path(a_assets_path,t_md5 + ".png",Fee.File.Path.SEPARATOR);
 
 								//ファイル出力。
-								if(Fee.EditorTool.Utility.IsExistFile(t_path) == false){
-									Fee.EditorTool.Utility.WriteBinaryFile(t_path,t_binary);
+								if(Fee.EditorTool.AssetTool.IsExistFile(t_path) == false){
+									Fee.EditorTool.AssetTool.WriteBinaryFile(t_path,t_binary);
 								}
 							}
 						}
 					}
 				}else{
-					UnityEngine.Debug.LogError("Error");
+					Tool.EditorLogError("Error");
 				}
 			}else{
-				UnityEngine.Debug.LogError("Error");
+				Tool.EditorLogError("Error");
 			}
 		}
 	}

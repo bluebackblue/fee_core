@@ -35,7 +35,7 @@ namespace Fee.Graphic
 				t_monobehaviour.computeshader = a_computeshader;
 
 				//保存。
-				Fee.EditorTool.Utility.SavePrefab(t_prefab,a_assets_path);
+				Fee.EditorTool.AssetTool.SavePrefab(t_prefab,a_assets_path);
 			}
 			UnityEngine.GameObject.DestroyImmediate(t_prefab);
 		}

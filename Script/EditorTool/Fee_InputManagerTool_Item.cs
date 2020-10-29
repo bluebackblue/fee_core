@@ -13,9 +13,9 @@
 #if(UNITY_EDITOR)
 namespace Fee.EditorTool
 {
-	/** InputManagerTool_Item
+	/** Fee_InputManagerTool_Item
 	*/
-	public class InputManagerTool_Item
+	public class Fee_InputManagerTool_Item
 	{
 		/** Type
 		*/
@@ -81,7 +81,7 @@ namespace Fee.EditorTool
 
 		/** constructor
 		*/
-		public InputManagerTool_Item()
+		public Fee_InputManagerTool_Item()
 		{
 			this.m_Name = "";
 			this.descriptiveName = "";

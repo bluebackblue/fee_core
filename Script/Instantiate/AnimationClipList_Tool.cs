@@ -143,7 +143,7 @@ namespace Fee.Instantiate
 		*/
 		private static void FindAnimationClip(Fee.File.Path a_path,System.Collections.Generic.List<FindItem> a_out_list)
 		{
-			UnityEngine.Object[] t_object_list = Fee.EditorTool.Utility.LoadAllAsset(a_path);
+			UnityEngine.Object[] t_object_list = Fee.EditorTool.AssetTool.LoadAllAsset(a_path);
 			foreach(UnityEngine.Object t_object in t_object_list){
 				UnityEngine.AnimationClip t_animationclip = t_object as UnityEngine.AnimationClip;
 				if(t_animationclip != null){
@@ -161,7 +161,7 @@ namespace Fee.Instantiate
 		public static void ListUpAnimationClip(Fee.File.Path a_assets_path,System.Collections.Generic.List<FindItem> a_out_list)
 		{
 			//ディレクトリ内のファイルを列挙。
-			System.Collections.Generic.List<Fee.File.Path> t_list = Fee.EditorTool.Utility.CreateAllFileRelativePathList(a_assets_path);
+			System.Collections.Generic.List<Fee.File.Path> t_list = Fee.EditorTool.AssetTool.CreateAllFilePathList(a_assets_path);
 
 			foreach(Fee.File.Path t_path in t_list){
 				if(System.Text.RegularExpressions.Regex.IsMatch(t_path.GetPath(),"^.*\\.(fbx)$") == true){

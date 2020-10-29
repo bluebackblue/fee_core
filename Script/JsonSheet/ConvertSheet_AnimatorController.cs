@@ -77,7 +77,7 @@ namespace Fee.JsonSheet
 
 						for(int ii=0;ii<t_state_list.Count;ii++){
 							UnityEditor.Animations.AnimatorState t_state = t_controller.layers[0].stateMachine.AddState(t_state_list[ii]);
-							t_state.motion = Fee.EditorTool.Utility.LoadAsset<UnityEngine.AnimationClip>(t_path_list[ii]);
+							t_state.motion = Fee.EditorTool.AssetTool.LoadAsset<UnityEngine.AnimationClip>(t_path_list[ii]);
 						}
 
 						UnityEditor.AssetDatabase.SaveAssets();

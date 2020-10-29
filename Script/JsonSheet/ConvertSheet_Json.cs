@@ -46,7 +46,7 @@ namespace Fee.JsonSheet
 					Tool.Assert(false);
 				}
 
-				Fee.EditorTool.Utility.WriteTextFile(a_assets_path,t_jsonitem.ConvertToJsonString());
+				Fee.EditorTool.AssetTool.WriteTextFile(a_assets_path,t_jsonitem.ConvertToJsonString());
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 			}

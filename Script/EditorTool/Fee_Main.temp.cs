@@ -666,8 +666,7 @@ namespace Fee.EditorTool
 		*/
 		private void FixedUpdate()
 		{
-			try{
-
+			{
 				//順序変更。
 				{
 					//シーン。
@@ -873,8 +872,6 @@ namespace Fee.EditorTool
 				//ビデオ。
 				{
 				}
-			}catch(System.Exception t_exception){
-				UnityEngine.Debug.LogError(t_exception.StackTrace + "\n\n" + t_exception.Message);
 			}
 		}
 

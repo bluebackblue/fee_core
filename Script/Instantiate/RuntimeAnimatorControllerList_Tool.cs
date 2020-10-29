@@ -56,7 +56,7 @@ namespace Fee.Instantiate
 				t_runtimeanimationcontroller_list.runtimeanimatorcontroller_list = new UnityEngine.RuntimeAnimatorController[a_resource_list.Length];
 				for(int ii=0;ii<t_runtimeanimationcontroller_list.runtimeanimatorcontroller_list.Length;ii++){
 					t_runtimeanimationcontroller_list.tag_list[ii] = a_resource_list[ii].tag;
-					t_runtimeanimationcontroller_list.runtimeanimatorcontroller_list[ii] = Fee.EditorTool.Utility.LoadAsset<UnityEngine.RuntimeAnimatorController>(a_resource_list[ii].path); 
+					t_runtimeanimationcontroller_list.runtimeanimatorcontroller_list[ii] = Fee.EditorTool.AssetTool.LoadAsset<UnityEngine.RuntimeAnimatorController>(a_resource_list[ii].path); 
 				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);

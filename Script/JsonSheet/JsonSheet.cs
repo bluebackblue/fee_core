@@ -164,7 +164,7 @@ namespace Fee.JsonSheet
 				}
 			}
 
-			Fee.EditorTool.Utility.Refresh();
+			Fee.EditorTool.AssetTool.Refresh();
 
 			return true;
 		}

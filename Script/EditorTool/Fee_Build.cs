@@ -16,9 +16,9 @@ https://docs.unity3d.com/ja/current/Manual/CommandLineArguments.html
 #if(UNITY_EDITOR)
 namespace Fee.EditorTool
 {
-	/** Build
+	/** Fee_Build
 	*/
-	public class Build
+	public class Fee_Build
 	{
 		/** パッケージ。作成。
 		*/
@@ -26,7 +26,7 @@ namespace Fee.EditorTool
 		[UnityEditor.MenuItem("Fee/Build/BuildFeePackage")]
 		private static void MenuItem_BuildFeePackage()
 		{
-			Build.BuildFeePackage();
+			BuildFeePackage();
 		}
 		#endif
 
@@ -44,10 +44,10 @@ namespace Fee.EditorTool
 			string t_filename = "fee_" + System.DateTime.Now.ToString("yyyyMMdd_HH") + ".unitypackage";
 
 			//ディレクトリ名。
-			Fee.File.Path t_fee_path = Fee.EditorTool.Utility.FindFeePath();
+			Fee.File.Path t_fee_path = Fee_Tool.FindFeePath();
 
 			//出力。
-			Fee.EditorTool.Utility.ExportPackage(t_fee_path,t_filename,t_option);
+			Fee.EditorTool.AssetTool.ExportPackage(t_fee_path,t_filename,t_option);
 		}
 
 		/** CommandLineParam
@@ -107,12 +107,6 @@ namespace Fee.EditorTool
 			string t_output_target = t_commandline_param.outputpath + "/WebGL";
 			t_log += t_output_target + "\n";
 
-			#if(UNITY_5)
-			{
-				//未対応。
-				UnityEngine.Debug.Assert(false);
-			}
-			#else
 			{
 				UnityEditor.Build.Reporting.BuildReport t_return = UnityEditor.BuildPipeline.BuildPlayer(
 					t_levels,
@@ -124,9 +118,8 @@ namespace Fee.EditorTool
 				t_log += t_return.summary.totalErrors.ToString();
 				t_log += "-----------------------------------";
 			}
-			#endif
 
-			UnityEngine.Debug.Log(t_log);
+			Tool.EditorLog(t_log);
 		}
 
 		/** ビルド。Android。
@@ -145,12 +138,6 @@ namespace Fee.EditorTool
 			string t_output_target = t_commandline_param.outputpath + "/Fee.apk";
 			t_log += t_output_target + "\n";
 
-			#if(UNITY_5)
-			{
-				//未対応。
-				UnityEngine.Debug.Assert(false);
-			}
-			#else
 			{
 				UnityEditor.Build.Reporting.BuildReport t_return = UnityEditor.BuildPipeline.BuildPlayer(
 					t_levels,
@@ -162,9 +149,8 @@ namespace Fee.EditorTool
 				t_log += t_return.summary.totalErrors.ToString();
 				t_log += "-----------------------------------";
 			}
-			#endif
 
-			UnityEngine.Debug.Log(t_log);
+			Tool.EditorLog(t_log);
 		}
 
 		/** ビルド。StandaloneWindows。
@@ -183,12 +169,6 @@ namespace Fee.EditorTool
 			string t_output_target = t_commandline_param.outputpath + "/Exe/fee.exe";
 			t_log += t_output_target + "\n";
 
-			#if(UNITY_5)
-			{
-				//未対応。
-				UnityEngine.Debug.Assert(false);
-			}
-			#else
 			{
 				UnityEditor.Build.Reporting.BuildReport t_return = UnityEditor.BuildPipeline.BuildPlayer(
 					t_levels,
@@ -200,9 +180,8 @@ namespace Fee.EditorTool
 				t_log += t_return.summary.totalErrors.ToString();
 				t_log += "-----------------------------------";
 			}
-			#endif
 
-			UnityEngine.Debug.Log(t_log);
+			Tool.EditorLog(t_log);
 		}
 	}
 }

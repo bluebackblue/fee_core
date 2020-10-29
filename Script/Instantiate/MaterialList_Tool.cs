@@ -1,4 +1,4 @@
-﻿
+
 
 /**
  * Copyright (c) blueback
@@ -56,7 +56,7 @@ namespace Fee.Instantiate
 				t_material_list.material_list = new UnityEngine.Material[a_resource_list.Length];
 				for(int ii=0;ii<t_material_list.material_list.Length;ii++){
 					t_material_list.tag_list[ii] = a_resource_list[ii].tag;
-					t_material_list.material_list[ii] = Fee.EditorTool.Utility.LoadAsset<UnityEngine.Material>(a_resource_list[ii].path); 
+					t_material_list.material_list[ii] = Fee.EditorTool.AssetTool.LoadAsset<UnityEngine.Material>(a_resource_list[ii].path); 
 				}
 			}catch(System.Exception t_exception){
 				UnityEngine.Debug.LogError(t_exception.Message);
