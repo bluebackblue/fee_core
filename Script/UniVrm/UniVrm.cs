@@ -74,6 +74,10 @@ namespace Fee.UniVrm
 		*/
 		private System.Collections.Generic.List<WorkItem> add_list;
 
+		/** playerloop_flag
+		*/
+		private bool playerloop_flag;
+
 		/** [シングルトン]constructor
 		*/
 		private UniVrm()
@@ -87,15 +91,20 @@ namespace Fee.UniVrm
 			//add_list
 			this.add_list = new System.Collections.Generic.List<WorkItem>();
 
-			{
-				//TODO:playerloop
-			}
+			//PlayerLoopType
+			this.playerloop_flag = true;
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_UniVrm_Main),this.Main);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			//playerloop_flag
+			this.playerloop_flag = false;
+
+			//PlayerLoopType
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_UniVrm_Main));
 		}
 
 		/** main_vrm。取得。
@@ -130,20 +139,22 @@ namespace Fee.UniVrm
 		public void Main()
 		{
 			try{
-				//追加。
-				if(this.add_list.Count > 0){
-					for(int ii=0;ii<this.add_list.Count;ii++){
-						this.work_list.Add(this.add_list[ii]);
+				if(this.playerloop_flag == true){
+					//追加。
+					if(this.add_list.Count > 0){
+						for(int ii=0;ii<this.add_list.Count;ii++){
+							this.work_list.Add(this.add_list[ii]);
+						}
+						this.add_list.Clear();
 					}
-					this.add_list.Clear();
-				}
 
-				int t_index = 0;
-				while(t_index < this.work_list.Count){
-					if(this.work_list[t_index].Main() == true){
-						this.work_list.RemoveAt(t_index);
-					}else{
-						t_index++;
+					int t_index = 0;
+					while(t_index < this.work_list.Count){
+						if(this.work_list[t_index].Main() == true){
+							this.work_list.RemoveAt(t_index);
+						}else{
+							t_index++;
+						}
 					}
 				}
 			}catch(System.Exception t_exception){
