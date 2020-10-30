@@ -28,6 +28,7 @@
 #define DEF_CRYPT
 #define DEF_SOUNDPOOL
 #define DEF_TASK
+#define DEF_TIME
 #define DEF_UNIVRM
 #define DEF_BLUR
 #define DEF_DEPTH
@@ -166,6 +167,10 @@ namespace Fee.EditorTool
 					Fee.Audio.Audio.CreateInstance();
 				}
 				#endif
+
+				//ブルーム。
+				{
+				}
 
 				//ブラー。
 				#if(DEF_BLUR)
@@ -383,6 +388,13 @@ namespace Fee.EditorTool
 				}
 				#endif
 
+				//タイム。
+				#if(DEF_TIME)
+				{
+					Fee.Time.Time.CreateInstance();
+				}
+				#endif
+
 				//ＵＩ。
 				#if(DEF_UI)
 				{
@@ -429,6 +441,10 @@ namespace Fee.EditorTool
 			//オーディオ。
 			{
 				Fee.Audio.Audio.DeleteInstance();
+			}
+
+			//ブルーム。
+			{
 			}
 
 			//ブラー。
@@ -608,6 +624,11 @@ namespace Fee.EditorTool
 			//タスク。
 			{
 				Fee.TaskW.TaskW.DeleteInstance();
+			}
+
+			//タイム。
+			{
+				Fee.Time.Time.DeleteInstance();
 			}
 
 			//ＵＩ。
@@ -815,6 +836,10 @@ namespace Fee.EditorTool
 				}
 
 				//タスク。
+				{
+				}
+
+				//タイム。
 				{
 				}
 
