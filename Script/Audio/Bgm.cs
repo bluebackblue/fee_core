@@ -200,6 +200,8 @@ namespace Fee.Audio
 		*/
 		public bool UnSetBank()
 		{
+			this.request_index = -1;
+
 			if(this.unload_work == null){
 				this.unload_work = this.bank;
 				this.bank = null;

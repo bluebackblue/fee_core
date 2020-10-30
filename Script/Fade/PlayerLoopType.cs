@@ -4,21 +4,21 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief フォーカス。
+ * @brief フェード。
 */
 
 
-/** Fee.Focus
+/** Fee.Fade
 */
-namespace Fee.Focus
+namespace Fee.Fade
 {
 	/** PlayerLoopType
 	*/
 	public struct PlayerLoopType
 	{
-		/** Fee_Focus_Main
+		/** Fee_Fade_Main
 		*/
-		public struct Fee_Focus_Main
+		public struct Fee_Fade_Main
 		{
 		}
 	}

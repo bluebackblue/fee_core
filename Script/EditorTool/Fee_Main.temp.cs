@@ -107,12 +107,6 @@ namespace Fee.EditorTool
 			return s_instance;
 		}
 
-		/** scene_update_wait
-		*/
-		#if(DEF_SCENE)
-		private int scene_update_wait;
-		#endif
-
 		/** Start
 		*/
 		void Start()
@@ -125,13 +119,6 @@ namespace Fee.EditorTool
 
 			//初期化。
 			{
-				//scene_update_wait
-				#if(DEF_SCENE)
-				{
-					this.scene_update_wait = 3;
-				}
-				#endif
-
 				//順序変更。
 				{
 					//２Ｄ描画。
@@ -655,18 +642,6 @@ namespace Fee.EditorTool
 		private void FixedUpdate()
 		{
 			{
-				//順序変更。
-				{
-					//シーン。
-					#if(DEF_SCENE)
-					{
-						if(this.scene_update_wait <= 0){
-							Fee.Scene.Scene.GetInstance().Main();
-						}
-					}
-					#endif
-				}
-
 				//アセット。
 				{
 				}
@@ -724,11 +699,8 @@ namespace Fee.EditorTool
 				}
 
 				//フェード。
-				#if(DEF_FADE)
 				{
-					Fee.Fade.Fade.GetInstance().Main();
 				}
-				#endif
 
 				//ファイル。
 				{
@@ -830,7 +802,7 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//シーン。順序変更。
+				//シーン。
 				{
 				}
 
@@ -872,17 +844,6 @@ namespace Fee.EditorTool
 		*/
 		private void Update()
 		{
-			//シーン。
-			#if(DEF_SCENE)
-			{
-				if(this.scene_update_wait <= 0){
-					Fee.Scene.Scene.GetInstance().Unity_Update(UnityEngine.Time.deltaTime);
-				}else{
-					this.scene_update_wait--;
-				}
-			}
-			#endif
-
 			//２Ｄ描画。
 			#if(DEF_RENDER2D)
 			{
@@ -900,14 +861,6 @@ namespace Fee.EditorTool
 		*/
 		private void LateUpdate()
 		{
-			//シーン。
-			#if(DEF_SCENE)
-			{
-				if(this.scene_update_wait <= 0){
-					Fee.Scene.Scene.GetInstance().Unity_LateUpdate(UnityEngine.Time.deltaTime);
-				}
-			}
-			#endif
 		}
 
 		/** シーン遷移。

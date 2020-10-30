@@ -14,7 +14,7 @@ namespace Fee.Scene
 {
 	/** Scene
 	*/
-	public class Scene
+	public class Scene : Fee.Function.UnityUpdate_CallBackInterface<int> , Fee.Function.UnityLateUpdate_CallBackInterface<int>
 	{
 		/** [シングルトン]s_instance
 		*/
@@ -74,6 +74,10 @@ namespace Fee.Scene
 		*/
 		private bool is_scene;
 
+		/** gameobject
+		*/
+		private UnityEngine.GameObject gameobject;
+
 		/** mode
 		*/
 		enum Mode
@@ -92,6 +96,10 @@ namespace Fee.Scene
 		};
 		private Mode mode;
 
+		/** playerloop_flag
+		*/
+		private bool playerloop_flag;
+
 		/** [シングルトン]constructor
 		*/
 		private Scene()
@@ -107,12 +115,31 @@ namespace Fee.Scene
 
 			//mode
 			this.mode = Mode.WaitRequest;
+
+			//PlayerLoopType
+			this.playerloop_flag = true;
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().Add(Config.PLAYERLOOP_ADDTYPE,Config.PLAYERLOOP_TARGETTYPE,typeof(PlayerLoopType.Fee_Scene_Main),this.Main);
+
+			//gameobject
+			this.gameobject = new UnityEngine.GameObject("scene");
+			UnityEngine.GameObject.DontDestroyOnLoad(this.gameobject);
+			this.gameobject.AddComponent<Fee.Function.UnityUpdate_MonoBehaviour>().SetCallBack(this,0);
+			this.gameobject.AddComponent<Fee.Function.UnityLateUpdate_MonoBehaviour>().SetCallBack(this,0);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
+			//playerloop_flag
+			this.playerloop_flag = false;
+
+			//PlayerLoopType
+			Fee.PlayerLoopSystem.PlayerLoopSystem.GetInstance().RemoveFromType(typeof(PlayerLoopType.Fee_Scene_Main));
+
+			//gameobject
+			UnityEngine.GameObject.Destroy(this.gameobject);
+			this.gameobject = null;
 		}
 
 		/** 次のシーン。設定。
@@ -142,74 +169,80 @@ namespace Fee.Scene
 			return true;
 		}
 
-		/** 更新。
+		/** [Fee.Graphic.UnityUpdate_CallBackInterface]UnityUpdate
 		*/
-		public void Unity_Update(float a_delta)
+		public void UnityUpdate(int a_id)
 		{
 			if(this.is_scene == true){
-				this.current.Unity_Update(a_delta);
+				this.current.Unity_Update();
 			}
 		}
 
-		/** 更新。
+		/** [Fee.Graphic.UnityLateUpdate_CallBackInterface]UnityLateUpdate
 		*/
-		public void Unity_LateUpdate(float a_delta)
+		public void UnityLateUpdate(int a_id)
 		{
 			if(this.is_scene == true){
-				this.current.Unity_LateUpdate(a_delta);
+				this.current.Unity_LateUpdate();
 			}
 		}
 
-		/** 更新。
+		/** Main
 		*/
-		public void Main()
+		private void Main()
 		{
-			switch(this.mode){
-			case Mode.WaitRequest:
-				{
-					//リクエスト待ち。
+			try{
+				if(this.playerloop_flag == true){
+					switch(this.mode){
+					case Mode.WaitRequest:
+						{
+							//リクエスト待ち。
 
-					if(this.current == null){
-						if(this.request != null){
-							this.current = this.request;
-							this.request = null;
+							if(this.current == null){
+								if(this.request != null){
+									this.current = this.request;
+									this.request = null;
 
-							Tool.Log("Scene","this.current = this.request");
-						}
+									Tool.Log("Scene","this.current = this.request");
+								}
+							}
+
+							if(this.current != null){
+								if(this.current.SceneStart() == true){
+									this.is_scene = true;
+									this.mode = Mode.Main;
+								}
+							}
+						}break;
+					case Mode.Main:
+						{
+							//メイン。
+
+							if(this.current != null){
+								if(this.current.Main() == true){
+									this.mode = Mode.SceneEnd;
+								}
+							}
+						}break;
+					case Mode.SceneEnd:
+						{
+							//シーン終了
+
+							if(this.current != null){
+								if(this.current.SceneEnd() == true){
+									this.is_scene = false;
+									this.current.Delete();
+									this.current = null;
+									this.mode = Mode.WaitRequest;
+
+									Tool.Log("Scene","this.current = null;");
+								}
+							}
+						}break;
 					}
-
-					if(this.current != null){
-						if(this.current.SceneStart() == true){
-							this.is_scene = true;
-							this.mode = Mode.Main;
-						}
-					}
-				}break;
-			case Mode.Main:
-				{
-					//メイン。
-
-					if(this.current != null){
-						if(this.current.Main() == true){
-							this.mode = Mode.SceneEnd;
-						}
-					}
-				}break;
-			case Mode.SceneEnd:
-				{
-					//シーン終了
-
-					if(this.current != null){
-						if(this.current.SceneEnd() == true){
-							this.is_scene = false;
-							this.current.Delete();
-							this.current = null;
-							this.mode = Mode.WaitRequest;
-
-							Tool.Log("Scene","this.current = null;");
-						}
-					}
-				}break;
+				}
+			}catch(System.Exception t_exception){
+				Tool.DebugReThrow(t_exception);
 			}
 		}
 	}

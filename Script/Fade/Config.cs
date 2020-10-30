@@ -32,6 +32,14 @@ namespace Fee.Fade
 		*/
 		public static bool DEBUGRETHROW_ENABLE = false;
 
+		/** プレイヤーループ。追加先
+		*/
+		public static System.Type PLAYERLOOP_TARGETTYPE = typeof(UnityEngine.PlayerLoop.FixedUpdate);
+		
+		/** プレイヤーループ。追加方法。
+		*/
+		public static Fee.PlayerLoopSystem.AddType PLAYERLOOP_ADDTYPE = Fee.PlayerLoopSystem.AddType.AddLast;
+
 		/** デフォルト。アニメ。スピード。
 		*/
 		public static float DEFAULT_ANIME_SPEED = 0.01f;

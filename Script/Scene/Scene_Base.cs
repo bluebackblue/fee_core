@@ -25,11 +25,11 @@ namespace Fee.Scene
 
 		/** [Scene_Base]更新。
 		*/
-		void Unity_Update(float a_delta);
+		void Unity_Update();
 
 		/** [Scene_Base]更新。
 		*/
-		void Unity_LateUpdate(float a_delta);
+		void Unity_LateUpdate();
 
 		/** [Scene_Base]削除。
 		*/

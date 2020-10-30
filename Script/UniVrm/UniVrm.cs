@@ -86,6 +86,10 @@ namespace Fee.UniVrm
 
 			//add_list
 			this.add_list = new System.Collections.Generic.List<WorkItem>();
+
+			{
+				//TODO:playerloop
+			}
 		}
 
 		/** [シングルトン]削除。
