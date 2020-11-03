@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief 深度。コンフィグ。
+ * @brief デプス。コンフィグ。
 */
 
 
@@ -32,13 +32,14 @@ namespace Fee.Depth
 		*/
 		public static bool DEBUGRETHROW_ENABLE = false;
 
-		/** マテリアル名。
+		/** シェーダー名。
 		*/
-		public const string MATERIAL_NAME_DEPTHVIEW = "Material/Depth/DepthView";
+		public static string SHADER_NAME_DEPTHTEXTURE = "Fee/Depth/DepthTexture";
+		//public static string SHADER_NAME_CAMERADEPTHTEXTURE = "Fee/Depth/CameraDepthTexture";
 
-		/** デフォルト。カメラデプス。
+		/** デフォルト。ブレンド率。
 		*/
-		public static float DEFAULT_CAMERA_DEPTH = 800.3f;
+		public static float DEFAULT_BLENDRATE = 0.5f;
 	}
 }
 

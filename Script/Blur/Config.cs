@@ -32,14 +32,14 @@ namespace Fee.Blur
 		*/
 		public static bool DEBUGRETHROW_ENABLE = false;
 
-		/** マテリアル名。
+		/** シェーダー名。
 		*/
-		public static string MATERIAL_NAME_BLURX = "Material/Blur/BlurX";
-		public static string MATERIAL_NAME_BLURY = "Material/Blur/BlurY";
+		public static string SHADER_NAME_BLURX = "Fee/Blur/BlurX";
+		public static string SHADER_NAME_BLURY = "Fee/Blur/BlurY";
 
-		/** デフォルト。カメラデプス。
+		/** デフォルト。ブレンド率。
 		*/
-		public static float DEFAULT_CAMERA_DEPTH = 800.5f;
+		public static float DEFAULT_BLENDRATE = 1.0f;
 	}
 }
 

@@ -67,7 +67,7 @@ namespace Fee.Bloom
 			this.texture_original = a_texture;
 		}
 
-		/** GetTexture
+		/** GetOriginalTexture
 		*/
 		public UnityEngine.Texture GetOriginalTexture()
 		{

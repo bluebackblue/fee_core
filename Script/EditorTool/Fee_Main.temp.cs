@@ -23,15 +23,12 @@
 #define DEF_ASSETBUNDLE
 #define DEF_PLATFORM
 #define DEF_NETWORK
-#define DEF_BLOOM
 #define DEF_EVENTPLATE
 #define DEF_CRYPT
 #define DEF_SOUNDPOOL
 #define DEF_TASK
 #define DEF_TIME
 #define DEF_UNIVRM
-#define DEF_BLUR
-#define DEF_DEPTH
 #define DEF_FUNCTION
 #define DEF_PERFORMANCECOUNTER
 #define DEF_VIDEO
@@ -173,11 +170,8 @@ namespace Fee.EditorTool
 				}
 
 				//ブラー。
-				#if(DEF_BLUR)
 				{
-					Fee.Blur.Blur.CreateInstance();
 				}
-				#endif
 
 				//暗号。
 				#if(DEF_CRYPT)
@@ -194,12 +188,9 @@ namespace Fee.EditorTool
 				{
 				}
 
-				//深度。
-				#if(DEF_DEPTH)
+				//デプス。
 				{
-					Fee.Depth.Depth.CreateInstance();
 				}
-				#endif
 
 				//ダイクストラ法。
 				{
@@ -449,7 +440,6 @@ namespace Fee.EditorTool
 
 			//ブラー。
 			{
-				Fee.Blur.Blur.DeleteInstance();
 			}
 
 			//暗号。
@@ -466,9 +456,8 @@ namespace Fee.EditorTool
 			{
 			}
 
-			//深度。
+			//デプス。
 			{
-				Fee.Depth.Depth.DeleteInstance();
 			}
 
 			//ダイクストラ法。

@@ -46,10 +46,6 @@ namespace Fee.Bloom
 		/** デフォルト。加算強度。
 		*/
 		public static float DEFAULT_INTENSITY = 0.3f;
-
-		/** デフォルト。カメラデプス。
-		*/
-		public static float DEFAULT_CAMERA_DEPTH = 800.2f;
 	}
 }
 

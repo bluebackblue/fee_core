@@ -4,7 +4,7 @@
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief シェーダ。ブルーム。
+ * @brief ブルーム。
 */
 
 
@@ -47,7 +47,7 @@ Shader "Fee/Bloom/AddUpSampling"
 			*/
 			struct v2f
 			{
-				float4 pos			: SV_POSITION;
+				float4 vertex		: SV_POSITION;
 				float2 uv			: TEXCOORD0;
 			};
 
@@ -62,7 +62,7 @@ Shader "Fee/Bloom/AddUpSampling"
 			{
 				v2f t_ret;
 				{
-					t_ret.pos = UnityObjectToClipPos(a_appdata.vertex);
+					t_ret.vertex = UnityObjectToClipPos(a_appdata.vertex);
 					t_ret.uv = a_appdata.uv;
 				}
 				return t_ret;
