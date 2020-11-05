@@ -31,7 +31,7 @@ namespace Fee.Fade
 
 		/** [Fee.Render2D.OnSprite2DMaterialUpdate_CallBackInterface]マテリアルの更新。描画の直前に呼び出される。
 		*/
-		public bool OnSprite2DMaterialUpdate(Fee.Render2D.Sprite2D a_sprite2d,Fee.Render2D.Material_Item a_material_item)
+		public bool OnSprite2DMaterialUpdate(Fee.Render2D.Sprite2D a_sprite2d,Fee.Render2D.MaterialItem a_material_item)
 		{
 			bool t_setpass = true;
 

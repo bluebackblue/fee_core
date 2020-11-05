@@ -143,7 +143,7 @@ namespace Fee.Ui
 			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
-		public bool OnSprite2DMaterialUpdate(Fee.Render2D.Sprite2D a_sprite2d,Fee.Render2D.Material_Item a_material_item)
+		public bool OnSprite2DMaterialUpdate(Fee.Render2D.Sprite2D a_sprite2d,Fee.Render2D.MaterialItem a_material_item)
 		{
 			bool t_setpass = false;
 

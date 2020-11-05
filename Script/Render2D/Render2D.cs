@@ -73,7 +73,7 @@ namespace Fee.Render2D
 
 		/** マテリアルリスト。
 		*/
-		private Material_List materiallist;
+		public MaterialList materiallist;
 
 		/** スプライト。
 		*/
@@ -124,7 +124,7 @@ namespace Fee.Render2D
 			this.screen = new Screen();
 
 			//マテリアルリスト。
-			this.materiallist = new Material_List();
+			this.materiallist = new MaterialList();
 
 			//スプライトリスト。
 			this.spritelist = new SpriteList();
@@ -283,14 +283,14 @@ namespace Fee.Render2D
 
 		/** 共通ＵＩテキストマテリアルアイテム。取得。
 		*/
-		public Material_Item GetUiTextMaterialItem()
+		public MaterialItem GetUiTextMaterialItem()
 		{
 			return this.materiallist.GetUiTextMaterialItem();
 		}
 
 		/** 共通ＵＩイメージマテリアルアイテム。取得。
 		*/
-		public Material_Item GetUiImageMaterialItem()
+		public MaterialItem GetUiImageMaterialItem()
 		{
 			return this.materiallist.GetUiImageMaterialItem();
 		}
@@ -442,7 +442,7 @@ namespace Fee.Render2D
 							}else{
 								//カスタムテキストマテリアルアイテム使用。
 								{
-									Material_Item t_material_item = t_text.GetCustomTextMaterialItem();
+									MaterialItem t_material_item = t_text.GetCustomTextMaterialItem();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
@@ -503,7 +503,7 @@ namespace Fee.Render2D
 							}else{
 								//カスタムテキストマテリアルアイテム使用。
 								{
-									Material_Item t_text_material_item = t_inputfield.GetCustomTextMaterialItem();
+									MaterialItem t_text_material_item = t_inputfield.GetCustomTextMaterialItem();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
@@ -523,7 +523,7 @@ namespace Fee.Render2D
 
 								//カスタムイメージマテリアルアイテム使用。
 								{
-									Material_Item t_image_material_item = t_inputfield.GetCustomImageMaterialItem();
+									MaterialItem t_image_material_item = t_inputfield.GetCustomImageMaterialItem();
 									int t_gui_x1;
 									int t_gui_y1;
 									int t_gui_x2;
@@ -564,7 +564,7 @@ namespace Fee.Render2D
 		*/
 		public void OnPostRender_DrawGL(int a_layer_index)
 		{
-			Material_Item t_current_material_item = null;
+			MaterialItem t_current_material_item = null;
 
 			int t_start_index = this.layerlist.GetStartIndex_Sprite(a_layer_index);
 			int t_last_index = this.layerlist.GetLastIndex_Sprite(a_layer_index);
@@ -587,7 +587,7 @@ namespace Fee.Render2D
 							if((t_sprite.IsVisible() == true)&&(t_sprite.GetDrawPriority() >= 0)&&(t_sprite.IsDeleteRequest() == false)&&(t_sprite.GetW() != 0)&&(t_sprite.GetH() != 0)){
 
 								//マテリアル変更。
-								Material_Item t_material_item = this.materiallist.GetMaterialItem(t_sprite.GetMaterialType());
+								MaterialItem t_material_item = this.materiallist.GetMaterialItem(t_sprite.GetMaterialType());
 								if(t_current_material_item != t_material_item){
 									t_current_material_item = t_material_item;
 									

@@ -320,7 +320,7 @@ namespace Fee.Render2D
 
 		/** カスタムテキストマテリアルアイテム。取得。
 		*/
-		public Material_Item GetCustomTextMaterialItem()
+		public MaterialItem GetCustomTextMaterialItem()
 		{
 			return this.param.GetCustomTextMaterialItem();
 		}
@@ -535,7 +535,7 @@ namespace Fee.Render2D
 
 		/** [内部からの呼び出し]テキストマテリアルアイテム。設定。
 		*/
-		public void Raw_SetTextMaterialItem(Material_Item a_material_item)
+		public void Raw_SetTextMaterialItem(MaterialItem a_material_item)
 		{
 			this.param.Raw_SetTextMaterialItem(a_material_item);
 		}

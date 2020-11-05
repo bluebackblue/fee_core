@@ -134,6 +134,8 @@ namespace Fee.Render2D
 			User7,
 			User8,
 			User9,
+
+			Max,
 		}
 
 		/** MATERIAL_DATA

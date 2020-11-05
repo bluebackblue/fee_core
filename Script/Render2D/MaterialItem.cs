@@ -12,9 +12,9 @@
 */
 namespace Fee.Render2D
 {
-	/** Material_Item
+	/** MaterialItem
 	*/
-	public class Material_Item
+	public class MaterialItem
 	{
 		/** material
 		*/
@@ -54,7 +54,7 @@ namespace Fee.Render2D
 
 		/** constructor
 		*/
-		public Material_Item(UnityEngine.Material a_material_raw,Fee.Material.Status a_material_status,bool a_duplicate)
+		public MaterialItem(UnityEngine.Material a_material_raw,Fee.Material.Status a_material_status,bool a_duplicate)
 		{
 			//material_status
 			this.material_status = a_material_status;
@@ -142,9 +142,9 @@ namespace Fee.Render2D
 
 		/** マテリアルアイテム。複製。
 		*/
-		public Material_Item DuplicateMaterialItem()
+		public MaterialItem DuplicateMaterialItem()
 		{
-			Material_Item t_material_item = new Material_Item(this.material,this.material_status,true);
+			MaterialItem t_material_item = new MaterialItem(this.material,this.material_status,true);
 			return t_material_item;
 		}
 

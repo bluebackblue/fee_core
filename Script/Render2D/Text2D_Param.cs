@@ -48,7 +48,7 @@ namespace Fee.Render2D
 		private UnityEngine.Transform raw_transform;
 		private UnityEngine.UI.Text raw_text;
 		private UnityEngine.RectTransform raw_recttransform;
-		private Fee.Render2D.Material_Item raw_custom_text_material_item;
+		private Fee.Render2D.MaterialItem raw_custom_text_material_item;
 		private UnityEngine.UI.Outline raw_outline;
 		private UnityEngine.UI.Shadow raw_shadow;
 
@@ -216,7 +216,7 @@ namespace Fee.Render2D
 
 		/** カスタムテキストマテリアルアイテム。取得。
 		*/
-		public Material_Item GetCustomTextMaterialItem()
+		public MaterialItem GetCustomTextMaterialItem()
 		{
 			return this.raw_custom_text_material_item;
 		}
@@ -449,7 +449,7 @@ namespace Fee.Render2D
 
 		/** [内部からの呼び出し]テキストマテリアルアイテム。設定。
 		*/
-		public void Raw_SetTextMaterialItem(Material_Item a_material_item)
+		public void Raw_SetTextMaterialItem(MaterialItem a_material_item)
 		{
 			a_material_item.SetMaterialToInstance(this.raw_text);
 		}

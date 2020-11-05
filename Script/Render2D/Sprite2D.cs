@@ -190,7 +190,7 @@ namespace Fee.Render2D
 			デフォルト。
 
 		*/
-		public bool OnSprite2DMaterialUpdate(Sprite2D a_sprite2d,Material_Item a_material_item)
+		public bool OnSprite2DMaterialUpdate(Sprite2D a_sprite2d,MaterialItem a_material_item)
 		{
 			bool t_setpass = false;
 
@@ -214,7 +214,7 @@ namespace Fee.Render2D
 			return == true : 変更あり。直後にSetPassの呼び出しが行われます。
 
 		*/
-		public bool UpdateMaterialItem(Material_Item a_material_item)
+		public bool UpdateMaterialItem(MaterialItem a_material_item)
 		{
 			return this.callback_materialupdate.OnSprite2DMaterialUpdate(this,a_material_item);
 		}
