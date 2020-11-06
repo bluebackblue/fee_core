@@ -21,7 +21,7 @@ namespace Fee.PerformanceCounter
 		*/
 		private void FixedUpdate()
 		{
-			if(PerformanceCounter.GetInstance() != null){
+			if(PerformanceCounter.IsCreateInstance() == true){
 				PerformanceCounter.GetInstance().Unity_FixedUpdate_Last();
 			}
 		}
@@ -30,7 +30,7 @@ namespace Fee.PerformanceCounter
 		*/
 		private void Update()
 		{
-			if(PerformanceCounter.GetInstance() != null){
+			if(PerformanceCounter.IsCreateInstance() == true){
 				PerformanceCounter.GetInstance().Unity_Update_Last();
 			}
 		}
@@ -39,7 +39,7 @@ namespace Fee.PerformanceCounter
 		*/
 		private void LateUpdate()
 		{
-			if(PerformanceCounter.GetInstance() != null){
+			if(PerformanceCounter.IsCreateInstance() == true){
 				PerformanceCounter.GetInstance().Unity_LateUpdate_Last();
 			}
 		}
@@ -48,7 +48,7 @@ namespace Fee.PerformanceCounter
 		*/
 		private void OnPostRender()
 		{
-			if(PerformanceCounter.GetInstance() != null){
+			if(PerformanceCounter.IsCreateInstance() == true){
 				PerformanceCounter.GetInstance().Unity_Render_Last();
 				PerformanceCounter.GetInstance().Draw();
 			}

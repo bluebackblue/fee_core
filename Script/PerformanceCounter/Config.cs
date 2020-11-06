@@ -80,9 +80,9 @@ namespace Fee.PerformanceCounter
 		*/
 		public static UnityEngine.Color COLOR_RENDER = new UnityEngine.Color(1.0f,1.0f,0.0f,1.0f);
 
-		/** MATERIAL_PATH
+		/** SHADER_NAME_PERFORMANCECOUNTER
 		*/
-		public static string MATERIAL_PATH = "Material/PerformanceCounter/Sprite";
+		public static string SHADER_NAME_PERFORMANCECOUNTER = "Fee/PerformanceCounter/PerformanceCounter";
 	}
 }
 

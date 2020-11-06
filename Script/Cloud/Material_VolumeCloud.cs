@@ -61,7 +61,7 @@ namespace Fee.Cloud
 
 			/** noiseoffset
 			*/
-			this.noiseoffset = Config.DEFAULT_NOISEOFFSET;
+			this.noiseoffset = UnityEngine.Vector3.zero;
 
 			/** color
 			*/

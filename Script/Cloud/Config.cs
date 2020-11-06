@@ -48,10 +48,6 @@ namespace Fee.Cloud
 		*/
 		public static float DEFAULT_INV_SCALE = 1.3f;
 
-		/** デフォルト。ノイズオフセット。
-		*/
-		public static UnityEngine.Vector3 DEFAULT_NOISEOFFSET = new UnityEngine.Vector3(0.0f,0.0f,0.0f);
-
 		/** デフォルト。色。
 		*/
 		public static UnityEngine.Color DEFAULT_COLOR = new UnityEngine.Color(1.0f,1.0f,1.0f,1.0f);
