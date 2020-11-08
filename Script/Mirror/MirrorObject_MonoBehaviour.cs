@@ -13,9 +13,6 @@
 namespace Fee.Mirror
 {
 	/** MirrorObject_MonoBehaviour
-
-		TODO:MonoBehaviour
-
 	*/
 	public class MirrorObject_MonoBehaviour : UnityEngine.MonoBehaviour
 	{
@@ -23,19 +20,21 @@ namespace Fee.Mirror
 		*/
 		public MirrorCamera_MonoBehaviour mirror_camera;
 
-		/** s_inside_rendering
+		/** is_render
 		*/
-		private static bool s_inside_rendering = false;
+		private bool is_render = false;
 
 		/** OnWillRenderObject
 		*/
 		public void OnWillRenderObject()
 		{
-			if(s_inside_rendering == false){
-				s_inside_rendering = true;
+			if(this.is_render == false){
+				this.is_render = true;
 				this.mirror_camera.SetMirrorPlane(this.transform.rotation,this.transform.position);
 				this.mirror_camera.RenderFromOnWillRenderObject();
-				s_inside_rendering = false;
+				this.is_render = false;
+			}else{
+				//ミラーカメラにミラーが写っている。
 			}
 		}
 	}
