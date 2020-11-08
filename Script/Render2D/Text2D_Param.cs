@@ -64,7 +64,7 @@ namespace Fee.Render2D
 			this.raw_gameobject.SetActive(false);
 
 			//共通マテリアルアイテム複製。
-			this.raw_custom_text_material_item = Render2D.GetInstance().GetUiTextMaterialItem().DuplicateMaterialItem();
+			this.raw_custom_text_material_item = Render2D.GetInstance().GettMaterialItem(MaterialType.UiText).Duplicate();
 		}
 
 		/** プールから作成。

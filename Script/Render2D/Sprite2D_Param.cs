@@ -26,7 +26,7 @@ namespace Fee.Render2D
 
 		/** マテリアルタイプ。
 		*/
-		private Config.MaterialType materialtype;
+		private MaterialType materialtype;
 
 		/** 初期化。
 		*/
@@ -88,14 +88,14 @@ namespace Fee.Render2D
 
 		/** マテリアルタイプ。設定。
 		*/
-		public void SetMaterialType(Config.MaterialType a_materialtype)
+		public void SetMaterialType(MaterialType a_materialtype)
 		{
 			this.materialtype = a_materialtype;
 		}
 
 		/** マテリアルタイプ。取得。
 		*/
-		public Config.MaterialType GetMaterialType()
+		public MaterialType GetMaterialType()
 		{
 			return this.materialtype;
 		}

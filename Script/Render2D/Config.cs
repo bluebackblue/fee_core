@@ -50,18 +50,6 @@ namespace Fee.Render2D
 		*/
 		public static Fee.Geometry.Rect2D_R<int> VIRTUAL_RECT_MAX = new Fee.Geometry.Rect2D_R<int>(0,0,VIRTUAL_W,VIRTUAL_H);
 
-		/** USE_ASYNC
-		*/
-		/*
-		#if(UNITY_5)
-		public static bool USE_ASYNC = false;
-		#elif(UNITY_WEBGL)
-		public static bool USE_ASYNC = false;
-		#else
-		public static bool USE_ASYNC = true;
-		#endif
-		*/
-
 		/** DEBUG_TRACECOUNT
 		*/
 		public static int DEBUG_TRACECOUNT = 4;
@@ -110,125 +98,79 @@ namespace Fee.Render2D
 		*/
 		public static bool DELETE_EVENTSYSTEM = true;
 
-		/** マテリアルタイプ。
+		/** SHADER_LIST
 		*/
-		public enum MaterialType
-		{
-			None = -1,
-
-			/**  Preset
-			*/
-			Simple = 0,
-			Alpha,
-			AlphaClip,
-			Add,
-
-			/** User
-			*/
-			User1,
-			User2,
-			User3,
-			User4,
-			User5,
-			User6,
-			User7,
-			User8,
-			User9,
-
-			Max,
-		}
-
-		/** MATERIAL_DATA
-		*/
-		public static Fee.Material.Status[] MATERIAL_DATA = {
-
-			//MaterialType.Simple
-			new Fee.Material.Status(
-
-				//resource_path
-				"Material/Render2D/Simple",
-
-				//property
-				new string[]{
-					"_MainTex",
+		public static System.Collections.Generic.Dictionary<MaterialType,ShaderItem> SHADER_LIST = new System.Collections.Generic.Dictionary<MaterialType,ShaderItem>(){
+			{
+				MaterialType.Simple,
+				new ShaderItem(){
+					shader_name = "Fee/Render2D/Simple",
+					property_list = new string[]{
+						"_MainTex",
+					}
 				}
-			),
-
-			//MaterialType.Alpha
-			new Fee.Material.Status(
-
-				//resource_path
-				"Material/Render2D/Alpha",
-
-				//property
-				new string[]{
-					"_MainTex",
+			},
+			{
+				MaterialType.Alpha,
+				new ShaderItem(){
+					shader_name = "Fee/Render2D/Alpha",
+					property_list = new string[]{
+						"_MainTex",
+					}
 				}
-			),
-
-			//MaterialType.AlphaClip
-			new Fee.Material.Status(
-
-				//resource_path
-				"Material/Render2D/AlphaClip",
-
-				//property
-				new string[]{
-					"_MainTex",
-					"clip_flag",
-					"clip_x1",
-					"clip_y1",
-					"clip_x2",
-					"clip_y2",
+			},
+			{
+				MaterialType.AlphaClip,
+				new ShaderItem(){
+					shader_name = "Fee/Render2D/AlphaClip",
+					property_list = new string[]{
+						"_MainTex",
+						"clip_flag",
+						"clip_x1",
+						"clip_y1",
+						"clip_x2",
+						"clip_y2",
+					}
 				}
-			),
-
-			//MaterialType.Add
-			new Fee.Material.Status(
-
-				//resource_path
-				"Material/Render2D/Add",
-
-				//property
-				new string[]{
-					"_MainTex",
+			},
+			{
+				MaterialType.Add,
+				new ShaderItem(){
+					shader_name = "Fee/Render2D/Add",
+					property_list = new string[]{
+						"_MainTex",
+					}
 				}
-			),
+			},
+			{
+				MaterialType.UiText,
+				new ShaderItem(){
+					shader_name = "Fee/Render2D/UiText",
+					property_list = new string[]{
+						"_MainTex",
+						"clip_flag",
+						"clip_x1",
+						"clip_y1",
+						"clip_x2",
+						"clip_y2",
+					}
+				}
+			},
+			{
+				MaterialType.UiImage,
+				new ShaderItem(){
+					shader_name = "Fee/Render2D/UiImage",
+					property_list = new string[]{
+						"_MainTex",
+						"clip_flag",
+						"clip_x1",
+						"clip_y1",
+						"clip_x2",
+						"clip_y2",
+					}
+				}
+			},
 		};
-
-		/** マテリアル名。ＵＩテキスト。
-		*/
-		public static Fee.Material.Status MATERIAL_DATA_UITEXT = new Fee.Material.Status(
-			//resource_path
-			"Material/Render2D/UiText",
-
-			//property
-			new string[]{
-				"_MainTex",
-				"clip_flag",
-				"clip_x1",
-				"clip_y1",
-				"clip_x2",
-				"clip_y2",
-			}
-		);
-
-		/** マテリアル名。ＵＩイメージ。
-		*/
-		public static Fee.Material.Status MATERIAL_DATA_UIIMAGE = new Fee.Material.Status(
-			//resource_path
-			"Material/Render2D/UiImage",
-
-			//property
-			new string[]{
-				"_MainTex",
-				"clip_flag",
-				"clip_x1",
-				"clip_y1",
-				"clip_x2",
-				"clip_y2",
-			}
-		);
 
 		/** デフォルト。テキスト。フォントサイズ。
 		*/

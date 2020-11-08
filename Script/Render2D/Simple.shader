@@ -1,3 +1,5 @@
+
+
 /**
  * Copyright (c) blueback
  * Released under the MIT License
@@ -10,18 +12,22 @@ Shader "Fee/Render2D/Simple"
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
+		_MainTex			("Texture",2D)			= "white"{}
 	}
 	SubShader
 	{
-		Tags { "RenderType" = "Opaque" }
-		Cull Off
-		ZWrite Off
-		ZTest Always
-
+		Tags
+		{
+			"RenderType" = "Opaque"
+		}
 		Pass
 		{
+			Cull Off
+			ZWrite Off
+			ZTest Always
+
 			CGPROGRAM
+
 			#pragma vertex vert
 			#pragma fragment frag
 			
@@ -31,24 +37,23 @@ Shader "Fee/Render2D/Simple"
 			*/
 			struct appdata
 			{
-				float4 vertex : POSITION;
-				fixed4 color : COLOR;
-				float2 uv : TEXCOORD0;
+				float4 vertex		: POSITION;
+				fixed4 color		: COLOR;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** v2f
 			*/
 			struct v2f
 			{
-				float4 pos : SV_POSITION;
-				fixed4 color : COLOR;
-				float2 uv : TEXCOORD0;
+				float4 vertex		: SV_POSITION;
+				fixed4 color		: COLOR;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** _MainTex
 			*/
 			sampler2D _MainTex;
-			float4 _MainTex_ST;
 			
 			/** vert
 			*/
@@ -56,9 +61,9 @@ Shader "Fee/Render2D/Simple"
 			{
 				v2f t_ret;
 				{
-					t_ret.pos = UnityObjectToClipPos(a_appdata.vertex);
+					t_ret.vertex = UnityObjectToClipPos(a_appdata.vertex);
 					t_ret.color = a_appdata.color;
-					t_ret.uv = TRANSFORM_TEX(a_appdata.uv,_MainTex);
+					t_ret.uv = a_appdata.uv;
 				}
 				return t_ret;
 			}

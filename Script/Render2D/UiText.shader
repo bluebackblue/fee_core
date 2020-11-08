@@ -1,3 +1,5 @@
+
+
 /**
  * Copyright (c) blueback
  * Released under the MIT License
@@ -10,34 +12,30 @@ Shader "Fee/Render2D/UiText"
 {
 	Properties
 	{
-		/** _MainTex
-		*/
-		_MainTex ("Texture", 2D) = "white" {}
-
-		/** _Color
-		*/
-		_Color ("Text Color", Color) = (1,1,1,1)
-
-		/** clip
-		*/
-		[MaterialToggle] clip_flag ("Clip Flag", Int) = 0
-		clip_x1 ("Clip X1", Float) = 0
-		clip_y1 ("Clip Y1", Float) = 0
-		clip_x2 ("Clip X2", Float) = 0
-		clip_y2 ("Clip Y2", Float) = 0
+		_MainTex							("_MainTex",2D)					= "white"{}
+		_Color								("_Color",Color)				= (1,1,1,1)
+		[MaterialToggle] clip_flag			("clip_flag",Int)				= 0
+		clip_x1								("clip_x1", Float)				= 0
+		clip_y1								("clip_y1", Float)				= 0
+		clip_x2								("clip_x2", Float)				= 0
+		clip_y2								("clip_y2", Float)				= 0
 	}
 	SubShader
 	{
-		Tags { "RenderType" = "Transparent" "Queue" = "Transparent"}
-
-		Cull Off
-		ZWrite Off
-		ZTest Always
-		Blend SrcAlpha OneMinusSrcAlpha
-
+		Tags
+		{
+			"RenderType" = "Transparent"
+			"Queue" = "Transparent"
+		}
 		Pass
 		{
+			Cull Off
+			ZTest Always
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+
 			CGPROGRAM
+
 			#pragma vertex vert
 			#pragma fragment frag
 			
@@ -47,18 +45,18 @@ Shader "Fee/Render2D/UiText"
 			*/
 			struct appdata
 			{
-				float4 vertex : POSITION;
-				float4 color : COLOR;
-				float2 uv : TEXCOORD0;
+				float4 vertex		: POSITION;
+				float4 color		: COLOR;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** v2f
 			*/
 			struct v2f
 			{
-				float4 pos : SV_POSITION;
-				float4 color : COLOR;
-				float2 uv : TEXCOORD0;
+				float4 vertex		: SV_POSITION;
+				float4 color		: COLOR;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** _MainTex
@@ -87,7 +85,7 @@ Shader "Fee/Render2D/UiText"
 			{
 				v2f t_ret;
 				{
-					t_ret.pos = UnityObjectToClipPos(a_appdata.vertex);
+					t_ret.vertex = UnityObjectToClipPos(a_appdata.vertex);
 					t_ret.color = a_appdata.color * _Color;
 					t_ret.uv = TRANSFORM_TEX(a_appdata.uv,_MainTex);
 				}
@@ -100,23 +98,23 @@ Shader "Fee/Render2D/UiText"
 			{
 				//クリップ。
 				if(clip_flag > 0){
-					if(clip_x1>a_v2f.pos.x){
+					if(clip_x1>a_v2f.vertex.x){
 						discard;
 					}
 
-					if(a_v2f.pos.x>clip_x2){
+					if(a_v2f.vertex.x>clip_x2){
 						discard;
 					}
 
 					float t_pos_y;
 					#if(UNITY_UV_STARTS_AT_TOP)
 					if(_ProjectionParams.x < 0){
-						t_pos_y = _ScreenParams.y - a_v2f.pos.y;
+						t_pos_y = _ScreenParams.y - a_v2f.vertex.y;
 					}else{
-						t_pos_y = a_v2f.pos.y;
+						t_pos_y = a_v2f.vertex.y;
 					}
 					#else
-					t_pos_y = _ScreenParams.y - a_v2f.pos.y;
+					t_pos_y = _ScreenParams.y - a_v2f.vertex.y;
 					#endif
 
 					if(clip_y2 > t_pos_y){

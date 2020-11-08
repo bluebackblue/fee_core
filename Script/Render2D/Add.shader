@@ -1,28 +1,35 @@
+
+
 /**
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief シェーダ。半透明。
+ * @brief シェーダ。加算。
 */
 
 
-Shader "Fee/Render2D/Alpha"
+Shader "Fee/Render2D/Add"
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
+		_MainTex			("Texture", 2D)			= "white"{}
 	}
 	SubShader
 	{
-		Tags { "RenderType" = "Transparent" "Queue" = "Transparent"}
-		Cull Off
-		ZWrite Off
-		ZTest Always
-		Blend SrcAlpha OneMinusSrcAlpha
-
+		Tags
+		{
+			"RenderType" = "Transparent"
+			"Queue" = "Transparent"
+		}
 		Pass
 		{
+			Cull Off
+			ZWrite Off
+			ZTest Always
+			Blend SrcAlpha One
+
 			CGPROGRAM
+
 			#pragma vertex vert
 			#pragma fragment frag
 			
@@ -32,24 +39,23 @@ Shader "Fee/Render2D/Alpha"
 			*/
 			struct appdata
 			{
-				float4 vertex : POSITION;
-				fixed4 color : COLOR;
-				float2 uv : TEXCOORD0;
+				float4 vertex		: POSITION;
+				fixed4 color		: COLOR;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** v2f
 			*/
 			struct v2f
 			{
-				float4 pos : SV_POSITION;
-				fixed4 color : COLOR;
-				float2 uv : TEXCOORD0;
+				float4 vertex		: SV_POSITION;
+				fixed4 color		: COLOR;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** _MainTex
 			*/
 			sampler2D _MainTex;
-			float4 _MainTex_ST;
 			
 			/** vert
 			*/
@@ -57,9 +63,9 @@ Shader "Fee/Render2D/Alpha"
 			{
 				v2f t_ret;
 				{
-					t_ret.pos = UnityObjectToClipPos(a_appdata.vertex);
+					t_ret.vertex = UnityObjectToClipPos(a_appdata.vertex);
 					t_ret.color = a_appdata.color;
-					t_ret.uv = TRANSFORM_TEX(a_appdata.uv,_MainTex);
+					t_ret.uv = a_appdata.uv;
 				}
 				return t_ret;
 			}
@@ -70,6 +76,7 @@ Shader "Fee/Render2D/Alpha"
 			{
 				return tex2D(_MainTex,a_v2f.uv) * a_v2f.color;
 			}
+
 			ENDCG
 		}
 	}

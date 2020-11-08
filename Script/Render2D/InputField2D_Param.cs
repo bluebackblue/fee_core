@@ -68,8 +68,8 @@ namespace Fee.Render2D
 			}
 
 			//共通マテリアルアイテム複製。
-			this.raw_custom_text_material_item = Render2D.GetInstance().GetUiTextMaterialItem().DuplicateMaterialItem();
-			this.raw_custom_image_material_item = Render2D.GetInstance().GetUiImageMaterialItem().DuplicateMaterialItem();
+			this.raw_custom_text_material_item = Render2D.GetInstance().GettMaterialItem(MaterialType.UiText).Duplicate();
+			this.raw_custom_image_material_item = Render2D.GetInstance().GettMaterialItem(MaterialType.UiImage).Duplicate();
 		}
 
 		/** プールから作成。

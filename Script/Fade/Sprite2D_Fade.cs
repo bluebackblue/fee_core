@@ -25,7 +25,7 @@ namespace Fee.Fade
 		public Sprite2D_Fade(Fee.Deleter.Deleter a_deleter,long a_drawpriority)
 		{
 			this.sprite = Fee.Render2D.Sprite2D.Create(a_deleter,a_drawpriority);
-			this.sprite.SetMaterialType(Fee.Render2D.Config.MaterialType.Simple);
+			this.sprite.SetMaterialType(Fee.Render2D.MaterialType.Simple);
 			this.sprite.SetOnSprite2DMaterialUpdate(this);
 		}
 
@@ -325,14 +325,14 @@ namespace Fee.Fade
 
 		/** マテリアルタイプ。設定。
 		*/
-		public void SetMaterialType(Fee.Render2D.Config.MaterialType a_materialtype)
+		public void SetMaterialType(Fee.Render2D.MaterialType a_materialtype)
 		{
 			this.sprite.SetMaterialType(a_materialtype);
 		}
 
 		/** マテリアルタイプ。取得。
 		*/
-		public Fee.Render2D.Config.MaterialType GetMaterialType()
+		public Fee.Render2D.MaterialType GetMaterialType()
 		{
 			return this.sprite.GetMaterialType();
 		}

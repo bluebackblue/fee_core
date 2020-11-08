@@ -138,7 +138,7 @@ namespace Fee.Ui
 
 		/** マテリアルタイプ。設定。
 		*/
-		public void SetBgMaterialType(Render2D.Config.MaterialType a_material_type)
+		public void SetBgMaterialType(Render2D.MaterialType a_material_type)
 		{
 			this.bg_sprite.SetMaterialType(a_material_type);
 		}

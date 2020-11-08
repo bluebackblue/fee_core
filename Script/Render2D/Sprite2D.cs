@@ -621,14 +621,14 @@ namespace Fee.Render2D
 
 		/** マテリアルタイプ。設定。
 		*/
-		public void SetMaterialType(Config.MaterialType a_materialtype)
+		public void SetMaterialType(MaterialType a_materialtype)
 		{
 			this.param.SetMaterialType(a_materialtype);
 		}
 
 		/** マテリアルタイプ。取得。
 		*/
-		public Config.MaterialType GetMaterialType()
+		public MaterialType GetMaterialType()
 		{
 			return this.param.GetMaterialType();
 		}

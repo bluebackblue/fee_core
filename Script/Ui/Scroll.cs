@@ -60,7 +60,7 @@ namespace Fee.Ui
 				t_this.bg.SetRect(0,0,0,0);
 				t_this.bg.SetTextureRect(in Fee.Render2D.Config.TEXTURE_RECT_MAX);
 				t_this.bg.SetColor(0.0f,0.0f,0.0f,1.0f);
-				t_this.bg.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
+				t_this.bg.SetMaterialType(Fee.Render2D.MaterialType.Alpha);
 			
 				//背景。
 				t_this.bg_enable = true;
@@ -76,7 +76,7 @@ namespace Fee.Ui
 				t_this.bar.SetRect(0,0,0,0);
 				t_this.bar.SetTextureRect(in Fee.Render2D.Config.TEXTURE_RECT_MAX);
 				t_this.bar.SetColor(1.0f,1.0f,1.0f,1.0f);
-				t_this.bar.SetMaterialType(Fee.Render2D.Config.MaterialType.Alpha);
+				t_this.bar.SetMaterialType(Fee.Render2D.MaterialType.Alpha);
 				t_this.bar.SetVisible(false);
 
 				//バー。

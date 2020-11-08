@@ -52,7 +52,7 @@ namespace Fee.Ui
 				t_this.clip_rect.Set(0,0,0,0);
 
 				//マテリアル設定。
-				t_this.sprite.SetMaterialType(Fee.Render2D.Config.MaterialType.AlphaClip);
+				t_this.sprite.SetMaterialType(Fee.Render2D.MaterialType.AlphaClip);
 				t_this.sprite.SetOnSprite2DMaterialUpdate(t_this);
 
 				if(a_deleter != null){
@@ -461,14 +461,14 @@ namespace Fee.Ui
 
 		/** マテリアルタイプ。設定。
 		*/
-		public void SetMaterialType(Fee.Render2D.Config.MaterialType a_materialtype)
+		public void SetMaterialType(Fee.Render2D.MaterialType a_materialtype)
 		{
 			this.sprite.SetMaterialType(a_materialtype);
 		}
 
 		/** マテリアルタイプ。取得。
 		*/
-		public Fee.Render2D.Config.MaterialType GetMaterialType()
+		public Fee.Render2D.MaterialType GetMaterialType()
 		{
 			return this.sprite.GetMaterialType();
 		}

@@ -1,28 +1,35 @@
+
+
 /**
  * Copyright (c) blueback
  * Released under the MIT License
  * https://github.com/bluebackblue/fee/blob/master/LICENSE.txt
- * @brief シェーダ。加算。
+ * @brief シェーダ。半透明。
 */
 
 
-Shader "Fee/Render2D/Add"
+Shader "Fee/Render2D/Alpha"
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
+		_MainTex			("_MainTex",2D)			= "white"{}
 	}
 	SubShader
 	{
-		Tags { "RenderType" = "Transparent" "Queue" = "Transparent"}
-		Cull Off
-		ZWrite Off
-		ZTest Always
-		Blend SrcAlpha One
-
+		Tags
+		{
+			"RenderType" = "Transparent"
+			"Queue" = "Transparent"
+		}
 		Pass
 		{
+			Cull Off
+			ZWrite Off
+			ZTest Always
+			Blend SrcAlpha OneMinusSrcAlpha
+
 			CGPROGRAM
+
 			#pragma vertex vert
 			#pragma fragment frag
 			
@@ -32,18 +39,18 @@ Shader "Fee/Render2D/Add"
 			*/
 			struct appdata
 			{
-				float4 vertex	: POSITION;
+				float4 vertex		: POSITION;
 				fixed4 color		: COLOR;
-				float2 uv		: TEXCOORD0;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** v2f
 			*/
 			struct v2f
 			{
-				float4 vertex	: SV_POSITION;
+				float4 vertex		: SV_POSITION;
 				fixed4 color		: COLOR;
-				float2 uv		: TEXCOORD0;
+				float2 uv			: TEXCOORD0;
 			};
 
 			/** _MainTex

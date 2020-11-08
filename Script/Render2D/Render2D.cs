@@ -281,18 +281,11 @@ namespace Fee.Render2D
 			return this.default_font;
 		}
 
-		/** 共通ＵＩテキストマテリアルアイテム。取得。
+		/** マテリアルアイテム。取得。
 		*/
-		public MaterialItem GetUiTextMaterialItem()
+		public MaterialItem GettMaterialItem(MaterialType a_material_type)
 		{
-			return this.materiallist.GetUiTextMaterialItem();
-		}
-
-		/** 共通ＵＩイメージマテリアルアイテム。取得。
-		*/
-		public MaterialItem GetUiImageMaterialItem()
-		{
-			return this.materiallist.GetUiImageMaterialItem();
+			return this.materiallist.GetMaterialItem(a_material_type);
 		}
 
 		/** スプライト。登録。
@@ -438,7 +431,7 @@ namespace Fee.Render2D
 
 							if(t_text.IsClip() == false){
 								//共通ＵＩテキストマテリアルアイテム使用。
-								t_text.Raw_SetTextMaterialItem(this.materiallist.GetUiTextMaterialItem());
+								t_text.Raw_SetTextMaterialItem(this.materiallist.GetMaterialItem(MaterialType.UiText));
 							}else{
 								//カスタムテキストマテリアルアイテム使用。
 								{
@@ -498,8 +491,8 @@ namespace Fee.Render2D
 
 							if(t_inputfield.IsClip() == false){
 								//共通ＵＩイメージマテリアルアイテム使用。
-								t_inputfield.Raw_SetTextMaterialItem(this.materiallist.GetUiTextMaterialItem());
-								t_inputfield.Raw_SetImageMaterialItem(this.materiallist.GetUiImageMaterialItem());
+								t_inputfield.Raw_SetTextMaterialItem(this.materiallist.GetMaterialItem(MaterialType.UiText));
+								t_inputfield.Raw_SetImageMaterialItem(this.materiallist.GetMaterialItem(MaterialType.UiImage));
 							}else{
 								//カスタムテキストマテリアルアイテム使用。
 								{

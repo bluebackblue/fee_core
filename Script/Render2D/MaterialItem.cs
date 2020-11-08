@@ -20,9 +20,9 @@ namespace Fee.Render2D
 		*/
 		private UnityEngine.Material material;
 
-		/** status
+		/** property_list
 		*/
-		private Fee.Material.Status material_status;
+		private string[] property_list;
 
 		/** main_texture
 		*/
@@ -54,79 +54,72 @@ namespace Fee.Render2D
 
 		/** constructor
 		*/
-		public MaterialItem(UnityEngine.Material a_material_raw,Fee.Material.Status a_material_status,bool a_duplicate)
+		public MaterialItem(UnityEngine.Material a_material_raw,string[] a_property_list)
 		{
-			//material_status
-			this.material_status = a_material_status;
+			//property_list
+			this.property_list = a_property_list;
 
 			//material
-			if(a_duplicate == true){
-				//複製。
-				this.material = new UnityEngine.Material(a_material_raw);
-			}else{
-				//参照。
-				this.material = a_material_raw;
-			}
+			this.material = a_material_raw;
 
 			//プロパティ初期化。
-			string[] t_property_list = this.material_status.property_list;
-			for(int ii=0;ii<t_property_list.Length;ii++){
-				switch(t_property_list[ii]){
+			for(int ii=0;ii<this.property_list.Length;ii++){
+				switch(this.property_list[ii]){
 				case "clip_flag":
 					{
-						this.clip_flag.Initialize(this.material,t_property_list[ii]);
+						this.clip_flag.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "clip_x1":
 					{
-						this.clip_x1.Initialize(this.material,t_property_list[ii]);
+						this.clip_x1.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "clip_y1":
 					{
-						this.clip_y1.Initialize(this.material,t_property_list[ii]);
+						this.clip_y1.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "clip_x2":
 					{
-						this.clip_x2.Initialize(this.material,t_property_list[ii]);
+						this.clip_x2.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "clip_y2":
 					{
-						this.clip_y2.Initialize(this.material,t_property_list[ii]);
+						this.clip_y2.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "corner_size":
 					{
-						this.corner_size.Initialize(this.material,t_property_list[ii]);
+						this.corner_size.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "texture_x":
 					{
-						this.texture_x.Initialize(this.material,t_property_list[ii]);
+						this.texture_x.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "texture_y":
 					{
-						this.texture_y.Initialize(this.material,t_property_list[ii]);
+						this.texture_y.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "texture_w":
 					{
-						this.texture_w.Initialize(this.material,t_property_list[ii]);
+						this.texture_w.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "texture_h":
 					{
-						this.texture_h.Initialize(this.material,t_property_list[ii]);
+						this.texture_h.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "rect_w":
 					{
-						this.rect_w.Initialize(this.material,t_property_list[ii]);
+						this.rect_w.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "rect_h":
 					{
-						this.rect_h.Initialize(this.material,t_property_list[ii]);
+						this.rect_h.Initialize(this.material,this.property_list[ii]);
 					}break;
 				case "_MainTex":
 					{
-						this.main_texture.Initialize(this.material,t_property_list[ii]);
+						this.main_texture.Initialize(this.material,this.property_list[ii]);
 					}break;
 				default:
 					{
-						Tool.Log("Material_Item",this.material.name + " : " + t_property_list[ii]);
+						Tool.Log("Material_Item",this.material.name + " : " + this.property_list[ii]);
 					}break;
 				}
 			}
@@ -140,12 +133,11 @@ namespace Fee.Render2D
 			this.material = null;
 		}
 
-		/** マテリアルアイテム。複製。
+		/** 複製。
 		*/
-		public MaterialItem DuplicateMaterialItem()
+		public MaterialItem Duplicate()
 		{
-			MaterialItem t_material_item = new MaterialItem(this.material,this.material_status,true);
-			return t_material_item;
+			return new MaterialItem(new UnityEngine.Material(this.material),this.property_list);
 		}
 
 		/** マテリアルを設定する。、

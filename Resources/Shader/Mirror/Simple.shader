@@ -10,7 +10,7 @@ Shader "Fee/Mirror/Simple"
 {
 	Properties
 	{
-		texture_mirror("",2D) = "white" {}
+		texture_mirror		("texture_mirror",2D)		= "white"{}
 	}
 	SubShader
 	{
