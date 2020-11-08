@@ -62,28 +62,16 @@ namespace Fee.Mirror
 			}
 		}
 
-		/** material
-		*/
-		private UnityEngine.Material material;
-
 		/** [シングルトン]constructor
 		*/
 		private Mirror()
 		{
-			this.material = UnityEngine.Resources.Load<UnityEngine.Material>(Config.MATERIAL_NAME_SIMPLE);
 		}
 
 		/** [シングルトン]削除。
 		*/
 		private void Delete()
 		{
-		}
-
-		/** GetMaterial
-		*/
-		public UnityEngine.Material GetMaterial()
-		{
-			return this.material;
 		}
 
 		/** ミラー。作成。
@@ -97,7 +85,7 @@ namespace Fee.Mirror
 					//ミラーマテリアル。設定。
 					UnityEngine.Renderer t_renderer = a_mirror_object.GetComponent<UnityEngine.Renderer>();
 					if(t_renderer != null){
-						t_renderer.material = new UnityEngine.Material(this.material);
+						t_renderer.material = new UnityEngine.Material(UnityEngine.Shader.Find(Config.SHADER_NAME_MIRROR));
 						t_renderer.material.SetTexture("texture_mirror",t_mirror_camera.GetRenderTexture());
 					}
 

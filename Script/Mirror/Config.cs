@@ -34,7 +34,7 @@ namespace Fee.Mirror
 
 		/** マテリアル。
 		*/
-		public static string MATERIAL_NAME_SIMPLE = "Material/Mirror/Simple";
+		public static string SHADER_NAME_MIRROR = "Fee/Mirror/Mirror";
 	}
 }
 

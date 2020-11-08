@@ -1,3 +1,5 @@
+
+
 /**
  * Copyright (c) blueback
  * Released under the MIT License
@@ -6,7 +8,7 @@
 */
 
 
-Shader "Fee/Mirror/Simple"
+Shader "Fee/Mirror/Mirror"
 {
 	Properties
 	{
@@ -18,10 +20,14 @@ Shader "Fee/Mirror/Simple"
 		{
 			"RenderType"="Opaque"
 		}
-
 		Pass
 		{
+			Cull Back
+			ZTest LEqual
+			ZWrite On
+
 			CGPROGRAM
+
 			#pragma vertex vert
 			#pragma fragment frag
 
@@ -32,7 +38,7 @@ Shader "Fee/Mirror/Simple"
 			struct appdata
 			{
 				float4		vertex			: POSITION;
-				float2		uv				: TEXCOORD0;
+				//float2		uv				: TEXCOORD0;
 			};
 
 			/** v2f
@@ -40,8 +46,8 @@ Shader "Fee/Mirror/Simple"
 			struct v2f
 			{
 				float4		vertex			: SV_POSITION;
-				float2		uv				: TEXCOORD0;
-				float4		refl			: TEXCOORD1;
+				//float2		uv				: TEXCOORD0;
+				float4		refvertex		: TEXCOORD1;
 			};
 
 			/** texture_mirror
@@ -55,8 +61,8 @@ Shader "Fee/Mirror/Simple"
 				v2f t_result;
 				{
 					t_result.vertex = UnityObjectToClipPos(a_appdata.vertex);
-					t_result.uv = a_appdata.uv;
-					t_result.refl = ComputeScreenPos(t_result.vertex);
+					//t_result.uv = a_appdata.uv;
+					t_result.refvertex = ComputeScreenPos(t_result.vertex);
 				}
 				return t_result;
 			}
@@ -65,8 +71,7 @@ Shader "Fee/Mirror/Simple"
 			*/
 			fixed4 frag(v2f a_v2f) : SV_Target
 			{
-				fixed4 t_color = tex2Dproj(texture_mirror,UNITY_PROJ_COORD(a_v2f.refl));
-				return t_color;
+				return tex2Dproj(texture_mirror,UNITY_PROJ_COORD(a_v2f.refvertex));
 			}
 			ENDCG
 		}

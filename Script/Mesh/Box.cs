@@ -19,7 +19,6 @@ namespace Fee.Mesh
 		/** CAPACITY
 		*/
 		public const int CAPACITY_VERTEX_LIST = 8;
-		public const int CAPACITY_UV_LIST = 8;
 		public const int CAPACITY_INDEX_LIST = 36;
 
 		/** バーテックスリスト。作成。
