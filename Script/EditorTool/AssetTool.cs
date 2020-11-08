@@ -79,7 +79,11 @@ namespace Fee.EditorTool
 		*/
 		public static void BuildAssetBundles(Fee.File.Path a_path,UnityEditor.AssetBundleBuild[] a_list,UnityEditor.BuildAssetBundleOptions a_option,UnityEditor.BuildTarget a_buildtarget)
 		{
-			UnityEditor.BuildPipeline.BuildAssetBundles("Assets/" + a_path.GetPath(),a_list,a_option,a_buildtarget);
+			try{
+				UnityEditor.BuildPipeline.BuildAssetBundles("Assets/" + a_path.GetPath(),a_list,a_option,a_buildtarget);
+			}catch(System.Exception t_exception){
+				Tool.EditorLogError(t_exception.Message);
+			}
 		}
 
 		/** シーンを開く。
