@@ -31,26 +31,6 @@ namespace Fee.Instantiate
 		/** デバッグリスロー。
 		*/
 		public static bool DEBUGRETHROW_ENABLE = false;
-
-		/** プレハブ名。
-		*/
-		#if(UNITY_2018)
-
-		public static string PREFAB_NAME_EVENTSYSTEM = "Prefab/Instantiate/EventSystem_InputManager";
-
-		#elif(USE_DEF_FEE_INPUTSYSTEM)
-
-		public static string PREFAB_NAME_EVENTSYSTEM = "Prefab/Instantiate/EventSystem_InputSystem";
-
-		#else
-
-		public static string PREFAB_NAME_EVENTSYSTEM = "Prefab/Instantiate/EventSystem_InputManager";
-
-		#endif
-
-		/** テクスチャー名。
-		*/
-		public static string TEXTURE_NAME_INPUTFIELD = "Texture/Instantiate/InputField";
 	}
 }
 

@@ -23,6 +23,7 @@ namespace Fee.Render2D
 		Simple = 0,
 		UiText,
 		UiImage,
+		UiInputImage,
 		Alpha,
 		AlphaClip,
 		Add,

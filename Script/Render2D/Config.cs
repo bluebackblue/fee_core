@@ -170,6 +170,20 @@ namespace Fee.Render2D
 					}
 				}
 			},
+			{
+				MaterialType.UiInputImage,
+				new ShaderItem(){
+					shader_name = "Fee/Render2D/UiInputImage",
+					property_list = new string[]{
+						"_MainTex",
+						"clip_flag",
+						"clip_x1",
+						"clip_y1",
+						"clip_x2",
+						"clip_y2",
+					}
+				}
+			},
 		};
 
 		/** デフォルト。テキスト。フォントサイズ。

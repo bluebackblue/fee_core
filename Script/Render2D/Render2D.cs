@@ -492,7 +492,7 @@ namespace Fee.Render2D
 							if(t_inputfield.IsClip() == false){
 								//共通ＵＩイメージマテリアルアイテム使用。
 								t_inputfield.Raw_SetTextMaterialItem(this.materiallist.GetMaterialItem(MaterialType.UiText));
-								t_inputfield.Raw_SetImageMaterialItem(this.materiallist.GetMaterialItem(MaterialType.UiImage));
+								t_inputfield.Raw_SetImageMaterialItem(this.materiallist.GetMaterialItem(MaterialType.UiInputImage));
 							}else{
 								//カスタムテキストマテリアルアイテム使用。
 								{
