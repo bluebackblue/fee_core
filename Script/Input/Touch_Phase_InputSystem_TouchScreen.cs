@@ -22,7 +22,6 @@ namespace Fee.Input
 		public static bool Main()
 		{
 			UnityEngine.InputSystem.Touchscreen t_device = UnityEngine.InputSystem.Touchscreen.current;
-			//UnityEngine.InputSystem.Touchscreen t_device = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Touchscreen>();
 			if(t_device != null){
 
 				//TODO:バグ対策。一番最後に発行されたタッチＩＤを取得する。

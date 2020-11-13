@@ -122,7 +122,6 @@ namespace Fee.Input
 		PageUp,
 		PageDown,
 		Pause,
-
 	}
 }
 

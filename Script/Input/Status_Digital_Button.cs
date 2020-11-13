@@ -26,6 +26,7 @@ namespace Fee.Input
 		public bool rapid;
 		public int rapid_time;
 		public int rapid_time_max;
+		public int rapid_time_max_first;
 
 		/** リセット。
 		*/
@@ -37,8 +38,9 @@ namespace Fee.Input
 			this.up = false;
 
 			this.rapid = false;
-			this.rapid_time = 0;
+			this.rapid_time  = Config.DEFAULT_RAPID_TIME_MAX_FIRST;
 			this.rapid_time_max = Config.DEFAULT_RAPID_TIME_MAX;
+			this.rapid_time_max_first = Config.DEFAULT_RAPID_TIME_MAX_FIRST;
 		}
 
 		/** 設定。
@@ -59,22 +61,23 @@ namespace Fee.Input
 				this.up = false;
 
 				this.rapid = true;
-				this.rapid_time = 0;
+				this.rapid_time = this.rapid_time_max_first;
 			}else if((this.on == false)&&(this.on_old == true)){
 				//アップ。
 				this.up = true;
 				this.down = false;
 
 				this.rapid = false;
-				this.rapid_time = 0;
+				this.rapid_time = this.rapid_time_max_first;
 			}else if(this.on == true){
 				//オン。
 
 				this.down = false;
 				this.up = false;
 
-				this.rapid_time = (this.rapid_time + 1) % this.rapid_time_max; 
-				if(this.rapid_time == 0){
+				this.rapid_time--;
+				if(this.rapid_time <= 0){
+					this.rapid_time = this.rapid_time_max;
 					this.rapid = true;
 				}else{
 					this.rapid = false;

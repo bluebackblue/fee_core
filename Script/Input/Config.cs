@@ -43,6 +43,7 @@ namespace Fee.Input
 		/** デフォルト。連打間隔。
 		*/
 		public static int DEFAULT_RAPID_TIME_MAX = 6;
+		public static int DEFAULT_RAPID_TIME_MAX_FIRST = 9;
 
 		/** インプットシステム。マウス。マウス位置。
 		*/
