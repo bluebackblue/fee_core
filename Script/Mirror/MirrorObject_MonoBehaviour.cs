@@ -20,15 +20,27 @@ namespace Fee.Mirror
 		*/
 		public MirrorCamera_MonoBehaviour mirror_camera;
 
+		/** look
+		*/
+		public UnityEngine.Camera look_camera;
+		public UnityEngine.Transform look_transform;
+
 		/** OnWillRenderObject
 		*/
 		public void OnWillRenderObject()
 		{
-			if(this.mirror_camera.target_camera == UnityEngine.Camera.current){
-				this.mirror_camera.SetMirrorPlane(this.transform.rotation,this.transform.position);
-				this.mirror_camera.Calc();
-				this.mirror_camera.Render();
+			if(this.look_camera == UnityEngine.Camera.current){
+				this.Render();
 			}
+		}
+
+		/** Render
+		*/
+		public void Render()
+		{
+			this.mirror_camera.SetMirrorPlane(this.transform.rotation,this.transform.position);
+			this.mirror_camera.Calc(this.look_camera,this.look_transform);
+			this.mirror_camera.Render();
 		}
 	}
 }

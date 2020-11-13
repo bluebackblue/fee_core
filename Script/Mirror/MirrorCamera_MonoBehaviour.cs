@@ -28,14 +28,6 @@ namespace Fee.Mirror
 		*/
 		public UnityEngine.Camera raw_camera;
 
-		/** target_camera
-		*/
-		public UnityEngine.Camera target_camera;
-
-		/** target_transform
-		*/
-		public UnityEngine.Transform target_transform;
-
 		/** plane
 		*/
 		public UnityEngine.Vector3 plane_normal;
@@ -67,17 +59,6 @@ namespace Fee.Mirror
 		public UnityEngine.RenderTexture GetRenderTexture()
 		{
 			return this.raw_rendertexture;
-		}
-
-		/** SetTargetCamera
-
-			ミラーオブジェクトを見ているカメラ。
-
-		*/
-		public void SetTargetCamera(UnityEngine.Camera a_camera)
-		{
-			this.target_camera = a_camera;
-			this.target_transform = a_camera.GetComponent<UnityEngine.Transform>();
 		}
 
 		/** ミラーの法線、位置。設定。
@@ -144,10 +125,10 @@ namespace Fee.Mirror
 
 		/** Calc
 		*/
-		public void Calc()
+		public void Calc(UnityEngine.Camera a_look_camera,UnityEngine.Transform a_look_transform)
 		{
 			//worldToCameraMatrix
-			this.raw_camera.worldToCameraMatrix = this.target_camera.worldToCameraMatrix * this.matrix;
+			this.raw_camera.worldToCameraMatrix = a_look_camera.worldToCameraMatrix * this.matrix;
 
 			//projectionMatrix
 			{
@@ -159,18 +140,18 @@ namespace Fee.Mirror
 					UnityEngine.Vector3 t_mirror_normal = t_mirror_camera_matrix.MultiplyVector(this.plane_normal).normalized;
 					t_mirror_clip_plane = new UnityEngine.Vector4(t_mirror_normal.x,t_mirror_normal.y,t_mirror_normal.z,-UnityEngine.Vector3.Dot(t_mirror_position,t_mirror_normal));
 				}
-				this.raw_camera.projectionMatrix = this.target_camera.CalculateObliqueMatrix(t_mirror_clip_plane);
+				this.raw_camera.projectionMatrix = a_look_camera.CalculateObliqueMatrix(t_mirror_clip_plane);
 			}
 
 			//position
 			{
-				this.raw_camera.transform.position = this.matrix.MultiplyPoint(this.target_transform.position);
+				this.raw_camera.transform.position = this.matrix.MultiplyPoint(a_look_transform.position);
 			}
 
 			//rotation
 			{
-				UnityEngine.Vector3 t_up = this.matrix_rotate.MultiplyPoint(this.target_transform.up).normalized;
-				UnityEngine.Vector3 t_forward = this.matrix_rotate.MultiplyPoint(this.target_transform.forward).normalized;
+				UnityEngine.Vector3 t_up = this.matrix_rotate.MultiplyPoint(a_look_transform.up).normalized;
+				UnityEngine.Vector3 t_forward = this.matrix_rotate.MultiplyPoint(a_look_transform.forward).normalized;
 				UnityEngine.Vector3 t_right = UnityEngine.Vector3.Cross(t_up,t_forward);
 
 				UnityEngine.Matrix4x4 t_matrix = new UnityEngine.Matrix4x4(

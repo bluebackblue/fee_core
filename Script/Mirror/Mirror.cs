@@ -76,30 +76,35 @@ namespace Fee.Mirror
 
 		/** ミラー。作成。
 		*/
-		public MirrorCamera_MonoBehaviour CreateMirror(Fee.Mirror.RenderTextureSizeType a_size_type,UnityEngine.GameObject a_mirror_object,UnityEngine.Camera a_camera,string a_name)
+		public MirrorObject_MonoBehaviour CreateMirror(Fee.Mirror.RenderTextureSizeType a_size_type,UnityEngine.GameObject a_mirror_object,UnityEngine.Camera a_look_camera,string a_name)
 		{
-			MirrorCamera_MonoBehaviour t_mirror_camera = MirrorCamera_MonoBehaviour.Create(a_size_type,a_name);
-			{
-				if(a_mirror_object != null){
+			if(a_mirror_object != null){
+				MirrorCamera_MonoBehaviour t_mirror_camera = MirrorCamera_MonoBehaviour.Create(a_size_type,a_name);
 
-					//ミラーマテリアル。設定。
-					UnityEngine.Renderer t_renderer = a_mirror_object.GetComponent<UnityEngine.Renderer>();
-					if(t_renderer != null){
-						t_renderer.material = new UnityEngine.Material(UnityEngine.Shader.Find(Config.SHADER_NAME_MIRROR));
-						t_renderer.material.SetTexture("texture_mirror",t_mirror_camera.GetRenderTexture());
-					}
-
-					//ミラーオブジェクト。設定。
-					MirrorObject_MonoBehaviour t_mirror_object = a_mirror_object.AddComponent<MirrorObject_MonoBehaviour>();
-					{
-						t_mirror_object.mirror_camera = t_mirror_camera;
-					}
+				//ミラーマテリアル。設定。
+				UnityEngine.Renderer t_renderer = a_mirror_object.GetComponent<UnityEngine.Renderer>();
+				if(t_renderer != null){
+					t_renderer.material = new UnityEngine.Material(UnityEngine.Shader.Find(Config.SHADER_NAME_MIRROR));
+					t_renderer.material.SetTexture("texture_mirror",t_mirror_camera.GetRenderTexture());
+				}else{
+					Tool.Assert(false);
 				}
 
-				//ターゲットカメラ。設定。
-				t_mirror_camera.SetTargetCamera(a_camera);
+				//ミラーオブジェクト。設定。
+				MirrorObject_MonoBehaviour t_mirror_object = a_mirror_object.AddComponent<MirrorObject_MonoBehaviour>();
+				{
+					t_mirror_object.mirror_camera = t_mirror_camera;
+					t_mirror_object.look_camera = a_look_camera;
+					t_mirror_object.look_transform = a_look_camera.GetComponent<UnityEngine.Transform>();
+					t_mirror_object.enabled = false;
+				}
+
+				return t_mirror_object;
+			}else{
+				Tool.Assert(false);
 			}
-			return t_mirror_camera;
+
+			return null;
 		}
 	}
 }
