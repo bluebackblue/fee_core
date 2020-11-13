@@ -76,9 +76,9 @@ namespace Fee.Mirror
 
 		/** ミラー。作成。
 		*/
-		public MirrorCamera_MonoBehaviour CreateMirror(Fee.Mirror.RenderTextureSizeType a_size_type,UnityEngine.GameObject a_mirror_object,UnityEngine.Camera a_camera)
+		public MirrorCamera_MonoBehaviour CreateMirror(Fee.Mirror.RenderTextureSizeType a_size_type,UnityEngine.GameObject a_mirror_object,UnityEngine.Camera a_camera,string a_name)
 		{
-			MirrorCamera_MonoBehaviour t_mirror_camera = MirrorCamera_MonoBehaviour.Create(a_size_type);
+			MirrorCamera_MonoBehaviour t_mirror_camera = MirrorCamera_MonoBehaviour.Create(a_size_type,a_name);
 			{
 				if(a_mirror_object != null){
 

@@ -20,21 +20,14 @@ namespace Fee.Mirror
 		*/
 		public MirrorCamera_MonoBehaviour mirror_camera;
 
-		/** is_render
-		*/
-		private bool is_render = false;
-
 		/** OnWillRenderObject
 		*/
 		public void OnWillRenderObject()
 		{
-			if(this.is_render == false){
-				this.is_render = true;
+			if(this.mirror_camera.target_camera == UnityEngine.Camera.current){
 				this.mirror_camera.SetMirrorPlane(this.transform.rotation,this.transform.position);
-				this.mirror_camera.RenderFromOnWillRenderObject();
-				this.is_render = false;
-			}else{
-				//ミラーカメラにミラーが写っている。
+				this.mirror_camera.Calc();
+				this.mirror_camera.Render();
 			}
 		}
 	}

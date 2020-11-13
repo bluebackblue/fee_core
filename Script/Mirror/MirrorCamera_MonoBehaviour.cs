@@ -13,9 +13,6 @@
 namespace Fee.Mirror
 {
 	/** MirrorCamera
-
-		TODO:MonoBehaviour
-
 	*/
 	public class MirrorCamera_MonoBehaviour : UnityEngine.MonoBehaviour
 	{
@@ -145,9 +142,9 @@ namespace Fee.Mirror
 			}
 		}
 
-		/** RenderFromOnWillRenderObject
+		/** Calc
 		*/
-		public void RenderFromOnWillRenderObject()
+		public void Calc()
 		{
 			//worldToCameraMatrix
 			this.raw_camera.worldToCameraMatrix = this.target_camera.worldToCameraMatrix * this.matrix;
@@ -185,19 +182,31 @@ namespace Fee.Mirror
 
 				this.raw_camera.transform.rotation = t_matrix.rotation;
 			}
+		}
 
+		/** Render
+		*/
+		public void Render()
+		{
 			UnityEngine.GL.invertCulling = true;
 			this.raw_camera.Render();
 			UnityEngine.GL.invertCulling = false;
 		}
 
+		/** SetEnable
+		*/
+		public void SetEnable(bool a_flag)
+		{
+			this.raw_camera.enabled = a_flag;
+		}
+
 		/** 作成。
 		*/
-		public static MirrorCamera_MonoBehaviour Create(Fee.Mirror.RenderTextureSizeType a_size_type)
+		public static MirrorCamera_MonoBehaviour Create(Fee.Mirror.RenderTextureSizeType a_size_type,string a_name)
 		{
 			MirrorCamera_MonoBehaviour t_this;
 			{
-				UnityEngine.GameObject t_gameobject = new UnityEngine.GameObject("MirrorCamera");
+				UnityEngine.GameObject t_gameobject = new UnityEngine.GameObject(a_name);
 				t_this = t_gameobject.AddComponent<MirrorCamera_MonoBehaviour>();
 				t_this.raw_gameobjet = t_gameobject;
 				{

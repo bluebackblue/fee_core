@@ -38,7 +38,6 @@ Shader "Fee/Mirror/Mirror"
 			struct appdata
 			{
 				float4		vertex			: POSITION;
-				//float2		uv				: TEXCOORD0;
 			};
 
 			/** v2f
@@ -46,7 +45,6 @@ Shader "Fee/Mirror/Mirror"
 			struct v2f
 			{
 				float4		vertex			: SV_POSITION;
-				//float2		uv				: TEXCOORD0;
 				float4		refvertex		: TEXCOORD1;
 			};
 
@@ -61,7 +59,6 @@ Shader "Fee/Mirror/Mirror"
 				v2f t_result;
 				{
 					t_result.vertex = UnityObjectToClipPos(a_appdata.vertex);
-					//t_result.uv = a_appdata.uv;
 					t_result.refvertex = ComputeScreenPos(t_result.vertex);
 				}
 				return t_result;
