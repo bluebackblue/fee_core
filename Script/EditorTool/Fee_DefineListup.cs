@@ -77,23 +77,28 @@ namespace Fee.EditorTool
 							System.Text.RegularExpressions.Regex t_regex = new System.Text.RegularExpressions.Regex("^(?<capture>.*)\\/\\/.*$");
 							System.Text.RegularExpressions.Match t_match = t_regex.Match(t_temp);
 							if(t_match.Success == true){
-								foreach(System.Text.RegularExpressions.Group t_group in t_match.Groups){
-									switch(t_group.Name){
-									case "0":
-										{
-										}break;
-									case "capture":
-										{
-											if(t_temp != t_group.Value){
-												t_temp = t_group.Value;
-											}
-										}break;
-									default:
-										{
-											#if(UNITY_EDITOR)
-											Tool.EditorLogError(a_assets_path.GetPath() + ":" + ii.ToString() + ":" + t_group.Name + ":" + t_group.Value + ":" + t_list_text[ii]);
-											#endif
-										}break;
+								string[] t_group_list = new string[]{"0","capture"};
+								for(int jj=0;jj<t_group_list.Length;jj++){
+									string t_group_name = t_group_list[jj];
+									System.Text.RegularExpressions.Group t_group = t_match.Groups[t_group_name];
+									if(t_group.Success == true){
+										switch(t_group_name){
+										case "0":
+											{
+											}break;
+										case "capture":
+											{
+												if(t_temp != t_group.Value){
+													t_temp = t_group.Value;
+												}
+											}break;
+										default:
+											{
+												#if(UNITY_EDITOR)
+												Tool.EditorLogError(a_assets_path.GetPath() + ":" + ii.ToString() + ":" + t_group_name + ":" + t_group.Value + ":" + t_list_text[ii]);
+												#endif
+											}break;
+										}
 									}
 								}
 							}
@@ -105,29 +110,34 @@ namespace Fee.EditorTool
 						System.Text.RegularExpressions.Regex t_regex = new System.Text.RegularExpressions.Regex("^\\s*\\#\\s*(?<deftype>if|elif)\\s*(?<capture>.*)\\s*$");
 						System.Text.RegularExpressions.Match t_match = t_regex.Match(t_temp);
 						if(t_match.Success == true){
-							foreach(System.Text.RegularExpressions.Group t_group in t_match.Groups){
-								switch(t_group.Name){
-								case "0":
-									{
-									}break;
-								case "deftype":
-									{
-									}break;
-								case "capture":
-									{
-										string[] t_list_define = t_group.Value.Split(new char[]{'(',')','|','&','!',' '});
-										for(int jj=0;jj<t_list_define.Length;jj++){
-											if(t_list_define[jj].Length > 0){
-												DefineMain(t_temp,t_list_define[jj]);
+							string[] t_group_list = new string[]{"0","deftype","capture"};
+							for(int jj=0;jj<t_group_list.Length;jj++){
+								string t_group_name = t_group_list[jj];
+								System.Text.RegularExpressions.Group t_group = t_match.Groups[t_group_name];
+								if(t_group.Success == true){
+									switch(t_group_name){
+									case "0":
+										{
+										}break;
+									case "deftype":
+										{
+										}break;
+									case "capture":
+										{
+											string[] t_list_define = t_group.Value.Split(new char[]{'(',')','|','&','!',' '});
+											for(int kk=0;kk<t_list_define.Length;kk++){
+												if(t_list_define[kk].Length > 0){
+													DefineMain(t_temp,t_list_define[kk]);
+												}
 											}
-										}
-									}break;
-								default:
-									{
-										#if(UNITY_EDITOR)
-										Tool.EditorLogError(a_assets_path.GetPath() + ":" + ii.ToString() + ":" + t_group.Name + ":" + t_group.Value + ":" + t_list_text[ii]);
-										#endif
-									}break;
+										}break;
+									default:
+										{
+											#if(UNITY_EDITOR)
+											Tool.EditorLogError(a_assets_path.GetPath() + ":" + ii.ToString() + ":" + t_group_name + ":" + t_group.Value + ":" + t_list_text[ii]);
+											#endif
+										}break;
+									}
 								}
 							}
 						}

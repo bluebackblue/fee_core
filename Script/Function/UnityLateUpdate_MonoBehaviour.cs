@@ -31,8 +31,16 @@ namespace Fee.Function
 		*/
 		private void Update()
 		{
+			#if(UNITY_EDITOR)
+			if(this.callback_param == null){
+				return;
+			}
+			#endif
+
 			try{
-				this.callback_param.UnityLateUpdate();
+				if(this.callback_param != null){
+					this.callback_param.UnityLateUpdate();
+				}
 			}catch(System.Exception t_exception){
 				Tool.DebugReThrow(t_exception);
 			}

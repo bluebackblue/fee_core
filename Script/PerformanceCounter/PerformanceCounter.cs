@@ -91,7 +91,12 @@ namespace Fee.PerformanceCounter
 		private PerformanceCounter()
 		{
 			//マテリアル。
-			this.material = new UnityEngine.Material(UnityEngine.Shader.Find(Config.SHADER_NAME_PERFORMANCECOUNTER));
+			UnityEngine.Shader t_shader = UnityEngine.Shader.Find(Config.SHADER_NAME_PERFORMANCECOUNTER);
+			if(t_shader != null){
+				this.material = new UnityEngine.Material(t_shader);
+			}else{
+				Tool.Assert(false);
+			}
 
 			//フレームデータ。
 			this.framedata = new FrameData();

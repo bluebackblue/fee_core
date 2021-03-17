@@ -31,6 +31,12 @@ namespace Fee.Function
 		*/
 		private void OnPreRender()
 		{
+			#if(UNITY_EDITOR)
+			if(this.callback_param == null){
+				return;
+			}
+			#endif
+
 			try{
 				this.callback_param.UnityOnPreRender();
 			}catch(System.Exception t_exception){

@@ -16,7 +16,7 @@ namespace Fee.Function
 	*/
 	public interface UnityOnPreRender_CallBackInterface<T>
 	{
-		/** [Fee.Graphic.UnityOnPreRender_CallBackInterface]UnityOnPreRender
+		/** [Fee.Function.UnityOnPreRender_CallBackInterface]UnityOnPreRender
 		*/
 		void UnityOnPreRender(T a_id);
 	}

@@ -10,6 +10,7 @@
 
 /** Fee.DebugConsole
 */
+#if(UNITY_EDITOR)
 namespace Fee.DebugConsole
 {
 	/** Window
@@ -171,4 +172,5 @@ namespace Fee.DebugConsole
 		}
 	}
 }
+#endif
 

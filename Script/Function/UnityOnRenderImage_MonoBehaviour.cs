@@ -34,6 +34,12 @@ namespace Fee.Function
 		*/
 		private void OnRenderImage(UnityEngine.RenderTexture a_source,UnityEngine.RenderTexture a_dest)
 		{
+			#if(UNITY_EDITOR)
+			if(this.callback_param == null){
+				return;
+			}
+			#endif
+
 			try{
 				this.callback_param.UnityOnRenderImage(a_source,a_dest);
 			}catch(System.Exception t_exception){

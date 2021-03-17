@@ -147,7 +147,6 @@ Shader "Fee/Cloud/VolumeCloud"
 			*/
 			fixed4 frag(v2f a_v2f) : SV_Target
 			{
-				
 				int DEF_LOOP = 32;
 
 				//頂点のローカル位置。

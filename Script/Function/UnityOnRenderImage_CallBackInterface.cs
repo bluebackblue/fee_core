@@ -16,7 +16,7 @@ namespace Fee.Function
 	*/
 	public interface UnityOnRenderImage_CallBackInterface<T>
 	{
-		/** [Fee.Graphic.UnityOnRenderImage_CallBackInterface]UnityOnRenderImage
+		/** [Fee.Function.UnityOnRenderImage_CallBackInterface]UnityOnRenderImage
 		*/
 		void UnityOnRenderImage(T a_id,UnityEngine.RenderTexture a_source,UnityEngine.RenderTexture a_dest);
 	}

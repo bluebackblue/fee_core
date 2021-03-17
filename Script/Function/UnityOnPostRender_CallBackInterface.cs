@@ -16,7 +16,7 @@ namespace Fee.Function
 	*/
 	public interface UnityOnPostRender_CallBackInterface<T>
 	{
-		/** [Fee.Graphic.UnityOnPostRender_CallBackInterface]UnityOnPostRender
+		/** [Fee.Function.UnityOnPostRender_CallBackInterface]UnityOnPostRender
 		*/
 		void UnityOnPostRender(T a_id);
 	}

@@ -53,30 +53,38 @@ namespace Fee.DebugConsole
 						System.Text.RegularExpressions.Regex t_regex = new System.Text.RegularExpressions.Regex("^(?<path>.*)\\((?<line>[0-9]*)\\)(\\:)?(?<comment>.*)$");
 						System.Text.RegularExpressions.Match t_match = t_regex.Match(this.item.text);
 						if(t_match.Success == true){
+							string[] t_group_list = new string[]{"0","path","line","comment"};
+
 							string t_path = "";
 							int t_line = 0;
 							string t_comment = "";
 
-							foreach(System.Text.RegularExpressions.Group t_group in t_match.Groups){
-								switch(t_group.Name){
-								case "path":
-									{
-										t_path = t_group.Value;
-									}break;
-								case "line":
-									{
-										if(int.TryParse(t_group.Value,out t_line) == false){
-											t_line = 0;
-										}
-									}break;
-								case "comment":
-									{
-										t_comment = t_group.Value;
-									}break;
+							for(int jj=0;jj<t_group_list.Length;jj++){
+								string t_group_name = t_group_list[jj];
+								System.Text.RegularExpressions.Group t_group = t_match.Groups[t_group_name];
+								if(t_group.Success == true){
+									switch(t_group_name){
+									case "path":
+										{
+											t_path = t_group.Value;
+										}break;
+									case "line":
+										{
+											if(int.TryParse(t_group.Value,out t_line) == false){
+												t_line = 0;
+											}
+										}break;
+									case "comment":
+										{
+											t_comment = t_group.Value;
+										}break;
+									}
 								}
 							}
 
+							#if(UNITY_EDITOR)
 							Unity.CodeEditor.CodeEditor.CurrentEditor.OpenProject(t_path,t_line,-1);
+							#endif
 						}
 					}
 				}break;

@@ -80,6 +80,10 @@ namespace Fee.Ui
 		*/
 		protected bool dragcancel_flag;
 
+		/** nofocus_flag
+		*/
+		protected bool nofocus_flag;
+
 		/** focus_flag
 		*/
 		protected bool focus_flag;
@@ -145,6 +149,9 @@ namespace Fee.Ui
 
 			//dragcancel_flag
 			this.dragcancel_flag = false;
+
+			//nofocus_flag
+			this.nofocus_flag = false;
 
 			//focus_flag
 			this.focus_flag = false;
@@ -252,6 +259,16 @@ namespace Fee.Ui
 		public void SetDragCancelFlag(bool a_flag)
 		{
 			this.dragcancel_flag = a_flag;
+		}
+
+		/** フォーカス機能を使用しない。設定。
+
+			a_flag == true : フォーカスがＯＮにならない。
+
+		*/
+		public void SetNoFocusFlag(bool a_flag)
+		{
+			this.nofocus_flag = a_flag;
 		}
 
 		/** 描画プライオリティ。設定。
@@ -610,7 +627,9 @@ namespace Fee.Ui
 				if(this.event_request == 0){
 
 					//フォーカス変更コールバック。
-					this.SetFocus(true);
+					if(this.nofocus_flag == false){
+						this.SetFocus(true);
+					}
 
 					//コールバック。
 					if(this.callbackparam_click != null){
@@ -636,7 +655,9 @@ namespace Fee.Ui
 					Fee.Ui.Ui.GetInstance().SetDownButtonInstance(this);
 
 					//フォーカス変更コールバック。
-					this.SetFocus(true);
+					if(this.nofocus_flag == false){
+						this.SetFocus(true);
+					}
 
 					//モード変更コールバック。
 					this.SetMode(Button_Mode.Down);

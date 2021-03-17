@@ -108,7 +108,7 @@ namespace Fee.Ui
 		*/
 		protected override void OnChangeRect()
 		{
-			this.bg.SetRect(in this.param.rect);
+			this.bg.SetRect(in this.param.clip_rect);
 			this.UpdateView();
 		}
 
@@ -206,6 +206,13 @@ namespace Fee.Ui
 		public void SetBgColor(in UnityEngine.Color a_color)
 		{
 			this.bg.SetColor(in a_color);
+		}
+
+		/** 背景。テクスチャー。設定。
+		*/
+		public void SetBgTexture(UnityEngine.Texture2D a_texture)
+		{
+			this.bg.SetTexture(a_texture);
 		}
 
 		/** バー。有効。設定。

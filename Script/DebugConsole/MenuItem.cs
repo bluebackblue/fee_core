@@ -10,6 +10,7 @@
 
 /** Fee.DebugConsole
 */
+#if(UNITY_EDITOR)
 namespace Fee.DebugConsole
 {
 	/** MenuItem
@@ -27,4 +28,5 @@ namespace Fee.DebugConsole
 		#endif
 	}
 }
+#endif
 

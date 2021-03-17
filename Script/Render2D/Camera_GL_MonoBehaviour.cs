@@ -108,7 +108,7 @@ namespace Fee.Render2D
 		{
 			try{
 				if(this.draw == true){
-					if(Render2D.GetInstance() != null){
+					if(Render2D.IsCreateInstance() == true){
 						Render2D.GetInstance().OnPostRender_DrawGL(this.index);
 					}
 				}

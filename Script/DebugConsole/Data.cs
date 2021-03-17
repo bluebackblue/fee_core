@@ -10,6 +10,7 @@
 
 /** Fee.DebugConsole
 */
+#if(UNITY_EDITOR)
 namespace Fee.DebugConsole
 {
 	/** Data
@@ -44,4 +45,5 @@ namespace Fee.DebugConsole
 		}
 	}
 }
+#endif
 

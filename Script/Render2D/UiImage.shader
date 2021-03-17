@@ -12,7 +12,7 @@ Shader "Fee/Render2D/UiImage"
 {
 	Properties
 	{
-		_MainTex						("_MainTex",2D)			= "white"{}
+		_MainTex							("_MainTex",2D)			= "white"{}
 		[MaterialToggle] clip_flag		("clip_flag",Int)		= 0
 		clip_x1							("clip_x1",Float)		= 0
 		clip_y1							("clip_y1",Float)		= 0

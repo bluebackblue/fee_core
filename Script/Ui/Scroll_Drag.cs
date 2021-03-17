@@ -73,7 +73,29 @@ namespace Fee.Ui
 			return this.speed;
 		}
 
+		/** AddSpeed
+		*/
+		public void AddSpeed(float a_value)
+		{
+			if(Fee.Input.Input.GetInstance().mouse.mouse_wheel.pos.y < 0){
+				if(this.speed <= 0.0f){
+					this.speed = a_value;
+				}else{
+					this.speed += a_value;
+				}
+			}else if(Fee.Input.Input.GetInstance().mouse.mouse_wheel.pos.y > 0){
+				if(this.speed >= 0.0f){
+					this.speed = -a_value;
+				}else{
+					this.speed -= a_value;
+				}
+			}
+		}
+
 		/** 更新。
+
+			a_eceleration		: 加速度
+
 		*/
 		public void Main(bool a_is_onover,float a_eceleration,float a_delta)
 		{

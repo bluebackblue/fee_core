@@ -16,7 +16,7 @@ namespace Fee.Function
 	*/
 	public interface UnityLateUpdate_CallBackInterface<T>
 	{
-		/** [Fee.Graphic.UnityLateUpdate_CallBackInterface]UnityLateUpdate
+		/** [Fee.Function.UnityLateUpdate_CallBackInterface]UnityLateUpdate
 		*/
 		void UnityLateUpdate(T a_id);
 	}

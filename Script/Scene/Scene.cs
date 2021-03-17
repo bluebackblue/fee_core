@@ -14,7 +14,7 @@ namespace Fee.Scene
 {
 	/** Scene
 	*/
-	public class Scene : Fee.Function.UnityUpdate_CallBackInterface<int> , Fee.Function.UnityLateUpdate_CallBackInterface<int>
+	public class Scene : Fee.Function.UnityUpdate_CallBackInterface<int> , Fee.Function.UnityLateUpdate_CallBackInterface<int> , Fee.Function.UnityFixedUpdate_CallBackInterface<int>
 	{
 		/** [シングルトン]s_instance
 		*/
@@ -78,6 +78,10 @@ namespace Fee.Scene
 		*/
 		private UnityEngine.GameObject gameobject;
 
+		/** first
+		*/
+		private bool first;
+
 		/** mode
 		*/
 		enum Mode
@@ -115,6 +119,7 @@ namespace Fee.Scene
 
 			//mode
 			this.mode = Mode.WaitRequest;
+			this.first = true;
 
 			//PlayerLoopType
 			this.playerloop_flag = true;
@@ -125,6 +130,7 @@ namespace Fee.Scene
 			UnityEngine.GameObject.DontDestroyOnLoad(this.gameobject);
 			this.gameobject.AddComponent<Fee.Function.UnityUpdate_MonoBehaviour>().SetCallBack(this,0);
 			this.gameobject.AddComponent<Fee.Function.UnityLateUpdate_MonoBehaviour>().SetCallBack(this,0);
+			this.gameobject.AddComponent<Fee.Function.UnityFixedUpdate_MonoBehaviour>().SetCallBack(this,0);
 		}
 
 		/** [シングルトン]削除。
@@ -140,6 +146,20 @@ namespace Fee.Scene
 			//gameobject
 			UnityEngine.GameObject.Destroy(this.gameobject);
 			this.gameobject = null;
+		}
+
+		/** ロック。
+		*/
+		public void Lock()
+		{
+			this.current.Lock();
+		}
+
+		/** GetCurrentScene
+		*/
+		public Scene_Base GetCurrentScene()
+		{
+			return this.current;
 		}
 
 		/** 次のシーン。設定。
@@ -169,21 +189,30 @@ namespace Fee.Scene
 			return true;
 		}
 
-		/** [Fee.Graphic.UnityUpdate_CallBackInterface]UnityUpdate
+		/** [Fee.Function.UnityUpdate_CallBackInterface]UnityUpdate
 		*/
 		public void UnityUpdate(int a_id)
 		{
 			if(this.is_scene == true){
-				this.current.Unity_Update();
+				this.current.UnityUpdate();
 			}
 		}
 
-		/** [Fee.Graphic.UnityLateUpdate_CallBackInterface]UnityLateUpdate
+		/** [Fee.Function.UnityLateUpdate_CallBackInterface]UnityLateUpdate
 		*/
 		public void UnityLateUpdate(int a_id)
 		{
 			if(this.is_scene == true){
-				this.current.Unity_LateUpdate();
+				this.current.UnityLateUpdate();
+			}
+		}
+
+		/** [Fee.Function.UnityFixedUpdate_CallBackInterface]UnityFixedUpdate
+		*/
+		public void UnityFixedUpdate(int a_id)
+		{
+			if(this.is_scene == true){
+				this.current.UnityFixedUpdate();
 			}
 		}
 
@@ -208,9 +237,11 @@ namespace Fee.Scene
 							}
 
 							if(this.current != null){
-								if(this.current.SceneStart() == true){
+								if(this.current.SceneStart(this.first) == true){
 									this.is_scene = true;
 									this.mode = Mode.Main;
+								}else{
+									this.first = false;
 								}
 							}
 						}break;
@@ -221,6 +252,7 @@ namespace Fee.Scene
 							if(this.current != null){
 								if(this.current.Main() == true){
 									this.mode = Mode.SceneEnd;
+									this.first = true;
 								}
 							}
 						}break;
@@ -229,13 +261,16 @@ namespace Fee.Scene
 							//シーン終了
 
 							if(this.current != null){
-								if(this.current.SceneEnd() == true){
+								if(this.current.SceneEnd(this.first) == true){
 									this.is_scene = false;
 									this.current.Delete();
 									this.current = null;
+									this.first = true;
 									this.mode = Mode.WaitRequest;
 
 									Tool.Log("Scene","this.current = null;");
+								}else{
+									this.first = false;
 								}
 							}
 						}break;

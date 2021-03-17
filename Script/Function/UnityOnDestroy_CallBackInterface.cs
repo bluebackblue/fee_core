@@ -16,7 +16,7 @@ namespace Fee.Function
 	*/
 	public interface UnityOnDestroy_CallBackInterface<T>
 	{
-		/** [Fee.Graphic.UnityOnDestroy_CallBackInterface]UnityOnDestroy
+		/** [Fee.Function.UnityOnDestroy_CallBackInterface]UnityOnDestroy
 		*/
 		void UnityOnDestroy(T a_id);
 	}

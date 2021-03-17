@@ -31,10 +31,14 @@ namespace Fee.Render2D
 				this.material_list[ii] = null;
 				ShaderItem t_shaderitem;
 				if(Config.SHADER_LIST.TryGetValue((MaterialType)ii,out t_shaderitem) == true){
-					UnityEngine.Material t_material = new UnityEngine.Material(UnityEngine.Shader.Find(t_shaderitem.shader_name));
-					if(t_material != null){
-						this.material_list[ii] = new MaterialItem(t_material,t_shaderitem.property_list);
+					UnityEngine.Shader t_shader = UnityEngine.Shader.Find(t_shaderitem.shader_name);
+					UnityEngine.Material t_material = null;
+					if(t_shader != null){
+						t_material = new UnityEngine.Material(t_shader);
+					}else{
+						Tool.LogError("Fee_Render2D_MaterialList::Shader.Find",t_shaderitem.shader_name);
 					}
+					this.material_list[ii] = new MaterialItem(t_material,t_shaderitem.property_list);
 				}
 			}
 		}

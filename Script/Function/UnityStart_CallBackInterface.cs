@@ -16,7 +16,7 @@ namespace Fee.Function
 	*/
 	public interface UnityStart_CallBackInterface<T>
 	{
-		/** [Fee.Graphic.UnityStart_CallBackInterface]UnityStart
+		/** [Fee.Function.UnityStart_CallBackInterface]UnityStart
 		*/
 		void UnityStart(T a_id);
 	}

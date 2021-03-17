@@ -84,8 +84,13 @@ namespace Fee.Mirror
 				//ミラーマテリアル。設定。
 				UnityEngine.Renderer t_renderer = a_mirror_object.GetComponent<UnityEngine.Renderer>();
 				if(t_renderer != null){
-					t_renderer.material = new UnityEngine.Material(UnityEngine.Shader.Find(Config.SHADER_NAME_MIRROR));
-					t_renderer.material.SetTexture("texture_mirror",t_mirror_camera.GetRenderTexture());
+					UnityEngine.Shader t_shader = UnityEngine.Shader.Find(Config.SHADER_NAME_MIRROR);
+					if(t_shader != null){
+						t_renderer.material = new UnityEngine.Material(t_shader);
+						t_renderer.material.SetTexture("texture_mirror",t_mirror_camera.GetRenderTexture());
+					}else{
+						Tool.Assert(false);
+					}
 				}else{
 					Tool.Assert(false);
 				}

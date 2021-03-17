@@ -32,6 +32,14 @@ namespace Fee.Ui
 		*/
 		public Fee.Geometry.Rect2D_R<int> rect;
 
+		/** 矩形。
+		*/
+		public Fee.Geometry.Rect2D_R<int> clip_rect;
+
+		/** 背景オフセット。
+		*/
+		public Fee.Geometry.Size2D<int> bg_offset;
+
 		/** scroll_type
 		*/
 		public Scroll_Type scroll_type;
@@ -96,6 +104,8 @@ namespace Fee.Ui
 
 			//rect
 			this.param.rect.Set(0,0,0,0);
+			this.param.bg_offset.Set(0,0);
+			this.param.clip_rect.Set(0,0,0,0);
 
 			//scroll_type
 			this.param.scroll_type = a_scroll_type;
@@ -304,9 +314,10 @@ namespace Fee.Ui
 		{
 			//rect
 			this.param.rect.Set(a_x,a_y,a_w,a_h);
+			this.param.clip_rect.Set(a_x - this.param.bg_offset.w,a_y - this.param.bg_offset.h,a_w + this.param.bg_offset.w * 2,a_h + this.param.bg_offset.h * 2);
 
 			//eventplate
-			this.eventplate.SetRect(in this.param.rect);
+			this.eventplate.SetRect(in this.param.clip_rect);
 
 			//SetViewLength
 			if(this.param.scroll_type == Scroll_Type.Vertical){
@@ -318,7 +329,7 @@ namespace Fee.Ui
 			//位置更新。
 			if(this.param.scroll_value.GetViewStartIndex() >= 0){
 				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].OnChangeParentClipRect(in this.param.rect);
+					this.list[ii].OnChangeParentClipRect(in this.param.clip_rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 
@@ -336,9 +347,10 @@ namespace Fee.Ui
 		{
 			//rect
 			this.param.rect = a_rect;
+			this.param.clip_rect.Set(a_rect.x - this.param.bg_offset.w,a_rect.y - this.param.bg_offset.h,a_rect.w + this.param.bg_offset.w * 2,a_rect.h + this.param.bg_offset.h * 2);
 
 			//eventplate
-			this.eventplate.SetRect(in this.param.rect);
+			this.eventplate.SetRect(in this.param.clip_rect);
 
 			//SetViewLength
 			if(this.param.scroll_type == Scroll_Type.Vertical){
@@ -350,7 +362,7 @@ namespace Fee.Ui
 			//位置更新。
 			if(this.param.scroll_value.GetViewStartIndex() >= 0){
 				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].OnChangeParentClipRect(in this.param.rect);
+					this.list[ii].OnChangeParentClipRect(in this.param.clip_rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 
@@ -368,14 +380,15 @@ namespace Fee.Ui
 		{
 			//rect
 			this.param.rect.x = a_x;
+			this.param.clip_rect.x = a_x - this.param.bg_offset.w;
 
 			//eventplate
-			this.eventplate.SetX(a_x);
+			this.eventplate.SetX(this.param.clip_rect.x);
 
 			//位置更新。
 			if(this.param.scroll_value.GetViewStartIndex() >= 0){
 				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].OnChangeParentClipRect(in this.param.rect);
+					this.list[ii].OnChangeParentClipRect(in this.param.clip_rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 				}
@@ -391,14 +404,15 @@ namespace Fee.Ui
 		{
 			//rect
 			this.param.rect.y = a_y;
+			this.param.clip_rect.y = a_y - this.param.bg_offset.h;
 
 			//eventplate
-			this.eventplate.SetY(a_y);
+			this.eventplate.SetY(this.param.clip_rect.y);
 
 			//位置更新。
 			if(this.param.scroll_value.GetViewStartIndex() >= 0){
 				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].OnChangeParentClipRect(in this.param.rect);
+					this.list[ii].OnChangeParentClipRect(in this.param.clip_rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 				}
@@ -415,14 +429,16 @@ namespace Fee.Ui
 			//rect
 			this.param.rect.x = a_x;
 			this.param.rect.y = a_y;
+			this.param.clip_rect.x = a_x - this.param.bg_offset.w;
+			this.param.clip_rect.y = a_y - this.param.bg_offset.h;
 
 			//eventplate
-			this.eventplate.SetXY(a_x,a_y);
+			this.eventplate.SetXY(this.param.clip_rect.x,this.param.clip_rect.y);
 
 			//位置更新。
 			if(this.param.scroll_value.GetViewStartIndex() >= 0){
 				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
-					this.list[ii].OnChangeParentClipRect(in this.param.rect);
+					this.list[ii].OnChangeParentClipRect(in this.param.clip_rect);
 					this.OnItemPositionChange(ii);
 					this.OnItemOtherPositionChange(ii);
 				}
@@ -431,6 +447,36 @@ namespace Fee.Ui
 			//[Scroll_Base]コールバック。矩形。設定。
 			this.OnChangeRect();
 		}
+
+		/** 矩形。設定。
+		*/
+		public void SetBgOffset(int a_w,int a_h)
+		{
+			//bg_offset
+			this.param.bg_offset.Set(a_w,a_h);
+
+			//rect
+			this.param.clip_rect.x = this.param.rect.x - this.param.bg_offset.w;
+			this.param.clip_rect.y = this.param.rect.y - this.param.bg_offset.h;
+			this.param.clip_rect.w = this.param.rect.w + this.param.bg_offset.w * 2;
+			this.param.clip_rect.h = this.param.rect.h + this.param.bg_offset.h * 2;
+
+			//eventplate
+			this.eventplate.SetXY(this.param.clip_rect.x,this.param.clip_rect.y);
+
+			//位置更新。
+			if(this.param.scroll_value.GetViewStartIndex() >= 0){
+				for(int ii=this.param.scroll_value.GetViewStartIndex();ii<=this.param.scroll_value.GetViewEndIndex();ii++){
+					this.list[ii].OnChangeParentClipRect(in this.param.clip_rect);
+					this.OnItemPositionChange(ii);
+					this.OnItemOtherPositionChange(ii);
+				}
+			}
+
+			//[Scroll_Base]コールバック。矩形。設定。
+			this.OnChangeRect();
+		}
+
 
 		/** 範囲内。チェック。
 
@@ -513,7 +559,7 @@ namespace Fee.Ui
 					this.OnItemWHChange(a_index);
 
 					//クリップ矩形。設定。
-					this.list[a_index].OnChangeParentClipRect(in this.param.rect);
+					this.list[a_index].OnChangeParentClipRect(in this.param.clip_rect);
 				}
 
 				if(this.param.visible_flag == true){
@@ -533,7 +579,7 @@ namespace Fee.Ui
 			int t_index = this.list.Count;
 		
 			//rect
-			a_new_item.OnChangeParentClipRect(in this.param.rect);
+			a_new_item.OnChangeParentClipRect(in this.param.clip_rect);
 
 			//drawpriority
 			a_new_item.OnChangeParentDrawPriority(this.param.drawpriority);
@@ -589,7 +635,7 @@ namespace Fee.Ui
 				//追加。
 
 				//rect
-				a_new_item.OnChangeParentClipRect(in this.param.rect);
+				a_new_item.OnChangeParentClipRect(in this.param.clip_rect);
 
 				//drawpriority
 				a_new_item.OnChangeParentDrawPriority(this.param.drawpriority);
@@ -752,6 +798,13 @@ namespace Fee.Ui
 		public void DragScrollUpdate(float a_eceleration,float a_delta)
 		{
 			this.param.scroll_drag.Main(this.param.is_onover,a_eceleration,a_delta);
+		}
+
+		/** AddSpeed
+		*/
+		public void AddSpeed(float a_value)
+		{
+			this.param.scroll_drag.AddSpeed(a_value);
 		}
 	}
 }

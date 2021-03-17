@@ -140,7 +140,14 @@ namespace Fee.Render2D
 			return new MaterialItem(new UnityEngine.Material(this.material),this.property_list);
 		}
 
-		/** マテリアルを設定する。、
+		/** マテリアル。取得。
+		*/
+		public UnityEngine.Material GetMaterial()
+		{
+			return this.material;
+		}
+
+		/** マテリアルを設定する。
 		*/
 		public void SetMaterialToInstance(UnityEngine.UI.Graphic a_instance)
 		{
